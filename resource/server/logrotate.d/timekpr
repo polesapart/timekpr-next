@@ -1,0 +1,9 @@
+/var/log/timekpr*.log {
+		daily
+		rotate 7
+		notifempty
+		copytruncate
+		missingok
+		compress
+		delaycompress
+}

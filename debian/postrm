@@ -1,0 +1,4 @@
+#!/bin/sh
+systemctl disable timekpr
+systemctl stop timekpr
+systemctl reload dbus

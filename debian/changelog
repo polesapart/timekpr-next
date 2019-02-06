@@ -1,0 +1,62 @@
+timekpr-next (0.1.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented user administration via DBUS
+  * fixed some bugs with client configuration
+  * fixed logrotate configuration
+
+  TODO: administration via DBUS and CLI/GUI around it
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Jan 2019 7:35:19 +0300
+
+timekpr-next (0.1.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixed issue with time being improperly calculated when user is set from "unlimited" mode to limited
+  * fixed issue about time initialization when day changes and previously user was in "unlimited" mode (mode was changed to limited + he never logged off)
+
+  TODO: administration via DBUS and CLI/GUI around it
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 18 Dec 2018 20:03:22 +0300
+
+ timekpr-next (0.1.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+   * fixed lazy dbus connection initialization on client side
+   * fixes for client side GUI
+   * minor fixes for time accounting and logging
+
+   TODO: administration via DBUS and CLI/GUI around it
+   TODO: localization and speech
+
+  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 11 Nov 2018 07:55:46 +0300
+
+timekpr-next (0.1.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * first alpha version of timekpr (a lot has changed since old timekpr 0.3x version)
+  ** new impementation of timekpr-revived (there is almost nothing left of timekpr-revived)
+  ** released to very limited testers
+  ** python3 and gtk3 are the must
+  ** all based on DBUS (server and client)
+  ** session management relies on systemd's login1
+  ** notifications through DBUS (exclusively)
+  ** server is managing everything, except notifications which is the responsibility of client
+  ** major features include the following
+  *** support DE's which implement appindicaor3 (Unity/Gnome3¹/KDE5/...) and legacy statusIcon
+  *** support Ubuntu 12.04+ (on launchpad timekpr can support the versions which are on supported distro list)
+  *** it's possible to configure which session types are accountable
+  *** inactive session time is NOT accounted (if configured so)
+  *** time is configurable by days, hours and minutes (yes, limits within hour are possible)
+  *** there is no "hard" account lock, user will be logged out in 15 seconds if time is over
+  *** synchronous operation between  server and client
+  *** improved notifications about system behaviour
+  **** notification about actual limit change
+  **** notification about general configuration change
+  **** notification logic improved
+  **** client acts merely as notificator
+  **** client can view limits applied by admin
+
+  ¹ one has to install extension to show timekpr icon, otherwise icon is not shown (gnome architects do not want status icons in their design anymore, timekpr can not do anything about it)
+
+  TODO: administration via DBUS and CLI/GUI around it
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 17 Sep 2018 08:02:17 +0300

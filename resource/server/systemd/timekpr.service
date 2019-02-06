@@ -1,0 +1,16 @@
+[Unit]
+Description=Timekpr daemon service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/share/pyshared/timekpr/
+ExecStart=/usr/bin/timekprd
+StandardOutput=syslog
+StandardError=syslog
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
