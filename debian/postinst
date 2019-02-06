@@ -1,6 +1,7 @@
 #!/bin/sh
 if [ -d /usr/share/pyshared/timekpr ];
 then
+    find /usr/share/pyshared/timekpr -type d -name '__pycache__' -exec rm -rf {} \; -prune
     find /usr/share/pyshared/timekpr -iname '*.pyc' -exec rm {} \;
 fi
 systemctl reload dbus
