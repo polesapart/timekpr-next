@@ -74,7 +74,7 @@ class timekprUserConfigurationProcessor(object):
             pass
         else:
             # check if we have this user
-            result, message = self.loadAndCheckUserConfiguration()
+            result, message = self.loadAndCheckUserControl()
 
             # if we are still fine
             if result != 0:
