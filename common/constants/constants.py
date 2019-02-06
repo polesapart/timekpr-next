@@ -11,7 +11,7 @@ from datetime import datetime
 # ## constants ##
 # version (in case config is corrupt or smth like that)
 TK_VERSION = "0.1.7"
-TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
+TK_DEV_ACTIVE = True  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
 # formats
@@ -54,6 +54,9 @@ TK_DBUS_USER_NOTIF_PATH_PREFIX = "/com/timekpr/server/user/"
 TK_DBUS_USER_NOTIF_INTERFACE = "com.timekpr.server.user.notifications"
 TK_DBUS_USER_LIMITS_INTERFACE = "com.timekpr.server.user.limits"
 TK_DBUS_USER_ADMIN_INTERFACE = "com.timekpr.server.user.admin"
+
+# DBUS performance measurement
+TK_DBUS_ANSWER_TIME = 3
 
 # user properties
 TK_CTRL_UID = "userid"
@@ -148,6 +151,31 @@ TK_PRIO_CONF[TK_PRIO_WARNING] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.s
 TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "dialog-warning", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-error", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
+
+# ## timekpr notification config ##
+# define admin commands
+TK_ADMIN_COMMANDS = {
+    # "-setloglevel"             : ""
+    #,"-setpolltime"             : ""
+    #,"-setsavetime"             : ""
+    #,"-settrackinactive"        : ""
+    #,"-setterminationtime"      : ""
+    #,"-setfinalwarningtime"     : ""
+    #,"-setsessiontypes"         : ""
+    #,"-setexcludedsessiontypes" : ""
+    #,"-setexcludedusers"        : ""
+}
+# define user admin commands
+TK_USER_ADMIN_COMMANDS = {
+     "-help"             : "print help"
+    ,"-userlist"         : "this gets saved user list from the server, example:\n    timekpra -userlist"
+    ,"-userconfig"       : "this gets user configuration from the server, example:\n    timekpra -userconfig \"testuser\""
+    ,"-setalloweddays"   : "this sets allowed days for the user, example:\n    timekpra -setalloweddays \"testuser\" \"1,2,3,4,5\""
+    ,"-setallowedhours"  : "this sets allowed hours per specified day or ALL for every day, example:\n    timekpra -setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
+    ,"-settimelimits"    : "this sets time limits per allowed days, example:\n    timekpra -settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
+    ,"-settrackinactive" : "this sets whether to track inactive user sessions, example:\n    timekpra -settrackinactive \"testuser\" \"false\""
+    ,"-settimeleft"      : "this sets time left for the user at current moment, example (add one hour):\n    timekpra -settimeleft \"testuser\" \"+\" 3600"
+}
 
 
 def getNotificationPrioriy(pPriority):
