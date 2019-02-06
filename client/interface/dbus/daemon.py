@@ -83,7 +83,7 @@ class timekprClient(object):
         # connect signals to dbus
         self.connectTimekprSignalsDBUS()
 
-        # init startup notification
+        # init startup notification at default interval
         GLib.timeout_add_seconds(cons.TK_POLLTIME, self.requestInitialTimeValues)
 
         # start main loop
@@ -181,7 +181,7 @@ class timekprClient(object):
                 ,signal_name      = "timeLimitConfiguration")
 
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - connecting signals \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - connecting signals \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             # set status
             self._timekprClient.setStatus("Connected")
@@ -195,7 +195,7 @@ class timekprClient(object):
             log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
             log.log(cons.TK_LOG_LEVEL_INFO, "failed to connect to timekpr dbus, trying again...")
 
-            # did not connect (set connection to None) and schedule for reconnect
+            # did not connect (set connection to None) and schedule for reconnect at default interval
             self._notificationFromDBUS = None
             GLib.timeout_add_seconds(cons.TK_POLLTIME, self.connectTimekprSignalsDBUS)
 

@@ -31,19 +31,19 @@ class timekprUserManager(object):
         # get dbus object
         self._login1UserObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, pUserPathOnBus)
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJEC, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJEC, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
         # get dbus interface for properties
         self._login1UserInterface = dbus.Interface(self._login1UserObject, cons.TK_DBUS_PROPERTIES_INTERFACE)
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
         # user usersessions
         self._timekprUserSessions = {}
 
     def isUserActive(self, pSessionTypes, pTrackInactive):
         """Check if user is active"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "---=== start isUserActive for \"%s\" ===---" % (self._userName))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserActive for \"%s\" ===---" % (self._userName))
 
         # dbus performance measurement
         misc.measureTimeElapsed(pStart=True)
@@ -51,12 +51,12 @@ class timekprUserManager(object):
         # get all user sessions
         userState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "State"))
         userIdleState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "IdleHint"))
-        log.log(cons.TK_LOG_LEVEL_INFO, "user stats, state: %s, idleState: %s" % (userState, userIdleState))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "user stats, state: %s, idleState: %s" % (userState, userIdleState))
 
         # get all user sessions
         userSessions = self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "Sessions")
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting sessions for \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting sessions for \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
         # to determine if user is active for all sessions:
         #    session must not be "active"
@@ -90,12 +90,12 @@ class timekprUserManager(object):
                 # get object and interface to save it
                 lso = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, path)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 # get object and interface to save it
                 lsi = dbus.Interface(lso, cons.TK_DBUS_PROPERTIES_INTERFACE)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 # cache sessions
                 self._timekprUserSessions[sid] = {"LSO": lso, "LSI": lsi}
@@ -110,9 +110,9 @@ class timekprUserManager(object):
             sessionState = str(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
             sessionIdleState = str(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "IdleHint"))
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (sid, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (sid, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
-            log.log(cons.TK_LOG_LEVEL_INFO, "got session - type: %s, state: %s, idle: %s" % (sessionType, sessionState, sessionIdleState))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "got session - type: %s, state: %s, idle: %s" % (sessionType, sessionState, sessionIdleState))
 
             # check if active
             if sessionState == "active" and sessionIdleState == "0":
@@ -154,7 +154,7 @@ class timekprUserManager(object):
             log.log(cons.TK_LOG_LEVEL_DEBUG, "removing session: %s" % (userSession))
             self._timekprUserSessions.pop(userSession)
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "---=== finish isUserActive: %s ===---" % (str(userActive)))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish isUserActive: %s ===---" % (str(userActive)))
 
         # return whether user is active
         return userActive

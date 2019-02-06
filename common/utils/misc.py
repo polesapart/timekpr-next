@@ -12,9 +12,16 @@ _RESULT = 0
 # imports
 from datetime import datetime
 import os
+import inspect
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
+
+
+# this is needed for debugging purposes
+def whoami():
+    """Return callers name from the call stack, the 0 is this function, prev is the one needd"""
+    return inspect.stack()[1][3]
 
 
 def measureTimeElapsed(pStart=False, pStop=False, pResult=False):

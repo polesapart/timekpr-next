@@ -18,7 +18,8 @@ from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.server.interface.dbus.daemon import timekprDaemon
 from timekpr.common.utils import misc
-from timekpr.common.utils import config
+from timekpr.server.config.userhelper import timekprUserStore
+
 
 # main start
 if __name__ == "__main__":
@@ -37,7 +38,7 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, _timekprDaemon.finishTimekpr)
 
     # prepare all users in the system
-    config.timekprSystemUsers().prepareUsers()
+    timekprUserStore().checkAndInitUsers()
 
     # init daemon
     _timekprDaemon.initTimekpr()

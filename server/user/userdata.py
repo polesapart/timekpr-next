@@ -157,7 +157,7 @@ class timekprUser(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentExplicit")
 
-    def adjustTimeSpentActual(self, pSessionTypes, pSessionTypesExcl):
+    def adjustTimeSpentActual(self, pSessionTypes, pSessionTypesExcl, pTimekprSaveInterval):
         """Adjust time spent (and save it)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentActual")
 
@@ -166,8 +166,8 @@ class timekprUser(object):
         # get time spent
         timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
 
-        # if time spent is very much higher than typical polling time, computer might went to sleep?
-        if timeSpent >= cons.TK_POLLTIME * 30:
+        # if time spent is very much higher than the default polling time, computer might went to sleep?
+        if timeSpent >= cons.TK_POLLTIME * 15:
             timeSpent = 0
 
         # determine if active
@@ -209,7 +209,7 @@ class timekprUser(object):
             self.adjustTimeSpentExplicit()
 
         # check if we need to save progress
-        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= cons.TK_SAVE_INTERVAL or lastCheckDOW != self._currentDOW:
+        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprSaveInterval or lastCheckDOW != self._currentDOW:
             # save
             self.saveSpent()
 
@@ -309,8 +309,8 @@ class timekprUser(object):
                     # for 2 days
                     timeLeft2days += secondsToAdd
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisBoot, timeInactiveThisBoot))
         # debug
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisBoot, timeInactiveThisBoot))
         log.log(cons.TK_LOG_LEVEL_DEBUG, "timeLeftHour: %s, timeLeft2days: %s" % (timeLeftHour, timeLeft2days))
 
         # process notifications, if needed
@@ -382,13 +382,13 @@ class timekprUser(object):
         # define structure for limits
         # day: next day | limit | left per day + hours 0 - 23 (0 hour sample included)
         limits = {
-             "1"              : {cons.TK_CTRL_NDAY: "2", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"2"              : {cons.TK_CTRL_NDAY: "3", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"3"              : {cons.TK_CTRL_NDAY: "4", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"4"              : {cons.TK_CTRL_NDAY: "5", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"5"              : {cons.TK_CTRL_NDAY: "6", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"6"              : {cons.TK_CTRL_NDAY: "7", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"7"              : {cons.TK_CTRL_NDAY: "1", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+             "1"                 : {cons.TK_CTRL_NDAY: "2", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"2"                 : {cons.TK_CTRL_NDAY: "3", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"3"                 : {cons.TK_CTRL_NDAY: "4", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"4"                 : {cons.TK_CTRL_NDAY: "5", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"5"                 : {cons.TK_CTRL_NDAY: "6", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"6"                 : {cons.TK_CTRL_NDAY: "7", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"7"                 : {cons.TK_CTRL_NDAY: "1", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
             ,cons.TK_CTRL_LWK    : 0  # this is limit per week (not used yet)
             ,cons.TK_CTRL_LMON   : 0  # this is limit per month (not used yet)
             ,cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0)  # this is last checked time

@@ -17,8 +17,11 @@ from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.server.interface.dbus.logind import manager as l1_manager
 from timekpr.common.utils.config import timekprConfig
-from timekpr.server.user.user import timekprUser
-from timekpr.server.user.configprocessor import timekprUserConfigurationProcessor
+from timekpr.common.utils import misc
+from timekpr.server.user.userdata import timekprUser
+from timekpr.server.config.configprocessor import timekprUserConfigurationProcessor
+from timekpr.server.config.configprocessor import timekprConfigurationProcessor
+from timekpr.server.config.userhelper import timekprUserStore
 
 # default dbus
 DBusGMainLoop(set_as_default=True)
@@ -69,7 +72,7 @@ class timekprDaemon(dbus.service.Object):
         self._timekprConfigManager.loadMainConfiguration()
 
         # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getTimekprLoglevel(), cons.TK_LOG_D: self._timekprConfigManager.getTimekprLogfileDir()}
+        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: self._timekprConfigManager.getTimekprLogfileDir()}
 
         # logging init
         log.setLogging(self._logging)
@@ -122,7 +125,7 @@ class timekprDaemon(dbus.service.Object):
             log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users ---")
 
             # take a polling pause
-            time.sleep(cons.TK_POLLTIME)
+            time.sleep(self._timekprConfigManager.getTimekprPollTime())
 
         log.log(cons.TK_LOG_LEVEL_INFO, "worker shut down")
 
@@ -154,10 +157,10 @@ class timekprDaemon(dbus.service.Object):
         for userName, userDict in userList.items():
             # if username is in exclusion list
             if userName in self._timekprConfigManager.getTimekprUsersExcl():
-                log.log(cons.TK_LOG_LEVEL_INFO, "NOTE: user \"%s\" explicitly excluded" % (userName))
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: user \"%s\" explicitly excluded" % (userName))
             # if not in, we add it
             elif userName not in self._timekprUserList:
-                log.log(cons.TK_LOG_LEVEL_INFO, "NOTE: we have a new user \"%s\"" % (userName))
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: we have a new user \"%s\"" % (userName))
                 # add user
                 self._timekprUserList[userName] = timekprUser(
                      self._logging
@@ -203,7 +206,7 @@ class timekprDaemon(dbus.service.Object):
             # init variables for user
             self._timekprUserList[userName].initTimekprVariables()
             # adjust time spent
-            isUserActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfigManager.getTimekprSessionsCtrl(), self._timekprConfigManager.getTimekprSessionsExcl())
+            isUserActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfigManager.getTimekprSessionsCtrl(), self._timekprConfigManager.getTimekprSessionsExcl(), self._timekprConfigManager.getTimekprSaveTime())
 
             # if user is not active, we do not send them to death row (or suspend the sentence for a while)
             if not isUserActive and userName in self._timekprUserTerminationList:
@@ -215,16 +218,16 @@ class timekprDaemon(dbus.service.Object):
             # get stats for user
             timeLeftInARow = self._timekprUserList[userName].getTimeLeft()[2]
 
-            log.log(cons.TK_LOG_LEVEL_INFO, "user \"%s\", active: %s, time left: %i" % (userName, str(isUserActive), timeLeftInARow))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s, time left: %i" % (userName, str(isUserActive), timeLeftInARow))
 
             # if user sessions are not yet sentenced to death and user is active
             if userName not in self._timekprUserTerminationList and isUserActive:
                 # if user has very few time, let's kill him softly
-                if timeLeftInARow <= cons.TK_TERMINATION_TIME:
+                if timeLeftInARow <= self._timekprConfigManager.getTimekprTerminationTime():
                     # add user to kill list (add dbus object path)
                     self._timekprUserTerminationList[userName] = self._timekprUserList[userName].getUserPathOnBus()
                     # initiate final countdown after which session is killed
-                    self._timekprUserList[userName]._finalCountdown = max(timeLeftInARow, cons.TK_TERMINATION_TIME)
+                    self._timekprUserList[userName]._finalCountdown = max(timeLeftInARow, self._timekprConfigManager.getTimekprTerminationTime())
 
                     # in case this is first killing
                     if len(self._timekprUserTerminationList) == 1:
@@ -243,7 +246,7 @@ class timekprDaemon(dbus.service.Object):
             log.log(cons.TK_LOG_LEVEL_INFO, "death approaching in %s secs" % (str(self._timekprUserList[rUserName]._finalCountdown)))
 
             # send messages only when certain time is left
-            if self._timekprUserList[rUserName]._finalCountdown <= cons.TK_FINAL_COUNTDOWN_TIME:
+            if self._timekprUserList[rUserName]._finalCountdown <= self._timekprConfigManager.getTimekprFinalWarningTime():
                 # final warning
                 self._timekprUserList[rUserName].processFinalWarning()
 
@@ -313,33 +316,57 @@ class timekprDaemon(dbus.service.Object):
 
     # --------------- user admin methods accessible by privileged users (root and all in timekpr group) --------------- #
 
-    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="", out_signature="is")
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="", out_signature="isas")
     def getUserList(self):
         """Get user list and their time left"""
         """Sets allowed days for the user
             server expects only the days that are allowed, sorted in ascending order"""
         # result
-        result = -1
+        result = 0
         message = ""
+        userList = []
 
-        # check if we have this user
+        try:
+            # check if we have this user
+            userList = timekprUserStore.getSavedUserList(self._logging, self._timekprConfigManager.getTimekprConfigDir())
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR getting user list. Please inspect timekpr log files"
 
         # result
-        return result, message
+        return result, message, userList
 
-    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="s", out_signature="is")
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="s", out_signature="isa{sv}")
     def getUserConfiguration(self, pUserName):
-        """Get user list and their time left"""
-        """Sets allowed days for the user
-            server expects only the days that are allowed, sorted in ascending order"""
-        # result
-        result = -1
-        message = ""
+        """Get user configuration (saved)"""
+        """  this retrieves stored configuration for the user"""
+        # initialize username storage
+        userConfigurationStore = {}
 
-        # check if we have this user
+        try:
+            # check the user and it's configuration
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+
+            # load config
+            result, message, userConfigurationStore = userConfigProcessor.getSavedUserConfiguration()
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR getting user confguration. Please inspect timekpr log files"
 
         # result
-        return result, message
+        return result, message, userConfigurationStore
 
     @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="sai", out_signature="is")
     def setAllowedDays(self, pUserName, pDayList):
@@ -361,7 +388,7 @@ class timekprDaemon(dbus.service.Object):
             # set up logging
             log.setLogging(self._logging)
             # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR: %s" % (str(unexpectedException)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
             result = -1
@@ -392,7 +419,7 @@ class timekprDaemon(dbus.service.Object):
             # set up logging
             log.setLogging(self._logging)
             # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR: %s" % (str(unexpectedException)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
             result = -1
@@ -421,7 +448,7 @@ class timekprDaemon(dbus.service.Object):
             # set up logging
             log.setLogging(self._logging)
             # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR: %s" % (str(unexpectedException)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
             result = -1
@@ -451,7 +478,7 @@ class timekprDaemon(dbus.service.Object):
             # set up logging
             log.setLogging(self._logging)
             # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR: %s" % (str(unexpectedException)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
             result = -1
@@ -482,11 +509,254 @@ class timekprDaemon(dbus.service.Object):
             # set up logging
             log.setLogging(self._logging)
             # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR: %s" % (str(unexpectedException)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
             result = -1
             message = "Unexpected ERROR updating control. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    # --------------- server admin methods accessible by privileged users (root and all in timekpr group) --------------- #
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="i", out_signature="is")
+    def setTimekprLogLevel(self, pLogLevel):
+        """Set the logging level for server"""
+        """ restart needed to fully engage, but newly logged in users get logging properly"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprLogLevel(pLogLevel)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprLogLevel(pLogLevel)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="i", out_signature="is")
+    def setTimekprPollTime(self, pPollTimeSecs):
+        """Set polltime for timekpr"""
+        """ set in-memory polling time (this is the accounting precision of the time"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            if 1/0:
+                pass
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprPollTime(pPollTimeSecs)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprPollTime(pPollTimeSecs)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="i", out_signature="is")
+    def setTimekprSaveTime(self, pSaveTimeSecs):
+        """Set save time for timekpr"""
+        """Set the interval at which timekpr saves user data (time spent, etc.)"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprSaveTime(pSaveTimeSecs)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprSaveTime(pSaveTimeSecs)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="b", out_signature="is")
+    def setTimekprTrackInactive(self, pTrackInactive):
+        """Set default value for tracking inactive sessions"""
+        """Note that this is just the default value which is configurable at user level"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprTrackInactive(pTrackInactive)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprTrackInactive(pTrackInactive)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="i", out_signature="is")
+    def setTimekprTerminationTime(self, pTerminationTimeSecs):
+        """Set up user termination time"""
+        """ User temination time is how many seconds user is allowed in before he's thrown out
+            This setting applies to users who log in at inappropriate time according to user config
+        """
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprTerminationTime(pTerminationTimeSecs)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprTerminationTime(pTerminationTimeSecs)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="i", out_signature="is")
+    def setTimekprFinalWarningTime(self, pFinalWarningTimeSecs):
+        """Set up final warning time for users"""
+        """ Final warning time is the countdown lenght (in seconds) for the user before he's thrown out"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprFinalWarningTime(pFinalWarningTimeSecs)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprFinalWarningTime(pFinalWarningTimeSecs)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="as", out_signature="is")
+    def setTimekprSessionsCtrl(self, pSessionsCtrl):
+        """Set accountable session types for users"""
+        """ Accountable sessions are sessions which are counted as active, there are handful of them, but predefined"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprSessionsCtrl(pSessionsCtrl)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprSessionsCtrl(pSessionsCtrl)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="as", out_signature="is")
+    def setTimekprSessionsExcl(self, pSessionsExcl):
+        """Set NON-accountable session types for users"""
+        """ NON-accountable sessions are sessions which are explicitly ignored during session evaluation, there are handful of them, but predefined"""
+        try:
+            # result
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprSessionsExcl(pSessionsExcl)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprSessionsExcl(pSessionsExcl)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="as", out_signature="is")
+    def setTimekprUsersExcl(self, pUsersExcl):
+        """Set excluded usernames for timekpr"""
+        """ Excluded usernames are usernames which are excluded from accounting
+            Pre-defined values containt all graphical login managers etc., please do NOT add actual end-users here,
+            You can, but these users will never receive any notifications about time, icon will be in connecting state forever
+        """
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprUsersExcl(pUsersExcl)
+
+            # set in memory as well
+            self._timekprConfigManager.setTimekprUsersExcl(pUsersExcl)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
 
         # result
         return result, message

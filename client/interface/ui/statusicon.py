@@ -51,7 +51,7 @@ class timekprIndicator(timekprNotificationArea):
 
     def initTimekprIcon(self, pShowSeconds):
         """Initialize timekpr indicator"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprStatusIcon")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start initTimekprStatusIcon")
 
         # show secs
         self._showSeconds = pShowSeconds
@@ -97,7 +97,7 @@ class timekprIndicator(timekprNotificationArea):
         # initial config
         self.setTimeLeft("", None)
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "finish initTimekprStatusIcon")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initTimekprStatusIcon")
 
     def setTimeLeft(self, pPriority, pTimeLeft):
         """Set time left in the indicator"""

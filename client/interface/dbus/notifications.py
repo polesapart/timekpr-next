@@ -76,12 +76,12 @@ class timekprNotifications(object):
                 # notification stuff
                 self._notifyObject = self._notifyBus.get_object("org.freedesktop.Notifications", "/org/freedesktop/Notifications")
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % ("org.freedesktop.Notifications (o)", misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % ("org.freedesktop.Notifications (o)", misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 # getting interface
                 self._notifyInterface = dbus.Interface(self._notifyObject, "org.freedesktop.Notifications")
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % ("org.freedesktop.Notifications (i)", misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % ("org.freedesktop.Notifications (i)", misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS notification interface")
             except Exception as dbusEx:
@@ -100,12 +100,12 @@ class timekprNotifications(object):
                 # timekpr notification stuff
                 self._timekprObject = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 # getting interface
                 self._timekprInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_USER_LIMITS_INTERFACE)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_LIMITS_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_POLLTIME else True
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_LIMITS_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS timekpr interface")
             except Exception as dbusEx:

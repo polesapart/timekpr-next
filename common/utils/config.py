@@ -41,8 +41,11 @@ def saveConfigFile(pConfigFile, pKeyValuePairs):
 class timekprConfig(object):
     """Main configuration class for the server"""
 
-    def __init__(self, pIsDevActive=False):
+    def __init__(self, pIsDevActive=False, pLog=None):
         """Initialize stuff"""
+        if pLog is not None:
+            log.setLogging(pLog)
+
         log.log(cons.TK_LOG_LEVEL_INFO, "initializing configuration manager")
 
         # config
@@ -71,7 +74,7 @@ class timekprConfig(object):
 
     def loadMainConfiguration(self):
         """Read main timekpr config file"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "start loading configuration")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start loading configuration")
 
         # whether to use values from code
         useDefaults = False
@@ -141,7 +144,7 @@ class timekprConfig(object):
         param = "TIMEKPR_LOGFILE_DIR"
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if self._isDevActive else (cons.TK_LOGFILE_DIR if useDefaults else self._timekprConfigParser.get(section, param))))
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "finish loading configuration")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading configuration")
 
         # result
         return True
@@ -165,7 +168,7 @@ class timekprConfig(object):
         self._timekprConfigParser.set(section, "TIMEKPR_POLLTIME", str(cons.TK_POLLTIME))
         self._timekprConfigParser.set(section, "# this defines a time for saving user time control file (polling and accounting is done in memory more often, but saving is not)")
         self._timekprConfigParser.set(section, "TIMEKPR_SAVE_TIME", str(cons.TK_SAVE_INTERVAL))
-        self._timekprConfigParser.set(section, "# this defines whether to account sessions which are inactive (locked screen, user switched away from desktop, etc.)")
+        self._timekprConfigParser.set(section, "# this defines whether to account sessions which are inactive (locked screen, user switched away from desktop, etc.), this defines the default value for new users")
         self._timekprConfigParser.set(section, "TIMEKPR_TRACK_INACTIVE", str(cons.TK_TRACK_INACTIVE))
         self._timekprConfigParser.set(section, "# this defines a time interval in seconds prior to assign user a termination sequence")
         self._timekprConfigParser.set(section, "#   15 seconds before time ends nothing can be done to avoid killing a session")
@@ -202,22 +205,53 @@ class timekprConfig(object):
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish saving default configuration")
 
+    def saveTimekprConfiguration(self):
+        """Write new sections of the file"""
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start saving timekpr configuration")
+
+        # init dict
+        values = {}
+
+        # server loglevel
+        values["TIMEKPR_LOGLEVEL"] = str(self._timekprConfig["TIMEKPR_LOGLEVEL"])
+        # in-memory polling time
+        values["TIMEKPR_POLLTIME"] = str(self._timekprConfig["TIMEKPR_POLLTIME"])
+        # time interval to save user spent time
+        values["TIMEKPR_SAVE_TIME"] = str(self._timekprConfig["TIMEKPR_SAVE_TIME"])
+        # track inactive (default value)
+        values["TIMEKPR_TRACK_INACTIVE"] = str(self._timekprConfig["TIMEKPR_TRACK_INACTIVE"])
+        # termination time (allowed login time when there is no time left before user is thrown out)
+        values["TIMEKPR_TERMINATION_TIME"] = str(self._timekprConfig["TIMEKPR_TERMINATION_TIME"])
+        # final warning time (countdown to 0 before terminating session)
+        values["TIMEKPR_FINAL_WARNING_TIME"] = str(self._timekprConfig["TIMEKPR_FINAL_WARNING_TIME"])
+        # which session types to control
+        values["TIMEKPR_SESSION_TYPES_CTRL"] = str(self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"])
+        # explicitly excludeds ession types (do not count time in these sessions)
+        values["TIMEKPR_SESSION_TYPES_EXCL"] = str(self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"])
+        # which users to exclude from time accounting
+        values["TIMEKPR_USERS_EXCL"] = str(self._timekprConfig["TIMEKPR_USERS_EXCL"])
+
+        # edit client config file (using alternate method because configparser looses comments in the process)
+        saveConfigFile(self._configFile, values)
+
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving timekpr configuration")
+
     def getTimekprVersion(self):
         """Get version"""
         # result
         return self._timekprConfig["TIMEKPR_VERSION"]
 
-    def getTimekprLoglevel(self):
+    def getTimekprLogLevel(self):
         """Get logging level"""
         # result
         return self._timekprConfig["TIMEKPR_LOGLEVEL"]
 
-    def getTimekprPolltime(self):
+    def getTimekprPollTime(self):
         """Get polling time"""
         # result
         return self._timekprConfig["TIMEKPR_POLLTIME"]
 
-    def getTimekprSavetime(self):
+    def getTimekprSaveTime(self):
         """Get save time"""
         # result
         return self._timekprConfig["TIMEKPR_SAVE_TIME"]
@@ -274,6 +308,48 @@ class timekprConfig(object):
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
 
+    def setTimekprLogLevel(self, pLogLevel):
+        """Set logging level"""
+        # result
+        self._timekprConfig["TIMEKPR_LOGLEVEL"] = pLogLevel
+
+    def setTimekprPollTime(self, pPollingTimeSecs):
+        """Set polling time"""
+        # result
+        self._timekprConfig["TIMEKPR_POLLTIME"] = pPollingTimeSecs
+
+    def setTimekprSaveTime(self, pSaveTimeSecs):
+        """Set save time"""
+        # result
+        self._timekprConfig["TIMEKPR_SAVE_TIME"] = pSaveTimeSecs
+
+    def setTimekprTrackInactive(self, pTrackInactiveDefault):
+        """Get tracking inactive"""
+        # result
+        self._timekprConfig["TIMEKPR_TRACK_INACTIVE"] = pTrackInactiveDefault
+
+    def setTimekprTerminationTime(self, pTerminationTimeSecs):
+        """Set termination time"""
+        # result
+        self._timekprConfig["TIMEKPR_TERMINATION_TIME"] = pTerminationTimeSecs
+
+    def setTimekprFinalWarningTime(self, pFinalWarningTimeSecs):
+        """Set final warning time"""
+        # result
+        self._timekprConfig["TIMEKPR_FINAL_WARNING_TIME"] = pFinalWarningTimeSecs
+
+    def setTimekprSessionsCtrl(self, pSessionsCtrl):
+        """Set sessions to control"""
+        self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"] = ";".join(pSessionsCtrl)
+
+    def setTimekprSessionsExcl(self, pSessionsExcl):
+        """Set sessions to exclude"""
+        self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"] = ";".join(pSessionsExcl)
+
+    def setTimekprUsersExcl(self, pUsersExcl):
+        """Set sessions to exclude"""
+        self._timekprConfig["TIMEKPR_USERS_EXCL"] = ";".join(pUsersExcl)
+
 
 class timekprUserConfig(object):
     """Class will contain and provide config related functionality"""
@@ -283,7 +359,7 @@ class timekprUserConfig(object):
         # init logging firstly
         log.setLogging(pLog)
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "init user configuration manager")
+        log.log(cons.TK_LOG_LEVEL_INFO, "init user (%s) configuration manager" % (pUserName))
 
         # initialize class variables
         self._configFile = os.path.join(pDirectory, cons.TK_USER_CONFIG_FILE % (pUserName))
@@ -352,7 +428,7 @@ class timekprUserConfig(object):
 
     def initUserConfiguration(self):
         """Write new sections of the file"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "init default user configuration")
+        log.log(cons.TK_LOG_LEVEL_INFO, "init default user (%s) configuration" % (self._userName))
 
         # save default config
         section = "DOCUMENTATION"
@@ -484,6 +560,7 @@ class timekprUserConfig(object):
         # set track inactive
         self._timekprUserConfig["TRACK_INACTIVE"] = pTrackInactive
 
+
 class timekprUserControl(object):
     """Class will provide time spent file management functionality"""
 
@@ -492,7 +569,7 @@ class timekprUserControl(object):
         # init logging firstly
         log.setLogging(pLog)
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "init user control")
+        log.log(cons.TK_LOG_LEVEL_INFO, "init user (%s) control" % (pUserName))
 
         # initialize class variables
         self._configFile = os.path.join(pDirectory, pUserName + ".time")
@@ -555,7 +632,7 @@ class timekprUserControl(object):
 
     def initUserControl(self):
         """Write new sections of the file"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "start init user control (%s)" % (self._userName))
+        log.log(cons.TK_LOG_LEVEL_INFO, "start init user (%s) control" % (self._userName))
 
         # add new user section
         section = self._userName
@@ -573,7 +650,7 @@ class timekprUserControl(object):
 
     def saveControl(self):
         """Save configuration"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start save user control")
+        log.log(cons.TK_LOG_LEVEL_INFO, "start save user (%s) control" % (self._userName))
 
         # init dict
         values = {}
@@ -586,7 +663,7 @@ class timekprUserControl(object):
         # edit control file (using alternate method because configparser looses comments in the process)
         saveConfigFile(self._configFile, values)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish save user control")
+        log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
     def getUserTimeSpent(self):
         """Get time spent"""
@@ -658,7 +735,7 @@ class timekprClientConfig(object):
 
     def loadClientConfiguration(self):
         """Read main timekpr config file"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "start loading client configuration")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start loading client configuration")
 
         # get directories from main config
         if "TIMEKPR_SHARED_DIR" not in self._timekprConfig:
@@ -705,14 +782,14 @@ class timekprClientConfig(object):
         param = "LOG_LEVEL"
         self._timekprConfig[param] = cons.TK_LOG_LEVEL_INFO if useDefaults else self._timekprConfigParser.getint(section, param)
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "finish loading client configuration")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading client configuration")
 
         # result
         return True
 
     def loadClientMainConfig(self):
         """Load main configuration file to get shared file locations"""
-        log.log(cons.TK_LOG_LEVEL_INFO, "start loading main configuration")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start loading main configuration")
 
         # whether to use values from code
         useDefaults = False
@@ -732,7 +809,7 @@ class timekprClientConfig(object):
         param = "TIMEKPR_SHARED_DIR"
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if self._isDevActive else (cons.TK_SHARED_DIR if useDefaults else self._timekprConfigParser.get(section, param))))
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "finish loading main configuration")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading main configuration")
 
         # result
         return True
@@ -771,7 +848,7 @@ class timekprClientConfig(object):
 
     def saveClientConfig(self):
         """Save configuration (called from GUI)"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start save client config")
+        log.log(cons.TK_LOG_LEVEL_INFO, "start save client config")
 
         # init dict
         values = {}
@@ -790,7 +867,7 @@ class timekprClientConfig(object):
         # edit control file (using alternate method because configparser looses comments in the process)
         saveConfigFile(self._configFile, values)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish save client config")
+        log.log(cons.TK_LOG_LEVEL_INFO, "finish save client config")
 
     def isClientConfigChanged(self):
         """Whether config has changed"""
@@ -873,68 +950,3 @@ class timekprClientConfig(object):
         """Get client log level"""
         # set
         self._timekprConfig["LOG_LEVEL"] = pClientLogLevel
-
-
-class timekprSystemUsers(object):
-    """Class will privide methods to reload users from system and intialize the config for them"""
-
-    def __init__(self):
-        """Initialize timekprsystemusers"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "initializing timekprSystemUsers")
-
-    def __del__(self):
-        """Deinitialize timekprsystemusers"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "de-initializing timekprSystemUsers")
-
-    def prepareUsers(self):
-        """Initialize all users present in the system"""
-        limitsFile = "/etc/login.defs"
-        usersFile = "/etc/passwd"
-
-        # config
-        limitsConfig = {}
-        users = {}
-
-        # load limits
-        with fileinput.input(limitsFile) as rLimitsFile:
-            # read line and do manipulations
-            for rLine in rLimitsFile:
-                # get min/max uids
-                if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
-                    # find our config
-                    x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
-                    # save min/max uuids
-                    limitsConfig[x[0][0]] = int(x[0][1])
-
-        # load limits
-        with fileinput.input(usersFile) as rUsersFile:
-            # read line and do manipulations
-            for rLine in rUsersFile:
-                # get our users splitted
-                userDef = rLine.split(":")
-                # get uuid
-                uuid = int(userDef[2])
-                # save our user, if it mactches
-                if limitsConfig["UID_MIN"] <= uuid <= limitsConfig["UID_MAX"]:
-                    # save
-                    users[userDef[0]] = uuid
-
-        # get user config
-        timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE)
-        # load user config
-        timekprConfigManager.loadMainConfiguration()
-        # set up logging
-        logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLoglevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir()}
-
-        # go through our users
-        for rUser, rUserId in users.items():
-            # get path of file
-            file = os.path.join(timekprConfigManager.getTimekprConfigDir(), cons.TK_USER_CONFIG_FILE % (rUser))
-
-            # check if we have config for them
-            if not os.path.isfile(file):
-                log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, rUserId))
-                # user config
-                timekprUserConfig(logging, timekprConfigManager.getTimekprConfigDir(), rUser).initUserConfiguration()
-
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing setting up users")
