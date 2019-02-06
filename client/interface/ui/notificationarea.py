@@ -12,7 +12,7 @@ import os
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.dbus.notifications import timekprNotifications
-from timekpr.client.gui.timekprgui import timekprGUI
+from timekpr.client.gui.clientgui import timekprGUI
 
 
 class timekprNotificationArea(object):
