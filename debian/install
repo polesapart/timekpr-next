@@ -45,7 +45,7 @@ common/utils/misc.py usr/share/pyshared/timekpr/common/utils/
 
 # python client
 client/gui/__init__.py usr/share/pyshared/timekpr/client/gui/
-client/gui/timekprgui.py usr/share/pyshared/timekpr/client/gui/
+client/gui/clientgui.py usr/share/pyshared/timekpr/client/gui/
 client/__init__.py usr/share/pyshared/timekpr/client/
 client/interface/dbus/daemon.py usr/share/pyshared/timekpr/client/interface/dbus/
 client/interface/dbus/__init__.py usr/share/pyshared/timekpr/client/interface/dbus/
