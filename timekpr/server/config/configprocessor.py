@@ -169,38 +169,41 @@ class timekprUserConfigurationProcessor(object):
             result = -1
             message = "User's \"%s\" day number must be present" % (self._userName)
         # if days are crazy
-        elif not 0 <= pDayNumber <= 23:
+        elif pDayNumber != "ALL" and not 1 <= int(pDayNumber) <= 7:
             # result
             result = -1
-            message = "User's \"%s\" day number must be between 0 and 23" % (self._userName)
+            message = "User's \"%s\" day number must be between 1 and 7" % (self._userName)
         else:
             # parse config
             try:
+                # check the days
+                if pDayNumber != "ALL":
+                    dayNumbers = []
+                    dayNumber = str(pDayNumber)
+                else:
+                    dayNumbers = ["2", "3", "4", "5", "6", "7"]
+                    dayNumber = "1"
+
                 # create dict of specific day (maybe I'll support more days in a row at some point, though, I think it's a burden to users who'll use CLI)
-                dayNumber = str(pDayNumber)
                 dayLimits = {dayNumber: {}}
 
                 # minutes can be specified in brackets after hour
                 for rHour in list(map(str, pHourList)):
                     # reset minuten
-                    minutesStart = 0
-                    minutesEnd = 60
-
-                    # if we have advanced config (minutes)
-                    if "[" in rHour and "]" in rHour and "-" in rHour:
-                        # get minutes
-                        minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
-
-                        # calc and normalize minutes
-                        minutesStart = min(max(int(minutes[0]), 0), 60)
-                        minutesEnd = min(max(int(minutes[1]), 0), 60)
+                    minutesStart = pHourList[rHour][cons.TK_CTRL_SMIN]
+                    minutesEnd = pHourList[rHour][cons.TK_CTRL_EMIN]
 
                     # get our dict done
-                    dayLimits[dayNumber][rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: minutesStart, cons.TK_CTRL_EMIN: minutesEnd}
+                    dayLimits[dayNumber][rHour] = {cons.TK_CTRL_SMIN: minutesStart, cons.TK_CTRL_EMIN: minutesEnd}
+
+                # fill all days (if needed)
+                for rDay in dayNumbers:
+                    dayLimits[rDay] = dayLimits[dayNumber]
 
                 # set up config
                 # check and parse is happening in set procedure down there, so that's a validation and set in one call
                 self._timekprUserConfig.setUserAllowedHours(dayLimits)
+
             except Exception as ex:
                 print(str(ex))
                 # result
@@ -240,7 +243,7 @@ class timekprUserConfigurationProcessor(object):
             try:
                 for rLimit in pDayLimits:
                     # try to convert seconds in day and normalize seconds in proper interval
-                    limits.append(max(min(int(rLimit), 0), 86400))
+                    limits.append(max(min(int(rLimit), 86400), 0))
             except Exception:
                 # result
                 result = -1

@@ -98,3 +98,9 @@ def output(pText):
     # in development mode, we spit out in console as well
     if cons.TK_DEV_ACTIVE:
         print(logText)
+
+
+def consoleOut(*args):
+    """Print everything passed to console"""
+    # currently just output the stuff
+    print(*args)

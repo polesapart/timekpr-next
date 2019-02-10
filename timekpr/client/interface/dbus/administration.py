@@ -21,260 +21,281 @@ from timekpr.client.interface.speech.espeak import timekprSpeech
 DBusGMainLoop(set_as_default=True)
 
 ### !!! WIP !!!
-class timekprNotifications(object):
+class timekprAdminConnector(object):
     """Main class for supporting indicator notifications"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName):
-        """Initialize notificaitions"""
-        # init logging firstly
-        log.setLogging(pLog, pClient=True)
-
-        log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr notifications")
-
+    def __init__(self, pIsDevActive):
+        """Initialize stuff for connecting to timekpr server"""
         # dev
         self._isDevActive = pIsDevActive
 
-        # uname
-        self._userName = pUserName
-
-        # critical notification (to replace itself)
-        self._criticalNotif = 0
-
-        # dbus (notifications)
-        self._notifyBus = dbus.SessionBus()
-        self._notifyObject = None
-        self._notifyInterface = None
+        # times
+        self._retryTimeoutSecs = 3
+        self._retryCountLeft = 3
+        self._initFailed = False
 
         # dbus (timekpr)
         self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
         self._timekprObject = None
-        self._timekprInterface = None
+        self._timekprUserAdminInterface = None
+        self._timekprAdminInterface = None
 
-        # speech init
-        self._timekprSpeechManager = None
-
-        log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekpr notifications")
-
-    def initClientNotifications(self):
-        """Init dbus (connect to session bus for notification)"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start initClientNotifications")
-
-        # speech
-        if self._timekprSpeechManager is not None:
-            # initialize
-            self._timekprSpeechManager = timekprSpeech()
-            # check if supported, if it is, initialize
-            if self._timekprSpeechManager.isSupported():
-                self._timekprSpeechManager.initinitSpeech()
+    def initTimekprConnection(self):
+        """Init dbus (connect to timekpr for info)"""
+        # trying to connect
+        #log.consoleOut("trying to connect to timekpr daemon")
 
         # only if notifications are ok
-        if self._notifyInterface is None:
+        if self._timekprObject is None:
             try:
                 # dbus performance measurement
                 misc.measureTimeElapsed(pStart=True)
 
-                # notification stuff
-                self._notifyObject = self._notifyBus.get_object("org.freedesktop.Notifications", "/org/freedesktop/Notifications")
-                # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % ("org.freedesktop.Notifications (o)", misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                # getting interface
-                self._notifyInterface = dbus.Interface(self._notifyObject, "org.freedesktop.Notifications")
-                # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % ("org.freedesktop.Notifications (i)", misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS notification interface")
-            except Exception as dbusEx:
-                self._notifyInterface = None
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR initiating dbus connection ===---")
-                log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR initiating dbus connection ===---")
-
-            # only if notifications are ok
-        if self._timekprInterface is None:
-            try:
-                # dbus performance measurement
-                misc.measureTimeElapsed(pStart=True)
-
-                # timekpr notification stuff
+                # timekpr connection stuff
                 self._timekprObject = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
-                # getting interface
-                self._timekprInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_USER_LIMITS_INTERFACE)
-                # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_LIMITS_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS timekpr interface")
-            except Exception as dbusEx:
-                self._timekprInterface = None
+                #log.consoleOut("connected to timekpr daemon")
+            except Exception:
+                self._timekprObject = None
                 # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR initiating timekpr dbus connection ===---")
-                log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR initiating timekpr dbus connection ===---")
+                log.consoleOut("FAILED to obtain connection to timekpr.\nPlease check that timekpr daemon is working and You have sufficient permissions to access it (either superuser or timekpr group)")
+
+            # only if notifications are ok
+        if self._timekprObject is not None and self._timekprUserAdminInterface is None:
+            try:
+                # getting interface
+                self._timekprUserAdminInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_USER_ADMIN_INTERFACE)
+                # measurement logging
+                log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_ADMIN_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+
+                #log.consoleOut("connected to timekpr user admin interface")
+            except Exception:
+                self._timekprUserAdminInterface = None
+                # logging
+                log.consoleOut("FAILED to connect to timekpr user admin interface.\nPlease check that timekpr daemon is working and You have sufficient permissions to access it (either superuser or timekpr group)")
+
+            # only if notifications are ok
+        if self._timekprObject is not None and self._timekprAdminInterface is None:
+            try:
+                # getting interface
+                self._timekprAdminInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_ADMIN_INTERFACE)
+                # measurement logging
+                log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_ADMIN_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+
+                #log.consoleOut("connected to timekpr admin interface")
+            except Exception:
+                self._timekprAdminInterface = None
+                # logging
+                log.consoleOut("FAILED to connect to timekpr user admin interface.\nPlease check that timekpr daemon is working and You have sufficient permissions to access it (either superuser or timekpr group)")
 
         # if either of this fails, we keep trying to connect
-        if self._notifyInterface is None or self._timekprInterface is None:
-            if self._notifyInterface is None:
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "failed to connect to notifications dbus, trying again...")
-            elif self._timekprInterface is None:
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "failed to connect to timekpr dbus, trying again...")
+        if self._timekprUserAdminInterface is None or self._timekprAdminInterface is None:
+            if self._retryCountLeft > 0:
+                log.consoleOut("connection failed, %i attempts left, will retry in %i seconds" % (self._retryCountLeft, self._retryTimeoutSecs))
+                self._retryCountLeft -= 1
 
-            # if either of this fails, we keep trying to connect
-            GLib.timeout_add_seconds(3, self.initClientNotifications)
-
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initClientNotifications")
+                # if either of this fails, we keep trying to connect
+                GLib.timeout_add_seconds(3, self.initTimekprConnection)
+            else:
+                self._initFailed = True
 
         # finish
         return False
 
-    def prepareNotification(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
-        """Prepare the message to be sent to dbus notifications"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start prepareNotification")
+    def isConnected(self):
+        """Return status of connection to DBUS"""
+        # if either of this fails, we keep trying to connect
+        return not (self._notifyInterface is None or self._timekprUserAdminInterface is None or self._timekprAdminInterface is None), not self._initFailed
 
-        # determine icon to use
-        timekprIcon = cons.TK_PRIO_CONF[cons.getNotificationPrioriy(pPriority)][cons.TK_ICON_NOTIF]
-        timekprPrio = cons.TK_PRIO_CONF[cons.getNotificationPrioriy(pPriority)][cons.TK_DBUS_PRIO]
-
-        # calculate hours in advance
-        if pTimeLeft is not None:
-            timeLeftHours = (pTimeLeft - cons.TK_DATETIME_START).days * 24 + pTimeLeft.hour
-
-        # determine the message to pass
-        if pMsgCode == cons.TK_MSG_TIMEUNLIMITED:
-            # no limit
-            msgStr = _s("Your time is not limited today")
-        elif pMsgCode == cons.TK_MSG_TIMELEFT:
-            # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-            msgStr = " ".join((_s("You have")
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,(_n("%(hour)s hour", "%(hour)s hours", timeLeftHours) % {"hour": timeLeftHours})
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,(_n("%(min)s minute", "%(min)s minutes", pTimeLeft.minute) % {"min": pTimeLeft.minute})
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,(_n("%(sec)s second", "%(sec)s seconds", pTimeLeft.second) % {"sec": pTimeLeft.second})
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,_s("left")
-            ))
-        elif pMsgCode == cons.TK_MSG_TIMECRITICAL:
-            # TRANSLATORS: Your time is up, You will be forcibly logged out in %s seconds
-            msgStr = " ".join((_s("Your time is up, You will be forcibly logged out in")
-                # TRANSLATORS: Your time is up, You will be forcibly logged out in %s seconds
-                ,(_n("%(sec)s second", "%(sec)s seconds", pTimeLeft.second) % {"sec": pTimeLeft.second})
-            ))
-        elif pMsgCode == cons.TK_MSG_TIMELEFTCHANGED:
-            # msg
-            msgStr = _s("Time allowance has changed, please note new time left!")
-        elif pMsgCode == cons.TK_MSG_TIMECONFIGCHANGED:
-            # msg
-            msgStr = _s("Time limit configuration has changed, please note new configuration!")
-        elif pMsgCode == cons.TK_MSG_REMOTE_COMMUNICATION_ERROR:
-            # msg
-            msgStr = _s("There is a problem connecting to timekpr daemon (%s)!" % (pAdditionalMessage))
-        elif pMsgCode == cons.TK_MSG_REMOTE_INVOCATION_ERROR:
-            # msg
-            msgStr = _s("There is a problem communicating to timekpr (%s)!" % (pAdditionalMessage))
-
-        # critial notifications replace itself
-        if pPriority == cons.TK_PRIO_CRITICAL:
-            notifId = self._criticalNotif
-        else:
-            self._criticalNotif = 0
-            notifId = self._criticalNotif
-
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish prepareNotification")
-
-        # pass this back
-        return notifId, timekprIcon, msgStr, timekprPrio
-
-    def notifyUser(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
-        """Notify the user."""
-        # if we have dbus connection, let"s do so
-        if self._notifyInterface is None:
-            # init
-            self.initClientNotifications()
-
-        # can we notify user
-        if self._notifyInterface is not None:
-            # prepare notification
-            notifId, timekprIcon, msgStr, timekprPrio = self.prepareNotification(pMsgCode, pPriority, pTimeLeft, pAdditionalMessage)
-
-            # notify through dbus
-            try:
-                # call dbus method
-                notifId = self._notifyInterface.Notify("Timekpr", notifId, timekprIcon, "Timekpr notification", msgStr, "", {"urgency": timekprPrio}, 2500)
-            except Exception as dbusEx:
-                # we can not send notif through dbus
-                self._notifyInterface = None
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
-                log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
-
-            # save notification id in case it's critical
-            if pPriority == cons.TK_PRIO_CRITICAL:
-                self._criticalNotif = notifId
-
-    def requestTimeLeft(self):
-        """Request time left from server"""
-        # if we have dbus connection, let"s do so
-        if self._timekprInterface is None:
-            # init
-            self.initClientNotifications()
+    def getUserList(self):
+        """Get user list from server"""
+        # defaults
+        userList = []
+        isSuccess = False
 
         # if we have end-point
-        if self._timekprInterface is not None:
-            log.log(cons.TK_LOG_LEVEL_INFO, "requesting timeleft")
+        if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
-                result, message = self._timekprInterface.requestTimeLeft(self._userName)
+                result, message, userList = self._timekprUserAdminInterface.getUserList()
 
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
-            except Exception as dbusEx:
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
                 # we can not send notif through dbus
-                self._timekprInterface = None
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
-                log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
 
-                # show message to user as well
-                self.notifyUser(cons.TK_MSG_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("internal connection error, please check log files"))
+        # result
+        return isSuccess, userList
 
-    def requestTimeLimits(self):
-        """Request time limits from server"""
-        # if we have dbus connection, let"s do so
-        if self._timekprInterface is None:
-            # init
-            self.initClientNotifications()
+    def getUserConfig(self, pUserName):
+        """Get user configuration from server"""
+        # defaults
+        userConfig = {}
+        isSuccess = False
 
         # if we have end-point
-        if self._timekprInterface is not None:
-            log.log(cons.TK_LOG_LEVEL_INFO, "requesting timelimits")
+        if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
-                result, message = self._timekprInterface.requestTimeLimits(self._userName)
+                result, message, userConfig = self._timekprUserAdminInterface.getUserConfiguration(pUserName)
 
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
-            except Exception as dbusEx:
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
                 # we can not send notif through dbus
-                self._timekprInterface = None
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
-                log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
 
-                # show message to user as well
-                self.notifyUser(cons.TK_MSG_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("internal connection error, please check log files"))
+        # result
+        return isSuccess, userConfig
+
+    def setAllowedDays(self, pUserName, pDayList):
+        """Set user allowed days"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setAllowedDays(pUserName, pDayList)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess
+
+    def setAllowedHours(self, pUserName, pDayNumber, pHourList):
+        """Set user allowed days"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setAllowedHours(pUserName, pDayNumber, pHourList)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess
+
+    def setTimeLimitForDays(self, pUserName, pDayLimits):
+        """Set user allowed limit for days"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setTimeLimitForDays(pUserName, pDayLimits)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess
+
+    def setTrackInactive(self, pUserName, pTrackInactive):
+        """Set user allowed days"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setTrackInactive(pUserName, pTrackInactive)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess
+
+    def setTimeLeft(self, pUserName, pOperation, pTimeLeft):
+        """Set user time left"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setTimeLeft(pUserName, pOperation, pTimeLeft)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess

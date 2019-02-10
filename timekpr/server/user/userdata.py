@@ -95,7 +95,7 @@ class timekprUser(object):
             allowedHours = self._timekprUserConfig.getUserAllowedHours(rDay)
 
             # check if it is enabled as per config
-            if str(rDay) in allowedDays:
+            if rDay in allowedDays:
                 dayAllowed = True
             else:
                 dayAllowed = False
@@ -332,7 +332,7 @@ class timekprUser(object):
         # traverse the config and get intervals
         for rDay in range(1, 7+1):
             # if day is ok, then check hours
-            if str(rDay) in allowedDays:
+            if rDay in allowedDays:
                 # assign a time limit for the day
                 timeLimits[str(rDay)] = {cons.TK_CTRL_LIMIT: self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMIT], cons.TK_CTRL_INT: list()}
 

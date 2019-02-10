@@ -397,7 +397,7 @@ class timekprDaemon(dbus.service.Object):
         # result
         return result, message
 
-    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="sias", out_signature="is")
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="ssa{sa{si}}", out_signature="is")
     def setAllowedHours(self, pUserName, pDayNumber, pHourList):
         """Set up allowed hours for the user"""
         """This sets allowed hours for user for particular day

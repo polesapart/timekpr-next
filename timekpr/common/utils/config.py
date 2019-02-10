@@ -502,12 +502,12 @@ class timekprUserConfig(object):
     def getUserAllowedWeekdays(self):
         """Get allowed week days"""
         # result
-        return [result.strip(None) for result in self._timekprUserConfig["ALLOWED_WEEKDAYS"].split(";")]
+        return [int(result.strip(None)) for result in self._timekprUserConfig["ALLOWED_WEEKDAYS"].split(";")]
 
     def getUserLimitsPerWeekdays(self):
         """Get allowed limits per week day"""
         # result
-        return [result.strip(None) for result in self._timekprUserConfig["LIMITS_PER_WEEKDAYS"].split(";")]
+        return [int(result.strip(None)) for result in self._timekprUserConfig["LIMITS_PER_WEEKDAYS"].split(";")]
 
     def getUserTrackInactive(self):
         """Get whether to track inactive sessions"""
@@ -530,7 +530,7 @@ class timekprUserConfig(object):
             for rHour in range(0, 23+1):
                 # convert once
                 hour = str(rHour)
-                print(hour, hour in rHours)
+
                 # do we have config for this hour
                 if hour in rHours:
                     # do we have proper minuten
@@ -548,17 +548,17 @@ class timekprUserConfig(object):
     def setUserAllowedWeekdays(self, pAllowedWeekdays):
         """Set allowed week days"""
         # set up weekdays
-        self._timekprUserConfig["ALLOWED_WEEKDAYS"] = ";".join(pAllowedWeekdays)
+        self._timekprUserConfig["ALLOWED_WEEKDAYS"] = ";".join(map(str, pAllowedWeekdays))
 
     def setUserLimitsPerWeekdays(self, pLimits):
         """Get allowed limits per week day"""
         # set up limits for weekdays
-        self._timekprUserConfig["LIMITS_PER_WEEKDAYS"] = ";".join(pLimits)
+        self._timekprUserConfig["LIMITS_PER_WEEKDAYS"] = ";".join(map(str, pLimits))
 
     def setUserTrackInactive(self, pTrackInactive):
         """Get whether to track inactive sessions"""
         # set track inactive
-        self._timekprUserConfig["TRACK_INACTIVE"] = pTrackInactive
+        self._timekprUserConfig["TRACK_INACTIVE"] = bool(pTrackInactive)
 
 
 class timekprUserControl(object):
