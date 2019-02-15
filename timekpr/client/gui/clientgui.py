@@ -90,7 +90,7 @@ class timekprGUI(object):
         # initial config (everything is to the max)
         for i in range(0, 7):
             # set up default limits
-            self._limitConfig[str(i+1)] = {cons.TK_CTRL_LIMIT: None, cons.TK_CTRL_INT: [[None, None]]}
+            self._limitConfig[str(i+1)] = {cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_INT: [[None, None]]}
 
         # status
         self.setStatus("Started")
@@ -177,8 +177,8 @@ class timekprGUI(object):
 
         # go in sorted order
         for rKey in sorted(self._limitConfig):
-            if self._limitConfig[rKey][cons.TK_CTRL_LIMIT] is not None:
-                limit = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMIT])
+            if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None:
+                limit = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMITD])
                 timeLimitStr = str((limit - cons.TK_DATETIME_START).days * 24 + limit.hour).rjust(2, "0") + ":" + str(limit.minute).rjust(2, "0")
             else:
                 timeLimitStr = _NO_TIME_LABEL_SHORT

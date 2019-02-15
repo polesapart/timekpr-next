@@ -176,7 +176,7 @@ class timekprDaemon(dbus.service.Object):
                 # adjust config
                 self._timekprUserList[userName].adjustLimitsFromConfig()
                 # adjust time spent
-                self._timekprUserList[userName].adjustTimeSpentExplicit()
+                self._timekprUserList[userName].adjustTimeSpentFromControl()
 
         # session list to remove
         removableUsers = {}
@@ -205,10 +205,13 @@ class timekprDaemon(dbus.service.Object):
         for userName in self._timekprUserList:
             # init variables for user
             self._timekprUserList[userName].initTimekprVariables()
+
             # adjust time spent
             isUserActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfigManager.getTimekprSessionsCtrl(), self._timekprConfigManager.getTimekprSessionsExcl(), self._timekprConfigManager.getTimekprSaveTime())
+            # recalculate time left
+            self._timekprUserList[userName].recalculateTimeLeft()
 
-            # if user is not active, we do not send them to death row (or suspend the sentence for a while)
+            # if user is not active, we do not send them to death row (suspend the sentence for a while)
             if not isUserActive and userName in self._timekprUserTerminationList:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving user \"%s\" from certain death" % (self._timekprUserList[userName].getUserName()))
 
@@ -216,7 +219,7 @@ class timekprDaemon(dbus.service.Object):
                 self._timekprUserTerminationList.pop(userName)
 
             # get stats for user
-            timeLeftInARow = self._timekprUserList[userName].getTimeLeft()[2]
+            timeLeftInARow = self._timekprUserList[userName].getTimeLeft()[1]
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s, time left: %i" % (userName, str(isUserActive), timeLeftInARow))
 
@@ -224,13 +227,15 @@ class timekprDaemon(dbus.service.Object):
             if userName not in self._timekprUserTerminationList and isUserActive:
                 # if user has very few time, let's kill him softly
                 if timeLeftInARow <= self._timekprConfigManager.getTimekprTerminationTime():
+                    # how many users are on the death row
+                    killLen = len(self._timekprUserTerminationList)
                     # add user to kill list (add dbus object path)
                     self._timekprUserTerminationList[userName] = self._timekprUserList[userName].getUserPathOnBus()
                     # initiate final countdown after which session is killed
                     self._timekprUserList[userName]._finalCountdown = max(timeLeftInARow, self._timekprConfigManager.getTimekprTerminationTime())
 
                     # in case this is first killing
-                    if len(self._timekprUserTerminationList) == 1:
+                    if killLen == 0:
                         # process users
                         GLib.timeout_add_seconds(1, self.killUsers)
 
@@ -239,6 +244,9 @@ class timekprDaemon(dbus.service.Object):
     def killUsers(self):
         """Terminate user sessions"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start user killer")
+
+        # how many users are on the death row
+        killLen = len(self._timekprUserTerminationList)
 
         # loop through users to be killed
         for rUserName in self._timekprUserTerminationList:
@@ -256,6 +264,8 @@ class timekprDaemon(dbus.service.Object):
                 self._timekprUserList[rUserName].saveSpent()
                 # kill user
                 self._timekprLoginManager.terminateUserSessions(rUserName, self._timekprUserList[rUserName].getUserPathOnBus(), self._timekprConfigManager.getTimekprSessionsCtrl())
+                # now we have one less (we hope he's killed)
+                killLen -= 1
 
             # decrease time to kill
             self._timekprUserList[rUserName]._finalCountdown -= 1
@@ -263,14 +273,13 @@ class timekprDaemon(dbus.service.Object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish user killer")
 
         # if there is nothing to kill
-        if len(self._timekprUserTerminationList) == 0:
+        if killLen < 1:
             return False
         else:
             return True
 
     # --------------- DBUS / communication methods --------------- #
 
-    # TODO: check these comments !
     # these methods are in manager due to certain frontends (if any) could ask config for any user, this does not make client to loop through user objects in DBUS
     # this !initiates! configuration sending to client (this is due to if config changes we send configuration over, so not to duplicate delivery, we do it like this)
 
@@ -504,7 +513,7 @@ class timekprDaemon(dbus.service.Object):
             # check if we have this user
             if pUserName in self._timekprUserList:
                 # inform the user immediately
-                self._timekprUserList[pUserName].adjustTimeSpentExplicit(False)
+                self._timekprUserList[pUserName].adjustTimeSpentFromControl(False)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)

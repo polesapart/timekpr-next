@@ -42,7 +42,7 @@ class timekprNotificationManager(dbus.service.Object):
             ,{cons.TK_NOTIF_LEFT: 300, cons.TK_NOTIF_INTERVAL: 180, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
             ,{cons.TK_NOTIF_LEFT: 120, cons.TK_NOTIF_INTERVAL: 120, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_IMPORTANT}
             ,{cons.TK_NOTIF_LEFT: 0, cons.TK_NOTIF_INTERVAL:60, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
-            ,{cons.TK_NOTIF_LEFT: -86400, cons.TK_NOTIF_INTERVAL: 1, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
+            ,{cons.TK_NOTIF_LEFT: -cons.TK_MAX_DAY_SECS, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
         )
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init notifications")
@@ -89,14 +89,14 @@ class timekprNotificationManager(dbus.service.Object):
             self._lastNotified = effectiveDatetime
 
             # if time left is whole day, we have no limit
-            if pTimeLimitToday >= 86400:
+            if pTimeLimitToday >= cons.TK_MAX_DAY_SECS:
                 # we send no limit just once
                 if self._prevNotificationLvl < 0 or pForce:
                     # no limit
                     self.timeNoLimitNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY])
             else:
                 # limit
-                self.timeLeftNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], pTimeLeftTotal, pTimeLeftToday, pTimeLimitToday)
+                self.timeLeftNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], max(pTimeLeftTotal, 0), max(pTimeLeftToday, 0), pTimeLimitToday)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "time left: %i; %i; %i, notification lvl: %s, priority: %s, force: %s" % (pTimeLeftTotal, pTimeLeftToday, pTimeLimitToday, self._notificationLvl, self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], str(pForce)))
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish processTimeLeft")
@@ -110,7 +110,7 @@ class timekprNotificationManager(dbus.service.Object):
         for rKey, rValue in pTimeLimits.items():
             # dbus dict for holding limits and intervals
             timeLimits[rKey] = dbus.Dictionary(signature="sv")
-            timeLimits[rKey][cons.TK_CTRL_LIMIT] = rValue[cons.TK_CTRL_LIMIT]
+            timeLimits[rKey][cons.TK_CTRL_LIMITD] = rValue[cons.TK_CTRL_LIMITD]
             # dbus list for holding intervals
             timeLimits[rKey][cons.TK_CTRL_INT] = dbus.Array(signature="av")
             # set up dbus dict

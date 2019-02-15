@@ -65,9 +65,167 @@ class timekprUser(object):
         # how many seconds are in this hour
         self._secondsInHour = (self._effectiveDatetime - self._effectiveDatetime.replace(microsecond=0, second=0, minute=0)).total_seconds()
 
+    def initNewDay(self, pTimeSpent):
+        """Init new day"""
+        # reset spent for this hour
+        self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = pTimeSpent
+        # set previous day (that is - it was previous day couple of seconds ago) as not initialized
+        # self._timekprUserData[lastCheckDOW][cons.TK_CTRL_LEFTD] = None
+        # set limit as not initialized for today, so new limits will apply properly
+        # self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = None
+        # set spent as not initialized for today, so new limits will apply properly
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = pTimeSpent
+        # set spent for week as not initialized for today, so new limits will apply properly
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTW] += pTimeSpent
+        # set spent for month as not initialized for today, so new limits will apply properly
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] += pTimeSpent
+
+    def initUserLimits(self):
+        """Initialize default limits for the user"""
+        # the config works as follows:
+        #    we have cons.LIMIT, this limit is either time allowed per day or if that is not used, all seconds in allowed hours
+        #    in hour section (0 is the sample in config), we have whether one is allowed to work in particular hour and then we have time spent (which can be paused as well)
+        #    the rest must be easy
+        # define structure for limits
+        # day: next day | limit | left per day + hours 0 - 23 (0 hour sample included)
+        limits = {
+            # per day values
+             "1"                 : {cons.TK_CTRL_NDAY: "2", cons.TK_CTRL_PDAY: "7", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"2"                 : {cons.TK_CTRL_NDAY: "3", cons.TK_CTRL_PDAY: "1", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"3"                 : {cons.TK_CTRL_NDAY: "4", cons.TK_CTRL_PDAY: "2", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"4"                 : {cons.TK_CTRL_NDAY: "5", cons.TK_CTRL_PDAY: "3", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"5"                 : {cons.TK_CTRL_NDAY: "6", cons.TK_CTRL_PDAY: "4", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"6"                 : {cons.TK_CTRL_NDAY: "7", cons.TK_CTRL_PDAY: "5", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"7"                 : {cons.TK_CTRL_NDAY: "1", cons.TK_CTRL_PDAY: "6", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            # additional limits
+            ,cons.TK_CTRL_LWK    : None  # this is limit per week (not used yet)
+            ,cons.TK_CTRL_LMON   : None  # this is limit per month (not used yet)
+            # global time acconting values
+            ,cons.TK_CTRL_LEFT   : 0 # this is how much time left is countinously
+            ,cons.TK_CTRL_LEFTW  : 0  # this is left per week (not used yet)
+            ,cons.TK_CTRL_LEFTM  : 0  # this is left per month (not used yet)
+            ,cons.TK_CTRL_SPENTW : 0  # this is spent per week (not used yet)
+            ,cons.TK_CTRL_SPENTM : 0  # this is spent per month (not used yet)
+            # checking values
+            ,cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0)  # this is last checked time
+            ,cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0)  # this is last save time (physical save will be less often as check)
+            ,cons.TK_CTRL_LMOD   : datetime.now().replace(microsecond=0)  # this is last control save time
+            ,cons.TK_CTRL_LCMOD  : datetime.now().replace(microsecond=0)  # this is last config save time
+            # user values
+            ,cons.TK_CTRL_UID    : None  # user id (not used, but still saved)
+            ,cons.TK_CTRL_UNAME  : ""  # user name, this is the one we need
+            ,cons.TK_CTRL_UPATH  : ""  # this is for DBUS communication purposes
+        }
+
+        # fill up every hour
+        # loop through days
+        for i in range(1, 7+1):
+            # loop through hours
+            for j in range(0, 23+1):
+                # initial limit is whole hour
+                limits[str(i)][str(j)] = {cons.TK_CTRL_ACT: False, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+
+        # return limits
+        return limits
+
     def deInitUser(self):
+        """De-initialize timekpr user"""
         # deinit
         self._timekprUserNotification.deInitUser()
+
+    def recalculateTimeLeft(self):
+        """Recalculate time left based on spent and configuration"""
+        # reset "lefts"
+        self._timekprUserData[cons.TK_CTRL_LEFT] = 0
+
+        # go through days
+        for i in [self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]]:
+            # reset "lefts"
+            self._timekprUserData[i][cons.TK_CTRL_LEFTD] = 0
+
+            # how many seconds left for that day (not counting hours limits yet)
+            secondsLeft = self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD]
+            secondsToRemove = 0
+
+            # determine current DOW
+            if self._currentDOW == i:
+                # enable current values
+                currentHOD = self._currentHOD
+            else:
+                currentHOD = 0
+
+            # go through hours for this day
+            for j in range(currentHOD, 23+1):
+                # reset seconds to add
+                secondsToAddHour = 0
+
+                # calculate only if hour is enabled
+                if self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT]:
+                    # certain values need to be calculated as per this hour
+                    if self._currentDOW == i and self._currentHOD == j:
+                        # this is how many seconds are actually left in hour (as per generic time calculations)
+                        secondsLeftHour = self._secondsLeftHour
+                        # current minute, to determine where we are in config
+                        # currentMOH = self._currentMOH
+                        # current second of this particular moment (minute)
+                        currentSOM = self._effectiveDatetime.second
+                    else:
+                        # full hour available
+                        secondsLeftHour = 3600
+                        # minutes are 0 for future hours
+                        # currentMOH = 0
+                        # seconds are 0 for future minutes
+                        currentSOM = 0
+
+                    # calculate how many seconds are left in this hour as per configuration
+                    secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60 - currentSOM
+                    # save seconds to subtract for this hour
+                    secondsToRemove = min(secondsLeftHour, secondsLeftHourLimit, secondsLeft)
+
+                    # if there is no continuation with time (eg. this hour start minutes does not align with prev hour end minutes), this is the end
+                    if self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] != 0:
+                        # there is a break in countinous interval
+                        secondsToRemove = secondsLeft + 1
+                    # there is partial continuation of interval
+                    elif self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] == 0 and self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] != 60:
+                        # there is a break in continous interval, but we still need to add some time
+                        secondsToAddHour = secondsToRemove
+                        secondsToRemove = secondsLeft + 1
+                    # time finished
+                    elif secondsToRemove == 0:
+                        # time is up
+                        secondsToRemove = 1
+                    # there's still time to remove from limit
+                    else:
+                        secondsToAddHour = secondsToRemove
+                # hour is not available
+                else:
+                    # if hour is disabled, this is the end of accounting
+                    secondsToRemove = secondsLeft + 1
+
+                # calculate how many secodns are left
+                secondsLeft -= secondsToRemove
+
+                # debug
+                if log.isDebug():
+                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addHour: %s, remove: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, secondsToRemove))
+
+                # adjust left continously
+                self._timekprUserData[cons.TK_CTRL_LEFT] += secondsToAddHour
+                # adjust left this hour
+                self._timekprUserData[i][cons.TK_CTRL_LEFTD] += secondsToAddHour
+
+                # this is it
+                if secondsLeft < 0:
+                    break
+
+            # this is it
+            if secondsLeft < 0:
+                break
+
+        # debug
+        if log.isDebug():
+            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "row: %s, day: %s, day+1: %s" % (self._timekprUserData[cons.TK_CTRL_LEFT], self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD], self._timekprUserData[self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]][cons.TK_CTRL_LEFTD]))
 
     def adjustLimitsFromConfig(self, pSilent=True):
         """Adjust limits as per loaded configuration"""
@@ -82,14 +240,26 @@ class timekprUser(object):
         # there might be less than 7 days allowed, so we care about exising days only
         limitLen = len(limitsPerWeekday)
 
+        # we do not have value (yet)
+        if self._timekprUserData[cons.TK_CTRL_SPENTW] is None:
+            self._timekprUserData[cons.TK_CTRL_SPENTW] = 0
+        # we do not have value (yet)
+        if self._timekprUserData[cons.TK_CTRL_SPENTM] is None:
+            self._timekprUserData[cons.TK_CTRL_SPENTM] = 0
+
         # for allowed weekdays
         for rDay in range(1, 7+1):
             # set up limits
-            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMIT] = float(limitsPerWeekday[rDay-1]) if limitLen >= rDay else 0
+            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = int(limitsPerWeekday[rDay-1]) if limitLen >= rDay else 0
+
+            # we do not have value (yet)
+            if self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD] is None:
+                self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD] = 0
+
             # only if not initialized
-            if self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFT] < 0:
+            if self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFTD] is None:
                 # initialize left as limit, since we just loaded the configuration
-                self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFT] = self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMIT]
+                self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFTD] = self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] - self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD]
 
             # get hours for particular day
             allowedHours = self._timekprUserConfig.getUserAllowedHours(rDay)
@@ -104,15 +274,15 @@ class timekprUser(object):
             for rHour in range(0, 23+1):
                 # if day is disabled, it does not matter whether hour is
                 if not dayAllowed:
+                    # disallowed
                     hourAllowed = False
                 # if hour is allowed
                 elif str(rHour) in allowedHours:
+                    # disallowed
                     hourAllowed = True
-
                     # set up minutes
                     self._timekprUserData[str(rDay)][str(rHour)][cons.TK_CTRL_SMIN] = allowedHours[str(rHour)][cons.TK_CTRL_SMIN]
                     self._timekprUserData[str(rDay)][str(rHour)][cons.TK_CTRL_EMIN] = allowedHours[str(rHour)][cons.TK_CTRL_EMIN]
-
                 # disallowed
                 else:
                     hourAllowed = False
@@ -137,15 +307,28 @@ class timekprUser(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustLimitsFromConfig")
 
-    def adjustTimeSpentExplicit(self, pSilent=True):
+    def adjustTimeSpentFromControl(self, pSilent=True):
         """Adjust limits as per loaded configuration"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentExplicit")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentFromControl")
 
         # read from config
         self._timekprUserControl.loadControl()
 
+        # if day has changed
+        if self._timekprUserControl.getUserLastChecked().date() != self._effectiveDatetime.date():
+            # day has changed, we set spent time as calculated
+            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
+        # day has not changed
+        else:
+            # save time spent this day
+            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = self._timekprUserControl.getUserTimeSpent()
+
         # import that into runtime config (if last check day is the same as current)
-        self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMIT] - (self._timekprUserControl.getUserTimeSpent() if self._timekprUserControl.getUserLastChecked().date() == self._effectiveDatetime.date() else 0)
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD]
+
+        # calculate spent for week & month
+        # self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = self._timekprUserControl.getUserTimeSpentWeek()
+        # self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = self._timekprUserControl.getUserTimeSpentMonth()
 
         # update last file mod time
         self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
@@ -155,7 +338,7 @@ class timekprUser(object):
             # inform
             self._timekprUserNotification.timeLeftChangedNotification(cons.TK_PRIO_IMPORTANT_INFO)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentExplicit")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentFromControl")
 
     def adjustTimeSpentActual(self, pSessionTypes, pSessionTypesExcl, pTimekprSaveInterval):
         """Adjust time spent (and save it)"""
@@ -166,47 +349,62 @@ class timekprUser(object):
         # get time spent
         timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
 
-        # if time spent is very much higher than the default polling time, computer might went to sleep?
-        if timeSpent >= cons.TK_POLLTIME * 15:
-            timeSpent = 0
-
         # determine if active
         isUserActive = self.isUserActive(pSessionTypes)
 
-        # get time spent for this hour (if hour passed in between checks, we need to properly adjust this hour)
-        # adjust previous hour (not that we need it)
-        if timeSpent > self._secondsInHour and self._currentHOD != 0:
-            self._timekprUserData[self._currentDOW][str(self._currentHOD-1)][cons.TK_CTRL_SPENT] += timeSpent - self._secondsInHour
+        # if time spent is very much higher than the default polling time, computer might went to sleep?
+        if timeSpent >= cons.TK_POLLTIME * 15:
+            # sleeping time is added to inactive time (there is a question whether that's OK, disabled currently)
+            # self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SLEEP] += timeSpent
+            # effectively spent is 0 (we ignore +/- 3 seconds here)
+            timeSpent = 0
+        else:
+            # get time spent for this hour (if hour passed in between checks and it's not the first hour, we need to properly adjust this hour)
+            if timeSpent > self._secondsInHour and self._currentHOD != 0:
+                # adjust previous hour
+                self._timekprUserData[self._currentDOW][str(self._currentHOD-1)][cons.TK_CTRL_SPENTH] += timeSpent - self._secondsInHour
 
-        # adjust time spent for this hour
-        timeSpent = min(timeSpent, self._secondsInHour)
+            # adjust time spent for this hour
+            timeSpent = min(timeSpent, self._secondsInHour)
 
         # how long user has been sleeping
         if not isUserActive:
             # track sleep time
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SLEEP] += timeSpent
-
         # adjust time spent only if user is active
-        if isUserActive:
-            # decrease the limit
-            # self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT] = min(self._secondsLeftDay, max(self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT] - timeSpent, 0))
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT] = max(self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT] - timeSpent, 0)
-            # adjust time spent
-            self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENT] += timeSpent
+        elif isUserActive:
+            # adjust time spent this hour
+            self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] += timeSpent
+            # adjust time spent this day
+            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] += timeSpent
+            # adjust time spent this week
+            self._timekprUserData[cons.TK_CTRL_SPENTW] += timeSpent
+            # adjust time spent this month
+            self._timekprUserData[cons.TK_CTRL_SPENTM] += timeSpent
 
         # adjust last time checked
         self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
 
         # if there is a day change, we need to adjust time for this day and day after
         if lastCheckDOW != self._currentDOW:
-            # set previous day (that is - it was previous day couple of seconds ago) as not initialized
-            self._timekprUserData[lastCheckDOW][cons.TK_CTRL_LEFT] = -1
-            # set limit as not initialized for today, so new limits will apply properly
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT] = -1
-            # load limits starting from today
-            self.adjustLimitsFromConfig()
-            # adjust time spent from control file
-            self.adjustTimeSpentExplicit()
+            # only if this is not the end of the day (this should not happen)
+            if self._currentHOD != 23:
+                # clean up hours for this day
+                for j in range(self._currentHOD+1, 23+1):
+                    # reset spent for this hour
+                    self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SPENTH] = 0
+                    # reset sleeping
+                    self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SLEEP] = 0
+                    # TODO: do we need to clean next day as well? (think)
+
+            # reset spent for this hour
+            self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent
+            # set spent as not initialized for today, so new limits will apply properly
+            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = timeSpent
+            # set spent for week as not initialized for today, so new limits will apply properly
+            self._timekprUserData[cons.TK_CTRL_SPENTW] = timeSpent
+            # set spent for month as not initialized for today, so new limits will apply properly
+            self._timekprUserData[cons.TK_CTRL_SPENTD] = timeSpent
 
         # check if we need to save progress
         if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprSaveInterval or lastCheckDOW != self._currentDOW:
@@ -221,13 +419,30 @@ class timekprUser(object):
     def getTimeLeft(self, pForce=False):
         """Get how much time is left (for this day and in a row for max this and next day)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start getTimeLeft")
+        # time left in a row
+        timeLeftToday = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD]
+        # time left in a row
+        timeLeftInARow = self._timekprUserData[cons.TK_CTRL_LEFT]
+        # time spent this session
+        timeSpentThisSession = 0
+        # time inactive this session
+        timeInactiveThisSession = 0
 
+        # go through days
+        for i in [self._timekprUserData[self._currentDOW][cons.TK_CTRL_PDAY], self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]]:
+            # sleep is counted for hours, spent is day and hours
+            # go through hours for this day
+            for j in range(0, 23+1):
+                # time spent this session (but not more then prev, current, past days)
+                timeSpentThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SPENTH]
+                # time inactive this session (but not more then prev, current, past days)
+                timeInactiveThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
+
+        """
         # default
-        timeLeftHour = 0
         timeLeftToday = 0
         timeLeftInARow = 0
         timeLeftInARowCalculated = False
-        timeLeft2days = 0
         timeSpentThisBoot = 0
         timeInactiveThisBoot = 0
 
@@ -237,13 +452,13 @@ class timekprUser(object):
         # go through days
         for i in [self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]]:
             # how many seconds left for that day
-            secondsLeft = self._timekprUserData[i][cons.TK_CTRL_LEFT]
+            secondsLeft = self._timekprUserData[i][cons.TK_CTRL_LEFTD]
 
             # go through hours for this day
             for j in range(0, 23+1):
                 # count inactive time
                 timeInactiveThisBoot += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
-                timeSpentThisBoot += self._timekprUserData[i][str(j)][cons.TK_CTRL_SPENT]
+                timeSpentThisBoot += self._timekprUserData[i][str(j)][cons.TK_CTRL_SPENTH]
 
                 # starting this hour we need to calculate a lot of stuff
                 if j >= currentHOD or self._currentDOW != i:
@@ -285,10 +500,6 @@ class timekprUser(object):
                         if self._currentDOW == i:
                             # time left today
                             timeLeftToday += secondsToAdd
-                            # and current hour
-                            if currentHOD == j:
-                                # time left today
-                                timeLeftHour += secondsToAdd
 
                         # calculate continous interval
                         if timeLeftInARowCalculated is not True:
@@ -305,21 +516,52 @@ class timekprUser(object):
                     else:
                         # continoues interval breaks
                         timeLeftInARowCalculated = True
-
-                    # for 2 days
-                    timeLeft2days += secondsToAdd
-
+        """
         # debug
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisBoot, timeInactiveThisBoot))
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "timeLeftHour: %s, timeLeft2days: %s" % (timeLeftHour, timeLeft2days))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # process notifications, if needed
-        self._timekprUserNotification.processTimeLeft(pForce, timeSpentThisBoot, timeInactiveThisBoot, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMIT], self._timekprUserConfig.getUserTrackInactive())
+        self._timekprUserNotification.processTimeLeft(pForce, timeSpentThisSession, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], self._timekprUserConfig.getUserTrackInactive())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getTimeLeft")
 
         # return calculated
-        return timeLeftHour, timeLeftToday, timeLeftInARow, timeLeft2days, timeSpentThisBoot, timeInactiveThisBoot
+        return timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession
+
+    def saveSpent(self):
+        """Save the time spent by the user"""
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start saveSpent")
+
+        # initial config loaded
+        timekprConfigLoaded = False
+
+        # check whether we need to reload file (if externally modified)
+        if self._timekprUserData[cons.TK_CTRL_LCMOD] != self._timekprUserConfig.getUserLastModified():
+            # load config
+            self.adjustLimitsFromConfig(pSilent=False)
+            # config loaded, we need to adjust time spent as well
+            timekprConfigLoaded = True
+
+        # check whether we need to reload file (if externally modified)
+        if self._timekprUserData[cons.TK_CTRL_LMOD] != self._timekprUserControl.getUserLastModified() or timekprConfigLoaded:
+            # load config
+            self.adjustTimeSpentFromControl(pSilent=False)
+
+        # adjust save time as well
+        self._timekprUserData[cons.TK_CTRL_LSAVE] = self._effectiveDatetime
+
+        # save spent time
+        self._timekprUserControl.setUserTimeSpent(self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD])
+        self._timekprUserControl.setUserLastChecked(self._effectiveDatetime)
+        self._timekprUserControl.saveControl()
+        # renew last modified
+        self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
+
+        # if debug
+        if log.isDebug():
+            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "save spent structure: %s" % (str(self._timekprUserData[self._currentDOW])))
+
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saveSpent")
 
     def getTimeLimits(self):
         """Calculate time limits for sendout to clients"""
@@ -334,7 +576,7 @@ class timekprUser(object):
             # if day is ok, then check hours
             if rDay in allowedDays:
                 # assign a time limit for the day
-                timeLimits[str(rDay)] = {cons.TK_CTRL_LIMIT: self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMIT], cons.TK_CTRL_INT: list()}
+                timeLimits[str(rDay)] = {cons.TK_CTRL_LIMITD: self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD], cons.TK_CTRL_INT: list()}
 
                 # init hours for intervals
                 startHour = None
@@ -372,45 +614,6 @@ class timekprUser(object):
         # process notifications, if needed
         self._timekprUserNotification.processTimeLimits(timeLimits)
 
-    def initUserLimits(self):
-        """Initialize default limits for the user"""
-        # the config works as follows:
-        #    we have cons.LIMIT, this limit is either time allowed per day or if that is not used, all seconds in allowed hours
-        #    in hour section (0 is the sample in config), we have whether one is allowed to work in particular hour and then we have time spent (which can be paused as well)
-        #    the rest must be easy
-
-        # define structure for limits
-        # day: next day | limit | left per day + hours 0 - 23 (0 hour sample included)
-        limits = {
-             "1"                 : {cons.TK_CTRL_NDAY: "2", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"2"                 : {cons.TK_CTRL_NDAY: "3", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"3"                 : {cons.TK_CTRL_NDAY: "4", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"4"                 : {cons.TK_CTRL_NDAY: "5", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"5"                 : {cons.TK_CTRL_NDAY: "6", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"6"                 : {cons.TK_CTRL_NDAY: "7", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"7"                 : {cons.TK_CTRL_NDAY: "1", cons.TK_CTRL_LIMIT: -1, cons.TK_CTRL_LEFT: -1, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,cons.TK_CTRL_LWK    : 0  # this is limit per week (not used yet)
-            ,cons.TK_CTRL_LMON   : 0  # this is limit per month (not used yet)
-            ,cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0)  # this is last checked time
-            ,cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0)  # this is last save time (physical save will be less often as check)
-            ,cons.TK_CTRL_LMOD   : datetime.now().replace(microsecond=0)  # this is last control save time
-            ,cons.TK_CTRL_LCMOD  : datetime.now().replace(microsecond=0)  # this is last config save time
-            ,cons.TK_CTRL_UID    : -1  # user id (not used, but still saved)
-            ,cons.TK_CTRL_UNAME  : ""  # user name, this is the one we need
-            ,cons.TK_CTRL_UPATH  : ""  # this is for DBUS communication purposes
-        }
-
-        # fill up every hour
-        # loop through days
-        for i in range(1, 7+1):
-            # loop through hours
-            for j in range(0, 23+1):
-                # initial limit is whole hour
-                limits[str(i)][str(j)] = {cons.TK_CTRL_ACT: False, cons.TK_CTRL_SPENT: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
-
-        # return limits
-        return limits
-
     def getUserPathOnBus(self):
         """Return user DBUS path"""
         return self._timekprUserData[cons.TK_CTRL_UPATH]
@@ -426,44 +629,6 @@ class timekprUser(object):
     def isUserActive(self, pSessionTypes):
         """Whether user is active"""
         return self._timekprUserManager.isUserActive(pSessionTypes, self.getTrackInactive())
-
-    def saveSpent(self):
-        """Save the time spent by the user"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start saveSpent")
-
-        # initial config loaded
-        timekprConfigLoaded = False
-
-        # check whether we need to reload file (if externally modified)
-        if self._timekprUserData[cons.TK_CTRL_LCMOD] != self._timekprUserConfig.getUserLastModified():
-            # load config
-            self.adjustLimitsFromConfig(pSilent=False)
-            # config loaded, we need to adjust time spent as well
-            timekprConfigLoaded = True
-
-        # check whether we need to reload file (if externally modified)
-        if self._timekprUserData[cons.TK_CTRL_LMOD] != self._timekprUserControl.getUserLastModified() or timekprConfigLoaded:
-            # load config
-            self.adjustTimeSpentExplicit(pSilent=False)
-
-        # spent
-        timeSpent = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMIT] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFT]
-
-        # adjust save time as well
-        self._timekprUserData[cons.TK_CTRL_LSAVE] = self._effectiveDatetime
-
-        # save spent time
-        self._timekprUserControl.setUserTimeSpent(timeSpent)
-        self._timekprUserControl.setUserLastChecked(self._effectiveDatetime)
-        self._timekprUserControl.saveControl()
-        # renew last modified
-        self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
-
-        # if debug
-        if log.isDebug():
-            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "save spent structure: %s" % (str(self._timekprUserData[self._currentDOW])))
-
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saveSpent")
 
     def processFinalWarning(self):
         """Process emergency message about killing"""

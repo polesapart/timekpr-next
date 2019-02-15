@@ -35,7 +35,7 @@ class timekprNotificationArea(object):
         # initialize priority
         self._lastUsedPriority = ""
         # initialize time left
-        self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=86400)
+        self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_MAX_DAY_SECS)
         # critical notification (to replace itself)
         self._criticalNotif = 0
         # whether to show secnds in systray
@@ -167,7 +167,7 @@ class timekprNotificationArea(object):
         # we can check limits only when this day has configuration
         if currDay in pLimits:
             # check the limit
-            if pLimits[currDay][cons.TK_CTRL_LIMIT] >= 86400:
+            if pLimits[currDay][cons.TK_CTRL_LIMITD] >= cons.TK_MAX_DAY_SECS:
                 # reconfigure labels
                 self._noLimit = True
             else:

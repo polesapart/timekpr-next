@@ -10,7 +10,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.1.7"
+TK_VERSION = "0.1.8"
 TK_DEV_ACTIVE = True  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -18,6 +18,7 @@ TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 TK_LOG_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 TK_DATETIME_START = datetime(2018, 1, 1)
+TK_MAX_DAY_SECS = 86400
 
 # logging
 TK_LOG_LEVEL_INFO = 1
@@ -59,38 +60,45 @@ TK_DBUS_USER_ADMIN_INTERFACE = "com.timekpr.server.user.admin"
 TK_DBUS_ANSWER_TIME = 3
 
 # user properties
-TK_CTRL_UID = "userid"
-TK_CTRL_UNAME = "username"
-TK_CTRL_UPATH = "userpath"
+TK_CTRL_UID = "USERID"
+TK_CTRL_UNAME = "USERNAME"
+TK_CTRL_UPATH = "USERPATH"
 
 # limit configuration
-TK_CTRL_NDAY = "nextday"   # next day idx
-TK_CTRL_LIMIT = "limit"    # limit idx
-TK_CTRL_LEFTD = "leftd"    # time left today idx
-TK_CTRL_LEFT = "left"      # time left idx
-TK_CTRL_LCHECK = "lchk"    # last checked idx
-TK_CTRL_LSAVE = "lsave"    # last saved idx
-TK_CTRL_LMOD = "lmod"      # file modification idx (control)
-TK_CTRL_LCMOD = "lmcod"    # file modification idx (config)
-TK_CTRL_LWK = "lwk"        # left per week idx
-TK_CTRL_LMON = "lmon"      # left per month idx
-TK_CTRL_ACT = "active"     # is hour enabled
-TK_CTRL_SLEEP = "sleep"    # time spent in "inactive"
-TK_CTRL_SPENT = "spent"    # time spent in this hour
-TK_CTRL_SMIN = "startmin"  # start minute in this hour
-TK_CTRL_EMIN = "endmin"    # end minute in this hour
-TK_CTRL_INT = "intervals"  # intervals of time available to user
-TK_CTRL_TRACK = "tracki"   # whether to track inactive sessions
+TK_CTRL_NDAY = "NEXTDAY"   # next day idx
+TK_CTRL_PDAY = "PREVDAY"   # previous day idx
+TK_CTRL_LIMITD = "LIMIT"   # limit idx
+TK_CTRL_LEFTD = "LEFTD"    # time left today idx
+TK_CTRL_LEFT = "LEFT"      # time left idx (continously)
+TK_CTRL_LEFTW = "LEFTW"    # time left for week
+TK_CTRL_LEFTM = "LEFTM"    # time left for month
+TK_CTRL_LCHECK = "LCHK"    # last checked idx
+TK_CTRL_LSAVE = "LSAVE"    # last saved idx
+TK_CTRL_LMOD = "LMOD"      # file modification idx (control)
+TK_CTRL_LCMOD = "LMCOD"    # file modification idx (config)
+TK_CTRL_LWK = "LWK"        # left per week idx
+TK_CTRL_LMON = "LMON"      # left per month idx
+TK_CTRL_ACT = "ACTIVE"     # is hour enabled
+TK_CTRL_SLEEP = "SLEEP"    # time spent in "inactive"
+TK_CTRL_SPENT = "SPENT"    # time spent in this session
+TK_CTRL_SPENTH = "SPENTH"  # time spent in this hour
+TK_CTRL_SPENTD = "SPENTD"  # time spent in this day
+TK_CTRL_SPENTW = "SPENTW"  # time spent for week
+TK_CTRL_SPENTM = "SPENTM"  # time spent for month
+TK_CTRL_SMIN = "STARTMIN"  # start minute in this hour
+TK_CTRL_EMIN = "ENDMIN"    # end minute in this hour
+TK_CTRL_INT = "INTERVALS"  # intervals of time available to user
+TK_CTRL_TRACK = "TRACKI"   # whether to track inactive sessions
 
 # notificaton limits
-TK_NOTIF_LEFT = "left"
-TK_NOTIF_INTERVAL = "interval"
-TK_NOTIF_URGENCY = "urgency"
+TK_NOTIF_LEFT = "LEFT"
+TK_NOTIF_INTERVAL = "INTERVAL"
+TK_NOTIF_URGENCY = "URGENCY"
 
 # notification idx config
-TK_ICON_NOTIF = "notif-icon"
-TK_ICON_STAT = "status-icon"
-TK_DBUS_PRIO = "dbus-prio"
+TK_ICON_NOTIF = "NOTIF-ICON"
+TK_ICON_STAT = "STATUS-ICON"
+TK_DBUS_PRIO = "DBUS-PRIO"
 
 # session types (and whether they are subject to termination)
 # "unspecified" (for cron PAM sessions and suchalike), "tty" (for text logins) or "x11"/"mir"/"wayland" (for graphical logins).
@@ -111,7 +119,7 @@ TK_ALLOWED_HOURS = "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;2
 # default value for allowed week days
 TK_ALLOWED_WEEKDAYS = "1;2;3;4;5;6;7"
 # default value for limit per day
-TK_LIMITS_PER_WEEKDAYS = "86400;86400;86400;86400;86400;86400;86400"
+TK_LIMITS_PER_WEEKDAYS = "%s;%s;%s;%s;%s;%s;%s" % (TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS)
 
 # ## default values for control ##
 # time control
@@ -156,14 +164,14 @@ TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-y
 # define admin commands
 TK_ADMIN_COMMANDS = {
     # "-setloglevel"             : ""
-    #,"-setpolltime"             : ""
-    #,"-setsavetime"             : ""
-    #,"-settrackinactive"        : ""
-    #,"-setterminationtime"      : ""
-    #,"-setfinalwarningtime"     : ""
-    #,"-setsessiontypes"         : ""
-    #,"-setexcludedsessiontypes" : ""
-    #,"-setexcludedusers"        : ""
+    # ,"-setpolltime"             : ""
+    # ,"-setsavetime"             : ""
+    # ,"-settrackinactive"        : ""
+    # ,"-setterminationtime"      : ""
+    # ,"-setfinalwarningtime"     : ""
+    # ,"-setsessiontypes"         : ""
+    # ,"-setexcludedsessiontypes" : ""
+    # ,"-setexcludedusers"        : ""
 }
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {

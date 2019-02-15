@@ -10,6 +10,9 @@ from timekpr.common.utils.config import timekprUserConfig
 from timekpr.common.utils.config import timekprUserControl
 from timekpr.common.utils.config import timekprConfig
 
+# imports
+from datetime import datetime
+
 
 class timekprUserConfigurationProcessor(object):
     """Validate and update configuration data for timekpr user"""
@@ -243,7 +246,7 @@ class timekprUserConfigurationProcessor(object):
             try:
                 for rLimit in pDayLimits:
                     # try to convert seconds in day and normalize seconds in proper interval
-                    limits.append(max(min(int(rLimit), 86400), 0))
+                    limits.append(max(min(int(rLimit), cons.TK_MAX_DAY_SECS), 0))
             except Exception:
                 # result
                 result = -1
@@ -321,7 +324,12 @@ class timekprUserConfigurationProcessor(object):
             if pOperation is "=" or empty, the time is set as it is"""
 
         # check if we have this user
-        result, message = self.loadAndCheckUserControl()
+        result, message = self.loadAndCheckUserConfiguration()
+
+        # if we are still fine
+        if result == 0:
+            # check if we have this user
+            result, message = self.loadAndCheckUserControl()
 
         # if we are still fine
         if result != 0:
@@ -351,11 +359,11 @@ class timekprUserConfigurationProcessor(object):
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
-                        setLimit = self._timekprUserControl.getUserTimeSpent() - pTimeLeft
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() - pTimeLeft, -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
                     elif pOperation == "-":
-                        setLimit = self._timekprUserControl.getUserTimeSpent() + pTimeLeft
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() + pTimeLeft, -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
                     elif pOperation == "=":
-                        setLimit = pTimeLeft
+                        setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
 
                     # set up config
                     self._timekprUserControl.setUserTimeSpent(setLimit)

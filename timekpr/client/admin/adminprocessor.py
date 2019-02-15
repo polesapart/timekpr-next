@@ -7,12 +7,13 @@ Created on Aug 28, 2018
 # imports
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
-#from datetime import timedelta
+# from datetime import timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
+
 
 # !!! WIP !!!
 class timekprAdminClient(object):
@@ -30,7 +31,6 @@ class timekprAdminClient(object):
 
     def startTimekprAdminClient(self, *args):
         """Start up timekpr admin (choose gui or cli and start this up)"""
-
         # check whether we need CLI or GUI
         if len(args) < 2:
             # use GUI
@@ -44,7 +44,7 @@ class timekprAdminClient(object):
     # --------------- parameter validation methods --------------- #
 
     def checkAndExecuteAdminCommands(self, *args):
-        """Init connections to dbus provided by server"""
+        """Init connection to timekpr dbus server"""
         # initial param len
         paramIdx = 1
         paramLen = len(args)

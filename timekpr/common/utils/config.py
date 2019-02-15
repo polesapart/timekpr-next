@@ -620,7 +620,7 @@ class timekprUserControl(object):
 
             # read
             param = "TIME_SPENT"
-            self._timekprUserControl[param] = min(max(self._timekprUserControlParser.getint(section, param), 0), 86400)
+            self._timekprUserControl[param] = min(max(self._timekprUserControlParser.getint(section, param), -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
             # read
             param = "LAST_CHECKED"
             self._timekprUserControl[param] = datetime.strptime(self._timekprUserControlParser.get(section, param), cons.TK_DATETIME_FORMAT)

@@ -8,19 +8,20 @@ Created on Aug 28, 2018
 import dbus
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
-from gettext import gettext as _s
-from gettext import ngettext as _n
+# from gettext import gettext as _s
+# from gettext import ngettext as _n
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.common.utils import misc
-from timekpr.client.interface.speech.espeak import timekprSpeech
+# from timekpr.client.interface.speech.espeak import timekprSpeech
 
 # default loop
 DBusGMainLoop(set_as_default=True)
 
-### !!! WIP !!!
+
+# ## !!! WIP !!!
 class timekprAdminConnector(object):
     """Main class for supporting indicator notifications"""
 
@@ -42,9 +43,6 @@ class timekprAdminConnector(object):
 
     def initTimekprConnection(self):
         """Init dbus (connect to timekpr for info)"""
-        # trying to connect
-        #log.consoleOut("trying to connect to timekpr daemon")
-
         # only if notifications are ok
         if self._timekprObject is None:
             try:
@@ -55,8 +53,6 @@ class timekprAdminConnector(object):
                 self._timekprObject = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH)
                 # measurement logging
                 log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                #log.consoleOut("connected to timekpr daemon")
             except Exception:
                 self._timekprObject = None
                 # logging
@@ -69,8 +65,6 @@ class timekprAdminConnector(object):
                 self._timekprUserAdminInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_USER_ADMIN_INTERFACE)
                 # measurement logging
                 log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_ADMIN_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                #log.consoleOut("connected to timekpr user admin interface")
             except Exception:
                 self._timekprUserAdminInterface = None
                 # logging
@@ -83,8 +77,6 @@ class timekprAdminConnector(object):
                 self._timekprAdminInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_ADMIN_INTERFACE)
                 # measurement logging
                 log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_ADMIN_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                #log.consoleOut("connected to timekpr admin interface")
             except Exception:
                 self._timekprAdminInterface = None
                 # logging

@@ -1,3 +1,15 @@
+timekpr-next (0.1.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixes for user administration via DBUS and CLI
+  * major time accounting fixes
+  * clean up for user data processor
+
+  TODO: administration via GUI
+  TODO: week and month quotas
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 15 Feb 2019 6:53:03 +0300
+
 timekpr-next (0.1.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * implemented user administration via DBUS
