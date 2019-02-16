@@ -15,14 +15,14 @@ resource/server/timekpr.USER.conf var/lib/timekpr/config
 resource/server/USER.time var/lib/timekpr/work
 
 # icons
-resource/icons/timekpr-client.png usr/share/icons/hicolor/128x128/apps/
+resource/icons/timekpr-client.png usr/share/icons/hicolor/64x64/apps/
 resource/icons/timekpr-client.svg usr/share/icons/hicolor/scalable/apps/
 resource/icons/timekpr-client.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-limited-green.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-limited-red.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-limited-yellow.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-unlimited-green.svg usr/share/timekpr/icons/
-resource/icons/timekpr.png usr/share/icons/hicolor/128x128/apps/
+resource/icons/timekpr.png usr/share/icons/hicolor/64x64/apps/
 resource/icons/timekpr.svg usr/share/icons/hicolor/scalable/apps/
 resource/icons/timekpr.svg usr/share/timekpr/icons/
 
