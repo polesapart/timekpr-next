@@ -41,8 +41,6 @@ class timekprGUI(object):
         self._timeLeftContinous = None
         self._timeTrackInactive = True
         self._limitConfig = {}
-        self._timeLimitWeek = None
-        self._timeLimitMonth = None
 
         # sets up config options
         self._showLimitNotification = False
@@ -93,6 +91,10 @@ class timekprGUI(object):
         for i in range(0, 7):
             # set up default limits
             self._limitConfig[str(i+1)] = {cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_INT: [[None, None]]}
+
+        # initialize week and month limits
+        self._limitConfig[cons.TK_CTRL_LIMITW] = {cons.TK_CTRL_LIMITW: None}
+        self._limitConfig[cons.TK_CTRL_LIMITM] = {cons.TK_CTRL_LIMITM: None}
 
         # status
         self.setStatus("Started")
@@ -193,20 +195,23 @@ class timekprGUI(object):
         # go in sorted order
         for rKey in sorted(self._limitConfig):
             # some of configuration needs different approach
-            if rKey == cons.TK_CTRL_LIMITW:
+            if rKey in [cons.TK_CTRL_LIMITW, cons.TK_CTRL_LIMITM]:
                 # set locally
-                self._timeLimitWeek = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][rKey])
-                # limit
-                timeLimitWeekStr = str((self._timeLimitWeek - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLimitWeek.hour).rjust(2, "0") + ":" + str(self._timeLimitWeek.minute).rjust(2, "0") + ":" + str(self._timeLimitWeek.second).rjust(2, "0")
-                # set up limits
-                self._timekprConfigDialogBuilder.get_object("timekprLimitForWeekL").set_text(timeLimitWeekStr)
-            elif rKey == cons.TK_CTRL_LIMITM:
-                # set locally
-                self._timeLimitMonth = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][rKey])
-                # limit
-                timeLimitMonthStr = str((self._timeLimitMonth - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLimitMonth.hour).rjust(2, "0") + ":" + str(self._timeLimitMonth.minute).rjust(2, "0") + ":" + str(self._timeLimitMonth.second).rjust(2, "0")
-                # set up limits
-                self._timekprConfigDialogBuilder.get_object("timekprLimitForMonthL").set_text(timeLimitMonthStr)
+                if self._limitConfig[rKey][rKey] is not None:
+                    # limit
+                    timeLimitWKMON = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][rKey])
+                    # limit
+                    timeLimitWKMONStr = str((timeLimitWKMON - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLimitWKMON.hour).rjust(2, "0") + ":" + str(timeLimitWKMON.minute).rjust(2, "0") + ":" + str(timeLimitWKMON.second).rjust(2, "0")
+                else:
+                    timeLimitWKMONStr = _NO_TIME_LIMIT_LABEL
+
+                # set week limit
+                if rKey == cons.TK_CTRL_LIMITW:
+                    # set up limits
+                    self._timekprConfigDialogBuilder.get_object("timekprLimitForWeekL").set_text(timeLimitWKMONStr)
+                elif rKey == cons.TK_CTRL_LIMITM:
+                    # set up limits
+                    self._timekprConfigDialogBuilder.get_object("timekprLimitForMonthL").set_text(timeLimitWKMONStr)
             else:
                 # intervals
                 if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None:
@@ -331,7 +336,7 @@ class timekprGUI(object):
             ppgn = pgn
 
         # enable / disable apply when on config options page
-        if int(ppgn) == 0:
+        if int(ppgn) < 2:
             self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(False)
         else:
             self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(True)
