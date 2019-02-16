@@ -53,7 +53,7 @@ class timekprNotificationManager(dbus.service.Object):
         # init DBUS
         super().remove_from_connection()
 
-    def processTimeLeft(self, pForce, pTimeSpent, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTrackInactive):
+    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTrackInactive):
         """Process notifications and send signals if needed"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start processTimeLeft")
 
@@ -78,7 +78,7 @@ class timekprNotificationManager(dbus.service.Object):
                 break
 
         # timeleft
-        timeLeft = dbus.Dictionary({cons.TK_CTRL_LEFTD: int(pTimeLeftToday), cons.TK_CTRL_LEFT: int(pTimeLeftTotal), cons.TK_CTRL_SPENT: int(pTimeSpent), cons.TK_CTRL_SLEEP: int(pTimeInactive), cons.TK_CTRL_TRACK: (1 if pTrackInactive else 0)}, signature="si")
+        timeLeft = dbus.Dictionary({cons.TK_CTRL_LEFTD: int(pTimeLeftToday), cons.TK_CTRL_LEFT: int(pTimeLeftTotal), cons.TK_CTRL_SPENT: int(pTimeSpent), cons.TK_CTRL_SPENTW: int(pTimeSpentWeek), cons.TK_CTRL_SPENTM: int(pTimeSpentMonth), cons.TK_CTRL_SLEEP: int(pTimeInactive), cons.TK_CTRL_TRACK: (1 if pTrackInactive else 0)}, signature="si")
 
         # inform clients about time left in any case
         self.timeLeft(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], timeLeft)
@@ -108,15 +108,21 @@ class timekprNotificationManager(dbus.service.Object):
 
         # convert this all to dbus
         for rKey, rValue in pTimeLimits.items():
-            # dbus dict for holding limits and intervals
-            timeLimits[rKey] = dbus.Dictionary(signature="sv")
-            timeLimits[rKey][cons.TK_CTRL_LIMITD] = rValue[cons.TK_CTRL_LIMITD]
-            # dbus list for holding intervals
-            timeLimits[rKey][cons.TK_CTRL_INT] = dbus.Array(signature="av")
-            # set up dbus dict
-            for rLimit in rValue[cons.TK_CTRL_INT]:
-                # add intervals
-                timeLimits[rKey][cons.TK_CTRL_INT].append(dbus.Array([rLimit[0], rLimit[1]], signature="i"))
+            # weekly & monthly limits are set differently
+            if rKey in [cons.TK_CTRL_LIMITW, cons.TK_CTRL_LIMITM]:
+                # this is to comply with standard limits structure
+                timeLimits[rKey] = dbus.Dictionary(signature="sv")
+                timeLimits[rKey][rKey] = dbus.Int32(rValue)
+            else:
+                # dbus dict for holding limits and intervals
+                timeLimits[rKey] = dbus.Dictionary(signature="sv")
+                timeLimits[rKey][cons.TK_CTRL_LIMITD] = rValue[cons.TK_CTRL_LIMITD]
+                # dbus list for holding intervals
+                timeLimits[rKey][cons.TK_CTRL_INT] = dbus.Array(signature="av")
+                # set up dbus dict
+                for rLimit in rValue[cons.TK_CTRL_INT]:
+                    # add intervals
+                    timeLimits[rKey][cons.TK_CTRL_INT].append(dbus.Array([rLimit[0], rLimit[1]], signature="i"))
 
         if log.isDebug():
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "TLDB: %s" % (str(timeLimits)))

@@ -444,11 +444,16 @@ class timekprUser(object):
                 # time inactive this session (but not more then prev, current, past days)
                 timeInactiveThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
 
+        # time spent for week
+        timeSpentWeek = self._timekprUserData[cons.TK_CTRL_SPENTW]
+        # time spent for week
+        timeSpentMonth = self._timekprUserData[cons.TK_CTRL_SPENTM]
+
         # debug
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # process notifications, if needed
-        self._timekprUserNotification.processTimeLeft(pForce, timeSpentThisSession, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], self._timekprUserConfig.getUserTrackInactive())
+        self._timekprUserNotification.processTimeLeft(pForce, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], self._timekprUserConfig.getUserTrackInactive())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getTimeLeft")
 
@@ -535,6 +540,11 @@ class timekprUser(object):
                 # after we processed intervals, let's check whether we closed all, if not do it
                 if startHour is not None:
                     timeLimits[str(rDay)][cons.TK_CTRL_INT].append([int(startHour), int(endHour)])
+
+        # weekly and monthly limits
+        timeLimits[cons.TK_CTRL_LIMITW] = self._timekprUserConfig.getUserWeekLimit()
+        # weekly and monthly limits
+        timeLimits[cons.TK_CTRL_LIMITM] = self._timekprUserConfig.getUserMonthLimit()
 
         # debug
         if log.isDebug():

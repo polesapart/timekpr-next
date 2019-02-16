@@ -296,7 +296,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time spent this boot (session) or after timekpr has been restarted</property>
+                                        <property name="tooltip_text" translatable="yes">Time spent this session or after timekpr has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time spent (session):</property>
@@ -311,9 +311,10 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
-                                        <property name="label" translatable="yes">00:00:00</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
                                         <property name="ellipsize">start</property>
                                       </object>
                                       <packing>
@@ -330,20 +331,20 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="timekprLimitInfoTimeInactiveBox">
+                                  <object class="GtkBox" id="timekprLimitInfoTimeSpentWeekBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="margin_left">4</property>
                                     <property name="spacing">4</property>
                                     <property name="homogeneous">True</property>
                                     <child>
-                                      <object class="GtkLabel" id="timekprLimitInfoTimeInactiveLabel">
+                                      <object class="GtkLabel" id="timekprLimitInfoTimeSpentWeekLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time inactive this boot (session) or after timekpr has been restarted</property>
+                                        <property name="tooltip_text" translatable="yes">TIme spent for this week</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
-                                        <property name="label" translatable="yes">Time inactive:</property>
+                                        <property name="label" translatable="yes">Time spent (week):</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -352,12 +353,14 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="timekprLimitInfoTimeInactiveL">
+                                      <object class="GtkLabel" id="timekprLimitInfoTimeSpentWeekL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
-                                        <property name="label" translatable="yes">00:00:00</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
+                                        <property name="ellipsize">start</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -373,6 +376,95 @@
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkBox" id="timekprLimitInfoTimeSpentMonthBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">4</property>
+                                    <property name="spacing">4</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitInfoTimeSpentMonthLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Time spent for this month</property>
+                                        <property name="halign">end</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">Time spent (month):</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitInfoTimeSpentMonthL">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="halign">start</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
+                                        <property name="ellipsize">start</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="timekprLimitInfoTimeInactiveBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">4</property>
+                                    <property name="spacing">4</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitInfoTimeInactiveLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Time inactive this session or after timekpr has been restarted</property>
+                                        <property name="halign">end</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">Time inactive:</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitInfoTimeInactiveL">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="halign">start</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">4</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkBox" id="timekprLimitInfoTimeLeftTodayBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -383,7 +475,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeLeftTodayLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Total time left today available to You, including the end of the day and limits</property>
+                                        <property name="tooltip_text" translatable="yes">Total time left today available, including the end of the day and limits</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time left today:</property>
@@ -398,9 +490,10 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeLeftTodayL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
-                                        <property name="label" translatable="yes">00:00:00</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -412,7 +505,7 @@
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
-                                    <property name="position">3</property>
+                                    <property name="position">5</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -430,6 +523,9 @@
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Continous time left:</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -441,9 +537,13 @@
                                       <object class="GtkLabel" id="timekprLimitInfoContTimeLeftL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
-                                        <property name="label" translatable="yes">00:00:00</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -455,7 +555,7 @@
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
-                                    <property name="position">4</property>
+                                    <property name="position">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -499,7 +599,7 @@
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
-                                    <property name="position">5</property>
+                                    <property name="position">7</property>
                                   </packing>
                                 </child>
                               </object>
@@ -564,6 +664,34 @@
                                         <property name="top_attach">0</property>
                                       </packing>
                                     </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitForWeekLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Time limit for week available to You</property>
+                                        <property name="halign">end</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">Time limit for week:</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitForMonthLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Time limit for month available to You</property>
+                                        <property name="halign">end</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">Time limit for month:</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">3</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="resize">True</property>
@@ -618,6 +746,34 @@
                                       <packing>
                                         <property name="left_attach">0</property>
                                         <property name="top_attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitForWeekL">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="halign">start</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprLimitForMonthL">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="halign">start</property>
+                                        <property name="ypad">4</property>
+                                        <property name="label" translatable="yes">00:00:00:00</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">3</property>
                                       </packing>
                                     </child>
                                   </object>

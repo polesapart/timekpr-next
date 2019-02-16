@@ -19,7 +19,7 @@ from timekpr.client.interface.speech.espeak import timekprSpeech
 # constant
 _NO_TIME_LABEL = "--:--:--"
 _NO_TIME_LABEL_SHORT = "--:--"
-
+_NO_TIME_LIMIT_LABEL = "--:--:--:--"
 
 class timekprGUI(object):
     """Main class for supporting timekpr forms"""
@@ -41,6 +41,8 @@ class timekprGUI(object):
         self._timeLeftContinous = None
         self._timeTrackInactive = True
         self._limitConfig = {}
+        self._timeLimitWeek = None
+        self._timeLimitMonth = None
 
         # sets up config options
         self._showLimitNotification = False
@@ -125,7 +127,10 @@ class timekprGUI(object):
         """Renew information to be show for user in GUI"""
         # sets time left
         if pTimeLeft is not None:
+            # limits
             self._timeSpent = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENT])
+            self._timeSpentWeek = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENTW])
+            self._timeSpentMonth = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENTM])
             self._timeInactive = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SLEEP])
             self._timeLeftToday = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFTD])
             self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT])
@@ -133,24 +138,34 @@ class timekprGUI(object):
 
         # calculate strings to show (and show only those, which hava data)
         if self._timeSpent is not None:
-            timeSpentStr = str((self._timeSpent - cons.TK_DATETIME_START).days * 24 + self._timeSpent.hour).rjust(2, "0") + ":" + str(self._timeSpent.minute).rjust(2, "0") + ":" + str(self._timeSpent.second).rjust(2, "0")
+            timeSpentStr = str((self._timeSpent - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeSpent.hour).rjust(2, "0") + ":" + str(self._timeSpent.minute).rjust(2, "0") + ":" + str(self._timeSpent.second).rjust(2, "0")
         else:
-            timeSpentStr = _NO_TIME_LABEL
+            timeSpentStr = _NO_TIME_LIMIT_LABEL
+        if self._timeSpent is not None:
+            timeSpentWeekStr = str((self._timeSpentWeek - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeSpentWeek.hour).rjust(2, "0") + ":" + str(self._timeSpentWeek.minute).rjust(2, "0") + ":" + str(self._timeSpentWeek.second).rjust(2, "0")
+        else:
+            timeSpentWeekStr = _NO_TIME_LIMIT_LABEL
+        if self._timeSpent is not None:
+            timeSpentMonthStr = str((self._timeSpentMonth - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeSpentMonth.hour).rjust(2, "0") + ":" + str(self._timeSpentMonth.minute).rjust(2, "0") + ":" + str(self._timeSpentMonth.second).rjust(2, "0")
+        else:
+            timeSpentMonthStr = _NO_TIME_LIMIT_LABEL
         if self._timeInactive is not None:
-            timeSleepStr = str((self._timeInactive - cons.TK_DATETIME_START).days * 24 + self._timeInactive.hour).rjust(2, "0") + ":" + str(self._timeInactive.minute).rjust(2, "0") + ":" + str(self._timeInactive.second).rjust(2, "0")
+            timeSleepStr = str((self._timeInactive - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeInactive.hour).rjust(2, "0") + ":" + str(self._timeInactive.minute).rjust(2, "0") + ":" + str(self._timeInactive.second).rjust(2, "0")
         else:
-            timeSleepStr = _NO_TIME_LABEL
+            timeSleepStr = _NO_TIME_LIMIT_LABEL
         if self._timeLeftToday is not None:
-            timeLeftTodayStr = str((self._timeLeftToday - cons.TK_DATETIME_START).days * 24 + self._timeLeftToday.hour).rjust(2, "0") + ":" + str(self._timeLeftToday.minute).rjust(2, "0") + ":" + str(self._timeLeftToday.second).rjust(2, "0")
+            timeLeftTodayStr = str((self._timeLeftToday - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLeftToday.hour).rjust(2, "0") + ":" + str(self._timeLeftToday.minute).rjust(2, "0") + ":" + str(self._timeLeftToday.second).rjust(2, "0")
         else:
-            timeLeftTodayStr = _NO_TIME_LABEL
+            timeLeftTodayStr = _NO_TIME_LIMIT_LABEL
         if self._timeLeftContinous is not None:
-            timeLeftTotalStr = str((self._timeLeftContinous - cons.TK_DATETIME_START).days * 24 + self._timeLeftContinous.hour).rjust(2, "0") + ":" + str(self._timeLeftContinous.minute).rjust(2, "0") + ":" + str(self._timeLeftContinous.second).rjust(2, "0")
+            timeLeftTotalStr = str((self._timeLeftContinous - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLeftContinous.hour).rjust(2, "0") + ":" + str(self._timeLeftContinous.minute).rjust(2, "0") + ":" + str(self._timeLeftContinous.second).rjust(2, "0")
         else:
-            timeLeftTotalStr = _NO_TIME_LABEL
+            timeLeftTotalStr = _NO_TIME_LIMIT_LABEL
 
         # sets up stuff
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeSpentL").set_text(timeSpentStr)
+        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeSpentWeekL").set_text(timeSpentWeekStr)
+        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeSpentMonthL").set_text(timeSpentMonthStr)
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeInactiveL").set_text(timeSleepStr)
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeLeftTodayL").set_text(timeLeftTodayStr)
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoContTimeLeftL").set_text(timeLeftTotalStr)
@@ -177,13 +192,30 @@ class timekprGUI(object):
 
         # go in sorted order
         for rKey in sorted(self._limitConfig):
-            if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None:
-                limit = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMITD])
-                timeLimitStr = str((limit - cons.TK_DATETIME_START).days * 24 + limit.hour).rjust(2, "0") + ":" + str(limit.minute).rjust(2, "0")
+            # some of configuration needs different approach
+            if rKey == cons.TK_CTRL_LIMITW:
+                # set locally
+                self._timeLimitWeek = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][rKey])
+                # limit
+                timeLimitWeekStr = str((self._timeLimitWeek - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLimitWeek.hour).rjust(2, "0") + ":" + str(self._timeLimitWeek.minute).rjust(2, "0") + ":" + str(self._timeLimitWeek.second).rjust(2, "0")
+                # set up limits
+                self._timekprConfigDialogBuilder.get_object("timekprLimitForWeekL").set_text(timeLimitWeekStr)
+            elif rKey == cons.TK_CTRL_LIMITM:
+                # set locally
+                self._timeLimitMonth = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][rKey])
+                # limit
+                timeLimitMonthStr = str((self._timeLimitMonth - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLimitMonth.hour).rjust(2, "0") + ":" + str(self._timeLimitMonth.minute).rjust(2, "0") + ":" + str(self._timeLimitMonth.second).rjust(2, "0")
+                # set up limits
+                self._timekprConfigDialogBuilder.get_object("timekprLimitForMonthL").set_text(timeLimitMonthStr)
             else:
-                timeLimitStr = _NO_TIME_LABEL_SHORT
+                # intervals
+                if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None:
+                    limit = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMITD])
+                    timeLimitStr = str((limit - cons.TK_DATETIME_START).days * 24 + limit.hour).rjust(2, "0") + ":" + str(limit.minute).rjust(2, "0")
+                else:
+                    timeLimitStr = _NO_TIME_LABEL_SHORT
 
-            self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysLS").append([rKey, (cons.TK_DATETIME_START + timedelta(days=int(rKey)-1)).strftime("%A"), "%s" % (timeLimitStr)])
+                self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysLS").append([rKey, (cons.TK_DATETIME_START + timedelta(days=int(rKey)-1)).strftime("%A"), "%s" % (timeLimitStr)])
 
         # current day
         currDay = datetime.now().isoweekday()-1
