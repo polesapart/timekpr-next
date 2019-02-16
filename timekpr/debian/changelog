@@ -1,3 +1,12 @@
+timekpr-next (0.1.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * added weekly and monthly quota administration and processing
+  * minor time accounting fixes
+
+  TODO: administration via GUI
+  TODO: week and month quotas reporting to user
+  TODO: localization and speech
+
 timekpr-next (0.1.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * fixes for user administration via DBUS and CLI

@@ -338,8 +338,14 @@ class timekprUser(object):
         """Adjust time spent (and save it)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentActual")
 
+        # calendar
+        isoCalendar = datetime.date(self._timekprUserData[cons.TK_CTRL_LCHECK]).isocalendar()
         # get last checked DOW
-        lastCheckDOW = str(datetime.date(self._timekprUserData[cons.TK_CTRL_LCHECK]).isoweekday())
+        lastCheckDOW = str(isoCalendar[2])
+        # get last checked WEEK
+        lastCheckWeek = isoCalendar[1]
+        # get last checked MONTH
+        lastCheckMonth = self._timekprUserData[cons.TK_CTRL_LCHECK].month
         # get time spent
         timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
 
@@ -396,6 +402,15 @@ class timekprUser(object):
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent
             # set spent as not initialized for today, so new limits will apply properly
             self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = timeSpent
+
+            # check if week changed
+            if lastCheckWeek != datetime.date(self._timekprUserData[cons.TK_CTRL_LCHECK]).isocalendar()[1]:
+                # set spent for week as not initialized for this week, so new limits will apply properly
+                self._timekprUserData[cons.TK_CTRL_SPENTW] = timeSpent
+            # check if month changed
+            if lastCheckMonth != self._timekprUserData[cons.TK_CTRL_LCHECK].month:
+                # set spent for month as not initialized for this month, so new limits will apply properly
+                self._timekprUserData[cons.TK_CTRL_SPENTM] = timeSpent
 
         # check if we need to save progress
         if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprSaveInterval or lastCheckDOW != self._currentDOW:
