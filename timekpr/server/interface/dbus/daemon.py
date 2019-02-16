@@ -360,7 +360,7 @@ class timekprDaemon(dbus.service.Object):
 
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message, userConfigurationStore = userConfigProcessor.getSavedUserConfiguration()
@@ -384,7 +384,7 @@ class timekprDaemon(dbus.service.Object):
             server expects only the days that are allowed, sorted in ascending order"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userConfigProcessor.checkAndSetAllowedDays(pDayList)
@@ -415,7 +415,7 @@ class timekprDaemon(dbus.service.Object):
             minutes can be specified in brackets after hour, like: 16[00-45], which means until 16:45"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userConfigProcessor.checkAndSetAllowedHours(pDayNumber, pHourList)
@@ -444,7 +444,7 @@ class timekprDaemon(dbus.service.Object):
             server always expects 7 limits, for each day of the week, in the list"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userConfigProcessor.checkAndSetTimeLimitForDays(pDayLimits)
@@ -474,7 +474,7 @@ class timekprDaemon(dbus.service.Object):
             false - user time is not tracked if he locks the session, session is switched to another user, etc."""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userConfigProcessor.checkAndSetTrackInactive(True if pTrackInactive else False)
@@ -501,7 +501,7 @@ class timekprDaemon(dbus.service.Object):
         """Set up new timelimit for week for the user"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userConfigProcessor.checkAndSetTimeLimitForWeek(pTimeLimitWeek)
@@ -528,7 +528,7 @@ class timekprDaemon(dbus.service.Object):
         """Set up new timelimit for month for the user"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userConfigProcessor.checkAndSetTimeLimitForMonth(pTimeLimitMonth)
@@ -559,7 +559,7 @@ class timekprDaemon(dbus.service.Object):
             if pOperation is "=" or empty, the time is set as it is"""
         try:
             # check the user and it's configuration
-            userControlProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+            userControlProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
 
             # load config
             result, message = userControlProcessor.checkAndSetTimeLeft(pOperation, pTimeLeft)

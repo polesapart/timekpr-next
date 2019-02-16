@@ -118,10 +118,12 @@ class timekprUserStore(object):
 
         # now walk the list
         for rUserConfigFile in userConfigFiles:
-            # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
-            user = os.path.splitext(os.path.splitext(os.path.basename(rUserConfigFile))[0])[1].lstrip(".")
-            # extract user name
-            userList.append(user)
+            # exclude standard sample file
+            if "timekpr.USER.conf" not in rUserConfigFile:
+                # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
+                user = os.path.splitext(os.path.splitext(os.path.basename(rUserConfigFile))[0])[1].lstrip(".")
+                # extract user name
+                userList.append(user)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing user list")
 

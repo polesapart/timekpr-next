@@ -17,11 +17,12 @@ from datetime import datetime
 class timekprUserConfigurationProcessor(object):
     """Validate and update configuration data for timekpr user"""
 
-    def __init__(self, pLog, pUserName, pConfigDir):
+    def __init__(self, pLog, pUserName, pConfigDir, pWorkDir):
         """Initialize all stuff for user"""
         # set up initial variables
         self._logging = pLog
         self._configDir = pConfigDir
+        self._workDir = pWorkDir
         self._userName = pUserName
         self._timekprUserConfig = None
         self._timekprUserControl = None
@@ -51,13 +52,13 @@ class timekprUserConfigurationProcessor(object):
         message = ""
 
         # user config
-        self._timekprUserControl = timekprUserControl(self._logging, self._configDir, self._userName)
+        self._timekprUserControl = timekprUserControl(self._logging, self._workDir, self._userName)
 
         # result
         if not self._timekprUserControl.loadControl(True):
             # result
             result = -1
-            message = "User \"%s\" configuration is not found" % (self._userName)
+            message = "User \"%s\" control file is not found" % (self._userName)
 
         # result
         return result, message
@@ -462,9 +463,9 @@ class timekprUserConfigurationProcessor(object):
                     # set up config for day
                     self._timekprUserControl.setUserTimeSpent(setLimit)
                     # set up config for week
-                    self._timekprUserControl.setUserTimeSpentWeek(setLimitWeek)
+                    # self._timekprUserControl.setUserTimeSpentWeek(setLimitWeek)
                     # set up config for month
-                    self._timekprUserControl.setUserTimeSpentMonth(setLimitMonth)
+                    # self._timekprUserControl.setUserTimeSpentMonth(setLimitMonth)
                 except Exception:
                     # result
                     result = -1

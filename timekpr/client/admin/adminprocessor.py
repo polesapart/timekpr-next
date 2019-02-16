@@ -45,9 +45,18 @@ class timekprAdminClient(object):
     def checkAndExecuteAdminCommands(self, *args):
         """Init connection to timekpr dbus server"""
         # initial param len
-        paramIdx = 1
+        paramIdx = 0
         paramLen = len(args)
         adminCmdIncorrect = False
+
+        # determine parameter offset
+        for rArg in args:
+            # check for script
+            if "/timekpra" in rArg:
+                paramIdx += 1
+            else:
+                # this is it
+                break
 
         # this gets the command itself (args[0] is the script name)
         adminCmd = args[paramIdx]
@@ -68,10 +77,15 @@ class timekprAdminClient(object):
                 adminCmdIncorrect = True
             else:
                 # get list
-                result, userList = self._timekprAdminConnector.getUserList()
+                result, message, userList = self._timekprAdminConnector.getUserList()
 
                 # process
-                self.printUserList(userList) if result else log.consoleOut("FAILED")
+                if result == 0:
+                    # process
+                    self.printUserList(userList)
+                else:
+                    # log error
+                    log.consoleOut(message)
 
         # this gets user configuration from the server
         elif adminCmd == "-userconfig":
@@ -81,10 +95,15 @@ class timekprAdminClient(object):
                 adminCmdIncorrect = True
             else:
                 # get user config
-                result, userConfig = self._timekprAdminConnector.getUserConfig(args[paramIdx+1])
+                result, message, userConfig = self._timekprAdminConnector.getUserConfig(args[paramIdx+1])
 
                 # process
-                self.printUserConfig(args[paramIdx+1], userConfig) if result else log.consoleOut("FAILED")
+                if result == 0:
+                    # process
+                    self.printUserConfig(args[paramIdx+1], userConfig)
+                else:
+                    # log error
+                    log.consoleOut(message)
 
         # this sets allowed days for the user
         elif adminCmd == "-setalloweddays":
@@ -165,6 +184,7 @@ class timekprAdminClient(object):
             # fail
             if adminCmdIncorrect:
                 log.consoleOut("The command is incorrect:", *args)
+
             log.consoleOut("\nThe usage of timekpr admin client is as follows:")
             # print help
             for rCmd, rCmdDesc in cons.TK_USER_ADMIN_COMMANDS.items():
@@ -213,11 +233,12 @@ class timekprAdminClient(object):
     def processSetAllowedDays(self, pUserName, pDayList):
         """Process allowed days"""
         # invoke
-        result = self._timekprAdminConnector.setAllowedDays(pUserName, list(map(int, pDayList.split(";"))))
+        result, message = self._timekprAdminConnector.setAllowedDays(pUserName, list(map(int, pDayList.split(";"))))
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)
 
     def processSetAllowedHours(self, pUserName, pDayNumber, pHourList):
         """Process allowed hours"""
@@ -236,53 +257,59 @@ class timekprAdminClient(object):
                 allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
 
         # invoke
-        result = self._timekprAdminConnector.setAllowedHours(pUserName, pDayNumber, allowedHours)
+        result, message = self._timekprAdminConnector.setAllowedHours(pUserName, pDayNumber, allowedHours)
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)
 
     def processSetTimeLimits(self, pUserName, pDayLimits):
         """Process time limits for days"""
         # invoke
-        result = self._timekprAdminConnector.setTimeLimitForDays(pUserName, list(map(int, pDayLimits.split(";"))))
+        result, message = self._timekprAdminConnector.setTimeLimitForDays(pUserName, list(map(int, pDayLimits.split(";"))))
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)
 
     def processSetTimeLimitWeek(self, pUserName, pTimeLimitWeek):
         """Process time limits for week"""
         # invoke
-        result = self._timekprAdminConnector.setTimeLimitForWeek(pUserName, int(pTimeLimitWeek))
+        result, message = self._timekprAdminConnector.setTimeLimitForWeek(pUserName, int(pTimeLimitWeek))
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)
 
     def processSetTimeLimitMonth(self, pUserName, pTimeLimitMonth):
         """Process time limits for month"""
         # invoke
-        result = self._timekprAdminConnector.setTimeLimitForMonth(pUserName, int(pTimeLimitMonth))
+        result, message = self._timekprAdminConnector.setTimeLimitForMonth(pUserName, int(pTimeLimitMonth))
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)
 
     def processSetTrackInactive(self, pUserName, pTrackInactive):
         """Process track inactive"""
         # invoke
-        result = self._timekprAdminConnector.setTrackInactive(pUserName, True if pTrackInactive in ["true", "True"] else False)
+        result, message = self._timekprAdminConnector.setTrackInactive(pUserName, True if pTrackInactive in ["true", "True"] else False)
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)
 
     def processSetTimeLeft(self, pUserName, pOperation, pLimit):
         """Process time left"""
         # invoke
-        result = self._timekprAdminConnector.setTimeLeft(pUserName, pOperation, int(pLimit))
+        result, message = self._timekprAdminConnector.setTimeLeft(pUserName, pOperation, int(pLimit))
 
         # process
-        if not result:
-            log.consoleOut("FAILED")
+        if result != 0:
+            # log error
+            log.consoleOut(message)

@@ -100,11 +100,23 @@ class timekprAdminConnector(object):
         # if either of this fails, we keep trying to connect
         return not (self._notifyInterface is None or self._timekprUserAdminInterface is None or self._timekprAdminInterface is None), not self._initFailed
 
+    def formatException(self, pExceptionStr):
+        """Format exception and pass it back"""
+        # check for permission error
+        if "org.freedesktop.DBus.Error.AccessDenied" in pExceptionStr:
+            result = -1
+            message = "FAILED to execute to timekpr admin commands.\nPlease check that timekpr daemon is working and You have sufficient permissions to access it (either superuser or timekpr group)"
+        else:
+            result = -1
+            message = "UNEXPECTED ERROR: %s" % (pExceptionStr)
+
+        # result
+        return result, message
+
     def getUserList(self):
         """Get user list from server"""
         # defaults
         userList = []
-        isSuccess = False
 
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
@@ -112,27 +124,21 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message, userList = self._timekprUserAdminInterface.getUserList()
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess, userList
+        return result, message, userList
 
     def getUserConfig(self, pUserName):
         """Get user configuration from server"""
         # defaults
         userConfig = {}
-        isSuccess = False
 
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
@@ -140,107 +146,76 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message, userConfig = self._timekprUserAdminInterface.getUserConfiguration(pUserName)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess, userConfig
+        return result, message, userConfig
 
     def setAllowedDays(self, pUserName, pDayList):
         """Set user allowed days"""
-        # defaults
-        isSuccess = False
-
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setAllowedDays(pUserName, pDayList)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
 
     def setAllowedHours(self, pUserName, pDayNumber, pHourList):
         """Set user allowed days"""
-        # defaults
-        isSuccess = False
-
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setAllowedHours(pUserName, pDayNumber, pHourList)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
 
     def setTimeLimitForDays(self, pUserName, pDayLimits):
         """Set user allowed limit for days"""
-        # defaults
-        isSuccess = False
-
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTimeLimitForDays(pUserName, pDayLimits)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
 
     def setTimeLimitForWeek(self, pUserName, pTimeLimitWeek):
         """Set user allowed limit for week"""
-        # defaults
-        isSuccess = False
 
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
@@ -248,99 +223,70 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTimeLimitForWeek(pUserName, pTimeLimitWeek)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
 
     def setTimeLimitForMonth(self, pUserName, pTimeLimitMonth):
         """Set user allowed limit for month"""
-        # defaults
-        isSuccess = False
-
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTimeLimitForMonth(pUserName, pTimeLimitMonth)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
 
     def setTrackInactive(self, pUserName, pTrackInactive):
         """Set user allowed days"""
-        # defaults
-        isSuccess = False
-
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTrackInactive(pUserName, pTrackInactive)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
 
     def setTimeLeft(self, pUserName, pOperation, pTimeLeft):
         """Set user time left"""
-        # defaults
-        isSuccess = False
-
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTimeLeft(pUserName, pOperation, pTimeLeft)
-
-                # check call result
-                if result != 0:
-                    # show message to user as well
-                    log.consoleOut("ERROR: %s" % (message))
-                else:
-                    # result
-                    isSuccess = True
-            except Exception:
+            except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
                 # we need to reschedule connecton (???????)
 
+                # exception
+                result, message = self.formatException(str(ex))
+
         # result
-        return isSuccess
+        return result, message
