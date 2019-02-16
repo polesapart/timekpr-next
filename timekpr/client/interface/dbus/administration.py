@@ -21,7 +21,6 @@ from timekpr.common.utils import misc
 DBusGMainLoop(set_as_default=True)
 
 
-# ## !!! WIP !!!
 class timekprAdminConnector(object):
     """Main class for supporting indicator notifications"""
 
@@ -222,6 +221,60 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTimeLimitForDays(pUserName, pDayLimits)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess
+
+    def setTimeLimitForWeek(self, pUserName, pTimeLimitWeek):
+        """Set user allowed limit for week"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setTimeLimitForWeek(pUserName, pTimeLimitWeek)
+
+                # check call result
+                if result != 0:
+                    # show message to user as well
+                    log.consoleOut("ERROR: %s" % (message))
+                else:
+                    # result
+                    isSuccess = True
+            except Exception:
+                # we can not send notif through dbus
+                self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+        # result
+        return isSuccess
+
+    def setTimeLimitForMonth(self, pUserName, pTimeLimitMonth):
+        """Set user allowed limit for month"""
+        # defaults
+        isSuccess = False
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setTimeLimitForMonth(pUserName, pTimeLimitMonth)
 
                 # check call result
                 if result != 0:

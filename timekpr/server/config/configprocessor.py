@@ -96,6 +96,10 @@ class timekprUserConfigurationProcessor(object):
                 userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
                 # time spent
                 userConfigurationStore["TIME_SPENT"] = self._timekprUserControl.getUserTimeSpent()
+                # time spent
+                userConfigurationStore["TIME_SPENT_WEEK"] = self._timekprUserControl.getUserTimeSpentWeek()
+                # time spent
+                userConfigurationStore["TIME_SPENT_MONTH"] = self._timekprUserControl.getUserTimeSpentMonth()
 
         # result
         return result, message, userConfigurationStore
@@ -246,7 +250,7 @@ class timekprUserConfigurationProcessor(object):
             try:
                 for rLimit in pDayLimits:
                     # try to convert seconds in day and normalize seconds in proper interval
-                    limits.append(max(min(int(rLimit), cons.TK_MAX_DAY_SECS), 0))
+                    limits.append(max(min(int(rLimit), cons.TK_LIMIT_PER_DAY), 0))
             except Exception:
                 # result
                 result = -1
@@ -316,6 +320,90 @@ class timekprUserConfigurationProcessor(object):
         # result
         return result, message
 
+    def checkAndSetTimeLimitForWeek(self, pTimeLimitWeek):
+        """Validate and set up new timelimit for week for the user"""
+        # check if we have this user
+        result, message = self.loadAndCheckUserConfiguration()
+
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        # if we have no days
+        elif pTimeLimitWeek is None:
+            # result
+            result = -1
+            message = "User's \"%s\" weekly allowance is not passed" % (self._userName)
+        else:
+            # parse config
+            try:
+                if int(pTimeLimitWeek) > 0:
+                    pass
+            except Exception:
+                # result
+                result = -1
+                message = "User's \"%s\" weekly allowance is not correct" % (self._userName)
+
+        # if all is correct, we update the configuration
+        if result == 0:
+            # set up config
+            try:
+                self._timekprUserConfig.setUserWeekLimit(pTimeLimitWeek)
+            except Exception:
+                # result
+                result = -1
+                message = "User's \"%s\" weekly allowance is not correct and can not be set" % (self._userName)
+
+            # if we are still fine
+            if result == 0:
+                # save config
+                self._timekprUserConfig.saveUserConfiguration()
+
+        # result
+        return result, message
+
+    def checkAndSetTimeLimitForMonth(self, pTimeLimitMonth):
+        """Validate and set up new timelimit for month for the user"""
+        # check if we have this user
+        result, message = self.loadAndCheckUserConfiguration()
+
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        # if we have no days
+        elif pTimeLimitMonth is None:
+            # result
+            result = -1
+            message = "User's \"%s\" monthly allowance is not passed" % (self._userName)
+        else:
+            # parse config
+            try:
+                if int(pTimeLimitMonth) > 0:
+                    pass
+            except Exception:
+                # result
+                result = -1
+                message = "User's \"%s\" monthly allowance is not correct" % (self._userName)
+
+        # if all is correct, we update the configuration
+        if result == 0:
+            # set up config
+            try:
+                self._timekprUserConfig.setUserMonthLimit(pTimeLimitMonth)
+            except Exception:
+                # result
+                result = -1
+                message = "User's \"%s\" monthly allowance is not correct and can not be set" % (self._userName)
+
+            # if we are still fine
+            if result == 0:
+                # save config
+                self._timekprUserConfig.saveUserConfiguration()
+
+        # result
+        return result, message
+
     def checkAndSetTimeLeft(self, pOperation, pTimeLeft):
         """Validate and set time left for today for the user"""
         """Validate time limits for user for this moment:
@@ -354,19 +442,29 @@ class timekprUserConfigurationProcessor(object):
             if result == 0:
                 # defaults
                 setLimit = 0
+                setLimitWeek = 0
+                setLimitMonth = 0
 
                 try:
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
-                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() - pTimeLeft, -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        # setLimitWeek = min(max(self._timekprUserControl.getUserTimeSpentWeek() - pTimeLeft, -cons.TK_LIMIT_PER_WEEK), cons.TK_LIMIT_PER_WEEK)
+                        # setLimitMonth = min(max(self._timekprUserControl.getUserTimeSpentMonth() - pTimeLeft, -cons.TK_LIMIT_PER_MONTH), cons.TK_LIMIT_PER_MONTH)
                     elif pOperation == "-":
-                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() + pTimeLeft, -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        # setLimitWeek = min(max(self._timekprUserControl.getUserTimeSpentWeek() + pTimeLeft, -cons.TK_LIMIT_PER_WEEK), cons.TK_LIMIT_PER_WEEK)
+                        # setLimitMonth = min(max(self._timekprUserControl.getUserTimeSpentMonth() + pTimeLeft, -cons.TK_LIMIT_PER_MONTH), cons.TK_LIMIT_PER_MONTH)
                     elif pOperation == "=":
-                        setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
+                        setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
 
-                    # set up config
+                    # set up config for day
                     self._timekprUserControl.setUserTimeSpent(setLimit)
+                    # set up config for week
+                    self._timekprUserControl.setUserTimeSpentWeek(setLimitWeek)
+                    # set up config for month
+                    self._timekprUserControl.setUserTimeSpentMonth(setLimitMonth)
                 except Exception:
                     # result
                     result = -1

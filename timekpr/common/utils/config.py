@@ -25,9 +25,9 @@ def saveConfigFile(pConfigFile, pKeyValuePairs):
             # check if we have proper line
             for rKey, rValue in pKeyValuePairs.items():
                 # check if we have to use regexp
-                if rKey in rLine:
+                if ("%s = " % (rKey)) in rLine:
                     # replace key = value pairs
-                    line = re.sub(r"(?i)" + rKey + " *=.*$", rKey + " = " + rValue, rLine)
+                    line = re.sub(r"(?i)" + rKey + " *= .*$", rKey + " = " + rValue, rLine)
                     # first replacement is enough
                     break
                 else:
@@ -418,6 +418,12 @@ class timekprUserConfig(object):
             param = "LIMITS_PER_WEEKDAYS"
             self._timekprUserConfig[param] = cons.TK_LIMITS_PER_WEEKDAYS if useDefaults else self._timekprUserConfigParser.get(section, param)
             # read
+            param = "LIMIT_PER_WEEK"
+            self._timekprUserConfig[param] = cons.TK_LIMIT_PER_WEEK if useDefaults else self._timekprUserConfigParser.getint(section, param)
+            # read
+            param = "LIMIT_PER_MONTH"
+            self._timekprUserConfig[param] = cons.TK_LIMIT_PER_MONTH if useDefaults else self._timekprUserConfigParser.getint(section, param)
+            # read
             param = "TRACK_INACTIVE"
             self._timekprUserConfig[param] = cons.TK_TRACK_INACTIVE if useDefaults else self._timekprUserConfigParser.getboolean(section, param)
 
@@ -447,6 +453,10 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "ALLOWED_WEEKDAYS", cons.TK_ALLOWED_WEEKDAYS)
         self._timekprUserConfigParser.set(section, "# this defines allowed time in seconds per week day a user can use the computer")
         self._timekprUserConfigParser.set(section, "LIMITS_PER_WEEKDAYS", cons.TK_LIMITS_PER_WEEKDAYS)
+        self._timekprUserConfigParser.set(section, "# this defines allowed time per week in seconds (in addition to other limits)")
+        self._timekprUserConfigParser.set(section, "LIMIT_PER_WEEK", str(cons.TK_LIMIT_PER_WEEK))
+        self._timekprUserConfigParser.set(section, "# this defines allowed time per month in seconds (in addition to other limits)")
+        self._timekprUserConfigParser.set(section, "LIMIT_PER_MONTH", str(cons.TK_LIMIT_PER_MONTH))
         self._timekprUserConfigParser.set(section, "# this defines whether to account sessions which are inactive (locked screen, user switched away from desktop, etc.)")
         self._timekprUserConfigParser.set(section, "TRACK_INACTIVE", str(cons.TK_TRACK_INACTIVE))
 
@@ -467,6 +477,10 @@ class timekprUserConfig(object):
         values["ALLOWED_WEEKDAYS"] = self._timekprUserConfig["ALLOWED_WEEKDAYS"]
         # limits per weekdays
         values["LIMITS_PER_WEEKDAYS"] = self._timekprUserConfig["LIMITS_PER_WEEKDAYS"]
+        # limits per week
+        values["LIMIT_PER_WEEK"] = str(self._timekprUserConfig["LIMIT_PER_WEEK"])
+        # limits per month
+        values["LIMIT_PER_MONTH"] = str(self._timekprUserConfig["LIMIT_PER_MONTH"])
         # track inactive
         values["TRACK_INACTIVE"] = str(self._timekprUserConfig["TRACK_INACTIVE"])
         # allowed hours for every week day
@@ -508,6 +522,16 @@ class timekprUserConfig(object):
         """Get allowed limits per week day"""
         # result
         return [int(result.strip(None)) for result in self._timekprUserConfig["LIMITS_PER_WEEKDAYS"].split(";")]
+
+    def getUserWeekLimit(self):
+        """Get limit per week"""
+        # result
+        return self._timekprUserConfig["LIMIT_PER_WEEK"]
+
+    def getUserMonthLimit(self):
+        """Get limit per month"""
+        # result
+        return self._timekprUserConfig["LIMIT_PER_MONTH"]
 
     def getUserTrackInactive(self):
         """Get whether to track inactive sessions"""
@@ -554,6 +578,16 @@ class timekprUserConfig(object):
         """Get allowed limits per week day"""
         # set up limits for weekdays
         self._timekprUserConfig["LIMITS_PER_WEEKDAYS"] = ";".join(map(str, pLimits))
+
+    def setUserWeekLimit(self, pWeekLimitSecs):
+        """Set limit per week"""
+        # result
+        self._timekprUserConfig["LIMIT_PER_WEEK"] = int(pWeekLimitSecs)
+
+    def setUserMonthLimit(self, pMonthLimitSecs):
+        """Set limit per month"""
+        # result
+        self._timekprUserConfig["LIMIT_PER_MONTH"] = int(pMonthLimitSecs)
 
     def setUserTrackInactive(self, pTrackInactive):
         """Get whether to track inactive sessions"""
@@ -620,7 +654,13 @@ class timekprUserControl(object):
 
             # read
             param = "TIME_SPENT"
-            self._timekprUserControl[param] = min(max(self._timekprUserControlParser.getint(section, param), -cons.TK_MAX_DAY_SECS), cons.TK_MAX_DAY_SECS)
+            self._timekprUserControl[param] = min(max(self._timekprUserControlParser.getint(section, param), -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+            # read
+            param = "TIME_SPENT_WEEK"
+            self._timekprUserControl[param] = min(max(self._timekprUserControlParser.getint(section, param), -cons.TK_LIMIT_PER_WEEK), cons.TK_LIMIT_PER_WEEK)
+            # read
+            param = "TIME_SPENT_MONTH"
+            self._timekprUserControl[param] = min(max(self._timekprUserControlParser.getint(section, param), -cons.TK_LIMIT_PER_MONTH), cons.TK_LIMIT_PER_MONTH)
             # read
             param = "LAST_CHECKED"
             self._timekprUserControl[param] = datetime.strptime(self._timekprUserControlParser.get(section, param), cons.TK_DATETIME_FORMAT)
@@ -639,6 +679,10 @@ class timekprUserControl(object):
         self._timekprUserControlParser.add_section(section)
         self._timekprUserControlParser.set(section, "# total limit spent for today")
         self._timekprUserControlParser.set(section, "TIME_SPENT", "0")
+        self._timekprUserControlParser.set(section, "# total limit spent for this week")
+        self._timekprUserControlParser.set(section, "TIME_SPENT_WEEK", "0")
+        self._timekprUserControlParser.set(section, "# total limit spent for this month")
+        self._timekprUserControlParser.set(section, "TIME_SPENT_MONTH", "0")
         self._timekprUserControlParser.set(section, "# last update time of the file")
         self._timekprUserControlParser.set(section, "LAST_CHECKED", datetime.now().replace(microsecond=0).strftime(cons.TK_DATETIME_FORMAT))
 
@@ -655,8 +699,12 @@ class timekprUserControl(object):
         # init dict
         values = {}
 
-        # spent
+        # spent day
         values["TIME_SPENT"] = str(int(self._timekprUserControl["TIME_SPENT"]))
+        # spent week
+        values["TIME_SPENT_WEEK"] = str(int(self._timekprUserControl["TIME_SPENT_WEEK"]))
+        # spent month
+        values["TIME_SPENT_MONTH"] = str(int(self._timekprUserControl["TIME_SPENT_MONTH"]))
         # last checked
         values["LAST_CHECKED"] = self._timekprUserControl["LAST_CHECKED"].strftime(cons.TK_DATETIME_FORMAT)
 
@@ -666,9 +714,19 @@ class timekprUserControl(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
     def getUserTimeSpent(self):
-        """Get time spent"""
+        """Get time spent for day"""
         # result
         return self._timekprUserControl["TIME_SPENT"]
+
+    def getUserTimeSpentWeek(self):
+        """Get time spent for week"""
+        # result
+        return self._timekprUserControl["TIME_SPENT_WEEK"]
+
+    def getUserTimeSpentMonth(self):
+        """Get time spent for month"""
+        # result
+        return self._timekprUserControl["TIME_SPENT_MONTH"]
 
     def getUserLastChecked(self):
         """Get last check time for user"""
@@ -681,9 +739,19 @@ class timekprUserControl(object):
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
 
     def setUserTimeSpent(self, pTimeSpent):
-        """Set time spent"""
+        """Set time spent for day"""
         # result
         self._timekprUserControl["TIME_SPENT"] = pTimeSpent
+
+    def setUserTimeSpentWeek(self, pTimeSpentWeek):
+        """Set time spent for week"""
+        # result
+        self._timekprUserControl["TIME_SPENT_WEEK"] = pTimeSpentWeek
+
+    def setUserTimeSpentMonth(self, pTimeSpentMonth):
+        """Set time spent for month"""
+        # result
+        self._timekprUserControl["TIME_SPENT_MONTH"] = pTimeSpentMonth
 
     def setUserLastChecked(self, pEffectiveDatetime):
         """Set last check time for user"""

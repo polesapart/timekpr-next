@@ -496,6 +496,60 @@ class timekprDaemon(dbus.service.Object):
         # result
         return result, message
 
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="si", out_signature="is")
+    def setTimeLimitForWeek(self, pUserName, pTimeLimitWeek):
+        """Set up new timelimit for week for the user"""
+        try:
+            # check the user and it's configuration
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+
+            # load config
+            result, message = userConfigProcessor.checkAndSetTimeLimitForWeek(pTimeLimitWeek)
+
+            # check if we have this user
+            if pUserName in self._timekprUserList:
+                # inform the user immediately
+                self._timekprUserList[pUserName].adjustLimitsFromConfig(False)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="si", out_signature="is")
+    def setTimeLimitForMonth(self, pUserName, pTimeLimitMonth):
+        """Set up new timelimit for month for the user"""
+        try:
+            # check the user and it's configuration
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir())
+
+            # load config
+            result, message = userConfigProcessor.checkAndSetTimeLimitForMonth(pTimeLimitMonth)
+
+            # check if we have this user
+            if pUserName in self._timekprUserList:
+                # inform the user immediately
+                self._timekprUserList[pUserName].adjustLimitsFromConfig(False)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message
+
     @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="ssi", out_signature="is")
     def setTimeLeft(self, pUserName, pOperation, pTimeLeft):
         """Set time left for today for the user"""

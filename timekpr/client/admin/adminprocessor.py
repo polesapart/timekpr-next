@@ -15,7 +15,6 @@ from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
 
 
-# !!! WIP !!!
 class timekprAdminClient(object):
     """Main class for holding all client logic (including dbus)"""
 
@@ -116,6 +115,26 @@ class timekprAdminClient(object):
             else:
                 # set days
                 self.processSetTimeLimits(args[paramIdx+1], args[paramIdx+2])
+
+        # this sets time limits per week
+        elif adminCmd == "-settimelimitweek":
+            # check param len
+            if paramLen != paramIdx + 3:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # set days
+                self.processSetTimeLimitWeek(args[paramIdx+1], args[paramIdx+2])
+
+        # this sets time limits per month
+        elif adminCmd == "-settimelimitmonth":
+            # check param len
+            if paramLen != paramIdx + 3:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # set days
+                self.processSetTimeLimitMonth(args[paramIdx+1], args[paramIdx+2])
 
         # this sets whether to track inactive user sessions
         elif adminCmd == "-settrackinactive":
@@ -227,6 +246,24 @@ class timekprAdminClient(object):
         """Process time limits for days"""
         # invoke
         result = self._timekprAdminConnector.setTimeLimitForDays(pUserName, list(map(int, pDayLimits.split(";"))))
+
+        # process
+        if not result:
+            log.consoleOut("FAILED")
+
+    def processSetTimeLimitWeek(self, pUserName, pTimeLimitWeek):
+        """Process time limits for week"""
+        # invoke
+        result = self._timekprAdminConnector.setTimeLimitForWeek(pUserName, int(pTimeLimitWeek))
+
+        # process
+        if not result:
+            log.consoleOut("FAILED")
+
+    def processSetTimeLimitMonth(self, pUserName, pTimeLimitMonth):
+        """Process time limits for month"""
+        # invoke
+        result = self._timekprAdminConnector.setTimeLimitForMonth(pUserName, int(pTimeLimitMonth))
 
         # process
         if not result:

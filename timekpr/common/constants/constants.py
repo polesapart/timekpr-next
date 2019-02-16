@@ -10,7 +10,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.1.8"
+TK_VERSION = "0.1.9"
 TK_DEV_ACTIVE = True  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -18,7 +18,6 @@ TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 TK_LOG_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 TK_DATETIME_START = datetime(2018, 1, 1)
-TK_MAX_DAY_SECS = 86400
 
 # logging
 TK_LOG_LEVEL_INFO = 1
@@ -67,7 +66,7 @@ TK_CTRL_UPATH = "USERPATH"
 # limit configuration
 TK_CTRL_NDAY = "NEXTDAY"   # next day idx
 TK_CTRL_PDAY = "PREVDAY"   # previous day idx
-TK_CTRL_LIMITD = "LIMIT"   # limit idx
+TK_CTRL_LIMITD = "LIMITD"  # limit idx
 TK_CTRL_LEFTD = "LEFTD"    # time left today idx
 TK_CTRL_LEFT = "LEFT"      # time left idx (continously)
 TK_CTRL_LEFTW = "LEFTW"    # time left for week
@@ -76,8 +75,8 @@ TK_CTRL_LCHECK = "LCHK"    # last checked idx
 TK_CTRL_LSAVE = "LSAVE"    # last saved idx
 TK_CTRL_LMOD = "LMOD"      # file modification idx (control)
 TK_CTRL_LCMOD = "LMCOD"    # file modification idx (config)
-TK_CTRL_LWK = "LWK"        # left per week idx
-TK_CTRL_LMON = "LMON"      # left per month idx
+TK_CTRL_LIMITW = "LIMITW"  # left per week idx
+TK_CTRL_LIMITM = "LIMITM"  # left per month idx
 TK_CTRL_ACT = "ACTIVE"     # is hour enabled
 TK_CTRL_SLEEP = "SLEEP"    # time spent in "inactive"
 TK_CTRL_SPENT = "SPENT"    # time spent in this session
@@ -119,7 +118,13 @@ TK_ALLOWED_HOURS = "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;2
 # default value for allowed week days
 TK_ALLOWED_WEEKDAYS = "1;2;3;4;5;6;7"
 # default value for limit per day
-TK_LIMITS_PER_WEEKDAYS = "%s;%s;%s;%s;%s;%s;%s" % (TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS, TK_MAX_DAY_SECS)
+TK_LIMIT_PER_DAY = 86400
+# default value for limit per week
+TK_LIMIT_PER_WEEK = TK_LIMIT_PER_DAY*7
+# default value for limit per month
+TK_LIMIT_PER_MONTH = TK_LIMIT_PER_DAY*31
+# default value for limit per day
+TK_LIMITS_PER_WEEKDAYS = "%s;%s;%s;%s;%s;%s;%s" % (TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY)
 
 # ## default values for control ##
 # time control
@@ -175,14 +180,16 @@ TK_ADMIN_COMMANDS = {
 }
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {
-     "-help"             : "print help"
-    ,"-userlist"         : "this gets saved user list from the server, example:\n    timekpra -userlist"
-    ,"-userconfig"       : "this gets user configuration from the server, example:\n    timekpra -userconfig \"testuser\""
-    ,"-setalloweddays"   : "this sets allowed days for the user, example:\n    timekpra -setalloweddays \"testuser\" \"1,2,3,4,5\""
-    ,"-setallowedhours"  : "this sets allowed hours per specified day or ALL for every day, example:\n    timekpra -setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
-    ,"-settimelimits"    : "this sets time limits per allowed days, example:\n    timekpra -settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
-    ,"-settrackinactive" : "this sets whether to track inactive user sessions, example:\n    timekpra -settrackinactive \"testuser\" \"false\""
-    ,"-settimeleft"      : "this sets time left for the user at current moment, example (add one hour):\n    timekpra -settimeleft \"testuser\" \"+\" 3600"
+     "-help"              : "print help"
+    ,"-userlist"          : "this gets saved user list from the server, example:\n    timekpra -userlist"
+    ,"-userconfig"        : "this gets user configuration from the server, example:\n    timekpra -userconfig \"testuser\""
+    ,"-setalloweddays"    : "this sets allowed days for the user, example:\n    timekpra -setalloweddays \"testuser\" \"1,2,3,4,5\""
+    ,"-setallowedhours"   : "this sets allowed hours per specified day or ALL for every day, example:\n    timekpra -setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
+    ,"-settimelimits"     : "this sets time limits per all allowed days, example:\n    timekpra -settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
+    ,"-settimelimitweek"  : "this sets time limits per week, example:\n    timekpra -settimelimitweek \"testuser\" \"50000\""
+    ,"-settimelimitmonth" : "this sets time limits per month, example:\n    timekpra -settimelimitmonth \"testuser\" \"200000\""
+    ,"-settrackinactive"  : "this sets whether to track inactive user sessions, example:\n    timekpra -settrackinactive \"testuser\" \"false\""
+    ,"-settimeleft"       : "this sets time left for the user at current moment, example (add one hour):\n    timekpra -settimeleft \"testuser\" \"+\" 3600"
 }
 
 

@@ -42,7 +42,7 @@ class timekprNotificationManager(dbus.service.Object):
             ,{cons.TK_NOTIF_LEFT: 300, cons.TK_NOTIF_INTERVAL: 180, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
             ,{cons.TK_NOTIF_LEFT: 120, cons.TK_NOTIF_INTERVAL: 120, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_IMPORTANT}
             ,{cons.TK_NOTIF_LEFT: 0, cons.TK_NOTIF_INTERVAL:60, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
-            ,{cons.TK_NOTIF_LEFT: -cons.TK_MAX_DAY_SECS, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
+            ,{cons.TK_NOTIF_LEFT: -cons.TK_LIMIT_PER_DAY, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
         )
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init notifications")
@@ -89,7 +89,7 @@ class timekprNotificationManager(dbus.service.Object):
             self._lastNotified = effectiveDatetime
 
             # if time left is whole day, we have no limit
-            if pTimeLimitToday >= cons.TK_MAX_DAY_SECS:
+            if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY:
                 # we send no limit just once
                 if self._prevNotificationLvl < 0 or pForce:
                     # no limit
