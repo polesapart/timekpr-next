@@ -66,11 +66,11 @@ class timekprAdminClient(object):
 
         # now based on params check them out
         # this gets saved user list from the server
-        if adminCmd == "-help":
+        if adminCmd == "--help":
             # fine
             pass
         # this gets saved user list from the server
-        elif adminCmd == "-userlist":
+        elif adminCmd == "--userlist":
             # check param len
             if paramLen != paramIdx + 1:
                 # fail
@@ -88,7 +88,7 @@ class timekprAdminClient(object):
                     log.consoleOut(message)
 
         # this gets user configuration from the server
-        elif adminCmd == "-userconfig":
+        elif adminCmd == "--userconfig":
             # check param len
             if paramLen != paramIdx + 2:
                 # fail
@@ -106,7 +106,7 @@ class timekprAdminClient(object):
                     log.consoleOut(message)
 
         # this sets allowed days for the user
-        elif adminCmd == "-setalloweddays":
+        elif adminCmd == "--setalloweddays":
             # check param len
             if paramLen != paramIdx + 3:
                 # fail
@@ -116,7 +116,7 @@ class timekprAdminClient(object):
                 self.processSetAllowedDays(args[paramIdx+1], args[paramIdx+2])
 
         # this sets allowed hours per specified day or ALL for every day
-        elif adminCmd == "-setallowedhours":
+        elif adminCmd == "--setallowedhours":
             # check param len
             if paramLen != paramIdx + 4:
                 # fail
@@ -126,7 +126,7 @@ class timekprAdminClient(object):
                 self.processSetAllowedHours(args[paramIdx+1], args[paramIdx+2], args[paramIdx+3])
 
         # this sets time limits per allowed days
-        elif adminCmd == "-settimelimits":
+        elif adminCmd == "--settimelimits":
             # check param len
             if paramLen != paramIdx + 3:
                 # fail
@@ -136,7 +136,7 @@ class timekprAdminClient(object):
                 self.processSetTimeLimits(args[paramIdx+1], args[paramIdx+2])
 
         # this sets time limits per week
-        elif adminCmd == "-settimelimitweek":
+        elif adminCmd == "--settimelimitweek":
             # check param len
             if paramLen != paramIdx + 3:
                 # fail
@@ -146,7 +146,7 @@ class timekprAdminClient(object):
                 self.processSetTimeLimitWeek(args[paramIdx+1], args[paramIdx+2])
 
         # this sets time limits per month
-        elif adminCmd == "-settimelimitmonth":
+        elif adminCmd == "--settimelimitmonth":
             # check param len
             if paramLen != paramIdx + 3:
                 # fail
@@ -156,7 +156,7 @@ class timekprAdminClient(object):
                 self.processSetTimeLimitMonth(args[paramIdx+1], args[paramIdx+2])
 
         # this sets whether to track inactive user sessions
-        elif adminCmd == "-settrackinactive":
+        elif adminCmd == "--settrackinactive":
             # check param len
             if paramLen != paramIdx + 3:
                 # fail
@@ -166,7 +166,7 @@ class timekprAdminClient(object):
                 self.processSetTrackInactive(args[paramIdx+1], args[paramIdx+2])
 
         # this sets time left for the user at current moment
-        elif adminCmd == "-settimeleft":
+        elif adminCmd == "--settimeleft":
             # check param len
             if paramLen != paramIdx + 4:
                 # fail
