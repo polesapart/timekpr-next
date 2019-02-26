@@ -190,7 +190,12 @@ class timekprUser(object):
                         secondsToRemove = 1
                     # there's still time to remove from limit
                     else:
+                        # add time if there is smth
                         secondsToAddHour = secondsToRemove
+
+                        # if we do not have time anymore, then this is it
+                        if secondsLeft == secondsToRemove:
+                            secondsToRemove += 1
                 # hour is not available
                 else:
                     # if hour is disabled, this is the end of accounting

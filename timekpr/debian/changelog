@@ -1,3 +1,13 @@
+timekpr-next (0.1.10~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixed a bug for time accounting when there is a limit set up, but hours are not limited at all
+  * changed CLI option style from "-" to "--"
+
+  TODO: administration via GUI
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 26 Feb 2019 23:08:17 +0300
+
 timekpr-next (0.1.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * added weekly and monthly quota administration and processing
@@ -6,6 +16,8 @@ timekpr-next (0.1.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
   TODO: administration via GUI
   TODO: week and month quotas reporting to user
   TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 22 Feb 2019 18:11:35 +0300
 
 timekpr-next (0.1.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
