@@ -178,6 +178,7 @@
                             <property name="halign">start</property>
                             <property name="xpad">50</property>
                             <property name="ypad">20</property>
+                            <property name="pixel_size">48</property>
                             <property name="icon_name">timekpr-client</property>
                             <property name="icon_size">6</property>
                           </object>
