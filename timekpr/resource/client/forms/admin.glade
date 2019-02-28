@@ -2,6 +2,24 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
+  <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprAddExcludedUsersImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprAddTrackedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-add</property>
+  </object>
   <object class="GtkImage" id="TimekprApplyImageAddInterval">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -56,60 +74,47 @@
     <property name="xpad">5</property>
     <property name="stock">gtk-apply</property>
   </object>
-  <object class="GtkImage" id="image2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="xpad">3</property>
-    <property name="stock">gtk-add</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="xpad">3</property>
-    <property name="stock">gtk-remove</property>
-  </object>
-  <object class="GtkImage" id="image4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="xpad">3</property>
-    <property name="stock">gtk-add</property>
-  </object>
-  <object class="GtkImage" id="image5">
+  <object class="GtkListStore" id="TimekprExcludedSessionsListStore"/>
+  <object class="GtkListStore" id="TimekprExcludedUsersListStore"/>
+  <object class="GtkListStore" id="TimekprHourIntervalsListStore"/>
+  <object class="GtkImage" id="TimekprRemoveExcludedSessionsImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="xpad">3</property>
     <property name="stock">gtk-remove</property>
   </object>
-  <object class="GtkImage" id="image6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="xpad">3</property>
-    <property name="stock">gtk-add</property>
-  </object>
-  <object class="GtkImage" id="image7">
+  <object class="GtkImage" id="TimekprRemoveExcludedUsersImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="xpad">3</property>
     <property name="stock">gtk-remove</property>
   </object>
-  <object class="GtkListStore" id="liststore1"/>
-  <object class="GtkApplicationWindow" id="applicationwindow1">
+  <object class="GtkImage" id="TimekprRemoveTrackedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkListStore" id="TimekprTrackingSessionsListStore"/>
+  <object class="GtkListStore" id="TimekprUserSelectionListStore"/>
+  <object class="GtkListStore" id="TimekprWeekDaysListStore"/>
+  <object class="GtkApplicationWindow" id="TimekprApplicationWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">TImekpr configuration</property>
     <property name="resizable">False</property>
     <property name="icon_name">timekpr-client</property>
     <child>
-      <object class="GtkBox" id="box1">
+      <object class="GtkBox" id="TimekprMainBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox" id="box2">
+          <object class="GtkBox" id="TimekprHeaderBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <child>
-              <object class="GtkImage" id="image1">
+              <object class="GtkImage" id="TimekprLogoImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
@@ -128,7 +133,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="TimekprMainInfoLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">5</property>
@@ -153,20 +158,20 @@ Please configure carefully, do not lock Yourself out!</property>
           </packing>
         </child>
         <child>
-          <object class="GtkNotebook" id="notebook1">
+          <object class="GtkNotebook" id="TimekprMainTabBar">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
-              <object class="GtkBox" id="box4">
+              <object class="GtkBox" id="TimekprUserConfigurationBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkBox" id="box5">
+                  <object class="GtkBox" id="TimekprUserSelectionLabelBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label4">
+                      <object class="GtkLabel" id="TimekprUserSelectionLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_top">10</property>
@@ -190,16 +195,17 @@ Please configure carefully, do not lock Yourself out!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box12">
+                  <object class="GtkBox" id="TimekprUserSelectionBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkComboBox" id="combobox1">
+                      <object class="GtkComboBox" id="TimekprUserSelectionCB">
                         <property name="width_request">150</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="margin_bottom">10</property>
+                        <property name="model">TimekprUserSelectionListStore</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -219,11 +225,11 @@ Please configure carefully, do not lock Yourself out!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkNotebook" id="notebook2">
+                  <object class="GtkNotebook" id="TimekprConfigurationTabBar">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <child>
-                      <object class="GtkBox" id="box3">
+                      <object class="GtkBox" id="TimekprUserConfTodayBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">5</property>
@@ -231,7 +237,7 @@ Please configure carefully, do not lock Yourself out!</property>
                         <property name="margin_top">5</property>
                         <property name="margin_bottom">5</property>
                         <child>
-                          <object class="GtkBox" id="box6">
+                          <object class="GtkBox" id="TimekprUserConfTodayInfoBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -243,7 +249,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">5</property>
                             <child>
-                              <object class="GtkLabel" id="label28">
+                              <object class="GtkLabel" id="TimekprUserConfTodayInfoLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">5</property>
@@ -262,13 +268,13 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box16">
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoSpentTodayBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="spacing">5</property>
                                 <property name="homogeneous">True</property>
                                 <child>
-                                  <object class="GtkLabel" id="label8">
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentTodayLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">end</property>
@@ -284,7 +290,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="label9">
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentTodayLB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
@@ -304,7 +310,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box18">
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoSpentWeekBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_top">5</property>
@@ -312,7 +318,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="spacing">5</property>
                                 <property name="homogeneous">True</property>
                                 <child>
-                                  <object class="GtkLabel" id="label10">
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">end</property>
@@ -328,7 +334,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="label11">
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
@@ -348,13 +354,13 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box19">
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoSpentMonthBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="spacing">5</property>
                                 <property name="homogeneous">True</property>
                                 <child>
-                                  <object class="GtkLabel" id="label12">
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentMonthLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">end</property>
@@ -371,7 +377,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="label13">
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentMonthLB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
@@ -398,7 +404,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="box8">
+                          <object class="GtkBox" id="TimekprUserConfTodaySettingsBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -409,7 +415,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">5</property>
                             <child>
-                              <object class="GtkLabel" id="label15">
+                              <object class="GtkLabel" id="TimekprUserConfTodaySettingsLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">This allows You to change time for today as well as inactive session tracking</property>
@@ -425,12 +431,12 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box20">
+                              <object class="GtkBox" id="TimekprUserConfTodaySettingsSetBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">center</property>
                                 <child>
-                                  <object class="GtkLabel" id="label14">
+                                  <object class="GtkLabel" id="TimekprUserConfTodaySettingsSetLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="margin_left">5</property>
@@ -448,17 +454,17 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="box23">
+                                  <object class="GtkBox" id="TimekprUserConfTodaySettingsSetInnerBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="orientation">vertical</property>
                                     <child>
-                                      <object class="GtkGrid" id="grid1">
+                                      <object class="GtkGrid" id="TimekprUserConfTodaySettingsSetGrid">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="column_homogeneous">True</property>
                                         <child>
-                                          <object class="GtkLabel" id="label16">
+                                          <object class="GtkLabel" id="TimekprUserConfTodaySettingsSetGridHrLabel">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">hr</property>
@@ -469,7 +475,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="spinbutton2">
+                                          <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="width_chars">2</property>
@@ -484,7 +490,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="spinbutton1">
+                                          <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="width_chars">2</property>
@@ -500,7 +506,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="label17">
+                                          <object class="GtkLabel" id="TimekprUserConfTodaySettingsSetGridMinLabel">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">min</property>
@@ -518,12 +524,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="box24">
+                                      <object class="GtkBox" id="TimekprUserConfTodaySettingsSetGridButtonBox">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="homogeneous">True</property>
                                         <child>
-                                          <object class="GtkButton" id="button1">
+                                          <object class="GtkButton" id="TimekprUserConfTodaySettingsSetAddBT">
                                             <property name="label" translatable="yes">add</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -538,7 +544,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="button2">
+                                          <object class="GtkButton" id="TimekprUserConfTodaySettingsSetSubractBT">
                                             <property name="label" translatable="yes">subract</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -553,7 +559,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="button3">
+                                          <object class="GtkButton" id="TimekprUserConfTodaySettingsSetSetBT">
                                             <property name="label" translatable="yes">set</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -589,7 +595,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box11">
+                              <object class="GtkBox" id="TimekprUserConfTodaySettingsTrackInactiveBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">5</property>
@@ -597,7 +603,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="margin_top">5</property>
                                 <property name="margin_bottom">5</property>
                                 <child>
-                                  <object class="GtkLabel" id="label29">
+                                  <object class="GtkLabel" id="TimekprUserConfTodaySettingsTrackInactiveLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="margin_left">5</property>
@@ -615,7 +621,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkCheckButton" id="checkbutton3">
+                                  <object class="GtkCheckButton" id="TimekprUserConfTodaySettingsTrackInactiveCB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -629,7 +635,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkButton" id="button5">
+                                  <object class="GtkButton" id="TimekprUserConfTodaySettingsTrackInactiveSetBT">
                                     <property name="label" translatable="yes">set</property>
                                     <property name="visible">True</property>
                                     <property name="sensitive">False</property>
@@ -661,7 +667,7 @@ Please configure carefully, do not lock Yourself out!</property>
                       </object>
                     </child>
                     <child type="tab">
-                      <object class="GtkLabel" id="label5">
+                      <object class="GtkLabel" id="TimekprUserConfTodayLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Info &amp; today</property>
@@ -671,16 +677,16 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="box10">
+                      <object class="GtkBox" id="TimekprUserConfDaySettingsBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkBox" id="box14">
+                          <object class="GtkBox" id="TimekprUserConfDaySettingsInnerBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkBox" id="box15">
+                              <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">5</property>
@@ -688,7 +694,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">5</property>
                                 <child>
-                                  <object class="GtkLabel" id="label27">
+                                  <object class="GtkLabel" id="TimekprUserConfDaySettingsSetDaysLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="margin_top">5</property>
@@ -708,7 +714,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkScrolledWindow" id="scrolledwindow1">
+                                  <object class="GtkScrolledWindow" id="TimekprWeekDaysScrolledWindow">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="margin_left">5</property>
@@ -718,12 +724,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="min_content_width">150</property>
                                     <property name="min_content_height">100</property>
                                     <child>
-                                      <object class="GtkTreeView" id="treeview1">
+                                      <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">liststore1</property>
+                                        <property name="model">TimekprWeekDaysListStore</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="treeview-selection"/>
+                                          <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection"/>
                                         </child>
                                       </object>
                                     </child>
@@ -742,18 +748,18 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box17">
+                              <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="spacing">5</property>
                                 <child>
-                                  <object class="GtkBox" id="box21">
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsViewBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkLabel" id="label30">
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsSetDaysIntervalsLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="margin_top">5</property>
@@ -773,7 +779,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkScrolledWindow" id="scrolledwindow2">
+                                      <object class="GtkScrolledWindow" id="TimekprHourIntervalsScrolledWindow">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="margin_left">5</property>
@@ -783,12 +789,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="min_content_width">100</property>
                                         <property name="min_content_height">100</property>
                                         <child>
-                                          <object class="GtkTreeView" id="treeview2">
+                                          <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="model">liststore1</property>
+                                            <property name="model">TimekprHourIntervalsListStore</property>
                                             <child internal-child="selection">
-                                              <object class="GtkTreeSelection" id="treeview-selection2"/>
+                                              <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection"/>
                                             </child>
                                           </object>
                                         </child>
@@ -807,14 +813,14 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="box22">
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsConfDaysIntervalsBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="valign">end</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkLabel" id="label33">
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="margin_top">5</property>
@@ -834,7 +840,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkGrid" id="grid6">
+                                      <object class="GtkGrid" id="TimekprUserConfDaySettingsConfDaysIntervalsGrid">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="halign">center</property>
@@ -844,7 +850,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="margin_bottom">5</property>
                                         <property name="column_homogeneous">True</property>
                                         <child>
-                                          <object class="GtkButton" id="button7">
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaysIntervalsAddBT">
                                             <property name="label" translatable="yes">add</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -858,7 +864,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="button8">
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT">
                                             <property name="label" translatable="yes">remove</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -872,7 +878,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="spinbutton9">
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="width_chars">2</property>
@@ -880,6 +886,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="text" translatable="yes">8</property>
                                             <property name="placeholder_text" translatable="yes">8</property>
                                             <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -887,7 +894,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="spinbutton10">
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="width_chars">2</property>
@@ -895,6 +902,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="text" translatable="yes">20</property>
                                             <property name="placeholder_text" translatable="yes">20</property>
                                             <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -902,7 +910,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="label31">
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsHrLabel">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">hr</property>
@@ -913,7 +921,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="label32">
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsMinLabel">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">min</property>
@@ -952,7 +960,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="button6">
+                          <object class="GtkButton" id="TimekprUserConfDaySettingsApplyBT">
                             <property name="label" translatable="yes">apply daily limits</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
@@ -976,7 +984,7 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child type="tab">
-                      <object class="GtkLabel" id="label6">
+                      <object class="GtkLabel" id="TimekprUserConfDailyLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Daily limits</property>
@@ -987,15 +995,16 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkGrid" id="grid2">
+                      <object class="GtkGrid" id="TimekprUserConfWKMONGrid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">5</property>
                         <property name="margin_right">5</property>
                         <property name="margin_top">5</property>
                         <property name="margin_bottom">5</property>
+                        <property name="column_spacing">5</property>
                         <child>
-                          <object class="GtkBox" id="box13">
+                          <object class="GtkBox" id="TimekprUserConfMONLabelBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">end</property>
@@ -1003,7 +1012,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="margin_right">5</property>
                             <property name="spacing">5</property>
                             <child>
-                              <object class="GtkLabel" id="label20">
+                              <object class="GtkLabel" id="TimekprUserConfMONLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1020,7 +1029,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="checkbutton1">
+                              <object class="GtkCheckButton" id="TimekprUserConfMONCB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -1040,7 +1049,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="box7">
+                          <object class="GtkBox" id="TimekprUserConfWKLabelBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">end</property>
@@ -1050,7 +1059,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="margin_bottom">5</property>
                             <property name="spacing">5</property>
                             <child>
-                              <object class="GtkLabel" id="label18">
+                              <object class="GtkLabel" id="TimekprUserConfWKLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1066,7 +1075,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="checkbutton2">
+                              <object class="GtkCheckButton" id="TimekprUserConfWKCB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -1086,14 +1095,14 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkGrid" id="grid3">
+                          <object class="GtkGrid" id="TimekprUserConfWKBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">5</property>
                             <property name="margin_top">5</property>
                             <property name="margin_bottom">5</property>
                             <child>
-                              <object class="GtkLabel" id="label19">
+                              <object class="GtkLabel" id="TimekprUserConfWKDayLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">d</property>
@@ -1104,7 +1113,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label21">
+                              <object class="GtkLabel" id="TimekprUserConfWKHrLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">hr</property>
@@ -1115,7 +1124,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label22">
+                              <object class="GtkLabel" id="TimekprUserConfWKMinLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">min</property>
@@ -1126,7 +1135,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton3">
+                              <object class="GtkSpinButton" id="TimekprUserConfWKDaySB">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
@@ -1134,6 +1143,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="placeholder_text" translatable="yes">7</property>
                                 <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1141,13 +1151,14 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton4">
+                              <object class="GtkSpinButton" id="TimekprUserConfWKHrSB">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1155,13 +1166,14 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton5">
+                              <object class="GtkSpinButton" id="TimekprUserConfWKMinSB">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1175,14 +1187,14 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkGrid" id="grid4">
+                          <object class="GtkGrid" id="TimekprUserConfMONBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">5</property>
                             <property name="margin_top">5</property>
                             <property name="margin_bottom">5</property>
                             <child>
-                              <object class="GtkLabel" id="label23">
+                              <object class="GtkLabel" id="TimekprUserConfMONDayLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">d</property>
@@ -1193,7 +1205,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label24">
+                              <object class="GtkLabel" id="TimekprUserConfMONHrLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">hr</property>
@@ -1204,7 +1216,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label25">
+                              <object class="GtkLabel" id="TimekprUserConfMONMinLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">min</property>
@@ -1215,7 +1227,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton6">
+                              <object class="GtkSpinButton" id="TimekprUserConfMONDaySB">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
@@ -1223,6 +1235,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="placeholder_text" translatable="yes">31</property>
                                 <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1230,13 +1243,14 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton7">
+                              <object class="GtkSpinButton" id="TimekprUserConfMONHrSB">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1244,13 +1258,14 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton8">
+                              <object class="GtkSpinButton" id="TimekprUserConfMONMinSB">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1264,7 +1279,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label26">
+                          <object class="GtkLabel" id="TimekprUserConfWKMONGrpLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -1284,7 +1299,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="button4">
+                          <object class="GtkButton" id="TimekprUserConfWKMONApplyBT">
                             <property name="label" translatable="yes">apply</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
@@ -1299,7 +1314,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkAlignment" id="alignment1">
+                          <object class="GtkAlignment" id="TimekprUserConfWKMONGrpAligmentBot">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
@@ -1312,7 +1327,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkAlignment" id="alignment2">
+                          <object class="GtkAlignment" id="TimekprUserConfWKMONGrpAligmentTop">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
@@ -1330,7 +1345,7 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child type="tab">
-                      <object class="GtkLabel" id="label7">
+                      <object class="GtkLabel" id="TimekprUserConfWKMONLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Weekly &amp; monthly limits</property>
@@ -1350,7 +1365,7 @@ Please configure carefully, do not lock Yourself out!</property>
               </object>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="label2">
+              <object class="GtkLabel" id="TimekprUserConfigurationTabLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">User configuration</property>
@@ -1360,16 +1375,16 @@ Please configure carefully, do not lock Yourself out!</property>
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box9">
+              <object class="GtkBox" id="TimekprConfigurationMainBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkBox" id="box26">
+                  <object class="GtkBox" id="TimekprConfigurationAdditionalBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkBox" id="box27">
+                      <object class="GtkBox" id="TimekprConfigurationContainerBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">5</property>
@@ -1377,14 +1392,14 @@ Please configure carefully, do not lock Yourself out!</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkLabel" id="label34">
+                          <object class="GtkLabel" id="TimekprConfigurationContainerLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_top">5</property>
                             <property name="margin_bottom">5</property>
                             <property name="xpad">5</property>
                             <property name="ypad">5</property>
-                            <property name="label" translatable="yes">Control Timekpr intervals</property>
+                            <property name="label" translatable="yes">Control Timekpr settings</property>
                             <property name="ellipsize">end</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
@@ -1397,7 +1412,7 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkGrid" id="grid8">
+                          <object class="GtkGrid" id="TimekprConfigurationContainerGrid">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">5</property>
@@ -1406,11 +1421,13 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="row_spacing">5</property>
                             <property name="column_spacing">5</property>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton11">
+                              <object class="GtkSpinButton" id="TimekprConfigurationLoglevelSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">1</property>
                                 <property name="max_width_chars">1</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1418,7 +1435,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label36">
+                              <object class="GtkLabel" id="TimekprConfigurationPollIntervalLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1430,11 +1447,13 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton12">
+                              <object class="GtkSpinButton" id="TimekprConfigurationWarningTimeSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1442,7 +1461,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label37">
+                              <object class="GtkLabel" id="TimekprConfigurationSaveTimeLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1454,11 +1473,13 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton13">
+                              <object class="GtkSpinButton" id="TimekprConfigurationPollIntervalSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1466,7 +1487,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label38">
+                              <object class="GtkLabel" id="TimekprConfigurationTerminationTimeLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1478,11 +1499,13 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton14">
+                              <object class="GtkSpinButton" id="TimekprConfigurationSaveTimeSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1490,11 +1513,13 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton15">
+                              <object class="GtkSpinButton" id="TimekprConfigurationTerminationTimeSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1502,7 +1527,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label39">
+                              <object class="GtkLabel" id="TimekprConfigurationWarningTimeLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1514,7 +1539,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label35">
+                              <object class="GtkLabel" id="TimekprConfigurationLoglevelLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1540,14 +1565,14 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="box28">
+                      <object class="GtkBox" id="TimekprTrackingItemsContainerBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">5</property>
                         <property name="margin_right">5</property>
                         <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkLabel" id="label40">
+                          <object class="GtkLabel" id="TimekprTrackingItemsLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">5</property>
@@ -1556,7 +1581,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="margin_bottom">5</property>
                             <property name="xpad">5</property>
                             <property name="ypad">5</property>
-                            <property name="label" translatable="yes">Control Timekpr lists</property>
+                            <property name="label" translatable="yes">Control Timekpr tracking items</property>
                             <property name="ellipsize">end</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
@@ -1569,21 +1594,23 @@ Please configure carefully, do not lock Yourself out!</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="box29">
+                          <object class="GtkBox" id="TimekprTrackingItemsInnerBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">5</property>
                             <property name="margin_right">5</property>
                             <property name="margin_bottom">5</property>
+                            <property name="spacing">5</property>
+                            <property name="homogeneous">True</property>
                             <child>
-                              <object class="GtkBox" id="box30">
+                              <object class="GtkBox" id="TimekprTrackingSessionsBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">5</property>
                                 <property name="margin_right">5</property>
                                 <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkLabel" id="label41">
+                                  <object class="GtkLabel" id="TimekprTrackingSessionsLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xpad">5</property>
@@ -1598,7 +1625,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkScrolledWindow" id="scrolledwindow3">
+                                  <object class="GtkScrolledWindow" id="TimekprTrackingSessionsScrolledWindow">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="margin_bottom">5</property>
@@ -1606,12 +1633,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="min_content_width">100</property>
                                     <property name="min_content_height">100</property>
                                     <child>
-                                      <object class="GtkTreeView" id="treeview3">
+                                      <object class="GtkTreeView" id="TimekprTrackingSessionsTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">liststore1</property>
+                                        <property name="model">TimekprTrackingSessionsListStore</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="treeview-selection4"/>
+                                          <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection"/>
                                         </child>
                                       </object>
                                     </child>
@@ -1623,7 +1650,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry1">
+                                  <object class="GtkEntry" id="TimekprTrackingSessionsEntryEF">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="width_chars">10</property>
@@ -1636,17 +1663,17 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="box31">
+                                  <object class="GtkBox" id="TimekprTrackingSessionsButtonBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
                                     <child>
-                                      <object class="GtkButton" id="button10">
+                                      <object class="GtkButton" id="TimekprTrackingSessionsAddBT">
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="image">image2</property>
+                                        <property name="image">TimekprAddTrackedSessionsImage</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1655,12 +1682,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="button11">
+                                      <object class="GtkButton" id="TimekprTrackingSessionsRemoveBT">
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="image">image3</property>
+                                        <property name="image">TimekprRemoveTrackedSessionsImage</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1683,14 +1710,14 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box32">
+                              <object class="GtkBox" id="TimekprExcludedSessionsBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">5</property>
                                 <property name="margin_right">5</property>
                                 <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkLabel" id="label42">
+                                  <object class="GtkLabel" id="TimekprExcludedSessionsLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xpad">5</property>
@@ -1705,7 +1732,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkScrolledWindow" id="scrolledwindow4">
+                                  <object class="GtkScrolledWindow" id="TimekprExcludedSessionsScrolledWindow">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="margin_bottom">5</property>
@@ -1713,12 +1740,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="min_content_width">100</property>
                                     <property name="min_content_height">100</property>
                                     <child>
-                                      <object class="GtkTreeView" id="treeview4">
+                                      <object class="GtkTreeView" id="TimekprExcludedSessionsTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">liststore1</property>
+                                        <property name="model">TimekprExcludedSessionsListStore</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="treeview-selection6"/>
+                                          <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection"/>
                                         </child>
                                       </object>
                                     </child>
@@ -1730,7 +1757,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry2">
+                                  <object class="GtkEntry" id="TimekprExcludedSessionsEntryEF">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="width_chars">10</property>
@@ -1743,17 +1770,17 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="box33">
+                                  <object class="GtkBox" id="TimekprExcludedSessionsButtonBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
                                     <child>
-                                      <object class="GtkButton" id="button12">
+                                      <object class="GtkButton" id="TimekprExcludedSessionsAddBT">
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="image">image4</property>
+                                        <property name="image">TimekprAddExcludedSessionsImage</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1762,12 +1789,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="button13">
+                                      <object class="GtkButton" id="TimekprExcludedSessionsRemoveBT">
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="image">image5</property>
+                                        <property name="image">TimekprRemoveExcludedSessionsImage</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1790,14 +1817,14 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="box34">
+                              <object class="GtkBox" id="TimekprExcludedUsersBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">5</property>
                                 <property name="margin_right">5</property>
                                 <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkLabel" id="label43">
+                                  <object class="GtkLabel" id="TimekprExcludedUsersLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xpad">5</property>
@@ -1812,7 +1839,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkScrolledWindow" id="scrolledwindow5">
+                                  <object class="GtkScrolledWindow" id="TimekprExcludedUsersScrolledWindow">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="margin_bottom">5</property>
@@ -1820,12 +1847,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="min_content_width">100</property>
                                     <property name="min_content_height">100</property>
                                     <child>
-                                      <object class="GtkTreeView" id="treeview5">
+                                      <object class="GtkTreeView" id="TimekprExcludedUsersTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">liststore1</property>
+                                        <property name="model">TimekprExcludedUsersListStore</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="treeview-selection7"/>
+                                          <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection"/>
                                         </child>
                                       </object>
                                     </child>
@@ -1837,7 +1864,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry3">
+                                  <object class="GtkEntry" id="TimekprExcludedUsersEntryEF">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="width_chars">10</property>
@@ -1850,17 +1877,17 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="box35">
+                                  <object class="GtkBox" id="TimekprExcludedUsersButtonBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
                                     <child>
-                                      <object class="GtkButton" id="button14">
+                                      <object class="GtkButton" id="TimekprExcludedUsersAddBT">
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="image">image6</property>
+                                        <property name="image">TimekprAddExcludedUsersImage</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1869,12 +1896,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="button15">
+                                      <object class="GtkButton" id="TimekprExcludedUsersRemoveBT">
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="image">image7</property>
+                                        <property name="image">TimekprRemoveExcludedUsersImage</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1918,7 +1945,7 @@ Please configure carefully, do not lock Yourself out!</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button9">
+                  <object class="GtkButton" id="TimekprConfigurationApplyBT">
                     <property name="label" translatable="yes">Apply Timekpr setings</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
@@ -1939,7 +1966,7 @@ Please configure carefully, do not lock Yourself out!</property>
               </packing>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="label3">
+              <object class="GtkLabel" id="TimekprConfigurationTabLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Timekpr configuration</property>
@@ -1963,12 +1990,12 @@ Please configure carefully, do not lock Yourself out!</property>
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="box25">
+          <object class="GtkBox" id="TimekprStatusbarBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
             <child>
-              <object class="GtkStatusbar" id="TimekprStatusbar">
+              <object class="GtkStatusbar" id="TimekprConnectionStatusbar">
+                <property name="width_request">150</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Status of Timekpr admin client</property>
@@ -1987,7 +2014,23 @@ Please configure carefully, do not lock Yourself out!</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkStatusbar" id="TimekprMessagesStatusbar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Status of Timekpr admin client</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <property name="margin_start">10</property>
+                <property name="margin_end">10</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="orientation">vertical</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
