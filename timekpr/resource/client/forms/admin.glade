@@ -74,9 +74,47 @@
     <property name="xpad">5</property>
     <property name="stock">gtk-apply</property>
   </object>
-  <object class="GtkListStore" id="TimekprExcludedSessionsListStore"/>
-  <object class="GtkListStore" id="TimekprExcludedUsersListStore"/>
-  <object class="GtkListStore" id="TimekprHourIntervalsListStore"/>
+  <object class="GtkAdjustment" id="TimekprDailyHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkListStore" id="TimekprExcludedSessionsLS"/>
+  <object class="GtkListStore" id="TimekprExcludedUsersLS"/>
+  <object class="GtkListStore" id="TimekprHourIntervalsLS"/>
+  <object class="GtkAdjustment" id="TimekprLoglevelAdjustment">
+    <property name="lower">1</property>
+    <property name="upper">3</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprMONDayAdjustment">
+    <property name="upper">31</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprMONHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprMONMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprPollingAdjustment">
+    <property name="lower">3</property>
+    <property name="upper">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">3</property>
+  </object>
   <object class="GtkImage" id="TimekprRemoveExcludedSessionsImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -95,9 +133,62 @@
     <property name="xpad">3</property>
     <property name="stock">gtk-remove</property>
   </object>
-  <object class="GtkListStore" id="TimekprTrackingSessionsListStore"/>
-  <object class="GtkListStore" id="TimekprUserSelectionListStore"/>
-  <object class="GtkListStore" id="TimekprWeekDaysListStore"/>
+  <object class="GtkAdjustment" id="TimekprSaveAdjustment">
+    <property name="lower">10</property>
+    <property name="upper">60</property>
+    <property name="value">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprTerminationAdjustment">
+    <property name="lower">5</property>
+    <property name="upper">30</property>
+    <property name="value">15</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprTodayHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprTodayMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkListStore" id="TimekprTrackingSessionsLS"/>
+  <object class="GtkListStore" id="TimekprUserSelectionLS">
+    <columns>
+      <!-- column-name userIdx -->
+      <column type="gchararray"/>
+      <!-- column-name userName -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWKDayAdjustment">
+    <property name="upper">31</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWKHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWKMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWarningAdjustment">
+    <property name="lower">5</property>
+    <property name="upper">30</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkListStore" id="TimekprWeekDaysLS"/>
   <object class="GtkApplicationWindow" id="TimekprApplicationWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">TImekpr configuration</property>
@@ -142,6 +233,8 @@
 
 Please configure carefully, do not lock Yourself out!</property>
                 <property name="wrap">True</property>
+                <property name="width_chars">75</property>
+                <property name="max_width_chars">75</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -205,7 +298,17 @@ Please configure carefully, do not lock Yourself out!</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="margin_bottom">10</property>
-                        <property name="model">TimekprUserSelectionListStore</property>
+                        <property name="model">TimekprUserSelectionLS</property>
+                        <property name="has_frame">False</property>
+                        <property name="has_entry">True</property>
+                        <property name="entry_text_column">1</property>
+                        <property name="id_column">0</property>
+                        <signal name="changed" handler="userSelectionChanged" swapped="no"/>
+                        <child internal-child="entry">
+                          <object class="GtkEntry" id="combobox-entry">
+                            <property name="can_focus">False</property>
+                          </object>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -481,6 +584,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">0</property>
+                                            <property name="input_purpose">number</property>
+                                            <property name="adjustment">TimekprTodayMinAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
                                           </object>
@@ -497,6 +602,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">1</property>
                                             <property name="placeholder_text" translatable="yes">1</property>
+                                            <property name="input_purpose">number</property>
+                                            <property name="adjustment">TimekprTodayHrAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
                                           </object>
@@ -727,7 +834,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">TimekprWeekDaysListStore</property>
+                                        <property name="model">TimekprWeekDaysLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection"/>
                                         </child>
@@ -792,7 +899,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="model">TimekprHourIntervalsListStore</property>
+                                            <property name="model">TimekprHourIntervalsLS</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection"/>
                                             </child>
@@ -885,6 +992,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">8</property>
                                             <property name="placeholder_text" translatable="yes">8</property>
+                                            <property name="adjustment">TimekprDailyHrAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
                                           </object>
@@ -901,6 +1009,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">20</property>
                                             <property name="placeholder_text" translatable="yes">20</property>
+                                            <property name="adjustment">TimekprDailyMinAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
                                           </object>
@@ -1142,6 +1251,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="placeholder_text" translatable="yes">7</property>
+                                <property name="adjustment">TimekprMONDayAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1157,6 +1267,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWKHrAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1172,6 +1283,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWKMinAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1234,6 +1346,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="placeholder_text" translatable="yes">31</property>
+                                <property name="adjustment">TimekprWKDayAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1249,6 +1362,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprMONHrAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1264,6 +1378,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprMONMinAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1426,6 +1541,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">1</property>
                                 <property name="max_width_chars">1</property>
+                                <property name="adjustment">TimekprLoglevelAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1452,6 +1568,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWarningAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1478,6 +1595,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprPollingAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1504,6 +1622,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprSaveAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1518,6 +1637,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWarningAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
                               </object>
@@ -1636,7 +1756,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprTrackingSessionsTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">TimekprTrackingSessionsListStore</property>
+                                        <property name="model">TimekprTrackingSessionsLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection"/>
                                         </child>
@@ -1743,7 +1863,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprExcludedSessionsTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">TimekprExcludedSessionsListStore</property>
+                                        <property name="model">TimekprExcludedSessionsLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection"/>
                                         </child>
@@ -1850,7 +1970,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprExcludedUsersTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="model">TimekprExcludedUsersListStore</property>
+                                        <property name="model">TimekprExcludedUsersLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection"/>
                                         </child>

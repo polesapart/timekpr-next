@@ -21,6 +21,7 @@ _NO_TIME_LABEL = "--:--:--"
 _NO_TIME_LABEL_SHORT = "--:--"
 _NO_TIME_LIMIT_LABEL = "--:--:--:--"
 
+
 class timekprGUI(object):
     """Main class for supporting timekpr forms"""
 

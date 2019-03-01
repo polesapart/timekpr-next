@@ -8,23 +8,28 @@ import gi
 import os
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from gi.repository import GLib
+import time
 from gettext import gettext as _
 from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
+from timekpr.client.interface.dbus.administration import timekprAdminConnector
+
 from timekpr.common.utils.config import timekprClientConfig
 from timekpr.client.interface.speech.espeak import timekprSpeech
 
 # constant
 _NO_TIME_LABEL = "--:--:--"
 _NO_TIME_LABEL_SHORT = "--:--"
+_NO_TIME_LIMIT_LABEL = "--:--:--:--"
 
-### !!! WIP !!!
+
 class timekprAdminGUI(object):
     """Main class for supporting timekpr forms"""
 
-    def __init__(self, pTimekprVersion, pResourcePath, pUsername):
+    def __init__(self, pTimekprVersion, pResourcePath, pUsername, pIsDevActive):
         """Initialize gui"""
         # init locale
         self.initLocale()
@@ -33,7 +38,10 @@ class timekprAdminGUI(object):
         self._userName = pUsername
         self._timekprVersion = pTimekprVersion
         self._resourcePath = pResourcePath
+        self._timekprAdminConnector = None
+        self._isDevActive = pIsDevActive
 
+        """
         # sets up limit variables
         self._timeSpent = None
         self._timeInactive = None
@@ -54,25 +62,19 @@ class timekprAdminGUI(object):
 
         # change tracking
         self._configChanged = False
+        """
 
         # ## forms builders ##
-        # init about builder
-        self._timekprAboutDialogBuilder = Gtk.Builder()
-        # get our dialog
-        self._timekprAboutDialogBuilder.add_from_file(os.path.join(self._resourcePath, "about.glade"))
-        # get main form (to set various runtime things)
-        self._timekprAboutDialog = self._timekprAboutDialogBuilder.get_object("timekprAboutDialog")
-
         # init config builder
-        self._timekprConfigDialogBuilder = Gtk.Builder()
+        self._timekprAdminFormBuilder = Gtk.Builder()
         # get our dialog
-        self._timekprConfigDialogBuilder.add_from_file(os.path.join(self._resourcePath, "config.glade"))
-        # get main form (to set various runtime things)
-        self._timekprConfigDialog = self._timekprConfigDialogBuilder.get_object("timekprConfigDialog")
+        self._timekprAdminFormBuilder.add_from_file(os.path.join(self._resourcePath, "admin_alt.glade"))
+        # connect signals, so they get executed
+        self._timekprAdminFormBuilder.connect_signals(self)
+        # get window
+        self._timekprAdminForm = self._timekprAdminFormBuilder.get_object("TimekprApplicationWindow")
 
-        self._timekprAboutDialogBuilder.connect_signals(self)
-        self._timekprConfigDialogBuilder.connect_signals(self)
-
+        """
         # set up username (this does not change)
         self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text(self._userName)
 
@@ -92,104 +94,64 @@ class timekprAdminGUI(object):
             # set up default limits
             self._limitConfig[str(i+1)] = {cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_INT: [[None, None]]}
 
+        # initialize week and month limits
+        self._limitConfig[cons.TK_CTRL_LIMITW] = {cons.TK_CTRL_LIMITW: None}
+        self._limitConfig[cons.TK_CTRL_LIMITM] = {cons.TK_CTRL_LIMITM: None}
+
         # status
         self.setStatus("Started")
+        """
 
-    def renewUserConfiguration(self, pShowLimitNotification=None, pShowAllNotifications=None, pUseSpeechNotifications=None, pShowSeconds=None, pLoggingLevel=None):
-        """Update configuration options"""
-        # sets this up for local storage
-        if pShowLimitNotification is not None:
-            self._showLimitNotification = pShowLimitNotification
-        if pShowAllNotifications is not None:
-            self._showAllNotifications = pShowAllNotifications
-        if pUseSpeechNotifications is not None:
-            self._useSpeechNotifications = pUseSpeechNotifications
-        if pShowSeconds is not None:
-            self._showSeconds = pShowSeconds
-            self._showSecondsChanged = False
-        if pLoggingLevel is not None:
-            self._loggingLevel = pLoggingLevel
-        # if speech is not supported, we disable and uncheck the box
-        if self._isSpeechSupported is False:
-            self._useSpeechNotifications = False
-            self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_sensitive(self._useSpeechNotifications)
+        # initialize internal stuff
+        self.initInternalConfiguration()
+        # disable all buttons firstly
+        self.toggleControls(False)
+        # status
+        self.setStatus(True, "Started")
 
-        # user config
-        self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").set_active(self._showLimitNotification)
-        self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").set_active(self._showAllNotifications)
-        self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_active(self._useSpeechNotifications)
-        self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").set_active(self._showSeconds)
-        self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").set_value(self._loggingLevel)
+        # initialize internal stuff
+        GLib.timeout_add_seconds(1, self.initTimekprAdmin)
 
-    def renewLimits(self, pTimeLeft=None):
-        """Renew information to be show for user in GUI"""
-        # sets time left
-        if pTimeLeft is not None:
-            self._timeSpent = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENT])
-            self._timeInactive = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SLEEP])
-            self._timeLeftToday = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFTD])
-            self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT])
-            self._timeTrackInactive = True if pTimeLeft[cons.TK_CTRL_TRACK] else False
+        # loop
+        self._mainLoop = GLib.MainLoop()
 
-        # calculate strings to show (and show only those, which hava data)
-        if self._timeSpent is not None:
-            timeSpentStr = str((self._timeSpent - cons.TK_DATETIME_START).days * 24 + self._timeSpent.hour).rjust(2, "0") + ":" + str(self._timeSpent.minute).rjust(2, "0") + ":" + str(self._timeSpent.second).rjust(2, "0")
+        # show up all
+        self._timekprAdminForm.show_all()
+
+        # start main loop
+        self._mainLoop.run()
+
+    # --------------- initialization / control methods --------------- #
+
+    # init timekpr admin client
+    def initTimekprAdmin(self):
+        """Initialize admin client"""
+        # get our connector
+        self._timekprAdminConnector = timekprAdminConnector(self._isDevActive)
+        # connect
+        GLib.timeout_add_seconds(0, self._timekprAdminConnector.initTimekprConnection, False)
+        # check connection
+        GLib.timeout_add_seconds(0.1, self.checkConnection)
+
+    def checkConnection(self):
+        """Check connection on the fly"""
+        # connection statuses
+        interfacesOk, connecting = self._timekprAdminConnector.isConnected()
+
+        # if not connected, give up and get out
+        if interfacesOk and connecting:
+            # status
+            self.setStatus(True, "Connected")
+            # get users
+            GLib.timeout_add_seconds(0, self.getUserList)
+        elif not interfacesOk and connecting:
+            # status
+            self.setStatus(True, "Connecting...")
+            # invoke again
+            GLib.timeout_add_seconds(1, self.checkConnection)
         else:
-            timeSpentStr = _NO_TIME_LABEL
-        if self._timeInactive is not None:
-            timeSleepStr = str((self._timeInactive - cons.TK_DATETIME_START).days * 24 + self._timeInactive.hour).rjust(2, "0") + ":" + str(self._timeInactive.minute).rjust(2, "0") + ":" + str(self._timeInactive.second).rjust(2, "0")
-        else:
-            timeSleepStr = _NO_TIME_LABEL
-        if self._timeLeftToday is not None:
-            timeLeftTodayStr = str((self._timeLeftToday - cons.TK_DATETIME_START).days * 24 + self._timeLeftToday.hour).rjust(2, "0") + ":" + str(self._timeLeftToday.minute).rjust(2, "0") + ":" + str(self._timeLeftToday.second).rjust(2, "0")
-        else:
-            timeLeftTodayStr = _NO_TIME_LABEL
-        if self._timeLeftContinous is not None:
-            timeLeftTotalStr = str((self._timeLeftContinous - cons.TK_DATETIME_START).days * 24 + self._timeLeftContinous.hour).rjust(2, "0") + ":" + str(self._timeLeftContinous.minute).rjust(2, "0") + ":" + str(self._timeLeftContinous.second).rjust(2, "0")
-        else:
-            timeLeftTotalStr = _NO_TIME_LABEL
-
-        # sets up stuff
-        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeSpentL").set_text(timeSpentStr)
-        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeInactiveL").set_text(timeSleepStr)
-        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeLeftTodayL").set_text(timeLeftTodayStr)
-        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoContTimeLeftL").set_text(timeLeftTotalStr)
-        self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTrackInactiveCB").set_active(self._timeTrackInactive)
-
-    def setStatus(self, pStatus):
-        """Change status of timekpr"""
-        if pStatus is not None:
-            # get main status
-            statusBar = self._timekprConfigDialogBuilder.get_object("timekprStatusBar")
-            contextId = statusBar.get_context_id("status")
-            # pop existing message and add new one
-            statusBar.remove_all(contextId)
-            statusBar.push(contextId, pStatus)
-
-    def renewLimitConfiguration(self, pLimits=None):
-        """Renew information to be show for user"""
-        # if there is smth
-        if pLimits is not None:
-            self._limitConfig = pLimits
-
-        # clear out days
-        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysLS").clear()
-
-        # go in sorted order
-        for rKey in sorted(self._limitConfig):
-            if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None:
-                limit = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMITD])
-                timeLimitStr = str((limit - cons.TK_DATETIME_START).days * 24 + limit.hour).rjust(2, "0") + ":" + str(limit.minute).rjust(2, "0")
-            else:
-                timeLimitStr = _NO_TIME_LABEL_SHORT
-
-            self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysLS").append([rKey, (cons.TK_DATETIME_START + timedelta(days=int(rKey)-1)).strftime("%A"), "%s" % (timeLimitStr)])
-
-        # current day
-        currDay = datetime.now().isoweekday()-1
-        # determine curent day and point to it
-        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").set_cursor(currDay)
-        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").scroll_to_cell(currDay)
+            # status
+            self.setStatus(True, "Failed to connect")
 
     def initLocale(self):
         """Init translation stuff"""
@@ -198,98 +160,119 @@ class timekprAdminGUI(object):
         # gettext.textdomain("timekpr-next")
         pass
 
-    def initAboutForm(self):
-        """Initialize about form"""
-        # version
-        self._timekprAboutDialog.set_version(self._timekprVersion)
-        # translation stuff
-        self._timekprAboutDialog.set_translator_credits(_("please-enter-translator-credits"))
-        # comment
-        self._timekprAboutDialog.set_comments(_("Keep control of computer usage"))
+    def initInternalConfiguration(self):
+        """This initializes the internal configuration for admin form"""
+        self._controlButtons = [
+            # combo
+            "TimekprUserSelectionCB"
+            # check box
+            ,"TimekprUserConfTodaySettingsTrackInactiveCB"
+            ,"TimekprUserConfMONCB"
+            ,"TimekprUserConfWKCB"
+            # control buttons
+            ,"TimekprUserConfTodaySettingsSetAddBT"
+            ,"TimekprUserConfTodaySettingsSetSubractBT"
+            ,"TimekprUserConfTodaySettingsSetSetBT"
+            ,"TimekprUserConfTodaySettingsTrackInactiveSetBT"
+            ,"TimekprUserConfDaySettingsConfDaysIntervalsAddBT"
+            ,"TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT"
+            ,"TimekprUserConfDaySettingsApplyBT"
+            ,"TimekprUserConfWKMONApplyBT"
+            ,"TimekprTrackingSessionsAddBT"
+            ,"TimekprTrackingSessionsRemoveBT"
+            ,"TimekprExcludedSessionsAddBT"
+            ,"TimekprExcludedSessionsRemoveBT"
+            ,"TimekprExcludedUsersAddBT"
+            ,"TimekprExcludedUsersRemoveBT"
+            ,"TimekprConfigurationApplyBT"
+            # spin buttons for adjustments
+            ,"TimekprUserConfTodaySettingsSetMinSB"
+            ,"TimekprUserConfTodaySettingsSetHrSB"
+            ,"TimekprUserConfDaySettingsConfDaysIntervalsHrSB"
+            ,"TimekprUserConfDaySettingsConfDaysIntervalsMinSB"
+            ,"TimekprUserConfWKDaySB"
+            ,"TimekprUserConfWKHrSB"
+            ,"TimekprUserConfWKMinSB"
+            ,"TimekprUserConfMONDaySB"
+            ,"TimekprUserConfMONHrSB"
+            ,"TimekprUserConfMONMinSB"
+            ,"TimekprConfigurationLoglevelSB"
+            ,"TimekprConfigurationWarningTimeSB"
+            ,"TimekprConfigurationPollIntervalSB"
+            ,"TimekprConfigurationSaveTimeSB"
+            ,"TimekprConfigurationTerminationTimeSB"
+            # entry fields
+            ,"TimekprTrackingSessionsEntryEF"
+            ,"TimekprExcludedSessionsEntryEF"
+            ,"TimekprExcludedUsersEntryEF"
+        ]
 
-        # show up all
-        self._timekprAboutDialog.show_all()
-        self._timekprAboutDialog.run()
+    def toggleControls(self, pEnable=True):
+        """Enable or disable all controls for the form"""
+        # apply settings to all buttons`
+        for rButton in self._controlButtons:
+            # get the button
+            self._timekprAdminFormBuilder.get_object(rButton).set_sensitive(pEnable)
 
-        # hide for later use
-        self._timekprAboutDialog.hide()
+    def setStatus(self, pConnectionStatus, pStatus):
+        """Change status of timekpr admin client"""
+        if pStatus is not None:
+            # connection
+            if pConnectionStatus is True:
+                # get main status
+                statusBar = self._timekprAdminFormBuilder.get_object("TimekprConnectionStatusbar")
+            else:
+                # get message status
+                statusBar = self._timekprAdminFormBuilder.get_object("TimekprMessagesStatusbar")
 
-    def initConfigForm(self):
-        """Initialize config form"""
-        # refresh info
-        self.renewUserConfiguration()
-        self.renewLimits()
-        self.renewLimitConfiguration()
-        self.configPageSwitchSignal()
+            # get context
+            contextId = statusBar.get_context_id("status")
+            # pop existing message and add new one
+            statusBar.remove_all(contextId)
+            statusBar.push(contextId, pStatus)
 
-        # show up all
-        self._timekprConfigDialog.show_all()
-        self._timekprConfigDialog.run()
+    # --------------- info population methods --------------- #
 
-        # hide for later use
-        self._timekprConfigDialog.hide()
+    def getUserList(self):
+        """Get user list via dbus"""
+        # store
+        userStore = self._timekprAdminFormBuilder.get_object("TimekprUserSelectionLS")
+        # clear up
+        userStore.clear()
+        userStore.append(["", ""])
 
-    def daysChangedSignal(self, evt):
-        """Refresh intervals when days change"""
-        # refresh the child
-        (tm, ti) = self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").get_selection().get_selected()
+        # get list
+        result, message, userList = self._timekprAdminConnector.getUserList()
 
-        # only if there is smth selected
-        if ti is not None:
-            # clear out existing intervals
-            self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysIntervalsLS").clear()
-            # fill intervals only if that day exists
-            if tm.get_value(ti, 0) in self._limitConfig:
-                # fill the intervals
-                for r in self._limitConfig[tm.get_value(ti, 0)][cons.TK_CTRL_INT]:
-                    # if we have no data, we fill this up with nothing
-                    if r[0] is None:
-                        # fill in the intervals
-                        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysIntervalsLS").append([("%s - %s") % (_NO_TIME_LABEL_SHORT, _NO_TIME_LABEL_SHORT)])
-                    else:
-                        start = (cons.TK_DATETIME_START + timedelta(seconds=r[0]))
-                        end = (cons.TK_DATETIME_START + timedelta(seconds=r[1]))
-                        # fill in the intervals
-                        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysIntervalsLS").append([("%s:%s - %s:%s") % (str(start.hour).rjust(2, "0"), str(start.minute).rjust(2, "0"), str(end.hour).rjust(2, "0"), str(end.minute).rjust(2, "0"))])
+        # all ok
+        if result == 0:
+            # loop and print
+            for rUser in userList:
+                # add user
+                userStore.append([rUser, rUser])
 
-    def saveUserConfigSignal(self, evt):
-        """Save the configuration using config file manager"""
-        # sets this up for local storage
-        showLimitNotification = self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").get_active()
-        showAllNotifications = self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active()
-        useSpeechNotifications = self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active()
-        loggingLevel = int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value())
-        showSeconds = self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active()
+            # status
+            self.setStatus(False, "User list retrieved")
+            # enable
+            self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").set_sensitive(True)
+        else:
+            # status
+            self.setStatus(False, message)
 
-        # we need to track whether config has changed
-        if (self._showLimitNotification != showLimitNotification
-            or self._showAllNotifications != showAllNotifications
-            or self._useSpeechNotifications != useSpeechNotifications
-            or self._loggingLevel != loggingLevel
-            or self._showSeconds != showSeconds
-        ):
-            # config is changed
-            self._configChanged = True
+    def retrieveUserConfig(self, pUserName):
+        print(pUserName)
 
-        # assign for actual use
-        self._showLimitNotification = showLimitNotification
-        self._showAllNotifications = showAllNotifications
-        self._useSpeechNotifications = useSpeechNotifications
-        self._loggingLevel = loggingLevel
-        self._showSeconds = showSeconds
+    # --------------- GTK signal methods --------------- #
 
-        # get config and save it
-        userConfig = timekprClientConfig(cons.TK_DEV_ACTIVE)
+    def userSelectionChanged(self, evt):
+        """User selected"""
+        userCombobox = self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB")
+        userIdx = userCombobox.get_active()
+        userModel = userCombobox.get_model()
+        userName = userModel[userIdx][0]
 
-        # set config
-        userConfig.setClientShowLimitNotifications(self._showLimitNotification)
-        userConfig.setClientShowAllNotifications(self._showAllNotifications)
-        userConfig.setClientUseSpeechNotifications(self._useSpeechNotifications)
-        userConfig.setClientShowSeconds(self._showSeconds)
-        userConfig.setClientLogLevel(self._loggingLevel)
-
-        # save config
-        userConfig.saveClientConfig()
+        # get user config
+        self.retrieveUserConfig(userName)
 
     def configPageSwitchSignal(self, nb=None, pg=None, pgn=None):
         """Enable or disable apply on page change"""
@@ -299,7 +282,7 @@ class timekprAdminGUI(object):
             ppgn = pgn
 
         # enable / disable apply when on config options page
-        if int(ppgn) == 0:
+        if int(ppgn) < 2:
             self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(False)
         else:
             self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(True)

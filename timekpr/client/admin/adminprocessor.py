@@ -13,6 +13,7 @@ DBusGMainLoop(set_as_default=True)
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
+from timekpr.client.gui.admingui import timekprAdminGUI
 
 
 class timekprAdminClient(object):
@@ -28,17 +29,24 @@ class timekprAdminClient(object):
         # get our connector
         self._timekprAdminConnector = timekprAdminConnector(self._isDevActive)
 
+        # main object for GUI
+        self._adminGUI = None
+
     def startTimekprAdminClient(self, *args):
         """Start up timekpr admin (choose gui or cli and start this up)"""
         # check whether we need CLI or GUI
         if len(args) < 2:
             # use GUI
             # load GUI and process from there
-            pass
+            self._adminGUI = timekprAdminGUI("0.1.10", "../resource/client/forms", "es", self._isDevActive)
         else:
-            # use CLI
-            # validate possible parameters and their values, when fine execute them as well
-            self.checkAndExecuteAdminCommands(*args)
+            # connect
+            self._timekprAdminConnector.initTimekprConnection(True)
+            # connected?
+            if self._timekprAdminConnector.isConnected()[1]:
+                # use CLI
+                # validate possible parameters and their values, when fine execute them as well
+                self.checkAndExecuteAdminCommands(*args)
 
     # --------------- parameter validation methods --------------- #
 
@@ -60,9 +68,6 @@ class timekprAdminClient(object):
 
         # this gets the command itself (args[0] is the script name)
         adminCmd = args[paramIdx]
-
-        # connect
-        self._timekprAdminConnector.initTimekprConnection()
 
         # now based on params check them out
         # this gets saved user list from the server

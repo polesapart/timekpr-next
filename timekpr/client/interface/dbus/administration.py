@@ -6,6 +6,7 @@ Created on Aug 28, 2018
 
 # import
 import dbus
+import time
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
 # from gettext import gettext as _s
@@ -40,7 +41,7 @@ class timekprAdminConnector(object):
         self._timekprUserAdminInterface = None
         self._timekprAdminInterface = None
 
-    def initTimekprConnection(self):
+    def initTimekprConnection(self, pTryOnce):
         """Init dbus (connect to timekpr for info)"""
         # only if notifications are ok
         if self._timekprObject is None:
@@ -83,22 +84,20 @@ class timekprAdminConnector(object):
 
         # if either of this fails, we keep trying to connect
         if self._timekprUserAdminInterface is None or self._timekprAdminInterface is None:
-            if self._retryCountLeft > 0:
+            if self._retryCountLeft > 0 and not pTryOnce:
                 log.consoleOut("connection failed, %i attempts left, will retry in %i seconds" % (self._retryCountLeft, self._retryTimeoutSecs))
                 self._retryCountLeft -= 1
 
                 # if either of this fails, we keep trying to connect
-                GLib.timeout_add_seconds(3, self.initTimekprConnection)
+                GLib.timeout_add_seconds(3, self.initTimekprConnection, pTryOnce)
             else:
+                # failed
                 self._initFailed = True
-
-        # finish
-        return False
 
     def isConnected(self):
         """Return status of connection to DBUS"""
         # if either of this fails, we keep trying to connect
-        return not (self._notifyInterface is None or self._timekprUserAdminInterface is None or self._timekprAdminInterface is None), not self._initFailed
+        return not (self._timekprUserAdminInterface is None or self._timekprAdminInterface is None), not self._initFailed
 
     def formatException(self, pExceptionStr):
         """Format exception and pass it back"""
