@@ -40,10 +40,11 @@ class timekprAdminGUI(object):
         self._resourcePath = pResourcePath
         self._timekprAdminConnector = None
         self._isDevActive = pIsDevActive
+        self._isConnected = False
 
         """
         # sets up limit variables
-        self._timeSpent = None
+        timeSpent = None
         self._timeInactive = None
         self._timeLeftToday = None
         self._timeLeftContinous = None
@@ -132,6 +133,8 @@ class timekprAdminGUI(object):
         GLib.timeout_add_seconds(0, self._timekprAdminConnector.initTimekprConnection, False)
         # check connection
         GLib.timeout_add_seconds(0.1, self.checkConnection)
+        # user config retriever
+        GLib.timeout_add_seconds(cons.TK_SAVE_INTERVAL / 2, self.userSelectionChanged, None)
 
     def checkConnection(self):
         """Check connection on the fly"""
@@ -142,6 +145,8 @@ class timekprAdminGUI(object):
         if interfacesOk and connecting:
             # status
             self.setStatus(True, "Connected")
+            # connected
+            self._isConnected = True
             # get users
             GLib.timeout_add_seconds(0, self.getUserList)
         elif not interfacesOk and connecting:
@@ -214,6 +219,10 @@ class timekprAdminGUI(object):
             # get the button
             self._timekprAdminFormBuilder.get_object(rButton).set_sensitive(pEnable)
 
+        # if disable
+        if not pEnable:
+            self.clearAdminForm()
+
     def setStatus(self, pConnectionStatus, pStatus):
         """Change status of timekpr admin client"""
         if pStatus is not None:
@@ -230,6 +239,15 @@ class timekprAdminGUI(object):
             # pop existing message and add new one
             statusBar.remove_all(contextId)
             statusBar.push(contextId, pStatus)
+
+    def clearAdminForm(self):
+        """This default everything to default values"""
+        # clear form
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentTodayLB").set_text(_NO_TIME_LIMIT_LABEL)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentWeekLB").set_text(_NO_TIME_LIMIT_LABEL)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentMonthLB").set_text(_NO_TIME_LIMIT_LABEL)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(False)
+
 
     # --------------- info population methods --------------- #
 
@@ -260,19 +278,89 @@ class timekprAdminGUI(object):
             self.setStatus(False, message)
 
     def retrieveUserConfig(self, pUserName):
-        print(pUserName)
+        """Get user configuration from server"""
+        # clear before user
+        self.clearAdminForm()
+
+        # if nothing is passed, nothing is done
+        if pUserName != "":
+            # init
+            userConfig = {}
+
+            # get list
+            result, message, userConfig = self._timekprAdminConnector.getUserConfig(pUserName)
+
+            # all ok
+            if result == 0:
+                # loop and print
+                for rKey, rValue in userConfig.items():
+
+                    # check all by keys
+                    if rKey == "TIME_SPENT":
+                        print(rKey, rValue)
+                        # limits
+                        timeSpent = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeSpentStr = str((timeSpent - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeSpent.hour).rjust(2, "0") + ":" + str(timeSpent.minute).rjust(2, "0") + ":" + str(timeSpent.second).rjust(2, "0")
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentTodayLB").set_text(timeSpentStr)
+                    elif rKey == "TIME_SPENT_WEEK":
+                        # limits
+                        timeSpentWeek = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeSpentWeekStr = str((timeSpentWeek - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeSpentWeek.hour).rjust(2, "0") + ":" + str(timeSpentWeek.minute).rjust(2, "0") + ":" + str(timeSpentWeek.second).rjust(2, "0")
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentWeekLB").set_text(timeSpentWeekStr)
+                    elif rKey == "TIME_SPENT_MONTH":
+                        # limits
+                        timeSpentMonth = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeSpentMonthStr = str((timeSpentMonth - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeSpentMonth.hour).rjust(2, "0") + ":" + str(timeSpentMonth.minute).rjust(2, "0") + ":" + str(timeSpentMonth.second).rjust(2, "0")
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentMonthLB").set_text(timeSpentMonthStr)
+                    elif rKey == "TRACK_INACTIVE":
+                        # track inactive
+                        timeTrackInactive = bool(rValue)
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(timeTrackInactive)
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_sensitive(True)
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveSetBT").set_sensitive(True)
+
+
+                    # timeTrackInactive = True if pTimeLeft[cons.TK_CTRL_TRACK] else False
+
+
+
+                """
+                ALLOWED_HOURS_5: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                ALLOWED_HOURS_4: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                LIMITS_PER_WEEKDAYS: 2100;2100;2100;2100;2100;2100;2100
+                ALLOWED_HOURS_2: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                ALLOWED_HOURS_7: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                ALLOWED_WEEKDAYS: 1;2;3;4;5;6;7
+                ALLOWED_HOURS_3: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                ALLOWED_HOURS_6: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                ALLOWED_HOURS_1: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+                """
+
+                # status
+                self.setStatus(False, "User config retrieved")
+                # enable
+                #self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").set_sensitive(True)
+            else:
+                # status
+                self.setStatus(False, message)
 
     # --------------- GTK signal methods --------------- #
 
     def userSelectionChanged(self, evt):
         """User selected"""
-        userCombobox = self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB")
-        userIdx = userCombobox.get_active()
-        userModel = userCombobox.get_model()
-        userName = userModel[userIdx][0]
+        # only if connected
+        if self._isConnected:
+            userCombobox = self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB")
+            # get chosen index, model and actual id of the item
+            userIdx = userCombobox.get_active()
+            userModel = userCombobox.get_model()
+            userName = userModel[userIdx][0]
 
-        # get user config
-        self.retrieveUserConfig(userName)
+            # get user config
+            self.retrieveUserConfig(userName)
+
+        # return
+        return True
 
     def configPageSwitchSignal(self, nb=None, pg=None, pgn=None):
         """Enable or disable apply on page change"""

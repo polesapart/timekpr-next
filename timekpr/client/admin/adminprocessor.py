@@ -60,15 +60,12 @@ class timekprAdminClient(object):
         # determine parameter offset
         for rArg in args:
             # check for script
-            if "/timekpra" in rArg:
+            if "/timekpra" in rArg or "timekpra.py" in rArg:
                 paramIdx += 1
-            else:
-                # this is it
-                break
 
         # this gets the command itself (args[0] is the script name)
         adminCmd = args[paramIdx]
-
+        print(adminCmd)
         # now based on params check them out
         # this gets saved user list from the server
         if adminCmd == "--help":
