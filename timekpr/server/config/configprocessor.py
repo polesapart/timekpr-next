@@ -95,6 +95,10 @@ class timekprUserConfigurationProcessor(object):
                 userConfigurationStore["LIMITS_PER_WEEKDAYS"] = self._timekprUserConfig.getUserLimitsPerWeekdays()
                 # track inactive
                 userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
+                # limit per week
+                userConfigurationStore["LIMIT_PER_WEEK"] = self._timekprUserConfig.getUserWeekLimit()
+                # limit per month
+                userConfigurationStore["LIMIT_PER_MONTH"] = self._timekprUserConfig.getUserMonthLimit()
                 # time spent
                 userConfigurationStore["TIME_SPENT"] = self._timekprUserControl.getUserTimeSpent()
                 # time spent
