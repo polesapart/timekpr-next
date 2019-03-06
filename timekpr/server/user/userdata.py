@@ -409,11 +409,11 @@ class timekprUser(object):
             self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = timeSpent
 
             # check if week changed
-            if lastCheckWeek != datetime.date(self._timekprUserData[cons.TK_CTRL_LCHECK]).isocalendar()[1]:
+            if lastCheckWeek != datetime.date(self._effectiveDatetime).isocalendar()[1]:
                 # set spent for week as not initialized for this week, so new limits will apply properly
                 self._timekprUserData[cons.TK_CTRL_SPENTW] = timeSpent
             # check if month changed
-            if lastCheckMonth != self._timekprUserData[cons.TK_CTRL_LCHECK].month:
+            if lastCheckMonth != self._effectiveDatetime.month:
                 # set spent for month as not initialized for this month, so new limits will apply properly
                 self._timekprUserData[cons.TK_CTRL_SPENTM] = timeSpent
 
