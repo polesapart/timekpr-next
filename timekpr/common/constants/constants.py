@@ -181,15 +181,15 @@ TK_ADMIN_COMMANDS = {
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {
      "--help"              : "print help"
-    ,"--userlist"          : "this gets saved user list from the server, example:\n    timekpra -userlist"
-    ,"--userconfig"        : "this gets user configuration from the server, example:\n    timekpra -userconfig \"testuser\""
-    ,"--setalloweddays"    : "this sets allowed days for the user, example:\n    timekpra -setalloweddays \"testuser\" \"1,2,3,4,5\""
-    ,"--setallowedhours"   : "this sets allowed hours per specified day or ALL for every day, example:\n    timekpra -setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
-    ,"--settimelimits"     : "this sets time limits per all allowed days, example:\n    timekpra -settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
-    ,"--settimelimitweek"  : "this sets time limits per week, example:\n    timekpra -settimelimitweek \"testuser\" \"50000\""
-    ,"--settimelimitmonth" : "this sets time limits per month, example:\n    timekpra -settimelimitmonth \"testuser\" \"200000\""
-    ,"--settrackinactive"  : "this sets whether to track inactive user sessions, example:\n    timekpra -settrackinactive \"testuser\" \"false\""
-    ,"--settimeleft"       : "this sets time left for the user at current moment, example (add one hour):\n    timekpra -settimeleft \"testuser\" \"+\" 3600"
+    ,"--userlist"          : "this gets saved user list from the server, example:\n    timekpra --userlist"
+    ,"--userconfig"        : "this gets user configuration from the server, example:\n    timekpra --userconfig \"testuser\""
+    ,"--setalloweddays"    : "this sets allowed days for the user, example:\n    timekpra --setalloweddays \"testuser\" \"1,2,3,4,5\""
+    ,"--setallowedhours"   : "this sets allowed hours per specified day or ALL for every day, example:\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
+    ,"--settimelimits"     : "this sets time limits per all allowed days, example:\n    timekpra --settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
+    ,"--settimelimitweek"  : "this sets time limits per week, example:\n    timekpra --settimelimitweek \"testuser\" \"50000\""
+    ,"--settimelimitmonth" : "this sets time limits per month, example:\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
+    ,"--settrackinactive"  : "this sets whether to track inactive user sessions, example:\n    timekpra --settrackinactive \"testuser\" \"false\""
+    ,"--settimeleft"       : "this sets time left for the user at current moment, example (add one hour):\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
 }
 
 
