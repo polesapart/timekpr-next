@@ -217,7 +217,6 @@ class timekprUserConfigurationProcessor(object):
                 self._timekprUserConfig.setUserAllowedHours(dayLimits)
 
             except Exception as ex:
-                print(str(ex))
                 # result
                 result = -1
                 message = "User's \"%s\" allowed hours are not correct and can not be set" % (self._userName)

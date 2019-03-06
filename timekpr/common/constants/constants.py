@@ -180,7 +180,7 @@ TK_ADMIN_COMMANDS = {
 }
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {
-     "--help"              : "print help"
+     "--help"              : "print help, example:\n    timekpra --help"
     ,"--userlist"          : "this gets saved user list from the server, example:\n    timekpra --userlist"
     ,"--userconfig"        : "this gets user configuration from the server, example:\n    timekpra --userconfig \"testuser\""
     ,"--setalloweddays"    : "this sets allowed days for the user, example:\n    timekpra --setalloweddays \"testuser\" \"1,2,3,4,5\""

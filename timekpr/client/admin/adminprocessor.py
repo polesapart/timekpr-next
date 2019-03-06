@@ -65,7 +65,7 @@ class timekprAdminClient(object):
 
         # this gets the command itself (args[0] is the script name)
         adminCmd = args[paramIdx]
-        print(adminCmd)
+
         # now based on params check them out
         # this gets saved user list from the server
         if adminCmd == "--help":
@@ -188,9 +188,20 @@ class timekprAdminClient(object):
                 log.consoleOut("The command is incorrect:", *args)
 
             log.consoleOut("\nThe usage of timekpr admin client is as follows:")
+            # initial order
+            cmds = ["--help", "--userlist", "--userconfig"]
+            # print initial commands as first
+            for rCmd in cmds:
+                log.consoleOut(" ", rCmd, cons.TK_USER_ADMIN_COMMANDS[rCmd])
+
+            # put a little space in between
+            log.consoleOut("")
+
             # print help
             for rCmd, rCmdDesc in cons.TK_USER_ADMIN_COMMANDS.items():
-                log.consoleOut(" ", rCmd, rCmdDesc)
+                # do not print already known commands
+                if rCmd not in cmds:
+                    log.consoleOut(" ", rCmd, rCmdDesc)
 
     # --------------- parameter execution methods --------------- #
 
