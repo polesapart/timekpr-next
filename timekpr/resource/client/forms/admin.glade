@@ -86,7 +86,16 @@
   </object>
   <object class="GtkListStore" id="TimekprExcludedSessionsLS"/>
   <object class="GtkListStore" id="TimekprExcludedUsersLS"/>
-  <object class="GtkListStore" id="TimekprHourIntervalsLS"/>
+  <object class="GtkListStore" id="TimekprHourIntervalsLS">
+    <columns>
+      <!-- column-name intervalIdx -->
+      <column type="guint"/>
+      <!-- column-name fromHour -->
+      <column type="gchararray"/>
+      <!-- column-name toHour -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkAdjustment" id="TimekprLoglevelAdjustment">
     <property name="lower">1</property>
     <property name="upper">3</property>
@@ -166,8 +175,14 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkImage" id="TimekprUserSelectionRefreshBTImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-revert-to-saved</property>
+  </object>
   <object class="GtkAdjustment" id="TimekprWKDayAdjustment">
-    <property name="upper">31</property>
+    <property name="upper">7</property>
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
@@ -188,7 +203,24 @@
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
-  <object class="GtkListStore" id="TimekprWeekDaysLS"/>
+  <object class="GtkListStore" id="TimekprWeekDaysLS">
+    <columns>
+      <!-- column-name dayIdx -->
+      <column type="gchararray"/>
+      <!-- column-name dayName -->
+      <column type="gchararray"/>
+      <!-- column-name dayEnabled -->
+      <column type="gboolean"/>
+      <!-- column-name dayHourLimit -->
+      <column type="guint"/>
+      <!-- column-name dayMinLimit -->
+      <column type="guint"/>
+      <!-- column-name daySecLimit -->
+      <column type="guint"/>
+      <!-- column-name dayLimitSecs -->
+      <column type="guint"/>
+    </columns>
+  </object>
   <object class="GtkApplicationWindow" id="TimekprApplicationWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">TImekpr configuration</property>
@@ -305,7 +337,7 @@ Please configure carefully, do not lock Yourself out!</property>
                         <property name="id_column">0</property>
                         <signal name="changed" handler="userSelectionChanged" swapped="no"/>
                         <child internal-child="entry">
-                          <object class="GtkEntry" id="combobox-entry">
+                          <object class="GtkEntry" id="TimekprUserSelectionCBEntry">
                             <property name="can_focus">False</property>
                           </object>
                         </child>
@@ -318,7 +350,23 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkButton" id="TimekprUserSelectionRefreshBT">
+                        <property name="label" translatable="yes">restore</property>
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="margin_bottom">10</property>
+                        <property name="image">TimekprUserSelectionRefreshBTImage</property>
+                        <signal name="clicked" handler="userConfigurationRefreshActivated" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -397,7 +445,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="label" translatable="yes">00:00:00</property>
+                                    <property name="label" translatable="yes">00:00:00:00</property>
+                                    <property name="ellipsize">end</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -588,6 +637,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="adjustment">TimekprTodayMinAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="todayAddTimeChanged" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -606,6 +656,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="adjustment">TimekprTodayHrAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="todayAddTimeChanged" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -643,6 +694,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="image">TimekprApplyImageAddTime</property>
+                                            <signal name="clicked" handler="todayAddTimeClicked" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -658,6 +710,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="image">TimekprApplyImageSubtractTime</property>
+                                            <signal name="clicked" handler="todaySubtractTimeClicked" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -673,6 +726,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="image">TimekprApplyImageSetTime</property>
+                                            <signal name="clicked" handler="todaySetTimeClicked" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -734,6 +788,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="receives_default">False</property>
                                     <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="trackInactiveChanged" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -749,6 +804,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="image">TimekprApplyImageSetInactive</property>
+                                    <signal name="clicked" handler="trackInactiveClicked" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -828,15 +884,18 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="margin_right">5</property>
                                     <property name="margin_bottom">5</property>
                                     <property name="shadow_type">in</property>
-                                    <property name="min_content_width">150</property>
-                                    <property name="min_content_height">100</property>
+                                    <property name="min_content_width">270</property>
+                                    <property name="min_content_height">120</property>
                                     <child>
                                       <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="hscroll_policy">natural</property>
                                         <property name="model">TimekprWeekDaysLS</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection"/>
+                                          <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
+                                            <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
+                                          </object>
                                         </child>
                                       </object>
                                     </child>
@@ -858,6 +917,8 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
                                 <property name="spacing">5</property>
                                 <child>
                                   <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsViewBox">
@@ -873,7 +934,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="margin_bottom">5</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
-                                        <property name="label" translatable="yes">Configured time intervals</property>
+                                        <property name="label" translatable="yes">Intervals</property>
                                         <property name="ellipsize">end</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
@@ -893,8 +954,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="margin_right">5</property>
                                         <property name="margin_bottom">5</property>
                                         <property name="shadow_type">in</property>
-                                        <property name="min_content_width">100</property>
-                                        <property name="min_content_height">100</property>
+                                        <property name="min_content_width">95</property>
+                                        <property name="min_content_height">120</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
                                             <property name="visible">True</property>
@@ -908,7 +969,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="fill">True</property>
+                                        <property name="fill">False</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
@@ -991,10 +1052,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">8</property>
-                                            <property name="placeholder_text" translatable="yes">8</property>
                                             <property name="adjustment">TimekprDailyHrAdjustment</property>
                                             <property name="numeric">True</property>
-                                            <property name="update_policy">if-valid</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -1144,6 +1203,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="receives_default">False</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="monthAvailabilityChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1190,6 +1250,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="receives_default">False</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="weekAvailabilityChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1250,10 +1311,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">7</property>
                                 <property name="placeholder_text" translatable="yes">7</property>
-                                <property name="adjustment">TimekprMONDayAdjustment</property>
+                                <property name="adjustment">TimekprWKDayAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1267,9 +1330,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">0</property>
+                                <property name="placeholder_text" translatable="yes">0</property>
                                 <property name="adjustment">TimekprWKHrAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1283,9 +1349,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">0</property>
+                                <property name="placeholder_text" translatable="yes">0</property>
                                 <property name="adjustment">TimekprWKMinAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1345,10 +1414,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">31</property>
                                 <property name="placeholder_text" translatable="yes">31</property>
-                                <property name="adjustment">TimekprWKDayAdjustment</property>
+                                <property name="adjustment">TimekprMONDayAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="monthlyLimitDayHrMinChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1362,9 +1433,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">0</property>
+                                <property name="placeholder_text" translatable="yes">0</property>
                                 <property name="adjustment">TimekprMONHrAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="monthlyLimitDayHrMinChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1378,9 +1452,12 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">True</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">0</property>
+                                <property name="placeholder_text" translatable="yes">0</property>
                                 <property name="adjustment">TimekprMONMinAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="monthlyLimitDayHrMinChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1422,6 +1499,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">5</property>
                             <property name="image">TimekprApplyImageWKMON</property>
+                            <signal name="clicked" handler="WKMONLimitSetClicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>

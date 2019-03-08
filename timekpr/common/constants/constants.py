@@ -117,6 +117,10 @@ TK_USERS_EXCL = "testtimekpr;gdm;kdm;lightdm;mdm;lxdm;xdm;sddm;cdm"
 TK_ALLOWED_HOURS = "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23"
 # default value for allowed week days
 TK_ALLOWED_WEEKDAYS = "1;2;3;4;5;6;7"
+# default value for limit per hour
+TK_LIMIT_PER_MINUTE = 60
+# default value for limit per hour
+TK_LIMIT_PER_HOUR = 3600
 # default value for limit per day
 TK_LIMIT_PER_DAY = 86400
 # default value for limit per week
