@@ -5,6 +5,8 @@ Created on Aug 28, 2018
 """
 
 # imports
+import os
+import getpass
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 # from datetime import timedelta
@@ -14,6 +16,7 @@ from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
 from timekpr.client.gui.admingui import timekprAdminGUI
+from timekpr.common.utils.config import timekprConfig
 
 
 class timekprAdminClient(object):
@@ -36,9 +39,15 @@ class timekprAdminClient(object):
         """Start up timekpr admin (choose gui or cli and start this up)"""
         # check whether we need CLI or GUI
         if len(args) < 2:
+            # configuration init
+            self._timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
+            self._timekprConfigManager.loadMainConfiguration()
+            # resource dir
+            self._resourcePathGUI = os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "client/forms")
+
             # use GUI
             # load GUI and process from there
-            self._adminGUI = timekprAdminGUI("0.1.10", "../resource/client/forms", "es", self._isDevActive)
+            self._adminGUI = timekprAdminGUI(cons.TK_VERSION, self._resourcePathGUI, getpass.getuser(), self._isDevActive)
         else:
             # connect
             self._timekprAdminConnector.initTimekprConnection(True)

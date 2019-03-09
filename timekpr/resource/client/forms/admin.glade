@@ -962,7 +962,9 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="can_focus">True</property>
                                             <property name="model">TimekprHourIntervalsLS</property>
                                             <child internal-child="selection">
-                                              <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection"/>
+                                              <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection">
+                                                <signal name="changed" handler="hourIntervalSelectionChanged" swapped="no"/>
+                                              </object>
                                             </child>
                                           </object>
                                         </child>
@@ -1054,6 +1056,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="text" translatable="yes">8</property>
                                             <property name="adjustment">TimekprDailyHrAdjustment</property>
                                             <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -1071,6 +1074,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="adjustment">TimekprDailyMinAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>

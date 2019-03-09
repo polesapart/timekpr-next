@@ -46,7 +46,7 @@ class timekprAdminGUI(object):
         # init config builder
         self._timekprAdminFormBuilder = Gtk.Builder()
         # get our dialog
-        self._timekprAdminFormBuilder.add_from_file(os.path.join(self._resourcePath, "admin_alt.glade"))
+        self._timekprAdminFormBuilder.add_from_file(os.path.join(self._resourcePath, "admin.glade"))
         # connect signals, so they get executed
         self._timekprAdminFormBuilder.connect_signals(self)
         # get window
@@ -727,8 +727,19 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprUserConfMONCB").set_sensitive(timeLimitMonth == cons.TK_LIMIT_PER_MONTH)
         self.monthAvailabilityChanged(None)
 
-TimekprUserConfDaySettingsConfDaysIntervalsHrSB
-TimekprUserConfDaySettingsConfDaysIntervalsMinSB
+        # ## add new intervals ##
+        enabled = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsTreeView").get_sensitive()
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsHrSB").set_sensitive(enabled)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsMinSB").set_sensitive(enabled)
+        # check whether to enable add/remove intervals
+        if int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsHrSB").get_text()) > 0 or int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsMinSB").get_text()) > 0:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsAddBT").set_sensitive(True)
+        else:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsAddBT").set_sensitive(False)
+
+
+
+
 
 
 
@@ -934,6 +945,23 @@ TimekprUserConfDaySettingsConfDaysIntervalsMinSB
     def WKMONLimitSetClicked(self, evt):
         """Adjust weekly and monthly limits"""
         self.adjustWKMONLimit()
+
+    def hourIntervalSelectionChanged(self, evt):
+        """When hour interval selection changed"""
+        # refresh the child
+        (tm, ti) = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsTreeView").get_selection().get_selected()
+
+        # only if there is smth selected
+        if ti is not None:
+            # clear out existing intervals
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT").set_sensitive(True)
+        else:
+            # clear out existing intervals
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT").set_sensitive(False)
+
+    def weeklyLimitDayHrMinChanged(self, evt):
+        # recalc control availability
+        self.calculateControlAvailability()
 
     def closePropertiesSignal(self, evt):
         """Close the config form"""
