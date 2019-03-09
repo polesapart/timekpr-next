@@ -10,4 +10,3 @@ Type=Application
 Categories=System;Settings;GTK;
 StartupNotify=true
 X-Ubuntu-Gettext-Domain=timekpr
-Name[en_US]=timekpr-admin-pk.desktop

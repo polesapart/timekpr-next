@@ -34,6 +34,7 @@ resource/launchers/timekpr-client.desktop etc/xdg/autostart/
 # forms
 resource/client/forms/about.glade usr/share/timekpr/client/forms/
 resource/client/forms/config.glade usr/share/timekpr/client/forms/
+resource/client/forms/admin.glade usr/share/timekpr/client/forms/
 
 # python common
 common/constants/__init__.py usr/share/pyshared/timekpr/common/constants/

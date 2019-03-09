@@ -38,7 +38,10 @@ class timekprAdminClient(object):
     def startTimekprAdminClient(self, *args):
         """Start up timekpr admin (choose gui or cli and start this up)"""
         # check whether we need CLI or GUI
-        if len(args) < 2:
+        lastParam = args[len(args)-1]
+
+        # check for script
+        if "/timekpra" in lastParam or "timekpra.py" in lastParam:
             # configuration init
             self._timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
             self._timekprConfigManager.loadMainConfiguration()
@@ -65,15 +68,18 @@ class timekprAdminClient(object):
         paramIdx = 0
         paramLen = len(args)
         adminCmdIncorrect = False
+        tmpIdx = 0
 
         # determine parameter offset
         for rArg in args:
+            # count offset
+            tmpIdx += 1
             # check for script
             if "/timekpra" in rArg or "timekpra.py" in rArg:
-                paramIdx += 1
+                paramIdx = tmpIdx
 
         # this gets the command itself (args[0] is the script name)
-        adminCmd = args[paramIdx]
+        adminCmd = args[paramIdx] if paramLen > paramIdx else "timekpra"
 
         # now based on params check them out
         # this gets saved user list from the server
@@ -191,7 +197,7 @@ class timekprAdminClient(object):
             adminCmdIncorrect = True
 
         # check whether command is supported
-        if (adminCmd not in cons.TK_USER_ADMIN_COMMANDS and adminCmd not in cons.TK_ADMIN_COMMANDS) or adminCmd == "-help" or adminCmdIncorrect:
+        if (adminCmd not in cons.TK_USER_ADMIN_COMMANDS and adminCmd not in cons.TK_ADMIN_COMMANDS) or adminCmd == "--help" or adminCmdIncorrect:
             # fail
             if adminCmdIncorrect:
                 log.consoleOut("The command is incorrect:", *args)
