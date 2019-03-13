@@ -50,6 +50,12 @@
     <property name="xpad">5</property>
     <property name="stock">gtk-remove</property>
   </object>
+  <object class="GtkImage" id="TimekprApplyImageSetDayLimit">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-add</property>
+  </object>
   <object class="GtkImage" id="TimekprApplyImageSetInactive">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -74,12 +80,32 @@
     <property name="xpad">5</property>
     <property name="stock">gtk-apply</property>
   </object>
-  <object class="GtkAdjustment" id="TimekprDailyHrAdjustment">
-    <property name="upper">23</property>
+  <object class="GtkAdjustment" id="TimekprDailyHrFromAdjustment">
+    <property name="upper">24</property>
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
-  <object class="GtkAdjustment" id="TimekprDailyMinAdjustment">
+  <object class="GtkAdjustment" id="TimekprDailyHrLimitAdjustment">
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyHrToAdjustment">
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinFromAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinLimitAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinToAdjustment">
     <property name="upper">60</property>
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
@@ -94,6 +120,12 @@
       <column type="gchararray"/>
       <!-- column-name toHour -->
       <column type="gchararray"/>
+      <!-- column-name dayIdx -->
+      <column type="guint"/>
+      <!-- column-name fromSeconds -->
+      <column type="guint"/>
+      <!-- column-name toSeconds -->
+      <column type="guint"/>
     </columns>
   </object>
   <object class="GtkAdjustment" id="TimekprLoglevelAdjustment">
@@ -211,14 +243,10 @@
       <column type="gchararray"/>
       <!-- column-name dayEnabled -->
       <column type="gboolean"/>
-      <!-- column-name dayHourLimit -->
-      <column type="guint"/>
-      <!-- column-name dayMinLimit -->
-      <column type="guint"/>
-      <!-- column-name daySecLimit -->
-      <column type="guint"/>
       <!-- column-name dayLimitSecs -->
       <column type="guint"/>
+      <!-- column-name limitStr -->
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkApplicationWindow" id="TimekprApplicationWindow">
@@ -226,6 +254,7 @@
     <property name="title" translatable="yes">TImekpr configuration</property>
     <property name="resizable">False</property>
     <property name="icon_name">timekpr-client</property>
+    <signal name="delete-event" handler="closePropertiesSignal" swapped="no"/>
     <child>
       <object class="GtkBox" id="TimekprMainBox">
         <property name="visible">True</property>
@@ -241,10 +270,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
-                <property name="margin_left">40</property>
-                <property name="margin_right">40</property>
-                <property name="margin_top">20</property>
-                <property name="margin_bottom">20</property>
+                <property name="margin_left">30</property>
+                <property name="margin_right">30</property>
+                <property name="margin_top">30</property>
+                <property name="margin_bottom">30</property>
                 <property name="pixel_size">64</property>
                 <property name="icon_name">timekpr-client</property>
                 <property name="icon_size">6</property>
@@ -262,11 +291,12 @@
                 <property name="xpad">5</property>
                 <property name="ypad">5</property>
                 <property name="label" translatable="yes">This is timekpr-next configuration app, it allows You to configure timekpr itself as well as configuration for Your users.
+To use this application You have to execute it either as superuser or have to be in timekpr group.
 
 Please configure carefully, do not lock Yourself out!</property>
                 <property name="wrap">True</property>
-                <property name="width_chars">75</property>
-                <property name="max_width_chars">75</property>
+                <property name="width_chars">70</property>
+                <property name="max_width_chars">70</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -840,35 +870,76 @@ Please configure carefully, do not lock Yourself out!</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="TimekprUserConfDaySettingsBox">
+                      <object class="GtkBox" id="TimekprUserConfDayHourSettingsBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
                         <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkBox" id="TimekprUserConfDaySettingsInnerBox">
+                          <object class="GtkBox" id="TimekprUserConfDayHourSettingsHolderBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysBox">
+                              <object class="GtkBox" id="TimekprUserConfDaySettingsHolderBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_left">5</property>
-                                <property name="margin_right">5</property>
-                                <property name="orientation">vertical</property>
-                                <property name="spacing">5</property>
                                 <child>
-                                  <object class="GtkLabel" id="TimekprUserConfDaySettingsSetDaysLabel">
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="margin_top">5</property>
-                                    <property name="margin_bottom">5</property>
-                                    <property name="xpad">5</property>
-                                    <property name="ypad">5</property>
-                                    <property name="label" translatable="yes">Configure time limits for week days</property>
-                                    <property name="ellipsize">end</property>
-                                    <attributes>
-                                      <attribute name="style" value="italic"/>
-                                    </attributes>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">5</property>
+                                    <child>
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsSetDaysLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">5</property>
+                                        <property name="xpad">5</property>
+                                        <property name="ypad">5</property>
+                                        <property name="label" translatable="yes">Configure time limits for week days</property>
+                                        <property name="ellipsize">end</property>
+                                        <attributes>
+                                          <attribute name="style" value="italic"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="TimekprWeekDaysScrolledWindow">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="shadow_type">in</property>
+                                        <property name="min_content_width">220</property>
+                                        <property name="min_content_height">100</property>
+                                        <child>
+                                          <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="hscroll_policy">natural</property>
+                                            <property name="model">TimekprWeekDaysLS</property>
+                                            <property name="search_column">0</property>
+                                            <child internal-child="selection">
+                                              <object class="GtkTreeSelection" id="treeview-selection">
+                                                <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -877,27 +948,119 @@ Please configure carefully, do not lock Yourself out!</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkScrolledWindow" id="TimekprWeekDaysScrolledWindow">
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsLimitsDaysBox">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="valign">center</property>
                                     <property name="margin_left">5</property>
                                     <property name="margin_right">5</property>
-                                    <property name="margin_bottom">5</property>
-                                    <property name="shadow_type">in</property>
-                                    <property name="min_content_width">270</property>
-                                    <property name="min_content_height">120</property>
+                                    <property name="orientation">vertical</property>
                                     <child>
-                                      <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsConfSetLabel">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="hscroll_policy">natural</property>
-                                        <property name="model">TimekprWeekDaysLS</property>
-                                        <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
-                                            <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
+                                        <property name="can_focus">False</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">5</property>
+                                        <property name="xpad">5</property>
+                                        <property name="ypad">5</property>
+                                        <property name="label" translatable="yes">Specify day's limit</property>
+                                        <property name="ellipsize">end</property>
+                                        <attributes>
+                                          <attribute name="style" value="italic"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkGrid" id="TimekprUserConfDaySettingsConfSetGrid">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaySetHrLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">hr</property>
                                           </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaySetMinLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">min</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="text" translatable="yes">0</property>
+                                            <property name="adjustment">TimekprDailyHrLimitAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrMinChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetMinBT">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="text" translatable="yes">0</property>
+                                            <property name="placeholder_text" translatable="yes">20</property>
+                                            <property name="adjustment">TimekprDailyMinLimitAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrMinChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDayApplyBT">
+                                            <property name="label" translatable="yes">set</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="image">TimekprApplyImageSetDayLimit</property>
+                                            <signal name="clicked" handler="dayTotalLimitClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                   <packing>
@@ -914,16 +1077,28 @@ Please configure carefully, do not lock Yourself out!</property>
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkSeparator" id="TimekprDaysHoursSeparator">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">15</property>
+                                <property name="margin_right">15</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
                               <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_left">5</property>
-                                <property name="margin_right">5</property>
-                                <property name="spacing">5</property>
                                 <child>
                                   <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsViewBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">5</property>
                                     <child>
@@ -934,7 +1109,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="margin_bottom">5</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
-                                        <property name="label" translatable="yes">Intervals</property>
+                                        <property name="label" translatable="yes">Hour intervals</property>
                                         <property name="ellipsize">end</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
@@ -950,12 +1125,9 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkScrolledWindow" id="TimekprHourIntervalsScrolledWindow">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="margin_left">5</property>
-                                        <property name="margin_right">5</property>
-                                        <property name="margin_bottom">5</property>
                                         <property name="shadow_type">in</property>
                                         <property name="min_content_width">95</property>
-                                        <property name="min_content_height">120</property>
+                                        <property name="min_content_height">100</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
                                             <property name="visible">True</property>
@@ -987,6 +1159,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="valign">end</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">5</property>
                                     <child>
@@ -997,7 +1171,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="margin_bottom">5</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
-                                        <property name="label" translatable="yes">Add or remove interval for selected day</property>
+                                        <property name="label" translatable="yes">Manage intervals for day</property>
+                                        <property name="wrap">True</property>
                                         <property name="ellipsize">end</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
@@ -1013,20 +1188,80 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkGrid" id="TimekprUserConfDaySettingsConfDaysIntervalsGrid">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="halign">center</property>
-                                        <property name="valign">start</property>
-                                        <property name="margin_left">5</property>
-                                        <property name="margin_right">5</property>
-                                        <property name="margin_bottom">5</property>
-                                        <property name="column_homogeneous">True</property>
                                         <child>
-                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaysIntervalsAddBT">
-                                            <property name="label" translatable="yes">add</property>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsMinLabel">
                                             <property name="visible">True</property>
-                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">min</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsHrLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">hr</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB">
+                                            <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="image">TimekprApplyImageAddInterval</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="text" translatable="yes">20</property>
+                                            <property name="placeholder_text" translatable="yes">20</property>
+                                            <property name="adjustment">TimekprDailyMinFromAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="text" translatable="yes">8</property>
+                                            <property name="adjustment">TimekprDailyHrFromAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsFromLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">from</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsToLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -1041,6 +1276,38 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="image">TimekprApplyImageRemoveInterval</property>
+                                            <signal name="clicked" handler="removeHourIntervalClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaysIntervalsAddBT">
+                                            <property name="label" translatable="yes">add</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="image">TimekprApplyImageAddInterval</property>
+                                            <signal name="clicked" handler="addHourIntervalClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="text" translatable="yes">0</property>
+                                            <property name="adjustment">TimekprDailyHrToAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1048,60 +1315,28 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsHrSB">
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
-                                            <property name="text" translatable="yes">8</property>
-                                            <property name="adjustment">TimekprDailyHrAdjustment</property>
-                                            <property name="numeric">True</property>
-                                            <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">0</property>
-                                            <property name="top_attach">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsMinSB">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="width_chars">2</property>
-                                            <property name="max_width_chars">2</property>
-                                            <property name="text" translatable="yes">20</property>
+                                            <property name="text" translatable="yes">0</property>
                                             <property name="placeholder_text" translatable="yes">20</property>
-                                            <property name="adjustment">TimekprDailyMinAdjustment</property>
+                                            <property name="adjustment">TimekprDailyMinToAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
-                                            <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
                                           </object>
                                           <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="top_attach">1</property>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">2</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsHrLabel">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">hr</property>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">0</property>
-                                            <property name="top_attach">0</property>
-                                          </packing>
+                                          <placeholder/>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsMinLabel">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">min</property>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="top_attach">0</property>
-                                          </packing>
+                                          <placeholder/>
                                         </child>
                                       </object>
                                       <packing>
@@ -1121,7 +1356,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>
@@ -1140,7 +1375,6 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="receives_default">True</property>
                             <property name="margin_left">5</property>
                             <property name="margin_right">5</property>
-                            <property name="margin_top">5</property>
                             <property name="margin_bottom">5</property>
                             <property name="image">TimekprApplyImageDaily</property>
                           </object>
