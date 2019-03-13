@@ -104,7 +104,7 @@ class timekprAdminConnector(object):
         # check for permission error
         if "org.freedesktop.DBus.Error.AccessDenied" in pExceptionStr:
             result = -1
-            message = "FAILED to execute to timekpr admin commands.\nPlease check that timekpr daemon is working and You have sufficient permissions to access it (either superuser or timekpr group)"
+            message = "Command FAILED: access denied"
         else:
             result = -1
             message = "UNEXPECTED ERROR: %s" % (pExceptionStr)
