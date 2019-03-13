@@ -43,14 +43,14 @@ class timekprAdminClient(object):
         # check for script
         if "/timekpra" in lastParam or "timekpra.py" in lastParam:
             # configuration init
-            self._timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
-            self._timekprConfigManager.loadMainConfiguration()
+            _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
+            _timekprConfigManager.loadMainConfiguration()
             # resource dir
-            self._resourcePathGUI = os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "client/forms")
+            _resourcePathGUI = os.path.join(_timekprConfigManager.getTimekprSharedDir(), "client/forms")
 
             # use GUI
             # load GUI and process from there
-            self._adminGUI = timekprAdminGUI(cons.TK_VERSION, self._resourcePathGUI, getpass.getuser(), self._isDevActive)
+            self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser(), self._isDevActive)
         else:
             # connect
             self._timekprAdminConnector.initTimekprConnection(True)
