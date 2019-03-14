@@ -115,6 +115,8 @@ class timekprAdminConnector(object):
     def getUserList(self):
         """Get user list from server"""
         # defaults
+        result = -1
+        message = "Command FAILED: message was not accepted"
         userList = []
 
         # if we have end-point
@@ -137,6 +139,8 @@ class timekprAdminConnector(object):
     def getUserConfig(self, pUserName):
         """Get user configuration from server"""
         # defaults
+        result = -1
+        message = "Command FAILED: message was not accepted"
         userConfig = {}
 
         # if we have end-point
@@ -158,6 +162,10 @@ class timekprAdminConnector(object):
 
     def setAllowedDays(self, pUserName, pDayList):
         """Set user allowed days"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
@@ -177,6 +185,10 @@ class timekprAdminConnector(object):
 
     def setAllowedHours(self, pUserName, pDayNumber, pHourList):
         """Set user allowed days"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
@@ -196,6 +208,10 @@ class timekprAdminConnector(object):
 
     def setTimeLimitForDays(self, pUserName, pDayLimits):
         """Set user allowed limit for days"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
@@ -215,6 +231,9 @@ class timekprAdminConnector(object):
 
     def setTimeLimitForWeek(self, pUserName, pTimeLimitWeek):
         """Set user allowed limit for week"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
 
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
@@ -235,6 +254,10 @@ class timekprAdminConnector(object):
 
     def setTimeLimitForMonth(self, pUserName, pTimeLimitMonth):
         """Set user allowed limit for month"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
@@ -254,6 +277,10 @@ class timekprAdminConnector(object):
 
     def setTrackInactive(self, pUserName, pTrackInactive):
         """Set user allowed days"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
@@ -273,6 +300,10 @@ class timekprAdminConnector(object):
 
     def setTimeLeft(self, pUserName, pOperation, pTimeLeft):
         """Set user time left"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
         # if we have end-point
         if self._timekprUserAdminInterface is not None:
             # notify through dbus
