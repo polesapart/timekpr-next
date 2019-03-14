@@ -37,6 +37,8 @@ class timekprGUI(object):
 
         # sets up limit variables
         self._timeSpent = None
+        self._timeSpentWeek = None
+        self._timeSpentMonth = None
         self._timeInactive = None
         self._timeLeftToday = None
         self._timeLeftContinous = None
@@ -100,6 +102,13 @@ class timekprGUI(object):
         # status
         self.setStatus("Started")
 
+    def formatTime(self, pTime):
+        """Format time for output on form"""
+        if pTime is None:
+            return _NO_TIME_LIMIT_LABEL
+        else:
+            return str((pTime - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(pTime.hour).rjust(2, "0") + ":" + str(pTime.minute).rjust(2, "0") + ":" + str(pTime.second).rjust(2, "0")
+
     def renewUserConfiguration(self, pShowLimitNotification=None, pShowAllNotifications=None, pUseSpeechNotifications=None, pShowSeconds=None, pLoggingLevel=None):
         """Update configuration options"""
         # sets this up for local storage
@@ -139,31 +148,13 @@ class timekprGUI(object):
             self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT])
             self._timeTrackInactive = True if pTimeLeft[cons.TK_CTRL_TRACK] else False
 
-        # calculate strings to show (and show only those, which hava data)
-        if self._timeSpent is not None:
-            timeSpentStr = str((self._timeSpent - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeSpent.hour).rjust(2, "0") + ":" + str(self._timeSpent.minute).rjust(2, "0") + ":" + str(self._timeSpent.second).rjust(2, "0")
-        else:
-            timeSpentStr = _NO_TIME_LIMIT_LABEL
-        if self._timeSpent is not None:
-            timeSpentWeekStr = str((self._timeSpentWeek - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeSpentWeek.hour).rjust(2, "0") + ":" + str(self._timeSpentWeek.minute).rjust(2, "0") + ":" + str(self._timeSpentWeek.second).rjust(2, "0")
-        else:
-            timeSpentWeekStr = _NO_TIME_LIMIT_LABEL
-        if self._timeSpent is not None:
-            timeSpentMonthStr = str((self._timeSpentMonth - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeSpentMonth.hour).rjust(2, "0") + ":" + str(self._timeSpentMonth.minute).rjust(2, "0") + ":" + str(self._timeSpentMonth.second).rjust(2, "0")
-        else:
-            timeSpentMonthStr = _NO_TIME_LIMIT_LABEL
-        if self._timeInactive is not None:
-            timeSleepStr = str((self._timeInactive - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeInactive.hour).rjust(2, "0") + ":" + str(self._timeInactive.minute).rjust(2, "0") + ":" + str(self._timeInactive.second).rjust(2, "0")
-        else:
-            timeSleepStr = _NO_TIME_LIMIT_LABEL
-        if self._timeLeftToday is not None:
-            timeLeftTodayStr = str((self._timeLeftToday - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLeftToday.hour).rjust(2, "0") + ":" + str(self._timeLeftToday.minute).rjust(2, "0") + ":" + str(self._timeLeftToday.second).rjust(2, "0")
-        else:
-            timeLeftTodayStr = _NO_TIME_LIMIT_LABEL
-        if self._timeLeftContinous is not None:
-            timeLeftTotalStr = str((self._timeLeftContinous - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(self._timeLeftContinous.hour).rjust(2, "0") + ":" + str(self._timeLeftContinous.minute).rjust(2, "0") + ":" + str(self._timeLeftContinous.second).rjust(2, "0")
-        else:
-            timeLeftTotalStr = _NO_TIME_LIMIT_LABEL
+        # calculate strings to show (and show only those, which have data)
+        timeSpentStr = self.formatTime(self._timeSpent)
+        timeSpentWeekStr = self.formatTime(self._timeSpentWeek)
+        timeSpentMonthStr = self.formatTime(self._timeSpentMonth)
+        timeSleepStr = self.formatTime(self._timeInactive)
+        timeLeftTodayStr = self.formatTime(self._timeLeftToday)
+        timeLeftTotalStr = self.formatTime(self._timeLeftContinous)
 
         # sets up stuff
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeSpentL").set_text(timeSpentStr)
@@ -202,7 +193,7 @@ class timekprGUI(object):
                     # limit
                     timeLimitWKMON = cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][rKey])
                     # limit
-                    timeLimitWKMONStr = str((timeLimitWKMON - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLimitWKMON.hour).rjust(2, "0") + ":" + str(timeLimitWKMON.minute).rjust(2, "0") + ":" + str(timeLimitWKMON.second).rjust(2, "0")
+                    timeLimitWKMONStr = self.formatTime(timeLimitWKMON)
                 else:
                     timeLimitWKMONStr = _NO_TIME_LIMIT_LABEL
 
@@ -288,7 +279,7 @@ class timekprGUI(object):
                         start = (cons.TK_DATETIME_START + timedelta(seconds=r[0]))
                         end = (cons.TK_DATETIME_START + timedelta(seconds=r[1]))
                         # fill in the intervals
-                        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysIntervalsLS").append([("%s:%s - %s:%s") % (str(start.hour).rjust(2, "0"), str(start.minute).rjust(2, "0"), str(end.hour).rjust(2, "0"), str(end.minute).rjust(2, "0"))])
+                        self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysIntervalsLS").append([("%s:%s - %s:%s") % (str(start.hour).rjust(2, "0"), str(start.minute).rjust(2, "0"), str(end.hour).rjust(2, "0") if r[1] < cons.TK_LIMIT_PER_DAY else "24", str(end.minute).rjust(2, "0"))])
 
     def saveUserConfigSignal(self, evt):
         """Save the configuration using config file manager"""
