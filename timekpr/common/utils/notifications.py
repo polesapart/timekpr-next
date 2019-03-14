@@ -50,7 +50,8 @@ class timekprNotificationManager(dbus.service.Object):
     # --------------- worker methods --------------- #
 
     def deInitUser(self):
-        # init DBUS
+        """Leave the connection"""
+        # un-init DBUS
         super().remove_from_connection()
 
     def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTrackInactive):

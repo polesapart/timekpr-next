@@ -6,7 +6,6 @@ Created on Aug 28, 2018
 
 # import
 import dbus
-import time
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
 # from gettext import gettext as _s

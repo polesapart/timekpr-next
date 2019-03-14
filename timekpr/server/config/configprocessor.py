@@ -216,7 +216,7 @@ class timekprUserConfigurationProcessor(object):
                 # check and parse is happening in set procedure down there, so that's a validation and set in one call
                 self._timekprUserConfig.setUserAllowedHours(dayLimits)
 
-            except Exception as ex:
+            except Exception:
                 # result
                 result = -1
                 message = "User's \"%s\" allowed hours are not correct and can not be set" % (self._userName)
@@ -446,8 +446,8 @@ class timekprUserConfigurationProcessor(object):
             if result == 0:
                 # defaults
                 setLimit = 0
-                setLimitWeek = 0
-                setLimitMonth = 0
+                # setLimitWeek = 0
+                # setLimitMonth = 0
 
                 try:
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
