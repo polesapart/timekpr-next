@@ -121,7 +121,7 @@
       <!-- column-name toHour -->
       <column type="gchararray"/>
       <!-- column-name dayIdx -->
-      <column type="guint"/>
+      <column type="gchararray"/>
       <!-- column-name fromSeconds -->
       <column type="guint"/>
       <!-- column-name toSeconds -->
@@ -927,7 +927,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="model">TimekprWeekDaysLS</property>
                                             <property name="search_column">0</property>
                                             <child internal-child="selection">
-                                              <object class="GtkTreeSelection" id="treeview-selection">
+                                              <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
                                                 <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
                                               </object>
                                             </child>
@@ -1020,7 +1020,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetMinBT">
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="width_chars">2</property>
@@ -1377,6 +1377,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="margin_right">5</property>
                             <property name="margin_bottom">5</property>
                             <property name="image">TimekprApplyImageDaily</property>
+                            <signal name="clicked" handler="applyDaysHourIntervalsClicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
