@@ -9,16 +9,12 @@ import os
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import GLib
-import time
-from gettext import gettext as _
-from datetime import datetime, timedelta
+from datetime import timedelta
+# from gettext import gettext as _
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
-
-from timekpr.common.utils.config import timekprClientConfig
-from timekpr.client.interface.speech.espeak import timekprSpeech
 
 # constant
 _NO_TIME_LABEL = "--:--:--"
@@ -58,9 +54,9 @@ class timekprAdminGUI(object):
         # initialize internal stuff
         self.initInternalConfiguration()
         # disable all buttons firstly
-        self.toggleControls(False)
+        self.toggleUserConfigControls(False)
         # status
-        self.setStatus(True, "Started")
+        self.setTimekprStatus(True, "Started")
 
         # initialize internal stuff
         GLib.timeout_add_seconds(1, self.initTimekprAdmin)
@@ -80,6 +76,7 @@ class timekprAdminGUI(object):
     # --------------- initialization methods --------------- #
 
     def dummyPageChanger(self):
+        """Switch tabs back and forth"""
         # change pages (so objects get initialized, w/o this, spin butons don't get values when set :O)
         for rIdx in [1, 0]:
             self._timekprAdminFormBuilder.get_object("TimekprMainTabBar").set_current_page(rIdx)
@@ -106,19 +103,19 @@ class timekprAdminGUI(object):
         # if not connected, give up and get out
         if interfacesOk and connecting:
             # status
-            self.setStatus(True, "Connected")
+            self.setTimekprStatus(True, "Connected")
             # connected
             self._isConnected = True
             # get users
             GLib.timeout_add_seconds(0, self.getUserList)
         elif not interfacesOk and connecting:
             # status
-            self.setStatus(True, "Connecting...")
+            self.setTimekprStatus(True, "Connecting...")
             # invoke again
             GLib.timeout_add_seconds(1, self.checkConnection)
         else:
             # status
-            self.setStatus(True, "Failed to connect")
+            self.setTimekprStatus(True, "Failed to connect")
 
     def initLocale(self):
         """Init translation stuff"""
@@ -180,8 +177,8 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS").append([str(rDay), (cons.TK_DATETIME_START + timedelta(days=rDay-1)).strftime("%A"), False, 0, _NO_TIME_LABEL])
 
     def initInternalConfiguration(self):
-        """This initializes the internal configuration for admin form"""
-        self._controlButtons = [
+        """Initialize the internal configuration for admin form"""
+        self._userConfigControlElements = [
             # combo
             "TimekprUserSelectionCB"
             # combom refresh
@@ -273,10 +270,10 @@ class timekprAdminGUI(object):
         # result
         return userName
 
-    def toggleControls(self, pEnable=True, pLeaveUserList=False):
+    def toggleUserConfigControls(self, pEnable=True, pLeaveUserList=False):
         """Enable or disable all controls for the form"""
         # apply settings to all buttons`
-        for rButton in self._controlButtons:
+        for rButton in self._userConfigControlElements:
             # if we need to leave user selection intact
             if not (pLeaveUserList and rButton == "TimekprUserSelectionCB"):
                 # get the button
@@ -286,7 +283,7 @@ class timekprAdminGUI(object):
         if not pEnable:
             self.clearAdminForm()
 
-    def setStatus(self, pConnectionStatus, pStatus):
+    def setTimekprStatus(self, pConnectionStatus, pStatus):
         """Change status of timekpr admin client"""
         if pStatus is not None:
             # connection
@@ -304,7 +301,7 @@ class timekprAdminGUI(object):
             statusBar.push(contextId, pStatus)
 
     def clearAdminForm(self):
-        """This default everything to default values"""
+        """Clear and default everything to default values"""
         # clear form
         for rCtrl in ["TimekprUserConfTodayInfoSpentTodayLB", "TimekprUserConfTodayInfoSpentWeekLB", "TimekprUserConfTodayInfoSpentMonthLB"]:
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
@@ -326,14 +323,16 @@ class timekprAdminGUI(object):
         for rCtrl in ["TimekprUserConfWKDaySB", "TimekprUserConfWKHrSB", "TimekprUserConfWKHrSB", "TimekprUserConfMONDaySB", "TimekprUserConfMONDaySB", "TimekprUserConfMONHrSB"]:
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text("0")
 
-        # TODO: eventually we'll need to add a lot of stuff here
-
-    def formatInterval(self, pTotalSeconds):
-        """This just formats the intervals"""
+    def formatIntervalStr(self, pTotalSeconds, pFormatSecs=False):
+        """Format the time intervals as string label"""
         # get time out of seconds
         time = cons.TK_DATETIME_START + timedelta(seconds=pTotalSeconds)
+        # limit
+        limit = str(24 if pTotalSeconds >= cons.TK_LIMIT_PER_DAY else time.hour).rjust(2, "0")
+        limit += ":" + str(0 if pTotalSeconds >= cons.TK_LIMIT_PER_DAY else time.minute).rjust(2, "0")
+        limit += (":" + str(0 if pTotalSeconds >= cons.TK_LIMIT_PER_DAY else time.second).rjust(2, "0")) if pFormatSecs else ""
         # value
-        return str(24 if pTotalSeconds >= cons.TK_LIMIT_PER_DAY else time.hour).rjust(2, "0") + ":" + str(0 if pTotalSeconds >= cons.TK_LIMIT_PER_DAY else time.minute).rjust(2, "0")
+        return limit
 
     def getIntervalList(self, pDay):
         """Get intervals for use in GUI"""
@@ -359,12 +358,12 @@ class timekprAdminGUI(object):
                 if startTimeStr is None:
                     # first avaiable hour
                     startSeconds = rHour * cons.TK_LIMIT_PER_HOUR + self._timeLimitDaysHoursActual[pDay][str(rHour)][cons.TK_CTRL_SMIN] * cons.TK_LIMIT_PER_MINUTE
-                    startTimeStr = self.formatInterval(startSeconds)
+                    startTimeStr = self.formatIntervalStr(startSeconds)
 
                 # define end hour
                 endDate = cons.TK_DATETIME_START + timedelta(hours=rHour, minutes=self._timeLimitDaysHoursActual[str(pDay)][str(rHour)][cons.TK_CTRL_EMIN])
                 endSeconds = (endDate - cons.TK_DATETIME_START).total_seconds()
-                endTimeStr = self.formatInterval(endSeconds)
+                endTimeStr = self.formatIntervalStr(endSeconds)
 
                 # define intervals
                 if self._timeLimitDaysHoursActual[pDay][str(rHour)][cons.TK_CTRL_EMIN] != 60 or rHour == 23:
@@ -376,6 +375,7 @@ class timekprAdminGUI(object):
         return timeLimits
 
     def getWeekLimitSecs(self):
+        """Get week limit in seconds"""
         # count secs
         totalSecs = int(self._timekprAdminFormBuilder.get_object("TimekprUserConfWKDaySB").get_text()) * cons.TK_LIMIT_PER_DAY
         totalSecs += int(self._timekprAdminFormBuilder.get_object("TimekprUserConfWKHrSB").get_text()) * cons.TK_LIMIT_PER_HOUR
@@ -384,6 +384,7 @@ class timekprAdminGUI(object):
         return totalSecs
 
     def getMonthLimitSecs(self):
+        """Get month limit in seconds"""
         # count secs
         totalSecs = int(self._timekprAdminFormBuilder.get_object("TimekprUserConfMONDaySB").get_text()) * cons.TK_LIMIT_PER_DAY
         totalSecs += int(self._timekprAdminFormBuilder.get_object("TimekprUserConfMONHrSB").get_text()) * cons.TK_LIMIT_PER_HOUR
@@ -428,6 +429,7 @@ class timekprAdminGUI(object):
         return hourIdx, hourNumber
 
     def sortHourIntervals(self):
+        """Sort hour intervals for ease of use"""
         # sort vairables
         hours = {}
         rIdx = 0
@@ -449,6 +451,7 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").reorder(sortedHours)
 
     def applyUserConfig(self):
+        """Apply user configuration after getting it from server"""
         # ## track inactive ##
         # set value
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(self._timeTrackInactive)
@@ -475,8 +478,7 @@ class timekprAdminGUI(object):
         # ## limits per allowed days ###
         for rDay in range(0, len(self._timeLimitDaysLimits)):
             # calculate time
-            limitTime = cons.TK_DATETIME_START + timedelta(seconds=self._timeLimitDaysLimits[int(rDay)])
-            limit = "%s:%s:%s" % ("24" if self._timeLimitDaysLimits[int(rDay)] >= cons.TK_LIMIT_PER_DAY else str(limitTime.hour).rjust(2, "0"), str(limitTime.minute).rjust(2, "0"), str(limitTime.second).rjust(2, "0"))
+            limit = self.formatIntervalStr(self._timeLimitDaysLimits[int(rDay)], True)
 
             # enable certain days
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay][3] = self._timeLimitDaysLimits[int(rDay)]
@@ -506,6 +508,7 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
 
     def calculateControlAvailability(self):
+        """Calculate main control availability"""
         # ## add time today ##
         enabled = (int(self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetHrSB").get_text()) != 0 or int(self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetMinSB").get_text()))
         for rCtrl in ["TimekprUserConfTodaySettingsSetAddBT", "TimekprUserConfTodaySettingsSetSubractBT", "TimekprUserConfTodaySettingsSetSetBT"]:
@@ -599,7 +602,7 @@ class timekprAdminGUI(object):
                 userStore.append([rUser, rUser])
 
             # status
-            self.setStatus(False, "User list retrieved")
+            self.setTimekprStatus(False, "User list retrieved")
             # enable
             self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").set_sensitive(True)
             self._timekprAdminFormBuilder.get_object("TimekprUserSelectionRefreshBT").set_sensitive(self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").get_sensitive())
@@ -607,10 +610,10 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").set_active(0)
         else:
             # status
-            self.setStatus(False, message)
+            self.setTimekprStatus(False, message)
 
     def retrieveUserConfig(self, pUserName, pFull):
-        """Get user configuration from server"""
+        """Retrieve user configuration"""
         # clear before user
         if pFull:
             # reset form
@@ -684,7 +687,7 @@ class timekprAdminGUI(object):
                 # config was updated only when full
                 if pFull:
                     # status
-                    self.setStatus(False, "User config retrieved")
+                    self.setTimekprStatus(False, "User config retrieved")
                     # apply config
                     self.applyUserConfig()
                     # determine control state
@@ -693,9 +696,9 @@ class timekprAdminGUI(object):
                     self.enableTimeControlToday()
             else:
                 # disable all but choser
-                self.toggleControls(False, True)
+                self.toggleUserConfigControls(False, True)
                 # status
-                self.setStatus(False, message)
+                self.setTimekprStatus(False, message)
 
     def adjustTrackInactive(self):
         """Adjust track inactive sessions for user"""
@@ -713,16 +716,16 @@ class timekprAdminGUI(object):
             # all ok
             if result == 0:
                 # status
-                self.setStatus(False, "Track inactive for user has been processed")
+                self.setTimekprStatus(False, "Track inactive for user has been processed")
 
                 # set values to internal config
                 self._timeTrackInactive = trackInactive
                 self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").emit("toggled")
             else:
                 # disable all but choser
-                self.toggleControls(False, True)
+                self.toggleUserConfigControls(False, True)
                 # status
-                self.setStatus(False, message)
+                self.setTimekprStatus(False, message)
 
     def adjustTimeForToday(self, pOperation):
         """Process actual call to set time for user"""
@@ -741,7 +744,7 @@ class timekprAdminGUI(object):
             # all ok
             if result == 0:
                 # status
-                self.setStatus(False, "Additional time for user has been processed")
+                self.setTimekprStatus(False, "Additional time for user has been processed")
 
                 # set values to form
                 for rCtrl in ["TimekprUserConfTodaySettingsSetHrSB", "TimekprUserConfTodaySettingsSetMinSB"]:
@@ -749,9 +752,9 @@ class timekprAdminGUI(object):
                 self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetHrSB").emit("value-changed")
             else:
                 # disable all but choser
-                self.toggleControls(False, True)
+                self.toggleUserConfigControls(False, True)
                 # status
-                self.setStatus(False, message)
+                self.setTimekprStatus(False, message)
 
     def adjustWKMONLimit(self):
         """Process actual call to set time for user"""
@@ -776,7 +779,7 @@ class timekprAdminGUI(object):
             # if all ok
             if result == 0:
                 # status
-                self.setStatus(False, "Weekly and monthly limits for user have been processed")
+                self.setTimekprStatus(False, "Weekly and monthly limits for user have been processed")
 
                 # set values to form
                 self._timeLimitWeek = weeklyLimit
@@ -785,12 +788,12 @@ class timekprAdminGUI(object):
                     self._timekprAdminFormBuilder.get_object(rCtrl).emit("value-changed")
             else:
                 # disable all but choser
-                self.toggleControls(False, True)
+                self.toggleUserConfigControls(False, True)
                 # status
-                self.setStatus(False, message)
+                self.setTimekprStatus(False, message)
 
     def applyDayAndHourIntervalChanges(self):
-        """Apply all configuration changes to days and hours to server"""
+        """Apply configuration changes to days and hours to server"""
         # initial flags about changes
         changedDayEnable = []
         enablementChanged = False
@@ -847,12 +850,12 @@ class timekprAdminGUI(object):
                 # set to internal arrays as well
                 self._timeLimitDays = changedDayEnable.copy()
                 # status
-                self.setStatus(False, "Allowed days for user have been processed")
+                self.setTimekprStatus(False, "Allowed days for user have been processed")
             else:
                 # disable all but choser
-                self.toggleControls(False, True)
+                self.toggleUserConfigControls(False, True)
                 # status
-                self.setStatus(False, message)
+                self.setTimekprStatus(False, message)
 
         # limits were changed
         if limitsChanged and result == 0:
@@ -863,12 +866,12 @@ class timekprAdminGUI(object):
                 # set to internal arrays as well
                 self._timeLimitDaysLimits = changedDayLimits.copy()
                 # status
-                self.setStatus(False, "Time limits for days for user have been processed")
+                self.setTimekprStatus(False, "Time limits for days for user have been processed")
             else:
                 # disable all but choser
-                self.toggleControls(False, True)
+                self.toggleUserConfigControls(False, True)
                 # status
-                self.setStatus(False, message)
+                self.setTimekprStatus(False, message)
 
         # hour limits were changed
         if len(changedDayHours) > 0 and result == 0:
@@ -876,7 +879,7 @@ class timekprAdminGUI(object):
             for rDayIdx in changedDayHours:
                 # day
                 day = str(rDayIdx + 1)
-                print(day, self._timeLimitDaysHoursActual[day])
+
                 # set time
                 result, message = self._timekprAdminConnector.setAllowedHours(userName, day, self._timeLimitDaysHoursActual[day])
                 # if all ok
@@ -884,12 +887,12 @@ class timekprAdminGUI(object):
                     # set to internal arrays as well
                     self._timeLimitDaysHoursSaved[day] = self._timeLimitDaysHoursActual[day].copy()
                     # status
-                    self.setStatus(False, "Allowed hours for user have been processed")
+                    self.setTimekprStatus(False, "Allowed hours for user have been processed")
                 else:
                     # disable all but choser
-                    self.toggleControls(False, True)
+                    self.toggleUserConfigControls(False, True)
                     # status
-                    self.setStatus(False, message)
+                    self.setTimekprStatus(False, message)
 
         # recalc control availability
         self.calculateControlAvailability()
@@ -897,10 +900,10 @@ class timekprAdminGUI(object):
         # if OK
         if result == 0:
             # status
-            self.setStatus(False, "Time limits for days for user have been processed")
+            self.setTimekprStatus(False, "Time limits for days for user have been processed")
         else:
             # status
-            self.setStatus(False, message)
+            self.setTimekprStatus(False, message)
 
     # --------------- GTK signal methods --------------- #
 
@@ -914,7 +917,7 @@ class timekprAdminGUI(object):
             self.retrieveUserConfig(userName, True if evt is not None else False)
         else:
             # disable all
-            self.toggleControls(False, True)
+            self.toggleUserConfigControls(False, True)
 
         # return
         return True
@@ -924,7 +927,7 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").emit("changed")
 
     def dayAvailabilityChanged(self, widget, path):
-        """Changed minutes depending on day availability"""
+        """Change minutes depending on day availability"""
         # flip the checkbox
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][2] = not self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][2]
         # reset hours & minutes
@@ -936,8 +939,6 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][4] = _NO_TIME_LABEL
 
             # change interval selection as well
-            #if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][0] in self._timeLimitDays:
-            # clear day config
             for rHour in range(1, 23+1):
                 self._timeLimitDaysHoursActual[self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][0]][str(rHour)] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
             # clear stuff and disable intervals
@@ -949,6 +950,8 @@ class timekprAdminGUI(object):
             # enable intervals
             for rCtrl in ["TimekprHourIntervalsTreeView", "TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
                 self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
+            # label
+            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][4] = self.formatIntervalStr(self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][3], True)
             # enable interval refresh
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
 
@@ -961,25 +964,32 @@ class timekprAdminGUI(object):
         totalSecs = int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetHrSB").get_text()) * cons.TK_LIMIT_PER_HOUR
         totalSecs += int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetMinSB").get_text()) * cons.TK_LIMIT_PER_MINUTE
         # calculate time
-        limitTime = cons.TK_DATETIME_START + timedelta(seconds=totalSecs)
-        limit = "%s:%s:%s" % ("24" if totalSecs >= cons.TK_LIMIT_PER_DAY else str(limitTime.hour).rjust(2, "0"), str(limitTime.minute).rjust(2, "0"), str(limitTime.second).rjust(2, "0"))
+        limit = self.formatIntervalStr(totalSecs, True)
+
         # get selected day
         dayIdx, dayNumber = self.getSelectedDay()
-        # set the limit
-        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][3] = totalSecs
-        # set appropriate label as well
-        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][4] = limit if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][2] else _NO_TIME_LABEL
-        # reset time
-        for rCtrl in ["TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
-            self._timekprAdminFormBuilder.get_object(rCtrl).set_text("0")
 
-        # inform intervals
-        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
+        # if it's not selected
+        if dayIdx is None:
+            # status
+            self.setTimekprStatus(False, "Please select a day to set the limits")
+        else:
+            # set the limit
+            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][3] = totalSecs
+            # set appropriate label as well
+            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][4] = limit if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][2] else _NO_TIME_LABEL
+            # reset time
+            for rCtrl in ["TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
+                self._timekprAdminFormBuilder.get_object(rCtrl).set_text("0")
+
+            # inform intervals
+            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
 
         # recalc control availability
         self.calculateControlAvailability()
 
     def addHourIntervalClicked(self, evt):
+        """Process addition of hour interval"""
         # seconds from
         secondsFrom = int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB").get_text()) * cons.TK_LIMIT_PER_HOUR
         secondsFrom += int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB").get_text()) * cons.TK_LIMIT_PER_MINUTE
@@ -999,73 +1009,83 @@ class timekprAdminGUI(object):
             fromSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][4]
             toSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][5]
             # check whether start is betwen existing interval
-            if fromSecs <= secondsFrom <= toSecs or fromSecs <= secondsTo <= toSecs:
+            if fromSecs < secondsFrom < toSecs or fromSecs < secondsTo < toSecs:
                 # this is it
                 intervalOverlaps = True
                 break
             # check whether user tries to insert iterval in existing hour
-            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsFrom/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR):
+            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsFrom/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR) and int(toSecs/cons.TK_LIMIT_PER_HOUR) * cons.TK_LIMIT_PER_HOUR != secondsFrom:
                 # this is it
                 intervalHourConflict = True
                 break
-            # check whether user tries to insert iterval in existing hour
-            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) < int(secondsTo/cons.TK_LIMIT_PER_HOUR) < int(toSecs/cons.TK_LIMIT_PER_HOUR):
+            # check whether user tries to insert iterval in existing hour (end of previous and start of next can be equal)
+            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsTo/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR) and int(fromSecs/cons.TK_LIMIT_PER_HOUR) * cons.TK_LIMIT_PER_HOUR != secondsTo:
                 # this is it
                 intervalHourConflict = True
                 break
 
         # set status message if fail
         if intervalOverlaps:
-            self.setStatus(False, "Interval overlaps with existing one")
+            self.setTimekprStatus(False, "Interval overlaps with existing one")
         elif intervalHourConflict:
-            self.setStatus(False, "Interval conflicts with with existing one")
+            self.setTimekprStatus(False, "Interval conflicts with existing one")
         elif secondsFrom == secondsTo:
-            self.setStatus(False, "Interval start can not be the same as end")
+            self.setTimekprStatus(False, "Interval start can not be the same as end")
         else:
             # get day to which add the interval
             day = self.getSelectedDay()[1]
 
-            # now append the interval
-            self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").append([intervalsLen + 1, self.formatInterval(secondsFrom), self.formatInterval(secondsTo), day, secondsFrom, secondsTo])
+            # if it's not selected
+            if day is None:
+                # status
+                self.setTimekprStatus(False, "Please select a day to set the limits")
+            else:
+                # now append the interval
+                self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").append([intervalsLen + 1, self.formatIntervalStr(secondsFrom), self.formatIntervalStr(secondsTo), day, secondsFrom, secondsTo])
 
-            # reset intervals (the last steps)
-            for rCtrl in ["TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB", "TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB", "TimekprUserConfDaySettingsConfDaysIntervalsToHrSB", "TimekprUserConfDaySettingsConfDaysIntervalsToMinSB"]:
-                self._timekprAdminFormBuilder.get_object(rCtrl).set_text("0")
+                # reset intervals (the last steps)
+                for rCtrl in ["TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB", "TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB", "TimekprUserConfDaySettingsConfDaysIntervalsToHrSB", "TimekprUserConfDaySettingsConfDaysIntervalsToMinSB"]:
+                    self._timekprAdminFormBuilder.get_object(rCtrl).set_text("0")
 
-            # sort intervals
-            self.sortHourIntervals()
-            # status change
-            self.setStatus(False, "Interval added")
-            # adjust internal representation
-            self.rebuildHoursFromIntervals()
-            # recalc control availability
-            self.calculateControlAvailability()
+                # sort intervals
+                self.sortHourIntervals()
+                # status change
+                self.setTimekprStatus(False, "Interval added")
+                # adjust internal representation
+                self.rebuildHoursFromIntervals()
+                # recalc control availability
+                self.calculateControlAvailability()
 
     def removeHourIntervalClicked(self, evt):
         """Handle remove hour interval"""
         hourIdx = self.getSelectedHourInterval()[0]
         rIdx = 0
 
-        # remove selected item
-        for rIt in self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS"):
-            # check what to remove
-            if hourIdx == rIdx:
-                # remove
-                self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").remove(rIt.iter)
-                # this is it
-                break
+        # if it's not selected
+        if hourIdx is None:
+            # status
+            self.setTimekprStatus(False, "Please select a hour interval to remove")
+        else:
+            # remove selected item
+            for rIt in self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS"):
+                # check what to remove
+                if hourIdx == rIdx:
+                    # remove
+                    self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").remove(rIt.iter)
+                    # this is it
+                    break
 
-            # count further
-            rIdx += 1
+                # count further
+                rIdx += 1
 
-        # sort intervals
-        self.sortHourIntervals()
-        # status change
-        self.setStatus(False, "Interval removed")
-        # adjust internal representation
-        self.rebuildHoursFromIntervals()
-        # recalc control availability
-        self.calculateControlAvailability()
+            # sort intervals
+            self.sortHourIntervals()
+            # status change
+            self.setTimekprStatus(False, "Interval removed")
+            # adjust internal representation
+            self.rebuildHoursFromIntervals()
+            # recalc control availability
+            self.calculateControlAvailability()
 
     def rebuildHoursFromIntervals(self):
         """Rebuild hours from intervals in GUI, representation to user is different than actual config"""
@@ -1087,16 +1107,17 @@ class timekprAdminGUI(object):
                 while totalSeconds > 0:
                     # hour
                     hour = str(time.hour)
+                    minute = time.minute
                     # build up hour
-                    self._timeLimitDaysHoursActual[day][hour] = {cons.TK_CTRL_SMIN: time.minute, cons.TK_CTRL_EMIN: None}
+                    self._timeLimitDaysHoursActual[day][hour] = {cons.TK_CTRL_SMIN: minute, cons.TK_CTRL_EMIN: None}
                     # add to time
                     time += timedelta(seconds=min(cons.TK_LIMIT_PER_HOUR, totalSeconds))
                     # add end hour
-                    self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_EMIN] = 60 if totalSeconds >= cons.TK_LIMIT_PER_HOUR else time.minute
+                    self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_EMIN] = 60 if totalSeconds >= (cons.TK_LIMIT_PER_HOUR - minute * cons.TK_LIMIT_PER_MINUTE) else time.minute
                     # subtract hour
                     totalSeconds -= min(cons.TK_LIMIT_PER_HOUR, totalSeconds)
 
-                    #print(hour, self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_SMIN], self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_EMIN])
+                    # print(hour, self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_SMIN], self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_EMIN])
 
     def weekAvailabilityChanged(self, evt):
         """Change in minutes depending on week availability"""
@@ -1113,6 +1134,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(enabled)
 
     def weeklyLimitDayHrMinChanged(self, evt, pCheckEnabled=True):
+        """Process when weekly limit changes"""
         # check whether user has not went too far
         totalSecs = self.getWeekLimitSecs()
 
@@ -1132,6 +1154,7 @@ class timekprAdminGUI(object):
         self.calculateControlAvailability()
 
     def monthlyLimitDayHrMinChanged(self, evt, pCheckEnabled=True):
+        """Process when monthly limit changes"""
         # check whether user has not went too far
         totalSecs = self.getMonthLimitSecs()
 
@@ -1151,6 +1174,7 @@ class timekprAdminGUI(object):
         self.calculateControlAvailability()
 
     def dailyLimitDayHrMinChanged(self, evt, pCheckEnabled=True):
+        """Process stuff when dday changes"""
         # check whether user has not went too far
         totalSecs = int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetHrSB").get_text()) * cons.TK_LIMIT_PER_HOUR
         totalSecs += int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetMinSB").get_text()) * cons.TK_LIMIT_PER_MINUTE
@@ -1168,6 +1192,7 @@ class timekprAdminGUI(object):
         self.calculateControlAvailability()
 
     def dailyLimitDayHrIntervalsChanged(self, evt, pCheckEnabled=True):
+        """Calculate control availability on hour change"""
         # check whether user has not went too far
         totalSecs = int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB").get_text()) * cons.TK_LIMIT_PER_HOUR
         totalSecs += int(self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB").get_text()) * cons.TK_LIMIT_PER_MINUTE
@@ -1201,14 +1226,17 @@ class timekprAdminGUI(object):
         self.calculateControlAvailability()
 
     def trackInactiveChanged(self, evt):
+        """Call control calculations when inactive flag has been added"""
         # recalc control availability
         self.calculateControlAvailability()
 
     def todayAddTimeChanged(self, evt):
+        """Call control calculations when time has been added"""
         # recalc control availability
         self.calculateControlAvailability()
 
     def dailyLimitsDaySelectionChanged(self, evt):
+        """Set up intervals on day change"""
         # refresh the child
         dayIdx, dayNum = self.getSelectedDay()
 
@@ -1284,6 +1312,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT").set_sensitive(False)
 
     def weeklyLimitDayHrMinChanged(self, evt):
+        """Call recalculation for controls when limit changed"""
         # recalc control availability
         self.calculateControlAvailability()
 

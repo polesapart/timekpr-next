@@ -288,15 +288,19 @@
               <object class="GtkLabel" id="TimekprMainInfoLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
                 <property name="xpad">5</property>
                 <property name="ypad">5</property>
-                <property name="label" translatable="yes">This is timekpr-next configuration app, it allows You to configure timekpr itself as well as configuration for Your users.
+                <property name="label" translatable="yes">This is timekpr-next configuration app, it allows You to configure time for Your users as well as timekpr itself.
+
 To use this application You have to execute it either as superuser or have to be in timekpr group.
+Please note that "Timekpr configuration" is available in superuser (administrator) mode only!
 
 Please configure carefully, do not lock Yourself out!</property>
                 <property name="wrap">True</property>
-                <property name="width_chars">70</property>
-                <property name="max_width_chars">70</property>
+                <property name="width_chars">75</property>
+                <property name="max_width_chars">75</property>
               </object>
               <packing>
                 <property name="expand">False</property>
