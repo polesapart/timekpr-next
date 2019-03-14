@@ -179,12 +179,8 @@ class timekprNotifications(object):
             # msg
             msgStr = _s("There is a problem communicating to timekpr (%s)!" % (pAdditionalMessage))
 
-        # critial notifications replace itself
-        if pPriority == cons.TK_PRIO_CRITICAL:
-            notifId = self._criticalNotif
-        else:
-            self._criticalNotif = 0
-            notifId = self._criticalNotif
+        # save notification ID
+        notifId = self._criticalNotif
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish prepareNotification")
 
@@ -215,9 +211,8 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
 
-            # save notification id in case it's critical
-            if pPriority == cons.TK_PRIO_CRITICAL:
-                self._criticalNotif = notifId
+            # save notification ID (to replace it)
+            self._criticalNotif = notifId
 
     def requestTimeLeft(self):
         """Request time left from server"""
