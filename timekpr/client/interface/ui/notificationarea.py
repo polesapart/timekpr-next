@@ -36,8 +36,6 @@ class timekprNotificationArea(object):
         self._lastUsedPriority = ""
         # initialize time left
         self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY)
-        # critical notification (to replace itself)
-        self._criticalNotif = 0
         # whether to show secnds in systray
         self._showSeconds = False
         # no limit level
