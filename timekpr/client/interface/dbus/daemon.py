@@ -248,7 +248,7 @@ class timekprClient(object):
         self._timekprClient.notifyUser(cons.TK_MSG_TIMECRITICAL, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pSecondsLeft))
 
     def receiveTimeNoLimitNotification(self, pPriority):
-        """Receive no limit notificatona and show that to user"""
+        """Receive no limit notificaton and show that to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive nl notif")
         # process time left
         if self._timekprConfigManager.getClientShowAllNotifications():
