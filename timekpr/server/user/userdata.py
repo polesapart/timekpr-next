@@ -312,19 +312,19 @@ class timekprUser(object):
 
         # read from config
         self._timekprUserControl.loadControl()
+        # spent this hour
+        spentHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
+        # day changed
+        dayChanged = self._timekprUserControl.getUserLastChecked().date() != self._effectiveDatetime.date()
+        weekChanged = self._timekprUserControl.getUserLastChecked().date().isocalendar()[1] != self._effectiveDatetime.date().isocalendar()[1]
+        monthChanged = self._timekprUserControl.getUserLastChecked().date().month != self._effectiveDatetime.date().month
 
         # if day has changed
-        if self._timekprUserControl.getUserLastChecked().date() != self._effectiveDatetime.date():
-            # day has changed, we set spent time as calculated
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
-        # day has not changed
-        else:
-            # save time spent this day
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = self._timekprUserControl.getUserTimeSpent()
-
-        # calculate spent for week & month
-        self._timekprUserData[cons.TK_CTRL_SPENTW] = self._timekprUserControl.getUserTimeSpentWeek()
-        self._timekprUserData[cons.TK_CTRL_SPENTM] = self._timekprUserControl.getUserTimeSpentMonth()
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpent()
+        # if week changed changed
+        self._timekprUserData[cons.TK_CTRL_SPENTW] = spentHour if weekChanged else self._timekprUserControl.getUserTimeSpentWeek()
+        # if month changed
+        self._timekprUserData[cons.TK_CTRL_SPENTM] = spentHour if monthChanged else self._timekprUserControl.getUserTimeSpentMonth()
 
         # import that into runtime config (if last check day is the same as current)
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD]
