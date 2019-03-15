@@ -9,7 +9,7 @@ import os
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import GLib
-from datetime import timedelta
+from datetime import timedelta, datetime
 # from gettext import gettext as _
 
 # timekpr imports
@@ -503,9 +503,11 @@ class timekprAdminGUI(object):
         # enable box only when days are less than total limit
         self._timekprAdminFormBuilder.get_object("TimekprUserConfMONCB").set_active(self._timeLimitMonth != cons.TK_LIMIT_PER_MONTH)
 
-        # set selection to first row
-        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").set_cursor(0)
-        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
+        # current day
+        currDay = datetime.now().isoweekday()-1
+        # determine curent day and point to it
+        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").set_cursor(currDay)
+        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").scroll_to_cell(currDay)
 
     def calculateControlAvailability(self):
         """Calculate main control availability"""
@@ -1009,7 +1011,7 @@ class timekprAdminGUI(object):
             # interval boundaries
             fromSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][4]
             toSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][5]
-            print("fromSecs: %i, toSecs: %i, secondsFrom: %i, secondsTo: %i" % (fromSecs, toSecs, secondsFrom, secondsTo))
+
             # check whether start is betwen existing interval
             if fromSecs < secondsFrom < toSecs or fromSecs < secondsTo < toSecs:
                 # this is it
@@ -1122,7 +1124,7 @@ class timekprAdminGUI(object):
 
                     # add end hour
                     self._timeLimitDaysHoursActual[calcDay][calcHour][cons.TK_CTRL_EMIN] = 60 if calcTime.minute == 0 else calcTime.minute
-                    print(calcTime, calcHour, timeToSubtract, totalSeconds, self._timeLimitDaysHoursActual[calcDay][calcHour])
+                    # print(calcTime, calcHour, timeToSubtract, totalSeconds, self._timeLimitDaysHoursActual[calcDay][calcHour])
 
     def weekAvailabilityChanged(self, evt):
         """Change in minutes depending on week availability"""
