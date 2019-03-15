@@ -2,7 +2,7 @@ timekpr-next (0.1.11~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * implemented admin GUI
 
-  TODO: administration via GUI
+  TODO: timekpr administration via GUI
   TODO: localization and speech
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 03 Mar 2019 00:42:11 +0300
@@ -12,7 +12,8 @@ timekpr-next (0.1.10~ppa1~ubuntu1) UNRELEASED; urgency=medium
   * fixed a bug for time accounting when there is a limit set up, but hours are not limited at all
   * changed CLI option style from "-" to "--"
 
-  TODO: administration via GUI
+  TODO: timekpr administration via GUI
+  TODO: user administration via GUI
   TODO: localization and speech
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 26 Feb 2019 23:08:17 +0300
@@ -22,7 +23,8 @@ timekpr-next (0.1.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
   * added weekly and monthly quota administration and processing
   * minor time accounting fixes
 
-  TODO: administration via GUI
+  TODO: timekpr administration via GUI
+  TODO: user administration via GUI
   TODO: week and month quotas reporting to user
   TODO: localization and speech
 
@@ -34,7 +36,8 @@ timekpr-next (0.1.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
   * major time accounting fixes
   * clean up for user data processor
 
-  TODO: administration via GUI
+  TODO: timekpr administration via GUI
+  TODO: user administration via GUI
   TODO: week and month quotas
   TODO: localization and speech
 

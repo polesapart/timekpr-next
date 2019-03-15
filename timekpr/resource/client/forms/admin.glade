@@ -159,6 +159,7 @@
   <object class="GtkImage" id="TimekprRemoveExcludedSessionsImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="tooltip_text" translatable="yes">Remove excluded session type</property>
     <property name="xpad">3</property>
     <property name="stock">gtk-remove</property>
   </object>
@@ -269,6 +270,7 @@
               <object class="GtkImage" id="TimekprLogoImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Icon, isn't it?</property>
                 <property name="halign">start</property>
                 <property name="margin_left">30</property>
                 <property name="margin_right">30</property>
@@ -288,6 +290,7 @@
               <object class="GtkLabel" id="TimekprMainInfoLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Notes, read carefully ;)</property>
                 <property name="margin_left">10</property>
                 <property name="margin_right">10</property>
                 <property name="xpad">5</property>
@@ -320,6 +323,7 @@ Please configure carefully, do not lock Yourself out!</property>
           <object class="GtkNotebook" id="TimekprMainTabBar">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Users related configuration</property>
             <child>
               <object class="GtkBox" id="TimekprUserConfigurationBox">
                 <property name="visible">True</property>
@@ -373,6 +377,7 @@ Please configure carefully, do not lock Yourself out!</property>
                         <child internal-child="entry">
                           <object class="GtkEntry" id="TimekprUserSelectionCBEntry">
                             <property name="can_focus">False</property>
+                            <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
                           </object>
                         </child>
                       </object>
@@ -390,6 +395,7 @@ Please configure carefully, do not lock Yourself out!</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Restore configuration from saved state</property>
                         <property name="margin_left">5</property>
                         <property name="margin_right">5</property>
                         <property name="margin_bottom">10</property>
@@ -462,6 +468,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentTodayLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent today (saved stated, not real-time)</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Time spent (today):</property>
                                     <attributes>
@@ -478,6 +485,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentTodayLB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                     <property name="halign">start</property>
                                     <property name="label" translatable="yes">00:00:00:00</property>
                                     <property name="ellipsize">end</property>
@@ -507,6 +515,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent for this week (saved stated, not real-time)</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Time spent (week):</property>
                                     <attributes>
@@ -523,6 +532,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                     <property name="halign">start</property>
                                     <property name="label" translatable="yes">00:00:00:00</property>
                                   </object>
@@ -549,6 +559,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentMonthLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent this month (saved stated, not real-time)</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Time spent (month):</property>
                                     <property name="ellipsize">end</property>
@@ -566,6 +577,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentMonthLB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                     <property name="halign">start</property>
                                     <property name="label" translatable="yes">00:00:00:00</property>
                                   </object>
@@ -664,6 +676,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">The amount of minutes added to todays limit</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">0</property>
@@ -682,6 +695,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">The amount of hours added to todays limit</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">1</property>
@@ -727,6 +741,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Add specified amount (reward)</property>
                                             <property name="image">TimekprApplyImageAddTime</property>
                                             <signal name="clicked" handler="todayAddTimeClicked" swapped="no"/>
                                           </object>
@@ -743,6 +758,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Subtract specified amount (penalty)</property>
                                             <property name="image">TimekprApplyImageSubtractTime</property>
                                             <signal name="clicked" handler="todaySubtractTimeClicked" swapped="no"/>
                                           </object>
@@ -759,6 +775,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set exacly specified limit</property>
                                             <property name="image">TimekprApplyImageSetTime</property>
                                             <signal name="clicked" handler="todaySetTimeClicked" swapped="no"/>
                                           </object>
@@ -801,6 +818,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodaySettingsTrackInactiveLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Whether time for inactive sessions are counted, if this is unchecked, time spent in console (not terminal) and while screen is locked, is NOT taken into account (this very much varies from DE to DE)</property>
                                     <property name="margin_left">5</property>
                                     <property name="margin_right">5</property>
                                     <property name="label" translatable="yes">Track inactive sessions:</property>
@@ -820,6 +838,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="tooltip_text" translatable="yes">Whether time for inactive sessions are counted, if this is unchecked, time spent in console (not terminal) and while screen is locked, is NOT taken into account (this very much varies from DE to DE)</property>
                                     <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="trackInactiveChanged" swapped="no"/>
@@ -837,6 +856,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                     <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="tooltip_text" translatable="yes">Set track inactive sessions</property>
                                     <property name="image">TimekprApplyImageSetInactive</property>
                                     <signal name="clicked" handler="trackInactiveClicked" swapped="no"/>
                                   </object>
@@ -867,6 +887,7 @@ Please configure carefully, do not lock Yourself out!</property>
                       <object class="GtkLabel" id="TimekprUserConfTodayLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Brief information about time spent and everything related to time management for this day</property>
                         <property name="label" translatable="yes">Info &amp; today</property>
                       </object>
                       <packing>
@@ -927,6 +948,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Day list of the week and additional information about the day's limit, please enable / disable days for the user</property>
                                             <property name="hscroll_policy">natural</property>
                                             <property name="model">TimekprWeekDaysLS</property>
                                             <property name="search_column">0</property>
@@ -1011,6 +1033,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set the amount of hours to set for particular day</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">0</property>
@@ -1027,6 +1050,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set the amount of minutes to set for particular day</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">0</property>
@@ -1048,6 +1072,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set specified hours and minutes at user's disposal (do not forget to hit &lt;apply&gt; button)</property>
                                             <property name="image">TimekprApplyImageSetDayLimit</property>
                                             <signal name="clicked" handler="dayTotalLimitClicked" swapped="no"/>
                                           </object>
@@ -1136,6 +1161,9 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Hour intervals per day available to user.
+Please note that if day ends at 24th hour and next day starts at 0, user can work continously past midnight.
+Please note that multiple intervals can not be configured within the same hour (don't try to micromanage Your user)</property>
                                             <property name="model">TimekprHourIntervalsLS</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection">
@@ -1218,6 +1246,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify START minute of the allowed hour interval</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">20</property>
@@ -1236,6 +1265,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify START hour of the allowed hour interval</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">8</property>
@@ -1279,6 +1309,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Remove seected interval from the list (do not forget to hit &lt;apply&gt; button)</property>
                                             <property name="image">TimekprApplyImageRemoveInterval</property>
                                             <signal name="clicked" handler="removeHourIntervalClicked" swapped="no"/>
                                           </object>
@@ -1294,6 +1325,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Add specified hour interval to the list (do not firget to hit &lt;apply&gt; button)</property>
                                             <property name="image">TimekprApplyImageAddInterval</property>
                                             <signal name="clicked" handler="addHourIntervalClicked" swapped="no"/>
                                           </object>
@@ -1306,6 +1338,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify END hour of the allowed hour interval</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">0</property>
@@ -1322,6 +1355,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify END hour of the allowed minute interval</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="text" translatable="yes">0</property>
@@ -1377,6 +1411,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="tooltip_text" translatable="yes">Apply all changes made in this page</property>
                             <property name="margin_left">5</property>
                             <property name="margin_right">5</property>
                             <property name="margin_bottom">5</property>
@@ -1398,6 +1433,7 @@ Please configure carefully, do not lock Yourself out!</property>
                       <object class="GtkLabel" id="TimekprUserConfDailyLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Dayly limit configuration for all week days</property>
                         <property name="label" translatable="yes">Daily limits</property>
                       </object>
                       <packing>
@@ -1426,6 +1462,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkLabel" id="TimekprUserConfMONLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the month</property>
                                 <property name="halign">end</property>
                                 <property name="label" translatable="yes">Time limit (month)</property>
                                 <property name="ellipsize">end</property>
@@ -1444,6 +1481,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the month is enabled</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="monthAvailabilityChanged" swapped="no"/>
@@ -1474,6 +1512,7 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkLabel" id="TimekprUserConfWKLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the week</property>
                                 <property name="halign">end</property>
                                 <property name="label" translatable="yes">Time limit (week)</property>
                                 <attributes>
@@ -1491,6 +1530,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the week is enabled</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="weekAvailabilityChanged" swapped="no"/>
@@ -1552,6 +1592,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Week limit amount in days</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">7</property>
@@ -1571,6 +1612,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Week limit amount in hours</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">0</property>
@@ -1590,6 +1632,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Week limit amount in minutes</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">0</property>
@@ -1655,6 +1698,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Month limit amount in days</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">31</property>
@@ -1674,6 +1718,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Month limit amount in hours</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">0</property>
@@ -1693,6 +1738,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Month limit amount in minutes</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">0</property>
@@ -1740,6 +1786,7 @@ Please configure carefully, do not lock Yourself out!</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="tooltip_text" translatable="yes">Apply weekly and monthhly limits</property>
                             <property name="margin_left">5</property>
                             <property name="image">TimekprApplyImageWKMON</property>
                             <signal name="clicked" handler="WKMONLimitSetClicked" swapped="no"/>
@@ -1784,6 +1831,7 @@ Please configure carefully, do not lock Yourself out!</property>
                       <object class="GtkLabel" id="TimekprUserConfWKMONLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Weekly and monthly limit configuration</property>
                         <property name="label" translatable="yes">Weekly &amp; monthly limits</property>
                       </object>
                       <packing>
@@ -1804,6 +1852,7 @@ Please configure carefully, do not lock Yourself out!</property>
               <object class="GtkLabel" id="TimekprUserConfigurationTabLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Users related configuration</property>
                 <property name="label" translatable="yes">User configuration</property>
               </object>
               <packing>
@@ -1860,6 +1909,8 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkSpinButton" id="TimekprConfigurationLoglevelSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Timekpr log level, please do not change this unless asked (You likely won't find anything pretty in the log files)
+1 - standard, 2 - debug, 3 - extra debug</property>
                                 <property name="width_chars">1</property>
                                 <property name="max_width_chars">1</property>
                                 <property name="adjustment">TimekprLoglevelAdjustment</property>
@@ -1887,8 +1938,10 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkSpinButton" id="TimekprConfigurationWarningTimeSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Specify the time in seonds when Timekpr starts continous real-time countdown before terminating the session</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">10</property>
                                 <property name="adjustment">TimekprWarningAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
@@ -1914,8 +1967,11 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkSpinButton" id="TimekprConfigurationPollIntervalSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Specify session polling time granularity (at which interval user sessions and activity are polled).
+3 -5 seconds are optimal, don't change this if unsure.</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">3</property>
                                 <property name="adjustment">TimekprPollingAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
@@ -1941,8 +1997,10 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkSpinButton" id="TimekprConfigurationSaveTimeSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">This specifies the time interval at which actual user state is saved</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">30</property>
                                 <property name="adjustment">TimekprSaveAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
@@ -1956,8 +2014,11 @@ Please configure carefully, do not lock Yourself out!</property>
                               <object class="GtkSpinButton" id="TimekprConfigurationTerminationTimeSB">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Amount of seconds before terminating user sessions, after this is reached user will be terminated, nothing can be done to prevent it.
+Adding time does not help in this case, do that before reaching this point...</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
+                                <property name="text" translatable="yes">15</property>
                                 <property name="adjustment">TimekprWarningAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
@@ -2077,6 +2138,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprTrackingSessionsTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">List of session types to be tracked.
+Please, do not change or experiment with this unless You actually (not wishfully) know what are You doing.</property>
                                         <property name="model">TimekprTrackingSessionsLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection"/>
@@ -2094,6 +2157,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkEntry" id="TimekprTrackingSessionsEntryEF">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">Enter session type to be tracked</property>
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
                                   </object>
@@ -2114,6 +2178,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Add tracked session type</property>
                                         <property name="image">TimekprAddTrackedSessionsImage</property>
                                       </object>
                                       <packing>
@@ -2128,6 +2193,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Remove tracked session type</property>
                                         <property name="image">TimekprRemoveTrackedSessionsImage</property>
                                       </object>
                                       <packing>
@@ -2184,6 +2250,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprExcludedSessionsTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">List of sessions to be excluded from tracking.
+Please, do not change or experiment with this unless You actually (not wishfully) know what are You doing.</property>
                                         <property name="model">TimekprExcludedSessionsLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection"/>
@@ -2201,6 +2269,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkEntry" id="TimekprExcludedSessionsEntryEF">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">Enter session type to be excluded from tracking</property>
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
                                   </object>
@@ -2221,6 +2290,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Add excluded session type</property>
                                         <property name="image">TimekprAddExcludedSessionsImage</property>
                                       </object>
                                       <packing>
@@ -2291,6 +2361,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                       <object class="GtkTreeView" id="TimekprExcludedUsersTreeView">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">List of users excluded from tracking.
+Please specify actual usernames not real names here (e.g please specify jsmith, not John Smith)</property>
                                         <property name="model">TimekprExcludedUsersLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection"/>
@@ -2308,6 +2380,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                   <object class="GtkEntry" id="TimekprExcludedUsersEntryEF">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">Enter username to be excluded from tracking</property>
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
                                   </object>
@@ -2328,6 +2401,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Add user to exclusion list</property>
                                         <property name="image">TimekprAddExcludedUsersImage</property>
                                       </object>
                                       <packing>
@@ -2342,6 +2416,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Remove user from exclusion list</property>
                                         <property name="image">TimekprRemoveExcludedUsersImage</property>
                                       </object>
                                       <packing>
@@ -2392,6 +2467,7 @@ Please configure carefully, do not lock Yourself out!</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">Apply all Timekpr settings at once</property>
                     <property name="margin_bottom">5</property>
                     <property name="image">TimekprApplyImageAdminSettings</property>
                   </object>
@@ -2410,6 +2486,7 @@ Please configure carefully, do not lock Yourself out!</property>
               <object class="GtkLabel" id="TimekprConfigurationTabLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">TImekpr administration configuration</property>
                 <property name="label" translatable="yes">Timekpr configuration</property>
               </object>
               <packing>

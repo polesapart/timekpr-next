@@ -312,7 +312,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -357,7 +357,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeInactiveL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -404,7 +404,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeLeftTodayL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -451,7 +451,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoContTimeLeftL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -667,7 +667,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentWeekL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -711,7 +711,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentMonthL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -757,6 +757,7 @@
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="tooltip_text" translatable="yes">Whether time for inactive sessions are counted, if this is unchecked, time spent in console (not terminal) and while screen is locked, is NOT taken into account (this very much varies from DE to DE)</property>
                                         <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
@@ -828,7 +829,7 @@
                                       <object class="GtkLabel" id="timekprLimitForWeekL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
@@ -872,7 +873,7 @@
                                       <object class="GtkLabel" id="timekprLimitForMonthL">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Format - days : hours : minutes : seconds</property>
+                                        <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
                                         <property name="halign">start</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">00:00:00:00</property>
