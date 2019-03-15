@@ -634,7 +634,7 @@ class timekprAdminGUI(object):
                     # check all by keys
                     if rKey == "TIME_SPENT":
                         # spent
-                        timeSpent = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeSpent = cons.TK_DATETIME_START + timedelta(seconds=abs(rValue))
                         timeSpentStr = str((timeSpent - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeSpent.hour).rjust(2, "0") + ":" + str(timeSpent.minute).rjust(2, "0") + ":" + str(timeSpent.second).rjust(2, "0")
                         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentTodayLB").set_text(timeSpentStr)
                     elif rKey == "TIME_SPENT_WEEK":
