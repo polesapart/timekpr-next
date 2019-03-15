@@ -1002,33 +1002,37 @@ class timekprAdminGUI(object):
 
         # whether interval is valid
         intervalOverlaps = False
-        intervalHourConflict = False
+        intervalHourConflictStart = False
+        intervalHourConflictEnd = False
         # get liststore
         for rIdx in range(0, intervalsLen):
             # interval boundaries
             fromSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][4]
             toSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][5]
+            print("fromSecs: %i, toSecs: %i, secondsFrom: %i, secondsTo: %i" % (fromSecs, toSecs, secondsFrom, secondsTo))
             # check whether start is betwen existing interval
             if fromSecs < secondsFrom < toSecs or fromSecs < secondsTo < toSecs:
                 # this is it
                 intervalOverlaps = True
                 break
             # check whether user tries to insert iterval in existing hour
-            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsFrom/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR) and int(toSecs/cons.TK_LIMIT_PER_HOUR) * cons.TK_LIMIT_PER_HOUR != secondsFrom:
+            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsFrom/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR) and int(toSecs/cons.TK_LIMIT_PER_HOUR) * cons.TK_LIMIT_PER_HOUR not in (toSecs, secondsFrom):
                 # this is it
-                intervalHourConflict = True
+                intervalHourConflictStart = True
                 break
             # check whether user tries to insert iterval in existing hour (end of previous and start of next can be equal)
-            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsTo/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR) and int(fromSecs/cons.TK_LIMIT_PER_HOUR) * cons.TK_LIMIT_PER_HOUR != secondsTo:
+            elif int(fromSecs/cons.TK_LIMIT_PER_HOUR) <= int(secondsTo/cons.TK_LIMIT_PER_HOUR) <= int(toSecs/cons.TK_LIMIT_PER_HOUR) and int(fromSecs/cons.TK_LIMIT_PER_HOUR) * cons.TK_LIMIT_PER_HOUR not in (fromSecs, secondsTo):
                 # this is it
-                intervalHourConflict = True
+                intervalHourConflictEnd = True
                 break
 
         # set status message if fail
         if intervalOverlaps:
             self.setTimekprStatus(False, "Interval overlaps with existing one")
-        elif intervalHourConflict:
-            self.setTimekprStatus(False, "Interval conflicts with existing one")
+        elif intervalHourConflictStart:
+            self.setTimekprStatus(False, "Interval start conflicts with existing one")
+        elif intervalHourConflictEnd:
+            self.setTimekprStatus(False, "Interval end conflicts with existing one")
         elif secondsFrom == secondsTo:
             self.setTimekprStatus(False, "Interval start can not be the same as end")
         else:
@@ -1090,34 +1094,35 @@ class timekprAdminGUI(object):
     def rebuildHoursFromIntervals(self):
         """Rebuild hours from intervals in GUI, representation to user is different than actual config"""
         # get day
-        day = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[0][3] if len(self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")) > 0 else None
+        calcDay = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[0][3] if len(self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")) > 0 else None
         # day is here
-        if day is not None:
+        if calcDay is not None:
             # clear internal hour representation
-            self._timeLimitDaysHoursActual[day] = {}
+            self._timeLimitDaysHoursActual[calcDay] = {}
 
             # remove selected item
             for rIt in self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS"):
                 # start time
-                time = cons.TK_DATETIME_START + timedelta(seconds=rIt[4])
+                calcTime = cons.TK_DATETIME_START + timedelta(seconds=rIt[4])
                 # total seconds
                 totalSeconds = rIt[5] - rIt[4]
 
                 # now loop through time in interval
                 while totalSeconds > 0:
                     # hour
-                    hour = str(time.hour)
-                    minute = time.minute
+                    calcHour = str(calcTime.hour)
                     # build up hour
-                    self._timeLimitDaysHoursActual[day][hour] = {cons.TK_CTRL_SMIN: minute, cons.TK_CTRL_EMIN: None}
-                    # add to time
-                    time += timedelta(seconds=min(cons.TK_LIMIT_PER_HOUR, totalSeconds))
-                    # add end hour
-                    self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_EMIN] = 60 if totalSeconds >= (cons.TK_LIMIT_PER_HOUR - minute * cons.TK_LIMIT_PER_MINUTE) else time.minute
+                    self._timeLimitDaysHoursActual[calcDay][calcHour] = {cons.TK_CTRL_SMIN: calcTime.minute, cons.TK_CTRL_EMIN: None}
+                    # calc end of the hour
+                    timeToSubtract = min(cons.TK_LIMIT_PER_HOUR - calcTime.minute * cons.TK_LIMIT_PER_MINUTE, totalSeconds)
+                    # adjust time
+                    calcTime += timedelta(seconds=timeToSubtract)
                     # subtract hour
-                    totalSeconds -= min(cons.TK_LIMIT_PER_HOUR, totalSeconds)
+                    totalSeconds -= timeToSubtract
 
-                    # print(hour, self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_SMIN], self._timeLimitDaysHoursActual[day][hour][cons.TK_CTRL_EMIN])
+                    # add end hour
+                    self._timeLimitDaysHoursActual[calcDay][calcHour][cons.TK_CTRL_EMIN] = 60 if calcTime.minute == 0 else calcTime.minute
+                    print(calcTime, calcHour, timeToSubtract, totalSeconds, self._timeLimitDaysHoursActual[calcDay][calcHour])
 
     def weekAvailabilityChanged(self, evt):
         """Change in minutes depending on week availability"""
