@@ -1023,6 +1023,7 @@ class timekprAdminGUI(object):
         intervalOverlaps = False
         intervalHourConflictStart = False
         intervalHourConflictEnd = False
+        intervalDuplicate = False
         # get liststore
         for rIdx in range(0, intervalsLen):
             # interval boundaries
@@ -1030,7 +1031,12 @@ class timekprAdminGUI(object):
             toSecs = self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS")[rIdx][5]
 
             # check whether start is betwen existing interval
-            if fromSecs < secondsFrom < toSecs or fromSecs < secondsTo < toSecs:
+            if secondsFrom < fromSecs < secondsTo or secondsFrom < toSecs < secondsTo:
+                # this is it
+                intervalOverlaps = True
+                break
+            # check whether start is betwen existing interval
+            elif fromSecs < secondsFrom < toSecs or fromSecs < secondsTo < toSecs:
                 # this is it
                 intervalOverlaps = True
                 break
@@ -1044,6 +1050,11 @@ class timekprAdminGUI(object):
                 # this is it
                 intervalHourConflictEnd = True
                 break
+            # check whether user tries to insert duplicate iterval
+            elif fromSecs == secondsFrom or toSecs == secondsTo:
+                # this is it
+                intervalDuplicate = True
+                break
 
         # set status message if fail
         if intervalOverlaps:
@@ -1052,6 +1063,8 @@ class timekprAdminGUI(object):
             self.setTimekprStatus(False, "Interval start conflicts with existing one")
         elif intervalHourConflictEnd:
             self.setTimekprStatus(False, "Interval end conflicts with existing one")
+        elif intervalDuplicate:
+            self.setTimekprStatus(False, "Interval start or end duplicates existing interval")
         elif secondsFrom == secondsTo:
             self.setTimekprStatus(False, "Interval start can not be the same as end")
         else:
