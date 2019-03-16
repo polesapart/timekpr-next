@@ -28,7 +28,7 @@ resource/icons/timekpr.svg usr/share/timekpr/icons/
 
 # launchers
 resource/launchers/timekpr-admin.desktop usr/share/applications/
-resource/launchers/timekpr-admin-pk.desktop usr/share/applications/
+resource/launchers/timekpr-admin-su.desktop usr/share/applications/
 resource/launchers/timekpr-client.desktop etc/xdg/autostart/
 
 # forms
