@@ -245,7 +245,7 @@ class timekprAdminGUI(object):
         self._timeLimitDaysHoursActual = {}
         for rDay in range(1, 7+1):
             self._timeLimitDaysHoursActual[str(rDay)] = {}
-            for rHour in range(1, 23+1):
+            for rHour in range(0, 23+1):
                 self._timeLimitDaysHoursActual[str(rDay)][str(rHour)] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
         # saved means from server, actual means modified in form
         self._timeLimitDaysHoursSaved = self._timeLimitDaysHoursActual.copy()
@@ -313,7 +313,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay-1][4] = _NO_TIME_LABEL
 
             # clear day config
-            for rHour in range(1, 23+1):
+            for rHour in range(0, 23+1):
                 self._timeLimitDaysHoursActual[str(rDay)][str(rHour)] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
 
         # clear up the intervals
@@ -476,14 +476,25 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
 
         # ## limits per allowed days ###
-        for rDay in range(0, len(self._timeLimitDaysLimits)):
+        dayLimitIdx = -1
+        # loop through all days
+        for rDay in range(1, 7+1):
+            # day index
+            dayIdx = rDay - 1
+            # check whether this day is enabled
+            if rDay in self._timeLimitDays:
+                # advance index
+                dayLimitIdx += 1
+            else:
+                continue
+
             # calculate time
-            limit = self.formatIntervalStr(self._timeLimitDaysLimits[int(rDay)], True)
+            limit = self.formatIntervalStr(self._timeLimitDaysLimits[dayLimitIdx], True)
 
             # enable certain days
-            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay][3] = self._timeLimitDaysLimits[int(rDay)]
+            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][3] = self._timeLimitDaysLimits[dayLimitIdx]
             # set appropriate label as well
-            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay][4] = limit if rDay + 1 in self._timeLimitDays else _NO_TIME_LABEL
+            self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][4] = limit if rDay in self._timeLimitDays else _NO_TIME_LABEL
 
         # ## limit per week ##
         timeLimitWeek = cons.TK_DATETIME_START + timedelta(seconds=self._timeLimitWeek)
@@ -508,6 +519,7 @@ class timekprAdminGUI(object):
         # determine curent day and point to it
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").set_cursor(currDay)
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").scroll_to_cell(currDay)
+        self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
 
     def calculateControlAvailability(self):
         """Calculate main control availability"""
@@ -523,31 +535,30 @@ class timekprAdminGUI(object):
         # ## day config ##
         enabledDays = 0
         # enable field if different from what is set
-        for rDay in range(1, 7+1):
+        for rDay in range(0, 7):
             # check whether day and config is different
-            if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[int(rDay)-1][2]:
+            if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay][2]:
                 enabledDays += 1
         # days are the same, no need to enable button
         enabled = (len(self._timeLimitDays) != enabledDays)
 
         # ## limits per allowed days ###
-        for rDay in range(0, len(self._timeLimitDaysLimits)):
+        dayIdx = -1
+        limitLen = len(self._timeLimitDaysLimits)
+        # go through all days
+        for rDay in range(0, 7):
+            # day found
+            if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay][2]:
+                dayIdx += 1
+            else:
+                continue
+
             # check if different
-            if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[int(rDay)][3] != self._timeLimitDaysLimits[int(rDay)]:
+            if dayIdx >= limitLen or self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay][3] != self._timeLimitDaysLimits[dayIdx]:
                 # enable apply
                 enabled = True
                 # this is it
                 break
-
-        # ## hour intervals ###
-        if not enabled:
-            for rDay in range(0, len(self._timeLimitDaysLimits)):
-                # check if different
-                if self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[int(rDay)][3] != self._timeLimitDaysLimits[int(rDay)]:
-                    # enable apply
-                    enabled = True
-                    # this is it
-                    break
 
         # ## hour intervals ###
         # comapre saved and actual lists
@@ -661,7 +672,7 @@ class timekprAdminGUI(object):
                             # allowed weekdays
                             for rDay in rValue:
                                 # set values
-                                self._timeLimitDays.append(rDay)
+                                self._timeLimitDays.append(int(rDay))
                         elif rKey == "LIMITS_PER_WEEKDAYS":
                             # limits per allowed weekdays
                             self._timeLimitDaysLimits = []
@@ -937,25 +948,31 @@ class timekprAdminGUI(object):
 
         # if day was disabled, reset hours and minutes
         if not self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][2]:
+            # enabled
+            enabled = False
             # reset hours & minutes
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][4] = _NO_TIME_LABEL
-
             # change interval selection as well
-            for rHour in range(1, 23+1):
+            for rHour in range(0, 23+1):
                 self._timeLimitDaysHoursActual[self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][0]][str(rHour)] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+
             # clear stuff and disable intervals
             self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").clear()
-            # disable
-            for rCtrl in ["TimekprHourIntervalsTreeView", "TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
-                self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(False)
         else:
-            # enable intervals
-            for rCtrl in ["TimekprHourIntervalsTreeView", "TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
-                self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
+            # enabled
+            enabled = True
             # label
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][4] = self.formatIntervalStr(self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][3], True)
             # enable interval refresh
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
+
+        # enable/disable intervals
+        for rCtrl in ["TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
+            self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(enabled)
+        # disable only
+        if not enabled:
+            for rCtrl in ["TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB", "TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB", "TimekprUserConfDaySettingsConfDaysIntervalsToHrSB", "TimekprUserConfDaySettingsConfDaysIntervalsToMinSB"]:
+                self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(enabled)
 
         # recalc control availability
         self.calculateControlAvailability()
