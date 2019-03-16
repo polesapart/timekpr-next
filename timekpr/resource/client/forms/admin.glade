@@ -949,9 +949,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">Day list of the week and additional information about the day's limit, please enable / disable days for the user</property>
-                                            <property name="hscroll_policy">natural</property>
                                             <property name="model">TimekprWeekDaysLS</property>
-                                            <property name="search_column">0</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
                                                 <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
@@ -1175,7 +1173,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="fill">False</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
