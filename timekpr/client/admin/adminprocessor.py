@@ -7,15 +7,11 @@ Created on Aug 28, 2018
 # imports
 import os
 import getpass
-from dbus.mainloop.glib import DBusGMainLoop
-DBusGMainLoop(set_as_default=True)
-# from datetime import timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
-from timekpr.client.gui.admingui import timekprAdminGUI
 from timekpr.common.utils.config import timekprConfig
 
 
@@ -39,19 +35,38 @@ class timekprAdminClient(object):
         """Start up timekpr admin (choose gui or cli and start this up)"""
         # check whether we need CLI or GUI
         lastParam = args[len(args)-1]
+        timekprForceCLI = False
 
         # check for script
-        if "/timekpra" in lastParam or "timekpra.py" in lastParam:
-            # configuration init
-            _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
-            _timekprConfigManager.loadMainConfiguration()
-            # resource dir
-            _resourcePathGUI = os.path.join(_timekprConfigManager.getTimekprSharedDir(), "client/forms")
+        if ("/timekpra" in lastParam or "timekpra.py" in lastParam):
+            # whether we have X running or wayland?
+            timekprX11Available = os.getenv("DISPLAY") is not None
+            timekprWaylandAvailable = os.getenv("WAYLAND_DISPLAY") is not None
 
-            # use GUI
-            # load GUI and process from there
-            self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser(), self._isDevActive)
+            # if we are required to run graphical thing
+            if (timekprX11Available or timekprWaylandAvailable):
+                # configuration init
+                _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
+                _timekprConfigManager.loadMainConfiguration()
+                # resource dir
+                _resourcePathGUI = os.path.join(_timekprConfigManager.getTimekprSharedDir(), "client/forms")
+
+                # use GUI
+                from timekpr.client.gui.admingui import timekprAdminGUI
+                # load GUI and process from there
+                self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser(), self._isDevActive)
+            # nor X nor wayland are available
+            else:
+                # print to console
+                log.consoleOut("WARNING: Timekpr administration utility was asked to run in GUI mode, but no displays are available, thus running in CLI...\n")
+                # forced CLI
+                timekprForceCLI = True
         else:
+            # CLI
+            timekprForceCLI = True
+
+        # for CLI connections
+        if timekprForceCLI:
             # connect
             self._timekprAdminConnector.initTimekprConnection(True)
             # connected?
