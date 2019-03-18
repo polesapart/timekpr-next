@@ -42,9 +42,10 @@ class timekprAdminClient(object):
             # whether we have X running or wayland?
             timekprX11Available = os.getenv("DISPLAY") is not None
             timekprWaylandAvailable = os.getenv("WAYLAND_DISPLAY") is not None
+            timekprMirAvailable = os.getenv("MIR_SOCKET") is not None
 
             # if we are required to run graphical thing
-            if (timekprX11Available or timekprWaylandAvailable):
+            if (timekprX11Available or timekprWaylandAvailable or timekprMirAvailable):
                 # configuration init
                 _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
                 _timekprConfigManager.loadMainConfiguration()
