@@ -93,6 +93,8 @@ class timekprAdminConnector(object):
                 # failed
                 self._initFailed = True
 
+    # --------------- helper methods --------------- #
+
     def isConnected(self):
         """Return status of connection to DBUS"""
         # if either of this fails, we keep trying to connect
@@ -110,6 +112,8 @@ class timekprAdminConnector(object):
 
         # result
         return result, message
+
+    # --------------- user configuration info population / set methods --------------- #
 
     def getUserList(self):
         """Get user list from server"""
@@ -312,6 +316,239 @@ class timekprAdminConnector(object):
             except Exception as ex:
                 # we can not send notif through dbus
                 self._timekprUserAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    # --------------- timekpr configuration info population / set methods --------------- #
+
+    def getTimekprConfiguration(self):
+        """Get configuration from server"""
+        # defaults
+        result = -1
+        message = "Command FAILED: message was not accepted"
+        timekprConfig = {}
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message, timekprConfig = self._timekprAdminInterface.getTimekprConfiguration()
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message, timekprConfig
+
+    def setTimekprLogLevel(self, pLogLevel):
+        """Set the logging level for server"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprLogLevel(pLogLevel)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprPollTime(self, pPollTimeSecs):
+        """Set polltime for timekpr"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprPollTime(pPollTimeSecs)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprSaveTime(self, pSaveTimeSecs):
+        """Set save time for timekpr"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprSaveTime(pSaveTimeSecs)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprTrackInactive(self, pTrackInactive):
+        """Set default value for tracking inactive sessions"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprTrackInactive(pTrackInactive)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprTerminationTime(self, pTerminationTimeSecs):
+        """Set up user termination time"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprTerminationTime(pTerminationTimeSecs)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprFinalWarningTime(self, pFinalWarningTimeSecs):
+        """Set up final warning time for users"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprFinalWarningTime(pFinalWarningTimeSecs)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprSessionsCtrl(self, pSessionsCtrl):
+        """Set accountable session types for users"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprSessionsCtrl(pSessionsCtrl)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprSessionsExcl(self, pSessionsExcl):
+        """Set NON-accountable session types for users"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprSessionsExcl(pSessionsExcl)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
+                # we need to reschedule connecton (???????)
+
+                # exception
+                result, message = self.formatException(str(ex))
+
+        # result
+        return result, message
+
+    def setTimekprUsersExcl(self, pUsersExcl):
+        """Set excluded usernames for timekpr"""
+        # initial values
+        result = -1
+        message = "Command FAILED: message was not accepted"
+
+        # if we have end-point
+        if self._timekprAdminInterface is not None:
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminInterface.setTimekprUsersExcl(pUsersExcl)
+            except Exception as ex:
+                # we can not send notif through dbus
+                self._timekprAdminInterface = None
                 # we need to reschedule connecton (???????)
 
                 # exception

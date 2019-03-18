@@ -1,6 +1,25 @@
+timekpr-next (0.1.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * finalized admin GUI
+  * bug fixes here and there
+
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 18 Mar 2019 10:33:59 +0300
+
+timekpr-next (0.1.12~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * finalized user admin GUI
+  * bug fixes here and there
+
+  TODO: timekpr administration via GUI
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 15 Mar 2019 07:11:23 +0300
+
 timekpr-next (0.1.11~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
-  * implemented admin GUI
+  * implemented user admin GUI
 
   TODO: timekpr administration via GUI
   TODO: localization and speech

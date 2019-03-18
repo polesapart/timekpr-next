@@ -110,8 +110,18 @@
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
-  <object class="GtkListStore" id="TimekprExcludedSessionsLS"/>
-  <object class="GtkListStore" id="TimekprExcludedUsersLS"/>
+  <object class="GtkListStore" id="TimekprExcludedSessionsLS">
+    <columns>
+      <!-- column-name excludedSession -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="TimekprExcludedUsersLS">
+    <columns>
+      <!-- column-name excludedUser -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="TimekprHourIntervalsLS">
     <columns>
       <!-- column-name intervalIdx -->
@@ -199,7 +209,12 @@
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
-  <object class="GtkListStore" id="TimekprTrackingSessionsLS"/>
+  <object class="GtkListStore" id="TimekprTrackingSessionsLS">
+    <columns>
+      <!-- column-name trackedSession -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="TimekprUserSelectionLS">
     <columns>
       <!-- column-name userIdx -->
@@ -1914,6 +1929,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                 <property name="adjustment">TimekprLoglevelAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1943,6 +1959,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                 <property name="adjustment">TimekprWarningAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1973,6 +1990,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                 <property name="adjustment">TimekprPollingAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2002,6 +2020,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                 <property name="adjustment">TimekprSaveAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2017,9 +2036,10 @@ Adding time does not help in this case, do that before reaching this point...</p
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="text" translatable="yes">15</property>
-                                <property name="adjustment">TimekprWarningAdjustment</property>
+                                <property name="adjustment">TimekprTerminationAdjustment</property>
                                 <property name="numeric">True</property>
                                 <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2140,7 +2160,9 @@ Adding time does not help in this case, do that before reaching this point...</p
 Please, do not change or experiment with this unless You actually (not wishfully) know what are You doing.</property>
                                         <property name="model">TimekprTrackingSessionsLS</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection"/>
+                                          <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection">
+                                            <signal name="changed" handler="trackedSessionTypesSelectionChanged" swapped="no"/>
+                                          </object>
                                         </child>
                                       </object>
                                     </child>
@@ -2156,8 +2178,12 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="tooltip_text" translatable="yes">Enter session type to be tracked</property>
+                                    <property name="max_length">30</property>
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <property name="input_purpose">name</property>
+                                    <signal name="changed" handler="trackedSessionTypesChanged" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2178,6 +2204,7 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                         <property name="receives_default">True</property>
                                         <property name="tooltip_text" translatable="yes">Add tracked session type</property>
                                         <property name="image">TimekprAddTrackedSessionsImage</property>
+                                        <signal name="clicked" handler="trackedSessionsAddClicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2193,6 +2220,7 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                         <property name="receives_default">True</property>
                                         <property name="tooltip_text" translatable="yes">Remove tracked session type</property>
                                         <property name="image">TimekprRemoveTrackedSessionsImage</property>
+                                        <signal name="clicked" handler="trackedSessionsRemoveClicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2252,7 +2280,9 @@ Please, do not change or experiment with this unless You actually (not wishfully
 Please, do not change or experiment with this unless You actually (not wishfully) know what are You doing.</property>
                                         <property name="model">TimekprExcludedSessionsLS</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection"/>
+                                          <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection">
+                                            <signal name="changed" handler="excludedSessionTypesSelectionChanged" swapped="no"/>
+                                          </object>
                                         </child>
                                       </object>
                                     </child>
@@ -2268,8 +2298,12 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="tooltip_text" translatable="yes">Enter session type to be excluded from tracking</property>
+                                    <property name="max_length">30</property>
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <property name="input_purpose">name</property>
+                                    <signal name="changed" handler="excludedSessionTypesChanged" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2290,6 +2324,7 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                         <property name="receives_default">True</property>
                                         <property name="tooltip_text" translatable="yes">Add excluded session type</property>
                                         <property name="image">TimekprAddExcludedSessionsImage</property>
+                                        <signal name="clicked" handler="excludedSessionsAddClicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2304,6 +2339,7 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
                                         <property name="image">TimekprRemoveExcludedSessionsImage</property>
+                                        <signal name="clicked" handler="excludedSessionsRemoveClicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2363,7 +2399,9 @@ Please, do not change or experiment with this unless You actually (not wishfully
 Please specify actual usernames not real names here (e.g please specify jsmith, not John Smith)</property>
                                         <property name="model">TimekprExcludedUsersLS</property>
                                         <child internal-child="selection">
-                                          <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection"/>
+                                          <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection">
+                                            <signal name="changed" handler="excludedUsersSelectionChanged" swapped="no"/>
+                                          </object>
                                         </child>
                                       </object>
                                     </child>
@@ -2379,8 +2417,12 @@ Please specify actual usernames not real names here (e.g please specify jsmith, 
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="tooltip_text" translatable="yes">Enter username to be excluded from tracking</property>
+                                    <property name="max_length">30</property>
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <property name="input_purpose">name</property>
+                                    <signal name="changed" handler="excludedUsersChanged" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2401,6 +2443,7 @@ Please specify actual usernames not real names here (e.g please specify jsmith, 
                                         <property name="receives_default">True</property>
                                         <property name="tooltip_text" translatable="yes">Add user to exclusion list</property>
                                         <property name="image">TimekprAddExcludedUsersImage</property>
+                                        <signal name="clicked" handler="excludedUsersAddClicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2416,6 +2459,7 @@ Please specify actual usernames not real names here (e.g please specify jsmith, 
                                         <property name="receives_default">True</property>
                                         <property name="tooltip_text" translatable="yes">Remove user from exclusion list</property>
                                         <property name="image">TimekprRemoveExcludedUsersImage</property>
+                                        <signal name="clicked" handler="excludedUsersRemoveClicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2468,6 +2512,7 @@ Please specify actual usernames not real names here (e.g please specify jsmith, 
                     <property name="tooltip_text" translatable="yes">Apply all Timekpr settings at once</property>
                     <property name="margin_bottom">5</property>
                     <property name="image">TimekprApplyImageAdminSettings</property>
+                    <signal name="clicked" handler="applyTimekprConfigurationChanges" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
