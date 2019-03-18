@@ -80,9 +80,6 @@ class timekprIndicator(timekprNotificationArea):
         self._timekprMenu.append(Gtk.SeparatorMenuItem())
         self._timekprMenuItemProperties = Gtk.MenuItem(_s("Limits & configuration"))
         self._timekprMenu.append(self._timekprMenuItemProperties)
-        # self._timekprMenu.append(Gtk.SeparatorMenuItem())
-        # self._timekprMenuItemControlPanel = Gtk.MenuItem(_s("Timekpr administration"))
-        # self._timekprMenu.append(self._timekprMenuItemControlPanel)
         self._timekprMenu.append(Gtk.SeparatorMenuItem())
         self._timekprMenuItemAbout = Gtk.MenuItem(_s("About"))
         self._timekprMenu.append(self._timekprMenuItemAbout)
@@ -93,7 +90,6 @@ class timekprIndicator(timekprNotificationArea):
         # connect signal to code
         self._timekprMenuItemTimeLeft.connect("activate", super().invokeTimekprTimeLeft)
         self._timekprMenuItemProperties.connect("activate", super().invokeTimekprUserProperties)
-        # self._timekprMenuItemControlPanel.connect("activate", self.invokeTimekprConfigurator)
         self._timekprMenuItemAbout.connect("activate", super().invokeTimekprAbout)
 
         # set menu to indicator

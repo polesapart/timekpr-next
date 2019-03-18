@@ -446,29 +446,19 @@ class timekprUserConfigurationProcessor(object):
             if result == 0:
                 # defaults
                 setLimit = 0
-                # setLimitWeek = 0
-                # setLimitMonth = 0
 
                 try:
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
                         setLimit = min(max(self._timekprUserControl.getUserTimeSpent() - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
-                        # setLimitWeek = min(max(self._timekprUserControl.getUserTimeSpentWeek() - pTimeLeft, -cons.TK_LIMIT_PER_WEEK), cons.TK_LIMIT_PER_WEEK)
-                        # setLimitMonth = min(max(self._timekprUserControl.getUserTimeSpentMonth() - pTimeLeft, -cons.TK_LIMIT_PER_MONTH), cons.TK_LIMIT_PER_MONTH)
                     elif pOperation == "-":
                         setLimit = min(max(self._timekprUserControl.getUserTimeSpent() + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
-                        # setLimitWeek = min(max(self._timekprUserControl.getUserTimeSpentWeek() + pTimeLeft, -cons.TK_LIMIT_PER_WEEK), cons.TK_LIMIT_PER_WEEK)
-                        # setLimitMonth = min(max(self._timekprUserControl.getUserTimeSpentMonth() + pTimeLeft, -cons.TK_LIMIT_PER_MONTH), cons.TK_LIMIT_PER_MONTH)
                     elif pOperation == "=":
                         setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
 
                     # set up config for day
                     self._timekprUserControl.setUserTimeSpent(setLimit)
-                    # set up config for week
-                    # self._timekprUserControl.setUserTimeSpentWeek(setLimitWeek)
-                    # set up config for month
-                    # self._timekprUserControl.setUserTimeSpentMonth(setLimitMonth)
                 except Exception:
                     # result
                     result = -1

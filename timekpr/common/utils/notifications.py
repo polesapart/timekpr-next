@@ -80,7 +80,14 @@ class timekprNotificationManager(dbus.service.Object):
                 break
 
         # timeleft
-        timeLeft = dbus.Dictionary({cons.TK_CTRL_LEFTD: int(pTimeLeftToday), cons.TK_CTRL_LEFT: int(pTimeLeftTotal), cons.TK_CTRL_SPENT: int(pTimeSpent), cons.TK_CTRL_SPENTW: int(pTimeSpentWeek), cons.TK_CTRL_SPENTM: int(pTimeSpentMonth), cons.TK_CTRL_SLEEP: int(pTimeInactive), cons.TK_CTRL_TRACK: (1 if pTrackInactive else 0)}, signature="si")
+        timeLeft = dbus.Dictionary({}, signature="si")
+        timeLeft[cons.TK_CTRL_LEFTD] = int(pTimeLeftToday)
+        timeLeft[cons.TK_CTRL_LEFT] = int(pTimeLeftTotal)
+        timeLeft[cons.TK_CTRL_SPENT] = int(pTimeSpent)
+        timeLeft[cons.TK_CTRL_SPENTW] = int(pTimeSpentWeek)
+        timeLeft[cons.TK_CTRL_SPENTM] = int(pTimeSpentMonth)
+        timeLeft[cons.TK_CTRL_SLEEP] = int(pTimeInactive)
+        timeLeft[cons.TK_CTRL_TRACK] = (1 if pTrackInactive else 0)
 
         # inform clients about time left in any case
         self.timeLeft(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], timeLeft)

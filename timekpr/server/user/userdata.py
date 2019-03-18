@@ -360,7 +360,6 @@ class timekprUser(object):
         # if time spent is very much higher than the default polling time, computer might went to sleep?
         if timeSpent >= cons.TK_POLLTIME * 15:
             # sleeping time is added to inactive time (there is a question whether that's OK, disabled currently)
-            # self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SLEEP] += min(timeSpent, self._secondsInHour)
             log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: sleeping for %s" % (timeSpent))
             # effectively spent is 0 (we ignore +/- 3 seconds here)
             timeSpent = 0
