@@ -583,6 +583,30 @@ class timekprDaemon(dbus.service.Object):
 
     # --------------- server admin methods accessible by privileged users (root and all in timekpr group) --------------- #
 
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="", out_signature="isa{sv}")
+    def getTimekprConfiguration(self):
+        """Get all timekpr configuration from server"""
+        # default
+        timekprConfig = {}
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+
+            # check and set config
+            result, message, timekprConfig = mainConfigurationProcessor.getSavedTimekprConfiguration()
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = "Unexpected ERROR getting confguration. Please inspect timekpr log files"
+
+        # result
+        return result, message, timekprConfig
+
     @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="i", out_signature="is")
     def setTimekprLogLevel(self, pLogLevel):
         """Set the logging level for server"""
@@ -616,8 +640,7 @@ class timekprDaemon(dbus.service.Object):
         try:
             # check the configuration
             mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
-            if 1/0:
-                pass
+
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprPollTime(pPollTimeSecs)
 

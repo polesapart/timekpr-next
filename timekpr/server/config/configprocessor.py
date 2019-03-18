@@ -492,17 +492,69 @@ class timekprConfigurationProcessor(object):
         self._logging = pLog
         # configuration init
         self._timekprConfig = timekprConfig(pIsDevActive=pIsDevActive, pLog=self._logging)
-        self._timekprConfig.loadMainConfiguration()
+
+    def loadTimekprConfiguration(self):
+        """Load timekpr config"""
+        # configuration load
+        self._configLoaded = self._timekprConfig.loadMainConfiguration()
+        # if fail
+        if not self._configLoaded:
+            result = -1
+            message = "Something went wrong while loading configuration. Please inspect Timekpr log files"
+        else:
+            result = 0
+            message = ""
+
+        # result
+        return result, message
+
+    def getSavedTimekprConfiguration(self):
+        """Get saved user configuration"""
+        """This operates on saved user configuration, it will return all config as big dict"""
+        # initialize username storage
+        timekprConfigurationStore = {}
+
+        # load config
+        result, message = self.loadTimekprConfiguration()
+
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        else:
+            # ## load config ##
+            # log level
+            timekprConfigurationStore["TIMEKPR_LOGLEVEL"] = self._timekprConfig.getTimekprLogLevel()
+            # poll time
+            timekprConfigurationStore["TIMEKPR_POLLTIME"] = self._timekprConfig.getTimekprPollTime()
+            # save time
+            timekprConfigurationStore["TIMEKPR_SAVE_TIME"] = self._timekprConfig.getTimekprSaveTime()
+            # termination time
+            timekprConfigurationStore["TIMEKPR_TERMINATION_TIME"] = self._timekprConfig.getTimekprTerminationTime()
+            # final warning time
+            timekprConfigurationStore["TIMEKPR_FINAL_WARNING_TIME"] = self._timekprConfig.getTimekprFinalWarningTime()
+            # sessions to track
+            timekprConfigurationStore["TIMEKPR_SESSION_TYPES_CTRL"] = self._timekprConfig.getTimekprSessionsCtrl()
+            # sessions to exclude
+            timekprConfigurationStore["TIMEKPR_SESSION_TYPES_EXCL"] = self._timekprConfig.getTimekprSessionsExcl()
+            # users to exclude
+            timekprConfigurationStore["TIMEKPR_USERS_EXCL"] = self._timekprConfig.getTimekprUsersExcl()
+
+        # result
+        return result, message, timekprConfigurationStore
 
     def checkAndSetTimekprLogLevel(self, pLogLevel):
         """Validate and set log level"""
         """ In case we have something to validate, we'll do it here"""
 
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pLogLevel is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pLogLevel is None:
             # result
             result = -1
             message = "Log level is not passed"
@@ -538,11 +590,14 @@ class timekprConfigurationProcessor(object):
     def checkAndSetTimekprPollTime(self, pPollTimeSecs):
         """Validate and Set polltime for timekpr"""
         """ set in-memory polling time (this is the accounting precision of the time"""
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pPollTimeSecs is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pPollTimeSecs is None:
             # result
             result = -1
             message = "Poll time is not passed"
@@ -578,11 +633,14 @@ class timekprConfigurationProcessor(object):
     def checkAndSetTimekprSaveTime(self, pSaveTimeSecs):
         """Check and set save time for timekpr"""
         """Set the interval at which timekpr saves user data (time spent, etc.)"""
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pSaveTimeSecs is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pSaveTimeSecs is None:
             # result
             result = -1
             message = "Save time is not passed"
@@ -595,13 +653,13 @@ class timekprConfigurationProcessor(object):
             except Exception:
                 # result
                 result = -1
-                message = "Poll time \"%s\"is not correct" % (str(pSaveTimeSecs))
+                message = "Save time \"%s\"is not correct" % (str(pSaveTimeSecs))
 
         # if all is correct, we update the configuration
         if result == 0:
             # set up config
             try:
-                self._timekprConfig.setTimekprSaveTimeSecs(pSaveTimeSecs)
+                self._timekprConfig.setTimekprSaveTime(pSaveTimeSecs)
             except Exception:
                 # result
                 result = -1
@@ -618,11 +676,14 @@ class timekprConfigurationProcessor(object):
     def checkAndSetTimekprTrackInactive(self, pTrackInactive):
         """Check and set default value for tracking inactive sessions"""
         """Note that this is just the default value which is configurable at user level"""
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pTrackInactive is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pTrackInactive is None:
             # result
             result = -1
             message = "Track inactive is not passed"
@@ -660,11 +721,14 @@ class timekprConfigurationProcessor(object):
         """ User temination time is how many seconds user is allowed in before he's thrown out
             This setting applies to users who log in at inappropriate time according to user config
         """
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pTerminationTimeSecs is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pTerminationTimeSecs is None:
             # result
             result = -1
             message = "Termination time is not passed"
@@ -700,11 +764,14 @@ class timekprConfigurationProcessor(object):
     def checkAndSetTimekprFinalWarningTime(self, pFinalWarningTimeSecs):
         """Check and set up final warning time for users"""
         """ Final warning time is the countdown lenght (in seconds) for the user before he's thrown out"""
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pFinalWarningTimeSecs is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pFinalWarningTimeSecs is None:
             # result
             result = -1
             message = "Final warning time is not passed"
@@ -740,11 +807,14 @@ class timekprConfigurationProcessor(object):
     def checkAndSetTimekprSessionsCtrl(self, pSessionsCtrl):
         """Check and set accountable session types for users"""
         """ Accountable sessions are sessions which are counted as active, there are handful of them, but predefined"""
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pSessionsCtrl is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pSessionsCtrl is None:
             # result
             result = -1
             message = "Control sessions types are not passed"
@@ -783,11 +853,14 @@ class timekprConfigurationProcessor(object):
     def checkAndSetTimekprSessionsExcl(self, pSessionsExcl):
         """Check and set NON-accountable session types for users"""
         """ NON-accountable sessions are sessions which are explicitly ignored during session evaluation, there are handful of them, but predefined"""
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pSessionsExcl is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pSessionsExcl is None:
             # result
             result = -1
             message = "Excluded session types are not passed"
@@ -829,11 +902,14 @@ class timekprConfigurationProcessor(object):
             Pre-defined values containt all graphical login managers etc., please do NOT add actual end-users here,
             You can, but these users will never receive any notifications about time, icon will be in connecting state forever
         """
-        # check if we have this user
-        result, message = 0, ""
+        # load config
+        result, message = self.loadTimekprConfiguration()
 
-        # if we have no days
-        if pUsersExcl is None:
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        elif pUsersExcl is None:
             # result
             result = -1
             message = "Excluded user list is not passed"
