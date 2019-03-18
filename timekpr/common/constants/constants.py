@@ -10,7 +10,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.1.11"
+TK_VERSION = "0.1.13"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -104,11 +104,6 @@ TK_DBUS_PRIO = "DBUS-PRIO"
 # real
 TK_SESSION_TYPES_CTRL = "x11;wayland;mir"
 TK_SESSION_TYPES_EXCL = "tty;unspecified"
-# dev
-# TK_SESSION_TYPES_CTRL_DEV = "tty"
-# TK_SESSION_TYPES_EXCL_DEV = "x11;wayland;mir;unspecified"
-TK_SESSION_TYPES_CTRL_DEV = "x11;wayland;mir;unspecified"
-TK_SESSION_TYPES_EXCL_DEV = "tty"
 # exclude users
 TK_USERS_EXCL = "testtimekpr;gdm;kdm;lightdm;mdm;lxdm;xdm;sddm;cdm"
 

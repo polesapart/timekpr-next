@@ -121,13 +121,13 @@ class timekprConfig(object):
         section = "SESSION"
         # read
         param = "TIMEKPR_SESSION_TYPES_CTRL"
-        self._timekprConfig[param] = cons.TK_SESSION_TYPES_CTRL_DEV if self._isDevActive else (cons.TK_SESSION_TYPES_CTRL if useDefaults else self._timekprConfigParser.get(section, param))
+        self._timekprConfig[param] = cons.TK_SESSION_TYPES_CTRL if useDefaults else self._timekprConfigParser.get(section, param)
         # read
         param = "TIMEKPR_SESSION_TYPES_EXCL"
-        self._timekprConfig[param] = cons.TK_SESSION_TYPES_EXCL_DEV if self._isDevActive else (cons.TK_SESSION_TYPES_EXCL if useDefaults else self._timekprConfigParser.get(section, param))
+        self._timekprConfig[param] = cons.TK_SESSION_TYPES_EXCL if useDefaults else self._timekprConfigParser.get(section, param)
         # read
         param = "TIMEKPR_USERS_EXCL"
-        self._timekprConfig[param] = cons.TK_USERS_EXCL if self._isDevActive else (cons.TK_USERS_EXCL if useDefaults else self._timekprConfigParser.get(section, param))
+        self._timekprConfig[param] = cons.TK_USERS_EXCL if useDefaults else self._timekprConfigParser.get(section, param)
 
         # directory section
         section = "DIRECTORIES"
@@ -273,15 +273,15 @@ class timekprConfig(object):
 
     def getTimekprSessionsCtrl(self):
         """Get sessions to control"""
-        return {result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"].split(";")}
+        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"].split(";")]
 
     def getTimekprSessionsExcl(self):
         """Get sessions to exclude"""
-        return {result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"].split(";")}
+        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"].split(";")]
 
     def getTimekprUsersExcl(self):
         """Get sessions to exclude"""
-        return {result.strip(None) for result in self._timekprConfig["TIMEKPR_USERS_EXCL"].split(";")}
+        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_USERS_EXCL"].split(";")]
 
     def getTimekprConfigDir(self):
         """Get config dir"""
