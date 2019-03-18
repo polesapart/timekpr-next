@@ -108,7 +108,7 @@ class timekprAdminGUI(object):
             self._isConnected = True
             # get users
             GLib.timeout_add_seconds(0, self.getUserList)
-            GLib.timeout_add_seconds(0, self.retrieveTimekprConfig)
+            GLib.timeout_add_seconds(0.1, self.retrieveTimekprConfig)
         elif not interfacesOk and connecting:
             # status
             self.setTimekprStatus(True, "Connecting...")
@@ -314,7 +314,7 @@ class timekprAdminGUI(object):
     def toggleTimekprConfigControls(self, pEnable=True, pAll=True):
         """Enable or disable all timekpr controls for the form"""
         # enable for timekpr can be done only in admin mode
-        enable = pEnable and os.getuid() == 1000
+        enable = pEnable and os.getuid() == 0
         # apply settings to all buttons`in user configuration
         for rButton in self._timekprConfigControlElements:
             if not enable:
@@ -344,7 +344,7 @@ class timekprAdminGUI(object):
             contextId = statusBar.get_context_id("status")
             # pop existing message and add new one
             statusBar.remove_all(contextId)
-            statusBar.push(contextId, pStatus)
+            statusBar.push(contextId, pStatus[:75])
 
     def clearAdminForm(self):
         """Clear and default everything to default values"""
