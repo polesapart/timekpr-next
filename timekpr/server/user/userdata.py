@@ -561,17 +561,9 @@ class timekprUser(object):
         """Return user DBUS path"""
         return self._timekprUserData[cons.TK_CTRL_UPATH]
 
-    def getUserName(self):
-        """Return user name"""
-        return self._timekprUserData[cons.TK_CTRL_UNAME]
-
-    def getTrackInactive(self):
-        """Return whether track inactive sessions for this user"""
-        return self._timekprUserConfig.getUserTrackInactive()
-
     def isUserActive(self, pSessionTypes):
         """Whether user is active"""
-        return self._timekprUserManager.isUserActive(pSessionTypes, self.getTrackInactive())
+        return self._timekprUserManager.isUserActive(pSessionTypes, self._timekprUserConfig.getUserTrackInactive())
 
     def processFinalWarning(self):
         """Process emergency message about killing"""

@@ -213,7 +213,7 @@ class timekprDaemon(dbus.service.Object):
 
             # if user is not active, we do not send them to death row (suspend the sentence for a while)
             if not isUserActive and userName in self._timekprUserTerminationList:
-                log.log(cons.TK_LOG_LEVEL_INFO, "saving user \"%s\" from certain death" % (self._timekprUserList[userName].getUserName()))
+                log.log(cons.TK_LOG_LEVEL_INFO, "saving user \"%s\" from certain death" % (userName))
 
                 # remove from death list
                 self._timekprUserTerminationList.pop(userName)
@@ -279,10 +279,6 @@ class timekprDaemon(dbus.service.Object):
             return True
 
     # --------------- DBUS / communication methods --------------- #
-
-    # these methods are in manager due to certain frontends (if any) could ask config for any user, this does not make client to loop through user objects in DBUS
-    # this !initiates! configuration sending to client (this is due to if config changes we send configuration over, so not to duplicate delivery, we do it like this)
-
     # --------------- simple user methods accessible by any --------------- #
 
     @dbus.service.method(cons.TK_DBUS_USER_LIMITS_INTERFACE, in_signature="s", out_signature="is")
