@@ -28,7 +28,7 @@
   <object class="GtkDialog" id="timekprConfigDialog">
     <property name="can_focus">False</property>
     <property name="receives_default">True</property>
-    <property name="title" translatable="yes">Timekpr information</property>
+    <property name="title" translatable="yes">Timekpr nExT client</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
@@ -114,6 +114,7 @@
                 <property name="label">gtk-apply</property>
                 <property name="width_request">100</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Save all changes</property>
@@ -936,6 +937,7 @@
                                 <property name="tooltip_text" translatable="yes">Whether to use speech notifications (if not available, this will be greyed out), if usage of speech is very much needed, please install python-espeak package</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -962,6 +964,7 @@
                                     <property name="numeric">True</property>
                                     <property name="wrap">True</property>
                                     <property name="value">1</property>
+                                    <signal name="value-changed" handler="clientConfigChangedSignal" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -997,6 +1000,7 @@
                                 <property name="tooltip_text" translatable="yes">Whether to show notification when limit configurations or alowance changes</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1012,6 +1016,7 @@
                                 <property name="tooltip_text" translatable="yes">Whether to show all notifications, if unchecked then only important ones are shown</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1027,6 +1032,7 @@
                                 <property name="tooltip_text" translatable="yes">Whether to show seconds in notification area (some DE, like KDE5, do not allow text besides notification icons)</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
