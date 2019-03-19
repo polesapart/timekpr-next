@@ -43,7 +43,10 @@ class timekprSpeech(object):
 
     def saySmth(self, pMsg):
         """Say something"""
-        espeak.synth(pMsg)
+        # if supported
+        if self.isSupported():
+            # synth the speech
+            espeak.synth(pMsg)
 
     def isSupported(self):
         """Return whether speech can be used"""

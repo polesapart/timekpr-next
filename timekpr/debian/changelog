@@ -1,3 +1,12 @@
+timekpr-next (0.1.14~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * timekpr client code optimization and small bug fixes
+  * added speech output
+
+  TODO: localization
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 21 Mar 2019 21:06:43 +0300
+
 timekpr-next (0.1.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * finalized admin GUI

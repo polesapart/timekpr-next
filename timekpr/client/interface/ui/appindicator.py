@@ -7,7 +7,6 @@ Created on Aug 28, 2018
 # import
 import gi
 import os
-from dbus.mainloop.glib import DBusGMainLoop
 from gettext import gettext as _s
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -16,9 +15,6 @@ from gi.repository import Gtk
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.ui.notificationarea import timekprNotificationArea
-
-# set up dbus main loop
-DBusGMainLoop(set_as_default=True)
 
 # indicator stuff
 try:
@@ -37,7 +33,7 @@ except (ImportError, ValueError):
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pGUIResourcePath):
+    def __init__(self, pLog, pIsDevActive, pUserName, pClientConfigManager):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog, pClient=True)
@@ -47,7 +43,7 @@ class timekprIndicator(timekprNotificationArea):
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pIsDevActive, pUserName, pGUIResourcePath)
+            super().__init__(pLog, pIsDevActive, pUserName, pClientConfigManager)
 
             # this is our icon
             self._indicator = None
@@ -60,15 +56,12 @@ class timekprIndicator(timekprNotificationArea):
         # returns whether we can use appindicator
         return _USE_INDICATOR
 
-    def initTimekprIcon(self, pShowSeconds):
+    def initTimekprIcon(self):
         """Initialize timekpr indicator"""
         log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprIndicatorIcon")
 
-        # show secs
-        self._showSeconds = pShowSeconds
-
         # init indicator itself (icon will be set later)
-        self._indicator = AppIndicator.Indicator.new("indicator-timekpr", os.path.join(self._resourcePathIcons, cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]), AppIndicator.IndicatorCategory.APPLICATION_STATUS)
+        self._indicator = AppIndicator.Indicator.new("indicator-timekpr", os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]), AppIndicator.IndicatorCategory.APPLICATION_STATUS)
         self._indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
 
         # define empty menu
@@ -103,21 +96,17 @@ class timekprIndicator(timekprNotificationArea):
     def setTimeLeft(self, pPriority, pTimeLeft):
         """Set time left in the indicator"""
         # make strings to set
-        timeLeft, icon = super().setTimeLeft(pPriority, pTimeLeft)
-        # change the label and icons
-        self.changeTimeLeft(timeLeft, icon)
+        timeLeft, icon = super().formatTimeLeft(pPriority, pTimeLeft)
 
-    def changeTimeLeft(self, pTimeLeftStr, pTimekprIcon):
-        """Change time things for indicator"""
         # if we have smth to set
-        if pTimeLeftStr is not None:
+        if timeLeft is not None:
             # set time left (this works with indicator in unity and gnome)
-            self._indicator.set_label(pTimeLeftStr, "")
+            self._indicator.set_label(timeLeft, "")
 
             # set time left (this works with indicator in kde5)
-            self._indicator.set_title(pTimeLeftStr)
+            self._indicator.set_title(timeLeft)
 
         # if we have smth to set
-        if pTimekprIcon is not None:
+        if icon is not None:
             # set up the icon
-            self._indicator.set_icon(pTimekprIcon)
+            self._indicator.set_icon(icon)

@@ -24,7 +24,7 @@ DBusGMainLoop(set_as_default=True)
 class timekprNotifications(object):
     """Main class for supporting indicator notifications"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName):
+    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
         """Initialize notificaitions"""
         # init logging firstly
         log.setLogging(pLog, pClient=True)
@@ -36,6 +36,7 @@ class timekprNotifications(object):
 
         # uname
         self._userName = pUserName
+        self._timekprConfigManager = pTimekprConfigManager
 
         # critical notification (to replace itself)
         self._criticalNotif = 0
@@ -60,12 +61,13 @@ class timekprNotifications(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start initClientNotifications")
 
         # speech
-        if self._timekprSpeechManager is not None:
+        if self._timekprSpeechManager is None:
             # initialize
             self._timekprSpeechManager = timekprSpeech()
             # check if supported, if it is, initialize
             if self._timekprSpeechManager.isSupported():
-                self._timekprSpeechManager.initinitSpeech()
+                # initialize if supported
+                self._timekprSpeechManager.initSpeech()
 
         # only if notifications are ok
         if self._notifyInterface is None:
@@ -178,6 +180,9 @@ class timekprNotifications(object):
         elif pMsgCode == cons.TK_MSG_REMOTE_INVOCATION_ERROR:
             # msg
             msgStr = _s("There is a problem communicating to timekpr (%s)!" % (pAdditionalMessage))
+        elif pMsgCode == cons.TK_MSG_ICON_INIT_ERROR:
+            # msg
+            msgStr = _s("Icon inititalization error (%s)!" % (pAdditionalMessage))
 
         # save notification ID
         notifId = self._criticalNotif
@@ -213,6 +218,11 @@ class timekprNotifications(object):
 
             # save notification ID (to replace it)
             self._criticalNotif = notifId
+
+            # user wants to hear things
+            if self._timekprConfigManager.getClientUseSpeechNotifications():
+                # say that out loud
+                self._timekprSpeechManager.saySmth(msgStr)
 
     def requestTimeLeft(self):
         """Request time left from server"""
@@ -272,4 +282,4 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("internal connection error, please check log files"))
+                self.notifyUser(cons.TK_MSG_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("Internal connection error, please check log files"))

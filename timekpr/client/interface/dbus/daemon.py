@@ -56,29 +56,20 @@ class timekprClient(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "starting up timekpr client")
 
         # check if appind is supported
-        self._timekprClient = appind_timekprIndicator(self._logging, self._isDevActive, self._userName, self._timekprConfigManager.getTimekprSharedDir())
+        self._timekprClientIndicator = appind_timekprIndicator(self._logging, self._isDevActive, self._userName, self._timekprConfigManager)
 
         # if not supported fall back to statico
-        if not self._timekprClient.isSupported():
+        if not self._timekprClientIndicator.isSupported():
             # check if appind is supported
-            self._timekprClient = statico_timekprIndicator(self._logging, self._isDevActive, self._userName, self._timekprConfigManager.getTimekprSharedDir())
-
-            if not self._timekprClient.isSupported():
-                # TODO : use w/o GUI or just exit? we need a notification anyway!
-                pass
+            self._timekprClientIndicator = statico_timekprIndicator(self._logging, self._isDevActive, self._userName, self._timekprConfigManager)
 
         # this will check whether we have an icon, if not, the rest goes through timekprClient anyway
-        if self._timekprClient.isSupported():
+        if self._timekprClientIndicator.isSupported():
             # init timekpr
-            self._timekprClient.initTimekprIcon(self._timekprConfigManager.getClientShowSeconds())
-
-            # set up defaults
-            self._timekprClient.renewUserConfiguration(
-                 self._timekprConfigManager.getClientShowLimitNotifications()
-                ,self._timekprConfigManager.getClientShowAllNotifications()
-                ,self._timekprConfigManager.getClientUseSpeechNotifications()
-                ,self._timekprConfigManager.getClientShowSeconds()
-                ,self._timekprConfigManager.getClientLogLevel())
+            self._timekprClientIndicator.initTimekprIcon()
+        else:
+            # process time left notification (notifications should be available in any of the icons, even of not supported)
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_ICON_INIT_ERROR, cons.TK_PRIO_CRITICAL, None, "can not initialize the icon in any way")
 
         # connect signals to dbus
         self.connectTimekprSignalsDBUS()
@@ -99,11 +90,11 @@ class timekprClient(object):
         """Request initial config from server"""
         if self._notificationFromDBUS is not None:
             # get limits
-            self._timekprClient._timekprNotifications.requestTimeLimits()
+            self._timekprClientIndicator._timekprNotifications.requestTimeLimits()
             # wait a little between limits and left
-            time.sleep(0.25)
+            time.sleep(0.1)
             # get left
-            self._timekprClient._timekprNotifications.requestTimeLeft()
+            self._timekprClientIndicator._timekprNotifications.requestTimeLeft()
         else:
             # loop while not connected
             return True
@@ -115,7 +106,7 @@ class timekprClient(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start connectTimekprSignalsDBUS")
 
         # trying to connect
-        self._timekprClient.setStatus("Connecting...")
+        self._timekprClientIndicator.setStatus("Connecting...")
 
         try:
             # dbus performance measurement
@@ -173,18 +164,11 @@ class timekprClient(object):
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeConfigurationChangedNotification")
 
-            # connect to signal
-            self._timeLimitConfigurationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
-                ,handler_function = self.receiveTimeLimitConfiguration
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
-                ,signal_name      = "timeLimitConfiguration")
-
             # measurement logging
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - connecting signals \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             # set status
-            self._timekprClient.setStatus("Connected")
+            self._timekprClientIndicator.setStatus("Connected")
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "DBUS signals connected")
 
@@ -204,67 +188,58 @@ class timekprClient(object):
         # finish
         return False
 
-    # --------------- worker methods --------------- #
+    # --------------- worker methods (from dbus) --------------- #
 
     def receiveTimeLeft(self, pPriority, pTimeLeft):
         """Receive the signal and process the data to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i" % (pPriority, pTimeLeft[cons.TK_CTRL_LEFT]))
         # process time left
-        self._timekprClient.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT]))
+        self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT]))
         # renew limits in GUI
-        self._timekprClient.renewUserLimits(pTimeLeft)
-        # if config changed
-        if self._timekprClient.getUserConfigChanged():
-            # load config
-            if self._timekprConfigManager.isClientConfigChanged():
-                # reload
-                self._timekprConfigManager.loadClientConfiguration()
-                # adjust indicator
-                self._timekprClient.setSetShowSeconds(self._timekprConfigManager.getClientShowSeconds())
+        self._timekprClientIndicator.renewUserLimits(pTimeLeft)
 
     def receiveTimeLimits(self, pPriority, pTimeLimits):
         """Receive the signal and process the data to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timelimits: %s" % (pPriority))
         # renew limits in GUI
-        self._timekprClient.renewLimitConfiguration(pTimeLimits)
+        self._timekprClientIndicator.renewLimitConfiguration(pTimeLimits)
 
-    def receiveTimeLimitConfiguration(self, pPriority, pIntervalsToday, pIntervalsTomorrow, pTimeLeftTotal, pSleepTime, pTrackInactive):
-        """Show configuration for user (intervals for today and tomorrow, once every save on the server side)"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive config: %s, %s, %i, %i, %s" % (pIntervalsToday, pIntervalsTomorrow, pTimeLeftTotal, pSleepTime, pTrackInactive))
-
-    # --------------- notification methods --------------- #
+    # --------------- notification methods (from dbus) --------------- #
 
     def receiveTimeLeftNotification(self, pPriority, pTimeLeftTotal, pTimeLeftToday, pTimeLimitToday):
         """Receive time left and update GUI"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive tl notif: %s, %i" % (pPriority, pTimeLeftTotal))
-        # process time left notification
+        # if notifications are turned on
         if self._timekprConfigManager.getClientShowAllNotifications():
-            self._timekprClient.notifyUser(cons.TK_MSG_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
+            # process time left notification
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
 
     def receiveTimeCriticalNotification(self, pPriority, pSecondsLeft):
         """Receive critical time left and show that to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive crit notif: %i" % (pSecondsLeft))
-        # process time left
-        self._timekprClient.notifyUser(cons.TK_MSG_TIMECRITICAL, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pSecondsLeft))
+        # process time left (this shows in any case)
+        self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMECRITICAL, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pSecondsLeft))
 
     def receiveTimeNoLimitNotification(self, pPriority):
         """Receive no limit notificaton and show that to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive nl notif")
-        # process time left
+        # if notifications are turned on
         if self._timekprConfigManager.getClientShowAllNotifications():
-            self._timekprClient.notifyUser(cons.TK_MSG_TIMEUNLIMITED, pPriority)
-            pass
+            # process time left
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMEUNLIMITED, pPriority)
 
     def receiveTimeLeftChangedNotification(self, pPriority):
         """Receive time left notification and show it to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive time left changed notif")
-        # limits have changed and applied
+        # if notifications are turned on
         if self._timekprConfigManager.getClientShowLimitNotifications():
-            self._timekprClient.notifyUser(cons.TK_MSG_TIMELEFTCHANGED, pPriority)
+            # limits have changed and applied
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMELEFTCHANGED, pPriority)
 
     def receiveTimeConfigurationChangedNotification(self, pPriority):
         """Receive notification about config change and show it to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive config changed notif")
-        # configuration has changed, new limits may have been applied
+        # if notifications are turned on
         if self._timekprConfigManager.getClientShowLimitNotifications():
-            self._timekprClient.notifyUser(cons.TK_MSG_TIMECONFIGCHANGED, pPriority)
+            # configuration has changed, new limits may have been applied
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMECONFIGCHANGED, pPriority)

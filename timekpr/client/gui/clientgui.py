@@ -13,7 +13,6 @@ from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
-from timekpr.common.utils.config import timekprClientConfig
 from timekpr.client.interface.speech.espeak import timekprSpeech
 
 # constant
@@ -25,7 +24,7 @@ _NO_TIME_LIMIT_LABEL = "--:--:--:--"
 class timekprGUI(object):
     """Main class for supporting timekpr forms"""
 
-    def __init__(self, pTimekprVersion, pResourcePath, pUsername):
+    def __init__(self, pTimekprVersion, pTimekprConfigManager, pUsername):
         """Initialize gui"""
         # init locale
         self.initLocale()
@@ -33,7 +32,7 @@ class timekprGUI(object):
         # set up base variables
         self._userName = pUsername
         self._timekprVersion = pTimekprVersion
-        self._resourcePath = pResourcePath
+        self._timekprConfigManager = pTimekprConfigManager
 
         # sets up limit variables
         self._timeSpent = None
@@ -45,31 +44,23 @@ class timekprGUI(object):
         self._timeTrackInactive = True
         self._limitConfig = {}
 
-        # sets up config options
-        self._showLimitNotification = False
-        self._showAllNotifications = False
-        self._useSpeechNotifications = False
-        self._showSeconds = False
-        self._loggingLevel = 1
-
         # is speech supported
         self._isSpeechSupported = timekprSpeech().isSupported()
 
         # change tracking
         self._configChanged = False
-
         # ## forms builders ##
         # init about builder
         self._timekprAboutDialogBuilder = Gtk.Builder()
         # get our dialog
-        self._timekprAboutDialogBuilder.add_from_file(os.path.join(self._resourcePath, "about.glade"))
+        self._timekprAboutDialogBuilder.add_from_file(os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "client/forms", "about.glade"))
         # get main form (to set various runtime things)
         self._timekprAboutDialog = self._timekprAboutDialogBuilder.get_object("timekprAboutDialog")
 
         # init config builder
         self._timekprConfigDialogBuilder = Gtk.Builder()
         # get our dialog
-        self._timekprConfigDialogBuilder.add_from_file(os.path.join(self._resourcePath, "config.glade"))
+        self._timekprConfigDialogBuilder.add_from_file(os.path.join(self._timekprConfigManager.getTimekprSharedDir(),  "client/forms", "config.glade"))
         # get main form (to set various runtime things)
         self._timekprConfigDialog = self._timekprConfigDialogBuilder.get_object("timekprConfigDialog")
 
@@ -102,6 +93,8 @@ class timekprGUI(object):
         # status
         self.setStatus("Started")
 
+    # --------------- helper methods --------------- #
+
     def formatTime(self, pTime):
         """Format time for output on form"""
         if pTime is None:
@@ -109,31 +102,19 @@ class timekprGUI(object):
         else:
             return str((pTime - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(pTime.hour).rjust(2, "0") + ":" + str(pTime.minute).rjust(2, "0") + ":" + str(pTime.second).rjust(2, "0")
 
-    def renewUserConfiguration(self, pShowLimitNotification=None, pShowAllNotifications=None, pUseSpeechNotifications=None, pShowSeconds=None, pLoggingLevel=None):
+    def renewUserConfiguration(self):
         """Update configuration options"""
-        # sets this up for local storage
-        if pShowLimitNotification is not None:
-            self._showLimitNotification = pShowLimitNotification
-        if pShowAllNotifications is not None:
-            self._showAllNotifications = pShowAllNotifications
-        if pUseSpeechNotifications is not None:
-            self._useSpeechNotifications = pUseSpeechNotifications
-        if pShowSeconds is not None:
-            self._showSeconds = pShowSeconds
-            self._showSecondsChanged = False
-        if pLoggingLevel is not None:
-            self._loggingLevel = pLoggingLevel
         # if speech is not supported, we disable and uncheck the box
         if self._isSpeechSupported is False:
-            self._useSpeechNotifications = False
-            self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_sensitive(self._useSpeechNotifications)
+            # disable speech
+            self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_sensitive(False)
 
         # user config
-        self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").set_active(self._showLimitNotification)
-        self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").set_active(self._showAllNotifications)
-        self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_active(self._useSpeechNotifications)
-        self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").set_active(self._showSeconds)
-        self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").set_value(self._loggingLevel)
+        self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").set_active(self._timekprConfigManager.getClientShowLimitNotifications())
+        self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").set_active(self._timekprConfigManager.getClientShowAllNotifications())
+        self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_active(self._timekprConfigManager.getClientUseSpeechNotifications())
+        self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").set_active(self._timekprConfigManager.getClientShowSeconds())
+        self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").set_value(self._timekprConfigManager.getClientLogLevel())
 
     def renewLimits(self, pTimeLeft=None):
         """Renew information to be show for user in GUI"""
@@ -179,6 +160,7 @@ class timekprGUI(object):
         """Renew information to be show for user"""
         # if there is smth
         if pLimits is not None:
+            # new limits appeared
             self._limitConfig = pLimits
 
         # clear out days
@@ -220,12 +202,28 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").set_cursor(currDay)
         self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").scroll_to_cell(currDay)
 
+    def processConfigChanged(self):
+        """Determine whether config has been changed and enable / disable apply"""
+        # initial
+        configChanged = False
+        # determine what's changed
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").get_active() != self._timekprConfigManager.getClientShowLimitNotifications()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active() != self._timekprConfigManager.getClientShowAllNotifications()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active() != self._timekprConfigManager.getClientUseSpeechNotifications()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active() != self._timekprConfigManager.getClientShowSeconds()
+        configChanged = configChanged or int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value()) != self._timekprConfigManager.getClientLogLevel()
+
+        # this is it
+        self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(configChanged)
+
     def initLocale(self):
         """Init translation stuff"""
         # init python gettext
         # gettext.bindtextdomain("timekpr-next", "/usr/share/locale")
         # gettext.textdomain("timekpr-next")
         pass
+
+    # --------------- init methods --------------- #
 
     def initAboutForm(self):
         """Initialize about form"""
@@ -258,6 +256,12 @@ class timekprGUI(object):
         # hide for later use
         self._timekprConfigDialog.hide()
 
+    # --------------- user clicked methods --------------- #
+
+    def clientConfigChangedSignal(self, evt):
+        """Process config changed signal"""
+        self.processConfigChanged()
+
     def daysChangedSignal(self, evt):
         """Refresh intervals when days change"""
         # refresh the child
@@ -281,65 +285,24 @@ class timekprGUI(object):
                         # fill in the intervals
                         self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysIntervalsLS").append([("%s:%s - %s:%s") % (str(start.hour).rjust(2, "0"), str(start.minute).rjust(2, "0"), str(end.hour).rjust(2, "0") if r[1] < cons.TK_LIMIT_PER_DAY else "24", str(end.minute).rjust(2, "0"))])
 
-    def saveUserConfigSignal(self, evt):
-        """Save the configuration using config file manager"""
-        # sets this up for local storage
-        showLimitNotification = self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").get_active()
-        showAllNotifications = self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active()
-        useSpeechNotifications = self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active()
-        loggingLevel = int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value())
-        showSeconds = self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active()
-
-        # we need to track whether config has changed
-        if (self._showLimitNotification != showLimitNotification
-            or self._showAllNotifications != showAllNotifications
-            or self._useSpeechNotifications != useSpeechNotifications
-            or self._loggingLevel != loggingLevel
-            or self._showSeconds != showSeconds
-        ):
-            # config is changed
-            self._configChanged = True
-
-        # assign for actual use
-        self._showLimitNotification = showLimitNotification
-        self._showAllNotifications = showAllNotifications
-        self._useSpeechNotifications = useSpeechNotifications
-        self._loggingLevel = loggingLevel
-        self._showSeconds = showSeconds
-
-        # get config and save it
-        userConfig = timekprClientConfig(cons.TK_DEV_ACTIVE)
-
-        # set config
-        userConfig.setClientShowLimitNotifications(self._showLimitNotification)
-        userConfig.setClientShowAllNotifications(self._showAllNotifications)
-        userConfig.setClientUseSpeechNotifications(self._useSpeechNotifications)
-        userConfig.setClientShowSeconds(self._showSeconds)
-        userConfig.setClientLogLevel(self._loggingLevel)
-
-        # save config
-        userConfig.saveClientConfig()
-
     def configPageSwitchSignal(self, nb=None, pg=None, pgn=None):
         """Enable or disable apply on page change"""
-        if pgn is None:
-            ppgn = int(self._timekprConfigDialogBuilder.get_object("timekprConfigNotebook").get_current_page())
-        else:
-            ppgn = pgn
+        # nothing here
+        pass
 
-        # enable / disable apply when on config options page
-        if int(ppgn) < 2:
-            self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(False)
-        else:
-            self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(True)
+    def saveUserConfigSignal(self, evt):
+        """Save the configuration using config file manager"""
+        # get config, set config to manager and save it
+        self._timekprConfigManager.setClientShowLimitNotifications(self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").get_active())
+        self._timekprConfigManager.setClientShowAllNotifications(self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active())
+        self._timekprConfigManager.setClientUseSpeechNotifications(self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active())
+        self._timekprConfigManager.setClientShowSeconds(self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active())
+        self._timekprConfigManager.setClientLogLevel(int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value()))
 
-    def getUserConfigChanged(self):
-        """Get whether config has changed"""
-        # save actual value and reset it after
-        configChanged = self._configChanged
-        self._configChanged = False
-        # result
-        return configChanged
+        # save config
+        self._timekprConfigManager.saveClientConfig()
+        # disable apply for now
+        self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(False)
 
     def closePropertiesSignal(self, evt):
         """Close the config form"""

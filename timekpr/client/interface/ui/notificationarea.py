@@ -18,7 +18,7 @@ from timekpr.client.gui.clientgui import timekprGUI
 class timekprNotificationArea(object):
     """Support appindicator or other means of showing icon on the screen (this class is a parent for classes like indicator or staticon)"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pGUIResourcePath):
+    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog, pClient=True)
@@ -27,6 +27,8 @@ class timekprNotificationArea(object):
 
         # dev
         self._isDevActive = pIsDevActive
+        # configuration
+        self._timekprConfigManager = pTimekprConfigManager
 
         # set version
         self._timekprVersion = "-.-.-"
@@ -36,17 +38,13 @@ class timekprNotificationArea(object):
         self._lastUsedPriority = ""
         # initialize time left
         self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY)
-        # whether to show secnds in systray
-        self._showSeconds = False
         # no limit level
         self._noLimit = False
         self._noLimitSet = False
 
         # init notificaction stuff
-        self._timekprNotifications = timekprNotifications(pLog, self._isDevActive, self._userName)
+        self._timekprNotifications = timekprNotifications(pLog, self._isDevActive, self._userName, self._timekprConfigManager)
         self._timekprNotifications.initClientNotifications()
-        self._resourcePathIcons = os.path.join(pGUIResourcePath, "icons")
-        self._resourcePathGUI = os.path.join(pGUIResourcePath, "client/forms")
 
         # dbus
         self._timekprBus = None
@@ -54,13 +52,13 @@ class timekprNotificationArea(object):
         self._notifyInterface = None
 
         # gui forms
-        self._timekprGUI = timekprGUI(cons.TK_VERSION, self._resourcePathGUI, self._userName)
+        self._timekprGUI = timekprGUI(cons.TK_VERSION, self._timekprConfigManager, self._userName)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekpr indicator")
 
-    def setTimeLeft(self, pPriority, pTimeLeft):
+    def formatTimeLeft(self, pPriority, pTimeLeft):
         """Set time left in the indicator"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start setTimeLeft")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "start formatTimeLeft")
 
         # prio
         prio = pPriority
@@ -72,7 +70,7 @@ class timekprNotificationArea(object):
             # if there is no time left set yet, show --
             if pTimeLeft is None:
                 # determine hours and minutes
-                timeLeftStr = "--:--" + (":--" if self._showSeconds else "")
+                timeLeftStr = "--:--" + (":--" if self._timekprConfigManager.getClientShowSeconds() else "")
             else:
                 # update time
                 self._timeLeftTotal = pTimeLeft
@@ -86,7 +84,9 @@ class timekprNotificationArea(object):
                         self._noLimitSet = True
                 else:
                     # determine hours and minutes
-                    timeLeftStr = str((self._timeLeftTotal - cons.TK_DATETIME_START).days * 24 + self._timeLeftTotal.hour).rjust(2, "0") + ":" + str(self._timeLeftTotal.minute).rjust(2, "0") + ((":" + str(self._timeLeftTotal.second).rjust(2, "0")) if self._showSeconds else "")
+                    timeLeftStr = str((self._timeLeftTotal - cons.TK_DATETIME_START).days * 24 + self._timeLeftTotal.hour).rjust(2, "0")
+                    timeLeftStr += ":" + str(self._timeLeftTotal.minute).rjust(2, "0")
+                    timeLeftStr += ((":" + str(self._timeLeftTotal.second).rjust(2, "0")) if self._timekprConfigManager.getClientShowSeconds() else "")
 
             # now, if priority changes, set up icon as well
             if self._lastUsedPriority != prio:
@@ -94,27 +94,17 @@ class timekprNotificationArea(object):
                 self._lastUsedPriority = pPriority
 
                 # get status icon
-                timekprIcon = os.path.join(self._resourcePathIcons, cons.TK_PRIO_CONF[cons.getNotificationPrioriy(prio)][cons.TK_ICON_STAT])
+                timekprIcon = os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF[cons.getNotificationPrioriy(prio)][cons.TK_ICON_STAT])
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish setTimeLeft")
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish formatTimeLeft")
 
         # return time left and icon (if changed), so implementations can use it
         return timeLeftStr, timekprIcon
 
-    def notifyUser(self, pMsgCode, pPriority, pTimeLeft=None):
+    def notifyUser(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Notify user (a wrapper call)"""
         # if we have dbus connection, let's do so
-        self._timekprNotifications.notifyUser(pMsgCode, pPriority, pTimeLeft)
-
-    def getUserConfigChanged(self):
-        """Get whether config has changed"""
-        # result
-        return self._timekprGUI.getUserConfigChanged()
-
-    def setSetShowSeconds(self, pShowSeconds):
-        """Get whether to show seconds (needed to know if check is toggled)"""
-        # renew seconds
-        self._showSeconds = pShowSeconds
+        self._timekprNotifications.notifyUser(pMsgCode, pPriority, pTimeLeft, pAdditionalMessage)
 
     def setStatus(self, pStatus):
         """Change status of timekpr"""
@@ -132,26 +122,12 @@ class timekprNotificationArea(object):
         # show limits and config
         self._timekprGUI.initConfigForm()
 
-    def invokeTimekprConfigurator(self, pEvent):
-        """Bring up a window for timekpr configration (this needs elevated privileges to do anything)"""
-        # edit properties
-        self._timekprNotifications.requestTimeLeft()
-        pass
-
     def invokeTimekprAbout(self, pEvent):
         """Bring up a window for timekpr configration (this needs elevated privileges to do anything)"""
         # show about
         self._timekprGUI.initAboutForm()
 
     # --------------- configuration update methods --------------- #
-
-    def renewUserConfiguration(self, pShowFirstNotification, pShowAllNotifications, pUseSpeechNotifications, pShowSeconds, pLoggingLevel):
-        """Call and update method to renew configuration in the GUI"""
-        # renew seconds
-        self._showSeconds = pShowSeconds
-
-        # pass this to actual GUI storage
-        self._timekprGUI.renewUserConfiguration(pShowFirstNotification, pShowAllNotifications, pUseSpeechNotifications, pShowSeconds, pLoggingLevel)
 
     def renewUserLimits(self, pTimeLeft):
         """Call an update to renew time left"""

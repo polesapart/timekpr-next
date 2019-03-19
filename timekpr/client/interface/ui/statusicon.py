@@ -6,7 +6,6 @@ Created on Aug 28, 2018
 
 # import
 import gi
-from dbus.mainloop.glib import DBusGMainLoop
 from gettext import gettext as _s
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -16,9 +15,6 @@ from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.ui.notificationarea import timekprNotificationArea
 
-# set up dbus main loop
-DBusGMainLoop(set_as_default=True)
-
 # status icon stuff
 _USE_STATUSICON = True
 
@@ -26,7 +22,7 @@ _USE_STATUSICON = True
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pGUIResourcePath):
+    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog, pClient=True)
@@ -36,7 +32,7 @@ class timekprIndicator(timekprNotificationArea):
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pIsDevActive, pUserName, pGUIResourcePath)
+            super().__init__(pLog, pIsDevActive, pUserName, pTimekprConfigManager)
 
             # this is our icon
             self._tray = None
@@ -49,12 +45,9 @@ class timekprIndicator(timekprNotificationArea):
         # returns whether we can use appindicator
         return _USE_STATUSICON
 
-    def initTimekprIcon(self, pShowSeconds):
+    def initTimekprIcon(self):
         """Initialize timekpr indicator"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start initTimekprStatusIcon")
-
-        # show secs
-        self._showSeconds = pShowSeconds
 
         # define our popupmenu
         timekprMenu = """
@@ -83,8 +76,7 @@ class timekprIndicator(timekprNotificationArea):
         timekprActionGroup = Gtk.ActionGroup("timekprActions")
         timekprActionGroup.add_actions([
              ("TimeLeft", Gtk.STOCK_INFO, _s("Time left..."), None, None, super().invokeTimekprTimeLeft)
-            ,("Properties", Gtk.STOCK_PROPERTIES, None, None, None, super().invokeTimekprUserProperties)
-            # ,("Timekpr-GUI", Gtk.STOCK_PREFERENCES, _s("Timekpr administration"), None, None, self.on_timekpr_gui)
+            ,("Limits & configuration", Gtk.STOCK_PROPERTIES, None, None, None, super().invokeTimekprUserProperties)
             ,("About", Gtk.STOCK_ABOUT, None, None, None, super().invokeTimekprAbout)
         ])
 
@@ -102,21 +94,17 @@ class timekprIndicator(timekprNotificationArea):
     def setTimeLeft(self, pPriority, pTimeLeft):
         """Set time left in the indicator"""
         # make strings to set
-        timeLeft, icon = super().setTimeLeft(pPriority, pTimeLeft)
-        # change the label and icons
-        self.changeTimeLeft(timeLeft, icon)
+        timeLeft, icon = super().formatTimeLeft(pPriority, pTimeLeft)
 
-    def changeTimeLeft(self, pTimeLeftStr, pTimekprIcon):
-        """Change time things for indicator"""
         # if we have smth to set
-        if pTimeLeftStr is not None:
+        if timeLeft is not None:
             # set time left (this works with indicator in unity and gnome)
-            self._tray.set_tooltip_text(pTimeLeftStr)
+            self._tray.set_tooltip_text(timeLeft)
 
         # if we have smth to set
-        if pTimekprIcon is not None:
+        if icon is not None:
             # set up the icon
-            self._tray.set_from_file(pTimekprIcon)
+            self._tray.set_from_file(icon)
 
     def onTimekprMenu(self, status, button, time):
         """Show popup menu for tray"""
