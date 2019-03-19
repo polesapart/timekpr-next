@@ -53,8 +53,10 @@ class timekprAdminGUI(object):
 
         # initialize internal stuff
         self.initInternalConfiguration()
-        # disable all buttons firstly
+        # disable all user config buttons firstly
         self.toggleUserConfigControls(False)
+        # disable all timekpr config buttons firstly
+        self.toggleTimekprConfigControls(False)
         # status
         self.setTimekprStatus(True, "Started")
 
@@ -73,7 +75,7 @@ class timekprAdminGUI(object):
         # start main loop
         self._mainLoop.run()
 
-    # --------------- initialization methods --------------- #
+    # --------------- initialization / helper methods --------------- #
 
     def dummyPageChanger(self):
         """Switch tabs back and forth"""
@@ -104,19 +106,26 @@ class timekprAdminGUI(object):
         if interfacesOk and connecting:
             # status
             self.setTimekprStatus(True, "Connected")
-            # connected
-            self._isConnected = True
-            # get users
-            GLib.timeout_add_seconds(0, self.getUserList)
-            GLib.timeout_add_seconds(0.1, self.retrieveTimekprConfig)
+            # in case we are connected, do not retrieve config again
+            if not self._isConnected:
+                # connected
+                self._isConnected = True
+                # get users
+                GLib.timeout_add_seconds(0, self.getUserList)
+                GLib.timeout_add_seconds(0.1, self.retrieveTimekprConfig)
         elif not interfacesOk and connecting:
             # status
             self.setTimekprStatus(True, "Connecting...")
             # invoke again
             GLib.timeout_add_seconds(1, self.checkConnection)
+            # not connected
+            self._isConnected = False
         else:
             # status
             self.setTimekprStatus(True, "Failed to connect")
+            self.setTimekprStatus(False, "Please reopen the application if You have permissions and timekpr is running")
+            # not connected
+            self._isConnected = False
 
     def initLocale(self):
         """Init translation stuff"""
@@ -344,7 +353,7 @@ class timekprAdminGUI(object):
             contextId = statusBar.get_context_id("status")
             # pop existing message and add new one
             statusBar.remove_all(contextId)
-            statusBar.push(contextId, pStatus[:75])
+            statusBar.push(contextId, pStatus[:80])
 
     def clearAdminForm(self):
         """Clear and default everything to default values"""
@@ -794,6 +803,8 @@ class timekprAdminGUI(object):
         else:
             # status
             self.setTimekprStatus(False, message)
+            # check the connection
+            self.checkConnection()
 
     def retrieveUserConfig(self, pUserName, pFull):
         """Retrieve user configuration"""
@@ -882,6 +893,8 @@ class timekprAdminGUI(object):
                 self.toggleUserConfigControls(False, True)
                 # status
                 self.setTimekprStatus(False, message)
+                # check the connection
+                self.checkConnection()
 
     def retrieveTimekprConfig(self):
         """Retrieve timekpr configuration"""
@@ -946,6 +959,8 @@ class timekprAdminGUI(object):
             self.toggleUserConfigControls(False, True)
             # status
             self.setTimekprStatus(False, message)
+            # check the connection
+            self.checkConnection()
 
     def adjustTrackInactive(self):
         """Adjust track inactive sessions for user"""
@@ -973,6 +988,8 @@ class timekprAdminGUI(object):
                 self.toggleUserConfigControls(False, True)
                 # status
                 self.setTimekprStatus(False, message)
+                # check the connection
+                self.checkConnection()
 
     def adjustTimeForToday(self, pOperation):
         """Process actual call to set time for user"""
@@ -1002,6 +1019,8 @@ class timekprAdminGUI(object):
                 self.toggleUserConfigControls(False, True)
                 # status
                 self.setTimekprStatus(False, message)
+                # check the connection
+                self.checkConnection()
 
     def adjustWKMONLimit(self):
         """Process actual call to set time for user"""
@@ -1038,6 +1057,8 @@ class timekprAdminGUI(object):
                 self.toggleUserConfigControls(False, True)
                 # status
                 self.setTimekprStatus(False, message)
+                # check the connection
+                self.checkConnection()
 
     def applyDayAndHourIntervalChanges(self):
         """Apply configuration changes to days and hours to server"""
@@ -1151,6 +1172,8 @@ class timekprAdminGUI(object):
         else:
             # status
             self.setTimekprStatus(False, message)
+            # check the connection
+            self.checkConnection()
 
     def applyTimekprConfigurationChanges(self, evt):
         """Apply configuration changes to server"""
@@ -1234,6 +1257,9 @@ class timekprAdminGUI(object):
         if result == 0:
             # status
             self.setTimekprStatus(False, "Timekpr configuration has been saved")
+        else:
+            # check the connection
+            self.checkConnection()
 
         # recalc the control state
         self.calculateTimekprConfigControlAvailability()
