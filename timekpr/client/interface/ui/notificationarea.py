@@ -115,7 +115,7 @@ class timekprNotificationArea(object):
     def invokeTimekprTimeLeft(self, pEvent):
         """Inform user about (almost) exact time left"""
         # inform user about precise time
-        self.notifyUser((cons.TK_MSG_TIMEUNLIMITED if self._noLimit else cons.TK_MSG_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
+        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self._noLimit else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
 
     def invokeTimekprUserProperties(self, pEvent):
         """Bring up a window for property editing"""

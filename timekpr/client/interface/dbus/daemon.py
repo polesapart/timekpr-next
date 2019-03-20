@@ -69,7 +69,7 @@ class timekprClient(object):
             self._timekprClientIndicator.initTimekprIcon()
         else:
             # process time left notification (notifications should be available in any of the icons, even of not supported)
-            self._timekprClientIndicator.notifyUser(cons.TK_MSG_ICON_INIT_ERROR, cons.TK_PRIO_CRITICAL, None, "can not initialize the icon in any way")
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_ICON_INIT_ERROR, cons.TK_PRIO_CRITICAL, None, "can not initialize the icon in any way")
 
         # connect signals to dbus
         self.connectTimekprSignalsDBUS()
@@ -96,7 +96,7 @@ class timekprClient(object):
             # get left
             self._timekprClientIndicator._timekprNotifications.requestTimeLeft()
         else:
-            # loop while not connected
+            # continue execution while not connected (this is called from glib exec)
             return True
 
     # --------------- DBUS / communication methods --------------- #
@@ -212,13 +212,13 @@ class timekprClient(object):
         # if notifications are turned on
         if self._timekprConfigManager.getClientShowAllNotifications():
             # process time left notification
-            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
 
     def receiveTimeCriticalNotification(self, pPriority, pSecondsLeft):
         """Receive critical time left and show that to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive crit notif: %i" % (pSecondsLeft))
         # process time left (this shows in any case)
-        self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMECRITICAL, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pSecondsLeft))
+        self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMECRITICAL, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pSecondsLeft))
 
     def receiveTimeNoLimitNotification(self, pPriority):
         """Receive no limit notificaton and show that to user"""
@@ -226,7 +226,7 @@ class timekprClient(object):
         # if notifications are turned on
         if self._timekprConfigManager.getClientShowAllNotifications():
             # process time left
-            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMEUNLIMITED, pPriority)
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMEUNLIMITED, pPriority)
 
     def receiveTimeLeftChangedNotification(self, pPriority):
         """Receive time left notification and show it to user"""
@@ -234,7 +234,7 @@ class timekprClient(object):
         # if notifications are turned on
         if self._timekprConfigManager.getClientShowLimitNotifications():
             # limits have changed and applied
-            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMELEFTCHANGED, pPriority)
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFTCHANGED, pPriority)
 
     def receiveTimeConfigurationChangedNotification(self, pPriority):
         """Receive notification about config change and show it to user"""
@@ -242,4 +242,4 @@ class timekprClient(object):
         # if notifications are turned on
         if self._timekprConfigManager.getClientShowLimitNotifications():
             # configuration has changed, new limits may have been applied
-            self._timekprClientIndicator.notifyUser(cons.TK_MSG_TIMECONFIGCHANGED, pPriority)
+            self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMECONFIGCHANGED, pPriority)

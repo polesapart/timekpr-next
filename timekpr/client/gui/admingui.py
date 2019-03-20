@@ -1484,9 +1484,13 @@ class timekprAdminGUI(object):
                 calcTime = cons.TK_DATETIME_START + timedelta(seconds=rIt[4])
                 # total seconds
                 totalSeconds = rIt[5] - rIt[4]
+                # failover
+                maxIt = 30
 
                 # now loop through time in interval
-                while totalSeconds > 0:
+                while totalSeconds > 0 and maxIt > 0:
+                    # failover
+                    maxIt -= 1
                     # hour
                     calcHour = str(calcTime.hour)
                     # build up hour

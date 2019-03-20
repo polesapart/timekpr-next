@@ -147,10 +147,10 @@ class timekprNotifications(object):
             timeLeftHours = (pTimeLeft - cons.TK_DATETIME_START).days * 24 + pTimeLeft.hour
 
         # determine the message to pass
-        if pMsgCode == cons.TK_MSG_TIMEUNLIMITED:
+        if pMsgCode == cons.TK_MSG_CODE_TIMEUNLIMITED:
             # no limit
             msgStr = _s("Your time is not limited today")
-        elif pMsgCode == cons.TK_MSG_TIMELEFT:
+        elif pMsgCode == cons.TK_MSG_CODE_TIMELEFT:
             # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
             msgStr = " ".join((_s("You have")
                 # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
@@ -162,25 +162,25 @@ class timekprNotifications(object):
                 # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
                 ,_s("left")
             ))
-        elif pMsgCode == cons.TK_MSG_TIMECRITICAL:
+        elif pMsgCode == cons.TK_MSG_CODE_TIMECRITICAL:
             # TRANSLATORS: Your time is up, You will be forcibly logged out in %s seconds
             msgStr = " ".join((_s("Your time is up, You will be forcibly logged out in")
                 # TRANSLATORS: Your time is up, You will be forcibly logged out in %s seconds
                 ,(_n("%(sec)s second", "%(sec)s seconds", pTimeLeft.second) % {"sec": pTimeLeft.second})
             ))
-        elif pMsgCode == cons.TK_MSG_TIMELEFTCHANGED:
+        elif pMsgCode == cons.TK_MSG_CODE_TIMELEFTCHANGED:
             # msg
             msgStr = _s("Time allowance has changed, please note new time left!")
-        elif pMsgCode == cons.TK_MSG_TIMECONFIGCHANGED:
+        elif pMsgCode == cons.TK_MSG_CODE_TIMECONFIGCHANGED:
             # msg
             msgStr = _s("Time limit configuration has changed, please note new configuration!")
-        elif pMsgCode == cons.TK_MSG_REMOTE_COMMUNICATION_ERROR:
+        elif pMsgCode == cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR:
             # msg
             msgStr = _s("There is a problem connecting to timekpr daemon (%s)!" % (pAdditionalMessage))
-        elif pMsgCode == cons.TK_MSG_REMOTE_INVOCATION_ERROR:
+        elif pMsgCode == cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR:
             # msg
             msgStr = _s("There is a problem communicating to timekpr (%s)!" % (pAdditionalMessage))
-        elif pMsgCode == cons.TK_MSG_ICON_INIT_ERROR:
+        elif pMsgCode == cons.TK_MSG_CODE_ICON_INIT_ERROR:
             # msg
             msgStr = _s("Icon inititalization error (%s)!" % (pAdditionalMessage))
 
@@ -242,7 +242,7 @@ class timekprNotifications(object):
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
+                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
                 # we can not send notif through dbus
                 self._timekprInterface = None
@@ -252,7 +252,7 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("internal connection error, please check log files"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("internal connection error, please check log files"))
 
     def requestTimeLimits(self):
         """Request time limits from server"""
@@ -272,7 +272,7 @@ class timekprNotifications(object):
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
+                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
                 # we can not send notif through dbus
                 self._timekprInterface = None
@@ -282,4 +282,4 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("Internal connection error, please check log files"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("Internal connection error, please check log files"))
