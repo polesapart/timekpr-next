@@ -62,8 +62,6 @@ client/interface/speech/espeak.py usr/share/pyshared/timekpr/client/interface/sp
 client/interface/ui/__init__.py usr/share/pyshared/timekpr/client/interface/ui/
 client/interface/ui/appindicator.py usr/share/pyshared/timekpr/client/interface/ui/
 client/interface/ui/notificationarea.py usr/share/pyshared/timekpr/client/interface/ui/
-client/interface/ui/qt4icon.py usr/share/pyshared/timekpr/client/interface/ui/
-client/interface/ui/qt5icon.py usr/share/pyshared/timekpr/client/interface/ui/
 client/interface/ui/statusicon.py usr/share/pyshared/timekpr/client/interface/ui/
 client/timekpra.py usr/share/pyshared/timekpr/client/
 client/timekprc.py usr/share/pyshared/timekpr/client/
