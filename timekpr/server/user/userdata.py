@@ -122,7 +122,6 @@ class timekprUser(object):
         """Recalculate time left based on spent and configuration"""
         # reset "lefts"
         self._timekprUserData[cons.TK_CTRL_LEFT] = 0
-
         # calculate time left for week
         self._timekprUserData[cons.TK_CTRL_LEFTW] = self._timekprUserData[cons.TK_CTRL_LIMITW] - self._timekprUserData[cons.TK_CTRL_SPENTW]
         # calculate time left for month
@@ -134,9 +133,7 @@ class timekprUser(object):
             self._timekprUserData[i][cons.TK_CTRL_LEFTD] = 0
 
             # how many seconds left for that day (not counting hours limits yet)
-            secondsLeft = max(self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD], 0)
-            # how many seconds left for global limits (week & month)
-            secondsLeftWeekMonth = max(self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM], 0)
+            secondsLeft = max(min(self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]), 0)
             # how many seconds to remove from time left
             secondsToRemove = 0
 
@@ -173,7 +170,7 @@ class timekprUser(object):
                     # calculate how many seconds are left in this hour as per configuration
                     secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60 - currentMOH * 60 - currentSOM
                     # save seconds to subtract for this hour
-                    secondsToRemove = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft, secondsLeftWeekMonth), 0)
+                    secondsToRemove = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
 
                     # if there is no continuation with time (eg. this hour start minutes does not align with prev hour end minutes), this is the end
                     if self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] != 0:
@@ -206,7 +203,7 @@ class timekprUser(object):
 
                 # debug
                 if log.isDebug():
-                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addHour: %s, remove: %s, left: %s, leftWkMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, secondsToRemove, secondsLeft, secondsLeftWeekMonth))
+                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addHour: %s, remove: %s, left: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, secondsToRemove, secondsLeft, self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
 
                 # adjust left continously
                 self._timekprUserData[cons.TK_CTRL_LEFT] += secondsToAddHour
@@ -240,11 +237,9 @@ class timekprUser(object):
 
         # limits per week & day
         # we do not have value (yet) for week
-        if self._timekprUserData[cons.TK_CTRL_LIMITW] is None:
-            self._timekprUserData[cons.TK_CTRL_LIMITW] = self._timekprUserConfig.getUserWeekLimit()
+        self._timekprUserData[cons.TK_CTRL_LIMITW] = self._timekprUserConfig.getUserWeekLimit()
         # we do not have value (yet) for month
-        if self._timekprUserData[cons.TK_CTRL_LIMITM] is None:
-            self._timekprUserData[cons.TK_CTRL_LIMITM] = self._timekprUserConfig.getUserMonthLimit()
+        self._timekprUserData[cons.TK_CTRL_LIMITM] = self._timekprUserConfig.getUserMonthLimit()
 
         # for allowed weekdays
         for rDay in range(1, 7+1):
@@ -544,11 +539,6 @@ class timekprUser(object):
                 # after we processed intervals, let's check whether we closed all, if not do it
                 if startHour is not None:
                     timeLimits[str(rDay)][cons.TK_CTRL_INT].append([int(startHour), int(endHour)])
-
-        # weekly and monthly limits
-        timeLimits[cons.TK_CTRL_LIMITW] = self._timekprUserConfig.getUserWeekLimit()
-        # weekly and monthly limits
-        timeLimits[cons.TK_CTRL_LIMITM] = self._timekprUserConfig.getUserMonthLimit()
 
         # debug
         if log.isDebug():
