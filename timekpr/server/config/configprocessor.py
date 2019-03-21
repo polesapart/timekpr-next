@@ -12,6 +12,7 @@ from timekpr.common.utils.config import timekprConfig
 
 # imports
 from datetime import datetime
+import dbus
 
 
 class timekprUserConfigurationProcessor(object):
@@ -88,11 +89,14 @@ class timekprUserConfigurationProcessor(object):
                 # allowed hours per weekdays
                 param = "ALLOWED_HOURS"
                 for i in range(1, 7+1):
-                    userConfigurationStore["%s_%s" % (param, str(i))] = self._timekprUserConfig.getUserAllowedHours(str(i))
+                    allowedHours = self._timekprUserConfig.getUserAllowedHours(str(i))
+                    userConfigurationStore["%s_%s" % (param, str(i))] = allowedHours if len(allowedHours) > 0 else dbus.Dictionary(signature="sv")
                 # allowed week days
-                userConfigurationStore["ALLOWED_WEEKDAYS"] = self._timekprUserConfig.getUserAllowedWeekdays()
+                allowedWeekDays = self._timekprUserConfig.getUserAllowedWeekdays()
+                userConfigurationStore["ALLOWED_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDays)) if len(allowedWeekDays) > 0 else dbus.Array(signature="i")
                 # limits per week days
-                userConfigurationStore["LIMITS_PER_WEEKDAYS"] = self._timekprUserConfig.getUserLimitsPerWeekdays()
+                allowedWeekDayLimits = self._timekprUserConfig.getUserLimitsPerWeekdays()
+                userConfigurationStore["LIMITS_PER_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDayLimits)) if len(allowedWeekDayLimits) > 0 else dbus.Array(signature="i")
                 # track inactive
                 userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
                 # limit per week

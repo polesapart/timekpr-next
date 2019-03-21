@@ -259,14 +259,15 @@ class timekprAdminClient(object):
                 # hrs
                 hrs = ""
                 # print join
-                for rUserHour in sorted(list(map(int, rUserConfig))):
-                    # get config per hr
-                    hr = "%s" % (rUserHour) if rUserConfig[str(rUserHour)][cons.TK_CTRL_SMIN] <= 0 and rUserConfig[str(rUserHour)][cons.TK_CTRL_EMIN] >= 60 else "%s[%s-%s]" % (rUserHour, rUserConfig[str(rUserHour)][cons.TK_CTRL_SMIN], rUserConfig[str(rUserHour)][cons.TK_CTRL_EMIN])
-                    # empty
-                    if hrs == "":
-                        hrs = "%s" % (hr)
-                    else:
-                        hrs = "%s;%s" % (hrs, hr)
+                if len(rUserConfig) > 0:
+                    for rUserHour in sorted(list(map(int, rUserConfig))):
+                        # get config per hr
+                        hr = "%s" % (rUserHour) if rUserConfig[str(rUserHour)][cons.TK_CTRL_SMIN] <= 0 and rUserConfig[str(rUserHour)][cons.TK_CTRL_EMIN] >= 60 else "%s[%s-%s]" % (rUserHour, rUserConfig[str(rUserHour)][cons.TK_CTRL_SMIN], rUserConfig[str(rUserHour)][cons.TK_CTRL_EMIN])
+                        # empty
+                        if hrs == "":
+                            hrs = "%s" % (hr)
+                        else:
+                            hrs = "%s;%s" % (hrs, hr)
 
                 log.consoleOut("%s: %s" % (rUserKey, hrs))
             elif "TRACK_IN" in rUserKey:

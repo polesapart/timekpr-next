@@ -8,14 +8,11 @@ Created on Aug 28, 2018
 import dbus
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
-# from gettext import gettext as _s
-# from gettext import ngettext as _n
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.common.utils import misc
-# from timekpr.client.interface.speech.espeak import timekprSpeech
 
 # default loop
 DBusGMainLoop(set_as_default=True)

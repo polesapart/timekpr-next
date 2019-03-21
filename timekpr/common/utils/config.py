@@ -273,15 +273,15 @@ class timekprConfig(object):
 
     def getTimekprSessionsCtrl(self):
         """Get sessions to control"""
-        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"].split(";")]
+        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"].split(";") if self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"] != ""]
 
     def getTimekprSessionsExcl(self):
         """Get sessions to exclude"""
-        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"].split(";")]
+        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"].split(";") if self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"] != ""]
 
     def getTimekprUsersExcl(self):
         """Get sessions to exclude"""
-        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_USERS_EXCL"].split(";")]
+        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_USERS_EXCL"].split(";") if self._timekprConfig["TIMEKPR_USERS_EXCL"] != ""]
 
     def getTimekprConfigDir(self):
         """Get config dir"""
@@ -499,16 +499,17 @@ class timekprUserConfig(object):
 
         # get allowed hours for all of the week days
         # minutes can be specified in brackets after hour
-        for rHour in self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(pDay))].split(";"):
-            # if we have advanced config (minutes)
-            if "[" in rHour and "]" in rHour and "-" in rHour:
-                # get minutes
-                minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
-                # get our dict done
-                allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
-            else:
-                # get our dict done
-                allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+        if self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(pDay))] != "":
+            for rHour in self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(pDay))].split(";"):
+                # if we have advanced config (minutes)
+                if "[" in rHour and "]" in rHour and "-" in rHour:
+                    # get minutes
+                    minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
+                    # get our dict done
+                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
+                else:
+                    # get our dict done
+                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
 
         # result
         return allowedHours
@@ -516,12 +517,12 @@ class timekprUserConfig(object):
     def getUserAllowedWeekdays(self):
         """Get allowed week days"""
         # result
-        return [int(result.strip(None)) for result in self._timekprUserConfig["ALLOWED_WEEKDAYS"].split(";")]
+        return [int(result.strip(None)) for result in self._timekprUserConfig["ALLOWED_WEEKDAYS"].split(";") if self._timekprUserConfig["ALLOWED_WEEKDAYS"] != ""]
 
     def getUserLimitsPerWeekdays(self):
         """Get allowed limits per week day"""
         # result
-        return [int(result.strip(None)) for result in self._timekprUserConfig["LIMITS_PER_WEEKDAYS"].split(";")]
+        return [int(result.strip(None)) for result in self._timekprUserConfig["LIMITS_PER_WEEKDAYS"].split(";") if self._timekprUserConfig["LIMITS_PER_WEEKDAYS"] != ""]
 
     def getUserWeekLimit(self):
         """Get limit per week"""
