@@ -540,6 +540,11 @@ class timekprUser(object):
                 if startHour is not None:
                     timeLimits[str(rDay)][cons.TK_CTRL_INT].append([int(startHour), int(endHour)])
 
+        # weekly and monthly limits
+        timeLimits[cons.TK_CTRL_LIMITW] = self._timekprUserData[cons.TK_CTRL_LIMITW]
+        # weekly and monthly limits
+        timeLimits[cons.TK_CTRL_LIMITM] = self._timekprUserData[cons.TK_CTRL_LIMITM]
+
         # debug
         if log.isDebug():
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "TL: %s" % (str(timeLimits)))
