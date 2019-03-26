@@ -1559,7 +1559,7 @@ Please note that multiple intervals can not be configured within the same hour (
                               <object class="GtkLabel" id="TimekprUserConfWKDayLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">d</property>
+                                <property name="label" translatable="yes">day</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1659,7 +1659,7 @@ Please note that multiple intervals can not be configured within the same hour (
                               <object class="GtkLabel" id="TimekprUserConfMONDayLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">d</property>
+                                <property name="label" translatable="yes">day</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>

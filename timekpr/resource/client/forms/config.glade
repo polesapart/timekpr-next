@@ -222,7 +222,6 @@
                               <object class="GtkLabel" id="timekprUsernameL">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">test</property>
                                 <property name="xalign">0.60000002384185791</property>
                                 <property name="yalign">0.80000001192092896</property>
                               </object>
@@ -956,7 +955,6 @@
                                     <property name="max_length">1</property>
                                     <property name="width_chars">1</property>
                                     <property name="max_width_chars">1</property>
-                                    <property name="text" translatable="yes">1</property>
                                     <property name="adjustment">timekprLogLevelLimitsADJ</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -1043,7 +1041,6 @@
                               <object class="GtkLabel" id="timekprSpacerLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">label</property>
                                 <property name="width_chars">40</property>
                                 <attributes>
                                   <attribute name="size" value="200"/>
