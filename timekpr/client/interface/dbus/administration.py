@@ -13,6 +13,7 @@ from dbus.mainloop.glib import DBusGMainLoop
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.common.utils import misc
+from timekpr.common.constants import messages as msg
 
 # default loop
 DBusGMainLoop(set_as_default=True)
@@ -111,17 +112,17 @@ class timekprAdminConnector(object):
         # check for permission error
         if "org.freedesktop.DBus.Error.AccessDenied" in pExceptionStr:
             result = -1
-            message = "Command FAILED: access denied"
+            message = msg.getTranslation("TK_MSG_DBUS_COMMUNICATION_COMMAND_FAILED")
         else:
             result = -1
-            message = "UNEXPECTED ERROR: %s" % (pExceptionStr)
+            message = msg.getTranslation("TK_MSG_UNEXPECTED_ERROR") % (pExceptionStr)
 
         # result
         return result, message
 
     def initReturnCodes(self, pInit, pCall):
         """Initialize the return codes for calls"""
-        return -2 if pInit else -1 if pCall else 0, "Timekpr interface is not yet ready" if pInit else "Command FAILED: message was not accepted" if pCall else ""
+        return -2 if pInit else -1 if pCall else 0, msg.getTranslation("TK_MSG_STATUS_INTERFACE_NOTREADY") if pInit else msg.getTranslation("TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED") if pCall else ""
 
     # --------------- user configuration info population / set methods --------------- #
 

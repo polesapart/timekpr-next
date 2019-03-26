@@ -13,6 +13,7 @@ from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
 from timekpr.common.utils.config import timekprConfig
+from timekpr.common.constants import messages as msg
 
 
 class timekprAdminClient(object):
@@ -59,8 +60,8 @@ class timekprAdminClient(object):
             # nor X nor wayland are available
             else:
                 # print to console
-                log.consoleOut("WARNING: Timekpr administration utility was asked to run in GUI mode, but no displays are available, thus running in CLI...\n")
-                # forced CLI
+                log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_GUI_NOT_AVAILABLE") + "\n")
+                # forced CLI"
                 timekprForceCLI = True
         else:
             # CLI
@@ -216,9 +217,9 @@ class timekprAdminClient(object):
         if (adminCmd not in cons.TK_USER_ADMIN_COMMANDS and adminCmd not in cons.TK_ADMIN_COMMANDS) or adminCmd == "--help" or adminCmdIncorrect:
             # fail
             if adminCmdIncorrect:
-                log.consoleOut("The command is incorrect:", *args)
+                log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_COMMAND_INCORRECT"), *args)
 
-            log.consoleOut("\nThe usage of timekpr admin client is as follows:")
+            log.consoleOut("\n" + msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTES"))
             # initial order
             cmds = ["--help", "--userlist", "--userconfig"]
             # print initial commands as first
@@ -239,7 +240,7 @@ class timekprAdminClient(object):
     def printUserList(self, pUserList):
         """Format and print userlist"""
         # print to console
-        log.consoleOut("%i users in total:" % (len(pUserList)))
+        log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_USERS_TOTAL", len(pUserList)))
         # loop and print
         for rUser in pUserList:
             log.consoleOut(rUser)
@@ -247,7 +248,7 @@ class timekprAdminClient(object):
     def printUserConfig(self, pUserName, pPrintUserConfig):
         """Format and print user config"""
         # print to console
-        log.consoleOut("Config for %s:" % (pUserName))
+        log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_CONFIG_FOR") % (pUserName))
         # loop and print the same format as ppl will use to set that
         for rUserKey, rUserConfig in pPrintUserConfig.items():
             # join the lists

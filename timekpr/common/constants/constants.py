@@ -4,14 +4,17 @@ Created on Aug 28, 2018
 @author: mjasnik
 """
 
+# timekpr imports
+from timekpr.common.constants import messages as msg
+
 # imports
 import dbus
 from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.1.14"
-TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
+TK_VERSION = "0.1.15"
+TK_DEV_ACTIVE = True  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
 # formats
@@ -179,16 +182,16 @@ TK_ADMIN_COMMANDS = {
 }
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {
-     "--help"              : "print help, example:\n    timekpra --help"
-    ,"--userlist"          : "this gets saved user list from the server, example:\n    timekpra --userlist"
-    ,"--userconfig"        : "this gets user configuration from the server, example:\n    timekpra --userconfig \"testuser\""
-    ,"--setalloweddays"    : "this sets allowed days for the user, example:\n    timekpra --setalloweddays \"testuser\" \"1,2,3,4,5\""
-    ,"--setallowedhours"   : "this sets allowed hours per specified day or ALL for every day, example:\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
-    ,"--settimelimits"     : "this sets time limits per all allowed days, example:\n    timekpra --settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
-    ,"--settimelimitweek"  : "this sets time limits per week, example:\n    timekpra --settimelimitweek \"testuser\" \"50000\""
-    ,"--settimelimitmonth" : "this sets time limits per month, example:\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
-    ,"--settrackinactive"  : "this sets whether to track inactive user sessions, example:\n    timekpra --settrackinactive \"testuser\" \"false\""
-    ,"--settimeleft"       : "this sets time left for the user at current moment, example (add one hour):\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
+     "--help"              : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP") + ":\n    timekpra --help"
+    ,"--userlist"          : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST") + ":\n    timekpra --userlist"
+    ,"--userconfig"        : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG") + ":\n    timekpra --userconfig \"testuser\""
+    ,"--setalloweddays"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS") + ":\n    timekpra --setalloweddays \"testuser\" \"1,2,3,4,5\""
+    ,"--setallowedhours"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS") + ":\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
+    ,"--settimelimits"     : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS") + ":\n    timekpra --settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
+    ,"--settimelimitweek"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK") + ":\n    timekpra --settimelimitweek \"testuser\" \"50000\""
+    ,"--settimelimitmonth" : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON") + ":\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
+    ,"--settrackinactive"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE") + ":\n    timekpra --settrackinactive \"testuser\" \"false\""
+    ,"--settimeleft"       : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT") + ":\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
 }
 
 

@@ -8,14 +8,13 @@ Created on Aug 28, 2018
 import dbus
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
-from gettext import gettext as _s
-from gettext import ngettext as _n
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.common.utils import misc
 from timekpr.client.interface.speech.espeak import timekprSpeech
+from timekpr.common.constants import messages as msg
 
 # default loop
 DBusGMainLoop(set_as_default=True)
@@ -149,40 +148,28 @@ class timekprNotifications(object):
         # determine the message to pass
         if pMsgCode == cons.TK_MSG_CODE_TIMEUNLIMITED:
             # no limit
-            msgStr = _s("Your time is not limited today")
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_NOT_LIMITED")
         elif pMsgCode == cons.TK_MSG_CODE_TIMELEFT:
-            # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-            msgStr = " ".join((_s("You have")
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,(_n("%(hour)s hour", "%(hour)s hours", timeLeftHours) % {"hour": timeLeftHours})
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,(_n("%(min)s minute", "%(min)s minutes", pTimeLeft.minute) % {"min": pTimeLeft.minute})
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,(_n("%(sec)s second", "%(sec)s seconds", pTimeLeft.second) % {"sec": pTimeLeft.second})
-                # TRANSLATORS: this is a part of message "You have %(hour)s hour(s), %(min)s minute(s) and %(sec)s second(s) left" please translate accordingly
-                ,_s("left")
-            ))
+            # msg
+            msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_1", timeLeftHours), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_2", pTimeLeft.minute), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_3", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMECRITICAL:
-            # TRANSLATORS: Your time is up, You will be forcibly logged out in %s seconds
-            msgStr = " ".join((_s("Your time is up, You will be forcibly logged out in")
-                # TRANSLATORS: Your time is up, You will be forcibly logged out in %s seconds
-                ,(_n("%(sec)s second", "%(sec)s seconds", pTimeLeft.second) % {"sec": pTimeLeft.second})
-            ))
+            # msg
+            msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_IS_UP_1"), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_IS_UP_2", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMELEFTCHANGED:
             # msg
-            msgStr = _s("Time allowance has changed, please note new time left!")
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_ALLOWANCE_CHANGED")
         elif pMsgCode == cons.TK_MSG_CODE_TIMECONFIGCHANGED:
             # msg
-            msgStr = _s("Time limit configuration has changed, please note new configuration!")
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_CONFIGURATION_CHANGED")
         elif pMsgCode == cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR:
             # msg
-            msgStr = _s("There is a problem connecting to timekpr daemon (%s)!" % (pAdditionalMessage))
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_CANNOT_CONNECT") % (pAdditionalMessage)
         elif pMsgCode == cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR:
             # msg
-            msgStr = _s("There is a problem communicating to timekpr (%s)!" % (pAdditionalMessage))
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_CANNOT_COMMUNICATE") % (pAdditionalMessage)
         elif pMsgCode == cons.TK_MSG_CODE_ICON_INIT_ERROR:
             # msg
-            msgStr = _s("Icon inititalization error (%s)!" % (pAdditionalMessage))
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_CANNOT_INIT_ICON") % (pAdditionalMessage)
 
         # save notification ID
         notifId = self._criticalNotif
@@ -207,7 +194,7 @@ class timekprNotifications(object):
             # notify through dbus
             try:
                 # call dbus method
-                notifId = self._notifyInterface.Notify("Timekpr", notifId, timekprIcon, "Timekpr notification", msgStr, "", {"urgency": timekprPrio}, 2500)
+                notifId = self._notifyInterface.Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, "", {"urgency": timekprPrio}, 2500)
             except Exception as dbusEx:
                 # we can not send notif through dbus
                 self._notifyInterface = None
@@ -252,7 +239,7 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("internal connection error, please check log files"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
 
     def requestTimeLimits(self):
         """Request time limits from server"""
@@ -282,4 +269,4 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=_s("Internal connection error, please check log files"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))

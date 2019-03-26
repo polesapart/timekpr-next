@@ -10,11 +10,12 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import GLib
 from datetime import timedelta, datetime
-# from gettext import gettext as _
+import gettext
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
+from timekpr.common.constants import messages as msg
 
 # constant
 _NO_TIME_LABEL = "--:--:--"
@@ -105,7 +106,7 @@ class timekprAdminGUI(object):
         # if not connected, give up and get out
         if interfacesOk and connecting:
             # status
-            self.setTimekprStatus(True, "Connected")
+            self.setTimekprStatus(True, msg.getTranslation("TK_MSG_STATUS_CONNECTED"))
             # in case we are connected, do not retrieve config again
             if not self._isConnected:
                 # connected
@@ -115,24 +116,23 @@ class timekprAdminGUI(object):
                 GLib.timeout_add_seconds(0.1, self.retrieveTimekprConfig)
         elif not interfacesOk and connecting:
             # status
-            self.setTimekprStatus(True, "Connecting...")
+            self.setTimekprStatus(True, msg.getTranslation("TK_MSG_STATUS_CONNECTING"))
             # invoke again
             GLib.timeout_add_seconds(1, self.checkConnection)
             # not connected
             self._isConnected = False
         else:
             # status
-            self.setTimekprStatus(True, "Failed to connect")
-            self.setTimekprStatus(False, "Please reopen the application if You have permissions and timekpr is running")
+            self.setTimekprStatus(True, msg.getTranslation("TK_MSG_STATUS_CONNECTION_FAILED"))
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_CONNECTION_ACCESS_DENIED"))
             # not connected
             self._isConnected = False
 
     def initLocale(self):
         """Init translation stuff"""
         # init python gettext
-        # gettext.bindtextdomain("timekpr-next", "/usr/share/locale")
-        # gettext.textdomain("timekpr-next")
-        pass
+        gettext.bindtextdomain("timekpr", "/usr/share/locale")
+        gettext.textdomain("timekpr")
 
     def initGUIElements(self):
         """Initialize all GUI elements for stores"""
@@ -881,7 +881,7 @@ class timekprAdminGUI(object):
                 # config was updated only when full
                 if pFull:
                     # status
-                    self.setTimekprStatus(False, "User configuration retrieved")
+                    self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_USER_CONFIG_RETRIEVED"))
                     # apply config
                     self.applyUserConfig()
                     # determine control state
@@ -953,7 +953,7 @@ class timekprAdminGUI(object):
             # determine control state
             self.calculateTimekprConfigControlAvailability()
             # status
-            self.setTimekprStatus(False, "Configuration retrieved")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_CONFIG_RETRIEVED"))
         else:
             # disable all but choser
             self.toggleUserConfigControls(False, True)
@@ -978,7 +978,7 @@ class timekprAdminGUI(object):
             # all ok
             if result == 0:
                 # status
-                self.setTimekprStatus(False, "Track inactive for user has been processed")
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_TRACKINACTIVE_PROCESSED"))
 
                 # set values to internal config
                 self._timeTrackInactive = trackInactive
@@ -1008,7 +1008,7 @@ class timekprAdminGUI(object):
             # all ok
             if result == 0:
                 # status
-                self.setTimekprStatus(False, "Additional time for user has been processed")
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_ADJUSTTIME_PROCESSED"))
 
                 # set values to form
                 for rCtrl in ["TimekprUserConfTodaySettingsSetHrSB", "TimekprUserConfTodaySettingsSetMinSB"]:
@@ -1045,7 +1045,7 @@ class timekprAdminGUI(object):
             # if all ok
             if result == 0:
                 # status
-                self.setTimekprStatus(False, "Weekly and monthly limits for user have been processed")
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_WKMONADJUSTTIME_PROCESSED"))
 
                 # set values to form
                 self._timeLimitWeek = weeklyLimit
@@ -1118,7 +1118,7 @@ class timekprAdminGUI(object):
                 # set to internal arrays as well
                 self._timeLimitDays = changedDayEnable.copy()
                 # status
-                self.setTimekprStatus(False, "Allowed days for user have been processed")
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_ALLOWEDDAYS_PROCESSED"))
             else:
                 # disable all but choser
                 self.toggleUserConfigControls(False, True)
@@ -1134,7 +1134,7 @@ class timekprAdminGUI(object):
                 # set to internal arrays as well
                 self._timeLimitDaysLimits = changedDayLimits.copy()
                 # status
-                self.setTimekprStatus(False, "Time limits for days for user have been processed")
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_TIMELIMITS_PROCESSED"))
             else:
                 # disable all but choser
                 self.toggleUserConfigControls(False, True)
@@ -1155,7 +1155,7 @@ class timekprAdminGUI(object):
                     # set to internal arrays as well
                     self._timeLimitDaysHoursSaved[day] = self._timeLimitDaysHoursActual[day].copy()
                     # status
-                    self.setTimekprStatus(False, "Allowed hours for user have been processed")
+                    self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_ALLOWEDHOURS_PROCESSED"))
                 else:
                     # disable all but choser
                     self.toggleUserConfigControls(False, True)
@@ -1168,7 +1168,7 @@ class timekprAdminGUI(object):
         # if OK
         if result == 0:
             # status
-            self.setTimekprStatus(False, "Time limits for days for user have been processed")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_ALLTIMELIMITS_PROCESSED"))
         else:
             # status
             self.setTimekprStatus(False, message)
@@ -1256,7 +1256,7 @@ class timekprAdminGUI(object):
         # fine
         if result == 0:
             # status
-            self.setTimekprStatus(False, "Timekpr configuration has been saved")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_CONFIGURATION_SAVED"))
         else:
             # check the connection
             self.checkConnection()
@@ -1337,7 +1337,7 @@ class timekprAdminGUI(object):
         # if it's not selected
         if dayIdx is None:
             # status
-            self.setTimekprStatus(False, "Please select a day to set the limits")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_NODAY_SELECTED"))
         else:
             # set the limit
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[dayIdx][3] = totalSecs
@@ -1404,15 +1404,15 @@ class timekprAdminGUI(object):
 
         # set status message if fail
         if intervalOverlaps:
-            self.setTimekprStatus(False, "Interval overlaps with existing one")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_INTERVAL_OVERLAP_DETECTED"))
         elif intervalHourConflictStart:
-            self.setTimekprStatus(False, "Interval start conflicts with existing one")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_INTERVALSTART_CONFLICT_DETECTED"))
         elif intervalHourConflictEnd:
-            self.setTimekprStatus(False, "Interval end conflicts with existing one")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_INTERVALEND_CONFLICT_DETECTED"))
         elif intervalDuplicate:
-            self.setTimekprStatus(False, "Interval start or end duplicates existing interval")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_INTERVAL_DUPLICATE_DETECTED"))
         elif secondsFrom == secondsTo:
-            self.setTimekprStatus(False, "Interval start can not be the same as end")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_INTERVAL_STARTENDEQUAL_DETECTED"))
         else:
             # get day to which add the interval
             day = self.getSelectedDay()[1]
@@ -1420,7 +1420,7 @@ class timekprAdminGUI(object):
             # if it's not selected
             if day is None:
                 # status
-                self.setTimekprStatus(False, "Please select a day to set the limits")
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_NODAY_SELECTED"))
             else:
                 # now append the interval
                 self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").append([intervalsLen + 1, self.formatIntervalStr(secondsFrom), self.formatIntervalStr(secondsTo), day, secondsFrom, secondsTo])
@@ -1446,7 +1446,7 @@ class timekprAdminGUI(object):
         # if it's not selected
         if hourIdx is None:
             # status
-            self.setTimekprStatus(False, "Please select a hour interval to remove")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_NOHOUR_SELECTED"))
         else:
             # remove selected item
             for rIt in self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS"):
@@ -1463,7 +1463,7 @@ class timekprAdminGUI(object):
             # sort intervals
             self.sortHourIntervals()
             # status change
-            self.setTimekprStatus(False, "Interval removed")
+            self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_INTERVAL_REMOVED"))
             # adjust internal representation
             self.rebuildHoursFromIntervals()
             # recalc control availability

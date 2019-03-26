@@ -6,7 +6,6 @@ Created on Aug 28, 2018
 
 # import
 import gi
-from gettext import gettext as _s
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
@@ -14,6 +13,7 @@ from gi.repository import Gtk
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.ui.notificationarea import timekprNotificationArea
+from timekpr.common.constants import messages as msg
 
 # status icon stuff
 _USE_STATUSICON = True
@@ -75,9 +75,9 @@ class timekprIndicator(timekprNotificationArea):
         # build up menu actiongroups
         timekprActionGroup = Gtk.ActionGroup("timekprActions")
         timekprActionGroup.add_actions([
-             ("TimeLeft", Gtk.STOCK_INFO, _s("Time left..."), None, None, super().invokeTimekprTimeLeft)
-            ,("Limits & configuration", Gtk.STOCK_PROPERTIES, None, None, None, super().invokeTimekprUserProperties)
-            ,("About", Gtk.STOCK_ABOUT, None, None, None, super().invokeTimekprAbout)
+             ("TimeLeft", Gtk.STOCK_INFO, msg.getTranslation("TK_MSG_MENU_TIME_LEFT"), None, None, super().invokeTimekprTimeLeft)
+            ,("Limits & configuration", Gtk.STOCK_PROPERTIES, msg.getTranslation("TK_MSG_MENU_CONFIGURATION"), None, None, super().invokeTimekprUserProperties)
+            ,("About", Gtk.STOCK_ABOUT, msg.getTranslation("TK_MSG_MENU_ABOUT"), None, None, super().invokeTimekprAbout)
         ])
 
         # build up menu

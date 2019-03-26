@@ -5,14 +5,15 @@ Created on Aug 28, 2018
 """
 
 import locale
+import time
 
 # init speech
-try:
-    from espeak import espeak as espeak
-    _USE_SPEECH = True
-except (ImportError, ValueError):
-    _USE_SPEECH = False
-    pass
+#try:
+from espeak import espeak as espeak
+_USE_SPEECH = True
+#except (ImportError, ValueError):
+#    _USE_SPEECH = False
+#    pass
 
 
 class timekprSpeech(object):
@@ -53,3 +54,15 @@ class timekprSpeech(object):
         global _USE_SPEECH
         # result
         return _USE_SPEECH
+
+
+# main start
+if __name__ == "__main__":
+    # if supported
+    if _USE_SPEECH:
+        sp = timekprSpeech()
+        sp.initSpeech()
+        sp.saySmth("You have no time left")
+        time.sleep(10)
+    else:
+        print("Nosleep")

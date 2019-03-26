@@ -8,12 +8,13 @@ import gi
 import os
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-from gettext import gettext as _
+import gettext
 from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
 from timekpr.client.interface.speech.espeak import timekprSpeech
+from timekpr.common.constants import messages as msg
 
 # constant
 _NO_TIME_LABEL = "--:--:--"
@@ -91,7 +92,7 @@ class timekprGUI(object):
         self._limitConfig[cons.TK_CTRL_LIMITM] = {cons.TK_CTRL_LIMITM: None}
 
         # status
-        self.setStatus("Started")
+        self.setStatus(msg.getTranslation("TK_MSG_STATUS_STARTED"))
 
     # --------------- helper methods --------------- #
 
@@ -219,9 +220,8 @@ class timekprGUI(object):
     def initLocale(self):
         """Init translation stuff"""
         # init python gettext
-        # gettext.bindtextdomain("timekpr-next", "/usr/share/locale")
-        # gettext.textdomain("timekpr-next")
-        pass
+        gettext.bindtextdomain("timekpr", "/usr/share/locale")
+        gettext.textdomain("timekpr")
 
     # --------------- init methods --------------- #
 
@@ -230,9 +230,9 @@ class timekprGUI(object):
         # version
         self._timekprAboutDialog.set_version(self._timekprVersion)
         # translation stuff
-        self._timekprAboutDialog.set_translator_credits(_("please-enter-translator-credits"))
+        self._timekprAboutDialog.set_translator_credits(msg.getTranslation("TK_MSG_ENTER_TRANSLATION_CREDITS"))
         # comment
-        self._timekprAboutDialog.set_comments(_("Keep control of computer usage"))
+        self._timekprAboutDialog.set_comments(msg.getTranslation("TK_MSG_LOGO_LABEL"))
 
         # show up all
         self._timekprAboutDialog.show_all()

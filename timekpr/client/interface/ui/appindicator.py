@@ -7,7 +7,6 @@ Created on Aug 28, 2018
 # import
 import gi
 import os
-from gettext import gettext as _s
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
@@ -15,6 +14,7 @@ from gi.repository import Gtk
 from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.client.interface.ui.notificationarea import timekprNotificationArea
+from timekpr.common.constants import messages as msg
 
 # indicator stuff
 try:
@@ -68,13 +68,13 @@ class timekprIndicator(timekprNotificationArea):
         self._timekprMenu = Gtk.Menu()
 
         # add menu items
-        self._timekprMenuItemTimeLeft = Gtk.MenuItem(_s("Time left..."))
+        self._timekprMenuItemTimeLeft = Gtk.MenuItem(msg.getTranslation("TK_MSG_MENU_TIME_LEFT"))
         self._timekprMenu.append(self._timekprMenuItemTimeLeft)
         self._timekprMenu.append(Gtk.SeparatorMenuItem())
-        self._timekprMenuItemProperties = Gtk.MenuItem(_s("Limits & configuration"))
+        self._timekprMenuItemProperties = Gtk.MenuItem(msg.getTranslation("TK_MSG_MENU_CONFIGURATION"))
         self._timekprMenu.append(self._timekprMenuItemProperties)
         self._timekprMenu.append(Gtk.SeparatorMenuItem())
-        self._timekprMenuItemAbout = Gtk.MenuItem(_s("About"))
+        self._timekprMenuItemAbout = Gtk.MenuItem(msg.getTranslation("TK_MSG_MENU_ABOUT"))
         self._timekprMenu.append(self._timekprMenuItemAbout)
 
         # enable all

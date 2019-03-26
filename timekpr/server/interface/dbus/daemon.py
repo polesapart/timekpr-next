@@ -22,6 +22,7 @@ from timekpr.server.user.userdata import timekprUser
 from timekpr.server.config.configprocessor import timekprUserConfigurationProcessor
 from timekpr.server.config.configprocessor import timekprConfigurationProcessor
 from timekpr.server.config.userhelper import timekprUserStore
+from timekpr.common.constants import messages as msg
 
 # default dbus
 DBusGMainLoop(set_as_default=True)
@@ -286,7 +287,7 @@ class timekprDaemon(dbus.service.Object):
         """Request to send config to client (returns error in case no user and the like)"""
         # result
         result = -1
-        message = "User \"%s\" is not found" % (pUserName)
+        message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USER_NOTFOUND") % (pUserName)
 
         # check if we have this user
         if pUserName in self._timekprUserList:
@@ -305,7 +306,7 @@ class timekprDaemon(dbus.service.Object):
         """Request to send current state of time & limits for user (returns error in case no user and the like)"""
         # result
         result = -1
-        message = "User \"%s\" is not found" % (pUserName)
+        message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USER_NOTFOUND") % (pUserName)
 
         # check if we have this user
         if pUserName in self._timekprUserList:
@@ -342,7 +343,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR getting user list. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USERLIST_UNEXPECTED_ERROR")
 
         # result
         return result, message, userList
@@ -368,7 +369,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR getting user confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USER_UNEXPECTED_ERROR")
 
         # result
         return result, message, userConfigurationStore
@@ -397,7 +398,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -428,7 +429,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -457,7 +458,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -487,7 +488,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -514,7 +515,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -541,7 +542,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -572,7 +573,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating control. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONTROL_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -598,7 +599,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR getting confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_UNEXPECTED_ERROR")
 
         # result
         return result, message, timekprConfig
@@ -624,7 +625,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -650,7 +651,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -676,7 +677,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -702,7 +703,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -730,7 +731,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -756,7 +757,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -782,7 +783,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -809,7 +810,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message
@@ -838,7 +839,7 @@ class timekprDaemon(dbus.service.Object):
 
             # result
             result = -1
-            message = "Unexpected ERROR updating confguration. Please inspect timekpr log files"
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
 
         # result
         return result, message

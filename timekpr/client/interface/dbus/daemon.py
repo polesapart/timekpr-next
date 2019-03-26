@@ -20,6 +20,7 @@ from timekpr.common.utils import misc
 from timekpr.common.utils.config import timekprClientConfig
 from timekpr.client.interface.ui.appindicator import timekprIndicator as appind_timekprIndicator
 from timekpr.client.interface.ui.statusicon import timekprIndicator as statico_timekprIndicator
+from timekpr.common.constants import messages as msg
 
 
 class timekprClient(object):
@@ -106,7 +107,7 @@ class timekprClient(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start connectTimekprSignalsDBUS")
 
         # trying to connect
-        self._timekprClientIndicator.setStatus("Connecting...")
+        self._timekprClientIndicator.setStatus(msg.getTranslation("TK_MSG_STATUS_CONNECTING"))
 
         try:
             # dbus performance measurement
@@ -168,7 +169,7 @@ class timekprClient(object):
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - connecting signals \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             # set status
-            self._timekprClientIndicator.setStatus("Connected")
+            self._timekprClientIndicator.setStatus(msg.getTranslation("TK_MSG_STATUS_CONNECTED"))
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "DBUS signals connected")
 
