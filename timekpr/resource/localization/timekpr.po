@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-03-26 21:59+0200\n"
-"PO-Revision-Date: 2019-03-26 22:00+0200\n"
+"POT-Creation-Date: 2019-03-26 22:31+0200\n"
+"PO-Revision-Date: 2019-03-26 22:31+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@tieto.com>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language: en_GB\n"
@@ -13,551 +13,543 @@ msgstr ""
 "X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __:1,2\n"
 "X-Poedit-SearchPath-0: common/constants/messages.py\n"
 "X-Poedit-SearchPath-1: resource/client/forms\n"
 
-#: common/constants/messages.py:30
+#: common/constants/messages.py:35
 msgid "print help, example"
 msgstr ""
 
-#: common/constants/messages.py:31
+#: common/constants/messages.py:36
 msgid "this gets saved user list from the server, example"
 msgstr ""
 
-#: common/constants/messages.py:32
+#: common/constants/messages.py:37
 msgid "this gets user configuration from the server, example"
 msgstr ""
 
-#: common/constants/messages.py:33
+#: common/constants/messages.py:38
 msgid "this sets allowed days for the user, example"
 msgstr ""
 
-#: common/constants/messages.py:34
+#: common/constants/messages.py:39
 msgid "this sets allowed hours per specified day or ALL for every day, example"
 msgstr ""
 
-#: common/constants/messages.py:35
+#: common/constants/messages.py:40
 msgid "this sets time limits per all allowed days, example"
 msgstr ""
 
-#: common/constants/messages.py:36
+#: common/constants/messages.py:41
 msgid "this sets time limits per week, example"
 msgstr ""
 
-#: common/constants/messages.py:37
+#: common/constants/messages.py:42
 msgid "this sets time limits per month, example"
 msgstr ""
 
-#: common/constants/messages.py:38
+#: common/constants/messages.py:43
 msgid "this sets whether to track inactive user sessions, example"
 msgstr ""
 
-#: common/constants/messages.py:39
+#: common/constants/messages.py:44
 msgid ""
 "this sets time left for the user at current moment, example (add one hour"
 msgstr ""
 
-#: common/constants/messages.py:42 common/constants/messages.py:69
+#: common/constants/messages.py:47 common/constants/messages.py:74
 msgid "Control sessions types are not passed"
 msgstr ""
 
-#: common/constants/messages.py:43 common/constants/messages.py:70
+#: common/constants/messages.py:48 common/constants/messages.py:75
 msgid "Control sessions types list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:44 common/constants/messages.py:71
+#: common/constants/messages.py:49 common/constants/messages.py:76
 msgid "Control sessions types list is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:45
+#: common/constants/messages.py:50
 msgid "Excluded session types are not passed"
 msgstr ""
 
-#: common/constants/messages.py:46
+#: common/constants/messages.py:51
 msgid "Excluded session types list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:47
+#: common/constants/messages.py:52
 msgid "Excluded session types list is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:48
+#: common/constants/messages.py:53
 msgid "Excluded user list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:49
+#: common/constants/messages.py:54
 msgid "Excluded user list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:50
+#: common/constants/messages.py:55
 msgid "Excluded user list is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:51
+#: common/constants/messages.py:56
 msgid "Final warning time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:52
+#: common/constants/messages.py:57
 #, python-format
 msgid "Final warning time \"%%s\"is not correct"
 msgstr ""
 
-#: common/constants/messages.py:53
+#: common/constants/messages.py:58
 #, python-format
 msgid "Final warning time \"%%s\" is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:54
+#: common/constants/messages.py:59
 msgid "Termination time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:55
+#: common/constants/messages.py:60
 #, python-format
 msgid "Termination time \"%%s\"is not correct"
 msgstr ""
 
-#: common/constants/messages.py:56
+#: common/constants/messages.py:61
 #, python-format
 msgid "Termination time \"%%s\" is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:57
+#: common/constants/messages.py:62
 msgid "Track inactive is not passed"
 msgstr ""
 
-#: common/constants/messages.py:58
+#: common/constants/messages.py:63
 #, python-format
 msgid "Track inactive \"%%s\"is not correct"
 msgstr ""
 
-#: common/constants/messages.py:59
+#: common/constants/messages.py:64
 #, python-format
 msgid "Track inactive \"%%s\" is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:60
+#: common/constants/messages.py:65
 msgid "Log level is not passed"
 msgstr ""
 
-#: common/constants/messages.py:61
+#: common/constants/messages.py:66
 #, python-format
 msgid "Log level \"%%s\"is not correct"
 msgstr ""
 
-#: common/constants/messages.py:62
+#: common/constants/messages.py:67
 #, python-format
 msgid "Log level \"%%s\" is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:63
+#: common/constants/messages.py:68
 msgid "Poll time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:64
+#: common/constants/messages.py:69
 #, python-format
 msgid "Poll time \"%%s\"is not correct"
 msgstr ""
 
-#: common/constants/messages.py:65
+#: common/constants/messages.py:70
 #, python-format
 msgid "Poll time \"%%s\" is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:66
+#: common/constants/messages.py:71
 msgid "Save time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:67
+#: common/constants/messages.py:72
 #, python-format
 msgid "Save time \"%%s\"is not correct"
 msgstr ""
 
-#: common/constants/messages.py:68
+#: common/constants/messages.py:73
 #, python-format
 msgid "Save time \"%%s\" is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:74
+#: common/constants/messages.py:79
 #, python-format
 msgid "User's \"%%s\" day number must be present"
 msgstr ""
 
-#: common/constants/messages.py:75
+#: common/constants/messages.py:80
 #, python-format
 msgid "User's \"%%s\" day number must be between 1 and 7"
 msgstr ""
 
-#: common/constants/messages.py:76
+#: common/constants/messages.py:81
 #, python-format
 msgid "User's \"%%s\" allowed hours are not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:77
+#: common/constants/messages.py:82
 #, python-format
 msgid "User's \"%%s\" day limits list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:78
+#: common/constants/messages.py:83
 #, python-format
 msgid "User's \"%%s\" day limits list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:79
+#: common/constants/messages.py:84
 #, python-format
 msgid "User's \"%%s\" day limits list is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:80
+#: common/constants/messages.py:85
 #, python-format
 msgid "User's \"%%s\" day list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:81
+#: common/constants/messages.py:86
 #, python-format
 msgid "User's \"%%s\" day list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:82
+#: common/constants/messages.py:87
 #, python-format
 msgid "User's \"%%s\" day list is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:83
+#: common/constants/messages.py:88
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not passed"
 msgstr ""
 
-#: common/constants/messages.py:84
+#: common/constants/messages.py:89
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not correct"
 msgstr ""
 
-#: common/constants/messages.py:85
+#: common/constants/messages.py:90
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:86
+#: common/constants/messages.py:91
 #, python-format
 msgid "User's \"%%s\" set time operation can be one of these: -+="
 msgstr ""
 
-#: common/constants/messages.py:87
+#: common/constants/messages.py:92
 #, python-format
 msgid "User's \"%%s\" set time limit is not correct"
 msgstr ""
 
-#: common/constants/messages.py:88
+#: common/constants/messages.py:93
 #, python-format
 msgid "User's \"%%s\" set time limit is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:89
+#: common/constants/messages.py:94
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not passed"
 msgstr ""
 
-#: common/constants/messages.py:90
+#: common/constants/messages.py:95
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct"
 msgstr ""
 
-#: common/constants/messages.py:91
+#: common/constants/messages.py:96
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:92
+#: common/constants/messages.py:97
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not passed"
 msgstr ""
 
-#: common/constants/messages.py:93
+#: common/constants/messages.py:98
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct"
 msgstr ""
 
-#: common/constants/messages.py:94
+#: common/constants/messages.py:99
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
 msgstr ""
 
-#: common/constants/messages.py:97
+#: common/constants/messages.py:102
 msgid ""
 "Something went wrong while loading configuration. Please inspect Timekpr log "
 "files"
 msgstr ""
 
-#: common/constants/messages.py:98
+#: common/constants/messages.py:103
 msgid "Unexpected ERROR getting confguration. Please inspect timekpr log files"
 msgstr ""
 
-#: common/constants/messages.py:99
+#: common/constants/messages.py:104
 msgid ""
 "Unexpected ERROR getting user confguration. Please inspect timekpr log files"
 msgstr ""
 
-#: common/constants/messages.py:100
+#: common/constants/messages.py:105
 msgid "Unexpected ERROR getting user list. Please inspect timekpr log files"
 msgstr ""
 
-#: common/constants/messages.py:101
+#: common/constants/messages.py:106
 msgid ""
 "Unexpected ERROR updating confguration. Please inspect timekpr log files"
 msgstr ""
 
-#: common/constants/messages.py:102
+#: common/constants/messages.py:107
 msgid "Unexpected ERROR updating control. Please inspect timekpr log files"
-msgstr ""
-
-#: common/constants/messages.py:103
-#, python-format
-msgid "User \"%%s\" configuration is not found"
-msgstr ""
-
-#: common/constants/messages.py:104
-#, python-format
-msgid "User \"%%s\" control file is not found"
-msgstr ""
-
-#: common/constants/messages.py:105
-#, python-format
-msgid "User \"%%s\" is not found"
 msgstr ""
 
 #: common/constants/messages.py:108
 #, python-format
-msgid "UNEXPECTED ERROR: %%s"
+msgid "User \"%%s\" configuration is not found"
 msgstr ""
 
 #: common/constants/messages.py:109
-msgid "Command FAILED: access denied"
+#, python-format
+msgid "User \"%%s\" control file is not found"
 msgstr ""
 
 #: common/constants/messages.py:110
-msgid "Command FAILED: message was not accepted"
+#, python-format
+msgid "User \"%%s\" is not found"
 msgstr ""
 
 #: common/constants/messages.py:113
-msgid "Connected"
+#, python-format
+msgid "UNEXPECTED ERROR: %%s"
 msgstr ""
 
 #: common/constants/messages.py:114
-msgid "Connecting..."
+msgid "Command FAILED: access denied"
 msgstr ""
 
 #: common/constants/messages.py:115
+msgid "Command FAILED: message was not accepted"
+msgstr ""
+
+#: common/constants/messages.py:118
+msgid "Connected"
+msgstr ""
+
+#: common/constants/messages.py:119
+msgid "Connecting..."
+msgstr ""
+
+#: common/constants/messages.py:120
 msgid "Failed to connect"
 msgstr ""
 
-#: common/constants/messages.py:116
+#: common/constants/messages.py:121
 msgid ""
 "Please reopen the application if You have permissions and timekpr is running"
 msgstr ""
 
-#: common/constants/messages.py:117
+#: common/constants/messages.py:122
 msgid "Started"
 msgstr ""
 
-#: common/constants/messages.py:118
+#: common/constants/messages.py:123
 msgid "User configuration retrieved"
 msgstr ""
 
-#: common/constants/messages.py:119
+#: common/constants/messages.py:124
 msgid "Configuration retrieved"
 msgstr ""
 
-#: common/constants/messages.py:120
+#: common/constants/messages.py:125
 msgid "Track inactive for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:121
+#: common/constants/messages.py:126
 msgid "Additional time for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:122
+#: common/constants/messages.py:127
 msgid "Weekly and monthly limits for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:123
+#: common/constants/messages.py:128
 msgid "Allowed days for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:124 common/constants/messages.py:126
+#: common/constants/messages.py:129 common/constants/messages.py:131
 msgid "Time limits for days for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:125
+#: common/constants/messages.py:130
 msgid "Allowed hours for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:127
+#: common/constants/messages.py:132
 msgid "Timekpr configuration has been saved"
 msgstr ""
 
-#: common/constants/messages.py:128
+#: common/constants/messages.py:133
 msgid "Please select a day to set the limits"
 msgstr ""
 
-#: common/constants/messages.py:129
+#: common/constants/messages.py:134
 msgid "Interval overlaps with existing one"
 msgstr ""
 
-#: common/constants/messages.py:130
+#: common/constants/messages.py:135
 msgid "Interval start conflicts with existing one"
 msgstr ""
 
-#: common/constants/messages.py:131
+#: common/constants/messages.py:136
 msgid "Interval end conflicts with existing one"
 msgstr ""
 
-#: common/constants/messages.py:132
+#: common/constants/messages.py:137
 msgid "Interval start or end duplicates existing interval"
 msgstr ""
 
-#: common/constants/messages.py:133
+#: common/constants/messages.py:138
 msgid "Interval start can not be the same as end"
 msgstr ""
 
-#: common/constants/messages.py:134
+#: common/constants/messages.py:139
 msgid "Please select a hour interval to remove"
 msgstr ""
 
-#: common/constants/messages.py:135
+#: common/constants/messages.py:140
 msgid "Interval removed"
 msgstr ""
 
-#: common/constants/messages.py:136
+#: common/constants/messages.py:141
 msgid "Timekpr interface is not yet ready"
 msgstr ""
 
-#: common/constants/messages.py:139
+#: common/constants/messages.py:144
 msgid ""
 "WARNING: Timekpr administration utility was asked to run in GUI mode, but no "
 "displays are available, thus running in CLI..."
 msgstr ""
 
-#: common/constants/messages.py:140
+#: common/constants/messages.py:145
 msgid "The command is incorrect:"
 msgstr ""
 
-#: common/constants/messages.py:141
+#: common/constants/messages.py:146
 msgid "The usage of timekpr admin client is as follows:"
 msgstr ""
 
-#: common/constants/messages.py:142
+#: common/constants/messages.py:147
 #, python-format
 msgid "%(n)s user in total:"
-msgstr ""
+msgid_plural "%(n)s users in total:"
+msgstr[0] ""
+msgstr[1] ""
 
-#: common/constants/messages.py:142
-#, python-format
-msgid "%(n)s users in total:"
-msgstr ""
-
-#: common/constants/messages.py:143
+#: common/constants/messages.py:148
 #, python-format
 msgid "Config for %s:"
 msgstr ""
 
-#: common/constants/messages.py:146
+#: common/constants/messages.py:151
 msgid "Time left..."
 msgstr ""
 
-#: common/constants/messages.py:147
+#: common/constants/messages.py:152
 msgid "Limits & configuration"
 msgstr ""
 
-#: common/constants/messages.py:148
+#: common/constants/messages.py:153
 msgid "About"
 msgstr ""
 
-#: common/constants/messages.py:151
-msgid "Instead of this text, please enter translator credits!"
+#. TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
+#: common/constants/messages.py:157 resource/client/forms/about.glade:28
+msgid "please-enter-translator-credits"
 msgstr ""
 
-#: common/constants/messages.py:152 resource/client/forms/about.glade:19
+#: common/constants/messages.py:158 resource/client/forms/about.glade:19
 msgid "Keep control of computer usage"
 msgstr ""
 
-#: common/constants/messages.py:155
+#: common/constants/messages.py:161
 msgid "Timekpr notification"
 msgstr ""
 
-#: common/constants/messages.py:156
+#: common/constants/messages.py:162
 msgid "Your time is not limited today"
 msgstr ""
 
-#: common/constants/messages.py:157
+#: common/constants/messages.py:163
 msgid "Time allowance has changed, please note new time left!"
 msgstr ""
 
-#: common/constants/messages.py:158
+#: common/constants/messages.py:164
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
 
-#: common/constants/messages.py:159
+#: common/constants/messages.py:165
 #, python-format
 msgid "There is a problem connecting to timekpr daemon (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:160
+#: common/constants/messages.py:166
 #, python-format
 msgid "There is a problem communicating to timekpr (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:161
+#: common/constants/messages.py:167
 #, python-format
 msgid "Icon inititalization error (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:163
+#. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:169
 msgid "Your time is up, You will be forcibly logged out in"
 msgstr ""
 
-#: common/constants/messages.py:165
+#. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:171
 #, python-format
 msgid "%(n)s second"
-msgstr ""
+msgid_plural "%(n)s seconds"
+msgstr[0] ""
+msgstr[1] ""
 
-#: common/constants/messages.py:165
-#, python-format
-msgid "%(n)s seconds"
-msgstr ""
-
-#: common/constants/messages.py:166
+#: common/constants/messages.py:172
 msgid "Internal connection error, please check log files"
 msgstr ""
 
-#: common/constants/messages.py:168
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:174
 #, python-format
 msgid "You have %(n)s hour"
-msgstr ""
+msgid_plural "You have %(n)s hours"
+msgstr[0] ""
+msgstr[1] ""
 
-#: common/constants/messages.py:168
-#, python-format
-msgid "You have %(n)s hours"
-msgstr ""
-
-#: common/constants/messages.py:170
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:176
 #, python-format
 msgid "%(n)s minute"
-msgstr ""
+msgid_plural "%(n)s minutes"
+msgstr[0] ""
+msgstr[1] ""
 
-#: common/constants/messages.py:170
-#, python-format
-msgid "%(n)s minutes"
-msgstr ""
-
-#: common/constants/messages.py:172
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:178
 #, python-format
 msgid "%(n)s second left"
-msgstr ""
-
-#: common/constants/messages.py:172
-#, python-format
-msgid "%(n)s seconds left"
-msgstr ""
+msgid_plural "%(n)s seconds left"
+msgstr[0] ""
+msgstr[1] ""
 
 #: resource/client/forms/about.glade:7
 msgid "About Timekpr-nExT"
@@ -591,10 +583,6 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see <http://www.gnu.org/licenses/>. In Debian, see "
 "file /usr/share/common-licenses/GPL-3"
-msgstr ""
-
-#: resource/client/forms/about.glade:28
-msgid "please-enter-translator-credits"
 msgstr ""
 
 #: resource/client/forms/admin.glade:172

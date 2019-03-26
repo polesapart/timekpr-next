@@ -9,9 +9,14 @@ from gettext import ngettext as _translatePlural
 from gettext import gettext as _translateSingle
 
 
-def _(pMsg):
+def _(pMsgS):
     """Make automated tools like poedit to pick up translations, which will actually be translated later"""
-    return pMsg
+    return pMsgS
+
+
+def __(pMsgS, pMsgP):
+    """Make automated tools like poedit to pick up translations, which will actually be translated later"""
+    return pMsgS, pMsgP
 
 
 # ## This module is responsible for all message translations for timekpr ##
@@ -139,7 +144,7 @@ def initMessages():
     _messages["TK_MSG_CONSOLE_GUI_NOT_AVAILABLE"] = {"s": _("WARNING: Timekpr administration utility was asked to run in GUI mode, but no displays are available, thus running in CLI...")}
     _messages["TK_MSG_CONSOLE_COMMAND_INCORRECT"] = {"s": _("The command is incorrect:")}
     _messages["TK_MSG_CONSOLE_USAGE_NOTES"] = {"s": _("The usage of timekpr admin client is as follows:")}
-    _messages["TK_MSG_CONSOLE_USERS_TOTAL"] = {"s": _("%(n)s user in total:"), "p": _("%(n)s users in total:")}
+    _messages["TK_MSG_CONSOLE_USERS_TOTAL"] = {"s": __("%(n)s user in total:", "%(n)s users in total:")[0], "p": __("%(n)s user in total:", "%(n)s users in total:")[1]}
     _messages["TK_MSG_CONSOLE_CONFIG_FOR"] = {"s": _("Config for %s:")}
 
     # ## this defines messages for use in menus ##
@@ -148,7 +153,8 @@ def initMessages():
     _messages["TK_MSG_MENU_ABOUT"] = {"s": _("About")}
 
     # ## GUI labels ##
-    _messages["TK_MSG_ENTER_TRANSLATION_CREDITS"] = {"s": _("Instead of this text, please enter translator credits!")}
+    # TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
+    _messages["TK_MSG_ENTER_TRANSLATION_CREDITS"] = {"s": _("please-enter-translator-credits")}
     _messages["TK_MSG_LOGO_LABEL"] = {"s": _("Keep control of computer usage")}
 
     # ## this defines messages for use in notifications ##
@@ -162,14 +168,14 @@ def initMessages():
     # TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1"] = {"s": _("Your time is up, You will be forcibly logged out in")}
     # TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_2"] = {"s": _("%(n)s second"), "p": _("%(n)s seconds")}
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_2"] = {"s": __("%(n)s second", "%(n)s seconds")[0], "p": __("%(n)s second", "%(n)s seconds")[1]}
     _messages["TK_MSG_NOTIFICATION_CONNECTION_ERROR"] = {"s": _("Internal connection error, please check log files")}
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_LEFT_1"] = {"s": _("You have %(n)s hour"), "p": _("You have %(n)s hours")}
+    _messages["TK_MSG_NOTIFICATION_TIME_LEFT_1"] = {"s": __("You have %(n)s hour", "You have %(n)s hours")[0], "p": __("You have %(n)s hour", "You have %(n)s hours")[1]}
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_LEFT_2"] = {"s": _("%(n)s minute"), "p": _("%(n)s minutes")}
+    _messages["TK_MSG_NOTIFICATION_TIME_LEFT_2"] = {"s": __("%(n)s minute", "%(n)s minutes")[0], "p": __("%(n)s minute", "%(n)s minutes")[1]}
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_LEFT_3"] = {"s": _("%(n)s second left"), "p": _("%(n)s seconds left")}
+    _messages["TK_MSG_NOTIFICATION_TIME_LEFT_3"] = {"s": __("%(n)s second left", "%(n)s seconds left")[0], "p": __("%(n)s second left", "%(n)s seconds left")[1]}
 
 
 # init
