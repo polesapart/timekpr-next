@@ -28,9 +28,6 @@ class timekprAdminGUI(object):
 
     def __init__(self, pTimekprVersion, pResourcePath, pUsername, pIsDevActive):
         """Initialize gui"""
-        # init locale
-        self.initLocale()
-
         # set up base variables
         self._userName = pUsername
         self._timekprVersion = pTimekprVersion
@@ -127,12 +124,6 @@ class timekprAdminGUI(object):
             self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_CONNECTION_ACCESS_DENIED"))
             # not connected
             self._isConnected = False
-
-    def initLocale(self):
-        """Init translation stuff"""
-        # init python gettext
-        gettext.bindtextdomain("timekpr", "/usr/share/locale")
-        gettext.textdomain("timekpr")
 
     def initGUIElements(self):
         """Initialize all GUI elements for stores"""

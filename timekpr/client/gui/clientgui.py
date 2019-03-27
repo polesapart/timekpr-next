@@ -27,9 +27,6 @@ class timekprGUI(object):
 
     def __init__(self, pTimekprVersion, pTimekprConfigManager, pUsername):
         """Initialize gui"""
-        # init locale
-        self.initLocale()
-
         # set up base variables
         self._userName = pUsername
         self._timekprVersion = pTimekprVersion
@@ -216,12 +213,6 @@ class timekprGUI(object):
 
         # this is it
         self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(configChanged)
-
-    def initLocale(self):
-        """Init translation stuff"""
-        # init python gettext
-        gettext.bindtextdomain("timekpr", "/usr/share/locale")
-        gettext.textdomain("timekpr")
 
     # --------------- init methods --------------- #
 

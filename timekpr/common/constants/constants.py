@@ -9,6 +9,7 @@ from timekpr.common.constants import messages as msg
 
 # imports
 import dbus
+import gettext
 from datetime import datetime
 
 # ## constants ##
@@ -30,6 +31,35 @@ TK_LOG_L = "lvl"
 TK_LOG_D = "dir"
 TK_LOG_TEMP_DIR = "/tmp"
 TK_LOG_PID_EXT = ".pid"
+
+# ## actual system ##
+TK_LOG_FILE = "timekpr.log"
+# main config file
+TK_MAIN_CONFIG_DIR = "/etc/timekpr"
+# runtime directory for timekpr user configuration files
+TK_CONFIG_DIR = "/var/lib/timekpr/config"
+# runtime directory for timekpr time control files
+TK_WORK_DIR = "/var/lib/timekpr/work"
+# directory for shared files (images, gui definitions, etc.)
+TK_SHARED_DIR = "/usr/share/timekpr"
+# directory for log files
+TK_LOGFILE_DIR = "/var/log"
+# localization
+TK_LOCALIZATION_DIR = "/usr/share/locale"
+
+# ## development ##
+# main config file
+TK_MAIN_CONFIG_DIR_DEV = "../resource/server"
+# runtime directory for timekpr user configuration files
+TK_CONFIG_DIR_DEV = "../../runtime.tmp"
+# runtime directory for timekpr time control files
+TK_WORK_DIR_DEV = "../../runtime.tmp"
+# directory for shared files (images, gui definitions, etc.)
+TK_SHARED_DIR_DEV = "../resource"
+# directory for log files
+TK_LOGFILE_DIR_DEV = "../../runtime.tmp"
+# localization
+TK_LOCALIZATION_DIR_DEV = "../resource/locale"
 
 # ## dbus ##
 # common
@@ -168,6 +198,10 @@ TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg
 TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 
 # ## timekpr notification config ##
+# init python gettext
+gettext.bindtextdomain("timekpr", TK_LOCALIZATION_DIR if not TK_DEV_ACTIVE else TK_LOCALIZATION_DIR_DEV)
+gettext.textdomain("timekpr")
+
 # define admin commands
 TK_ADMIN_COMMANDS = {
     # "--setloglevel"             : ""
@@ -216,29 +250,3 @@ TK_MSG_CODE_TIMECONFIGCHANGED = "TIME_CONFIG_CHANGED"
 TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR = "TIMEKPR_REMOTE_COMMUNICATION_ERROR"
 TK_MSG_CODE_REMOTE_INVOCATION_ERROR = "TIMEKPR_REMOTE_INVOCATION_ERROR"
 TK_MSG_CODE_ICON_INIT_ERROR = "TIMEKPR_ICON_INIT_ERROR"
-
-
-# ## actual system ##
-TK_LOG_FILE = "timekpr.log"
-# main config file
-TK_MAIN_CONFIG_DIR = "/etc/timekpr"
-# runtime directory for timekpr user configuration files
-TK_CONFIG_DIR = "/var/lib/timekpr/config"
-# runtime directory for timekpr time control files
-TK_WORK_DIR = "/var/lib/timekpr/work"
-# directory for shared files (images, gui definitions, etc.)
-TK_SHARED_DIR = "/usr/share/timekpr"
-# directory for log files
-TK_LOGFILE_DIR = "/var/log"
-
-# ## development ##
-# main config file
-TK_MAIN_CONFIG_DIR_DEV = "../resource/server"
-# runtime directory for timekpr user configuration files
-TK_CONFIG_DIR_DEV = "../../runtime.tmp"
-# runtime directory for timekpr time control files
-TK_WORK_DIR_DEV = "../../runtime.tmp"
-# directory for shared files (images, gui definitions, etc.)
-TK_SHARED_DIR_DEV = "../resource"
-# directory for log files
-TK_LOGFILE_DIR_DEV = "../../runtime.tmp"

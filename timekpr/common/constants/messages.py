@@ -4,7 +4,6 @@ Created on Mar 19, 2019
 @author: mjasnik
 """
 # imports
-import gettext
 from gettext import ngettext as _translatePlural
 from gettext import gettext as _translateSingle
 
@@ -20,11 +19,8 @@ def __(pMsgS, pMsgP):
 
 
 # ## This module is responsible for all message translations for timekpr ##
-
 """Initialize all stuff for messages"""
-# init python gettext
-gettext.bindtextdomain("timekpr", "/usr/share/locale")
-gettext.textdomain("timekpr")
+
 # messages
 _messages = {}
 
@@ -207,4 +203,5 @@ def getTranslation(pMsgCode, n=None):
 if __name__ == "__main__":
     print(getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST_N/A"))
     print(getTranslation("TK_MSG_USER_ADMIN_CMD_HELP"))
-    print(getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK", 3))
+    print(getTranslation("TK_MSG_CONSOLE_USERS_TOTAL", 1))
+    print(getTranslation("TK_MSG_CONSOLE_USERS_TOTAL", 2))
