@@ -71,9 +71,6 @@ def initMessages():
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_NONE"] = {"s": _("Save time is not passed")}
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID"] = {"s": _("Save time \"%%s\"is not correct")}
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID_SET"] = {"s": _("Save time \"%%s\" is not correct and can not be set")}
-    _messages["TK_MSG_ADMIN_CHK_CTRLSESSIONS_NONE"] = {"s": _("Control sessions types are not passed")}
-    _messages["TK_MSG_ADMIN_CHK_CTRLSESSIONS_INVALID"] = {"s": _("Control sessions types list is not correct")}
-    _messages["TK_MSG_ADMIN_CHK_CTRLSESSIONS_INVALID_SET"] = {"s": _("Control sessions types list is not correct and can not be set")}
 
     # ## this defines messages for use in user configuration validation ##
     _messages["TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_NONE"] = {"s": _("User's \"%%s\" day number must be present")}
@@ -108,11 +105,6 @@ def initMessages():
     _messages["TK_MSG_CONFIG_LOADER_USERCONFIG_NOTFOUND"] = {"s": _("User \"%%s\" configuration is not found")}
     _messages["TK_MSG_CONFIG_LOADER_USERCONTROL_NOTFOUND"] = {"s": _("User \"%%s\" control file is not found")}
     _messages["TK_MSG_CONFIG_LOADER_USER_NOTFOUND"] = {"s": _("User \"%%s\" is not found")}
-
-    # ## misc errors ##
-    _messages["TK_MSG_UNEXPECTED_ERROR"] = {"s": _("UNEXPECTED ERROR: %%s")}
-    _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_FAILED"] = {"s": _("Command FAILED: access denied")}
-    _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED"] = {"s": _("Command FAILED: message was not accepted")}
 
     # ## this defines messages for use in notifications ##
     _messages["TK_MSG_STATUS_CONNECTED"] = {"s": _("Connected")}
@@ -177,6 +169,12 @@ def initMessages():
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_LEFT_3"] = {"s": __("%(n)s second left", "%(n)s seconds left")[0], "p": __("%(n)s second left", "%(n)s seconds left")[1]}
 
+    # ## misc errors ##
+    _messages["TK_MSG_UNEXPECTED_ERROR"] = {"s": _("UNEXPECTED ERROR: %%s")}
+    _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_FAILED"] = {"s": _("Command FAILED: access denied")}
+    _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED"] = {"s": _("Command FAILED: message was not accepted")}
+    _messages["TK_MSG_TRANSLATION_NOTFOUND"] = {"s": _("n/a")}
+
 
 # init
 initMessages()
@@ -186,23 +184,27 @@ def getTranslation(pMsgCode, n=None):
     """Get message translation"""
     # initial
     result = None
-    # we need to translate plurals
-    if "p" in _messages[pMsgCode] and n is not None:
-        # numbers
-        try:
-            result = _translatePlural(_messages[pMsgCode]["s"], _messages[pMsgCode]["p"], n) % {"n": n}
-        except Exception:
-            pass
-    # if translation was not plural or plural failed
-    if result is None:
-        # single
-        result = _translateSingle(_messages[pMsgCode]["s"]).replace("%%", "%")
+    # in case translation not found
+    if pMsgCode not in _messages:
+        result = _translateSingle(_messages["TK_MSG_TRANSLATION_NOTFOUND"]["s"])
+    else:
+        # we need to translate plurals
+        if "p" in _messages[pMsgCode] and n is not None:
+            # numbers
+            try:
+                result = _translatePlural(_messages[pMsgCode]["s"], _messages[pMsgCode]["p"], n) % {"n": n}
+            except Exception:
+                pass
+        # if translation was not plural or plural failed
+        if result is None:
+            # single
+            result = _translateSingle(_messages[pMsgCode]["s"]).replace("%%", "%")
     # result
     return result
 
 
 # main start
 if __name__ == "__main__":
-    print(getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST"))
-    print(getTranslation("TK_MSG_USER_ADMIN_CMD_HELP", 1))
+    print(getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST_N/A"))
+    print(getTranslation("TK_MSG_USER_ADMIN_CMD_HELP"))
     print(getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK", 3))
