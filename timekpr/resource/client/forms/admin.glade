@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.18.3 -->
-<interface>
-  <requires lib="gtk+" version="3.12"/>
+<interface domain="timekpr">
+  <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -463,6 +463,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="margin_top">5</property>
                                 <property name="margin_bottom">5</property>
                                 <property name="label" translatable="yes">This shows You information about time spent</property>
+                                <property name="wrap">True</property>
+                                <property name="max_width_chars">40</property>
                                 <attributes>
                                   <attribute name="style" value="italic"/>
                                 </attributes>
@@ -633,6 +635,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">This allows You to change time for today as well as inactive session tracking</property>
                                 <property name="wrap">True</property>
+                                <property name="max_width_chars">55</property>
                                 <attributes>
                                   <attribute name="style" value="italic"/>
                                 </attributes>
@@ -694,7 +697,6 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="tooltip_text" translatable="yes">The amount of minutes added to todays limit</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
-                                            <property name="input_purpose">number</property>
                                             <property name="adjustment">TimekprTodayMinAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
@@ -712,7 +714,6 @@ Please configure carefully, do not lock Yourself out!</property>
                                             <property name="tooltip_text" translatable="yes">The amount of hours added to todays limit</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
-                                            <property name="input_purpose">number</property>
                                             <property name="adjustment">TimekprTodayHrAdjustment</property>
                                             <property name="numeric">True</property>
                                             <property name="update_policy">if-valid</property>
@@ -765,7 +766,7 @@ Please configure carefully, do not lock Yourself out!</property>
                                         </child>
                                         <child>
                                           <object class="GtkButton" id="TimekprUserConfTodaySettingsSetSubractBT">
-                                            <property name="label" translatable="yes">subract</property>
+                                            <property name="label" translatable="yes">subtract</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
@@ -938,7 +939,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
                                         <property name="label" translatable="yes">Configure time limits for week days</property>
-                                        <property name="ellipsize">end</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">35</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1000,7 +1002,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
                                         <property name="label" translatable="yes">Specify day's limit</property>
-                                        <property name="ellipsize">end</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">20</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1146,7 +1149,8 @@ Please configure carefully, do not lock Yourself out!</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
                                         <property name="label" translatable="yes">Hour intervals</property>
-                                        <property name="ellipsize">end</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">20</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1212,7 +1216,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                         <property name="ypad">5</property>
                                         <property name="label" translatable="yes">Manage intervals for day</property>
                                         <property name="wrap">True</property>
-                                        <property name="ellipsize">end</property>
+                                        <property name="max_width_chars">30</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1313,7 +1317,7 @@ Please note that multiple intervals can not be configured within the same hour (
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Remove seected interval from the list (do not forget to hit &lt;apply&gt; button)</property>
+                                            <property name="tooltip_text" translatable="yes">Remove selected interval from the list (do not forget to hit &lt;apply&gt; button)</property>
                                             <property name="image">TimekprApplyImageRemoveInterval</property>
                                             <signal name="clicked" handler="removeHourIntervalClicked" swapped="no"/>
                                           </object>
@@ -1758,7 +1762,8 @@ Please note that multiple intervals can not be configured within the same hour (
                             <property name="margin_top">5</property>
                             <property name="margin_bottom">5</property>
                             <property name="label" translatable="yes">This allows You to set up weekly &amp; monthly limits</property>
-                            <property name="ellipsize">end</property>
+                            <property name="wrap">True</property>
+                            <property name="max_width_chars">60</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
                             </attributes>
@@ -1775,7 +1780,7 @@ Please note that multiple intervals can not be configured within the same hour (
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="tooltip_text" translatable="yes">Apply weekly and monthhly limits</property>
+                            <property name="tooltip_text" translatable="yes">Apply weekly and monthly limits</property>
                             <property name="margin_left">5</property>
                             <property name="image">TimekprApplyImageWKMON</property>
                             <signal name="clicked" handler="WKMONLimitSetClicked" swapped="no"/>
@@ -1875,6 +1880,7 @@ Please note that multiple intervals can not be configured within the same hour (
                             <property name="ypad">5</property>
                             <property name="label" translatable="yes">Control Timekpr settings</property>
                             <property name="ellipsize">end</property>
+                            <property name="max_width_chars">35</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
                             </attributes>
@@ -2080,6 +2086,7 @@ Adding time does not help in this case, do that before reaching this point...</p
                             <property name="ypad">5</property>
                             <property name="label" translatable="yes">Control Timekpr tracking items</property>
                             <property name="ellipsize">end</property>
+                            <property name="max_width_chars">60</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
                             </attributes>
@@ -2160,7 +2167,6 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
                                     <property name="truncate_multiline">True</property>
-                                    <property name="input_purpose">name</property>
                                     <signal name="changed" handler="trackedSessionTypesChanged" swapped="no"/>
                                   </object>
                                   <packing>
@@ -2281,7 +2287,6 @@ Please, do not change or experiment with this unless You actually (not wishfully
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
                                     <property name="truncate_multiline">True</property>
-                                    <property name="input_purpose">name</property>
                                     <signal name="changed" handler="excludedSessionTypesChanged" swapped="no"/>
                                   </object>
                                   <packing>
@@ -2401,7 +2406,6 @@ Please specify actual usernames not real names here (e.g please specify jsmith, 
                                     <property name="width_chars">10</property>
                                     <property name="max_width_chars">10</property>
                                     <property name="truncate_multiline">True</property>
-                                    <property name="input_purpose">name</property>
                                     <signal name="changed" handler="excludedUsersChanged" swapped="no"/>
                                   </object>
                                   <packing>
