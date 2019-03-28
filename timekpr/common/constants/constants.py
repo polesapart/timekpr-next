@@ -9,6 +9,7 @@ from timekpr.common.constants import messages as msg
 
 # imports
 import dbus
+import locale
 import gettext
 from datetime import datetime
 
@@ -201,6 +202,9 @@ TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-y
 # init python gettext
 gettext.bindtextdomain("timekpr", TK_LOCALIZATION_DIR if not TK_DEV_ACTIVE else TK_LOCALIZATION_DIR_DEV)
 gettext.textdomain("timekpr")
+# init actual libc gettext
+locale.bindtextdomain("timekpr", TK_LOCALIZATION_DIR if not TK_DEV_ACTIVE else TK_LOCALIZATION_DIR_DEV)
+locale.textdomain("timekpr")
 
 # define admin commands
 TK_ADMIN_COMMANDS = {

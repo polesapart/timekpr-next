@@ -212,7 +212,7 @@ class timekprGUI(object):
         configChanged = configChanged or int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value()) != self._timekprConfigManager.getClientLogLevel()
 
         # this is it
-        self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(configChanged)
+        self._timekprConfigDialogBuilder.get_object("timekprSaveBT").set_sensitive(configChanged)
 
     # --------------- init methods --------------- #
 
@@ -293,7 +293,7 @@ class timekprGUI(object):
         # save config
         self._timekprConfigManager.saveClientConfig()
         # disable apply for now
-        self._timekprConfigDialogBuilder.get_object("timekprSaveAndCloseBT").set_sensitive(False)
+        self._timekprConfigDialogBuilder.get_object("timekprSaveBT").set_sensitive(False)
 
     def closePropertiesSignal(self, evt):
         """Close the config form"""

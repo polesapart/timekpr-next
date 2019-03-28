@@ -10,7 +10,6 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import GLib
 from datetime import timedelta, datetime
-import gettext
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -56,7 +55,7 @@ class timekprAdminGUI(object):
         # disable all timekpr config buttons firstly
         self.toggleTimekprConfigControls(False)
         # status
-        self.setTimekprStatus(True, "Started")
+        self.setTimekprStatus(True, msg.getTranslation("TK_MSG_STATUS_STARTED"))
 
         # initialize internal stuff
         GLib.timeout_add_seconds(1, self.initTimekprAdmin)
