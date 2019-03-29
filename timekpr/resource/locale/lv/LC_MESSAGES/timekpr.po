@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
 "POT-Creation-Date: 2019-03-29 08:16+0200\n"
-"PO-Revision-Date: 2019-03-29 08:16+0200\n"
+"PO-Revision-Date: 2019-03-29 08:28+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language: lv_LV\n"
@@ -486,7 +486,7 @@ msgstr "Pieejamais laiks..."
 
 #: common/constants/messages.py:147
 msgid "Limits & configuration"
-msgstr "Ierobežojumi un konfigurācija"
+msgstr "Ierobežojumi un pārvaldība"
 
 #: common/constants/messages.py:148
 msgid "About"
@@ -685,7 +685,7 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:341 resource/client/forms/admin.glade:1850
 msgid "Users related configuration"
-msgstr "Konfigurācija, kas saistīta ar lietotājiem"
+msgstr "Pārvaldības iespējas, kas saistītas ar lietotājiem"
 
 #: resource/client/forms/admin.glade:356 resource/client/forms/config.glade:194
 msgid "Username:"
@@ -1038,7 +1038,7 @@ msgstr "Nedēļas un mēneša ierobežojumi"
 
 #: resource/client/forms/admin.glade:1851
 msgid "User configuration"
-msgstr "Lietotāju konfigurācija"
+msgstr "Lietotāju pārvaldība"
 
 #: resource/client/forms/admin.glade:1882
 msgid "Control Timekpr-nExT settings"
@@ -1218,7 +1218,7 @@ msgstr "Timekpr-nExT pārvaldības aplikācijas statuss"
 
 #: resource/client/forms/config.glade:31
 msgid "Timekpr-nExT client"
-msgstr "Timekpr nExT lietotāja aplikācija"
+msgstr "Timekpr-nExT lietotāja aplikācija"
 
 #: resource/client/forms/config.glade:62
 msgid "Status of Timekpr-nExT client"
