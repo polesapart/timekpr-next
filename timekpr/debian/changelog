@@ -1,8 +1,15 @@
+timekpr-next (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented localization
+  * added Latvian translation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 29 Mar 2019 8:22:17 +0300
+
 timekpr-next (0.1.15~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * implemented localization (translations pending)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 28 Mar 2019 18:27:42 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 28 Mar 2019 18:27:42 +0300
 
 timekpr-next (0.1.14~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
