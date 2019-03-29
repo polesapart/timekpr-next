@@ -28,7 +28,7 @@
   <object class="GtkDialog" id="timekprConfigDialog">
     <property name="can_focus">False</property>
     <property name="receives_default">True</property>
-    <property name="title" translatable="yes">Timekpr nExT client</property>
+    <property name="title" translatable="yes">Timekpr-nExT client</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
@@ -59,7 +59,7 @@
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">False</property>
-                    <property name="tooltip_text" translatable="yes">Status of timekpr client</property>
+                    <property name="tooltip_text" translatable="yes">Status of Timekpr-nExT client</property>
                     <property name="halign">start</property>
                     <property name="margin_start">10</property>
                     <property name="margin_end">10</property>
@@ -285,7 +285,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time spent this session or after timekpr has been restarted</property>
+                                        <property name="tooltip_text" translatable="yes">Time spent this session or after Timekpr-nExT has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time spent (session):</property>
@@ -331,7 +331,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeInactiveLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time inactive this session or after timekpr has been restarted</property>
+                                        <property name="tooltip_text" translatable="yes">Time inactive this session or after Timekpr-nExT has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time inactive:</property>
@@ -359,7 +359,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoContTimeLeftLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Contionous time left to You which may span to more than a current day</property>
+                                        <property name="tooltip_text" translatable="yes">Continous time left to You which may span to more than a current day</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Continous time left:</property>
@@ -376,7 +376,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeLeftTodayLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Total time left today available, including the end of the day and limits</property>
+                                        <property name="tooltip_text" translatable="yes">Total time available left today in a row, up to the end of the day</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time left today:</property>
@@ -820,7 +820,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Whether to use speech notifications (if not available, this will be greyed out), if usage of speech is very much needed, please install python-espeak package</property>
+                                <property name="tooltip_text" translatable="yes">Whether to use speech notifications (if not available, this will be greyed out), if usage of speech is very much needed, please install python3-espeak package</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -862,6 +862,7 @@
                                   <object class="GtkLabel" id="timekprLogLevelLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">This sets logging level (please do not change this unless You know what You're doing)</property>
                                     <property name="margin_right">5</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Logging level</property>
@@ -918,7 +919,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Whether to show seconds in notification area (some DE, like KDE5, do not allow text besides notification icons)</property>
+                                <property name="tooltip_text" translatable="yes">Whether to show seconds in notification area (some DE, like KDE5, do not support text besides notification icons)</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>

@@ -11,7 +11,7 @@
     <property name="icon_name">timekpr</property>
     <property name="type_hint">normal</property>
     <property name="deletable">False</property>
-    <property name="program_name">Timekpr nExT</property>
+    <property name="program_name">Timekpr-nExT</property>
     <property name="version">0.0.1</property>
     <property name="copyright" translatable="yes">Copyright (c) 2018-2019 Eduards Bezverhijs
 Super tester: Rinalds Dobelis

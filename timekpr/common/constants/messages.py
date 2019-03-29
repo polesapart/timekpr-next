@@ -28,16 +28,16 @@ _messages = {}
 def initMessages():
     """Initialize all messages"""
     # ## define user admin command texts ##
-    _messages["TK_MSG_USER_ADMIN_CMD_HELP"] = {"s": _("print help, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_USERLIST"] = {"s": _("this gets saved user list from the server, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("this gets user configuration from the server, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"] = {"s": _("this sets allowed days for the user, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("this sets allowed hours per specified day or ALL for every day, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("this sets time limits per all allowed days, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"] = {"s": _("this sets time limits per week, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("this sets time limits per month, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("this sets whether to track inactive user sessions, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("this sets time left for the user at current moment, example (add one hour")}
+    _messages["TK_MSG_USER_ADMIN_CMD_HELP"] = {"s": _("==> print help, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_USERLIST"] = {"s": _("==> get saved user list from the server, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("==> get user configuration from the server, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"] = {"s": _("==> set allowed days for the user, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours per specified day or ALL for every day, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("==> set time limits per all allowed days, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"] = {"s": _("==> set time limit per week, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at current moment, example (add one hour)")}
 
     # ## this defines messages for use in configuration validation ##
     _messages["TK_MSG_ADMIN_CHK_CTRLSESSIONS_NONE"] = {"s": _("Control sessions types are not passed")}
@@ -92,12 +92,18 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID_SET"] = {"s": _("User's \"%%s\" weekly allowance is not correct and can not be set")}
 
     # ## this defines messages for use in configuration loader ##
-    _messages["TK_MSG_CONFIG_LOADER_ERROR_GENERIC"] = {"s": _("Something went wrong while loading configuration. Please inspect Timekpr log files")}
-    _messages["TK_MSG_CONFIG_LOADER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting confguration. Please inspect timekpr log files")}
-    _messages["TK_MSG_CONFIG_LOADER_USER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user confguration. Please inspect timekpr log files")}
-    _messages["TK_MSG_CONFIG_LOADER_USERLIST_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user list. Please inspect timekpr log files")}
-    _messages["TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating confguration. Please inspect timekpr log files")}
-    _messages["TK_MSG_CONFIG_LOADER_SAVECONTROL_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating control. Please inspect timekpr log files")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_CONFIG_LOADER_ERROR_GENERIC"] = {"s": _("Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT log files")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_CONFIG_LOADER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting confguration. Please inspect Timekpr-nExT log files")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_CONFIG_LOADER_USER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user confguration. Please inspect Timekpr-nExT log files")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_CONFIG_LOADER_USERLIST_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating confguration. Please inspect Timekpr-nExT log files")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_CONFIG_LOADER_SAVECONTROL_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating control. Please inspect Timekpr-nExT log files")}
     _messages["TK_MSG_CONFIG_LOADER_USERCONFIG_NOTFOUND"] = {"s": _("User \"%%s\" configuration is not found")}
     _messages["TK_MSG_CONFIG_LOADER_USERCONTROL_NOTFOUND"] = {"s": _("User \"%%s\" control file is not found")}
     _messages["TK_MSG_CONFIG_LOADER_USER_NOTFOUND"] = {"s": _("User \"%%s\" is not found")}
@@ -106,7 +112,8 @@ def initMessages():
     _messages["TK_MSG_STATUS_CONNECTED"] = {"s": _("Connected")}
     _messages["TK_MSG_STATUS_CONNECTING"] = {"s": _("Connecting...")}
     _messages["TK_MSG_STATUS_CONNECTION_FAILED"] = {"s": _("Failed to connect")}
-    _messages["TK_MSG_STATUS_CONNECTION_ACCESS_DENIED"] = {"s": _("Please reopen the application if You have permissions and timekpr is running")}
+    # TRANSLATORS: this message must be 80 symbols long at max
+    _messages["TK_MSG_STATUS_CONNECTION_ACCESS_DENIED"] = {"s": _("Please reopen the application if You are superuser and Timekpr-nExT is running")}
     _messages["TK_MSG_STATUS_STARTED"] = {"s": _("Started")}
     _messages["TK_MSG_STATUS_USER_CONFIG_RETRIEVED"] = {"s": _("User configuration retrieved")}
     _messages["TK_MSG_STATUS_CONFIG_RETRIEVED"] = {"s": _("Configuration retrieved")}
@@ -117,7 +124,7 @@ def initMessages():
     _messages["TK_MSG_STATUS_TIMELIMITS_PROCESSED"] = {"s": _("Time limits for days for user have been processed")}
     _messages["TK_MSG_STATUS_ALLOWEDHOURS_PROCESSED"] = {"s": _("Allowed hours for user have been processed")}
     _messages["TK_MSG_STATUS_ALLTIMELIMITS_PROCESSED"] = {"s": _("Time limits for days for user have been processed")}
-    _messages["TK_MSG_STATUS_CONFIGURATION_SAVED"] = {"s": _("Timekpr configuration has been saved")}
+    _messages["TK_MSG_STATUS_CONFIGURATION_SAVED"] = {"s": _("Timekpr-nExT configuration has been saved")}
     _messages["TK_MSG_STATUS_NODAY_SELECTED"] = {"s": _("Please select a day to set the limits")}
     _messages["TK_MSG_STATUS_INTERVAL_OVERLAP_DETECTED"] = {"s": _("Interval overlaps with existing one")}
     _messages["TK_MSG_STATUS_INTERVALSTART_CONFLICT_DETECTED"] = {"s": _("Interval start conflicts with existing one")}
@@ -126,12 +133,12 @@ def initMessages():
     _messages["TK_MSG_STATUS_INTERVAL_STARTENDEQUAL_DETECTED"] = {"s": _("Interval start can not be the same as end")}
     _messages["TK_MSG_STATUS_NOHOUR_SELECTED"] = {"s": _("Please select a hour interval to remove")}
     _messages["TK_MSG_STATUS_INTERVAL_REMOVED"] = {"s": _("Interval removed")}
-    _messages["TK_MSG_STATUS_INTERFACE_NOTREADY"] = {"s": _("Timekpr interface is not yet ready")}
+    _messages["TK_MSG_STATUS_INTERFACE_NOTREADY"] = {"s": _("Timekpr-nExT interface is not yet ready")}
 
     # ## this defines messages for use in CLI ##
-    _messages["TK_MSG_CONSOLE_GUI_NOT_AVAILABLE"] = {"s": _("WARNING: Timekpr administration utility was asked to run in GUI mode, but no displays are available, thus running in CLI...")}
+    _messages["TK_MSG_CONSOLE_GUI_NOT_AVAILABLE"] = {"s": _("WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, but no displays are available, thus running in CLI...")}
     _messages["TK_MSG_CONSOLE_COMMAND_INCORRECT"] = {"s": _("The command is incorrect:")}
-    _messages["TK_MSG_CONSOLE_USAGE_NOTES"] = {"s": _("The usage of timekpr admin client is as follows:")}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTES"] = {"s": _("The usage of Timekpr-nExT admin client is as follows:")}
     _messages["TK_MSG_CONSOLE_USERS_TOTAL"] = {"s": __("%(n)s user in total:", "%(n)s users in total:")[0], "p": __("%(n)s user in total:", "%(n)s users in total:")[1]}
     _messages["TK_MSG_CONSOLE_CONFIG_FOR"] = {"s": _("Config for %s:")}
 
@@ -146,12 +153,12 @@ def initMessages():
     _messages["TK_MSG_LOGO_LABEL"] = {"s": _("Keep control of computer usage")}
 
     # ## this defines messages for use in notifications ##
-    _messages["TK_MSG_NOTIFICATION_TITLE"] = {"s": _("Timekpr notification")}
+    _messages["TK_MSG_NOTIFICATION_TITLE"] = {"s": _("Timekpr-nExT notification")}
     _messages["TK_MSG_NOTIFICATION_NOT_LIMITED"] = {"s": _("Your time is not limited today")}
     _messages["TK_MSG_NOTIFICATION_ALLOWANCE_CHANGED"] = {"s": _("Time allowance has changed, please note new time left!")}
     _messages["TK_MSG_NOTIFICATION_CONFIGURATION_CHANGED"] = {"s": _("Time limit configuration has changed, please note new configuration!")}
-    _messages["TK_MSG_NOTIFICATION_CANNOT_CONNECT"] = {"s": _("There is a problem connecting to timekpr daemon (%%s)!")}
-    _messages["TK_MSG_NOTIFICATION_CANNOT_COMMUNICATE"] = {"s": _("There is a problem communicating to timekpr (%%s)!")}
+    _messages["TK_MSG_NOTIFICATION_CANNOT_CONNECT"] = {"s": _("There is a problem connecting to Timekpr-nExT daemon (%%s)!")}
+    _messages["TK_MSG_NOTIFICATION_CANNOT_COMMUNICATE"] = {"s": _("There is a problem communicating to Timekpr-nExT (%%s)!")}
     _messages["TK_MSG_NOTIFICATION_CANNOT_INIT_ICON"] = {"s": _("Icon inititalization error (%%s)!")}
     # TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1"] = {"s": _("Your time is up, You will be forcibly logged out in")}
@@ -168,7 +175,7 @@ def initMessages():
     # ## misc errors ##
     _messages["TK_MSG_UNEXPECTED_ERROR"] = {"s": _("UNEXPECTED ERROR: %%s")}
     _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_FAILED"] = {"s": _("Command FAILED: access denied")}
-    _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED"] = {"s": _("Command FAILED: message was not accepted")}
+    _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED"] = {"s": _("Command FAILED: communication was not accepted")}
     _messages["TK_MSG_TRANSLATION_NOTFOUND"] = {"s": _("n/a")}
 
 
