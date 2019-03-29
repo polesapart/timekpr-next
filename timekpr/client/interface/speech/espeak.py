@@ -8,12 +8,12 @@ import locale
 import time
 
 # init speech
-#try:
-from espeak import espeak as espeak
-_USE_SPEECH = True
-#except (ImportError, ValueError):
-#    _USE_SPEECH = False
-#    pass
+try:
+    from espeak import espeak as espeak
+    _USE_SPEECH = True
+except (ImportError, ValueError):
+    _USE_SPEECH = False
+    pass
 
 
 class timekprSpeech(object):
