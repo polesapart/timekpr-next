@@ -1,559 +1,604 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-03-26 22:31+0200\n"
-"PO-Revision-Date: 2019-03-27 11:37+0200\n"
-"Last-Translator: Eduards Bezverhijs <edzis@tieto.com>\n"
+"POT-Creation-Date: 2019-03-29 08:16+0200\n"
+"PO-Revision-Date: 2019-03-29 08:16+0200\n"
+"Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
-"Language: en_GB\n"
+"Language: lv_LV\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-Basepath: ../..\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __:1,2\n"
 "X-Poedit-SearchPath-0: common/constants/messages.py\n"
 "X-Poedit-SearchPath-1: resource/client/forms\n"
 
+#: common/constants/messages.py:31
+msgid "==> print help, example"
+msgstr "==> izdrukā palīdzību, piemērs"
+
+#: common/constants/messages.py:32
+msgid "==> get saved user list from the server, example"
+msgstr "==> iegūst faktisko lietotāju sarakstu no servera, piemērs"
+
+#: common/constants/messages.py:33
+msgid "==> get user configuration from the server, example"
+msgstr "==> iegūst lietotāja konfigurāciju no servera, piemērs"
+
+#: common/constants/messages.py:34
+msgid "==> set allowed days for the user, example"
+msgstr "==> komanda uzstāda pieļaujamo dienu sarakstu lietotājam, piemērs"
+
 #: common/constants/messages.py:35
-msgid "print help, example"
-msgstr "izdrukā palīdzību, piemērs"
+msgid "==> set allowed hours per specified day or ALL for every day, example"
+msgstr ""
+"==> uzstāda pieļaujamos stundu ierobežojumus konkrētajai dienai vai visām "
+"dienām (ALL), piemērs"
 
 #: common/constants/messages.py:36
-msgid "this gets saved user list from the server, example"
-msgstr ""
+msgid "==> set time limits per all allowed days, example"
+msgstr "==> uzstāda laika ierobežojumus nedēļas dienām, piemērs"
 
 #: common/constants/messages.py:37
-msgid "this gets user configuration from the server, example"
-msgstr ""
+msgid "==> set time limit per week, example"
+msgstr "==> uzstāda laika ierobežojumu nedēļai, piemērs"
 
 #: common/constants/messages.py:38
-msgid "this sets allowed days for the user, example"
-msgstr ""
+msgid "==> set time limit per month, example"
+msgstr "==> uzstāda laika ierobežojumu mēnesim, piemērs"
 
 #: common/constants/messages.py:39
-msgid "this sets allowed hours per specified day or ALL for every day, example"
-msgstr ""
+msgid "==> set whether to track inactive user sessions, example"
+msgstr "==> uzstāda neaktīvo sesisiju uzskaites pazīmi, piemērs"
 
 #: common/constants/messages.py:40
-msgid "this sets time limits per all allowed days, example"
+msgid ""
+"==> set time left for the user at current moment, example (add one hour)"
 msgstr ""
-
-#: common/constants/messages.py:41
-msgid "this sets time limits per week, example"
-msgstr ""
-
-#: common/constants/messages.py:42
-msgid "this sets time limits per month, example"
-msgstr ""
+"==> uzstāda laika ierobežojumus šodien (pieliek, noņem, uzstāda), piemērs"
 
 #: common/constants/messages.py:43
-msgid "this sets whether to track inactive user sessions, example"
-msgstr ""
+msgid "Control sessions types are not passed"
+msgstr "Uzskaitāmo sesiju tipi netika padoti"
 
 #: common/constants/messages.py:44
-msgid ""
-"this sets time left for the user at current moment, example (add one hour"
-msgstr ""
-
-#: common/constants/messages.py:47 common/constants/messages.py:74
-msgid "Control sessions types are not passed"
-msgstr ""
-
-#: common/constants/messages.py:48 common/constants/messages.py:75
 msgid "Control sessions types list is not correct"
-msgstr ""
+msgstr "Uzskaitāmo sesiju tipi nav korekti"
 
-#: common/constants/messages.py:49 common/constants/messages.py:76
+#: common/constants/messages.py:45
 msgid "Control sessions types list is not correct and can not be set"
-msgstr ""
+msgstr "Uzskaitāmo sesiju tipi nav korekti un uzstādāmi"
+
+#: common/constants/messages.py:46
+msgid "Excluded session types are not passed"
+msgstr "Neuzskaitāmo sesiju tipi netika padoti"
+
+#: common/constants/messages.py:47
+msgid "Excluded session types list is not correct"
+msgstr "Neuzskaitāmo sesiju tipi nav korekti"
+
+#: common/constants/messages.py:48
+msgid "Excluded session types list is not correct and can not be set"
+msgstr "Neuzskaitāmo sesiju tipi nav korekti un uzstādāmi"
+
+#: common/constants/messages.py:49
+msgid "Excluded user list is not passed"
+msgstr "Neuzskaitāmo lietotāju saraksts netika padots"
 
 #: common/constants/messages.py:50
-msgid "Excluded session types are not passed"
-msgstr ""
+msgid "Excluded user list is not correct"
+msgstr "Neuzskaitāmo lietotāju saraksts nav korekts"
 
 #: common/constants/messages.py:51
-msgid "Excluded session types list is not correct"
-msgstr ""
+msgid "Excluded user list is not correct and can not be set"
+msgstr "Neuzskaitāmo lietotāju saraksts nav korekts un uzstādāms"
 
 #: common/constants/messages.py:52
-msgid "Excluded session types list is not correct and can not be set"
-msgstr ""
+msgid "Final warning time is not passed"
+msgstr "Pēdējā brīdinājuma laiks nav padots"
 
 #: common/constants/messages.py:53
-msgid "Excluded user list is not passed"
-msgstr ""
+#, python-format
+msgid "Final warning time \"%%s\"is not correct"
+msgstr "Pēdējā brīdinājuma laiks \"%%s\" nav korekts"
 
 #: common/constants/messages.py:54
-msgid "Excluded user list is not correct"
-msgstr ""
+#, python-format
+msgid "Final warning time \"%%s\" is not correct and can not be set"
+msgstr "Pēdējā brīdinājuma laiks \"%%s\" nav korekts un uzstādāms"
 
 #: common/constants/messages.py:55
-msgid "Excluded user list is not correct and can not be set"
-msgstr ""
+msgid "Termination time is not passed"
+msgstr "Sesiju izbeigšanas laiks netika padots"
 
 #: common/constants/messages.py:56
-msgid "Final warning time is not passed"
-msgstr ""
+#, python-format
+msgid "Termination time \"%%s\"is not correct"
+msgstr "Sesiju izbeigšanas laiks \"%%s\" nav korekts"
 
 #: common/constants/messages.py:57
 #, python-format
-msgid "Final warning time \"%%s\"is not correct"
-msgstr ""
+msgid "Termination time \"%%s\" is not correct and can not be set"
+msgstr "Sesiju izbeigšanas laiks \"%%s\" nav korekts un uzstādāms"
 
 #: common/constants/messages.py:58
-#, python-format
-msgid "Final warning time \"%%s\" is not correct and can not be set"
-msgstr ""
+msgid "Track inactive is not passed"
+msgstr "Uzskaitītās sesijas netika padotas"
 
 #: common/constants/messages.py:59
-msgid "Termination time is not passed"
-msgstr ""
+#, python-format
+msgid "Track inactive \"%%s\"is not correct"
+msgstr "Uzskaitāmo sesiju pazīme \"%%s\" nav korekta"
 
 #: common/constants/messages.py:60
 #, python-format
-msgid "Termination time \"%%s\"is not correct"
-msgstr ""
+msgid "Track inactive \"%%s\" is not correct and can not be set"
+msgstr "Neaktīvo sesiju uzskaites vērtība \"%%s\" nav korekta un uzstādāma"
 
 #: common/constants/messages.py:61
-#, python-format
-msgid "Termination time \"%%s\" is not correct and can not be set"
-msgstr ""
+msgid "Log level is not passed"
+msgstr "Tehniskā žurnāla līmenis netika padots"
 
 #: common/constants/messages.py:62
-msgid "Track inactive is not passed"
-msgstr ""
+#, python-format
+msgid "Log level \"%%s\"is not correct"
+msgstr "Tehniskā žurnāla līmenis \"%%s\" nav korekts"
 
 #: common/constants/messages.py:63
 #, python-format
-msgid "Track inactive \"%%s\"is not correct"
-msgstr ""
+msgid "Log level \"%%s\" is not correct and can not be set"
+msgstr "Tehniskā žurnāla līmenis \"%%s\" nav korekts un uzstādāms"
 
 #: common/constants/messages.py:64
-#, python-format
-msgid "Track inactive \"%%s\" is not correct and can not be set"
-msgstr ""
+msgid "Poll time is not passed"
+msgstr "Atjaunošanas intervāls nav padots"
 
 #: common/constants/messages.py:65
-msgid "Log level is not passed"
-msgstr ""
+#, python-format
+msgid "Poll time \"%%s\"is not correct"
+msgstr "Atjaunošanas intervāls \"%%s\" nav korekts"
 
 #: common/constants/messages.py:66
 #, python-format
-msgid "Log level \"%%s\"is not correct"
-msgstr ""
+msgid "Poll time \"%%s\" is not correct and can not be set"
+msgstr "Atjaunošanas intervāls \"%%s\" nav korekts un uzstādāms"
 
 #: common/constants/messages.py:67
-#, python-format
-msgid "Log level \"%%s\" is not correct and can not be set"
-msgstr ""
+msgid "Save time is not passed"
+msgstr "Saglabāšanas laiks nav norādīts"
 
 #: common/constants/messages.py:68
-msgid "Poll time is not passed"
-msgstr ""
+#, python-format
+msgid "Save time \"%%s\"is not correct"
+msgstr "Saglabāšanas laiks \"%%s\" nav korekts"
 
 #: common/constants/messages.py:69
 #, python-format
-msgid "Poll time \"%%s\"is not correct"
-msgstr ""
-
-#: common/constants/messages.py:70
-#, python-format
-msgid "Poll time \"%%s\" is not correct and can not be set"
-msgstr ""
-
-#: common/constants/messages.py:71
-msgid "Save time is not passed"
-msgstr ""
+msgid "Save time \"%%s\" is not correct and can not be set"
+msgstr "Saglabāšanas laiks \"%%s\" nav korekts un uzstādāms"
 
 #: common/constants/messages.py:72
 #, python-format
-msgid "Save time \"%%s\"is not correct"
-msgstr ""
+msgid "User's \"%%s\" day number must be present"
+msgstr "Lietotāja \"%%s\" dienas numurs netika padots"
 
 #: common/constants/messages.py:73
 #, python-format
-msgid "Save time \"%%s\" is not correct and can not be set"
-msgstr ""
+msgid "User's \"%%s\" day number must be between 1 and 7"
+msgstr "Lietotāja \"%%s\" dienas numuram jābūt no 1 līdz 7"
+
+#: common/constants/messages.py:74
+#, python-format
+msgid "User's \"%%s\" allowed hours are not correct and can not be set"
+msgstr "Lietotāja \"%%s\" dienas numurs nav korekts un uzstādāms"
+
+#: common/constants/messages.py:75
+#, python-format
+msgid "User's \"%%s\" day limits list is not passed"
+msgstr "Lietotāja \"%%s\" dienu laika ierobežojumi netika padoti"
+
+#: common/constants/messages.py:76
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct"
+msgstr "Lietotāja \"%%s\" dienu laika ierobežojumi nav korekti"
+
+#: common/constants/messages.py:77
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct and can not be set"
+msgstr "Lietotāja \"%%s\" dienu laika ierobežojumi nav korekti un uzstādāmi"
+
+#: common/constants/messages.py:78
+#, python-format
+msgid "User's \"%%s\" day list is not passed"
+msgstr "Lietotāja \"%%s\" pieļaujamo dienu saraksts netika padots"
 
 #: common/constants/messages.py:79
 #, python-format
-msgid "User's \"%%s\" day number must be present"
-msgstr ""
+msgid "User's \"%%s\" day list is not correct"
+msgstr "Lietotāja \"%%s\" pieļaujamo dienu saraksts nav korekts"
 
 #: common/constants/messages.py:80
 #, python-format
-msgid "User's \"%%s\" day number must be between 1 and 7"
-msgstr ""
+msgid "User's \"%%s\" day list is not correct and can not be set"
+msgstr "Lietotāja \"%%s\" pieļaujamo dienu saraksts nav korekts un uzstādāms"
 
 #: common/constants/messages.py:81
 #, python-format
-msgid "User's \"%%s\" allowed hours are not correct and can not be set"
-msgstr ""
+msgid "User's \"%%s\" monthly allowance is not passed"
+msgstr "Lietotāja \"%%s\" pieļaujamais mēneša ierobežojums netika padots"
 
 #: common/constants/messages.py:82
 #, python-format
-msgid "User's \"%%s\" day limits list is not passed"
-msgstr ""
+msgid "User's \"%%s\" monthly allowance is not correct"
+msgstr "Lietotāja \"%%s\" pieļaujamais mēneša ierobežojums nav korekts"
 
 #: common/constants/messages.py:83
 #, python-format
-msgid "User's \"%%s\" day limits list is not correct"
+msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
 msgstr ""
+"Lietotāja \"%%s\" pieļaujamais mēneša ierobežojums nav korekts un uzstādāms"
 
 #: common/constants/messages.py:84
 #, python-format
-msgid "User's \"%%s\" day limits list is not correct and can not be set"
+msgid "User's \"%%s\" set time operation can be one of these: -+="
 msgstr ""
+"User's \"%%s\" pieļaujamā laika operācija varbūt viena no sekojošām: -+="
 
 #: common/constants/messages.py:85
 #, python-format
-msgid "User's \"%%s\" day list is not passed"
-msgstr ""
+msgid "User's \"%%s\" set time limit is not correct"
+msgstr "User's \"%%s\" pieļaujamā laika ierobežojums nav korekts"
 
 #: common/constants/messages.py:86
 #, python-format
-msgid "User's \"%%s\" day list is not correct"
-msgstr ""
+msgid "User's \"%%s\" set time limit is not correct and can not be set"
+msgstr "User's \"%%s\" pieļaujamā laika ierobežojums nav korekts un uzstādāms"
 
 #: common/constants/messages.py:87
 #, python-format
-msgid "User's \"%%s\" day list is not correct and can not be set"
-msgstr ""
+msgid "User's \"%%s\" track inactive flag is not passed"
+msgstr "User's \"%%s\" neaktīvo sesiju uzskaites vērtība nav padota"
 
 #: common/constants/messages.py:88
 #, python-format
-msgid "User's \"%%s\" monthly allowance is not passed"
-msgstr ""
+msgid "User's \"%%s\" track inactive flag is not correct"
+msgstr "User's \"%%s\" neaktīvo sesiju uzskaites vērtība nav korekta"
 
 #: common/constants/messages.py:89
 #, python-format
-msgid "User's \"%%s\" monthly allowance is not correct"
+msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
 msgstr ""
+"User's \"%%s\" neaktīvo sesiju uzskaites vērtība nav korekta un uzstādāma"
 
 #: common/constants/messages.py:90
 #, python-format
-msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
-msgstr ""
+msgid "User's \"%%s\" weekly allowance is not passed"
+msgstr "User's \"%%s\" mēneša laika ierobežojums nav padots"
 
 #: common/constants/messages.py:91
 #, python-format
-msgid "User's \"%%s\" set time operation can be one of these: -+="
-msgstr ""
+msgid "User's \"%%s\" weekly allowance is not correct"
+msgstr "User's \"%%s\" mēneša laika ierobežojums nav korekts"
 
 #: common/constants/messages.py:92
 #, python-format
-msgid "User's \"%%s\" set time limit is not correct"
-msgstr ""
-
-#: common/constants/messages.py:93
-#, python-format
-msgid "User's \"%%s\" set time limit is not correct and can not be set"
-msgstr ""
-
-#: common/constants/messages.py:94
-#, python-format
-msgid "User's \"%%s\" track inactive flag is not passed"
-msgstr ""
-
-#: common/constants/messages.py:95
-#, python-format
-msgid "User's \"%%s\" track inactive flag is not correct"
-msgstr ""
-
-#: common/constants/messages.py:96
-#, python-format
-msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
-msgstr ""
-
-#: common/constants/messages.py:97
-#, python-format
-msgid "User's \"%%s\" weekly allowance is not passed"
-msgstr ""
-
-#: common/constants/messages.py:98
-#, python-format
-msgid "User's \"%%s\" weekly allowance is not correct"
-msgstr ""
-
-#: common/constants/messages.py:99
-#, python-format
 msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
-msgstr ""
+msgstr "User's \"%%s\" mēneša laika ierobežojums nav korekts un uzstādāms"
 
-#: common/constants/messages.py:102
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:96
 msgid ""
-"Something went wrong while loading configuration. Please inspect Timekpr log "
+"Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT "
+"log files"
+msgstr ""
+"Neparedzēta KĻŪDA ielasot konfigurāciju. Lūdzu pārbaudīt Timekpr-nExT žurnālu"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:98
+msgid ""
+"Unexpected ERROR getting confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Neparedzēta KĻŪDA iegūstot konfigurāciju. Lūdzu pārbaudīt Timekpr-nExT "
+"žurnālu"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:100
+msgid ""
+"Unexpected ERROR getting user confguration. Please inspect Timekpr-nExT log "
 "files"
 msgstr ""
+"Neparedzēta KĻŪDA ielasot lietotāja konfigurāciju. Lūdzu pārbaudīt Timekpr-"
+"nExT žurnālu"
 
-#: common/constants/messages.py:103
-msgid "Unexpected ERROR getting confguration. Please inspect timekpr log files"
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:102
+msgid ""
+"Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files"
 msgstr ""
+"Neparedzēta KĻŪDA ielasot lietotāju sarakstu. Lūdzu pārbaudīt Timekpr-nExT "
+"žurnālu"
 
+#. TRANSLATORS: this message must be 80 symbols long at max
 #: common/constants/messages.py:104
 msgid ""
-"Unexpected ERROR getting user confguration. Please inspect timekpr log files"
+"Unexpected ERROR updating confguration. Please inspect Timekpr-nExT log files"
 msgstr ""
+"Neparedzēta KĻŪDA mainot konfigurāciju. Lūdzu pārbaudīt Timekpr-nExT žurnālu"
 
-#: common/constants/messages.py:105
-msgid "Unexpected ERROR getting user list. Please inspect timekpr log files"
-msgstr ""
-
+#. TRANSLATORS: this message must be 80 symbols long at max
 #: common/constants/messages.py:106
 msgid ""
-"Unexpected ERROR updating confguration. Please inspect timekpr log files"
+"Unexpected ERROR updating control. Please inspect Timekpr-nExT log files"
 msgstr ""
+"Neparedzēta KĻŪDA mainot laika kontroles failu. Lūdzu pārbaudīt Timekpr-nExT "
+"žurnālu"
 
 #: common/constants/messages.py:107
-msgid "Unexpected ERROR updating control. Please inspect timekpr log files"
-msgstr ""
+#, python-format
+msgid "User \"%%s\" configuration is not found"
+msgstr "Lietotāja \"%%s\" konfigurācijas fails nav atrasts"
 
 #: common/constants/messages.py:108
 #, python-format
-msgid "User \"%%s\" configuration is not found"
-msgstr ""
+msgid "User \"%%s\" control file is not found"
+msgstr "Lietotāja \"%%s\" laika pārvaldības fails nav atrasts"
 
 #: common/constants/messages.py:109
 #, python-format
-msgid "User \"%%s\" control file is not found"
-msgstr ""
-
-#: common/constants/messages.py:110
-#, python-format
 msgid "User \"%%s\" is not found"
-msgstr ""
+msgstr "Lietotājs \"%%s\" nav atrasts"
+
+#: common/constants/messages.py:112
+msgid "Connected"
+msgstr "Pieslēdzies"
 
 #: common/constants/messages.py:113
-#, python-format
-msgid "UNEXPECTED ERROR: %%s"
-msgstr ""
+msgid "Connecting..."
+msgstr "Pieslēdzas..."
 
 #: common/constants/messages.py:114
-msgid "Command FAILED: access denied"
-msgstr ""
+msgid "Failed to connect"
+msgstr "Nav iespējams pieslēgties"
 
-#: common/constants/messages.py:115
-msgid "Command FAILED: message was not accepted"
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:116
+msgid ""
+"Please reopen the application if You are superuser and Timekpr-nExT is "
+"running"
 msgstr ""
+"Atvēriet aplikāciju atkārtoti, ja esat administrators un Timekpr-nExT "
+"darbojas"
+
+#: common/constants/messages.py:117
+msgid "Started"
+msgstr "Piestartējies"
 
 #: common/constants/messages.py:118
-msgid "Connected"
-msgstr ""
+msgid "User configuration retrieved"
+msgstr "Lietotāja konfigurācija iegūta"
 
 #: common/constants/messages.py:119
-msgid "Connecting..."
-msgstr ""
+msgid "Configuration retrieved"
+msgstr "Konfigurācija iegūta"
 
 #: common/constants/messages.py:120
-msgid "Failed to connect"
-msgstr ""
+msgid "Track inactive for user has been processed"
+msgstr "Uzskaitītās sesijas lietotājam apstrādātas"
 
 #: common/constants/messages.py:121
-msgid ""
-"Please reopen the application if You have permissions and timekpr is running"
-msgstr ""
+msgid "Additional time for user has been processed"
+msgstr "Papildus laika ierobežojums lietotājam ir apstrādāts"
 
 #: common/constants/messages.py:122
-msgid "Started"
-msgstr ""
+msgid "Weekly and monthly limits for user have been processed"
+msgstr "Nedēļas un mēneša laika ierobežojumi lietotājam apstrādāti"
 
 #: common/constants/messages.py:123
-msgid "User configuration retrieved"
-msgstr ""
+msgid "Allowed days for user have been processed"
+msgstr "Papildus dienu laika ierobežojumi lietotājam ir apstrādāti"
 
-#: common/constants/messages.py:124
-msgid "Configuration retrieved"
-msgstr ""
+#: common/constants/messages.py:124 common/constants/messages.py:126
+msgid "Time limits for days for user have been processed"
+msgstr "Laika ierobežojumi diena lietotājam ir apstrādāti"
 
 #: common/constants/messages.py:125
-msgid "Track inactive for user has been processed"
-msgstr ""
-
-#: common/constants/messages.py:126
-msgid "Additional time for user has been processed"
-msgstr ""
+msgid "Allowed hours for user have been processed"
+msgstr "Papildus laika stundu ierobežojumi lietotājam ir apstrādāti"
 
 #: common/constants/messages.py:127
-msgid "Weekly and monthly limits for user have been processed"
-msgstr ""
+msgid "Timekpr-nExT configuration has been saved"
+msgstr "Timekpr-nExT konfigurācija saglabāta"
 
 #: common/constants/messages.py:128
-msgid "Allowed days for user have been processed"
-msgstr ""
+msgid "Please select a day to set the limits"
+msgstr "Lūdzu iezīmējiet dienu ierobežojumu uzstādīšanai"
 
-#: common/constants/messages.py:129 common/constants/messages.py:131
-msgid "Time limits for days for user have been processed"
-msgstr ""
+#: common/constants/messages.py:129
+msgid "Interval overlaps with existing one"
+msgstr "Stundu intervāls pārklājas ar esošu intervālu"
 
 #: common/constants/messages.py:130
-msgid "Allowed hours for user have been processed"
-msgstr ""
+msgid "Interval start conflicts with existing one"
+msgstr "Stundu intervāla sākums pārklājas ar esošu intervālu"
+
+#: common/constants/messages.py:131
+msgid "Interval end conflicts with existing one"
+msgstr "Stundu intervāla beigas pārklājas ar esošu intervālu"
 
 #: common/constants/messages.py:132
-msgid "Timekpr configuration has been saved"
-msgstr ""
+msgid "Interval start or end duplicates existing interval"
+msgstr "Stundu intervāls dublējas ar esošu intervālu"
 
 #: common/constants/messages.py:133
-msgid "Please select a day to set the limits"
-msgstr ""
+msgid "Interval start can not be the same as end"
+msgstr "Stundu intervāla sākums nedrīkst būt vienāds ar beigām"
 
 #: common/constants/messages.py:134
-msgid "Interval overlaps with existing one"
-msgstr ""
+msgid "Please select a hour interval to remove"
+msgstr "Lūdzu iezīmējiet stundu intervālu dzēšanai"
 
 #: common/constants/messages.py:135
-msgid "Interval start conflicts with existing one"
-msgstr ""
+msgid "Interval removed"
+msgstr "Intervāls noņemts"
 
 #: common/constants/messages.py:136
-msgid "Interval end conflicts with existing one"
-msgstr ""
-
-#: common/constants/messages.py:137
-msgid "Interval start or end duplicates existing interval"
-msgstr ""
-
-#: common/constants/messages.py:138
-msgid "Interval start can not be the same as end"
-msgstr ""
+msgid "Timekpr-nExT interface is not yet ready"
+msgstr "Timekpr-nExT savienojums vēl nav pieejams"
 
 #: common/constants/messages.py:139
-msgid "Please select a hour interval to remove"
+msgid ""
+"WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, "
+"but no displays are available, thus running in CLI..."
 msgstr ""
+"BRĪDINĀJUMS: Timekpr-nExT administrācijas aplikācijai būtu jāstartējas "
+"grafiski, bet grafiskā vide nav pieejama, tāpēc aplikācija darbosies "
+"termināla režīmā..."
 
 #: common/constants/messages.py:140
-msgid "Interval removed"
-msgstr ""
+msgid "The command is incorrect:"
+msgstr "Komanda nav izdevusies:"
 
 #: common/constants/messages.py:141
-msgid "Timekpr interface is not yet ready"
-msgstr ""
+msgid "The usage of Timekpr-nExT admin client is as follows:"
+msgstr "Timekpr-nExT pārvaldības aplikācijas lietojums ir sekojošs:"
 
-#: common/constants/messages.py:144
-msgid ""
-"WARNING: Timekpr administration utility was asked to run in GUI mode, but no "
-"displays are available, thus running in CLI..."
-msgstr ""
-
-#: common/constants/messages.py:145
-msgid "The command is incorrect:"
-msgstr ""
-
-#: common/constants/messages.py:146
-msgid "The usage of timekpr admin client is as follows:"
-msgstr ""
-
-#: common/constants/messages.py:147
+#: common/constants/messages.py:142
 #, python-format
 msgid "%(n)s user in total:"
 msgid_plural "%(n)s users in total:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "kopā %(n)s lietotājs:"
+msgstr[1] "kopā %(n)s lietotāji:"
+msgstr[2] "kopā %(n)s lietotāji:"
 
-#: common/constants/messages.py:148
+#: common/constants/messages.py:143
 #, python-format
 msgid "Config for %s:"
-msgstr ""
+msgstr "Konfigurācija lietotājam %s:"
 
-#: common/constants/messages.py:151
+#: common/constants/messages.py:146
 msgid "Time left..."
-msgstr ""
+msgstr "Pieejamais laiks..."
 
-#: common/constants/messages.py:152
+#: common/constants/messages.py:147
 msgid "Limits & configuration"
-msgstr ""
+msgstr "Ierobežojumi un konfigurācija"
 
-#: common/constants/messages.py:153
+#: common/constants/messages.py:148
 msgid "About"
-msgstr ""
+msgstr "Par"
 
 #. TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-#: common/constants/messages.py:157 resource/client/forms/about.glade:28
+#: common/constants/messages.py:152 resource/client/forms/about.glade:28
 msgid "please-enter-translator-credits"
-msgstr ""
+msgstr "Eduards Bezverhijs <edzis@inbox.lv>"
 
-#: common/constants/messages.py:158 resource/client/forms/about.glade:19
+#: common/constants/messages.py:153 resource/client/forms/about.glade:19
 msgid "Keep control of computer usage"
-msgstr ""
+msgstr "Kontrolēt datora lietojamību"
 
-#: common/constants/messages.py:161
-msgid "Timekpr notification"
-msgstr ""
+#: common/constants/messages.py:156
+msgid "Timekpr-nExT notification"
+msgstr "Timekpr-nExT paziņojums"
 
-#: common/constants/messages.py:162
+#: common/constants/messages.py:157
 msgid "Your time is not limited today"
-msgstr ""
+msgstr "Tev atvēlētais laiks šodien nav ierobežots"
 
-#: common/constants/messages.py:163
+#: common/constants/messages.py:158
 msgid "Time allowance has changed, please note new time left!"
-msgstr ""
+msgstr "Laika ierobežojumi tika mainīti, lūdzu ņemt vērā jaunos ierobežojumus!"
 
-#: common/constants/messages.py:164
+#: common/constants/messages.py:159
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
+"Laika ierobežojumi tika mainīti, lūdzu pievērst uzmanību jaunajiem "
+"ierobežojumiem!"
 
-#: common/constants/messages.py:165
+#: common/constants/messages.py:160
 #, python-format
-msgid "There is a problem connecting to timekpr daemon (%%s)!"
-msgstr ""
+msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
+msgstr "Radusies problēma savienojumam ar Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:166
+#: common/constants/messages.py:161
 #, python-format
-msgid "There is a problem communicating to timekpr (%%s)!"
-msgstr ""
+msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
+msgstr "Radusies problēma komunikācijai ar Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:167
+#: common/constants/messages.py:162
 #, python-format
 msgid "Icon inititalization error (%%s)!"
-msgstr ""
+msgstr "Ikonas inicializācijas problēma (%%s)!"
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:169
+#: common/constants/messages.py:164
 msgid "Your time is up, You will be forcibly logged out in"
-msgstr ""
+msgstr "Tev atvēlētais laiks beidzies, Tava sesija tiks aizvērta pēc"
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:171
+#: common/constants/messages.py:166
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(n)s sekunde"
+msgstr[1] "%(n)s sekundes"
+msgstr[2] "%(n)s sekundes"
 
-#: common/constants/messages.py:172
+#: common/constants/messages.py:167
 msgid "Internal connection error, please check log files"
-msgstr ""
+msgstr "Iekšējā pieslēguma kļūda, lūdzu pārbaudīt žurnāla failus"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:174
+#: common/constants/messages.py:169
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tev atlikusi %(n)s stunda"
+msgstr[1] "Tev atlikušas %(n)s stundas"
+msgstr[2] "Tev atlikušas %(n)s stundas"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:176
+#: common/constants/messages.py:171
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(n)s minūte"
+msgstr[1] "%(n)s minūtes"
+msgstr[2] "%(n)s minūtes"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:178
+#: common/constants/messages.py:173
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(n)s sekunde"
+msgstr[1] "%(n)s sekundes"
+msgstr[2] "%(n)s sekundes"
+
+#: common/constants/messages.py:176
+#, python-format
+msgid "UNEXPECTED ERROR: %%s"
+msgstr "NEPAREDZĒTA KĻŪDA: %%s"
+
+#: common/constants/messages.py:177
+msgid "Command FAILED: access denied"
+msgstr "Komanda NEIZDEVĀS: pieeja liegta"
+
+#: common/constants/messages.py:178
+msgid "Command FAILED: communication was not accepted"
+msgstr "Komanda NEIZDEVĀS: komunikācija nav atļauta"
+
+#: common/constants/messages.py:179
+msgid "n/a"
+msgstr "n/a"
 
 #: resource/client/forms/about.glade:7
 msgid "About Timekpr-nExT"
-msgstr ""
+msgstr "Par Timekpr-nExT"
 
 #: resource/client/forms/about.glade:16
 msgid ""
@@ -561,10 +606,13 @@ msgid ""
 "Super tester: Rinalds Dobelis\n"
 "Beta tester: SanskritFritz"
 msgstr ""
+"Visas tiesības aizsargātas (c) 2018-2019 Eduards Bezverhijs\n"
+"Galvenais testētājs: Rinalds Dobelis\n"
+"Beta testētājs: SanskritFritz"
 
 #: resource/client/forms/about.glade:21
 msgid "Timekpr-nExT"
-msgstr ""
+msgstr "Timekpr-nExT"
 
 #. Please enter GPL3 licence text in Your language
 #: resource/client/forms/about.glade:22
@@ -584,674 +632,769 @@ msgid ""
 "this program.  If not, see <http://www.gnu.org/licenses/>. In Debian, see "
 "file /usr/share/common-licenses/GPL-3"
 msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see <http://www.gnu.org/licenses/>. In Debian, see "
+"file /usr/share/common-licenses/GPL-3"
 
 #: resource/client/forms/admin.glade:172
 msgid "Remove excluded session type"
-msgstr ""
+msgstr "Dzēst neuzskaitīto sesiju tipu"
 
 #: resource/client/forms/admin.glade:270
-msgid "Timekpr nExT administration"
-msgstr ""
+msgid "Timekpr-nExT administration"
+msgstr "Timekpr-nExT administrācijas aplikācija"
 
 #: resource/client/forms/admin.glade:288
 msgid "Icon, isn't it?"
-msgstr ""
+msgstr "Šī ir ikona, pareizi?"
 
 #: resource/client/forms/admin.glade:308
 msgid "Notes, read carefully ;)"
-msgstr ""
+msgstr "Piezīmes, izlasi uzmanīgi ;)"
 
 #: resource/client/forms/admin.glade:313
 msgid ""
-"This is timekpr-next configuration app, it allows You to configure time for "
-"Your users as well as timekpr itself.\n"
+"This is Timekpr-nExT configuration app, it allows You to configure time for "
+"Your users as well as Timekpr-nExT itself.\n"
 "\n"
 "To use this application You have to execute it either as superuser or have "
 "to be in timekpr group.\n"
-"Please note that \"Timekpr configuration\" is available in superuser "
+"Please note that \"Timekpr-nExT configuration\" is available in superuser "
 "(administrator) mode only!\n"
 "\n"
 "Please configure carefully, do not lock Yourself out!"
 msgstr ""
+"Šī ir Timekpr-nExT pārvaldības aplikācija, tā atļauj veikt uzstādījumus "
+"Taviem lietotājiem kā arī pašam Timekpr-nExT.\n"
+"Lai lietotu šo aplikāciju, Tev tā jādarbina ar administratora tiesībām vai "
+"jābūt timekpr lietotāju grupā.\n"
+"Lūdzu ņemt vērā, ka \"Timekpr-nExT pārvaldība\" pieejama tikai un vienīgi, "
+"ja aplikācija darbināta ar administratora tiesībām!\n"
+"\n"
+"Lūdzu pārvaldi lietotājus atbildīgi un neatspējo tiesības sev!"
 
-#: resource/client/forms/admin.glade:341 resource/client/forms/admin.glade:1844
+#: resource/client/forms/admin.glade:341 resource/client/forms/admin.glade:1850
 msgid "Users related configuration"
-msgstr ""
+msgstr "Konfigurācija, kas saistīta ar lietotājiem"
 
-#: resource/client/forms/admin.glade:356 resource/client/forms/config.glade:209
+#: resource/client/forms/admin.glade:356 resource/client/forms/config.glade:194
 msgid "Username:"
-msgstr ""
+msgstr "Lietotājvārds:"
 
-#: resource/client/forms/admin.glade:395
+#: resource/client/forms/admin.glade:385 resource/client/forms/admin.glade:396
 msgid "List of usernames registered on the system"
-msgstr ""
+msgstr "Lietotāju saraksts, kuri reģistrēti sistēmā"
 
-#: resource/client/forms/admin.glade:408
+#: resource/client/forms/admin.glade:409
 msgid "restore"
-msgstr ""
+msgstr "atjaunot"
 
-#: resource/client/forms/admin.glade:413
+#: resource/client/forms/admin.glade:414
 msgid "Restore configuration from saved state"
-msgstr ""
+msgstr "Atjaunot konfgurāciju uz saglabāto stāvokli"
 
-#: resource/client/forms/admin.glade:465
+#: resource/client/forms/admin.glade:466
 msgid "This shows You information about time spent"
-msgstr ""
+msgstr "Tiek rādīta informācija par laika patēriņu"
 
-#: resource/client/forms/admin.glade:486
+#: resource/client/forms/admin.glade:489
 msgid "Time spent today (saved stated, not real-time)"
 msgstr ""
+"Izlietotais laiks šodien (saglabātais laiks, nav faktiskais līdz sekundei)"
 
-#: resource/client/forms/admin.glade:488
+#: resource/client/forms/admin.glade:491
 msgid "Time spent (today):"
-msgstr ""
+msgstr "Izlietotais laiks (šodiena):"
 
-#: resource/client/forms/admin.glade:503 resource/client/forms/admin.glade:550
-#: resource/client/forms/admin.glade:595 resource/client/forms/config.glade:315
-#: resource/client/forms/config.glade:360
-#: resource/client/forms/config.glade:407
-#: resource/client/forms/config.glade:454
-#: resource/client/forms/config.glade:670
-#: resource/client/forms/config.glade:714
-#: resource/client/forms/config.glade:832
-#: resource/client/forms/config.glade:876
+#: resource/client/forms/admin.glade:506 resource/client/forms/admin.glade:553
+#: resource/client/forms/admin.glade:598 resource/client/forms/config.glade:302
+#: resource/client/forms/config.glade:317
+#: resource/client/forms/config.glade:348
+#: resource/client/forms/config.glade:393
+#: resource/client/forms/config.glade:609
+#: resource/client/forms/config.glade:667
+#: resource/client/forms/config.glade:739
+#: resource/client/forms/config.glade:769
 msgid "Format: <days : hours : minutes : seconds>"
-msgstr ""
+msgstr "Formāts: <dienas : stundas : minūtes : sekundes>"
 
-#: resource/client/forms/admin.glade:505 resource/client/forms/admin.glade:552
-#: resource/client/forms/admin.glade:597 resource/client/forms/config.glade:318
-#: resource/client/forms/config.glade:363
-#: resource/client/forms/config.glade:410
-#: resource/client/forms/config.glade:457
-#: resource/client/forms/config.glade:673
-#: resource/client/forms/config.glade:717
-#: resource/client/forms/config.glade:835
-#: resource/client/forms/config.glade:879
+#: resource/client/forms/admin.glade:508 resource/client/forms/admin.glade:555
+#: resource/client/forms/admin.glade:600 resource/client/forms/config.glade:305
+#: resource/client/forms/config.glade:320
+#: resource/client/forms/config.glade:351
+#: resource/client/forms/config.glade:396
+#: resource/client/forms/config.glade:612
+#: resource/client/forms/config.glade:670
+#: resource/client/forms/config.glade:743
+#: resource/client/forms/config.glade:773
 msgid "00:00:00:00"
-msgstr ""
+msgstr "00:00:00:00"
 
-#: resource/client/forms/admin.glade:533
+#: resource/client/forms/admin.glade:536
 msgid "Time spent for this week (saved stated, not real-time)"
 msgstr ""
+"Izlietotais laiks šajā nedēļā (saglabātais laiks, nav faktiskais līdz "
+"sekundei)"
 
-#: resource/client/forms/admin.glade:535 resource/client/forms/config.glade:658
+#: resource/client/forms/admin.glade:538 resource/client/forms/config.glade:598
 msgid "Time spent (week):"
-msgstr ""
+msgstr "Izlietotais laiks (nedēļa):"
 
-#: resource/client/forms/admin.glade:577
+#: resource/client/forms/admin.glade:580
 msgid "Time spent this month (saved stated, not real-time)"
 msgstr ""
+"Izlietotais laiks šajā mēnesī (saglabātais laiks, nav faktiskais līdz "
+"sekundei)"
 
-#: resource/client/forms/admin.glade:579 resource/client/forms/config.glade:702
+#: resource/client/forms/admin.glade:582 resource/client/forms/config.glade:627
 msgid "Time spent (month):"
-msgstr ""
+msgstr "Izlietotais laiks (mēnesis):"
 
-#: resource/client/forms/admin.glade:634
+#: resource/client/forms/admin.glade:637
 msgid ""
 "This allows You to change time for today as well as inactive session tracking"
 msgstr ""
+"Šī sadaļa atļauj pārvaldīt ierobežojumus šodienai kā arī neaktīvo sesiju "
+"pārvaldībai"
 
-#: resource/client/forms/admin.glade:658
+#: resource/client/forms/admin.glade:662
 msgid "Amount:"
-msgstr ""
+msgstr "Daudzums"
 
-#: resource/client/forms/admin.glade:683 resource/client/forms/admin.glade:1023
-#: resource/client/forms/admin.glade:1245
-#: resource/client/forms/admin.glade:1573
-#: resource/client/forms/admin.glade:1673
+#: resource/client/forms/admin.glade:687 resource/client/forms/admin.glade:1027
+#: resource/client/forms/admin.glade:1250
+#: resource/client/forms/admin.glade:1578
+#: resource/client/forms/admin.glade:1678
 msgid "hr"
-msgstr ""
+msgstr "st"
 
-#: resource/client/forms/admin.glade:694
-msgid "The amount of minutes added to todays limit"
-msgstr ""
+#: resource/client/forms/admin.glade:698
+msgid "The amount of minutes  to be adjusted for todays limit"
+msgstr "Minūšu daudzums, kas pievienots šodienas ierobežojumam"
 
-#: resource/client/forms/admin.glade:712
-msgid "The amount of hours added to todays limit"
-msgstr ""
+#: resource/client/forms/admin.glade:715
+msgid "The amount of hours to be adjusted for todays limit"
+msgstr "Stundu daudzums, kas pievienots šodienas ierobežojumam"
 
-#: resource/client/forms/admin.glade:730 resource/client/forms/admin.glade:1035
-#: resource/client/forms/admin.glade:1234
-#: resource/client/forms/admin.glade:1584
-#: resource/client/forms/admin.glade:1684
+#: resource/client/forms/admin.glade:732 resource/client/forms/admin.glade:1039
+#: resource/client/forms/admin.glade:1239
+#: resource/client/forms/admin.glade:1589
+#: resource/client/forms/admin.glade:1689
 msgid "min"
-msgstr ""
+msgstr "min"
 
-#: resource/client/forms/admin.glade:751 resource/client/forms/admin.glade:1327
+#: resource/client/forms/admin.glade:753 resource/client/forms/admin.glade:1332
 msgid "add"
-msgstr ""
+msgstr "pievienot"
 
-#: resource/client/forms/admin.glade:756
+#: resource/client/forms/admin.glade:758
 msgid "Add specified amount (reward)"
-msgstr ""
+msgstr "Palielināt pieļaujamo laika daudzumu (bonuss)"
 
-#: resource/client/forms/admin.glade:768
-msgid "subract"
-msgstr ""
+#: resource/client/forms/admin.glade:770
+msgid "subtract"
+msgstr "noņemt"
 
-#: resource/client/forms/admin.glade:773
+#: resource/client/forms/admin.glade:775
 msgid "Subtract specified amount (penalty)"
-msgstr ""
+msgstr "Noņemt norādīto laika apjomu (sods)"
 
-#: resource/client/forms/admin.glade:785 resource/client/forms/admin.glade:866
-#: resource/client/forms/admin.glade:1077
+#: resource/client/forms/admin.glade:787 resource/client/forms/admin.glade:868
+#: resource/client/forms/admin.glade:1081
 msgid "set"
-msgstr ""
+msgstr "uzstādīt"
 
-#: resource/client/forms/admin.glade:790
+#: resource/client/forms/admin.glade:792
 msgid "Set exacly specified limit"
-msgstr ""
+msgstr "Uzstādīt tieši šādu ierobežojumu"
 
-#: resource/client/forms/admin.glade:833 resource/client/forms/admin.glade:853
-#: resource/client/forms/config.glade:743
-#: resource/client/forms/config.glade:760
+#: resource/client/forms/admin.glade:835 resource/client/forms/admin.glade:855
+#: resource/client/forms/config.glade:638
+#: resource/client/forms/config.glade:654
 msgid ""
 "Whether time for inactive sessions are counted, if this is unchecked, time "
 "spent in console (not terminal) and while screen is locked, is NOT taken "
 "into account (this very much varies from DE to DE)"
 msgstr ""
+"Šis nosaka vai laiks, kuru lietotājs pavadījis dīkstāvē tiek uzskaitīts, ja "
+"pazīme nav iespējota, pavadītais laiks konsolē (ne terminālī) un aizlēgtajā "
+"sesijā NETIEK uzskaitīts (šīs pazīmes darbspēja ļoti atkarīga no grakiskās "
+"vides kurā strādājat)"
 
-#: resource/client/forms/admin.glade:836
+#: resource/client/forms/admin.glade:838
 msgid "Track inactive sessions:"
-msgstr ""
+msgstr "Uzskaitīt neaktīvās sesijas:"
 
-#: resource/client/forms/admin.glade:871
+#: resource/client/forms/admin.glade:873
 msgid "Set track inactive sessions"
-msgstr ""
+msgstr "Uzstādīt neaktīvo sesiju pārbaudi"
 
-#: resource/client/forms/admin.glade:902
+#: resource/client/forms/admin.glade:904
 msgid ""
 "Brief information about time spent and everything related to time management "
 "for this day"
 msgstr ""
+"Vispārīga informācija par laika izlietojumu un laika ierobežojumiem par šo "
+"dienu"
 
-#: resource/client/forms/admin.glade:903
+#: resource/client/forms/admin.glade:905
 msgid "Info & today"
-msgstr ""
+msgstr "Informācijai un šodienai"
 
-#: resource/client/forms/admin.glade:940
+#: resource/client/forms/admin.glade:942
 msgid "Configure time limits for week days"
-msgstr ""
+msgstr "Pārvaldīt laika ierobežojumus nedēļas dienām"
 
-#: resource/client/forms/admin.glade:963
+#: resource/client/forms/admin.glade:966
 msgid ""
 "Day list of the week and additional information about the day's limit, "
 "please enable / disable days for the user"
 msgstr ""
+"Nedēļas dienu saraksts un papildus informācija par dienas ierobežojumiem, "
+"lūdzu iespējot / atspējot dienas konkrētajam lietotājam"
 
-#: resource/client/forms/admin.glade:1002
+#: resource/client/forms/admin.glade:1005
 msgid "Specify day's limit"
-msgstr ""
+msgstr "Norādiet dienas ierobežojumu"
 
-#: resource/client/forms/admin.glade:1046
-msgid "Set the amount of hours to set for particular day"
-msgstr ""
+#: resource/client/forms/admin.glade:1050
+#: resource/client/forms/admin.glade:1066
+msgid "Set the amount of hours to limit available time for particular day"
+msgstr "Uzstādiet atļauto stundu skaitu izvēlētajai dienai"
 
-#: resource/client/forms/admin.glade:1062
-msgid "Set the amount of minutes to set for particular day"
-msgstr ""
-
-#: resource/client/forms/admin.glade:1082
+#: resource/client/forms/admin.glade:1086
 msgid ""
-"Set specified hours and minutes at user's disposal (do not forget to hit "
-"<apply> button)"
+"Set specified hours and minutes for particular day at user's disposal (do "
+"not forget to hit <apply> button)"
 msgstr ""
+"Uzstādīt atļauto stundu un minūšu apjomu lietotāja vajadzībām (lūdzu "
+"neaizmirst nospiest pogu <iespējot>)"
 
-#: resource/client/forms/admin.glade:1148
+#: resource/client/forms/admin.glade:1152
 msgid "Hour intervals"
-msgstr ""
+msgstr "Stundu intervāli"
 
-#: resource/client/forms/admin.glade:1171
+#: resource/client/forms/admin.glade:1176
 msgid ""
 "Hour intervals per day available to user.\n"
 "Please note that if day ends at 24th hour and next day starts at 0, user can "
 "work continously past midnight.\n"
 "Please note that multiple intervals can not be configured within the same "
-"hour (don't try to micromanage Your user)"
+"hour, it can start or end or contain within hour, but not more than once "
+"(this is by design, not a bug)"
 msgstr ""
+"Laika intervāli, kas pieejami lietotajam.\n"
+"Lūdzu ņemiet vērā, ka ja diena beidzas ar 24 stundu un nākamās dienas 0 "
+"stunda ir atļauta, lietotājs bez pārtraukuma var strādāt arī pēc pusnakts.\n"
+"Lūdzu ņemt vērā, ka vienas stundas ietvaros NAV iespējams konfigurēt vairāk "
+"par vienu intervālu, tas var sākties šajā stundā, beigsies šajā stundā, "
+"pilnībā iekļauties stundā, bet ne vairāk par vienu."
 
-#: resource/client/forms/admin.glade:1213
+#: resource/client/forms/admin.glade:1218
 msgid "Manage intervals for day"
-msgstr ""
+msgstr "Pārvaldīt intervālus konkrētajai dienai"
 
-#: resource/client/forms/admin.glade:1256
+#: resource/client/forms/admin.glade:1261
 msgid "Specify START minute of the allowed hour interval"
-msgstr ""
+msgstr "Norādiet SĀKUMA minūti atļautajam stundu intervālam"
 
-#: resource/client/forms/admin.glade:1273
+#: resource/client/forms/admin.glade:1278
 msgid "Specify START hour of the allowed hour interval"
-msgstr ""
+msgstr "Norādiet SĀKUMA stundu atļautajam stundu intervālam"
 
-#: resource/client/forms/admin.glade:1290
+#: resource/client/forms/admin.glade:1295
 msgid "from"
-msgstr ""
+msgstr "no"
 
-#: resource/client/forms/admin.glade:1302
+#: resource/client/forms/admin.glade:1307
 msgid "to"
-msgstr ""
-
-#: resource/client/forms/admin.glade:1311
-msgid "remove"
-msgstr ""
+msgstr "līdz"
 
 #: resource/client/forms/admin.glade:1316
-msgid ""
-"Remove seected interval from the list (do not forget to hit <apply> button)"
-msgstr ""
+msgid "remove"
+msgstr "dzēst"
 
-#: resource/client/forms/admin.glade:1332
+#: resource/client/forms/admin.glade:1321
 msgid ""
-"Add specified hour interval to the list (do not firget to hit <apply> button)"
+"Remove selected interval from the list (do not forget to hit <apply> button)"
 msgstr ""
+"Dzēst iezīmēto intervālu no saraksta (lūdzu neaizmirst nospiest pogu "
+"<iespējot>)"
 
-#: resource/client/forms/admin.glade:1345
+#: resource/client/forms/admin.glade:1337
+msgid ""
+"Add specified hour interval to the list (do not forget to hit <apply> button)"
+msgstr ""
+"Pievienot laika intervālu sarakstam (lūdzu neaizmirst nospiest pogu "
+"<iespējot>)"
+
+#: resource/client/forms/admin.glade:1350
 msgid "Specify END hour of the allowed hour interval"
-msgstr ""
+msgstr "Norādiet BEIGU stundu atļautajam stundu intervālam"
 
-#: resource/client/forms/admin.glade:1361
-msgid "Specify END hour of the allowed minute interval"
-msgstr ""
-
-#: resource/client/forms/admin.glade:1410
-msgid "apply daily limits"
-msgstr ""
+#: resource/client/forms/admin.glade:1366
+msgid "Specify END minute of the allowed hour interval"
+msgstr "Norādiet BEIGU minūti atļautajam stundu intervālam"
 
 #: resource/client/forms/admin.glade:1415
+msgid "apply daily limits"
+msgstr "iespējot dienas ierobežojumus"
+
+#: resource/client/forms/admin.glade:1420
 msgid "Apply all changes made in this page"
-msgstr ""
+msgstr "Iespējot visas izmaiņas, kas veiktas šajā lapā"
 
-#: resource/client/forms/admin.glade:1437
-msgid "Dayly limit configuration for all week days"
-msgstr ""
+#: resource/client/forms/admin.glade:1442
+msgid "Daily limit configuration for all week days"
+msgstr "Dienas ierobežojums katrai nedēļas dienai"
 
-#: resource/client/forms/admin.glade:1438
-#: resource/client/forms/config.glade:611
+#: resource/client/forms/admin.glade:1443
+#: resource/client/forms/config.glade:548
 msgid "Daily limits"
-msgstr ""
+msgstr "Dienas ierobežojumi"
 
-#: resource/client/forms/admin.glade:1466
+#: resource/client/forms/admin.glade:1471
 msgid "Time limit for the month"
-msgstr ""
+msgstr "Laika ierobežojums uz mēnesi"
 
-#: resource/client/forms/admin.glade:1468
+#: resource/client/forms/admin.glade:1473
 msgid "Time limit (month)"
-msgstr ""
+msgstr "Laika ierobežojums (mēnesis)"
 
-#: resource/client/forms/admin.glade:1485
+#: resource/client/forms/admin.glade:1490
 msgid "Time limit for the month is enabled"
-msgstr ""
+msgstr "Laika ierobežojums uz mēnesi ir spēkā"
 
-#: resource/client/forms/admin.glade:1516
+#: resource/client/forms/admin.glade:1521
 msgid "Time limit for the week"
-msgstr ""
+msgstr "Laika ierobežojums uz nedēļu"
 
-#: resource/client/forms/admin.glade:1518
+#: resource/client/forms/admin.glade:1523
 msgid "Time limit (week)"
-msgstr ""
+msgstr "Laika ierobežojums (nedēļa)"
 
-#: resource/client/forms/admin.glade:1534
+#: resource/client/forms/admin.glade:1539
 msgid "Time limit for the week is enabled"
-msgstr ""
+msgstr "Laika ierobežojums uz nedēļu ir spēkā"
 
-#: resource/client/forms/admin.glade:1562
-#: resource/client/forms/admin.glade:1662
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
 msgid "day"
-msgstr ""
+msgstr "diena"
 
-#: resource/client/forms/admin.glade:1596
-msgid "Week limit amount in days"
-msgstr ""
+#: resource/client/forms/admin.glade:1601
+msgid "Week limit amount (days part)"
+msgstr "Nedēļas laika ierobežojums (dienas)"
 
-#: resource/client/forms/admin.glade:1614
-msgid "Week limit amount in hours"
-msgstr ""
+#: resource/client/forms/admin.glade:1619
+msgid "Week limit amount (hours part)"
+msgstr "Nedēļas laika ierobežojums (stundas)"
 
-#: resource/client/forms/admin.glade:1632
-msgid "Week limit amount in minutes"
-msgstr ""
+#: resource/client/forms/admin.glade:1637
+msgid "Week limit amount (minutes part)"
+msgstr "Nedēļas laika ierobežojums (minūtēs)"
 
-#: resource/client/forms/admin.glade:1696
-msgid "Month limit amount in days"
-msgstr ""
+#: resource/client/forms/admin.glade:1701
+msgid "Month limit amount (days part)"
+msgstr "Mēneša laika ierobežojums (dienas)"
 
-#: resource/client/forms/admin.glade:1714
-msgid "Month limit amount in hours"
-msgstr ""
+#: resource/client/forms/admin.glade:1719
+msgid "Month limit amount (hours part)"
+msgstr "Mēneša laika ierobežojums (stundas)"
 
-#: resource/client/forms/admin.glade:1732
-msgid "Month limit amount in minutes"
-msgstr ""
+#: resource/client/forms/admin.glade:1737
+msgid "Month limit amount (minutes part)"
+msgstr "Mēneša laika ierobežojums (minūtes)"
 
-#: resource/client/forms/admin.glade:1760
+#: resource/client/forms/admin.glade:1765
 msgid "This allows You to set up weekly & monthly limits"
-msgstr ""
+msgstr "Šī sadaļa atļauj mainīt dienas un mēneša laika ierobežojumus"
 
-#: resource/client/forms/admin.glade:1773
+#: resource/client/forms/admin.glade:1779
 msgid "apply"
-msgstr ""
+msgstr "ispējot"
 
-#: resource/client/forms/admin.glade:1778
-msgid "Apply weekly and monthhly limits"
-msgstr ""
+#: resource/client/forms/admin.glade:1784
+msgid "Apply weekly and monthly limits"
+msgstr "Iespējot nedēļas un mēneša ierobežojumus"
 
-#: resource/client/forms/admin.glade:1823
+#: resource/client/forms/admin.glade:1829
 msgid "Weekly and monthly limit configuration"
-msgstr ""
+msgstr "Nedēļas un mēneša laika ierobežojuma konfigurācija"
 
-#: resource/client/forms/admin.glade:1824
+#: resource/client/forms/admin.glade:1830
 msgid "Weekly & monthly limits"
-msgstr ""
+msgstr "Nedēļas un mēneša ierobežojumi"
 
-#: resource/client/forms/admin.glade:1845
+#: resource/client/forms/admin.glade:1851
 msgid "User configuration"
-msgstr ""
+msgstr "Lietotāju konfigurācija"
 
-#: resource/client/forms/admin.glade:1876
-msgid "Control Timekpr settings"
-msgstr ""
+#: resource/client/forms/admin.glade:1882
+msgid "Control Timekpr-nExT settings"
+msgstr "Pārvaldīt Timekpr-nExT konfigurāciju"
 
-#: resource/client/forms/admin.glade:1902
+#: resource/client/forms/admin.glade:1909
 msgid ""
-"Timekpr log level, please do not change this unless asked (You likely won't "
-"find anything pretty in the log files)\n"
+"Timekpr-nExT log level, please do not change this unless asked (You likely "
+"won't find anything pretty in the log files)\n"
 "1 - standard, 2 - debug, 3 - extra debug"
 msgstr ""
+"Timekpr-nExT tehniskā žurnāla līmenis, lūdzu nemainīt šo vērtību (ļoti "
+"iespējams, ka neatradīsi neko pazīstamu žurnāla failos)\n"
+"1 - standarta līmenis, 2 - atkļūdošanas līmenis, 3 - padziļināts "
+"atkļūdošanas līmenis"
 
-#: resource/client/forms/admin.glade:1921
+#: resource/client/forms/admin.glade:1928
 msgid "Poll interval"
-msgstr ""
+msgstr "Atjaunošanas intervāls"
 
-#: resource/client/forms/admin.glade:1933
+#: resource/client/forms/admin.glade:1940
 msgid ""
-"Specify the time in seonds when Timekpr starts continous real-time countdown "
-"before terminating the session"
+"Specify the time in seconds when Timekpr-nExT starts continous real-time "
+"countdown before terminating the session"
 msgstr ""
+"Norādiet atlikušo laiku sekundēs, pirms kura Timekpr-nExT sāks laika "
+"atskaiti ik sekundi pirms izbeigt lietotāja sesiju"
 
-#: resource/client/forms/admin.glade:1951
+#: resource/client/forms/admin.glade:1958
 msgid "Save time"
-msgstr ""
+msgstr "Saglabāšanas laiks"
 
-#: resource/client/forms/admin.glade:1963
+#: resource/client/forms/admin.glade:1970
 msgid ""
 "Specify session polling time granularity (at which interval user sessions "
 "and activity are polled).\n"
 "3 -5 seconds are optimal, don't change this if unsure."
 msgstr ""
+"Norādtiet sesiju uzskaitīšanas biežumu (cik bieži tiek aptaujātas lietotāju "
+"sesijas).\n"
+"3 - 5 sekundes ir optimāli, lūdzu nemainīt bez vajadzības."
 
-#: resource/client/forms/admin.glade:1982
+#: resource/client/forms/admin.glade:1989
 msgid "Termination time"
-msgstr ""
+msgstr "Izbeigšanas laiks"
 
-#: resource/client/forms/admin.glade:1994
+#: resource/client/forms/admin.glade:2001
 msgid "This specifies the time interval at which actual user state is saved"
 msgstr ""
+"Norādiet laika intervālu sekundēs, ik pēc kura lietotāja patērētais laiks "
+"tiek saglabāts"
 
-#: resource/client/forms/admin.glade:2012
+#: resource/client/forms/admin.glade:2019
 msgid ""
 "Amount of seconds before terminating user sessions, after this is reached "
 "user will be terminated, nothing can be done to prevent it.\n"
 "Adding time does not help in this case, do that before reaching this point..."
 msgstr ""
+"Sekunžu skaits pirms izbeigt lietotāja sesiju, kad šis apjoms ir sasniegts "
+"lietotāja sesija tiks izbeigta, sasniedzot šo punktu, nav iespējams izdarīt "
+"neko, lai to novērstu.\n"
+"Laika pievienošana šajā brīdī nepalīdzēs, lūdzu darīt to PIRMS sasniegt šo "
+"punktu..."
 
-#: resource/client/forms/admin.glade:2031
+#: resource/client/forms/admin.glade:2038
 msgid "Warning time"
-msgstr ""
+msgstr "Brīdinājuma laiks"
 
-#: resource/client/forms/admin.glade:2043
+#: resource/client/forms/admin.glade:2050
 msgid "Log level"
-msgstr ""
+msgstr "Žurnāla līmenis"
 
-#: resource/client/forms/admin.glade:2081
-msgid "Control Timekpr tracking items"
-msgstr ""
+#: resource/client/forms/admin.glade:2088
+msgid "Control Timekpr-nExT tracking items"
+msgstr "Pārvaldīt Timekpr-nExT uzskaitāmos lielumus"
 
-#: resource/client/forms/admin.glade:2115
+#: resource/client/forms/admin.glade:2123
 msgid "tracked sessions"
-msgstr ""
+msgstr "uzskaitītās sesijas"
 
-#: resource/client/forms/admin.glade:2137
+#: resource/client/forms/admin.glade:2145
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless You actually (not "
 "wishfully) know what are You doing."
 msgstr ""
+"Uzskaitīto sesiju saraksts.\n"
+"Lūdzu nemainīt vai neeksperimentēt ar šo sarakstu, ja Jums nav pietiekoši "
+"zināšanu, lai saprastu ko tas nozīmē."
 
-#: resource/client/forms/admin.glade:2158
+#: resource/client/forms/admin.glade:2166
 msgid "Enter session type to be tracked"
-msgstr ""
+msgstr "Ievadiet uzskaitāmo sesiju tipu"
 
-#: resource/client/forms/admin.glade:2183
-msgid "Add tracked session type"
-msgstr ""
+#: resource/client/forms/admin.glade:2190
+msgid "Add tracked session type to the list"
+msgstr "Pievienot uzskaitīto sesiju tipu sarakstam"
 
-#: resource/client/forms/admin.glade:2199
-msgid "Remove tracked session type"
-msgstr ""
+#: resource/client/forms/admin.glade:2206
+msgid "Remove tracked session type from the list"
+msgstr "Dzēst uzskaitīto sesiju tipu no saraksta"
 
-#: resource/client/forms/admin.glade:2236
+#: resource/client/forms/admin.glade:2243
 msgid "excluded sessions"
-msgstr ""
+msgstr "neuzskaitāmās sesijas"
 
-#: resource/client/forms/admin.glade:2258
+#: resource/client/forms/admin.glade:2265
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless You actually (not "
 "wishfully) know what are You doing."
 msgstr ""
+"Neuzskatīto sesiju saraksts - sesiju tipi, kurās pavadītais laiks netiek "
+"uzskaitīts.\n"
+"Lūdzu nemainīt vai neeksperimentēt ar šo sarakstu, ja Jums nav pietiekoši "
+"zināšanu, lai saprastu ko tas nozīmē."
 
-#: resource/client/forms/admin.glade:2279
+#: resource/client/forms/admin.glade:2286
 msgid "Enter session type to be excluded from tracking"
-msgstr ""
+msgstr "Ievadiet neuzskaitāmo sesiju tipu"
 
-#: resource/client/forms/admin.glade:2304
-msgid "Add excluded session type"
-msgstr ""
+#: resource/client/forms/admin.glade:2310
+msgid "Add excluded session type to the list"
+msgstr "Pievienot neuzskaitīto sesiju tipu sarakstam"
 
-#: resource/client/forms/admin.glade:2356
+#: resource/client/forms/admin.glade:2326
+msgid "Remove excluded session type from the list"
+msgstr "Dzēst neuzskaitīto sesiju tipu no saraksta"
+
+#: resource/client/forms/admin.glade:2363
 msgid "excluded users"
-msgstr ""
+msgstr "neuzskaitāmie lietotāji"
 
-#: resource/client/forms/admin.glade:2378
+#: resource/client/forms/admin.glade:2385
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames not real names here (e.g please specify "
 "jsmith, not John Smith)"
 msgstr ""
+"Neuzskaitīto lietotāju saraksts - lietotājvārdi, kuru datorā pavadītais "
+"laiks netiek uzskaitīts.\n"
+"Lūdzu norādīt faktiskos lietotājvārdus nevis vārdus (piem.: lūdzu norādīt "
+"jsmith, nevis John Smith)"
 
-#: resource/client/forms/admin.glade:2399
+#: resource/client/forms/admin.glade:2406
 msgid "Enter username to be excluded from tracking"
-msgstr ""
+msgstr "Ievadiet lietotājvārdu kura patērētais laiks netiek uzskaitīts"
 
-#: resource/client/forms/admin.glade:2424
-msgid "Add user to exclusion list"
-msgstr ""
+#: resource/client/forms/admin.glade:2430
+msgid "Add user to the exclusion list"
+msgstr "Pievienot lietotāju neuzskaitīto lietotāju sarakstam"
 
-#: resource/client/forms/admin.glade:2440
-msgid "Remove user from exclusion list"
-msgstr ""
+#: resource/client/forms/admin.glade:2446
+msgid "Remove user from the exclusion list"
+msgstr "Dzēst lietotāju no neuzskaitīto lietotāju saraksta"
 
-#: resource/client/forms/admin.glade:2487
-msgid "Apply Timekpr setings"
-msgstr ""
+#: resource/client/forms/admin.glade:2493
+msgid "Apply Timekpr-nExT setings"
+msgstr "Iespējot Timekpr-nExT uzstādījumus"
 
-#: resource/client/forms/admin.glade:2492
-msgid "Apply all Timekpr settings at once"
-msgstr ""
+#: resource/client/forms/admin.glade:2498
+msgid "Apply all Timekpr-nExT settings at once"
+msgstr "Iespējot visus Timekpr-nExT uzstādījumus vienlaicīgi"
 
-#: resource/client/forms/admin.glade:2512
-msgid "TImekpr administration configuration"
-msgstr ""
+#: resource/client/forms/admin.glade:2518
+msgid "Timekpr-nExT administration configuration"
+msgstr "Timekpr-nExT pārvaldības iestatījumi"
 
-#: resource/client/forms/admin.glade:2513
-msgid "Timekpr configuration"
-msgstr ""
+#: resource/client/forms/admin.glade:2519
+msgid "Timekpr-nExT configuration"
+msgstr "Timekpr-nExT pārvaldība"
 
-#: resource/client/forms/admin.glade:2542
-#: resource/client/forms/admin.glade:2561
-msgid "Status of Timekpr admin client"
-msgstr ""
+#: resource/client/forms/admin.glade:2548
+#: resource/client/forms/admin.glade:2567
+msgid "Status of Timekpr-nExT admin client"
+msgstr "Timekpr-nExT pārvaldības aplikācijas statuss"
 
 #: resource/client/forms/config.glade:31
-msgid "Timekpr nExT client"
-msgstr ""
+msgid "Timekpr-nExT client"
+msgstr "Timekpr nExT lietotāja aplikācija"
 
-#: resource/client/forms/config.glade:62 resource/client/forms/config.glade:78
-#: resource/client/forms/config.glade:101
-msgid "Status of timekpr client"
-msgstr ""
+#: resource/client/forms/config.glade:62
+msgid "Status of Timekpr-nExT client"
+msgstr "Timekpr-nExT aplikācijas statuss"
 
-#: resource/client/forms/config.glade:120
+#: resource/client/forms/config.glade:95
 msgid "Save all changes"
-msgstr ""
+msgstr "Saglabāt visas izmaiņas"
 
-#: resource/client/forms/config.glade:138
+#: resource/client/forms/config.glade:112
 msgid "Close the window"
-msgstr ""
+msgstr "Aizvērt logu"
 
-#: resource/client/forms/config.glade:208
+#: resource/client/forms/config.glade:193
 msgid "Current effective username"
-msgstr ""
+msgstr "Patreizējais faktiskais lietotājs"
 
-#: resource/client/forms/config.glade:279
+#: resource/client/forms/config.glade:267
 msgid "Current statistics"
-msgstr ""
+msgstr "Patreizējā statistika"
 
-#: resource/client/forms/config.glade:300
-msgid "Time spent this session or after timekpr has been restarted"
+#: resource/client/forms/config.glade:288
+msgid "Time spent this session or after Timekpr-nExT has been restarted"
 msgstr ""
+"Izlietotais laiks šajā lietotāja sesijā vai laiks, kas izlietots pēc Timekpr-"
+"nExT pārstartēšanas"
 
-#: resource/client/forms/config.glade:303
+#: resource/client/forms/config.glade:291
 msgid "Time spent (session):"
-msgstr ""
+msgstr "Izlietotais laiks (sesija):"
 
-#: resource/client/forms/config.glade:345
-msgid "Time inactive this session or after timekpr has been restarted"
+#: resource/client/forms/config.glade:334
+msgid "Time inactive this session or after Timekpr-nExT has been restarted"
 msgstr ""
+"Dīkstāves laiks šai sesijai vai dīkstāves laiks no Timekpr-nExT "
+"pārstartēšanas"
 
-#: resource/client/forms/config.glade:348
+#: resource/client/forms/config.glade:337
 msgid "Time inactive:"
-msgstr ""
+msgstr "Dīkstāves laiks:"
 
-#: resource/client/forms/config.glade:392
-msgid ""
-"Total time left today available, including the end of the day and limits"
+#: resource/client/forms/config.glade:362
+msgid "Continous time left to You which may span to more than a current day"
 msgstr ""
+"Vērtība nosaka, cik ilgi varat lietot datoru nepārtraukti (laika izlietojums "
+"var pārklāt vairākas dienas)"
 
-#: resource/client/forms/config.glade:395
-msgid "Time left today:"
-msgstr ""
-
-#: resource/client/forms/config.glade:436
-msgid "Contionous time left to You which may span to more than a current day"
-msgstr ""
-
-#: resource/client/forms/config.glade:439
+#: resource/client/forms/config.glade:365
 msgid "Continous time left:"
-msgstr ""
+msgstr "Nepārtrauktā laika ierobežojums:"
 
-#: resource/client/forms/config.glade:501
+#: resource/client/forms/config.glade:379
+msgid "Total time available left today in a row, up to the end of the day"
+msgstr "Nepārtraukti pieejamais laiks šodien līdz pašām dienas beigām"
+
+#: resource/client/forms/config.glade:382
+msgid "Time left today:"
+msgstr "Atlikušais laiks šodien:"
+
+#: resource/client/forms/config.glade:437
 msgid "These are days and limits that available to You"
-msgstr ""
+msgstr "Šeit atrādītas dienas un ierobežojumi, kas attiecas uz Tevi"
 
-#: resource/client/forms/config.glade:528
+#: resource/client/forms/config.glade:464
 msgid "Days & limits"
-msgstr ""
+msgstr "Diena un ierobežojumi"
 
-#: resource/client/forms/config.glade:559
+#: resource/client/forms/config.glade:496
 msgid "This shows time intervals that are available for Your use"
-msgstr ""
+msgstr "Lauks atrāda laika intevālus kas pieejami datora lietošanai"
 
-#: resource/client/forms/config.glade:584
+#: resource/client/forms/config.glade:521
 msgid "Intervals"
-msgstr ""
+msgstr "Intervāli"
 
-#: resource/client/forms/config.glade:635
+#: resource/client/forms/config.glade:574
 msgid "Additional statistics"
-msgstr ""
+msgstr "Papildus statistika"
 
-#: resource/client/forms/config.glade:655
+#: resource/client/forms/config.glade:595
 msgid "TIme spent for this week"
-msgstr ""
+msgstr "Izlietotais laiks šajā nedēļā"
 
-#: resource/client/forms/config.glade:699
+#: resource/client/forms/config.glade:624
 msgid "Time spent for this month"
-msgstr ""
+msgstr "Izlietotais laiks šajā mēnesī"
 
-#: resource/client/forms/config.glade:746
+#: resource/client/forms/config.glade:641
 msgid "Track inactive:"
-msgstr ""
+msgstr "Uzskaitīt neaktīvās:"
 
-#: resource/client/forms/config.glade:797
-#: resource/client/forms/config.glade:916
+#: resource/client/forms/config.glade:704
+#: resource/client/forms/config.glade:803
 msgid "Additional limits"
-msgstr ""
+msgstr "Papildus ierobežojumi"
 
-#: resource/client/forms/config.glade:817
+#: resource/client/forms/config.glade:725
 msgid "Time limit for week available to You"
-msgstr ""
+msgstr "Laika ierobežojums uz nedēļu, kas pieejams Tavai lietošanai"
 
-#: resource/client/forms/config.glade:820
+#: resource/client/forms/config.glade:728
 msgid "Time limit (week):"
-msgstr ""
+msgstr "Laika ierobežojums (nedēļa):"
 
-#: resource/client/forms/config.glade:861
+#: resource/client/forms/config.glade:755
 msgid "Time limit for month available to You"
-msgstr ""
+msgstr "Laika ierobežojums uz mēnesi, kas pieejams Tavai lietošanai"
 
-#: resource/client/forms/config.glade:864
+#: resource/client/forms/config.glade:758
 msgid "Time limit (month):"
-msgstr ""
+msgstr "Laika ierobežojums (mēnesis):"
 
-#: resource/client/forms/config.glade:932
+#: resource/client/forms/config.glade:819
 msgid "Use speech notifications"
-msgstr ""
+msgstr "Pielietot balss paziņojumus"
 
-#: resource/client/forms/config.glade:936
+#: resource/client/forms/config.glade:823
 msgid ""
 "Whether to use speech notifications (if not available, this will be greyed "
-"out), if usage of speech is very much needed, please install python-espeak "
+"out), if usage of speech is very much needed, please install python3-espeak "
 "package"
 msgstr ""
+"Nosaka vai lietot balss notifikācijas (ja opcija nav pieejama, tā būs "
+"atspējota), ja vēlaties izmantot balss notifikācijas, lūdzu instalēt python3-"
+"espeak pakotni"
 
-#: resource/client/forms/config.glade:954
+#: resource/client/forms/config.glade:842
+#: resource/client/forms/config.glade:865
 msgid ""
 "This sets logging level (please do not change this unless You know what "
 "You're doing)"
 msgstr ""
+"Tehniskā žurnāla līmenis (lūdzu mainīt tikai tad, ja esat pārliecināts un "
+"zinošs, ko tas nozīmē)"
 
-#: resource/client/forms/config.glade:978
+#: resource/client/forms/config.glade:868
 msgid "Logging level"
-msgstr ""
+msgstr "Tehniskā žurnāla līmenis"
 
-#: resource/client/forms/config.glade:994
+#: resource/client/forms/config.glade:884
 msgid "Show limit changes"
-msgstr ""
+msgstr "Paziņot par izmaiņām ierobežojumos"
 
-#: resource/client/forms/config.glade:998
+#: resource/client/forms/config.glade:888
 msgid ""
 "Whether to show notification when limit configurations or alowance changes"
-msgstr ""
+msgstr "Nosaka vai rādīt paziņojumu gadījumā ja ierobežojumi tikuši mainīti"
 
-#: resource/client/forms/config.glade:1010
+#: resource/client/forms/config.glade:901
 msgid "Show all notifications"
-msgstr ""
+msgstr "Rādīt visus paziņojumus"
 
-#: resource/client/forms/config.glade:1014
+#: resource/client/forms/config.glade:905
 msgid ""
 "Whether to show all notifications, if unchecked then only important ones are "
 "shown"
-msgstr ""
+msgstr "Nosaka, vai atrādīt visus paziņojumus vai tikai pašus varīgākos"
 
-#: resource/client/forms/config.glade:1026
+#: resource/client/forms/config.glade:918
 msgid "Show seconds in notification area"
-msgstr ""
+msgstr "Rādīt sekundes"
 
-#: resource/client/forms/config.glade:1030
+#: resource/client/forms/config.glade:922
 msgid ""
 "Whether to show seconds in notification area (some DE, like KDE5, do not "
-"allow text besides notification icons)"
+"support text besides notification icons)"
 msgstr ""
+"Nosaka vai atrādīt sekundes blakus ikonai notifikāciju panelī (dažas no "
+"grafiskajām vidēm, piemēram KDE5, neatbalsta šādu opciju)"
 
-#: resource/client/forms/config.glade:1069
+#: resource/client/forms/config.glade:962
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurācija"
+
+#~ msgid "Set the amount of minutes to set for particular day"
+#~ msgstr "Uzstādiet atļauto minūšu skaitu izvēlētajai dienai"
+
+#~ msgid "Specify END hour of the allowed minute interval"
+#~ msgstr "Norādiet BEIGU minūti atļautajam stundu intervālam"
