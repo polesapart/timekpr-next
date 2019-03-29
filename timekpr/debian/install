@@ -39,6 +39,7 @@ resource/client/forms/admin.glade usr/share/timekpr/client/forms/
 # python common
 common/constants/__init__.py usr/share/pyshared/timekpr/common/constants/
 common/constants/constants.py usr/share/pyshared/timekpr/common/constants/
+common/constants/messages.py usr/share/pyshared/timekpr/common/constants/
 common/log/__init__.py usr/share/pyshared/timekpr/common/log/
 common/log/log.py usr/share/pyshared/timekpr/common/log/
 common/utils/__init__.py usr/share/pyshared/timekpr/common/utils/
