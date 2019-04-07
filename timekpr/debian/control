@@ -13,7 +13,7 @@ Architecture: any
 Depends: ${misc:Depends}, lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1, python-gi, libgtk-3-0 (>= 3.4), python-dbus, gir1.2-gtk-3.0, systemd | systemd-shim
 Suggests: espeak, python-espeak
 Provides: timekpr
-Conflicts: timekpr-next-beta
+Conflicts: timekpr-next-beta, timekpr, timekpr-beta
 Replaces: timekpr, timekpr-beta
 Recommends: gdm | kdm | lightdm | mdm | lxdm, python-appindicator, gir1.2-appindicator3-0.1
 Description: Keep control of computer usage
