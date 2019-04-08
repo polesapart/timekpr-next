@@ -35,6 +35,7 @@ TK_LOG_PID_EXT = ".pid"
 
 # ## actual system ##
 TK_LOG_FILE = "timekpr.log"
+TK_LOG_FILE_ADMIN = "timekpr-su.log"
 # main config file
 TK_MAIN_CONFIG_DIR = "/etc/timekpr"
 # runtime directory for timekpr user configuration files
