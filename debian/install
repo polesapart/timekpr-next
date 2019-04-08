@@ -87,3 +87,4 @@ server/user/userdata.py usr/share/pyshared/timekpr/server/user/
 # translations
 resource/locale/lv/LC_MESSAGES/timekpr.mo usr/share/locale/lv/LC_MESSAGES/
 resource/locale/it/LC_MESSAGES/timekpr.mo usr/share/locale/it/LC_MESSAGES/
+resource/locale/de/LC_MESSAGES/timekpr.mo usr/share/locale/de/LC_MESSAGES/

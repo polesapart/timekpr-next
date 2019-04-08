@@ -1,3 +1,9 @@
+timekpr-next (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * added Italian and German translation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Apr 2019 12:07:25 +0300
+
 timekpr-next (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * implemented localization
