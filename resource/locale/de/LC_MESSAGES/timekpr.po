@@ -1,0 +1,1413 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Timekpr nExT\n"
+"POT-Creation-Date: 2019-03-29 08:15+0200\n"
+"PO-Revision-Date: 2019-04-08 12:04+0200\n"
+"Language-Team: Ulle <punkt.punkt@o2online.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __:1,2\n"
+"Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
+"Language: de\n"
+"X-Poedit-SearchPath-0: common/constants/messages.py\n"
+"X-Poedit-SearchPath-1: resource/client/forms\n"
+
+#: common/constants/messages.py:31
+msgid "==> print help, example"
+msgstr "==> Hilfe ausgeben, Beispiel"
+
+#: common/constants/messages.py:32
+msgid "==> get saved user list from the server, example"
+msgstr "==> Gespeicherte Benutzerliste vom Server holen, Beispiel"
+
+#: common/constants/messages.py:33
+msgid "==> get user configuration from the server, example"
+msgstr "==> Gespeicherte Benutzerkonfiguration vom Server holen, Beispiel"
+
+#: common/constants/messages.py:34
+msgid "==> set allowed days for the user, example"
+msgstr "==> Erlaubte Tage für den Benutzer festlegen, Beispiel"
+
+#: common/constants/messages.py:35
+msgid "==> set allowed hours per specified day or ALL for every day, example"
+msgstr ""
+"==> Festlegen der erlaubten Stunden für bestimmten Tag oder ALLE für jedn "
+"Tag, Beispiel"
+
+#: common/constants/messages.py:36
+msgid "==> set time limits per all allowed days, example"
+msgstr "==> Festlegen des Zeitlimits für erlaubte Tage, Beispiel"
+
+#: common/constants/messages.py:37
+msgid "==> set time limit per week, example"
+msgstr "==> Zeitlimit pro Woche festlegen, Beispiel"
+
+#: common/constants/messages.py:38
+msgid "==> set time limit per month, example"
+msgstr "==> Zeitlimit pro Monat festlegen, Beispiel"
+
+#: common/constants/messages.py:39
+msgid "==> set whether to track inactive user sessions, example"
+msgstr ""
+"==>  Festlegen, ob inaktive Benutzer-Sitzungen beachtet werden sollen, "
+"Beispiel"
+
+#: common/constants/messages.py:40
+msgid ""
+"==> set time left for the user at current moment, example (add one hour)"
+msgstr "==> Restzeit festlegen ab jetzt für momentanen Benutzer, Beispiel"
+
+#: common/constants/messages.py:43
+msgid "Control sessions types are not passed"
+msgstr "Typ der Sitzungssteuerung wurde nicht übergeben"
+
+#: common/constants/messages.py:44
+msgid "Control sessions types list is not correct"
+msgstr "Liste der Sitzungssteuerung-Typen ist nicht korrekt"
+
+#: common/constants/messages.py:45
+msgid "Control sessions types list is not correct and can not be set"
+msgstr ""
+"Liste der Sitzungssteuerung-Typen ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:46
+msgid "Excluded session types are not passed"
+msgstr "Ausgeschlossene Sitzungs-Typen wurden nicht übergeben"
+
+#: common/constants/messages.py:47
+msgid "Excluded session types list is not correct"
+msgstr "Liste der ausgeschlossenen Sitzungstypen ist nicht korrekt"
+
+#: common/constants/messages.py:48
+msgid "Excluded session types list is not correct and can not be set"
+msgstr ""
+"Liste der ausgeschlossenen Sitzungstypen ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:49
+msgid "Excluded user list is not passed"
+msgstr "Liste der ausgeschlossenen Benutzer wurde nicht übergeben"
+
+#: common/constants/messages.py:50
+msgid "Excluded user list is not correct"
+msgstr "Liste der ausgeschlossenen Benutzer ist nicht korrekt"
+
+#: common/constants/messages.py:51
+msgid "Excluded user list is not correct and can not be set"
+msgstr ""
+"Liste der ausgeschlossenen Benutzer wurde nicht übergeben und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:52
+msgid "Final warning time is not passed"
+msgstr "Zeitpunkt der letzten Warnung wurde nicht übergeben"
+
+#: common/constants/messages.py:53
+#, python-format
+msgid "Final warning time \"%%s\"is not correct"
+msgstr "Zeitpunkt der letzten Warnung \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:54
+#, python-format
+msgid "Final warning time \"%%s\" is not correct and can not be set"
+msgstr ""
+"Zeitpunkt der letzten Warnung \"%%s\" ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:55
+msgid "Termination time is not passed"
+msgstr "End-Zeitpunkt wurde nicht übergeben"
+
+#: common/constants/messages.py:56
+#, python-format
+msgid "Termination time \"%%s\"is not correct"
+msgstr "End-Zeitpunkt \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:57
+#, python-format
+msgid "Termination time \"%%s\" is not correct and can not be set"
+msgstr ""
+"End-Zeitpunkt \"%%s\" ist nicht korrekt und kann nicht verarbeitet werden"
+
+#: common/constants/messages.py:58
+msgid "Track inactive is not passed"
+msgstr "Beachtung von Inaktivität wurde nicht übergeben"
+
+#: common/constants/messages.py:59
+#, python-format
+msgid "Track inactive \"%%s\"is not correct"
+msgstr "Beachtung von Inaktivität \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:60
+#, python-format
+msgid "Track inactive \"%%s\" is not correct and can not be set"
+msgstr ""
+"Beachtung von Inaktivität \"%%s\" ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:61
+msgid "Log level is not passed"
+msgstr "Log level  wurde nicht übergeben"
+
+#: common/constants/messages.py:62
+#, python-format
+msgid "Log level \"%%s\"is not correct"
+msgstr "Log level  \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:63
+#, python-format
+msgid "Log level \"%%s\" is not correct and can not be set"
+msgstr "Log level  \"%%s\" ist nicht korrekt und kann nicht verarbeitet werden"
+
+#: common/constants/messages.py:64
+msgid "Poll time is not passed"
+msgstr "Abfrage-Zeit wurde nicht übergeben"
+
+#: common/constants/messages.py:65
+#, python-format
+msgid "Poll time \"%%s\"is not correct"
+msgstr "Abfrage-Zeit \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:66
+#, python-format
+msgid "Poll time \"%%s\" is not correct and can not be set"
+msgstr ""
+"Abfrage-Zeit \"%%s\" ist nicht korrekt und kann nicht verarbeitet werden"
+
+#: common/constants/messages.py:67
+msgid "Save time is not passed"
+msgstr "Speicherzeitpunkt wurde nicht übergeben"
+
+#: common/constants/messages.py:68
+#, python-format
+msgid "Save time \"%%s\"is not correct"
+msgstr "Speicherzeitpunkt \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:69
+#, python-format
+msgid "Save time \"%%s\" is not correct and can not be set"
+msgstr ""
+"Speicherzeitpunkt \"%%s\" ist nicht korrekt und kann nicht verarbeitet werden"
+
+#: common/constants/messages.py:72
+#, python-format
+msgid "User's \"%%s\" day number must be present"
+msgstr "Anzahl der Tage für Benutzer \"%%s\" muss vorhanden sein"
+
+#: common/constants/messages.py:73
+#, python-format
+msgid "User's \"%%s\" day number must be between 1 and 7"
+msgstr "Anzahl der Tage für Benutzer \"%%s\" kann nur 1 bis 7 sein"
+
+#: common/constants/messages.py:74
+#, python-format
+msgid "User's \"%%s\" allowed hours are not correct and can not be set"
+msgstr ""
+"Erlaubte Stunden für Benutzer \"%%s\" sind nicht korrekt und können nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:75
+#, python-format
+msgid "User's \"%%s\" day limits list is not passed"
+msgstr "Liste der Tages-Limits für Benutzer \"%%s\" wurde nicht übergeben"
+
+#: common/constants/messages.py:76
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct"
+msgstr "Liste der Tages-Limits für Benutzer \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:77
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct and can not be set"
+msgstr ""
+"Liste der Tages-Limits für Benutzer \"%%s\" ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:78
+#, python-format
+msgid "User's \"%%s\" day list is not passed"
+msgstr "Liste der Tage für Benutzer \"%%s\" wurde nicht übergeben"
+
+#: common/constants/messages.py:79
+#, python-format
+msgid "User's \"%%s\" day list is not correct"
+msgstr "Liste der Tage für Benutzer \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:80
+#, python-format
+msgid "User's \"%%s\" day list is not correct and can not be set"
+msgstr ""
+"Liste der Tage für Benutzer \"%%s\" ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:81
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not passed"
+msgstr "Monatliches Zeitlimit für Benutzer \"%%s\" wurde nicht übergeben"
+
+#: common/constants/messages.py:82
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not correct"
+msgstr "Monatliches Zeitlimit für Benutzer \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:83
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
+msgstr ""
+"Monatliches Zeitlimit für Benutzer \"%%s\" ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:84
+#, python-format
+msgid "User's \"%%s\" set time operation can be one of these: -+="
+msgstr "Das Zusammensetzen der Zeit für Benutzer \"%%s\" geht nur mit: -+="
+
+#: common/constants/messages.py:85
+#, python-format
+msgid "User's \"%%s\" set time limit is not correct"
+msgstr "Das Zeit-Limit für Benutzer \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:86
+#, python-format
+msgid "User's \"%%s\" set time limit is not correct and can not be set"
+msgstr ""
+"Das Zeit-Limit für Benutzer \"%%s\" ist nicht korrekt und kann nicht "
+"verarbeitet werden"
+
+#: common/constants/messages.py:87
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not passed"
+msgstr "Der Schalter für Inaktivitäts-Beachtung \"%%s\" wurde nicht übergeben"
+
+#: common/constants/messages.py:88
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not correct"
+msgstr "Der Schalter für Inaktivitäts-Beachtung \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:89
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
+msgstr ""
+"Der Schalter für Inaktivitäts-Beachtung \"%%s\" ist nicht korrekt und kann "
+"nicht verarbeitet werden"
+
+#: common/constants/messages.py:90
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not passed"
+msgstr "Wöchentliches Zeitlimit für Benutzer \"%%s\" wurde nicht übergeben"
+
+#: common/constants/messages.py:91
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not correct"
+msgstr "Wöchentliches Zeitlimit für Benutzer \"%%s\" ist nicht korrekt"
+
+#: common/constants/messages.py:92
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
+msgstr ""
+"Wöchentliches Zeitlimit für Benutzer \"%%s\" ist nicht korrekt und kann "
+"nicht verarbeitet werden"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:96
+msgid ""
+"Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT "
+"log files"
+msgstr ""
+"Unerwarteter Fehler beim Laden der Konfiguration. Bitte schauen Sie in die "
+"Timekpr-nExT log-Dateien"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:98
+msgid ""
+"Unexpected ERROR getting confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Unerwarteter Fehler beim Holen der Konfiguration. Bitte schauen Sie in die "
+"Timekpr-nExT log-Dateien"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:100
+msgid ""
+"Unexpected ERROR getting user confguration. Please inspect Timekpr-nExT log "
+"files"
+msgstr ""
+"Unerwarteter Fehler beim Holen der Benutzer-Konfiguration. Bitte schauen Sie "
+"in die Timekpr-nExT log-Dateien"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:102
+msgid ""
+"Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Unerwarteter Fehler beim Holen der Benutzer-Liste. Bitte schauen Sie in die "
+"Timekpr-nExT log-Dateien"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:104
+msgid ""
+"Unexpected ERROR updating confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Unerwarteter Fehler beim Aktualisieren der Konfiguration. Bitte schauen Sie "
+"in die Timekpr-nExT log-Dateien"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:106
+msgid ""
+"Unexpected ERROR updating control. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Unerwarteter Fehler beim Aktualisieren der Steuerung. Bitte schauen Sie in "
+"die Timekpr-nExT log-Dateien"
+
+#: common/constants/messages.py:107
+#, python-format
+msgid "User \"%%s\" configuration is not found"
+msgstr "Konfiguration für Benutzer \"%%s\" nicht gefunden"
+
+#: common/constants/messages.py:108
+#, python-format
+msgid "User \"%%s\" control file is not found"
+msgstr "Steuerungs-Datei für Benutzer \"%%s\" nicht gefunden"
+
+#: common/constants/messages.py:109
+#, python-format
+msgid "User \"%%s\" is not found"
+msgstr "Benutzer \"%%s\" nicht gefunden"
+
+#: common/constants/messages.py:112
+msgid "Connected"
+msgstr "Verbunden"
+
+#: common/constants/messages.py:113
+msgid "Connecting..."
+msgstr "Verbinden..."
+
+#: common/constants/messages.py:114
+msgid "Failed to connect"
+msgstr "Verbindung fehlgeschlagen"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:116
+msgid ""
+"Please reopen the application if You are superuser and Timekpr-nExT is "
+"running"
+msgstr ""
+"Bitte öffnen Sie die Anwendung erneut wenn Sie Superuser sind und Timekpr-"
+"nExT bereits läuft"
+
+#: common/constants/messages.py:117
+msgid "Started"
+msgstr "Gestartet"
+
+#: common/constants/messages.py:118
+msgid "User configuration retrieved"
+msgstr "Benutzer-Konfiguration wurde geladen"
+
+#: common/constants/messages.py:119
+msgid "Configuration retrieved"
+msgstr "Konfiguration erhalten"
+
+#: common/constants/messages.py:120
+msgid "Track inactive for user has been processed"
+msgstr "Inaktivitäts-Verfolgung für den Benutzer wurde verarbeitet"
+
+#: common/constants/messages.py:121
+msgid "Additional time for user has been processed"
+msgstr "Zusatz-Zeit für den Benutzer wurde verarbeitet"
+
+#: common/constants/messages.py:122
+msgid "Weekly and monthly limits for user have been processed"
+msgstr "Wochen- und Monats-Zeitlimits für den Benutzer wurden verarbeitet"
+
+#: common/constants/messages.py:123
+msgid "Allowed days for user have been processed"
+msgstr "Erlaubte Tage für den Benutzer wurden verarbeitet"
+
+#: common/constants/messages.py:124 common/constants/messages.py:126
+msgid "Time limits for days for user have been processed"
+msgstr "Tageweise Zeitlimits für den Benutzer wurden verarbeitet"
+
+#: common/constants/messages.py:125
+msgid "Allowed hours for user have been processed"
+msgstr "Erlaubte Stunden für den Benutzer wurden verarbeitet"
+
+#: common/constants/messages.py:127
+msgid "Timekpr-nExT configuration has been saved"
+msgstr "Timekpr-nExT-Konfiguration wurde gespeichert"
+
+#: common/constants/messages.py:128
+msgid "Please select a day to set the limits"
+msgstr "Bitte wählen Sie einen Tag für die Begrenzung"
+
+#: common/constants/messages.py:129
+msgid "Interval overlaps with existing one"
+msgstr "Intervall überschneidet sich mit bereits vorhandenem Intervall"
+
+#: common/constants/messages.py:130
+msgid "Interval start conflicts with existing one"
+msgstr "Intervall-Beginn kollidiert mit bereits vorhandenem Intervall-Beginn"
+
+#: common/constants/messages.py:131
+msgid "Interval end conflicts with existing one"
+msgstr "Intervall-Ende kollidiert mit bereits vorhandenem Intervall-Ende"
+
+#: common/constants/messages.py:132
+msgid "Interval start or end duplicates existing interval"
+msgstr "Intervall-Beginn oder -Ende duploziert bereits vorhandenen Intervall"
+
+#: common/constants/messages.py:133
+msgid "Interval start can not be the same as end"
+msgstr "Intervall-Beginn muss ungleich Intervall-Ende sein"
+
+#: common/constants/messages.py:134
+msgid "Please select a hour interval to remove"
+msgstr "Bitte wählen Sie einen Stunden-Intervall zum Entfernen"
+
+#: common/constants/messages.py:135
+msgid "Interval removed"
+msgstr "Intervall entfernt"
+
+#: common/constants/messages.py:136
+msgid "Timekpr-nExT interface is not yet ready"
+msgstr "Timekpr-nExT-Schnittstelle ist noch nicht bereit"
+
+#: common/constants/messages.py:139
+msgid ""
+"WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, "
+"but no displays are available, thus running in CLI..."
+msgstr ""
+"Warnhinweis: Timekpr-nExT-Administrationstool soll im GUI-Modus gestartet "
+"werden, es sind aber keine grafischen Fenster möglich. Daher wird der "
+"Kommandozeilen-Modus gestartet."
+
+#: common/constants/messages.py:140
+msgid "The command is incorrect:"
+msgstr "Der folgende Befehl ist nicht korrekt:"
+
+#: common/constants/messages.py:141
+msgid "The usage of Timekpr-nExT admin client is as follows:"
+msgstr "Benutzung von Timekpr-nExT Admin-Client ist wie folgt:"
+
+#: common/constants/messages.py:142
+#, python-format
+msgid "%(n)s user in total:"
+msgid_plural "%(n)s users in total:"
+msgstr[0] "Insgesamt %(n)s Benutzer:"
+msgstr[1] "Insgesamt %(n)s Benutzer:"
+
+#: common/constants/messages.py:143
+#, python-format
+msgid "Config for %s:"
+msgstr "Konfiguration für %s:"
+
+#: common/constants/messages.py:146
+msgid "Time left..."
+msgstr "Verbleibende Zeit..."
+
+#: common/constants/messages.py:147
+msgid "Limits & configuration"
+msgstr "Limits & Konfiguration"
+
+#: common/constants/messages.py:148
+msgid "About"
+msgstr "Über"
+
+#. TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
+#: common/constants/messages.py:152 resource/client/forms/about.glade:28
+msgid "please-enter-translator-credits"
+msgstr "ulle@o2online.de"
+
+#: common/constants/messages.py:153 resource/client/forms/about.glade:19
+msgid "Keep control of computer usage"
+msgstr "Computer-Nutzung im Griff behalten"
+
+#: common/constants/messages.py:156
+msgid "Timekpr-nExT notification"
+msgstr "Timekpr-nExT Hinweis"
+
+#: common/constants/messages.py:157
+msgid "Your time is not limited today"
+msgstr "Heute gibt es keine Zeitbeschränkung"
+
+#: common/constants/messages.py:158
+msgid "Time allowance has changed, please note new time left!"
+msgstr "Erlaubte Zeit wurde geändert, bitte neue Zeit beachten!"
+
+#: common/constants/messages.py:159
+msgid "Time limit configuration has changed, please note new configuration!"
+msgstr ""
+"Konfiguration der Zeitbeschränkung wurde geändert, bitte neue "
+"Zeitbeschränkungen beachten!"
+
+#: common/constants/messages.py:160
+#, python-format
+msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
+msgstr "Es gibt ein Problem beim Verbinden zum Timekpr-nExT Service (%%s)!"
+
+#: common/constants/messages.py:161
+#, python-format
+msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
+msgstr "Es gibt ein Problem mit der Kommunikation zu Timekpr-nExT (%%s)!"
+
+#: common/constants/messages.py:162
+#, python-format
+msgid "Icon inititalization error (%%s)!"
+msgstr "Fehler beim Initialisieren der Icons (%%s)!"
+
+#. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:164
+msgid "Your time is up, You will be forcibly logged out in"
+msgstr "Die erlaubte Nutzungszeit ist vorbei, das Ausloggen erfolgt in"
+
+#. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:166
+#, python-format
+msgid "%(n)s second"
+msgid_plural "%(n)s seconds"
+msgstr[0] "%(n)s Sekunde"
+msgstr[1] "%(n)s Sekunden"
+
+#: common/constants/messages.py:167
+msgid "Internal connection error, please check log files"
+msgstr "Interner Verbindungsfehler. Bitte schauen Sie in die log-Dateien"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:169
+#, python-format
+msgid "You have %(n)s hour"
+msgid_plural "You have %(n)s hours"
+msgstr[0] "Es bleibt noch %(n)s Stunde"
+msgstr[1] "Es bleiben noch %(n)s Stunden"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:171
+#, python-format
+msgid "%(n)s minute"
+msgid_plural "%(n)s minutes"
+msgstr[0] "%(n)s Minute"
+msgstr[1] "%(n)s Minuten"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:173
+#, python-format
+msgid "%(n)s second left"
+msgid_plural "%(n)s seconds left"
+msgstr[0] "noch %(n)s Sekunde"
+msgstr[1] "noch %(n)s Sekunden"
+
+#: common/constants/messages.py:176
+#, python-format
+msgid "UNEXPECTED ERROR: %%s"
+msgstr "Unerwarteter Fehler: %%s"
+
+#: common/constants/messages.py:177
+msgid "Command FAILED: access denied"
+msgstr "Kommando fehlgeschlagen: Zugriff verweigert"
+
+#: common/constants/messages.py:178
+msgid "Command FAILED: communication was not accepted"
+msgstr "Kommando fehlgeschlagen: Kommunikation wurde nicht angenommen"
+
+#: common/constants/messages.py:179
+msgid "n/a"
+msgstr "nicht verfügbar"
+
+#: resource/client/forms/about.glade:7
+msgid "About Timekpr-nExT"
+msgstr "Über Timekpr-nExT"
+
+#: resource/client/forms/about.glade:16
+msgid ""
+"Copyright (c) 2018-2019 Eduards Bezverhijs\n"
+"Super tester: Rinalds Dobelis\n"
+"Beta tester: SanskritFritz"
+msgstr ""
+"Copyright (c) 2018-2019 Eduards Bezverhijs\n"
+"Super tester: Rinalds Dobelis\n"
+"Beta tester: SanskritFritz"
+
+#: resource/client/forms/about.glade:21
+msgid "Timekpr-nExT"
+msgstr "Timekpr-nExT"
+
+# Copied from https://www.gnu.org/licenses/gpl-howto.de.html
+#. Please enter GPL3 licence text in Your language
+#: resource/client/forms/about.glade:22
+msgctxt "timekpr-next"
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see <http://www.gnu.org/licenses/>. In Debian, see "
+"file /usr/share/common-licenses/GPL-3"
+msgstr ""
+"Dieses Programm ist Freie Software: Sie können es unter den Bedingungen\n"
+"der GNU General Public License, wie von der Free Software Foundation,\n"
+"Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren\n"
+"veröffentlichten Version, weiter verteilen und/oder modifizieren.\n"
+"\n"
+"Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein "
+"wird, jedoch\n"
+"OHNE JEDE GEWÄHR,; sogar ohne die implizite\n"
+"Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.\n"
+"Siehe die GNU General Public License für weitere Einzelheiten.\n"
+"\n"
+"Sie sollten eine Kopie der GNU General Public License zusammen mit diesem\n"
+"Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>"
+
+#: resource/client/forms/admin.glade:172
+msgid "Remove excluded session type"
+msgstr "Ausgeschlossene Sitzungs-Typen entfernen"
+
+#: resource/client/forms/admin.glade:270
+msgid "Timekpr-nExT administration"
+msgstr "Timekpr-nExT Administration"
+
+#: resource/client/forms/admin.glade:288
+msgid "Icon, isn't it?"
+msgstr "Ist DAS nicht ein Icon?"
+
+#: resource/client/forms/admin.glade:308
+msgid "Notes, read carefully ;)"
+msgstr "Hinweise, bitte sorgfältig lesen ;)"
+
+#: resource/client/forms/admin.glade:313
+msgid ""
+"This is Timekpr-nExT configuration app, it allows You to configure time for "
+"Your users as well as Timekpr-nExT itself.\n"
+"\n"
+"To use this application You have to execute it either as superuser or have "
+"to be in timekpr group.\n"
+"Please note that \"Timekpr-nExT configuration\" is available in superuser "
+"(administrator) mode only!\n"
+"\n"
+"Please configure carefully, do not lock Yourself out!"
+msgstr ""
+"Das ist die Timekpr-nExT Konfigurations-App, damit können die Nutzungszeiten "
+"der Computer-Benutzer sowie auch Timekpr-nExT selbst konfiguriert werden.\n"
+"\n"
+"Bitte beachten Sie, dass \"Timekpr-nExT Konfiguration\" nur im Superuser-"
+"Modus (Administrator) möglich ist.\n"
+"Sie müssen entweder Superuser oder Mitglied der Gruppe timekpr sein, um die "
+"App vollständig verwenden zu können!\n"
+"\n"
+"Bitte seien Sie bei der Einrichtung sorgsam, Sie könnten sich selbst "
+"aussperren!"
+
+#: resource/client/forms/admin.glade:341 resource/client/forms/admin.glade:1850
+msgid "Users related configuration"
+msgstr "Benutzer-bezogene Konfiguration"
+
+#: resource/client/forms/admin.glade:356 resource/client/forms/config.glade:194
+msgid "Username:"
+msgstr "Benutzer auswählen:"
+
+#: resource/client/forms/admin.glade:385 resource/client/forms/admin.glade:396
+msgid "List of usernames registered on the system"
+msgstr "Liste der im System registrierten Benutzer"
+
+#: resource/client/forms/admin.glade:409
+msgid "restore"
+msgstr "Wiederherstellen"
+
+#: resource/client/forms/admin.glade:414
+msgid "Restore configuration from saved state"
+msgstr "Wiederherstellen einer gespeicherten Konfiguration"
+
+#: resource/client/forms/admin.glade:466
+msgid "This shows You information about time spent"
+msgstr "Hier bekommen Sie Informationen zur bisherigen Nutzungszeit"
+
+#: resource/client/forms/admin.glade:489
+msgid "Time spent today (saved stated, not real-time)"
+msgstr "Nutzungszeit heute (gespeichert, nicht real-time)"
+
+#: resource/client/forms/admin.glade:491
+msgid "Time spent (today):"
+msgstr "Nutzungszeit (heute):"
+
+#: resource/client/forms/admin.glade:506 resource/client/forms/admin.glade:553
+#: resource/client/forms/admin.glade:598 resource/client/forms/config.glade:302
+#: resource/client/forms/config.glade:317
+#: resource/client/forms/config.glade:348
+#: resource/client/forms/config.glade:393
+#: resource/client/forms/config.glade:609
+#: resource/client/forms/config.glade:667
+#: resource/client/forms/config.glade:739
+#: resource/client/forms/config.glade:769
+msgid "Format: <days : hours : minutes : seconds>"
+msgstr "Format: <Tage : Stunden : Minuten : Sekunden>"
+
+#: resource/client/forms/admin.glade:508 resource/client/forms/admin.glade:555
+#: resource/client/forms/admin.glade:600 resource/client/forms/config.glade:305
+#: resource/client/forms/config.glade:320
+#: resource/client/forms/config.glade:351
+#: resource/client/forms/config.glade:396
+#: resource/client/forms/config.glade:612
+#: resource/client/forms/config.glade:670
+#: resource/client/forms/config.glade:743
+#: resource/client/forms/config.glade:773
+msgid "00:00:00:00"
+msgstr "00:00:00:00"
+
+#: resource/client/forms/admin.glade:536
+msgid "Time spent for this week (saved stated, not real-time)"
+msgstr "Nutzungszeit dieser Woche (gespeichert, nicht real-time)"
+
+#: resource/client/forms/admin.glade:538 resource/client/forms/config.glade:598
+msgid "Time spent (week):"
+msgstr "Nutzungszeit (Woche):"
+
+#: resource/client/forms/admin.glade:580
+msgid "Time spent this month (saved stated, not real-time)"
+msgstr "Nutzungszeit dieses Monats (gespeichert, nicht real-time)"
+
+#: resource/client/forms/admin.glade:582 resource/client/forms/config.glade:627
+msgid "Time spent (month):"
+msgstr "Nutzungszeit (Monat):"
+
+#: resource/client/forms/admin.glade:637
+msgid ""
+"This allows You to change time for today as well as inactive session tracking"
+msgstr ""
+"Hiermit können Sie die Zeit für heute und die Beachtung von Inaktivität "
+"einstellen"
+
+#: resource/client/forms/admin.glade:662
+msgid "Amount:"
+msgstr "Anzahl:"
+
+#: resource/client/forms/admin.glade:687 resource/client/forms/admin.glade:1027
+#: resource/client/forms/admin.glade:1250
+#: resource/client/forms/admin.glade:1578
+#: resource/client/forms/admin.glade:1678
+msgid "hr"
+msgstr "h"
+
+#: resource/client/forms/admin.glade:698
+msgid "The amount of minutes  to be adjusted for todays limit"
+msgstr "Die Anzahl der Minuten der Anpassung des heutigen Tages-Limits"
+
+#: resource/client/forms/admin.glade:715
+msgid "The amount of hours to be adjusted for todays limit"
+msgstr "Die Anzahl der Stunden der Anpassung des heutigen Tages-Limits"
+
+#: resource/client/forms/admin.glade:732 resource/client/forms/admin.glade:1039
+#: resource/client/forms/admin.glade:1239
+#: resource/client/forms/admin.glade:1589
+#: resource/client/forms/admin.glade:1689
+msgid "min"
+msgstr "min"
+
+#: resource/client/forms/admin.glade:753 resource/client/forms/admin.glade:1332
+msgid "add"
+msgstr "Hinzufügen"
+
+#: resource/client/forms/admin.glade:758
+msgid "Add specified amount (reward)"
+msgstr "Die angegebene Anzahl hinzufügen (Belohnung)"
+
+#: resource/client/forms/admin.glade:770
+msgid "subtract"
+msgstr "Abziehen"
+
+#: resource/client/forms/admin.glade:775
+msgid "Subtract specified amount (penalty)"
+msgstr "Die angegebene Anzahl abziehen (Strafe)"
+
+#: resource/client/forms/admin.glade:787 resource/client/forms/admin.glade:868
+#: resource/client/forms/admin.glade:1081
+msgid "set"
+msgstr "Setzen"
+
+#: resource/client/forms/admin.glade:792
+msgid "Set exacly specified limit"
+msgstr "Exaktes Limit setzen"
+
+#: resource/client/forms/admin.glade:835 resource/client/forms/admin.glade:855
+#: resource/client/forms/config.glade:638
+#: resource/client/forms/config.glade:654
+msgid ""
+"Whether time for inactive sessions are counted, if this is unchecked, time "
+"spent in console (not terminal) and while screen is locked, is NOT taken "
+"into account (this very much varies from DE to DE)"
+msgstr ""
+"Nutzungszeit mit gesperrtem Bildschirm oder ohne aktives Fenster (sogenannte "
+"console) wird nicht mitgezählt (abhängig von gewählter Desktopumgebung). Ist "
+"das Häkchen gesetzt, zählt alles vom Einloggen bis zum Ausloggen als "
+"Nutzungszeit"
+
+#: resource/client/forms/admin.glade:838
+msgid "Track inactive sessions:"
+msgstr "Passive Nutzungszeit mitzählen:"
+
+#: resource/client/forms/admin.glade:873
+msgid "Set track inactive sessions"
+msgstr "Einstellen, ob passive Nutzungszeit gezählt wird"
+
+#: resource/client/forms/admin.glade:904
+msgid ""
+"Brief information about time spent and everything related to time management "
+"for this day"
+msgstr ""
+"Kurze Zusammenfassung zur heute bestehenden und verwendeten Nutzungszeit "
+
+#: resource/client/forms/admin.glade:905
+msgid "Info & today"
+msgstr "Info & Heute"
+
+#: resource/client/forms/admin.glade:942
+msgid "Configure time limits for week days"
+msgstr "Konfigurieren von Zeitlimits für Wochentage"
+
+#: resource/client/forms/admin.glade:966
+msgid ""
+"Day list of the week and additional information about the day's limit, "
+"please enable / disable days for the user"
+msgstr "Verwaltung von gesamten Nutzungstagen pro Woche für den Benutzer"
+
+#: resource/client/forms/admin.glade:1005
+msgid "Specify day's limit"
+msgstr "Tages-Limits festlegen"
+
+#: resource/client/forms/admin.glade:1050
+#: resource/client/forms/admin.glade:1066
+msgid "Set the amount of hours to limit available time for particular day"
+msgstr "Festlegen von Nutzungszeit in Stunden für einen bestimmten Tag"
+
+#: resource/client/forms/admin.glade:1086
+msgid ""
+"Set specified hours and minutes for particular day at user's disposal (do "
+"not forget to hit <apply> button)"
+msgstr ""
+"Festlegen von Nutzungszeit in Stunden und Minuten für einen bestimmten Tag, "
+"die dem Benutzer zur Verfügung stehen soll (muss noch mit dem <Anwenden>-"
+"Button bestätigt werden)"
+
+#: resource/client/forms/admin.glade:1152
+msgid "Hour intervals"
+msgstr "Stunden-Intervalle"
+
+#: resource/client/forms/admin.glade:1176
+msgid ""
+"Hour intervals per day available to user.\n"
+"Please note that if day ends at 24th hour and next day starts at 0, user can "
+"work continously past midnight.\n"
+"Please note that multiple intervals can not be configured within the same "
+"hour, it can start or end or contain within hour, but not more than once "
+"(this is by design, not a bug)"
+msgstr ""
+"Stunden-Intervalle pro Tag mit möglicher Nutzungszeit für den Benutzer.\n"
+"Hinweis: Wenn ein Tag mit der 24. Stunde endet und der nächste Tag mit 0 "
+"beginnt, besteht die Nutzungszeit für den  Benutzer über Mitternacht "
+"hinaus.\n"
+"Hinweis: Innerhalb einer Stunde kann nur ein Intervall, nicht mehrere, "
+"konfiguriert werden. Start und Ende dürfen innerhalb einer Stunde liegen "
+"(aber eben nur einmal)"
+
+#: resource/client/forms/admin.glade:1218
+msgid "Manage intervals for day"
+msgstr "Verwalten der Tages-Intervalle"
+
+#: resource/client/forms/admin.glade:1261
+msgid "Specify START minute of the allowed hour interval"
+msgstr "Festlegen der Anfangs-Minute des erlaubten Stunden-Intervalls"
+
+#: resource/client/forms/admin.glade:1278
+msgid "Specify START hour of the allowed hour interval"
+msgstr "Festlegen der Anfangs-Stunde des erlaubten Stunden-Intervalls"
+
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "von"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "bis"
+
+#: resource/client/forms/admin.glade:1316
+msgid "remove"
+msgstr "Entfernen"
+
+#: resource/client/forms/admin.glade:1321
+msgid ""
+"Remove selected interval from the list (do not forget to hit <apply> button)"
+msgstr ""
+"Gewählten Intervall von der Liste entfernen (muss noch mit dem <Anwenden>-"
+"Button bestätigt werden)"
+
+#: resource/client/forms/admin.glade:1337
+msgid ""
+"Add specified hour interval to the list (do not forget to hit <apply> button)"
+msgstr ""
+"Festgelegten Intervall zur Liste hinzufügen (muss noch mit dem <Anwenden>-"
+"Button bestätigt werden)"
+
+#: resource/client/forms/admin.glade:1350
+msgid "Specify END hour of the allowed hour interval"
+msgstr "Festlegen der letzten Stunde des erlaubten Stunden-Intervalls"
+
+#: resource/client/forms/admin.glade:1366
+msgid "Specify END minute of the allowed hour interval"
+msgstr "Festlegen der letzten Minute des erlaubten Stunden-Intervalls"
+
+#: resource/client/forms/admin.glade:1415
+msgid "apply daily limits"
+msgstr "Liste der Tages-Limits übernehmen"
+
+#: resource/client/forms/admin.glade:1420
+msgid "Apply all changes made in this page"
+msgstr "Alle Änderungen auf dieser Seite übernehmen"
+
+#: resource/client/forms/admin.glade:1442
+msgid "Daily limit configuration for all week days"
+msgstr "Konfigurieren der Tages-Limits für die gesamte Woche"
+
+#: resource/client/forms/admin.glade:1443
+#: resource/client/forms/config.glade:548
+msgid "Daily limits"
+msgstr "Tages-Limits"
+
+#: resource/client/forms/admin.glade:1471
+msgid "Time limit for the month"
+msgstr "Zeit-Limits für den Monat"
+
+#: resource/client/forms/admin.glade:1473
+msgid "Time limit (month)"
+msgstr "Zeit-Limit (Monat)"
+
+#: resource/client/forms/admin.glade:1490
+msgid "Time limit for the month is enabled"
+msgstr "Monatliches Zeit-Limit ist eingeschaltet"
+
+#: resource/client/forms/admin.glade:1521
+msgid "Time limit for the week"
+msgstr "Zeit-Limits für die Woche"
+
+#: resource/client/forms/admin.glade:1523
+msgid "Time limit (week)"
+msgstr "Zeit-Limit (Woche)"
+
+#: resource/client/forms/admin.glade:1539
+msgid "Time limit for the week is enabled"
+msgstr "Wöchentliches Zeit-Limit ist eingeschaltet"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "Tag"
+
+#: resource/client/forms/admin.glade:1601
+msgid "Week limit amount (days part)"
+msgstr "Wöchentliches Zeit-Limit (Tage)"
+
+#: resource/client/forms/admin.glade:1619
+msgid "Week limit amount (hours part)"
+msgstr "Wöchentliches Zeit-Limit (Stunden-Anteil)"
+
+#: resource/client/forms/admin.glade:1637
+msgid "Week limit amount (minutes part)"
+msgstr "Wöchentliches Zeit-Limit (Minuten-Anteil)"
+
+#: resource/client/forms/admin.glade:1701
+msgid "Month limit amount (days part)"
+msgstr "Monatliches Zeit-Limit (Tage)"
+
+#: resource/client/forms/admin.glade:1719
+msgid "Month limit amount (hours part)"
+msgstr "Monatliches Zeit-Limit (Stunden-Anteil)"
+
+#: resource/client/forms/admin.glade:1737
+msgid "Month limit amount (minutes part)"
+msgstr "Monatliches Zeit-Limit (Minuten-Anteil)"
+
+#: resource/client/forms/admin.glade:1765
+msgid "This allows You to set up weekly & monthly limits"
+msgstr "Hier können wöchentliche und monatliche Zeit-Limits eingestellt werden"
+
+#: resource/client/forms/admin.glade:1779
+msgid "apply"
+msgstr "Anwenden"
+
+#: resource/client/forms/admin.glade:1784
+msgid "Apply weekly and monthly limits"
+msgstr "Wochen- und Monats-Limits anwenden"
+
+#: resource/client/forms/admin.glade:1829
+msgid "Weekly and monthly limit configuration"
+msgstr "Konfiguration Wochen- und Monats-Limits"
+
+#: resource/client/forms/admin.glade:1830
+msgid "Weekly & monthly limits"
+msgstr "Wöchentliche & monatliche Limits"
+
+#: resource/client/forms/admin.glade:1851
+msgid "User configuration"
+msgstr "Benutzer-Konfiguration"
+
+#: resource/client/forms/admin.glade:1882
+msgid "Control Timekpr-nExT settings"
+msgstr "Verwalten der Timekpr-nExT Einstellungen"
+
+#: resource/client/forms/admin.glade:1909
+msgid ""
+"Timekpr-nExT log level, please do not change this unless asked (You likely "
+"won't find anything pretty in the log files)\n"
+"1 - standard, 2 - debug, 3 - extra debug"
+msgstr ""
+"Timekpr-nExT log level, bitte nur ändern falls dazu aufgeforder (Sie werden "
+"wahrscheinlich nichts brauchbares in den Logdateien finden)\n"
+"1 - standard, 2 - debug, 3 - extra debug"
+
+#: resource/client/forms/admin.glade:1928
+msgid "Poll interval"
+msgstr "Abfrage-Intervall"
+
+#: resource/client/forms/admin.glade:1940
+msgid ""
+"Specify the time in seconds when Timekpr-nExT starts continous real-time "
+"countdown before terminating the session"
+msgstr ""
+"Wieviele Sekunden bevor Timekpr-nExT die Sitzung beendet soll der Countdown "
+"eingeblendet werden"
+
+#: resource/client/forms/admin.glade:1958
+msgid "Save time"
+msgstr "Zeit speichern"
+
+#: resource/client/forms/admin.glade:1970
+msgid ""
+"Specify session polling time granularity (at which interval user sessions "
+"and activity are polled).\n"
+"3 -5 seconds are optimal, don't change this if unsure."
+msgstr ""
+"Festlegen, in welchen Abständen die Nutzungszeit überprüft werden soll "
+"(Kontrollhäufigkeit für Sitzung und Aktivität).\n"
+"3-5 Sekunden sind optimal, im Zweifel den Wert unverändert lassen."
+
+#: resource/client/forms/admin.glade:1989
+msgid "Termination time"
+msgstr "Beendigungs-Zeit"
+
+#: resource/client/forms/admin.glade:2001
+msgid "This specifies the time interval at which actual user state is saved"
+msgstr ""
+"Hier wird der Zeit-Intervall, in dem der User-Status gespeicher wird, "
+"gestgelegt"
+
+#: resource/client/forms/admin.glade:2019
+msgid ""
+"Amount of seconds before terminating user sessions, after this is reached "
+"user will be terminated, nothing can be done to prevent it.\n"
+"Adding time does not help in this case, do that before reaching this point..."
+msgstr ""
+"Sekunden bevor das Beenden einer Benutzer-Sitzung beginnt. Der Prozess des "
+"Beendens einer Benutzer-Sitzung kann nicht mehr aufgehalten werden.\n"
+"Es hilft nichts, während der einzelnen Schritte des Beendigungs-Prozesses "
+"noch erlaubte Nutzungszeit hinzuzufügen - das sollte vorher gemacht "
+"werden ..."
+
+#: resource/client/forms/admin.glade:2038
+msgid "Warning time"
+msgstr "Warnungs-Zeiten"
+
+#: resource/client/forms/admin.glade:2050
+msgid "Log level"
+msgstr "Log-Stufe"
+
+#: resource/client/forms/admin.glade:2088
+msgid "Control Timekpr-nExT tracking items"
+msgstr "Verwalten der von Timekpr-nExT überwachten Zustände"
+
+#: resource/client/forms/admin.glade:2123
+msgid "tracked sessions"
+msgstr "Überwachte Sitzungen"
+
+#: resource/client/forms/admin.glade:2145
+msgid ""
+"List of session types to be tracked.\n"
+"Please, do not change or experiment with this unless You actually (not "
+"wishfully) know what are You doing."
+msgstr ""
+"Liste der überwachten Sitzungs-Typen.\n"
+"Bitten nicht ändern oder damit herumprobieren, außer Sie wissen genau was "
+"sie damit verändern."
+
+#: resource/client/forms/admin.glade:2166
+msgid "Enter session type to be tracked"
+msgstr "Überwachten Sitzungs-Typ eingeben"
+
+#: resource/client/forms/admin.glade:2190
+msgid "Add tracked session type to the list"
+msgstr "Überwachten Sitzungs-Typ zur Liste hinzufügen"
+
+#: resource/client/forms/admin.glade:2206
+msgid "Remove tracked session type from the list"
+msgstr "Überwachten Sitzungs-Typ von der Liste entfernen"
+
+#: resource/client/forms/admin.glade:2243
+msgid "excluded sessions"
+msgstr "nicht überwachte Sitzungs-Typen"
+
+#: resource/client/forms/admin.glade:2265
+msgid ""
+"List of sessions to be excluded from tracking.\n"
+"Please, do not change or experiment with this unless You actually (not "
+"wishfully) know what are You doing."
+msgstr ""
+"Liste der nicht überwachten Sitzungs-Typen.\n"
+"Bitten nicht ändern oder damit herumprobieren, außer Sie wissen genau was "
+"sie damit verändern."
+
+#: resource/client/forms/admin.glade:2286
+msgid "Enter session type to be excluded from tracking"
+msgstr "Sitzungs-Typ, der nicht überwacht werden soll, eingeben"
+
+#: resource/client/forms/admin.glade:2310
+msgid "Add excluded session type to the list"
+msgstr "Sitzungs-Typ, der nicht überwacht werden soll, zur Liste hinzufügen"
+
+#: resource/client/forms/admin.glade:2326
+msgid "Remove excluded session type from the list"
+msgstr "Sitzungs-Typ, der nicht überwacht werden soll, von der Liste entfernen"
+
+#: resource/client/forms/admin.glade:2363
+msgid "excluded users"
+msgstr "Nicht überwachte Benutzer"
+
+#: resource/client/forms/admin.glade:2385
+msgid ""
+"List of users excluded from tracking.\n"
+"Please specify actual usernames not real names here (e.g please specify "
+"jsmith, not John Smith)"
+msgstr ""
+"Liste der Benutzer, deren Nutzungszeit nicht überwacht werden soll.\n"
+"Bitte die vom System verwendeten Benutzernamen statt Vorname/Nachname "
+"eingeben (bspw. mmustermann statt Max Mustermann)"
+
+#: resource/client/forms/admin.glade:2406
+msgid "Enter username to be excluded from tracking"
+msgstr "Benutzername des nicht zu überwachenden Benutzers eingeben"
+
+#: resource/client/forms/admin.glade:2430
+msgid "Add user to the exclusion list"
+msgstr "Benutzer zur Ausschluss-Liste hinzufügen"
+
+#: resource/client/forms/admin.glade:2446
+msgid "Remove user from the exclusion list"
+msgstr "Benutzer von der Ausschluss-Liste entfernen"
+
+#: resource/client/forms/admin.glade:2493
+msgid "Apply Timekpr-nExT setings"
+msgstr "Anwenden der Timekpr-nExT Einstellungen"
+
+#: resource/client/forms/admin.glade:2498
+msgid "Apply all Timekpr-nExT settings at once"
+msgstr "Anwenden aller Timekpr-nExT Einstellungen auf einmal"
+
+#: resource/client/forms/admin.glade:2518
+msgid "Timekpr-nExT administration configuration"
+msgstr "Konfigurieren, wie Timekpr-nExT arbeiten soll (Administration)"
+
+#: resource/client/forms/admin.glade:2519
+msgid "Timekpr-nExT configuration"
+msgstr "Timekpr-nExT-Konfiguration"
+
+#: resource/client/forms/admin.glade:2548
+#: resource/client/forms/admin.glade:2567
+msgid "Status of Timekpr-nExT admin client"
+msgstr "Status des Timekpr-nExT Admin Client"
+
+#: resource/client/forms/config.glade:31
+msgid "Timekpr-nExT client"
+msgstr "Timekpr-nExT Client"
+
+#: resource/client/forms/config.glade:62
+msgid "Status of Timekpr-nExT client"
+msgstr "Status des Timekpr-nExT Client"
+
+#: resource/client/forms/config.glade:95
+msgid "Save all changes"
+msgstr "Alle Änderungen speichern"
+
+#: resource/client/forms/config.glade:112
+msgid "Close the window"
+msgstr "Fenster schließen"
+
+#: resource/client/forms/config.glade:193
+msgid "Current effective username"
+msgstr "Momentaner effektiver Benutzername"
+
+#: resource/client/forms/config.glade:267
+msgid "Current statistics"
+msgstr "Aktuelle Statistiken"
+
+#: resource/client/forms/config.glade:288
+msgid "Time spent this session or after Timekpr-nExT has been restarted"
+msgstr ""
+"Verbrauchte Nutzungszeit in der Benutzersitzung oder seit Timekpr-nExT neu "
+"gestartet wurde"
+
+#: resource/client/forms/config.glade:291
+msgid "Time spent (session):"
+msgstr "Nutzungszeit (Sitzung):"
+
+#: resource/client/forms/config.glade:334
+msgid "Time inactive this session or after Timekpr-nExT has been restarted"
+msgstr ""
+"Passive Nutzungszeit in der Benutzersitzung oder seit Timekpr-nExT neu "
+"gestartet wurde"
+
+#: resource/client/forms/config.glade:337
+msgid "Time inactive:"
+msgstr "Passive Zeit:"
+
+#: resource/client/forms/config.glade:362
+msgid "Continous time left to You which may span to more than a current day"
+msgstr ""
+"Ab jetzt noch ohne Unterbrechung bestehende Nutzungszeit - diese kann auch "
+"über den momentanen Tag hinausgehen."
+
+#: resource/client/forms/config.glade:365
+msgid "Continous time left:"
+msgstr "Verbleibende Zeit ohne Unterbrechung:"
+
+#: resource/client/forms/config.glade:379
+msgid "Total time available left today in a row, up to the end of the day"
+msgstr "Verbleibende Zeit insgesamt bis zum Ende des Tages"
+
+#: resource/client/forms/config.glade:382
+msgid "Time left today:"
+msgstr "Verbleibende Zeit heute:"
+
+#: resource/client/forms/config.glade:437
+msgid "These are days and limits that available to You"
+msgstr "Ihnen erlaubte Nutzungstage und Limits"
+
+#: resource/client/forms/config.glade:464
+msgid "Days & limits"
+msgstr "Nutzungstage & Limits"
+
+#: resource/client/forms/config.glade:496
+msgid "This shows time intervals that are available for Your use"
+msgstr "Zeit-Intervalle innerhalb Ihrer erlaubten Nutzungszeit"
+
+#: resource/client/forms/config.glade:521
+msgid "Intervals"
+msgstr "Intervalle"
+
+#: resource/client/forms/config.glade:574
+msgid "Additional statistics"
+msgstr "Zusätzliche Statistiken"
+
+#: resource/client/forms/config.glade:595
+msgid "TIme spent for this week"
+msgstr "Verbrauchte Nutzungszeit in dieser Woche"
+
+#: resource/client/forms/config.glade:624
+msgid "Time spent for this month"
+msgstr "Verbrauchte Nutzungszeit in diesem Monat"
+
+#: resource/client/forms/config.glade:641
+msgid "Track inactive:"
+msgstr "Passive Nutzung überwachen:"
+
+#: resource/client/forms/config.glade:704
+#: resource/client/forms/config.glade:803
+msgid "Additional limits"
+msgstr "Zusätzliche Limits"
+
+#: resource/client/forms/config.glade:725
+msgid "Time limit for week available to You"
+msgstr "Ihnen erlaubte Nutzungszeit in dieser Woche"
+
+#: resource/client/forms/config.glade:728
+msgid "Time limit (week):"
+msgstr "Zeitlimit (Woche):"
+
+#: resource/client/forms/config.glade:755
+msgid "Time limit for month available to You"
+msgstr "Ihnen erlaubte Nutzungszeit in diesem Monat"
+
+#: resource/client/forms/config.glade:758
+msgid "Time limit (month):"
+msgstr "Zeitlimit (Monat):"
+
+#: resource/client/forms/config.glade:819
+msgid "Use speech notifications"
+msgstr "Sprach-Hinweise verwenden"
+
+#: resource/client/forms/config.glade:823
+msgid ""
+"Whether to use speech notifications (if not available, this will be greyed "
+"out), if usage of speech is very much needed, please install python3-espeak "
+"package"
+msgstr ""
+"Festlegen, ob Sprach-Hinweise gegeben werden (ausgegraut, falls nicht "
+"verfügbar). Für Verfügbarkeit muss das Paket python3-espeak installiert sein."
+
+#: resource/client/forms/config.glade:842
+#: resource/client/forms/config.glade:865
+msgid ""
+"This sets logging level (please do not change this unless You know what "
+"You're doing)"
+msgstr ""
+"Stufen für die Ausführlichkeit des Logs (Bitten nicht ändern außer Sie "
+"wissen genau was sie damit verändern)"
+
+#: resource/client/forms/config.glade:868
+msgid "Logging level"
+msgstr "Log-Ausführlichkeit"
+
+#: resource/client/forms/config.glade:884
+msgid "Show limit changes"
+msgstr "Limit-Änderungen anzeigen"
+
+#: resource/client/forms/config.glade:888
+msgid ""
+"Whether to show notification when limit configurations or alowance changes"
+msgstr ""
+"Sollen Änderungen an Limits oder der erlaubten Nutzungszeiten angezeigt "
+"werden"
+
+#: resource/client/forms/config.glade:901
+msgid "Show all notifications"
+msgstr "Alle Benachrichtigungen anzeigen"
+
+#: resource/client/forms/config.glade:905
+msgid ""
+"Whether to show all notifications, if unchecked then only important ones are "
+"shown"
+msgstr ""
+"Sollen alle Benachrichtigungen angezeigt werden? Es werden sonst nur die "
+"wichtigsten gezeigt."
+
+#: resource/client/forms/config.glade:918
+msgid "Show seconds in notification area"
+msgstr "Benachrichtigungen enthalten Sekunden"
+
+#: resource/client/forms/config.glade:922
+msgid ""
+"Whether to show seconds in notification area (some DE, like KDE5, do not "
+"support text besides notification icons)"
+msgstr ""
+"Sollen Zeitangaben in Benachrichtigungen auch die Sekunden enthalten (manche "
+"Desktopumgebungen, bspw. KDE5, haben keine Unterstützung für Text bei "
+"Benachrichtigungs-Icons)"
+
+#: resource/client/forms/config.glade:962
+msgid "Configuration"
+msgstr "Konfiguration"
