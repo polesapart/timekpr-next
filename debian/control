@@ -15,7 +15,7 @@ Suggests: espeak, python3-espeak
 Provides: timekpr
 Conflicts: timekpr-next
 Replaces: timekpr, timekpr-beta, timekpr-next
-Recommends: gdm | kdm | lightdm | mdm | lxdm, python-appindicator, gir1.2-appindicator3-0.1
+Recommends: python-appindicator, gir1.2-appindicator3-0.1
 Description: Keep control of computer usage
  This program will track and control the computer usage of
  your user accounts. You can limit their daily usage based
