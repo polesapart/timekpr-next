@@ -7,6 +7,7 @@ Created on Aug 28, 2018
 # imports
 import os
 import getpass
+from os import geteuid
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -32,6 +33,9 @@ class timekprAdminClient(object):
         # main object for GUI
         self._adminGUI = None
 
+        # whether this is admin mode or not
+        self._isAdmin = (geteuid() == 0)
+
     def startTimekprAdminClient(self, *args):
         """Start up timekpr admin (choose gui or cli and start this up)"""
         # check whether we need CLI or GUI
@@ -47,8 +51,14 @@ class timekprAdminClient(object):
 
             # if we are required to run graphical thing
             if (timekprX11Available or timekprWaylandAvailable or timekprMirAvailable):
+                # save logging for later use in classes down tree
+                self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_DEBUG, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR}
+                # logging init
+                log.setLogging(self._logging, pAminClient=self._isAdmin)
+
                 # configuration init
                 _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
+                # load config
                 _timekprConfigManager.loadMainConfiguration()
                 # resource dir
                 _resourcePathGUI = os.path.join(_timekprConfigManager.getTimekprSharedDir(), "client/forms")

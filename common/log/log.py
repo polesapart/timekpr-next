@@ -24,12 +24,12 @@ def getLogLevel():
     return LOG_LEVEL
 
 
-def setLogging(pLog, pClient=False):
+def setLogging(pLog, pClient=False, pAminClient=False):
     """Set up logging (this function expects 2 tuples, one for level and second for file)"""
     # set up level
     setLogLevel(pLog[cons.TK_LOG_L])
     # set up file
-    setLogFile(pLog[cons.TK_LOG_D], pClient=pClient)
+    setLogFile(pLog[cons.TK_LOG_D], pClient=pClient, pAminClient=pAminClient)
 
 
 def setLogLevel(pLvl):
@@ -39,11 +39,11 @@ def setLogLevel(pLvl):
     LOG_LEVEL = pLvl
 
 
-def setLogFile(pLogDir, pClient=False):
+def setLogFile(pLogDir, pClient=False, pAminClient=False):
     """Set up log file"""
     global LOG_FILE
     # log  file
-    logFile = os.path.join(pLogDir, ("." if pClient else ""), cons.TK_LOG_FILE)
+    logFile = os.path.join(pLogDir, ("." if pClient else ""), (cons.TK_LOG_FILE_ADMIN if pAminClient else cons.TK_LOG_FILE))
 
     # change log file from default to smth
     if pLogDir is not None:

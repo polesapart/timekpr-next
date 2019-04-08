@@ -8,7 +8,6 @@ import gi
 import os
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-import gettext
 from datetime import datetime, timedelta
 
 # timekpr imports
