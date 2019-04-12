@@ -68,12 +68,16 @@ class timekprDaemon(dbus.service.Object):
         self._timekprUserTerminationList = {}
 
         # ## initialization ##
+        # set up tmp logging
+        self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
+        # set up tmp logging
+        log.setLogging(self._logging)
         # configuration init
-        self._timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
+        self._timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive, pLog=self._logging)
         self._timekprConfigManager.loadMainConfiguration()
 
         # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: self._timekprConfigManager.getTimekprLogfileDir()}
+        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: self._timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
         # logging init
         log.setLogging(self._logging)
 

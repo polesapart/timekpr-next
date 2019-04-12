@@ -768,14 +768,16 @@ class timekprClientConfig(object):
         # config
         self._timekprConfig = {}
         self._isDevActive = pIsDevActive
-
         # get home
         self._userHome = os.path.expanduser("~")
-        # set client log file
-        log.setLogFile(self._userHome, pClient=True)
+
+        # set up logging
+        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT}
+        # set up logging
+        log.setLogging(logging)
 
         # set up log file name
-        self._timekprConfig["TIMEKPR_LOGFILE_DIR"] = self._userHome
+        self._timekprConfig["TIMEKPR_LOGFILE_DIR"] = logging[cons.TK_LOG_D]
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start initializing client configuration manager")
 
