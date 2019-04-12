@@ -50,14 +50,14 @@ def setLogFile(pLogDir, pWho):
         # construct tmp file name
         tmpLogFile = os.path.join(cons.TK_LOG_TEMP_DIR, cons.TK_LOG_FILE)
 
-    # find old log file (if that exists and transfer contents to real
-    if os.path.isfile(tmpLogFile):
-        # transfer
-        with open(logFile, "a") as fTo, open(tmpLogFile, "r") as fFrom:
-            fTo.writelines(fLine for fLine in fFrom)
+        # find old log file (if that exists and transfer contents to real
+        if os.path.isfile(tmpLogFile):
+            # transfer
+            with open(logFile, "a") as fTo, open(tmpLogFile, "r") as fFrom:
+                fTo.writelines(fLine for fLine in fFrom)
 
-        # we don't need tmp file anymore
-        os.remove(tmpLogFile)
+            # we don't need tmp file anymore
+            os.remove(tmpLogFile)
 
     # set
     LOG_FILE = logFile
