@@ -61,12 +61,16 @@ class timekprUserStore(object):
                     # save
                     users[userDef[0]] = uuid
 
+        # set up tmp logging
+        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
+        # set up logging
+        log.setLogging(logging)
         # get user config
-        timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE)
+        timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE, pLog=logging)
         # load user config
         timekprConfigManager.loadMainConfiguration()
         # set up logging
-        logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir()}
+        logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
 
         # go through our users
         for rUser, rUserId in users.items():
