@@ -1,6 +1,7 @@
 timekpr-next (0.2.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * logging improvements (all client side logs are written to /tmp instead of HOME)
+  * tweak to translation credits (if none are supplied)
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Apr 2019 18:34:31 +0300
 
