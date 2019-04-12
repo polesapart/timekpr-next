@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.1"
+TK_VERSION = "0.2.2"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -24,18 +24,29 @@ TK_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 TK_LOG_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 TK_DATETIME_START = datetime(2018, 1, 1)
 
-# logging
+# logging levels
+TK_LOG_LEVEL_NONE = 0
 TK_LOG_LEVEL_INFO = 1
 TK_LOG_LEVEL_DEBUG = 2
 TK_LOG_LEVEL_EXTRA_DEBUG = 3
+# logging properties
 TK_LOG_L = "lvl"
 TK_LOG_D = "dir"
+TK_LOG_W = "who"
 TK_LOG_TEMP_DIR = "/tmp"
 TK_LOG_PID_EXT = ".pid"
+# logging clients
+TK_LOG_OWNER_SRV = 0
+TK_LOG_OWNER_CLIENT = 1
+TK_LOG_OWNER_ADMIN = 2
+TK_LOG_OWNER_ADMIN_SU = 3
 
-# ## actual system ##
+# ## files and locations ##
+# log files
 TK_LOG_FILE = "timekpr.log"
-TK_LOG_FILE_ADMIN = "timekpr-su.log"
+TK_LOG_FILE_CLIENT = "timekprc.log"
+TK_LOG_FILE_ADMIN = "timekpra.log"
+TK_LOG_FILE_ADMIN_SU = "timekpra-su.log"
 # main config file
 TK_MAIN_CONFIG_DIR = "/etc/timekpr"
 # runtime directory for timekpr user configuration files

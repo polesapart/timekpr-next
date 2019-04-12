@@ -33,9 +33,6 @@ class timekprAdminClient(object):
         # main object for GUI
         self._adminGUI = None
 
-        # whether this is admin mode or not
-        self._isAdmin = (geteuid() == 0)
-
     def startTimekprAdminClient(self, *args):
         """Start up timekpr admin (choose gui or cli and start this up)"""
         # check whether we need CLI or GUI
@@ -52,12 +49,12 @@ class timekprAdminClient(object):
             # if we are required to run graphical thing
             if (timekprX11Available or timekprWaylandAvailable or timekprMirAvailable):
                 # save logging for later use in classes down tree
-                self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_DEBUG, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR}
+                self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_DEBUG, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN)}
                 # logging init
-                log.setLogging(self._logging, pAminClient=self._isAdmin)
+                log.setLogging(self._logging)
 
                 # configuration init
-                _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive)
+                _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive, pLog=self._logging)
                 # load config
                 _timekprConfigManager.loadMainConfiguration()
                 # resource dir

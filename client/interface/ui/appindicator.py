@@ -36,7 +36,7 @@ class timekprIndicator(timekprNotificationArea):
     def __init__(self, pLog, pIsDevActive, pUserName, pClientConfigManager):
         """Init all required stuff for indicator"""
         # init logging firstly
-        log.setLogging(pLog, pClient=True)
+        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprIndicator")
 

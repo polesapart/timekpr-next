@@ -24,9 +24,9 @@ class timekprNotifications(object):
     """Main class for supporting indicator notifications"""
 
     def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
-        """Initialize notificaitions"""
+        """Initialize notifications"""
         # init logging firstly
-        log.setLogging(pLog, pClient=True)
+        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr notifications")
 

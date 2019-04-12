@@ -30,6 +30,11 @@ class timekprClient(object):
 
     def __init__(self, pIsDevActive=False):
         """Initialize client"""
+        # log
+        self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT}
+        # set up logging
+        log.setLogging(self._logging)
+
         # dev
         self._isDevActive = pIsDevActive
 
@@ -47,10 +52,9 @@ class timekprClient(object):
         self._timekprConfigManager.loadClientConfiguration()
 
         # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getClientLogLevel(), cons.TK_LOG_D: self._timekprConfigManager.getClientLogfileDir()}
-
-        # logging init
-        log.setLogging(self._logging, pClient=True)
+        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getClientLogLevel(), cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT}
+        # set up logging
+        log.setLogging(self._logging)
 
     def startTimekprClient(self):
         """Start up timekpr (choose appropriate gui and start this up)"""
