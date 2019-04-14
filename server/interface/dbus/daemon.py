@@ -209,16 +209,17 @@ class timekprDaemon(dbus.service.Object):
         for userName in self._timekprUserList:
             # init variables for user
             self._timekprUserList[userName].initTimekprVariables()
+            # additional options
+            killEvenIdle = True
 
             # adjust time spent
             isUserActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfigManager.getTimekprSessionsCtrl(), self._timekprConfigManager.getTimekprSessionsExcl(), self._timekprConfigManager.getTimekprSaveTime())
             # recalculate time left
             self._timekprUserList[userName].recalculateTimeLeft()
 
-            # if user is not active, we do not send them to death row (suspend the sentence for a while)
-            if not isUserActive and userName in self._timekprUserTerminationList:
+            # if user is not active and we are not killing them even idle, we do not send them to death row (suspend the sentence for a while)
+            if (not isUserActive and not killEvenIdle) and userName in self._timekprUserTerminationList:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving user \"%s\" from certain death" % (userName))
-
                 # remove from death list
                 self._timekprUserTerminationList.pop(userName)
 
@@ -227,8 +228,8 @@ class timekprDaemon(dbus.service.Object):
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s, time left: %i" % (userName, str(isUserActive), timeLeftInARow))
 
-            # if user sessions are not yet sentenced to death and user is active
-            if userName not in self._timekprUserTerminationList and isUserActive:
+            # if user sessions are not yet sentenced to death and user is active (or forced)
+            if userName not in self._timekprUserTerminationList and (isUserActive or killEvenIdle):
                 # if user has very few time, let's kill him softly
                 if timeLeftInARow <= self._timekprConfigManager.getTimekprTerminationTime():
                     # how many users are on the death row
