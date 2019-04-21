@@ -13,9 +13,11 @@ _RESULT = 0
 from datetime import datetime
 import os
 import inspect
+import psutil
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
+from timekpr.common.log import log
 
 
 # this is needed for debugging purposes
@@ -81,3 +83,32 @@ def checkAndSetRunning(pAppName):
 
     # return whether we are running
     return isAlreadyRunning
+
+
+def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
+    """Kill leftover processes for user"""
+    # set logging
+    log.setLogging(pLog)
+    # get all processes for this user
+    for userProc in psutil.process_iter:
+        # process info
+        procInfo = userProc.as_dict(attrs=["pid", "ppid", "name", "username", "terminal"])
+        # check for username and for processes that originates from init (the rest should be terminated along with the session)
+        if procInfo["username"] == pUserName and procInfo["ppid"] in (0, 1):
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "INFO: got leftover process, pid: %s, ppid: %s, username: %s, name: %s, terminal: %s" % (procInfo["pid"], procInfo["ppid"], procInfo["username"], procInfo["name"], procInfo["terminal"]))
+            # kill processes if they are terminal and terminals are tracked or they are not terminal processes
+            if (procInfo["terminal"] is not None and "tty" in pSessionTypes) or procInfo["terminal"] is None:
+                try:
+                    # get process and kill it
+                    userPrc = psutil.Process(procInfo["pid"])
+                    # asking process to terminate
+                    userPrc.terminate()
+                except psutil.Error:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: killing %s failed" % (procInfo["pid"]))
+                    pass
+                else:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: process %s killed" % (procInfo["pid"]))
+            else:
+                # do not kill terminal sessions if ones are not tracked
+                log.log(cons.TK_LOG_LEVEL_INFO, "INFO: NOT killing process %s as it's from terminal sessions which are not being tracked" % (procInfo["pid"]))

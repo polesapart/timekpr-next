@@ -6,6 +6,7 @@ Created on Aug 28, 2018
 
 # import section
 import dbus
+from gi.repository import GLib
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -19,7 +20,8 @@ class timekprUserLoginManager(object):
     def __init__(self, pLog):
         """Initialize all stuff for login1"""
         # init logging firstly
-        log.setLogging(pLog)
+        self._logging = pLog
+        log.setLogging(self._logging)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start timekpr login1 manager")
 
@@ -132,5 +134,8 @@ class timekprUserLoginManager(object):
                 self._login1ManagerInterface.TerminateSession(userSession[0])
             else:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving %s session %s" % (pUser, str(userSession[1])))
+
+        # kill leftover processes
+        GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUser, pSessionTypes)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")

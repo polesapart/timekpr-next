@@ -1,3 +1,9 @@
+timekpr-next (0.2.3~ppa1~ubuntu2) UNRELEASED; urgency=medium
+
+  * kill leftover processes for the user which do not originate from session processes
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2019 11:51:41 +0300
+
 timekpr-next (0.2.3~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * kill inactive sessions as well (up until this point inactive sessions were saved from killing)
