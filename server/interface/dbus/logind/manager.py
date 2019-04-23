@@ -106,6 +106,8 @@ class timekprUserLoginManager(object):
         # measurement logging
         log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting sessions for \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
+        # indication whether we are killing smth
+        sessionsToKill = 0
         # go through all user sessions
         for userSession in userSessions:
             # dbus performance measurement
@@ -132,10 +134,13 @@ class timekprUserLoginManager(object):
             if sessionType in pSessionTypes:
                 log.log(cons.TK_LOG_LEVEL_INFO, "killing %s session %s (%s)" % (pUser, str(userSession[1]), str(userSession[0])))
                 self._login1ManagerInterface.TerminateSession(userSession[0])
+                # count sessions to kill
+                sessionsToKill += 1
             else:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving %s session %s" % (pUser, str(userSession[1])))
 
-        # kill leftover processes
-        GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUser, pSessionTypes)
+        # kill leftover processes (if we are killing smth)
+        if sessionsToKill > 0:
+            GLib.timeout_add_seconds(cons.TK_POLLTIME*3, misc.killLeftoverUserProcesses, self._logging, pUser, pSessionTypes)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")

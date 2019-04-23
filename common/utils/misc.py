@@ -13,7 +13,12 @@ _RESULT = 0
 from datetime import datetime
 import os
 import inspect
-import psutil
+try:
+    import psutil
+    _PSUTIL = True
+except (ImportError, ValueError):
+    _PSUTIL = False
+    pass
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -34,9 +39,13 @@ def measureTimeElapsed(pStart=False, pStop=False, pResult=False):
     global _RESULT
 
     # set up start
-    if pStart: _START_TIME = datetime.now()
+    if pStart:
+        _START_TIME = datetime.now()
     # set up end
-    if pStop: _END_TIME = datetime.now(); _RESULT = (_END_TIME - _START_TIME).total_seconds(); _START_TIME = _END_TIME
+    if pStop:
+        _END_TIME = datetime.now()
+        _RESULT = (_END_TIME - _START_TIME).total_seconds()
+        _START_TIME = _END_TIME
 
     # return
     return _RESULT
@@ -87,10 +96,34 @@ def checkAndSetRunning(pAppName):
 
 def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
     """Kill leftover processes for user"""
+    # if psutil is not available, do nothing
+    global _PSUTIL
+    if not _PSUTIL:
+        return
     # set logging
     log.setLogging(pLog)
+
+    # determine which sessions we are going to kill (either graphical or tty)
+    # this is somewhat interesting as for processes we can not exactly tell whether it's graphical or not, but we check terminal sessions,
+    # if terminal is not set, then it's assumed graphical or so
+    killTty = False
+    killGUI = False
+
+    # check for graphical
+    for sessionType in cons.TK_SESSION_TYPES_CTRL.split(";"):
+        # check for kill
+        if sessionType in pSessionTypes:
+            killGUI = True
+            break
+    # check for graphical
+    for sessionType in cons.TK_SESSION_TYPES_EXCL.split(";"):
+        # check for kill
+        if sessionType in pSessionTypes:
+            killTty = True
+            break
+
     # get all processes for this user
-    for userProc in psutil.process_iter:
+    for userProc in psutil.process_iter():
         # process info
         procInfo = userProc.as_dict(attrs=["pid", "ppid", "name", "username", "terminal"])
         # check for username and for processes that originates from init (the rest should be terminated along with the session)
@@ -98,7 +131,7 @@ def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
             # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: got leftover process, pid: %s, ppid: %s, username: %s, name: %s, terminal: %s" % (procInfo["pid"], procInfo["ppid"], procInfo["username"], procInfo["name"], procInfo["terminal"]))
             # kill processes if they are terminal and terminals are tracked or they are not terminal processes
-            if (procInfo["terminal"] is not None and "tty" in pSessionTypes) or procInfo["terminal"] is None:
+            if (procInfo["terminal"] is not None and killTty) or (procInfo["terminal"] is None and killGUI):
                 try:
                     # get process and kill it
                     userPrc = psutil.Process(procInfo["pid"])
@@ -111,4 +144,4 @@ def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
                     log.log(cons.TK_LOG_LEVEL_INFO, "INFO: process %s killed" % (procInfo["pid"]))
             else:
                 # do not kill terminal sessions if ones are not tracked
-                log.log(cons.TK_LOG_LEVEL_INFO, "INFO: NOT killing process %s as it's from terminal sessions which are not being tracked" % (procInfo["pid"]))
+                log.log(cons.TK_LOG_LEVEL_INFO, "INFO: NOT killing process %s as it's from sessions which are not being tracked" % (procInfo["pid"]))
