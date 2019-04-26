@@ -10,7 +10,7 @@ Homepage: http://launchpad.net/timekpr-next/
 
 Package: timekpr-next-beta
 Architecture: any
-Depends: ${misc:Depends}, lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1, python-gi, libgtk-3-0 (>= 3.4), python-dbus, gir1.2-gtk-3.0, systemd | systemd-shim
+Depends: ${misc:Depends}, lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1, python-gi, libgtk-3-0 (>= 3.4), python-dbus, gir1.2-gtk-3.0, systemd | systemd-shim, python3-psutil (>= 3.4)
 Suggests: espeak, python3-espeak
 Provides: timekpr
 Conflicts: timekpr-next
