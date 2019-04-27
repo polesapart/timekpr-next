@@ -62,7 +62,7 @@ class timekprUserStore(object):
                     users[userDef[0]] = uuid
 
         # set up tmp logging
-        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
+        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
         # set up logging
         log.setLogging(logging)
         # get user config
@@ -70,7 +70,7 @@ class timekprUserStore(object):
         # load user config
         timekprConfigManager.loadMainConfiguration()
         # set up logging
-        logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
+        logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
 
         # go through our users
         for rUser, rUserId in users.items():
@@ -97,7 +97,7 @@ class timekprUserStore(object):
         # in case we don't have a dir yet
         if pConfigDir is None:
             # set up tmp logging
-            logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
+            logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
             # set up logging
             log.setLogging(logging)
             # get user config
@@ -105,7 +105,7 @@ class timekprUserStore(object):
             # load user config
             timekprConfigManager.loadMainConfiguration()
             # set up logging
-            logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV}
+            logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
             # config dir
             configDir = timekprConfigManager.getTimekprConfigDir()
         else:

@@ -10,6 +10,7 @@ from datetime import datetime
 import fileinput
 import re
 import os
+import getpass
 
 # timekpr imports
 from timekpr.common.log import log
@@ -772,7 +773,7 @@ class timekprClientConfig(object):
         self._userHome = os.path.expanduser("~")
 
         # set up logging
-        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT}
+        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: getpass.getuser()}
         # set up logging
         log.setLogging(logging)
 
