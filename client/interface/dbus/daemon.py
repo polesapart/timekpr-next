@@ -30,16 +30,16 @@ class timekprClient(object):
 
     def __init__(self, pIsDevActive=False):
         """Initialize client"""
-        # log
-        self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT}
-        # set up logging
-        log.setLogging(self._logging)
-
         # dev
         self._isDevActive = pIsDevActive
 
         # set username , etc.
         self._userName = getpass.getuser()
+
+        # log
+        self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
+        # set up logging
+        log.setLogging(self._logging)
 
         # get our bus
         self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
@@ -52,7 +52,7 @@ class timekprClient(object):
         self._timekprConfigManager.loadClientConfiguration()
 
         # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getClientLogLevel(), cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT}
+        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getClientLogLevel(), cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
         # set up logging
         log.setLogging(self._logging)
 

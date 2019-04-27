@@ -33,6 +33,7 @@ TK_LOG_LEVEL_EXTRA_DEBUG = 3
 TK_LOG_L = "lvl"
 TK_LOG_D = "dir"
 TK_LOG_W = "who"
+TK_LOG_U = "user"
 TK_LOG_TEMP_DIR = "/tmp"
 TK_LOG_PID_EXT = ".pid"
 # logging clients
@@ -43,10 +44,11 @@ TK_LOG_OWNER_ADMIN_SU = 3
 
 # ## files and locations ##
 # log files
+TK_LOG_USER = "<USER>"
 TK_LOG_FILE = "timekpr.log"
-TK_LOG_FILE_CLIENT = "timekprc.log"
-TK_LOG_FILE_ADMIN = "timekpra.log"
-TK_LOG_FILE_ADMIN_SU = "timekpra-su.log"
+TK_LOG_FILE_CLIENT = "timekprc.<USER>.log"
+TK_LOG_FILE_ADMIN = "timekpra.<USER>.log"
+TK_LOG_FILE_ADMIN_SU = "timekpra.su.log"
 # main config file
 TK_MAIN_CONFIG_DIR = "/etc/timekpr"
 # runtime directory for timekpr user configuration files

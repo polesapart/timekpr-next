@@ -49,7 +49,7 @@ class timekprAdminClient(object):
             # if we are required to run graphical thing
             if (timekprX11Available or timekprWaylandAvailable or timekprMirAvailable):
                 # save logging for later use in classes down tree
-                self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_DEBUG, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN)}
+                self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_DEBUG, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN), cons.TK_LOG_U: getpass.getuser()}
                 # logging init
                 log.setLogging(self._logging)
 
@@ -81,7 +81,7 @@ class timekprAdminClient(object):
             # connected?
             if self._timekprAdminConnector.isConnected()[1]:
                 # use CLI
-                # validate possible parameters and their values, when fine execute them as well
+                # validate possible parameters and their values, when fine - execute them as well
                 self.checkAndExecuteAdminCommands(*args)
 
     # --------------- parameter validation methods --------------- #

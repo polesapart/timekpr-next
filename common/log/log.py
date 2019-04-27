@@ -24,12 +24,21 @@ def getLogLevel():
     return LOG_LEVEL
 
 
+# log names
+def getLogFile(pWho, pUserName):
+    """Get log file"""
+    # log file
+    logFile = (cons.TK_LOG_FILE_CLIENT if pWho == cons.TK_LOG_OWNER_CLIENT else (cons.TK_LOG_FILE_ADMIN if pWho == cons.TK_LOG_OWNER_ADMIN else (cons.TK_LOG_FILE_ADMIN_SU if pWho == cons.TK_LOG_OWNER_ADMIN_SU else cons.TK_LOG_FILE)))
+    # replace user in log file
+    return(logFile.replace(cons.TK_LOG_USER, pUserName, 1))
+
+
 def setLogging(pLog):
-    """Set up logging (this function expects 2 tuples, one for level and second for file)"""
+    """Set up logging (this function expects 4 tuples: log level, log directory, log owner and username"""
     # set up level
     setLogLevel(pLog[cons.TK_LOG_L])
     # set up file
-    setLogFile(pLog[cons.TK_LOG_D], pLog[cons.TK_LOG_W])
+    setLogFile(pLog[cons.TK_LOG_D], pLog[cons.TK_LOG_W], pLog[cons.TK_LOG_U])
 
 
 def setLogLevel(pLvl):
@@ -39,11 +48,11 @@ def setLogLevel(pLvl):
     LOG_LEVEL = pLvl
 
 
-def setLogFile(pLogDir, pWho):
+def setLogFile(pLogDir, pWho, pUserName):
     """Set up log file"""
     global LOG_FILE
     # log  file
-    logFile = os.path.join(pLogDir, (cons.TK_LOG_FILE_CLIENT if pWho == cons.TK_LOG_OWNER_CLIENT else (cons.TK_LOG_FILE_ADMIN if pWho == cons.TK_LOG_OWNER_ADMIN else (cons.TK_LOG_FILE_ADMIN_SU if pWho == cons.TK_LOG_OWNER_ADMIN_SU else cons.TK_LOG_FILE))))
+    logFile = os.path.join(pLogDir, getLogFile(pWho, pUserName))
 
     # change log file from default to smth
     if pLogDir is not None and pLogDir != cons.TK_LOG_TEMP_DIR:
