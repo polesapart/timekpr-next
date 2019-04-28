@@ -128,18 +128,18 @@ class timekprAdminGUI(object):
         """Initialize all GUI elements for stores"""
         # ## days ##
         # day name
-        col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=1)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_DAY_LABEL"), Gtk.CellRendererText(), text=1)
         col.set_min_width(90)
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").append_column(col)
         # day enabled
         rend = Gtk.CellRendererToggle()
         rend.connect("toggled", self.dayAvailabilityChanged)
-        col = Gtk.TreeViewColumn("Enabled", rend, active=2)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_ENABLED_LABEL"), rend, active=2)
         col.set_min_width(35)
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").append_column(col)
         # limit
         rend = Gtk.CellRendererText()
-        col = Gtk.TreeViewColumn("Limit", rend, text=4)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_LIMIT_LABEL"), rend, text=4)
         col.set_min_width(60)
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").append_column(col)
         # final col
@@ -149,11 +149,11 @@ class timekprAdminGUI(object):
 
         # ## intervals ##
         # from hour
-        col = Gtk.TreeViewColumn("From", Gtk.CellRendererText(), text=1)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_INTERVALS_FROM_LABEL"), Gtk.CellRendererText(), text=1)
         col.set_min_width(40)
         self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsTreeView").append_column(col)
         # to hour
-        col = Gtk.TreeViewColumn("To", Gtk.CellRendererText(), text=2)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_INTERVALS_TO_LABEL"), Gtk.CellRendererText(), text=2)
         col.set_min_width(40)
         self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsTreeView").append_column(col)
         # final col
@@ -168,21 +168,21 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS").append([str(rDay), (cons.TK_DATETIME_START + timedelta(days=rDay-1)).strftime("%A"), False, 0, _NO_TIME_LABEL])
 
         # ## tracked session types ##
-        col = Gtk.TreeViewColumn("Session type", Gtk.CellRendererText(), text=0)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_TRACKED_SESSIONS_LABEL"), Gtk.CellRendererText(), text=0)
         col.set_min_width(90)
         self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsTreeView").append_column(col)
         # clear
         self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsLS").clear()
 
         # ## excluded session types ##
-        col = Gtk.TreeViewColumn("Session type", Gtk.CellRendererText(), text=0)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_UNTRACKED_SESSIONS_LABEL"), Gtk.CellRendererText(), text=0)
         col.set_min_width(90)
         self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsTreeView").append_column(col)
         # clear
         self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsLS").clear()
 
         # ## excluded users ##
-        col = Gtk.TreeViewColumn("Username", Gtk.CellRendererText(), text=0)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_EXCLUDED_USERS_LABEL"), Gtk.CellRendererText(), text=0)
         col.set_min_width(90)
         self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersTreeView").append_column(col)
         # clear

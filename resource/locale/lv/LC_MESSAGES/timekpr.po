@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-03-29 08:16+0200\n"
-"PO-Revision-Date: 2019-03-29 08:28+0200\n"
+"POT-Creation-Date: 2019-04-28 19:42+0300\n"
+"PO-Revision-Date: 2019-04-28 19:43+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language: lv_LV\n"
@@ -501,46 +501,74 @@ msgstr "Eduards Bezverhijs <edzis@inbox.lv>"
 msgid "Keep control of computer usage"
 msgstr "Kontrolēt datora lietojamību"
 
+#: common/constants/messages.py:154
+msgid "Day"
+msgstr "Diena"
+
+#: common/constants/messages.py:155
+msgid "Enabled"
+msgstr "Iespējots"
+
 #: common/constants/messages.py:156
+msgid "Limit"
+msgstr "Limits"
+
+#: common/constants/messages.py:157
+msgid "From"
+msgstr "No"
+
+#: common/constants/messages.py:158
+msgid "To"
+msgstr "Līdz"
+
+#: common/constants/messages.py:159 common/constants/messages.py:160
+msgid "Session type"
+msgstr "Sesijas tips"
+
+#: common/constants/messages.py:161
+msgid "Username"
+msgstr "Lietotājvārds"
+
+#: common/constants/messages.py:164
 msgid "Timekpr-nExT notification"
 msgstr "Timekpr-nExT paziņojums"
 
-#: common/constants/messages.py:157
+#: common/constants/messages.py:165
 msgid "Your time is not limited today"
 msgstr "Tev atvēlētais laiks šodien nav ierobežots"
 
-#: common/constants/messages.py:158
+#: common/constants/messages.py:166
 msgid "Time allowance has changed, please note new time left!"
 msgstr "Laika ierobežojumi tika mainīti, lūdzu ņemt vērā jaunos ierobežojumus!"
 
-#: common/constants/messages.py:159
+#: common/constants/messages.py:167
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
 "Laika ierobežojumi tika mainīti, lūdzu pievērst uzmanību jaunajiem "
 "ierobežojumiem!"
 
-#: common/constants/messages.py:160
+#: common/constants/messages.py:168
 #, python-format
 msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
 msgstr "Radusies problēma savienojumam ar Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:161
+#: common/constants/messages.py:169
 #, python-format
 msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
 msgstr "Radusies problēma komunikācijai ar Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:162
+#: common/constants/messages.py:170
 #, python-format
 msgid "Icon inititalization error (%%s)!"
 msgstr "Ikonas inicializācijas problēma (%%s)!"
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:164
+#: common/constants/messages.py:172
 msgid "Your time is up, You will be forcibly logged out in"
 msgstr "Tev atvēlētais laiks beidzies, Tava sesija tiks aizvērta pēc"
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:166
+#: common/constants/messages.py:174
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
@@ -548,12 +576,12 @@ msgstr[0] "%(n)s sekunde"
 msgstr[1] "%(n)s sekundes"
 msgstr[2] "%(n)s sekundes"
 
-#: common/constants/messages.py:167
+#: common/constants/messages.py:175
 msgid "Internal connection error, please check log files"
 msgstr "Iekšējā pieslēguma kļūda, lūdzu pārbaudīt žurnāla failus"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:169
+#: common/constants/messages.py:177
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
@@ -562,7 +590,7 @@ msgstr[1] "Tev atlikušas %(n)s stundas"
 msgstr[2] "Tev atlikušas %(n)s stundas"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:171
+#: common/constants/messages.py:179
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
@@ -571,7 +599,7 @@ msgstr[1] "%(n)s minūtes"
 msgstr[2] "%(n)s minūtes"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:173
+#: common/constants/messages.py:181
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
@@ -579,20 +607,20 @@ msgstr[0] "%(n)s sekunde"
 msgstr[1] "%(n)s sekundes"
 msgstr[2] "%(n)s sekundes"
 
-#: common/constants/messages.py:176
+#: common/constants/messages.py:184
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "NEPAREDZĒTA KĻŪDA: %%s"
 
-#: common/constants/messages.py:177
+#: common/constants/messages.py:185
 msgid "Command FAILED: access denied"
 msgstr "Komanda NEIZDEVĀS: pieeja liegta"
 
-#: common/constants/messages.py:178
+#: common/constants/messages.py:186
 msgid "Command FAILED: communication was not accepted"
 msgstr "Komanda NEIZDEVĀS: komunikācija nav atļauta"
 
-#: common/constants/messages.py:179
+#: common/constants/messages.py:187
 msgid "n/a"
 msgstr "n/a"
 

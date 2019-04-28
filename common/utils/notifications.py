@@ -98,7 +98,7 @@ class timekprNotificationManager(dbus.service.Object):
             self._lastNotified = effectiveDatetime
 
             # if time left is whole day, we have no limit (as an additonal limit is the hours, so check if accounting is actually correct)
-            if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftToday) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY:
+            if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftToday) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftTotal) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY:
                 # we send no limit just once
                 if self._prevNotificationLvl < 0 or pForce:
                     # no limit

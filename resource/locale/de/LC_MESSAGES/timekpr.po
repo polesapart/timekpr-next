@@ -1,9 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-03-29 08:15+0200\n"
-"PO-Revision-Date: 2019-04-08 12:04+0200\n"
+"POT-Creation-Date: 2019-04-28 19:47+0300\n"
+"PO-Revision-Date: 2019-04-28 19:51+0300\n"
+"Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Ulle <punkt.punkt@o2online.de>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +14,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __:1,2\n"
-"Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
-"Language: de\n"
 "X-Poedit-SearchPath-0: common/constants/messages.py\n"
 "X-Poedit-SearchPath-1: resource/client/forms\n"
 
@@ -526,58 +526,86 @@ msgstr "ulle@o2online.de"
 msgid "Keep control of computer usage"
 msgstr "Computer-Nutzung im Griff behalten"
 
+#: common/constants/messages.py:154
+msgid "Day"
+msgstr "Tag"
+
+#: common/constants/messages.py:155
+msgid "Enabled"
+msgstr "Aktiviert"
+
 #: common/constants/messages.py:156
+msgid "Limit"
+msgstr "Begrenzung"
+
+#: common/constants/messages.py:157
+msgid "From"
+msgstr "Von"
+
+#: common/constants/messages.py:158
+msgid "To"
+msgstr "Zu"
+
+#: common/constants/messages.py:159 common/constants/messages.py:160
+msgid "Session type"
+msgstr "Sitzungs-Typ"
+
+#: common/constants/messages.py:161
+msgid "Username"
+msgstr "Benutzername"
+
+#: common/constants/messages.py:164
 msgid "Timekpr-nExT notification"
 msgstr "Timekpr-nExT Hinweis"
 
-#: common/constants/messages.py:157
+#: common/constants/messages.py:165
 msgid "Your time is not limited today"
 msgstr "Heute gibt es keine Zeitbeschränkung"
 
-#: common/constants/messages.py:158
+#: common/constants/messages.py:166
 msgid "Time allowance has changed, please note new time left!"
 msgstr "Erlaubte Zeit wurde geändert, bitte neue Zeit beachten!"
 
-#: common/constants/messages.py:159
+#: common/constants/messages.py:167
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
 "Konfiguration der Zeitbeschränkung wurde geändert, bitte neue "
 "Zeitbeschränkungen beachten!"
 
-#: common/constants/messages.py:160
+#: common/constants/messages.py:168
 #, python-format
 msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
 msgstr "Es gibt ein Problem beim Verbinden zum Timekpr-nExT Service (%%s)!"
 
-#: common/constants/messages.py:161
+#: common/constants/messages.py:169
 #, python-format
 msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
 msgstr "Es gibt ein Problem mit der Kommunikation zu Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:162
+#: common/constants/messages.py:170
 #, python-format
 msgid "Icon inititalization error (%%s)!"
 msgstr "Fehler beim Initialisieren der Icons (%%s)!"
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:164
+#: common/constants/messages.py:172
 msgid "Your time is up, You will be forcibly logged out in"
 msgstr "Die erlaubte Nutzungszeit ist vorbei, das Ausloggen erfolgt in"
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:166
+#: common/constants/messages.py:174
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
 msgstr[0] "%(n)s Sekunde"
 msgstr[1] "%(n)s Sekunden"
 
-#: common/constants/messages.py:167
+#: common/constants/messages.py:175
 msgid "Internal connection error, please check log files"
 msgstr "Interner Verbindungsfehler. Bitte schauen Sie in die log-Dateien"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:169
+#: common/constants/messages.py:177
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
@@ -585,7 +613,7 @@ msgstr[0] "Es bleibt noch %(n)s Stunde"
 msgstr[1] "Es bleiben noch %(n)s Stunden"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:171
+#: common/constants/messages.py:179
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
@@ -593,27 +621,27 @@ msgstr[0] "%(n)s Minute"
 msgstr[1] "%(n)s Minuten"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:173
+#: common/constants/messages.py:181
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
 msgstr[0] "noch %(n)s Sekunde"
 msgstr[1] "noch %(n)s Sekunden"
 
-#: common/constants/messages.py:176
+#: common/constants/messages.py:184
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "Unerwarteter Fehler: %%s"
 
-#: common/constants/messages.py:177
+#: common/constants/messages.py:185
 msgid "Command FAILED: access denied"
 msgstr "Kommando fehlgeschlagen: Zugriff verweigert"
 
-#: common/constants/messages.py:178
+#: common/constants/messages.py:186
 msgid "Command FAILED: communication was not accepted"
 msgstr "Kommando fehlgeschlagen: Kommunikation wurde nicht angenommen"
 
-#: common/constants/messages.py:179
+#: common/constants/messages.py:187
 msgid "n/a"
 msgstr "nicht verfügbar"
 

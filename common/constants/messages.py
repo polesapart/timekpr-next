@@ -151,6 +151,14 @@ def initMessages():
     # TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
     _messages["TK_MSG_ENTER_TRANSLATION_CREDITS"] = {"s": _("please-enter-translator-credits")}
     _messages["TK_MSG_LOGO_LABEL"] = {"s": _("Keep control of computer usage")}
+    _messages["TK_MSG_DAY_LIST_DAY_LABEL"] = {"s": _("Day")}
+    _messages["TK_MSG_DAY_LIST_ENABLED_LABEL"] = {"s": _("Enabled")}
+    _messages["TK_MSG_DAY_LIST_LIMIT_LABEL"] = {"s": _("Limit")}
+    _messages["TK_MSG_DAY_INTERVALS_FROM_LABEL"] = {"s": _("From")}
+    _messages["TK_MSG_DAY_INTERVALS_TO_LABEL"] = {"s": _("To")}
+    _messages["TK_MSG_TRACKED_SESSIONS_LABEL"] = {"s": _("Session type")}
+    _messages["TK_MSG_UNTRACKED_SESSIONS_LABEL"] = {"s": _("Session type")}
+    _messages["TK_MSG_EXCLUDED_USERS_LABEL"] = {"s": _("Username")}
 
     # ## this defines messages for use in notifications ##
     _messages["TK_MSG_NOTIFICATION_TITLE"] = {"s": _("Timekpr-nExT notification")}

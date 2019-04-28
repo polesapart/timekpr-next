@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-03-29 08:15+0200\n"
+"POT-Creation-Date: 2019-04-28 19:40+0300\n"
 "PO-Revision-Date: 2019-03-28 09:50+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
@@ -479,56 +479,84 @@ msgstr ""
 msgid "Keep control of computer usage"
 msgstr ""
 
+#: common/constants/messages.py:154
+msgid "Day"
+msgstr ""
+
+#: common/constants/messages.py:155
+msgid "Enabled"
+msgstr ""
+
 #: common/constants/messages.py:156
-msgid "Timekpr-nExT notification"
+msgid "Limit"
 msgstr ""
 
 #: common/constants/messages.py:157
-msgid "Your time is not limited today"
+msgid "From"
 msgstr ""
 
 #: common/constants/messages.py:158
+msgid "To"
+msgstr ""
+
+#: common/constants/messages.py:159 common/constants/messages.py:160
+msgid "Session type"
+msgstr ""
+
+#: common/constants/messages.py:161
+msgid "Username"
+msgstr ""
+
+#: common/constants/messages.py:164
+msgid "Timekpr-nExT notification"
+msgstr ""
+
+#: common/constants/messages.py:165
+msgid "Your time is not limited today"
+msgstr ""
+
+#: common/constants/messages.py:166
 msgid "Time allowance has changed, please note new time left!"
 msgstr ""
 
-#: common/constants/messages.py:159
+#: common/constants/messages.py:167
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
 
-#: common/constants/messages.py:160
+#: common/constants/messages.py:168
 #, python-format
 msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:161
+#: common/constants/messages.py:169
 #, python-format
 msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:162
+#: common/constants/messages.py:170
 #, python-format
 msgid "Icon inititalization error (%%s)!"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:164
+#: common/constants/messages.py:172
 msgid "Your time is up, You will be forcibly logged out in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:166
+#: common/constants/messages.py:174
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:167
+#: common/constants/messages.py:175
 msgid "Internal connection error, please check log files"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:169
+#: common/constants/messages.py:177
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
@@ -536,7 +564,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:171
+#: common/constants/messages.py:179
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
@@ -544,27 +572,27 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:173
+#: common/constants/messages.py:181
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:176
+#: common/constants/messages.py:184
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr ""
 
-#: common/constants/messages.py:177
+#: common/constants/messages.py:185
 msgid "Command FAILED: access denied"
 msgstr ""
 
-#: common/constants/messages.py:178
+#: common/constants/messages.py:186
 msgid "Command FAILED: communication was not accepted"
 msgstr ""
 
-#: common/constants/messages.py:179
+#: common/constants/messages.py:187
 msgid "n/a"
 msgstr ""
 

@@ -138,10 +138,21 @@ class timekprNotificationArea(object):
         """Call an update on actual limits"""
         # current day
         currDay = str(datetime.now().isoweekday())
+
         # we can check limits only when this day has configuration
         if currDay in pLimits:
+            # no limit?
+            wholeDay = pLimits[currDay][cons.TK_CTRL_LIMITD] >= cons.TK_LIMIT_PER_DAY
+            # check whether we have full interval (it must be just one)
+            if wholeDay and len(pLimits[currDay][cons.TK_CTRL_INT]) == 1:
+                # start must be first second and last must be last second of the day
+                wholeDay = pLimits[currDay][cons.TK_CTRL_INT][0][0] == 0 and pLimits[currDay][cons.TK_CTRL_INT][0][1] == cons.TK_LIMIT_PER_DAY
+            else:
+                # not unlimited
+                wholeDay = False
+
             # check the limit
-            if pLimits[currDay][cons.TK_CTRL_LIMITD] >= cons.TK_LIMIT_PER_DAY:
+            if wholeDay:
                 # reconfigure labels
                 self._noLimit = True
             else:
