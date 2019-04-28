@@ -15,6 +15,7 @@ from timekpr.common.constants import constants as cons
 from timekpr.common.log import log
 from timekpr.common.utils.config import timekprConfig
 from timekpr.common.utils.config import timekprUserConfig
+from timekpr.common.utils.config import timekprUserControl
 
 
 class timekprUserStore(object):
@@ -82,6 +83,8 @@ class timekprUserStore(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, rUserId))
                 # user config
                 timekprUserConfig(logging, timekprConfigManager.getTimekprConfigDir(), rUser).initUserConfiguration()
+                # user control
+                timekprUserControl(logging, timekprConfigManager.getTimekprWorkDir(), rUser).initUserControl()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing setting up users")
 

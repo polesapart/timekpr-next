@@ -1,3 +1,14 @@
+timekpr-next (0.2.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented TTY switching functionality for those cases, when login manager sits on different TTY than session itself (this should fix #1823717)
+  **  the implementation is as follows: Timekpr-nExT tries to determine on which TTY login manager sits and saves it's TTY number, login managers have their
+  **  own users in standard installations, therefore we detect them using specific usernames (maybe not the best solution, but it's a solution)
+  * fixed control file initialization when timekpr starts (fixes #1802583)
+  * fixed icon in notification area when there is no time limit per day, but time intervals are limited
+  * improved termination list handling
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 27 Apr 2019 23:26:05 +0300
+
 timekpr-next (0.2.3~ppa1~ubuntu3) UNRELEASED; urgency=medium
 
   * fixed a bug in logging when multiple users use machine at the same time (permission problem)

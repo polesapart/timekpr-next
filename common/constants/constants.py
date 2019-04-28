@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.3"
+TK_VERSION = "0.2.4"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -90,7 +90,8 @@ TK_DBUS_CK_OBJECT = "org.freedesktop.ConsoleKit"
 TK_DBUS_CK_PATH = "/org/freedesktop/ConsoleKit"
 TK_DBUS_CK_MANAGER_INTERFACE = "org.freedesktop.ConsoleKit.Manager"
 
-# user / session
+# seat / user / session
+TK_DBUS_SEAT_OBJECT = "org.freedesktop.login1.Seat"
 TK_DBUS_USER_OBJECT = "org.freedesktop.login1.User"
 TK_DBUS_SESSION_OBJECT = "org.freedesktop.login1.Session"
 
@@ -152,8 +153,10 @@ TK_DBUS_PRIO = "DBUS-PRIO"
 # real
 TK_SESSION_TYPES_CTRL = "x11;wayland;mir"
 TK_SESSION_TYPES_EXCL = "tty;unspecified"
-# exclude users
-TK_USERS_EXCL = "testtimekpr;gdm;kdm;lightdm;mdm;lxdm;xdm;sddm;cdm"
+# exclude users (test user for timekpr and all known login managers)
+TK_USERS_TEST = "testtimekpr"
+TK_USERS_LOGIN_MANAGERS = "gdm;gdm3;kdm;lightdm;mdm;lxdm;xdm;sddm;cdm"
+TK_USERS_EXCL = "%s;%s" % (TK_USERS_TEST, TK_USERS_LOGIN_MANAGERS)
 
 # ## user defaults ##
 # default value for allowed hours
