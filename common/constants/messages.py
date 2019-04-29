@@ -113,7 +113,7 @@ def initMessages():
     _messages["TK_MSG_STATUS_CONNECTING"] = {"s": _("Connecting...")}
     _messages["TK_MSG_STATUS_CONNECTION_FAILED"] = {"s": _("Failed to connect")}
     # TRANSLATORS: this message must be 80 symbols long at max
-    _messages["TK_MSG_STATUS_CONNECTION_ACCESS_DENIED"] = {"s": _("Please reopen the application if You are superuser and Timekpr-nExT is running")}
+    _messages["TK_MSG_STATUS_CONNECTION_ACCESS_DENIED"] = {"s": _("Please reopen the application if you are superuser and Timekpr-nExT is running")}
     _messages["TK_MSG_STATUS_STARTED"] = {"s": _("Started")}
     _messages["TK_MSG_STATUS_USER_CONFIG_RETRIEVED"] = {"s": _("User configuration retrieved")}
     _messages["TK_MSG_STATUS_CONFIG_RETRIEVED"] = {"s": _("Configuration retrieved")}
@@ -144,7 +144,7 @@ def initMessages():
 
     # ## this defines messages for use in menus ##
     _messages["TK_MSG_MENU_TIME_LEFT"] = {"s": _("Time left...")}
-    _messages["TK_MSG_MENU_CONFIGURATION"] = {"s": _("Limits & configuration")}
+    _messages["TK_MSG_MENU_CONFIGURATION"] = {"s": _("Limits & Configuration")}
     _messages["TK_MSG_MENU_ABOUT"] = {"s": _("About")}
 
     # ## GUI labels ##
@@ -168,9 +168,9 @@ def initMessages():
     _messages["TK_MSG_NOTIFICATION_CANNOT_CONNECT"] = {"s": _("There is a problem connecting to Timekpr-nExT daemon (%%s)!")}
     _messages["TK_MSG_NOTIFICATION_CANNOT_COMMUNICATE"] = {"s": _("There is a problem communicating to Timekpr-nExT (%%s)!")}
     _messages["TK_MSG_NOTIFICATION_CANNOT_INIT_ICON"] = {"s": _("Icon inititalization error (%%s)!")}
-    # TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1"] = {"s": _("Your time is up, You will be forcibly logged out in")}
-    # TRANSLATORS: this is a part of message "Your time is up, You will be forcibly logged out in %s seconds", please translate accordingly
+    # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1"] = {"s": _("Your time is up, you will be forcibly logged out in")}
+    # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_2"] = {"s": __("%(n)s second", "%(n)s seconds")[0], "p": __("%(n)s second", "%(n)s seconds")[1]}
     _messages["TK_MSG_NOTIFICATION_CONNECTION_ERROR"] = {"s": _("Internal connection error, please check log files")}
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
