@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 12:44+0300\n"
-"PO-Revision-Date: 2019-04-29 12:44+0300\n"
+"POT-Creation-Date: 2019-04-29 18:20+0300\n"
+"PO-Revision-Date: 2019-04-29 18:51+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Ulle <punkt.punkt@o2online.de>\n"
 "Language: de\n"
@@ -524,8 +524,7 @@ msgstr "ulle@o2online.de"
 msgid "Keep control of computer usage"
 msgstr "Computer-Nutzung im Griff behalten"
 
-#: common/constants/messages.py:154 resource/client/forms/admin.glade:1567
-#: resource/client/forms/admin.glade:1667
+#: common/constants/messages.py:154
 msgid "Day"
 msgstr "Tag"
 
@@ -537,11 +536,11 @@ msgstr "Aktiviert"
 msgid "Limit"
 msgstr "Begrenzung"
 
-#: common/constants/messages.py:157 resource/client/forms/admin.glade:1295
+#: common/constants/messages.py:157
 msgid "From"
 msgstr "Von"
 
-#: common/constants/messages.py:158 resource/client/forms/admin.glade:1307
+#: common/constants/messages.py:158
 msgid "To"
 msgstr "Zu"
 
@@ -957,6 +956,14 @@ msgstr "Festlegen der Anfangs-Minute des erlaubten Stunden-Intervalls"
 msgid "Specify START hour of the allowed hour interval"
 msgstr "Festlegen der Anfangs-Stunde des erlaubten Stunden-Intervalls"
 
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "von"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "bis"
+
 #: resource/client/forms/admin.glade:1316
 msgid "Remove"
 msgstr "Entfernen"
@@ -1025,6 +1032,11 @@ msgstr "Zeit-Limit (Woche)"
 #: resource/client/forms/admin.glade:1539
 msgid "Time limit for the week is enabled"
 msgstr "Wöchentliches Zeit-Limit ist eingeschaltet"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "Tag"
 
 #: resource/client/forms/admin.glade:1601
 msgid "Week limit amount (days part)"
@@ -1176,7 +1188,7 @@ msgstr "Überwachten Sitzungs-Typ von der Liste entfernen"
 
 #: resource/client/forms/admin.glade:2243
 msgid "Excluded Sessions"
-msgstr "nicht überwachte Sitzungs-Typen"
+msgstr "Nicht überwachte Sitzungs-Typen"
 
 #: resource/client/forms/admin.glade:2265
 msgid ""
@@ -1438,12 +1450,3 @@ msgstr "Konfiguration"
 #~ "(sogenannte console) wird nicht mitgezählt (abhängig von gewählter "
 #~ "Desktopumgebung). Ist das Häkchen gesetzt, zählt alles vom Einloggen bis "
 #~ "zum Ausloggen als Nutzungszeit"
-
-#~ msgid "from"
-#~ msgstr "von"
-
-#~ msgid "to"
-#~ msgstr "bis"
-
-#~ msgid "day"
-#~ msgstr "Tag"

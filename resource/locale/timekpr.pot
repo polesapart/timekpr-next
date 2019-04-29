@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 12:43+0300\n"
+"POT-Creation-Date: 2019-04-29 18:16+0300\n"
 "PO-Revision-Date: 2019-03-28 09:50+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
@@ -479,8 +479,7 @@ msgstr ""
 msgid "Keep control of computer usage"
 msgstr ""
 
-#: common/constants/messages.py:154 resource/client/forms/admin.glade:1567
-#: resource/client/forms/admin.glade:1667
+#: common/constants/messages.py:154
 msgid "Day"
 msgstr ""
 
@@ -492,11 +491,11 @@ msgstr ""
 msgid "Limit"
 msgstr ""
 
-#: common/constants/messages.py:157 resource/client/forms/admin.glade:1295
+#: common/constants/messages.py:157
 msgid "From"
 msgstr ""
 
-#: common/constants/messages.py:158 resource/client/forms/admin.glade:1307
+#: common/constants/messages.py:158
 msgid "To"
 msgstr ""
 
@@ -866,6 +865,14 @@ msgstr ""
 msgid "Specify START hour of the allowed hour interval"
 msgstr ""
 
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr ""
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr ""
+
 #: resource/client/forms/admin.glade:1316
 msgid "Remove"
 msgstr ""
@@ -929,6 +936,11 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:1539
 msgid "Time limit for the week is enabled"
+msgstr ""
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
 msgstr ""
 
 #: resource/client/forms/admin.glade:1601

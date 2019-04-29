@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 12:44+0300\n"
-"PO-Revision-Date: 2019-04-29 12:44+0300\n"
+"POT-Creation-Date: 2019-04-29 18:20+0300\n"
+"PO-Revision-Date: 2019-04-29 18:20+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language: it_IT\n"
@@ -521,8 +521,7 @@ msgstr "Albano Battistella"
 msgid "Keep control of computer usage"
 msgstr "Mantieni il controllo del computer in uso"
 
-#: common/constants/messages.py:154 resource/client/forms/admin.glade:1567
-#: resource/client/forms/admin.glade:1667
+#: common/constants/messages.py:154
 msgid "Day"
 msgstr "Giorno"
 
@@ -534,11 +533,11 @@ msgstr "Abilitato"
 msgid "Limit"
 msgstr "Limite"
 
-#: common/constants/messages.py:157 resource/client/forms/admin.glade:1295
+#: common/constants/messages.py:157
 msgid "From"
 msgstr "Da"
 
-#: common/constants/messages.py:158 resource/client/forms/admin.glade:1307
+#: common/constants/messages.py:158
 msgid "To"
 msgstr "A"
 
@@ -960,6 +959,14 @@ msgstr "Specificare INIZIO minuto dell'intervallo di ore consentito"
 msgid "Specify START hour of the allowed hour interval"
 msgstr "Specificare l'ora di INIZIO dell'intervallo di ore consentito"
 
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "da"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "a"
+
 #: resource/client/forms/admin.glade:1316
 msgid "Remove"
 msgstr "Rimuovi"
@@ -1028,6 +1035,11 @@ msgstr "Limite di tempo (settimana)"
 #: resource/client/forms/admin.glade:1539
 msgid "Time limit for the week is enabled"
 msgstr "Il limite di tempo per la settimana è abilitato"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "giorno"
 
 #: resource/client/forms/admin.glade:1601
 msgid "Week limit amount (days part)"
@@ -1440,12 +1452,3 @@ msgstr "Configuarazione"
 #~ "deselezionato, il tempo trascorso in console (non nel terminale) e mentre "
 #~ "lo schermo è bloccato, NON viene preso in considerazione (varia molto da "
 #~ "DE a DE)"
-
-#~ msgid "from"
-#~ msgstr "da"
-
-#~ msgid "to"
-#~ msgstr "a"
-
-#~ msgid "day"
-#~ msgstr "giorno"

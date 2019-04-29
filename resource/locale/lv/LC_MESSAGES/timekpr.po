@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 12:44+0300\n"
-"PO-Revision-Date: 2019-04-29 12:44+0300\n"
+"POT-Creation-Date: 2019-04-29 18:18+0300\n"
+"PO-Revision-Date: 2019-04-29 18:19+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language: lv_LV\n"
@@ -499,8 +499,7 @@ msgstr "Eduards Bezverhijs <edzis@inbox.lv>"
 msgid "Keep control of computer usage"
 msgstr "Kontrolēt datora lietojamību"
 
-#: common/constants/messages.py:154 resource/client/forms/admin.glade:1567
-#: resource/client/forms/admin.glade:1667
+#: common/constants/messages.py:154
 msgid "Day"
 msgstr "Diena"
 
@@ -512,11 +511,11 @@ msgstr "Iespējots"
 msgid "Limit"
 msgstr "Limits"
 
-#: common/constants/messages.py:157 resource/client/forms/admin.glade:1295
+#: common/constants/messages.py:157
 msgid "From"
 msgstr "No"
 
-#: common/constants/messages.py:158 resource/client/forms/admin.glade:1307
+#: common/constants/messages.py:158
 msgid "To"
 msgstr "Līdz"
 
@@ -939,6 +938,14 @@ msgstr "Norādiet SĀKUMA minūti atļautajam stundu intervālam"
 msgid "Specify START hour of the allowed hour interval"
 msgstr "Norādiet SĀKUMA stundu atļautajam stundu intervālam"
 
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "no"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "līdz"
+
 #: resource/client/forms/admin.glade:1316
 msgid "Remove"
 msgstr "Dzēst"
@@ -1007,6 +1014,11 @@ msgstr "Laika ierobežojums (nedēļa)"
 #: resource/client/forms/admin.glade:1539
 msgid "Time limit for the week is enabled"
 msgstr "Laika ierobežojums uz nedēļu ir spēkā"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "diena"
 
 #: resource/client/forms/admin.glade:1601
 msgid "Week limit amount (days part)"
@@ -1419,15 +1431,6 @@ msgstr "Konfigurācija"
 #~ "ja pazīme nav iespējota, pavadītais laiks konsolē (ne terminālī) un "
 #~ "aizlēgtajā sesijā NETIEK uzskaitīts (šīs pazīmes darbspēja ļoti atkarīga "
 #~ "no grakiskās vides kurā strādājat)"
-
-#~ msgid "from"
-#~ msgstr "no"
-
-#~ msgid "to"
-#~ msgstr "līdz"
-
-#~ msgid "day"
-#~ msgstr "diena"
 
 #~ msgid "Set the amount of minutes to set for particular day"
 #~ msgstr "Uzstādiet atļauto minūšu skaitu izvēlētajai dienai"

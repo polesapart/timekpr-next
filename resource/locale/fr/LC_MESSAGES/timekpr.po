@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2019-04-29 12:43+0300\n"
-"PO-Revision-Date: 2019-04-29 12:44+0300\n"
+"POT-Creation-Date: 2019-04-29 18:17+0300\n"
+"PO-Revision-Date: 2019-04-29 18:18+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: French (Canada) <fr_CA@li.org>\n"
 "Language: fr\n"
@@ -520,8 +520,7 @@ msgstr "jplord@gmail.com"
 msgid "Keep control of computer usage"
 msgstr "Demeurez en contrôle de l'utilisation de votre ordinateur"
 
-#: common/constants/messages.py:154 resource/client/forms/admin.glade:1567
-#: resource/client/forms/admin.glade:1667
+#: common/constants/messages.py:154
 msgid "Day"
 msgstr "Jour"
 
@@ -533,11 +532,11 @@ msgstr "Activé"
 msgid "Limit"
 msgstr "Limite"
 
-#: common/constants/messages.py:157 resource/client/forms/admin.glade:1295
+#: common/constants/messages.py:157
 msgid "From"
 msgstr "De"
 
-#: common/constants/messages.py:158 resource/client/forms/admin.glade:1307
+#: common/constants/messages.py:158
 msgid "To"
 msgstr "À"
 
@@ -957,6 +956,14 @@ msgstr "Réglez la minute de DÉBUT de l'intervalle"
 msgid "Specify START hour of the allowed hour interval"
 msgstr "Réglez l'heure de DÉBUT de l'intervalle"
 
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "de"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "à"
+
 #: resource/client/forms/admin.glade:1316
 msgid "Remove"
 msgstr "Retirer"
@@ -1025,6 +1032,11 @@ msgstr "Limite de temps (semaine)"
 #: resource/client/forms/admin.glade:1539
 msgid "Time limit for the week is enabled"
 msgstr "Limite de temps pour la semaine activée"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "jour"
 
 #: resource/client/forms/admin.glade:1601
 msgid "Week limit amount (days part)"
@@ -1429,12 +1441,3 @@ msgstr "Réglages"
 #~ "désactivée, le temps passé dans la console (pas le terminal) et si "
 #~ "l'écran est verrouillé, n'est PAS pris en compte (ceci varie beaucoup "
 #~ "selon les environments de bureau)"
-
-#~ msgid "from"
-#~ msgstr "de"
-
-#~ msgid "to"
-#~ msgstr "à"
-
-#~ msgid "day"
-#~ msgstr "jour"

@@ -465,7 +465,7 @@ Please configure carefully: do not lock yourself out!</property>
                                 <property name="margin_bottom">5</property>
                                 <property name="label" translatable="yes">This shows you information about time spent</property>
                                 <property name="wrap">True</property>
-                                <property name="max_width_chars">40</property>
+                                <property name="max_width_chars">35</property>
                                 <attributes>
                                   <attribute name="style" value="italic"/>
                                 </attributes>
@@ -1292,7 +1292,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="margin_right">5</property>
-                                            <property name="label" translatable="yes">From</property>
+                                            <property name="label" translatable="yes">from</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -1304,7 +1304,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="margin_right">5</property>
-                                            <property name="label" translatable="yes">To</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -1564,7 +1564,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                               <object class="GtkLabel" id="TimekprUserConfWKDayLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Day</property>
+                                <property name="label" translatable="yes">day</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1664,7 +1664,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                               <object class="GtkLabel" id="TimekprUserConfMONDayLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Day</property>
+                                <property name="label" translatable="yes">day</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1764,7 +1764,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                             <property name="margin_bottom">5</property>
                             <property name="label" translatable="yes">This allows You to set up weekly &amp; monthly limits</property>
                             <property name="wrap">True</property>
-                            <property name="max_width_chars">60</property>
+                            <property name="max_width_chars">45</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
                             </attributes>
@@ -1880,8 +1880,8 @@ Please note that multiple intervals cannot be configured within the same hour. A
                             <property name="xpad">5</property>
                             <property name="ypad">5</property>
                             <property name="label" translatable="yes">Control Timekpr-nExT Settings</property>
-                            <property name="ellipsize">end</property>
-                            <property name="max_width_chars">35</property>
+                            <property name="wrap">True</property>
+                            <property name="max_width_chars">30</property>
                             <attributes>
                               <attribute name="style" value="italic"/>
                             </attributes>
@@ -2121,7 +2121,9 @@ Adding time does not help in this case. Do that before reaching this point...</p
                                     <property name="xpad">5</property>
                                     <property name="ypad">5</property>
                                     <property name="label" translatable="yes">Tracked Sessions</property>
-                                    <property name="ellipsize">end</property>
+                                    <property name="justify">center</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">17</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2241,7 +2243,9 @@ Please, do not change or experiment with this unless you actually (not wishfully
                                     <property name="xpad">5</property>
                                     <property name="ypad">5</property>
                                     <property name="label" translatable="yes">Excluded Sessions</property>
-                                    <property name="ellipsize">end</property>
+                                    <property name="justify">center</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">17</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2361,7 +2365,9 @@ Please, do not change or experiment with this unless you actually (not wishfully
                                     <property name="xpad">5</property>
                                     <property name="ypad">5</property>
                                     <property name="label" translatable="yes">Excluded Users</property>
-                                    <property name="ellipsize">end</property>
+                                    <property name="justify">center</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">17</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
