@@ -461,7 +461,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="halign">start</property>
-                                        <property name="label" translatable="yes">Days &amp; limits</property>
+                                        <property name="label" translatable="yes">Days &amp; Limits</property>
                                         <property name="xalign">0</property>
                                         <property name="yalign">0</property>
                                       </object>
@@ -635,7 +635,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTrackInactiveLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Whether time for inactive sessions are counted, if this is unchecked, time spent in console (not terminal) and while screen is locked, is NOT taken into account (this very much varies from DE to DE)</property>
+                                        <property name="tooltip_text" translatable="yes">Select whether time for inactive sessions are counted. If this is unchecked, time spent in console (not terminal) and while screen is locked is NOT taken into account (this very much varies from DE to DE)</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Track inactive:</property>
@@ -651,7 +651,7 @@
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="tooltip_text" translatable="yes">Whether time for inactive sessions are counted, if this is unchecked, time spent in console (not terminal) and while screen is locked, is NOT taken into account (this very much varies from DE to DE)</property>
+                                        <property name="tooltip_text" translatable="yes">Select whether time for inactive sessions are counted. If this is unchecked, time spent in console (not terminal) and while screen is locked is NOT taken into account (this very much varies from DE to DE)</property>
                                         <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
@@ -820,7 +820,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Whether to use speech notifications (if not available, this will be greyed out), if usage of speech is very much needed, please install python3-espeak package</property>
+                                <property name="tooltip_text" translatable="yes">Select whether to use speech notifications (if not available, this will be greyed out). If usage of speech is very much needed, please install python3-espeak package</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -885,7 +885,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Whether to show notification when limit configurations or alowance changes</property>
+                                <property name="tooltip_text" translatable="yes">Specify whether to show notification when limit configurations or allowance changes</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -902,7 +902,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Whether to show all notifications, if unchecked then only important ones are shown</property>
+                                <property name="tooltip_text" translatable="yes">Specify whether to show all notifications. If unchecked, then only important ones are shown</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -919,7 +919,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Whether to show seconds in notification area (some DE, like KDE5, do not support text besides notification icons)</property>
+                                <property name="tooltip_text" translatable="yes">Specify whether to show seconds in notification area (some DE, like KDE5, do not support text besides notification icons)</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
