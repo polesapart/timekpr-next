@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Timekpr Control Panel
+Comment=Keep control of computer usage
+Exec=/usr/bin/timekpra
+Icon=timekpr
+Terminal=false
+Type=Application
+Categories=System;Settings;GTK;
+StartupNotify=true
+X-Ubuntu-Gettext-Domain=timekpr

@@ -1,0 +1,222 @@
+timekpr-next-beta (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixed application launcher names for unfortunate Gnome3 users
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  We, 5 Jun 2019 20:12:12 +0300
+
+timekpr-next-beta (0.2.4~ppa1~ubuntu2) UNRELEASED; urgency=medium
+
+  * localization updates (fixes to translations all over the place, thanks to JP Lord)
+  **  updated all other languages with capitalizations
+  * added French translations
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 29 Apr 2019 12:47:46 +0300
+
+timekpr-next-beta (0.2.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented TTY switching functionality for those cases, when login manager sits on different TTY than session itself (this should fix #1823717)
+  **  the implementation is as follows: Timekpr-nExT tries to determine on which TTY login manager sits and saves it's TTY number, login managers have their
+  **  own users in standard installations, therefore we detect them using specific usernames (maybe not the best solution, but it's a solution)
+  * fixed control file initialization when timekpr starts (fixes #1802583)
+  * fixed icon in notification area when there is no time limit per day, but time intervals are limited
+  * improved termination list handling
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 27 Apr 2019 23:26:05 +0300
+
+timekpr-next-beta (0.2.3~ppa1~ubuntu3) UNRELEASED; urgency=medium
+
+  * fixed a bug in logging when multiple users use machine at the same time (permission problem)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 27 Apr 2019 17:50:24 +0300
+
+timekpr-next-beta (0.2.3~ppa1~ubuntu2) UNRELEASED; urgency=medium
+
+  * kill leftover processes for the user which do not originate from session processes
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2019 11:51:41 +0300
+
+timekpr-next-beta (0.2.3~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * kill inactive sessions as well (up until this point inactive sessions were saved from killing)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2019 11:51:41 +0300
+
+timekpr-next-beta (0.2.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * logging improvements (all client side logs are written to /tmp instead of HOME)
+  * tweak to translation credits (if none are supplied)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 12 Apr 2019 15:58:56 +0200
+
+timekpr-next-beta (0.2.1~ppa1~ubuntu2) UNRELEASED; urgency=medium
+
+  * packaging fix - we do not need to reference login managers any more
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Apr 2019 18:34:31 +0300
+
+timekpr-next-beta (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * added Italian and German translations
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 8 Apr 2019 8:25:17 +0300
+
+timekpr-next-beta (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * added Italian and German translation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 8 Apr 2019 12:07:25 +0300
+
+timekpr-next-beta (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * first beta release
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 29 Mar 2019 8:22:17 +0300
+
+timekpr-next (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented localization
+  * added Latvian translation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 29 Mar 2019 8:22:17 +0300
+
+timekpr-next (0.1.15~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented localization (translations pending)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 28 Mar 2019 18:27:42 +0300
+
+timekpr-next (0.1.14~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * timekpr client code optimization and small bug fixes
+  * added speech output
+
+  TODO: localization
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 21 Mar 2019 21:06:43 +0300
+
+timekpr-next (0.1.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * finalized admin GUI
+  * bug fixes here and there
+
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 18 Mar 2019 10:33:59 +0300
+
+timekpr-next (0.1.12~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * finalized user admin GUI
+  * bug fixes here and there
+
+  TODO: timekpr administration via GUI
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 15 Mar 2019 07:11:23 +0300
+
+timekpr-next (0.1.11~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented user admin GUI
+
+  TODO: timekpr administration via GUI
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 03 Mar 2019 00:42:11 +0300
+
+timekpr-next (0.1.10~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixed a bug for time accounting when there is a limit set up, but hours are not limited at all
+  * changed CLI option style from "-" to "--"
+
+  TODO: timekpr administration via GUI
+  TODO: user administration via GUI
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 26 Feb 2019 23:08:17 +0300
+
+timekpr-next (0.1.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * added weekly and monthly quota administration and processing
+  * minor time accounting fixes
+
+  TODO: timekpr administration via GUI
+  TODO: user administration via GUI
+  TODO: week and month quotas reporting to user
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 22 Feb 2019 18:11:35 +0300
+
+timekpr-next (0.1.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixes for user administration via DBUS and CLI
+  * major time accounting fixes
+  * clean up for user data processor
+
+  TODO: timekpr administration via GUI
+  TODO: user administration via GUI
+  TODO: week and month quotas
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 15 Feb 2019 6:53:03 +0300
+
+timekpr-next (0.1.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * implemented user administration via DBUS
+  * fixed some bugs with client configuration
+  * fixed logrotate configuration
+
+  TODO: administration via DBUS and CLI/GUI around it
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Jan 2019 7:35:19 +0300
+
+timekpr-next (0.1.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * fixed issue with time being improperly calculated when user is set from "unlimited" mode to limited
+  * fixed issue about time initialization when day changes and previously user was in "unlimited" mode (mode was changed to limited + he never logged off)
+
+  TODO: administration via DBUS and CLI/GUI around it
+  TODO: localization and speech
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 18 Dec 2018 20:03:22 +0300
+
+ timekpr-next (0.1.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+   * fixed lazy dbus connection initialization on client side
+   * fixes for client side GUI
+   * minor fixes for time accounting and logging
+
+   TODO: administration via DBUS and CLI/GUI around it
+   TODO: localization and speech
+
+  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 11 Nov 2018 07:55:46 +0300
+
+timekpr-next (0.1.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * first alpha version of timekpr (a lot has changed since old timekpr 0.3x version)
+  ** new impementation of timekpr-revived (there is almost nothing left of timekpr-revived)
+  ** released to very limited testers
+  ** python3 and gtk3 are the must
+  ** all based on DBUS (server and client)
+  ** session management relies on systemd's login1
+  ** notifications through DBUS (exclusively)
+  ** server is managing everything, except notifications which is the responsibility of client
+  ** major features include the following
+  *** support DE's which implement appindicaor3 (Unity/Gnome3¹/KDE5/...) and legacy statusIcon
+  *** support Ubuntu 12.04+ (on launchpad timekpr can support the versions which are on supported distro list)
+  *** it's possible to configure which session types are accountable
+  *** inactive session time is NOT accounted (if configured so)
+  *** time is configurable by days, hours and minutes (yes, limits within hour are possible)
+  *** there is no "hard" account lock, user will be logged out in 15 seconds if time is over
+  *** synchronous operation between  server and client
+  *** improved notifications about system behaviour
+  **** notification about actual limit change
+  **** notification about general configuration change
+  **** notification logic improved
+  **** client acts merely as notificator
+  **** client can view limits applied by admin
+
+  ¹ one has to install extension to show timekpr icon, otherwise icon is not shown (gnome architects do not want status icons in their design anymore, timekpr can not do anything about it)
+
+  TODO: administration via DBUS and CLI/GUI around it
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 17 Sep 2018 08:02:17 +0300

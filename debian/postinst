@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ -d /usr/share/pyshared/timekpr ];
+then
+    find /usr/share/pyshared/timekpr -type d -name '__pycache__' -exec rm -rf {} \; -prune
+    find /usr/share/pyshared/timekpr -iname '*.pyc' -exec rm {} \;
+fi
+groupadd -g 2000 timekpr 2>/dev/null || true
+systemctl reload dbus
+systemctl enable timekpr
+systemctl restart timekpr
+touch /usr/share/icons/hicolor && gtk-update-icon-cache -fv /usr/share/icons/hicolor

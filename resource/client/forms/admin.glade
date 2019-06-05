@@ -1,0 +1,2598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
+<interface domain="timekpr">
+  <requires lib="gtk+" version="3.4"/>
+  <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprAddExcludedUsersImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprAddTrackedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageAddInterval">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageAddTime">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageAdminSettings">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-apply</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageDaily">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-apply</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageRemoveInterval">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageSetDayLimit">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-add</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageSetInactive">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-apply</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageSetTime">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-justify-fill</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageSubtractTime">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageWKMON">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-apply</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyHrFromAdjustment">
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyHrLimitAdjustment">
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyHrToAdjustment">
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinFromAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinLimitAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprDailyMinToAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkListStore" id="TimekprExcludedSessionsLS">
+    <columns>
+      <!-- column-name excludedSession -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="TimekprExcludedUsersLS">
+    <columns>
+      <!-- column-name excludedUser -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="TimekprHourIntervalsLS">
+    <columns>
+      <!-- column-name intervalIdx -->
+      <column type="guint"/>
+      <!-- column-name fromHour -->
+      <column type="gchararray"/>
+      <!-- column-name toHour -->
+      <column type="gchararray"/>
+      <!-- column-name dayIdx -->
+      <column type="gchararray"/>
+      <!-- column-name fromSeconds -->
+      <column type="guint"/>
+      <!-- column-name toSeconds -->
+      <column type="guint"/>
+    </columns>
+  </object>
+  <object class="GtkAdjustment" id="TimekprLoglevelAdjustment">
+    <property name="lower">1</property>
+    <property name="upper">3</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprMONDayAdjustment">
+    <property name="upper">31</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprMONHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprMONMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprPollingAdjustment">
+    <property name="lower">3</property>
+    <property name="upper">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">3</property>
+  </object>
+  <object class="GtkImage" id="TimekprRemoveExcludedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="tooltip_text" translatable="yes">Remove excluded session type</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkImage" id="TimekprRemoveExcludedUsersImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkImage" id="TimekprRemoveTrackedSessionsImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">3</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprSaveAdjustment">
+    <property name="lower">10</property>
+    <property name="upper">60</property>
+    <property name="value">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprTerminationAdjustment">
+    <property name="lower">5</property>
+    <property name="upper">30</property>
+    <property name="value">15</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprTodayHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprTodayMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkListStore" id="TimekprTrackingSessionsLS">
+    <columns>
+      <!-- column-name trackedSession -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="TimekprUserSelectionLS">
+    <columns>
+      <!-- column-name userIdx -->
+      <column type="gchararray"/>
+      <!-- column-name userName -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkImage" id="TimekprUserSelectionRefreshBTImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-revert-to-saved</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWKDayAdjustment">
+    <property name="upper">7</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWKHrAdjustment">
+    <property name="upper">23</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWKMinAdjustment">
+    <property name="upper">60</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="TimekprWarningAdjustment">
+    <property name="lower">5</property>
+    <property name="upper">30</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkListStore" id="TimekprWeekDaysLS">
+    <columns>
+      <!-- column-name dayIdx -->
+      <column type="gchararray"/>
+      <!-- column-name dayName -->
+      <column type="gchararray"/>
+      <!-- column-name dayEnabled -->
+      <column type="gboolean"/>
+      <!-- column-name dayLimitSecs -->
+      <column type="guint"/>
+      <!-- column-name limitStr -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkApplicationWindow" id="TimekprApplicationWindow">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Timekpr-nExT administration</property>
+    <property name="resizable">False</property>
+    <property name="icon_name">timekpr-client</property>
+    <signal name="delete-event" handler="closePropertiesSignal" swapped="no"/>
+    <child>
+      <object class="GtkBox" id="TimekprMainBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox" id="TimekprHeaderBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="spacing">5</property>
+            <child>
+              <object class="GtkImage" id="TimekprLogoImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Icon, isn't it?</property>
+                <property name="halign">start</property>
+                <property name="margin_left">30</property>
+                <property name="margin_right">30</property>
+                <property name="margin_top">30</property>
+                <property name="margin_bottom">30</property>
+                <property name="pixel_size">64</property>
+                <property name="icon_name">timekpr-client</property>
+                <property name="icon_size">6</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="TimekprMainInfoLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Notes, read carefully ;)</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <property name="xpad">5</property>
+                <property name="ypad">5</property>
+                <property name="label" translatable="yes">This is Timekpr-nExT configuration app. It allows you to configure time for your users as well as the Timekpr-nExT parameters.
+
+To use this application, you either have to execute it  as superuser or have to be part of the timekpr group.
+Please note that the "Timekpr-nExT Configuration" is available in superuser (administrator) mode only!
+
+Please configure carefully: do not lock yourself out!</property>
+                <property name="wrap">True</property>
+                <property name="width_chars">75</property>
+                <property name="max_width_chars">75</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">10</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkNotebook" id="TimekprMainTabBar">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="tooltip_text" translatable="yes">Users related configuration</property>
+            <child>
+              <object class="GtkBox" id="TimekprUserConfigurationBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox" id="TimekprUserSelectionLabelBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="TimekprUserSelectionLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">10</property>
+                        <property name="label" translatable="yes">Username:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">10</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="TimekprUserSelectionBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkComboBox" id="TimekprUserSelectionCB">
+                        <property name="width_request">150</property>
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
+                        <property name="margin_bottom">10</property>
+                        <property name="model">TimekprUserSelectionLS</property>
+                        <property name="has_frame">False</property>
+                        <property name="has_entry">True</property>
+                        <property name="entry_text_column">1</property>
+                        <property name="id_column">0</property>
+                        <signal name="changed" handler="userSelectionChanged" swapped="no"/>
+                        <child internal-child="entry">
+                          <object class="GtkEntry" id="TimekprUserSelectionCBEntry">
+                            <property name="can_focus">False</property>
+                            <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">10</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="TimekprUserSelectionRefreshBT">
+                        <property name="label" translatable="yes">Restore</property>
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Restore configuration from saved state</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="margin_bottom">10</property>
+                        <property name="image">TimekprUserSelectionRefreshBTImage</property>
+                        <signal name="clicked" handler="userConfigurationRefreshActivated" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkNotebook" id="TimekprConfigurationTabBar">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkBox" id="TimekprUserConfTodayBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="margin_top">5</property>
+                        <property name="margin_bottom">5</property>
+                        <child>
+                          <object class="GtkBox" id="TimekprUserConfTodayInfoBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="valign">start</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfTodayInfoLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
+                                <property name="margin_top">5</property>
+                                <property name="margin_bottom">5</property>
+                                <property name="label" translatable="yes">This shows you information about time spent</property>
+                                <property name="wrap">True</property>
+                                <property name="max_width_chars">35</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoSpentTodayBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">5</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentTodayLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent today (saved stated, not real-time)</property>
+                                    <property name="halign">end</property>
+                                    <property name="label" translatable="yes">Time spent (today):</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentTodayLB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">00:00:00:00</property>
+                                    <property name="ellipsize">end</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoSpentWeekBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_top">5</property>
+                                <property name="margin_bottom">5</property>
+                                <property name="spacing">5</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent for this week (saved stated, not real-time)</property>
+                                    <property name="halign">end</property>
+                                    <property name="label" translatable="yes">Time spent (week):</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">00:00:00:00</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoSpentMonthBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">5</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentMonthLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent this month (saved stated, not real-time)</property>
+                                    <property name="halign">end</property>
+                                    <property name="label" translatable="yes">Time spent (month):</property>
+                                    <property name="ellipsize">end</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentMonthLB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">00:00:00:00</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="TimekprUserConfTodaySettingsBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfTodaySettingsLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">This allows you to change time for today as well as inactive session tracking</property>
+                                <property name="wrap">True</property>
+                                <property name="max_width_chars">55</property>
+                                <attributes>
+                                  <attribute name="style" value="italic"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodaySettingsSetBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">center</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodaySettingsSetLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="xpad">5</property>
+                                    <property name="label" translatable="yes">Amount:</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="TimekprUserConfTodaySettingsSetInnerBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkGrid" id="TimekprUserConfTodaySettingsSetGrid">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="column_homogeneous">True</property>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfTodaySettingsSetGridHrLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">hr</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetMinSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">The amount of minutes to be adjusted for today's limit</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprTodayMinAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="todayAddTimeChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">The amount of hours to be adjusted for today's limit</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprTodayHrAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="todayAddTimeChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfTodaySettingsSetGridMinLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">min</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="TimekprUserConfTodaySettingsSetGridButtonBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="homogeneous">True</property>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfTodaySettingsSetAddBT">
+                                            <property name="label" translatable="yes">Add</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Add specified amount (reward)</property>
+                                            <property name="image">TimekprApplyImageAddTime</property>
+                                            <signal name="clicked" handler="todayAddTimeClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfTodaySettingsSetSubractBT">
+                                            <property name="label" translatable="yes">Subtract</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Subtract specified amount (penalty)</property>
+                                            <property name="image">TimekprApplyImageSubtractTime</property>
+                                            <signal name="clicked" handler="todaySubtractTimeClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfTodaySettingsSetSetBT">
+                                            <property name="label" translatable="yes">Set</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set exacly specified limit</property>
+                                            <property name="image">TimekprApplyImageSetTime</property>
+                                            <signal name="clicked" handler="todaySetTimeClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodaySettingsTrackInactiveBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
+                                <property name="margin_top">5</property>
+                                <property name="margin_bottom">5</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodaySettingsTrackInactiveLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Select whether time for inactive sessions are counted. If this is unchecked, time spent in console (not terminal) and while screen is locked is NOT taken into account (this very much varies from DE to DE)</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="label" translatable="yes">Track inactive sessions:</property>
+                                    <property name="ellipsize">end</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="TimekprUserConfTodaySettingsTrackInactiveCB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="tooltip_text" translatable="yes">Select whether time for inactive sessions are counted. If this is unchecked, time spent in console (not terminal) and while screen is locked is NOT taken into account (this very much varies from DE to DE)</property>
+                                    <property name="xalign">0</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="trackInactiveChanged" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="TimekprUserConfTodaySettingsTrackInactiveSetBT">
+                                    <property name="label" translatable="yes">Set</property>
+                                    <property name="visible">True</property>
+                                    <property name="sensitive">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="tooltip_text" translatable="yes">Set track inactive sessions</property>
+                                    <property name="image">TimekprApplyImageSetInactive</property>
+                                    <signal name="clicked" handler="trackInactiveClicked" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="padding">5</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel" id="TimekprUserConfTodayLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Brief information about time spent and everything related to time management for this day</property>
+                        <property name="label" translatable="yes">Info &amp; Today</property>
+                      </object>
+                      <packing>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="TimekprUserConfDayHourSettingsBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkBox" id="TimekprUserConfDayHourSettingsHolderBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfDaySettingsHolderBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">5</property>
+                                    <child>
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsSetDaysLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">5</property>
+                                        <property name="xpad">5</property>
+                                        <property name="ypad">5</property>
+                                        <property name="label" translatable="yes">Configure time limits for week days</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">35</property>
+                                        <attributes>
+                                          <attribute name="style" value="italic"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="TimekprWeekDaysScrolledWindow">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="shadow_type">in</property>
+                                        <property name="min_content_width">220</property>
+                                        <property name="min_content_height">100</property>
+                                        <child>
+                                          <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Lists day of the week and additional information about the day's limit, please enable / disable days for the user</property>
+                                            <property name="model">TimekprWeekDaysLS</property>
+                                            <child internal-child="selection">
+                                              <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
+                                                <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsLimitsDaysBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="valign">center</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsConfSetLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">5</property>
+                                        <property name="xpad">5</property>
+                                        <property name="ypad">5</property>
+                                        <property name="label" translatable="yes">Specify day's limit</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">20</property>
+                                        <attributes>
+                                          <attribute name="style" value="italic"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkGrid" id="TimekprUserConfDaySettingsConfSetGrid">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaySetHrLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">hr</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaySetMinLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">min</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set the amount of hours to limit available time for particular day</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprDailyHrLimitAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrMinChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetMinSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set the amount of hours to limit available time for particular day</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprDailyMinLimitAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrMinChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDayApplyBT">
+                                            <property name="label" translatable="yes">Set</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Set specified hours and minutes for particular day at user's disposal (do not forget to hit the &lt;Apply&gt; button)</property>
+                                            <property name="image">TimekprApplyImageSetDayLimit</property>
+                                            <signal name="clicked" handler="dayTotalLimitClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSeparator" id="TimekprDaysHoursSeparator">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">15</property>
+                                <property name="margin_right">15</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsSetDaysIntervalsViewBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">5</property>
+                                    <child>
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsSetDaysIntervalsLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">5</property>
+                                        <property name="xpad">5</property>
+                                        <property name="ypad">5</property>
+                                        <property name="label" translatable="yes">Hour intervals</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">20</property>
+                                        <attributes>
+                                          <attribute name="style" value="italic"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="TimekprHourIntervalsScrolledWindow">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="shadow_type">in</property>
+                                        <property name="min_content_width">95</property>
+                                        <property name="min_content_height">100</property>
+                                        <child>
+                                          <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Hour intervals per day available to user.
+Please note that if day ends at 24th hour and next day starts at 0, user can work continuously past midnight.
+Please note that multiple intervals cannot be configured within the same hour. An interval can start or end or contain a specific hour, but not more than once (this is by design, not a bug)</property>
+                                            <property name="model">TimekprHourIntervalsLS</property>
+                                            <child internal-child="selection">
+                                              <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection">
+                                                <signal name="changed" handler="hourIntervalSelectionChanged" swapped="no"/>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="TimekprUserConfDaySettingsConfDaysIntervalsBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="valign">end</property>
+                                    <property name="margin_left">5</property>
+                                    <property name="margin_right">5</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">5</property>
+                                    <child>
+                                      <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="margin_top">5</property>
+                                        <property name="margin_bottom">5</property>
+                                        <property name="xpad">5</property>
+                                        <property name="ypad">5</property>
+                                        <property name="label" translatable="yes">Manage intervals for the day</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">30</property>
+                                        <attributes>
+                                          <attribute name="style" value="italic"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkGrid" id="TimekprUserConfDaySettingsConfDaysIntervalsGrid">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsMinLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">min</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsHrLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">hr</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsFromMinSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify START minute of the allowed hour interval</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprDailyMinFromAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify START hour of the allowed hour interval</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprDailyHrFromAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsFromLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">from</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="TimekprUserConfDaySettingsConfDaysIntervalsToLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="margin_right">5</property>
+                                            <property name="label" translatable="yes">to</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT">
+                                            <property name="label" translatable="yes">Remove</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Remove selected interval from the list (do not forget to hit the &lt;Apply&gt; button)</property>
+                                            <property name="image">TimekprApplyImageRemoveInterval</property>
+                                            <signal name="clicked" handler="removeHourIntervalClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaysIntervalsAddBT">
+                                            <property name="label" translatable="yes">Add</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip_text" translatable="yes">Add specified hour interval to the list (do not forget to hit th e&lt;Apply&gt; button)</property>
+                                            <property name="image">TimekprApplyImageAddInterval</property>
+                                            <signal name="clicked" handler="addHourIntervalClicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToHrSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify END hour of the allowed hour interval</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprDailyHrToAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToMinSB">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">Specify END minute of the allowed hour interval</property>
+                                            <property name="width_chars">2</property>
+                                            <property name="max_width_chars">2</property>
+                                            <property name="adjustment">TimekprDailyMinToAdjustment</property>
+                                            <property name="numeric">True</property>
+                                            <property name="update_policy">if-valid</property>
+                                            <signal name="value-changed" handler="dailyLimitDayHrIntervalsChanged" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">2</property>
+                                            <property name="top_attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="TimekprUserConfDaySettingsApplyBT">
+                            <property name="label" translatable="yes">Apply daily limits</property>
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip_text" translatable="yes">Apply all changes made in this page</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="image">TimekprApplyImageDaily</property>
+                            <signal name="clicked" handler="applyDaysHourIntervalsClicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel" id="TimekprUserConfDailyLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Daily limit configuration for all week days</property>
+                        <property name="label" translatable="yes">Daily limits</property>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="TimekprUserConfWKMONGrid">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="margin_top">5</property>
+                        <property name="margin_bottom">5</property>
+                        <property name="column_spacing">5</property>
+                        <child>
+                          <object class="GtkBox" id="TimekprUserConfMONLabelBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfMONLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the month</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Time limit (month)</property>
+                                <property name="ellipsize">end</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="TimekprUserConfMONCB">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the month is enabled</property>
+                                <property name="xalign">0</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="monthAvailabilityChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="TimekprUserConfWKLabelBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfWKLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the week</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Time limit (week)</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="TimekprUserConfWKCB">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="tooltip_text" translatable="yes">Time limit for the week is enabled</property>
+                                <property name="xalign">0</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="weekAvailabilityChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkGrid" id="TimekprUserConfWKBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfWKDayLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">day</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfWKHrLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">hr</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfWKMinLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">min</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprUserConfWKDaySB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Week limit amount (days part)</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWKDayAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprUserConfWKHrSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Week limit amount (hours part)</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWKHrAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprUserConfWKMinSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Week limit amount (minutes part)</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWKMinAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="weeklyLimitDayHrMinChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkGrid" id="TimekprUserConfMONBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfMONDayLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">day</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfMONHrLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">hr</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprUserConfMONMinLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">min</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprUserConfMONDaySB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Month limit amount (days part)</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprMONDayAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="monthlyLimitDayHrMinChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprUserConfMONHrSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Month limit amount (hours part)</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprMONHrAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="monthlyLimitDayHrMinChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprUserConfMONMinSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Month limit amount (minutes part)</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprMONMinAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="monthlyLimitDayHrMinChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="TimekprUserConfWKMONGrpLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="label" translatable="yes">This allows You to set up weekly &amp; monthly limits</property>
+                            <property name="wrap">True</property>
+                            <property name="max_width_chars">45</property>
+                            <attributes>
+                              <attribute name="style" value="italic"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="TimekprUserConfWKMONApplyBT">
+                            <property name="label" translatable="yes">Apply</property>
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip_text" translatable="yes">Apply weekly and monthly limits</property>
+                            <property name="margin_left">5</property>
+                            <property name="image">TimekprApplyImageWKMON</property>
+                            <signal name="clicked" handler="WKMONLimitSetClicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkAlignment" id="TimekprUserConfWKMONGrpAligmentBot">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkAlignment" id="TimekprUserConfWKMONGrpAligmentTop">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel" id="TimekprUserConfWKMONLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Weekly and monthly limit configuration</property>
+                        <property name="label" translatable="yes">Weekly &amp; Monthly limits</property>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="TimekprUserConfigurationTabLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Users related configuration</property>
+                <property name="label" translatable="yes">User Configuration</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="TimekprConfigurationMainBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox" id="TimekprConfigurationAdditionalBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkBox" id="TimekprConfigurationContainerBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkLabel" id="TimekprConfigurationContainerLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="xpad">5</property>
+                            <property name="ypad">5</property>
+                            <property name="label" translatable="yes">Control Timekpr-nExT Settings</property>
+                            <property name="wrap">True</property>
+                            <property name="max_width_chars">30</property>
+                            <attributes>
+                              <attribute name="style" value="italic"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkGrid" id="TimekprConfigurationContainerGrid">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="row_spacing">5</property>
+                            <property name="column_spacing">5</property>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprConfigurationLoglevelSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Timekpr-nExT log level. Please do not change this unless asked (you likely won't find anything pretty in the log files)
+1 - standard, 2 - debug, 3 - extra debug</property>
+                                <property name="width_chars">1</property>
+                                <property name="max_width_chars">1</property>
+                                <property name="adjustment">TimekprLoglevelAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprConfigurationPollIntervalLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Poll interval</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprConfigurationWarningTimeSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Specify the time in seconds when Timekpr-nExT starts continuous real-time countdown before terminating the session</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprWarningAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprConfigurationSaveTimeLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Save time</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprConfigurationPollIntervalSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Specify session polling time granularity (at which interval user sessions and activity are polled).
+3 -5 seconds are optimal, don't change this if unsure.</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprPollingAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprConfigurationTerminationTimeLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Termination time</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprConfigurationSaveTimeSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">This specifies the time interval at which actual user state is saved</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprSaveAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="TimekprConfigurationTerminationTimeSB">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip_text" translatable="yes">Amount of seconds before terminating user sessions. After this is reached, user will be terminated, nothing can be done to prevent it.
+Adding time does not help in this case. Do that before reaching this point...</property>
+                                <property name="width_chars">2</property>
+                                <property name="max_width_chars">2</property>
+                                <property name="adjustment">TimekprTerminationAdjustment</property>
+                                <property name="numeric">True</property>
+                                <property name="update_policy">if-valid</property>
+                                <signal name="value-changed" handler="configControlTimesChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprConfigurationWarningTimeLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Warning time</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprConfigurationLoglevelLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Log level</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="TimekprTrackingItemsContainerBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkLabel" id="TimekprTrackingItemsLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_top">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="xpad">5</property>
+                            <property name="ypad">5</property>
+                            <property name="label" translatable="yes">Control Timekpr-nExT tracking items</property>
+                            <property name="ellipsize">end</property>
+                            <property name="max_width_chars">60</property>
+                            <attributes>
+                              <attribute name="style" value="italic"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="TimekprTrackingItemsInnerBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
+                            <property name="margin_bottom">5</property>
+                            <property name="spacing">5</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <object class="GtkBox" id="TimekprTrackingSessionsBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprTrackingSessionsLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xpad">5</property>
+                                    <property name="ypad">5</property>
+                                    <property name="label" translatable="yes">Tracked Sessions</property>
+                                    <property name="justify">center</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">17</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScrolledWindow" id="TimekprTrackingSessionsScrolledWindow">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="margin_bottom">5</property>
+                                    <property name="shadow_type">in</property>
+                                    <property name="min_content_width">100</property>
+                                    <property name="min_content_height">100</property>
+                                    <child>
+                                      <object class="GtkTreeView" id="TimekprTrackingSessionsTreeView">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">List of session types to be tracked.
+Please, do not change or experiment with this unless you actually (not wishfully) know what you are doing.</property>
+                                        <property name="model">TimekprTrackingSessionsLS</property>
+                                        <child internal-child="selection">
+                                          <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection">
+                                            <signal name="changed" handler="trackedSessionTypesSelectionChanged" swapped="no"/>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="TimekprTrackingSessionsEntryEF">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">Enter session type to be tracked</property>
+                                    <property name="max_length">30</property>
+                                    <property name="width_chars">10</property>
+                                    <property name="max_width_chars">10</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <signal name="changed" handler="trackedSessionTypesChanged" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="TimekprTrackingSessionsButtonBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkButton" id="TimekprTrackingSessionsAddBT">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Add tracked session type to the list</property>
+                                        <property name="image">TimekprAddTrackedSessionsImage</property>
+                                        <signal name="clicked" handler="trackedSessionsAddClicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="TimekprTrackingSessionsRemoveBT">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Remove tracked session type from the list</property>
+                                        <property name="image">TimekprRemoveTrackedSessionsImage</property>
+                                        <signal name="clicked" handler="trackedSessionsRemoveClicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprExcludedSessionsBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprExcludedSessionsLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xpad">5</property>
+                                    <property name="ypad">5</property>
+                                    <property name="label" translatable="yes">Excluded Sessions</property>
+                                    <property name="justify">center</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">17</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScrolledWindow" id="TimekprExcludedSessionsScrolledWindow">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="margin_bottom">5</property>
+                                    <property name="shadow_type">in</property>
+                                    <property name="min_content_width">100</property>
+                                    <property name="min_content_height">100</property>
+                                    <child>
+                                      <object class="GtkTreeView" id="TimekprExcludedSessionsTreeView">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">List of sessions to be excluded from tracking.
+Please, do not change or experiment with this unless you actually (not wishfully) know what you are doing.</property>
+                                        <property name="model">TimekprExcludedSessionsLS</property>
+                                        <child internal-child="selection">
+                                          <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection">
+                                            <signal name="changed" handler="excludedSessionTypesSelectionChanged" swapped="no"/>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="TimekprExcludedSessionsEntryEF">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">Enter session type to be excluded from tracking</property>
+                                    <property name="max_length">30</property>
+                                    <property name="width_chars">10</property>
+                                    <property name="max_width_chars">10</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <signal name="changed" handler="excludedSessionTypesChanged" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="TimekprExcludedSessionsButtonBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkButton" id="TimekprExcludedSessionsAddBT">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Add excluded session type to the list</property>
+                                        <property name="image">TimekprAddExcludedSessionsImage</property>
+                                        <signal name="clicked" handler="excludedSessionsAddClicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="TimekprExcludedSessionsRemoveBT">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Remove excluded session type from the list</property>
+                                        <property name="image">TimekprRemoveExcludedSessionsImage</property>
+                                        <signal name="clicked" handler="excludedSessionsRemoveClicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprExcludedUsersBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprExcludedUsersLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xpad">5</property>
+                                    <property name="ypad">5</property>
+                                    <property name="label" translatable="yes">Excluded Users</property>
+                                    <property name="justify">center</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max_width_chars">17</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScrolledWindow" id="TimekprExcludedUsersScrolledWindow">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="margin_bottom">5</property>
+                                    <property name="shadow_type">in</property>
+                                    <property name="min_content_width">100</property>
+                                    <property name="min_content_height">100</property>
+                                    <child>
+                                      <object class="GtkTreeView" id="TimekprExcludedUsersTreeView">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">List of users excluded from tracking.
+Please specify actual usernames, not real names here (e.g please specify jsmith, not John Smith)</property>
+                                        <property name="model">TimekprExcludedUsersLS</property>
+                                        <child internal-child="selection">
+                                          <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection">
+                                            <signal name="changed" handler="excludedUsersSelectionChanged" swapped="no"/>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="TimekprExcludedUsersEntryEF">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">Enter username to be excluded from tracking</property>
+                                    <property name="max_length">30</property>
+                                    <property name="width_chars">10</property>
+                                    <property name="max_width_chars">10</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <signal name="changed" handler="excludedUsersChanged" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="TimekprExcludedUsersButtonBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="homogeneous">True</property>
+                                    <child>
+                                      <object class="GtkButton" id="TimekprExcludedUsersAddBT">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Add user to the exclusion list</property>
+                                        <property name="image">TimekprAddExcludedUsersImage</property>
+                                        <signal name="clicked" handler="excludedUsersAddClicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="TimekprExcludedUsersRemoveBT">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="tooltip_text" translatable="yes">Remove user from the exclusion list</property>
+                                        <property name="image">TimekprRemoveExcludedUsersImage</property>
+                                        <signal name="clicked" handler="excludedUsersRemoveClicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="TimekprConfigurationApplyBT">
+                    <property name="label" translatable="yes">Apply Timekpr-nExT setings</property>
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">Apply all Timekpr-nExT settings at once</property>
+                    <property name="margin_bottom">5</property>
+                    <property name="image">TimekprApplyImageAdminSettings</property>
+                    <signal name="clicked" handler="applyTimekprConfigurationChanges" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="TimekprConfigurationTabLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Timekpr-nExT Administration Configuration</property>
+                <property name="label" translatable="yes">Timekpr-nExT Configuration</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child type="tab">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="TimekprStatusbarBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkStatusbar" id="TimekprConnectionStatusbar">
+                <property name="width_request">150</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Status of Timekpr-nExT admin client</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <property name="margin_start">10</property>
+                <property name="margin_end">10</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="orientation">vertical</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkStatusbar" id="TimekprMessagesStatusbar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Status of Timekpr-nExT admin client</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <property name="margin_start">10</property>
+                <property name="margin_end">10</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="orientation">vertical</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

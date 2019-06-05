@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
+<interface domain="timekpr">
+  <requires lib="gtk+" version="3.4"/>
+  <object class="GtkAboutDialog" id="timekprAboutDialog">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">About Timekpr-nExT</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="icon_name">timekpr</property>
+    <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
+    <property name="program_name">Timekpr-nExT</property>
+    <property name="version">0.0.1</property>
+    <property name="copyright" translatable="yes">Copyright (c) 2018-2019 Eduards Bezverhijs
+Super tester: Rinalds Dobelis
+Beta tester: SanskritFritz</property>
+    <property name="comments" translatable="yes">Keep control of computer usage</property>
+    <property name="website">https://launchpad.net/timekpr-next</property>
+    <property name="website_label" translatable="yes">Timekpr-nExT</property>
+    <property name="license" translatable="yes" context="timekpr-next" comments="Please enter GPL3 licence text in Your language">This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;. In Debian, see file /usr/share/common-licenses/GPL-3</property>
+    <property name="authors">Eduards Bezverhijs &lt;edzis@inbox.lv&gt;</property>
+    <property name="translator_credits" translatable="yes">please-enter-translator-credits</property>
+    <property name="logo_icon_name"/>
+    <property name="wrap_license">True</property>
+    <property name="license_type">custom</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="timekprAboutDialogArea">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="timekprAboutDialogActionArea">
+            <property name="can_focus">False</property>
+            <property name="layout_style">start</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="timekprLogo">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixel_size">64</property>
+            <property name="icon_name">timekpr</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
