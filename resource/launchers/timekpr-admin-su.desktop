@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8
-Name=Timekpr Control Panel (superuser mode)
+Name=(SU) Timekpr Control Panel (superuser mode)
 Comment=Keep control of computer usage
 Exec=pkexec /usr/bin/timekpra
 Icon=timekpr
