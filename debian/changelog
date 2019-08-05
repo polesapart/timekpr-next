@@ -1,3 +1,9 @@
+timekpr-next-beta (0.2.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Fixed an issue with Timekpr-nExT client not starting in non-major DE's (for example Deepin)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  We, 5 Jun 2019 20:12:12 +0300
+
 timekpr-next-beta (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * fixed application launcher names for unfortunate Gnome3 users
