@@ -7,6 +7,5 @@ Exec=/usr/bin/timekprc
 Terminal=false
 Type=Application
 Categories=
-OnlyShowIn=GNOME;XFCE;KDE;LXDE;Unity;MATE;
 X-GNOME-Autostart-enabled=true
 X-Ubuntu-Gettext-Domain=timekpr
