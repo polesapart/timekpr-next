@@ -37,10 +37,7 @@ class timekprNotificationArea(object):
         # initialize priority
         self._lastUsedPriority = ""
         # initialize time left
-        self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY)
-        # no limit level
-        self._noLimit = False
-        self._noLimitSet = False
+        self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY - 1)
 
         # init notificaction stuff
         self._timekprNotifications = timekprNotifications(pLog, self._isDevActive, self._userName, self._timekprConfigManager)
@@ -65,23 +62,28 @@ class timekprNotificationArea(object):
         timekprIcon = None
         timeLeftStr = None
 
-        # if time has chnaged
-        if self._timeLeftTotal != pTimeLeft and not self._noLimitSet:
+        # if time has changed
+        if self._timeLeftTotal != pTimeLeft:
             # if there is no time left set yet, show --
             if pTimeLeft is None:
                 # determine hours and minutes
                 timeLeftStr = "--:--" + (":--" if self._timekprConfigManager.getClientShowSeconds() else "")
             else:
+                # determine whether we have an unlimited mode
+                isUnlimited = self.isWholeDayAvailable(self._timeLeftTotal) == self.isWholeDayAvailable(pTimeLeft) and self.isWholeDayAvailable(pTimeLeft)
+
                 # update time
                 self._timeLeftTotal = pTimeLeft
 
+                # if unlimited, we do not need to chnage anything
+                if isUnlimited:
+                    # just pass
+                    pass
                 # if no limit there will be a no limit thing
-                if self._noLimit:
-                    if not self._noLimitSet:
-                        # unlimited!
-                        timeLeftStr = "∞"
-                        prio = "unlimited"
-                        self._noLimitSet = True
+                elif self.isWholeDayAvailable(self._timeLeftTotal):
+                    # unlimited!
+                    timeLeftStr = "∞"
+                    prio = "unlimited"
                 else:
                     # determine hours and minutes
                     timeLeftStr = str((self._timeLeftTotal - cons.TK_DATETIME_START).days * 24 + self._timeLeftTotal.hour).rjust(2, "0")
@@ -110,12 +112,16 @@ class timekprNotificationArea(object):
         """Change status of timekpr"""
         return self._timekprGUI.setStatus(pStatus)
 
+    def isWholeDayAvailable(self, pTimeLeft):
+        """Check if whole day is available from timeleft"""
+        return (pTimeLeft - cons.TK_DATETIME_START).total_seconds() >= cons.TK_LIMIT_PER_DAY
+
     # --------------- user clicked methods --------------- #
 
     def invokeTimekprTimeLeft(self, pEvent):
         """Inform user about (almost) exact time left"""
         # inform user about precise time
-        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self._noLimit else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
+        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self.isWholeDayAvailable(self._timeLeftTotal) else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
 
     def invokeTimekprUserProperties(self, pEvent):
         """Bring up a window for property editing"""
@@ -136,32 +142,5 @@ class timekprNotificationArea(object):
 
     def renewLimitConfiguration(self, pLimits):
         """Call an update on actual limits"""
-        # current day
-        currDay = str(datetime.now().isoweekday())
-
-        # we can check limits only when this day has configuration
-        if currDay in pLimits:
-            # no limit?
-            wholeDay = pLimits[currDay][cons.TK_CTRL_LIMITD] >= cons.TK_LIMIT_PER_DAY
-            # check whether we have full interval (it must be just one)
-            if wholeDay and len(pLimits[currDay][cons.TK_CTRL_INT]) == 1:
-                # start must be first second and last must be last second of the day
-                wholeDay = pLimits[currDay][cons.TK_CTRL_INT][0][0] == 0 and pLimits[currDay][cons.TK_CTRL_INT][0][1] == cons.TK_LIMIT_PER_DAY
-            else:
-                # not unlimited
-                wholeDay = False
-
-            # check the limit
-            if wholeDay:
-                # reconfigure labels
-                self._noLimit = True
-            else:
-                # we do have limit :(
-                self._noLimit = False
-                # cancel unlimited
-                self._noLimitSet = False
-                # last used prio changed to smth
-                self._lastUsedPriority = ""
-
         # pass this to actual gui storage
         self._timekprGUI.renewLimitConfiguration(pLimits)
