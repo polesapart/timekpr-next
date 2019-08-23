@@ -313,7 +313,7 @@ class timekprAdminGUI(object):
     def toggleTimekprConfigControls(self, pEnable=True, pAll=True):
         """Enable or disable all timekpr controls for the form"""
         # enable for timekpr can be done only in admin mode
-        enable = pEnable and os.getuid() == 0
+        enable = pEnable and (os.getuid() == 0 or self._isDevActive)
         # apply settings to all buttons`in user configuration
         for rButton in self._timekprConfigControlElements:
             if not enable:
