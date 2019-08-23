@@ -285,8 +285,23 @@ class timekprAdminClient(object):
 
     def processSetAllowedDays(self, pUserName, pDayList):
         """Process allowed days"""
-        # invoke
-        result, message = self._timekprAdminConnector.setAllowedDays(pUserName, list(map(int, pDayList.split(";"))))
+        # defaults
+        dayMap = ()
+        result = 0
+
+        # day map
+        try:
+            # try to parse parameters
+            dayMap = list(map(int, pDayList.split(";")))
+        except Exception as ex:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % (str(ex))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setAllowedDays(pUserName, dayMap)
 
         # process
         if result != 0:
@@ -297,20 +312,30 @@ class timekprAdminClient(object):
         """Process allowed hours"""
         # this is the dict for hour config
         allowedHours = {}
-        # check hours
-        for rHour in str(pHourList).split(";"):
-            # if we have advanced config (minutes)
-            if "[" in rHour and "]" in rHour and "-" in rHour:
-                # get minutes
-                minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
-                # get our dict done
-                allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
-            else:
-                # get our dict done
-                allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+        result = 0
 
-        # invoke
-        result, message = self._timekprAdminConnector.setAllowedHours(pUserName, pDayNumber, allowedHours)
+        # allowed hours
+        try:
+            # check hours
+            for rHour in str(pHourList).split(";"):
+                # if we have advanced config (minutes)
+                if "[" in rHour and "]" in rHour and "-" in rHour:
+                    # get minutes
+                    minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
+                    # get our dict done
+                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
+                else:
+                    # get our dict done
+                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+        except Exception as ex:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % (str(ex))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setAllowedHours(pUserName, pDayNumber, allowedHours)
 
         # process
         if result != 0:
@@ -319,8 +344,23 @@ class timekprAdminClient(object):
 
     def processSetTimeLimits(self, pUserName, pDayLimits):
         """Process time limits for days"""
-        # invoke
-        result, message = self._timekprAdminConnector.setTimeLimitForDays(pUserName, list(map(int, pDayLimits.split(";"))))
+        # defaults
+        dayLimits = ()
+        result = 0
+
+        # day limists
+        try:
+            # try to parse parameters
+            dayLimits = list(map(int, pDayLimits.split(";")))
+        except Exception as ex:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % (str(ex))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setTimeLimitForDays(pUserName, dayLimits)
 
         # process
         if result != 0:
@@ -329,8 +369,23 @@ class timekprAdminClient(object):
 
     def processSetTimeLimitWeek(self, pUserName, pTimeLimitWeek):
         """Process time limits for week"""
-        # invoke
-        result, message = self._timekprAdminConnector.setTimeLimitForWeek(pUserName, int(pTimeLimitWeek))
+        # defaults
+        weekLimit = 0
+        result = 0
+
+        # week limit
+        try:
+            # try to parse parameters
+            weekLimit = int(pTimeLimitWeek)
+        except Exception as ex:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % (str(ex))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setTimeLimitForWeek(pUserName, weekLimit)
 
         # process
         if result != 0:
@@ -339,8 +394,23 @@ class timekprAdminClient(object):
 
     def processSetTimeLimitMonth(self, pUserName, pTimeLimitMonth):
         """Process time limits for month"""
-        # invoke
-        result, message = self._timekprAdminConnector.setTimeLimitForMonth(pUserName, int(pTimeLimitMonth))
+        # defaults
+        monthLimit = 0
+        result = 0
+
+        # week limit
+        try:
+            # try to parse parameters
+            monthLimit = int(pTimeLimitMonth)
+        except Exception as ex:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % (str(ex))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setTimeLimitForMonth(pUserName, monthLimit)
 
         # process
         if result != 0:
@@ -349,8 +419,22 @@ class timekprAdminClient(object):
 
     def processSetTrackInactive(self, pUserName, pTrackInactive):
         """Process track inactive"""
-        # invoke
-        result, message = self._timekprAdminConnector.setTrackInactive(pUserName, True if pTrackInactive in ["true", "True"] else False)
+        # defaults
+        trackInactive = None
+        result = 0
+
+        # check
+        if pTrackInactive not in ["true", "True", "TRUE", "false", "False", "FALSE"]:
+            # fail
+            result = -1
+            message =  msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
+        else:
+            trackInactive = True if pTrackInactive in ["true", "True", "TRUE"] else False
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setTrackInactive(pUserName, trackInactive)
 
         # process
         if result != 0:

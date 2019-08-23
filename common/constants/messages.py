@@ -182,6 +182,7 @@ def initMessages():
 
     # ## misc errors ##
     _messages["TK_MSG_UNEXPECTED_ERROR"] = {"s": _("UNEXPECTED ERROR: %%s")}
+    _messages["TK_MSG_PARSE_ERROR"] = {"s": _("PARAMETER PARSE ERROR (please check parameter validity): %%s")}
     _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_FAILED"] = {"s": _("Command FAILED: access denied")}
     _messages["TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED"] = {"s": _("Command FAILED: communication was not accepted")}
     _messages["TK_MSG_TRANSLATION_NOTFOUND"] = {"s": _("n/a")}
