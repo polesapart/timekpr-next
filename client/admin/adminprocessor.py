@@ -318,15 +318,20 @@ class timekprAdminClient(object):
         try:
             # check hours
             for rHour in str(pHourList).split(";"):
+                # verify hour
+                hour = int(rHour.split("[", 1)[0])
                 # if we have advanced config (minutes)
                 if "[" in rHour and "]" in rHour and "-" in rHour:
                     # get minutes
                     minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
+                    # verify minutes
+                    tmp = int(minutes[0])
+                    tmp = int(minutes[1])
                     # get our dict done
-                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
+                    allowedHours[str(hour)] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
                 else:
                     # get our dict done
-                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+                    allowedHours[str(hour)] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
         except Exception as ex:
             # fail
             result = -1
@@ -443,8 +448,23 @@ class timekprAdminClient(object):
 
     def processSetTimeLeft(self, pUserName, pOperation, pLimit):
         """Process time left"""
-        # invoke
-        result, message = self._timekprAdminConnector.setTimeLeft(pUserName, pOperation, int(pLimit))
+        # defaults
+        limit = 0
+        result = 0
+
+        # limit
+        try:
+            # try to parse parameters
+            limit = int(pLimit)
+        except Exception as ex:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % (str(ex))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setTimeLeft(pUserName, pOperation, limit)
 
         # process
         if result != 0:
