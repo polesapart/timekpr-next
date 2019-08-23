@@ -346,8 +346,8 @@ class timekprUserConfigurationProcessor(object):
         else:
             # parse config
             try:
-                if int(pTimeLimitWeek) > 0:
-                    pass
+                # verification
+                weekLimit = max(min(int(pTimeLimitWeek), cons.TK_LIMIT_PER_WEEK), 0)
             except Exception:
                 # result
                 result = -1
@@ -357,7 +357,7 @@ class timekprUserConfigurationProcessor(object):
         if result == 0:
             # set up config
             try:
-                self._timekprUserConfig.setUserWeekLimit(pTimeLimitWeek)
+                self._timekprUserConfig.setUserWeekLimit(weekLimit)
             except Exception:
                 # result
                 result = -1
@@ -388,8 +388,8 @@ class timekprUserConfigurationProcessor(object):
         else:
             # parse config
             try:
-                if int(pTimeLimitMonth) > 0:
-                    pass
+                # verification
+                monthLimit = max(min(int(pTimeLimitMonth), cons.TK_LIMIT_PER_MONTH), 0)
             except Exception:
                 # result
                 result = -1
@@ -399,7 +399,7 @@ class timekprUserConfigurationProcessor(object):
         if result == 0:
             # set up config
             try:
-                self._timekprUserConfig.setUserMonthLimit(pTimeLimitMonth)
+                self._timekprUserConfig.setUserMonthLimit(monthLimit)
             except Exception:
                 # result
                 result = -1
