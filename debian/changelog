@@ -1,8 +1,19 @@
+timekpr-next (0.2.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Fixed an issue when Timekpr-nExT confiuration may get corrupted or empty after sudden power outage
+  **  all config files as well as time accounting files have previous backups (.prev files)
+  **  invalid config / time files will have .invalid files to inspect later
+  **  improved configuration handling by retrieving as much as possible from non-qualified config file (if user messes up config manually)
+  * Improved CLI tools (error checking and help)
+  * Fixed icon handling in race conditions between client and server as well improved icon handling during limit changes
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 22 Aug 2019 19:23:42 +0300
+
 timekpr-next (0.2.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Fixed an issue with Timekpr-nExT client not starting in non-major DE's (for example Deepin)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  We, 5 Jun 2019 20:12:12 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 5 Jun 2019 20:12:12 +0300
 
 timekpr-next (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
@@ -14,7 +25,7 @@ timekpr-next-beta (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * fixed application launcher names for unfortunate Gnome3 users
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  We, 5 Jun 2019 20:12:12 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 5 Jun 2019 20:12:12 +0300
 
 timekpr-next-beta (0.2.4~ppa1~ubuntu2) UNRELEASED; urgency=medium
 

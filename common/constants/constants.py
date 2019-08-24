@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.6"
+TK_VERSION = "0.2.7"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -43,6 +43,8 @@ TK_LOG_OWNER_ADMIN = 2
 TK_LOG_OWNER_ADMIN_SU = 3
 
 # ## files and locations ##
+# backup extension
+TK_BACK_EXT = ".prev"
 # log files
 TK_LOG_USER = "<USER>"
 TK_LOG_FILE = "timekpr.log"
@@ -185,7 +187,7 @@ TK_SAVE_INTERVAL = 30
 # time left for putting user on kill list
 TK_TERMINATION_TIME = 15
 # time left for final warning time
-TK_FINAL_COUNTDOWN_TIME = 5
+TK_FINAL_COUNTDOWN_TIME = 10
 # default value for tracking inactive sessions
 TK_TRACK_INACTIVE = False
 
@@ -211,7 +213,7 @@ TK_PRIO_CONF["unlimited"] = {TK_ICON_STAT: "timekpr-padlock-unlimited-green.svg"
 TK_PRIO_CONF[TK_PRIO_LOW] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_NORMAL] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_WARNING] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "dialog-warning", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-warning", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-error", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 
@@ -240,9 +242,9 @@ TK_USER_ADMIN_COMMANDS = {
      "--help"              : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP") + ":\n    timekpra --help"
     ,"--userlist"          : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST") + ":\n    timekpra --userlist"
     ,"--userconfig"        : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG") + ":\n    timekpra --userconfig \"testuser\""
-    ,"--setalloweddays"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS") + ":\n    timekpra --setalloweddays \"testuser\" \"1,2,3,4,5\""
-    ,"--setallowedhours"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS") + ":\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7,8,9,10,11[00-30],17,18,19,20[00-45]\""
-    ,"--settimelimits"     : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS") + ":\n    timekpra --settimelimits \"testuser\" \"7200,7200,7200,7200,10800\""
+    ,"--setalloweddays"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS") + ":\n    timekpra --setalloweddays \"testuser\" \"1;2;3;4;5\""
+    ,"--setallowedhours"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS") + ":\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7;8;9;1;11[00-30];17;18;19;20[00-45]\""
+    ,"--settimelimits"     : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS") + ":\n    timekpra --settimelimits \"testuser\" \"7200;7200;7200;7200;10800\""
     ,"--settimelimitweek"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK") + ":\n    timekpra --settimelimitweek \"testuser\" \"50000\""
     ,"--settimelimitmonth" : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON") + ":\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
     ,"--settrackinactive"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE") + ":\n    timekpra --settrackinactive \"testuser\" \"false\""
