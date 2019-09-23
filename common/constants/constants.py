@@ -78,6 +78,9 @@ TK_LOGFILE_DIR_DEV = "../../runtime.tmp"
 # localization
 TK_LOCALIZATION_DIR_DEV = "../resource/locale"
 
+# login manager find retry cnt
+TK_VTNR_MAX_RETRIES = 10
+
 # ## dbus ##
 # common
 TK_DBUS_PROPERTIES_INTERFACE = "org.freedesktop.DBus.Properties"
