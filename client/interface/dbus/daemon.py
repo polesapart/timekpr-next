@@ -35,6 +35,7 @@ class timekprClient(object):
 
         # set username , etc.
         self._userName = getpass.getuser()
+        self._userNameDBUS = self._userName.replace(".", "").replace("-", "")
 
         # log
         self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
@@ -118,53 +119,53 @@ class timekprClient(object):
             misc.measureTimeElapsed(pStart=True)
 
             # get dbus object
-            self._notificationFromDBUS = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName)
+            self._notificationFromDBUS = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS)
 
             # connect to signal
             self._timeLeftSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLeft
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeLeft")
 
             # connect to signal
             self._timeLeftSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLimits
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeLimits")
 
             # connect to signal
             self._timeLeftNotificatonSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLeftNotification
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeLeftNotification")
 
             # connect to signal
             self._timeCriticalNotificatonSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeCriticalNotification
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeCriticalNotification")
 
             # connect to signal
             self._timeNoLimitNotificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeNoLimitNotification
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeNoLimitNotification")
 
             # connect to signal
             self._timeLeftChangedNotificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLeftChangedNotification
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeLeftChangedNotification")
 
             # connect to signal
             self._timeConfigurationChangedNotificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userName
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeConfigurationChangedNotification
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
                 ,signal_name      = "timeConfigurationChangedNotification")
