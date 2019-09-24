@@ -19,17 +19,15 @@ class timekprNotificationManager(dbus.service.Object):
     # --------------- initialization / control methods --------------- #
 
     def __init__(self, pLog, pBusName, pUserName):
-        """Initialize notifcation manager"""
+        """Initialize notification manager"""
         # init logging firstly
         log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init notifications")
 
-        # init DBUS
-        super().__init__(pBusName, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + pUserName)
-
         # last notification
         self._userName = pUserName
+        self._userNameDBUS = self._userName.replace(".", "").replace("-", "")
         self._lastNotified = datetime.now().replace(microsecond=0)
         self._notificationLvl = -1
         self._prevNotificationLvl = -1
@@ -44,6 +42,9 @@ class timekprNotificationManager(dbus.service.Object):
             ,{cons.TK_NOTIF_LEFT: 0, cons.TK_NOTIF_INTERVAL:60, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
             ,{cons.TK_NOTIF_LEFT: -cons.TK_LIMIT_PER_DAY, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
         )
+
+        # init DBUS
+        super().__init__(pBusName, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init notifications")
 

@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.7"
+TK_VERSION = "0.2.8"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -77,6 +77,9 @@ TK_SHARED_DIR_DEV = "../resource"
 TK_LOGFILE_DIR_DEV = "../../runtime.tmp"
 # localization
 TK_LOCALIZATION_DIR_DEV = "../resource/locale"
+
+# login manager find retry cnt
+TK_VTNR_MAX_RETRIES = 10
 
 # ## dbus ##
 # common
@@ -207,8 +210,8 @@ TK_PRIO_IMPORTANT_INFO = "important_info"
 
 # config
 TK_PRIO_CONF = {}
-TK_PRIO_CONF["logo"] = {TK_ICON_STAT: "timekpr.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
-TK_PRIO_CONF["client-logo"] = {TK_ICON_STAT: "timekpr-client.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
+TK_PRIO_CONF["logo"] = {TK_ICON_STAT: "timekpr-logo.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
+TK_PRIO_CONF["client-logo"] = {TK_ICON_STAT: "timekpr-client-logo.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
 TK_PRIO_CONF["unlimited"] = {TK_ICON_STAT: "timekpr-padlock-unlimited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_LOW] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_NORMAL] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
