@@ -29,6 +29,7 @@ class timekprUserLoginManager(object):
         self._login1Object = None
         self._login1ManagerInterface = None
         self._loginManagerVTNr = None
+        self._loginManagerVTNrRetries = 0
 
         # dbus initialization
         self._timekprBus = dbus.SystemBus()
@@ -134,13 +135,15 @@ class timekprUserLoginManager(object):
     def determineLoginManagerVT(self, pUserName, pUserPath):
         """Get login manager session VTNr"""
         # if we did not yet find a login manager VTNr
-        if self._loginManagerVTNr is None:
-            # seat is found
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: searching for login manager VTNr")
-            # VTNr (default)
-            loginSessionVTNr = None
+        if self._loginManagerVTNr is None and self._loginManagerVTNrRetries < cons.TK_VTNR_MAX_RETRIES:
             # determine if we have one like manager
             if pUserName in cons.TK_USERS_LOGIN_MANAGERS.split(";"):
+                # advance counter
+                self._loginManagerVTNrRetries += 1
+                # log
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: searching for login manager (%s) VTNr" % (pUserName))
+                # VTNr (default)
+                loginSessionVTNr = None
                 # get user session list
                 userSessionList = self.getUserSessionList(pUserName, pUserPath)
                 # loop through users and try to guess login managers
@@ -151,13 +154,21 @@ class timekprUserLoginManager(object):
                         loginSessionVTNr = rSession["vtnr"]
                         # done
                         break
-
                 # if we found login manager VTNr
                 if loginSessionVTNr is not None:
                     # return VTNr
                     self._loginManagerVTNr = loginSessionVTNr
                     # seat is found
                     log.log(cons.TK_LOG_LEVEL_INFO, "INFO: login manager (%s) TTY found: %s" % (pUserName, self._loginManagerVTNr))
+            else:
+                # log
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: searching for login manager, user (%s) does not look like one" % (pUserName))
+        # in case we tried hard
+        elif self._loginManagerVTNr is None and self._loginManagerVTNrRetries == cons.TK_VTNR_MAX_RETRIES:
+            # advance counter (so we never get here again)
+            self._loginManagerVTNrRetries += 1
+            # seat is NOT found and we'll not try to find it anymore
+            log.log(cons.TK_LOG_LEVEL_INFO, "INFO: login manager (%s) TTY is NOT found, giving up until restart" % (pUserName))
 
     def switchTTY(self, pSeatId, pSessionTTY):
         """Swith TTY for login screen"""
