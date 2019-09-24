@@ -1,3 +1,12 @@
+timekpr-next (0.2.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Fixed an issue for huuuuuuuge icons in in Budgie DE (however other DEs did not show such issue)
+  * A little logging improvement in VTNr search for login managers
+  * User list is now sorted
+  * Fixed an issue with object paths (timekpr uses usernames as part of pathnames) on DBUS which contain dots (.) and/or hyphens (-)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 24 Sep 2019 01:28:12 +0300
+
 timekpr-next (0.2.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Fixed an issue when Timekpr-nExT confiuration may get corrupted or empty after sudden power outage
