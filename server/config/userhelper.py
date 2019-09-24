@@ -128,7 +128,7 @@ class timekprUserStore(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "traversing user config files")
 
         # now walk the list
-        for rUserConfigFile in userConfigFiles:
+        for rUserConfigFile in sorted(userConfigFiles):
             # exclude standard sample file
             if "timekpr.USER.conf" not in rUserConfigFile:
                 # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
