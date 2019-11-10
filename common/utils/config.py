@@ -7,7 +7,6 @@ Created on Aug 28, 2018
 # imports
 import configparser
 from datetime import datetime
-import fileinput
 import re
 import os
 import shutil
