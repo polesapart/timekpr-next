@@ -166,7 +166,7 @@ class timekprDaemon(dbus.service.Object):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: system user \"%s\" explicitly excluded" % (userName))
                 # try to get login manager VT (if not already found)
                 self._timekprLoginManager.determineLoginManagerVT(userName, userDict[cons.TK_CTRL_UPATH])
-            # if username is in exclusion list, additionally verify that username is not a login manager (this is somewhat obsolete now)
+            # if username is in exclusion list, additionally verify that username is not a sysuser / login manager (this is somewhat obsolete now)
             elif userName in self._timekprConfigManager.getTimekprUsersExcl() and userName not in userhelper.getTimekprLoginManagers():
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: user \"%s\" explicitly excluded" % (userName))
             # if not in, we add it

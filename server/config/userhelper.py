@@ -20,6 +20,7 @@ from timekpr.common.utils.config import timekprUserControl
 
 # user limits
 _limitsConfig = {}
+_loginManagers = [result.strip(None) for result in cons.TK_USERS_LOGIN_MANAGERS.split(";")]
 
 # load limits
 with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
@@ -40,9 +41,10 @@ def verifyNormalUserID(pUserId):
     return((_limitsConfig["UID_MIN"] <= int(pUserId) <= _limitsConfig["UID_MAX"]))
 
 
-def getTimekprLoginManagers(self):
+def getTimekprLoginManagers():
     """Get login manager names"""
-    return [result.strip(None) for result in cons.TK_USERS_LOGIN_MANAGERS.split(";")]
+    global _loginManagers
+    return(_loginManagers)
 
 
 class timekprUserStore(object):
