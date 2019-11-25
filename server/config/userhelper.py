@@ -38,7 +38,8 @@ with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
 def verifyNormalUserID(pUserId):
     """Return min user id"""
     global _limitsConfig
-    return((_limitsConfig["UID_MIN"] <= int(pUserId) <= _limitsConfig["UID_MAX"]))
+    # to test in VMs default user for Ubuntu / Kubuntu has UID of 999 (-1 from limit), this should work find for any other case
+    return((_limitsConfig["UID_MIN"]-1 <= int(pUserId) <= _limitsConfig["UID_MAX"]))
 
 
 def getTimekprLoginManagers():
