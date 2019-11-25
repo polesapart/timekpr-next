@@ -50,7 +50,7 @@ class timekprUserManager(object):
 
         # get all user sessions
         userState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "State"))
-        userIdleState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "IdleHint"))
+        userIdleState = str(bool(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "IdleHint")))
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user stats, state: %s, idleState: %s" % (userState, userIdleState))
 
         # get all user sessions
@@ -108,15 +108,15 @@ class timekprUserManager(object):
             # get needed properties
             sessionType = str(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
             sessionState = str(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
-            sessionIdleState = str(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "IdleHint"))
-            sessionVTNr = str(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr"))
+            sessionIdleState = str(bool(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "IdleHint")))
+            sessionVTNr = str(int(self._timekprUserSessions[sid]["LSI"].Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
             # measurement logging
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (sid, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "got session - type: %s, VTNr: %s, state: %s, idle: %s" % (sessionType, sessionVTNr, sessionState, sessionIdleState))
 
             # check if active
-            if sessionState == "active" and sessionIdleState == "0":
+            if sessionState == "active" and sessionIdleState == "False":
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s active" % (path))
 
                 # validate against session types we manage

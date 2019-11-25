@@ -18,6 +18,36 @@ from timekpr.common.utils.config import timekprUserConfig
 from timekpr.common.utils.config import timekprUserControl
 
 
+# user limits
+_limitsConfig = {}
+_loginManagers = [result.strip(None) for result in cons.TK_USERS_LOGIN_MANAGERS.split(";")]
+
+# load limits
+with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
+    # read line and do manipulations
+    for rLine in rLimitsFile:
+        # get min/max uids
+        if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
+            # find our config
+            x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
+            # save min/max uuids
+            _limitsConfig[x[0][0]] = int(x[0][1])
+
+
+# this gets user limits
+def verifyNormalUserID(pUserId):
+    """Return min user id"""
+    global _limitsConfig
+    # to test in VMs default user for Ubuntu / Kubuntu has UID of 999 (-1 from limit), this should work find for any other case
+    return((_limitsConfig["UID_MIN"]-1 <= int(pUserId) <= _limitsConfig["UID_MAX"]))
+
+
+def getTimekprLoginManagers():
+    """Get login manager names"""
+    global _loginManagers
+    return(_loginManagers)
+
+
 class timekprUserStore(object):
     """Class will privide methods to help managing users, like intialize the config for them"""
 
@@ -31,26 +61,11 @@ class timekprUserStore(object):
 
     def checkAndInitUsers(self):
         """Initialize all users present in the system as per particular config"""
-        limitsFile = "/etc/login.defs"
-        usersFile = "/etc/passwd"
-
         # config
-        limitsConfig = {}
         users = {}
 
         # load limits
-        with fileinput.input(limitsFile) as rLimitsFile:
-            # read line and do manipulations
-            for rLine in rLimitsFile:
-                # get min/max uids
-                if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
-                    # find our config
-                    x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
-                    # save min/max uuids
-                    limitsConfig[x[0][0]] = int(x[0][1])
-
-        # load limits
-        with fileinput.input(usersFile) as rUsersFile:
+        with fileinput.input(cons.TK_USERS_FILE) as rUsersFile:
             # read line and do manipulations
             for rLine in rUsersFile:
                 # get our users splitted
@@ -58,7 +73,7 @@ class timekprUserStore(object):
                 # get uuid
                 uuid = int(userDef[2])
                 # save our user, if it mactches
-                if limitsConfig["UID_MIN"] <= uuid <= limitsConfig["UID_MAX"]:
+                if verifyNormalUserID(uuid):
                     # save
                     users[userDef[0]] = uuid
 

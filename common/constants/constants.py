@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.8"
+TK_VERSION = "0.2.9"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -43,6 +43,9 @@ TK_LOG_OWNER_ADMIN = 2
 TK_LOG_OWNER_ADMIN_SU = 3
 
 # ## files and locations ##
+# users and login configuration
+TK_USERS_FILE = "/etc/passwd"
+TK_USER_LIMITS_FILE = "/etc/login.defs"
 # backup extension
 TK_BACK_EXT = ".prev"
 # log files
