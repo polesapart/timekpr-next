@@ -68,7 +68,7 @@ class timekprUserLoginManager(object):
         # loop through all users
         for rUser in loggedInUsersDBUS:
             # set up dict for every user
-            loggedInUsers[str(rUser[1])] = {cons.TK_CTRL_UID: str(rUser[0]), cons.TK_CTRL_UNAME: str(rUser[1]), cons.TK_CTRL_UPATH: str(rUser[2])}
+            loggedInUsers[str(rUser[1])] = {cons.TK_CTRL_UID: str(int(rUser[0])), cons.TK_CTRL_UNAME: str(rUser[1]), cons.TK_CTRL_UPATH: str(rUser[2])}
 
         # in case debug
         if not pSilent and log.isDebug():
@@ -121,7 +121,7 @@ class timekprUserLoginManager(object):
 
             # get all user sessions
             sessionType = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
-            sessionVTNr = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr"))
+            sessionVTNr = str(int(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
             sessionSeat = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Seat")[0])
             # measurement logging
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
