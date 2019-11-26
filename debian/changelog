@@ -1,3 +1,11 @@
+timekpr-next (0.2.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Improve user detection when username is the same as one of the login managers
+  * Small improvements with login manager detection
+  * Fix user time accounting due to issues with Python 3.8 and DBUS typecasts
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 25 Nov 2019 19:50:05 +0300
+
 timekpr-next (0.2.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Fixed an issue for huuuuuuuge icons in in Budgie DE (however other DEs did not show such issue)

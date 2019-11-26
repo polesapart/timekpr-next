@@ -22,6 +22,7 @@ from timekpr.server.user.userdata import timekprUser
 from timekpr.server.config.configprocessor import timekprUserConfigurationProcessor
 from timekpr.server.config.configprocessor import timekprConfigurationProcessor
 from timekpr.server.config.userhelper import timekprUserStore
+from timekpr.server.config import userhelper
 from timekpr.common.constants import messages as msg
 
 # default dbus
@@ -159,11 +160,14 @@ class timekprDaemon(dbus.service.Object):
 
         # add new users to track
         for userName, userDict in userList.items():
-            # try to get login manager VT (if not already found)
-            self._timekprLoginManager.determineLoginManagerVT(userName, userDict[cons.TK_CTRL_UPATH])
-
-            # if username is in exclusion list
-            if userName in self._timekprConfigManager.getTimekprUsersExcl():
+            # login manager is system user, we do these checks only for system users
+            if not userhelper.verifyNormalUserID(userDict[cons.TK_CTRL_UID]):
+                # sys user
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: system user \"%s\" explicitly excluded" % (userName))
+                # try to get login manager VT (if not already found)
+                self._timekprLoginManager.determineLoginManagerVT(userName, userDict[cons.TK_CTRL_UPATH])
+            # if username is in exclusion list, additionally verify that username is not a sysuser / login manager (this is somewhat obsolete now)
+            elif userName in self._timekprConfigManager.getTimekprUsersExcl() and userName not in userhelper.getTimekprLoginManagers():
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: user \"%s\" explicitly excluded" % (userName))
             # if not in, we add it
             elif userName not in self._timekprUserList:
