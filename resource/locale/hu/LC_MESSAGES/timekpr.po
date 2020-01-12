@@ -1,0 +1,1422 @@
+# Hungarian translation for timekpr-next
+# Copyright (c) 2019 Rosetta Contributors and Canonical Ltd 2019
+# This file is distributed under the same license as the timekpr-next package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: timekpr-next\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2019-04-29 18:16+0300\n"
+"PO-Revision-Date: 2020-01-12 15:33+0200\n"
+"Last-Translator: Roland <Unknown>\n"
+"Language-Team: Hungarian <hu@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2020-01-12 13:28+0000\n"
+"X-Generator: Poedit 2.2.4\n"
+"Language: hu\n"
+
+#: common/constants/messages.py:31
+msgid "==> print help, example"
+msgstr "==> súgó megjelenítése, példa"
+
+#: common/constants/messages.py:32
+msgid "==> get saved user list from the server, example"
+msgstr "==> mentett felhasználólista betöltése a szerverről, példa"
+
+#: common/constants/messages.py:33
+msgid "==> get user configuration from the server, example"
+msgstr "==> felhasználói konfiguráció betöltése a szerverről, példa"
+
+#: common/constants/messages.py:34
+msgid "==> set allowed days for the user, example"
+msgstr "==> felhasználónak engedélyezett napok beállítása, példa"
+
+#: common/constants/messages.py:35
+msgid "==> set allowed hours per specified day or ALL for every day, example"
+msgstr ""
+"==> meghatározott napra vagy MINDENKINEK az összes napra engedélyezett órák "
+"beállítása, példa"
+
+#: common/constants/messages.py:36
+msgid "==> set time limits per all allowed days, example"
+msgstr "==> időkorlátok beállítása az engedélyezett napokra, példa"
+
+#: common/constants/messages.py:37
+msgid "==> set time limit per week, example"
+msgstr "==> heti időkorlát beállítása, példa"
+
+#: common/constants/messages.py:38
+msgid "==> set time limit per month, example"
+msgstr "==> havi időkorlát beállítása, példa"
+
+#: common/constants/messages.py:39
+msgid "==> set whether to track inactive user sessions, example"
+msgstr ""
+"==> inaktív felhasználói meneteket figyelembe vételének beállítása, példa"
+
+#: common/constants/messages.py:40
+msgid ""
+"==> set time left for the user at current moment, example (add one hour)"
+msgstr "==> a felhasználó aktuálisan fennmaradó idejének beállítása, példa"
+
+#: common/constants/messages.py:43
+msgid "Control sessions types are not passed"
+msgstr "Nem  adták át a vezérlő munkamenet típusait"
+
+#: common/constants/messages.py:44
+msgid "Control sessions types list is not correct"
+msgstr "Nem megfelelő a vezérlő munkamenet típuslistája"
+
+#: common/constants/messages.py:45
+msgid "Control sessions types list is not correct and can not be set"
+msgstr ""
+"Nem megfelelő a vezérlő munkamenet típuslistája és nem lehet beállítani"
+
+#: common/constants/messages.py:46
+msgid "Excluded session types are not passed"
+msgstr "A kizárt munkamenet típusait nem adták át"
+
+#: common/constants/messages.py:47
+msgid "Excluded session types list is not correct"
+msgstr "Nem megfelelő a kizárt munkamenetek típuslistája"
+
+#: common/constants/messages.py:48
+msgid "Excluded session types list is not correct and can not be set"
+msgstr ""
+"Nem megfelelő a kizárt munkamenetek típuslistája és nem lehet beállítani"
+
+#: common/constants/messages.py:49
+msgid "Excluded user list is not passed"
+msgstr "A kizárt felhasználók listáját nem adták át"
+
+#: common/constants/messages.py:50
+msgid "Excluded user list is not correct"
+msgstr "Nem megfelelő a kizárt felhasználók listája"
+
+#: common/constants/messages.py:51
+msgid "Excluded user list is not correct and can not be set"
+msgstr "A kizárt felhasználók listáját nem adták át és nem lehet feldolgozni"
+
+#: common/constants/messages.py:52
+msgid "Final warning time is not passed"
+msgstr "Az utolsó figyelmeztetés időpontját nem adták át"
+
+#: common/constants/messages.py:53
+#, python-format
+msgid "Final warning time \"%%s\"is not correct"
+msgstr "A utolsó figyelmeztetés \"%%s\" időpontja nem megfelelő"
+
+#: common/constants/messages.py:54
+#, python-format
+msgid "Final warning time \"%%s\" is not correct and can not be set"
+msgstr ""
+"A utolsó figyelmeztetés \"%%s\" időpontja nem megfelelő és nem lehet "
+"beállítani"
+
+#: common/constants/messages.py:55
+msgid "Termination time is not passed"
+msgstr "A kilépés időpontját nem adták át"
+
+#: common/constants/messages.py:56
+#, python-format
+msgid "Termination time \"%%s\"is not correct"
+msgstr "A kilépés \"%%s\" időpontja nem megfelelő"
+
+#: common/constants/messages.py:57
+#, python-format
+msgid "Termination time \"%%s\" is not correct and can not be set"
+msgstr "A kilépés \"%%s\" időpontja nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:58
+msgid "Track inactive is not passed"
+msgstr "Az inaktívitás figyelését nem adták át"
+
+#: common/constants/messages.py:59
+#, python-format
+msgid "Track inactive \"%%s\"is not correct"
+msgstr "A(z) \"%%s\" inaktivitás figyelése nem megfelelő"
+
+#: common/constants/messages.py:60
+#, python-format
+msgid "Track inactive \"%%s\" is not correct and can not be set"
+msgstr ""
+"A(z) \"%%s\" inaktivitás figyelése nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:61
+msgid "Log level is not passed"
+msgstr "A naplózás szintjét nem adták át"
+
+#: common/constants/messages.py:62
+#, python-format
+msgid "Log level \"%%s\"is not correct"
+msgstr "A \"%%s\" naplózás szintje nem megfelelő"
+
+#: common/constants/messages.py:63
+#, python-format
+msgid "Log level \"%%s\" is not correct and can not be set"
+msgstr "A \"%%s\" naplózás szintje nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:64
+msgid "Poll time is not passed"
+msgstr "A lekérdezés időpontját nem adták át"
+
+#: common/constants/messages.py:65
+#, python-format
+msgid "Poll time \"%%s\"is not correct"
+msgstr "A lekérdezés \"%%s\" időpontja nem megfelelő"
+
+#: common/constants/messages.py:66
+#, python-format
+msgid "Poll time \"%%s\" is not correct and can not be set"
+msgstr "A lekérdezés \"%%s\" időpontja nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:67
+msgid "Save time is not passed"
+msgstr "A tárolás időpontját nem adták át"
+
+#: common/constants/messages.py:68
+#, python-format
+msgid "Save time \"%%s\"is not correct"
+msgstr "A tárolás \"%%s\" időpontja nem megfelelő"
+
+#: common/constants/messages.py:69
+#, python-format
+msgid "Save time \"%%s\" is not correct and can not be set"
+msgstr "A tárolás \"%%s\" időpontja nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:72
+#, python-format
+msgid "User's \"%%s\" day number must be present"
+msgstr "A \"%%s\" felhasználó napjai számának rendelkezésre kell állniuk"
+
+#: common/constants/messages.py:73
+#, python-format
+msgid "User's \"%%s\" day number must be between 1 and 7"
+msgstr "A \"%%s\" felhasználó napjai számának 1 és 7 között kell lennie"
+
+#: common/constants/messages.py:74
+#, python-format
+msgid "User's \"%%s\" allowed hours are not correct and can not be set"
+msgstr ""
+"A \"%%s\" felhasználó számára engedélyezett órák nem megfelelőek és nem "
+"lehet beállítani"
+
+#: common/constants/messages.py:75
+#, python-format
+msgid "User's \"%%s\" day limits list is not passed"
+msgstr "A \"%%s\" felhasználó napi korlátozáslistáját nem adták át"
+
+#: common/constants/messages.py:76
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct"
+msgstr "A \"%%s\" felhasználó napi korlátozáslistája nem megfelelő"
+
+#: common/constants/messages.py:77
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct and can not be set"
+msgstr ""
+"A \"%%s\" felhasználó napi korlátozáslistája nem megfelelő és nem lehet "
+"beállítani"
+
+#: common/constants/messages.py:78
+#, python-format
+msgid "User's \"%%s\" day list is not passed"
+msgstr "A \"%%s\" felhasználó naplistáját nem adták át"
+
+#: common/constants/messages.py:79
+#, python-format
+msgid "User's \"%%s\" day list is not correct"
+msgstr "A \"%%s\" felhasználó naplistája nem megfelelő"
+
+#: common/constants/messages.py:80
+#, python-format
+msgid "User's \"%%s\" day list is not correct and can not be set"
+msgstr "A \"%%s\" felhasználó naplistája nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:81
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not passed"
+msgstr "A \"%%s\" felhasználó havi korlátját nem adták át"
+
+#: common/constants/messages.py:82
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not correct"
+msgstr "A \"%%s\" felhasználó havi korlátja nem megfelelő"
+
+#: common/constants/messages.py:83
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
+msgstr ""
+"A \"%%s\" felhasználó havi korlátja nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:84
+#, python-format
+msgid "User's \"%%s\" set time operation can be one of these: -+="
+msgstr "A \"%%s\" felhasználó időbeállító műveletei ezek lehetnek: -+="
+
+#: common/constants/messages.py:85
+#, python-format
+msgid "User's \"%%s\" set time limit is not correct"
+msgstr "A \"%%s\" felhasználó időkorlátja nem megfelelő"
+
+#: common/constants/messages.py:86
+#, python-format
+msgid "User's \"%%s\" set time limit is not correct and can not be set"
+msgstr ""
+"A \"%%s\" felhasználó időkorlátja nem megfelelő és nem lehet beállítani"
+
+#: common/constants/messages.py:87
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not passed"
+msgstr "A \"%%s\" felhasználó inaktivitást figyelő kapcsolóját nem adták át"
+
+#: common/constants/messages.py:88
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not correct"
+msgstr "A \"%%s\" felhasználó inaktivitást figyelő kapcsolója nem megfelelő"
+
+#: common/constants/messages.py:89
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
+msgstr ""
+"A \"%%s\" felhasználó inaktivitást figyelő kapcsolója nem megfelelő és nem "
+"lehet beállítani"
+
+#: common/constants/messages.py:90
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not passed"
+msgstr "A \"%%s\" felhasználó heti korlátját nem adták át"
+
+#: common/constants/messages.py:91
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not correct"
+msgstr "A \"%%s\" felhasználó heti korlátja nem megfelelő"
+
+#: common/constants/messages.py:92
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
+msgstr ""
+"A \"%%s\" felhasználó heti korlátja nem megfelelő és nem lehet beállítani"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:96
+msgid ""
+"Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT "
+"log files"
+msgstr ""
+"Váratlan hiba a konfiguráció betöltése során. Kérjük, tekintse meg a Timekpr-"
+"nExT naplófájljait"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:98
+msgid ""
+"Unexpected ERROR getting confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Váratlan hiba a konfiguráció lekérése során. Kérjük, tekintse meg a Timekpr-"
+"nExT naplófájljait"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:100
+msgid ""
+"Unexpected ERROR getting user confguration. Please inspect Timekpr-nExT log "
+"files"
+msgstr ""
+"Váratlan hiba a felhasználói konfiguráció lekérése során. Kérjük, tekintse "
+"meg a Timekpr-nExT naplófájljait"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:102
+msgid ""
+"Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Váratlan hiba a felhasználólista lekérése során. Kérjük, tekintse meg a "
+"Timekpr-nExT naplófájljait"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:104
+msgid ""
+"Unexpected ERROR updating confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Váratlan hiba a konfiguráció frissítésekor. Kérjük, tekintse meg a Timekpr-"
+"nExT naplófájljait"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:106
+msgid ""
+"Unexpected ERROR updating control. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Váratlan hiba a vezérlés frissítésekor. Kérjük, tekintse meg a Timekpr-nExT "
+"naplófájljait"
+
+#: common/constants/messages.py:107
+#, python-format
+msgid "User \"%%s\" configuration is not found"
+msgstr "A \"%%s\" felhasználó konfigurációját nem találtuk"
+
+#: common/constants/messages.py:108
+#, python-format
+msgid "User \"%%s\" control file is not found"
+msgstr "A \"%%s\" vezérlő fájlt nem találtuk"
+
+#: common/constants/messages.py:109
+#, python-format
+msgid "User \"%%s\" is not found"
+msgstr "A \"%%s\" felhasználót nem találtuk"
+
+#: common/constants/messages.py:112
+msgid "Connected"
+msgstr "Kapcsolódva"
+
+#: common/constants/messages.py:113
+msgid "Connecting..."
+msgstr "Kapcsolódás folyamatban…"
+
+#: common/constants/messages.py:114
+msgid "Failed to connect"
+msgstr "Sikertelen kapcsolódás"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:116
+msgid ""
+"Please reopen the application if you are superuser and Timekpr-nExT is "
+"running"
+msgstr ""
+"Kérjük, indítsa újra az alkalmazást, ha Ön superuser és a Timekpr-nExT fut"
+
+#: common/constants/messages.py:117
+msgid "Started"
+msgstr "Elindítva"
+
+#: common/constants/messages.py:118
+msgid "User configuration retrieved"
+msgstr "A felhasználó konfigurációja betöltve"
+
+#: common/constants/messages.py:119
+msgid "Configuration retrieved"
+msgstr "A konfiguráció betöltve"
+
+#: common/constants/messages.py:120
+msgid "Track inactive for user has been processed"
+msgstr "A felhasználói inaktivitás követését feldolgozták"
+
+#: common/constants/messages.py:121
+msgid "Additional time for user has been processed"
+msgstr "A felhasználói többletidőt feldolgozták"
+
+#: common/constants/messages.py:122
+msgid "Weekly and monthly limits for user have been processed"
+msgstr "A felhasználói heti és havi időkorlátokat feldolgozták"
+
+#: common/constants/messages.py:123
+msgid "Allowed days for user have been processed"
+msgstr "Az felhasználónak engedélyezett napokat feldolgozták"
+
+#: common/constants/messages.py:124 common/constants/messages.py:126
+msgid "Time limits for days for user have been processed"
+msgstr "A felhasználó napi időkorlátjait feldolgozták"
+
+#: common/constants/messages.py:125
+msgid "Allowed hours for user have been processed"
+msgstr "Az felhasználónak engedélyezett órákat feldolgozták"
+
+#: common/constants/messages.py:127
+msgid "Timekpr-nExT configuration has been saved"
+msgstr "A Timekpr-nExT konfigurációját elmentették"
+
+#: common/constants/messages.py:128
+msgid "Please select a day to set the limits"
+msgstr "Kérjük, válasszon egy napot a korlátok beállításához"
+
+#: common/constants/messages.py:129
+msgid "Interval overlaps with existing one"
+msgstr "Az időköz átfedésben vagy egy már létezővel"
+
+#: common/constants/messages.py:130
+msgid "Interval start conflicts with existing one"
+msgstr "Az időköz kezdete ütközik egy már létezővel"
+
+#: common/constants/messages.py:131
+msgid "Interval end conflicts with existing one"
+msgstr "Az időköz befejezése ütközik egy már létezővel"
+
+#: common/constants/messages.py:132
+msgid "Interval start or end duplicates existing interval"
+msgstr "Az időköz kezdete vagy befejezése megkettőz egy már létező időközt"
+
+#: common/constants/messages.py:133
+msgid "Interval start can not be the same as end"
+msgstr "Az időköz kezdete nem lehet azonos a befejezésével"
+
+#: common/constants/messages.py:134
+msgid "Please select a hour interval to remove"
+msgstr "Kérjük, válasszon egy eltávolítandó óra-időközt"
+
+#: common/constants/messages.py:135
+msgid "Interval removed"
+msgstr "Az időköz eltávolítva"
+
+#: common/constants/messages.py:136
+msgid "Timekpr-nExT interface is not yet ready"
+msgstr "A Timekpr-nExT interfész még nem áll készen"
+
+#: common/constants/messages.py:139
+msgid ""
+"WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, "
+"but no displays are available, thus running in CLI..."
+msgstr ""
+"Figyelmeztetés: A Timekpr-nExT adminisztrációs eszközt GUI üzemmódban "
+"kellene elindítani, de a grafikus megjelenítés nem elérhető. Ezért CLI "
+"üzemmódban fog elindulni."
+
+#: common/constants/messages.py:140
+msgid "The command is incorrect:"
+msgstr "A parancs nem megfelelő:"
+
+#: common/constants/messages.py:141
+msgid "The usage of Timekpr-nExT admin client is as follows:"
+msgstr "A Timekpr-nExT admin klienst a következőképpen kell használni:"
+
+#: common/constants/messages.py:142
+#, python-format
+msgid "%(n)s user in total:"
+msgid_plural "%(n)s users in total:"
+msgstr[0] "Összesen %(n)s felhasználó:"
+msgstr[1] "Összesen %(n)s felhasználó:"
+
+#: common/constants/messages.py:143
+#, python-format
+msgid "Config for %s:"
+msgstr "%s konfigurációja:"
+
+#: common/constants/messages.py:146
+msgid "Time left..."
+msgstr "Fennmaradó idő..."
+
+#: common/constants/messages.py:147
+msgid "Limits & Configuration"
+msgstr "Korlátok & konfiguráció"
+
+#: common/constants/messages.py:148
+msgid "About"
+msgstr "Névjegy"
+
+#. TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
+#: common/constants/messages.py:152 resource/client/forms/about.glade:28
+msgid "please-enter-translator-credits"
+msgstr "rolkovit+ubuntu@gmail.com"
+
+#: common/constants/messages.py:153 resource/client/forms/about.glade:19
+msgid "Keep control of computer usage"
+msgstr "Felügyelje a számítógép-használatot"
+
+#: common/constants/messages.py:154
+msgid "Day"
+msgstr "Nap"
+
+#: common/constants/messages.py:155
+msgid "Enabled"
+msgstr "Engedélyezve"
+
+#: common/constants/messages.py:156
+msgid "Limit"
+msgstr "Korlát"
+
+#: common/constants/messages.py:157
+msgid "From"
+msgstr "Kezdett"
+
+#: common/constants/messages.py:158
+msgid "To"
+msgstr "Befejezés"
+
+#: common/constants/messages.py:159 common/constants/messages.py:160
+msgid "Session type"
+msgstr "Munkamenettípus"
+
+#: common/constants/messages.py:161
+msgid "Username"
+msgstr "Felhasználónév"
+
+#: common/constants/messages.py:164
+msgid "Timekpr-nExT notification"
+msgstr "Timekpr-nExT jelzés"
+
+#: common/constants/messages.py:165
+msgid "Your time is not limited today"
+msgstr "Mára nincsen időkorlátod"
+
+#: common/constants/messages.py:166
+msgid "Time allowance has changed, please note new time left!"
+msgstr "Az engedélyezett időt megváltoztatták, az új időt vegye figyelembe!"
+
+#: common/constants/messages.py:167
+msgid "Time limit configuration has changed, please note new configuration!"
+msgstr ""
+"Az időkorlát konfigurációját megváltoztatták, az új konfigurációt vegye "
+"figyelembe!"
+
+#: common/constants/messages.py:168
+#, python-format
+msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
+msgstr "Nem lehet a Timekpr-nExT szolgáltatáshoz kapcsolódni (%%s)!"
+
+#: common/constants/messages.py:169
+#, python-format
+msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
+msgstr "Nem lehet a Timekpr-nExT-tel kommunikálni (%%s)!"
+
+#: common/constants/messages.py:170
+#, python-format
+msgid "Icon inititalization error (%%s)!"
+msgstr "Hiba az ikon inicializálásakor (%%s)!"
+
+#. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:172
+msgid "Your time is up, you will be forcibly logged out in"
+msgstr "Lejárt az idő,"
+
+#. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:174
+#, python-format
+msgid "%(n)s second"
+msgid_plural "%(n)s seconds"
+msgstr[0] "%(n)s másodperc múlva ki lesz léptetve"
+msgstr[1] "%(n)s másodperc múlva ki lesz léptetve"
+
+#: common/constants/messages.py:175
+msgid "Internal connection error, please check log files"
+msgstr "Belső kapcsolati hiba, további információk a naplófájlokban található"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:177
+#, python-format
+msgid "You have %(n)s hour"
+msgid_plural "You have %(n)s hours"
+msgstr[0] "Még %(n)s óra"
+msgstr[1] "Még %(n)s óra"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:179
+#, python-format
+msgid "%(n)s minute"
+msgid_plural "%(n)s minutes"
+msgstr[0] "%(n)s perc"
+msgstr[1] "%(n)s perc"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:181
+#, python-format
+msgid "%(n)s second left"
+msgid_plural "%(n)s seconds left"
+msgstr[0] "%(n)s másodperc van hátra"
+msgstr[1] "%(n)s másodperc van hátra"
+
+#: common/constants/messages.py:184
+#, python-format
+msgid "UNEXPECTED ERROR: %%s"
+msgstr "Váratlan hiba: %%s"
+
+#: common/constants/messages.py:185
+msgid "Command FAILED: access denied"
+msgstr "A parancs meghiúsult: hozzáférés megtagadva"
+
+#: common/constants/messages.py:186
+msgid "Command FAILED: communication was not accepted"
+msgstr "A parancs meghiúsult: a kommunikációt nem fogadták"
+
+#: common/constants/messages.py:187
+msgid "n/a"
+msgstr "nem elérhető"
+
+#: resource/client/forms/about.glade:7
+msgid "About Timekpr-nExT"
+msgstr "Timekpr-nExT névjegy"
+
+#: resource/client/forms/about.glade:16
+msgid ""
+"Copyright (c) 2018-2019 Eduards Bezverhijs\n"
+"Super tester: Rinalds Dobelis\n"
+"Beta tester: SanskritFritz"
+msgstr ""
+"Copyright (c) 2018-2019 Eduards Bezverhijs\n"
+"Super tester: Rinalds Dobelis\n"
+"Beta tester: SanskritFritz"
+
+#: resource/client/forms/about.glade:21
+msgid "Timekpr-nExT"
+msgstr "Timekpr-nExT"
+
+#. Please enter GPL3 licence text in Your language
+#: resource/client/forms/about.glade:22
+msgctxt "timekpr-next"
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see <http://www.gnu.org/licenses/>. In Debian, see "
+"file /usr/share/common-licenses/GPL-3"
+msgstr ""
+"Ez a program szabad szoftver; terjeszthető illetve módosítható a Free "
+"Software Foundation által kiadott GNU General Public License dokumentumában "
+"leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi változata szerint.\n"
+"\n"
+"Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de "
+"minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA VALÓ "
+"ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve. További "
+"részleteket a GNU General Public License tartalmaz.\n"
+"\n"
+"A felhasználónak a programmal együtt meg kell kapnia a GNU General Public "
+"License egy példányát; ha mégsem kapta meg, akkor az megtalálható a <http://"
+"www.gnu.org/licenses/> címen. Debian disztribúcióban lásd a /usr/share/"
+"common-licenses/GPL-3 fájlt"
+
+#: resource/client/forms/admin.glade:172
+msgid "Remove excluded session type"
+msgstr "Kizárt munkamenet-típusok eltávolítása"
+
+#: resource/client/forms/admin.glade:270
+msgid "Timekpr-nExT administration"
+msgstr "Timekpr-nExT adminisztráció"
+
+#: resource/client/forms/admin.glade:288
+msgid "Icon, isn't it?"
+msgstr "Ez egy ikon, ugye?"
+
+#: resource/client/forms/admin.glade:308
+msgid "Notes, read carefully ;)"
+msgstr "Megjegyzések, figyelmesen olvasni :)"
+
+#: resource/client/forms/admin.glade:313
+msgid ""
+"This is Timekpr-nExT configuration app. It allows you to configure time for "
+"your users as well as the Timekpr-nExT parameters.\n"
+"\n"
+"To use this application, you either have to execute it  as superuser or have "
+"to be part of the timekpr group.\n"
+"Please note that the \"Timekpr-nExT Configuration\" is available in "
+"superuser (administrator) mode only!\n"
+"\n"
+"Please configure carefully: do not lock yourself out!"
+msgstr ""
+"Ez a Timekpr-nExT konfigurációs app. Beállíthatjuk vele a felhasználóink "
+"idejét, valamint a Timekpr-nExT paramétereket.\n"
+"\n"
+"Az app futtatása superuser-ként vagy a timekpr csoport tagjaként "
+"lehetséges.\n"
+"A \"Timekpr-nExT konfiguráció\" csak superuser (adminisztrátor) üzemmódban "
+"lehetséges.\n"
+"\n"
+"A konfiguráció során legyünk óvatosak, nehogy kizárjuk magunkat!"
+
+#: resource/client/forms/admin.glade:341 resource/client/forms/admin.glade:1850
+msgid "Users related configuration"
+msgstr "Felhasználói beállítások"
+
+#: resource/client/forms/admin.glade:356 resource/client/forms/config.glade:194
+msgid "Username:"
+msgstr "Felhasználónév:"
+
+#: resource/client/forms/admin.glade:385 resource/client/forms/admin.glade:396
+msgid "List of usernames registered on the system"
+msgstr "A rendszerben regisztrált felhasználók listája"
+
+#: resource/client/forms/admin.glade:409
+msgid "Restore"
+msgstr "Visszaállítás"
+
+#: resource/client/forms/admin.glade:414
+msgid "Restore configuration from saved state"
+msgstr "A beállítások visszaállítása egy mentett állapotból"
+
+#: resource/client/forms/admin.glade:466
+msgid "This shows you information about time spent"
+msgstr "Korábbi felhasznált időkkel kapcsolatos információk"
+
+#: resource/client/forms/admin.glade:489
+msgid "Time spent today (saved stated, not real-time)"
+msgstr "Mai napon felhasznált idő (tárolt állapot, nem valós idejű)"
+
+#: resource/client/forms/admin.glade:491
+msgid "Time spent (today):"
+msgstr "Felhasznált idő (ma):"
+
+#: resource/client/forms/admin.glade:506 resource/client/forms/admin.glade:553
+#: resource/client/forms/admin.glade:598 resource/client/forms/config.glade:302
+#: resource/client/forms/config.glade:317
+#: resource/client/forms/config.glade:348
+#: resource/client/forms/config.glade:393
+#: resource/client/forms/config.glade:609
+#: resource/client/forms/config.glade:667
+#: resource/client/forms/config.glade:739
+#: resource/client/forms/config.glade:769
+msgid "Format: <days : hours : minutes : seconds>"
+msgstr "Formátum: <nap : óra : perc : másodperc>"
+
+#: resource/client/forms/admin.glade:508 resource/client/forms/admin.glade:555
+#: resource/client/forms/admin.glade:600 resource/client/forms/config.glade:305
+#: resource/client/forms/config.glade:320
+#: resource/client/forms/config.glade:351
+#: resource/client/forms/config.glade:396
+#: resource/client/forms/config.glade:612
+#: resource/client/forms/config.glade:670
+#: resource/client/forms/config.glade:743
+#: resource/client/forms/config.glade:773
+msgid "00:00:00:00"
+msgstr "00:00:00:00"
+
+#: resource/client/forms/admin.glade:536
+msgid "Time spent for this week (saved stated, not real-time)"
+msgstr "A héten felhasznált idő (mentett állapot, nem valós idejű)"
+
+#: resource/client/forms/admin.glade:538 resource/client/forms/config.glade:598
+msgid "Time spent (week):"
+msgstr "Felhasznált idő (hét):"
+
+#: resource/client/forms/admin.glade:580
+msgid "Time spent this month (saved stated, not real-time)"
+msgstr "Ebben a hónapban felhasznált idő (mentett állapot, nem valós idejű)"
+
+#: resource/client/forms/admin.glade:582 resource/client/forms/config.glade:627
+msgid "Time spent (month):"
+msgstr "Felhasznált idő (hónap):"
+
+#: resource/client/forms/admin.glade:637
+msgid ""
+"This allows you to change time for today as well as inactive session tracking"
+msgstr ""
+"Ezzel tudjuk a mai nap idejét megváltoztatni illetve az inaktív munkamenet "
+"figyelését beállítani"
+
+#: resource/client/forms/admin.glade:662
+msgid "Amount:"
+msgstr "Mérték:"
+
+#: resource/client/forms/admin.glade:687 resource/client/forms/admin.glade:1027
+#: resource/client/forms/admin.glade:1250
+#: resource/client/forms/admin.glade:1578
+#: resource/client/forms/admin.glade:1678
+msgid "hr"
+msgstr "óra"
+
+#: resource/client/forms/admin.glade:698
+msgid "The amount of minutes to be adjusted for today's limit"
+msgstr "A mai napi időkorláthoz beállítandó percek"
+
+#: resource/client/forms/admin.glade:715
+msgid "The amount of hours to be adjusted for today's limit"
+msgstr "A mai napi időkorláthoz beállítandó órák"
+
+#: resource/client/forms/admin.glade:732 resource/client/forms/admin.glade:1039
+#: resource/client/forms/admin.glade:1239
+#: resource/client/forms/admin.glade:1589
+#: resource/client/forms/admin.glade:1689
+msgid "min"
+msgstr "perc"
+
+#: resource/client/forms/admin.glade:753 resource/client/forms/admin.glade:1332
+msgid "Add"
+msgstr "Hozzáad"
+
+#: resource/client/forms/admin.glade:758
+msgid "Add specified amount (reward)"
+msgstr "Megadott mennyiség hozzáadása (jutalom)"
+
+#: resource/client/forms/admin.glade:770
+msgid "Subtract"
+msgstr "Levonás"
+
+#: resource/client/forms/admin.glade:775
+msgid "Subtract specified amount (penalty)"
+msgstr "Megadott mennyiség levonása (büntetés)"
+
+#: resource/client/forms/admin.glade:787 resource/client/forms/admin.glade:868
+#: resource/client/forms/admin.glade:1081
+msgid "Set"
+msgstr "Beállít"
+
+#: resource/client/forms/admin.glade:792
+msgid "Set exacly specified limit"
+msgstr "Pontosan megadott időkorlát beállítása"
+
+#: resource/client/forms/admin.glade:835 resource/client/forms/admin.glade:855
+#: resource/client/forms/config.glade:638
+#: resource/client/forms/config.glade:654
+msgid ""
+"Select whether time for inactive sessions are counted. If this is unchecked, "
+"time spent in console (not terminal) and while screen is locked is NOT taken "
+"into account (this very much varies from DE to DE)"
+msgstr ""
+"Válasszuk ki, hogy az inaktív munkamenetek ideje számít-e. Ha nincsen "
+"kiválasztva, akkor a zárolt képernyő alatt a konzolban (nem egy terminálban) "
+"töltött idő nem lesz figyelembe véve (ez asztali környezetenként nagy "
+"mértékben eltérhet)"
+
+#: resource/client/forms/admin.glade:838
+msgid "Track inactive sessions:"
+msgstr "Inaktív munkamenetek követése:"
+
+#: resource/client/forms/admin.glade:873
+msgid "Set track inactive sessions"
+msgstr "Inaktív munkamenetek követésének beállítása"
+
+#: resource/client/forms/admin.glade:904
+msgid ""
+"Brief information about time spent and everything related to time management "
+"for this day"
+msgstr "Rövid összefoglaló a mai napon felhasznált időről és az időkezelésről"
+
+#: resource/client/forms/admin.glade:905
+msgid "Info & Today"
+msgstr "Infó & ma"
+
+#: resource/client/forms/admin.glade:942
+msgid "Configure time limits for week days"
+msgstr "Munkanapok időkorlátjainak beállítása"
+
+#: resource/client/forms/admin.glade:966
+msgid ""
+"Lists day of the week and additional information about the day's limit, "
+"please enable / disable days for the user"
+msgstr ""
+"A hét napjainak listája és információ a napi időkorlátokról, felhasználó "
+"napjainak engedélyezése / tiltása"
+
+#: resource/client/forms/admin.glade:1005
+msgid "Specify day's limit"
+msgstr "Napi időkorlát meghatározása"
+
+#: resource/client/forms/admin.glade:1050
+#: resource/client/forms/admin.glade:1066
+msgid "Set the amount of hours to limit available time for particular day"
+msgstr "Adott nap engedélyezett idejének megadása órában"
+
+#: resource/client/forms/admin.glade:1086
+msgid ""
+"Set specified hours and minutes for particular day at user's disposal (do "
+"not forget to hit the <Apply> button)"
+msgstr ""
+"A felhasználó rendelkezésére álló idő megadása órában és percben egy adott "
+"napra (ne felejtsük el az <Alkalmaz> nyomógombbal igazolni)"
+
+#: resource/client/forms/admin.glade:1152
+msgid "Hour intervals"
+msgstr "Óra időközök"
+
+#: resource/client/forms/admin.glade:1176
+msgid ""
+"Hour intervals per day available to user.\n"
+"Please note that if day ends at 24th hour and next day starts at 0, user can "
+"work continuously past midnight.\n"
+"Please note that multiple intervals cannot be configured within the same "
+"hour. An interval can start or end or contain a specific hour, but not more "
+"than once (this is by design, not a bug)"
+msgstr ""
+"Felhasználónak rendelkezésére álló napi óra időkeret.\n"
+"Megjegyzés: ha egy nap a 24. órában véget és a következő nap a 0. órával "
+"megkezdődik, akkor a felhasználható idő átnyúlik az éjfélen.\n"
+"Megjegyzés: egy órán belül nem lehet több intervallumot beállítani. "
+"Kizárólag egy időintervallum eleje és vége lehet ugyanazon az órában (ez "
+"szándékolt, nem hiba)"
+
+#: resource/client/forms/admin.glade:1218
+msgid "Manage intervals for the day"
+msgstr "Napi időintervallumok kezelése"
+
+#: resource/client/forms/admin.glade:1261
+msgid "Specify START minute of the allowed hour interval"
+msgstr "Az engedélyezett óra időintervallum kezdeti percének meghatározása"
+
+#: resource/client/forms/admin.glade:1278
+msgid "Specify START hour of the allowed hour interval"
+msgstr "Az engedélyezett óra időintervallum kezdeti órájának meghatározása"
+
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "ettől"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "eddig"
+
+#: resource/client/forms/admin.glade:1316
+msgid "Remove"
+msgstr "Eltávolít"
+
+#: resource/client/forms/admin.glade:1321
+msgid ""
+"Remove selected interval from the list (do not forget to hit the <Apply> "
+"button)"
+msgstr ""
+"A kiválasztott időintervallum eltávolítása a listából (igazolni kell az "
+"<Alkalmaz> felülettel)"
+
+#: resource/client/forms/admin.glade:1337
+msgid ""
+"Add specified hour interval to the list (do not forget to hit th e<Apply> "
+"button)"
+msgstr ""
+"A megadott óra időintervallum hozzáadása a listához (igazolni kell az "
+"<Alkalmaz> felülettel)"
+
+#: resource/client/forms/admin.glade:1350
+msgid "Specify END hour of the allowed hour interval"
+msgstr "Az engedélyezett óra időintervallum befejező órájának meghatározása"
+
+#: resource/client/forms/admin.glade:1366
+msgid "Specify END minute of the allowed hour interval"
+msgstr "Az engedélyezett óra időintervallum befejező percének meghatározása"
+
+#: resource/client/forms/admin.glade:1415
+msgid "Apply daily limits"
+msgstr "Napi korlátok alkalmazása"
+
+#: resource/client/forms/admin.glade:1420
+msgid "Apply all changes made in this page"
+msgstr "Az ezen a lapon eszközölt összes változtatás alkalmazása"
+
+#: resource/client/forms/admin.glade:1442
+msgid "Daily limit configuration for all week days"
+msgstr "Napi korlát beállítása az összes munkanapra"
+
+#: resource/client/forms/admin.glade:1443
+#: resource/client/forms/config.glade:548
+msgid "Daily limits"
+msgstr "Napi korlátok"
+
+#: resource/client/forms/admin.glade:1471
+msgid "Time limit for the month"
+msgstr "Havi időkorlát"
+
+#: resource/client/forms/admin.glade:1473
+msgid "Time limit (month)"
+msgstr "Időkorlát (hónap)"
+
+#: resource/client/forms/admin.glade:1490
+msgid "Time limit for the month is enabled"
+msgstr "A havi időkorlát be van kapcsolva"
+
+#: resource/client/forms/admin.glade:1521
+msgid "Time limit for the week"
+msgstr "Heti időkorlát"
+
+#: resource/client/forms/admin.glade:1523
+msgid "Time limit (week)"
+msgstr "Időkorlát (hét)"
+
+#: resource/client/forms/admin.glade:1539
+msgid "Time limit for the week is enabled"
+msgstr "A heti időkorlát be van kapcsolva"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "nap"
+
+#: resource/client/forms/admin.glade:1601
+msgid "Week limit amount (days part)"
+msgstr "Heti időkorlát (napok)"
+
+#: resource/client/forms/admin.glade:1619
+msgid "Week limit amount (hours part)"
+msgstr "Heti időkorlát (órák)"
+
+#: resource/client/forms/admin.glade:1637
+msgid "Week limit amount (minutes part)"
+msgstr "Heti időkorlát (percek)"
+
+#: resource/client/forms/admin.glade:1701
+msgid "Month limit amount (days part)"
+msgstr "Havi időkorlát (napok)"
+
+#: resource/client/forms/admin.glade:1719
+msgid "Month limit amount (hours part)"
+msgstr "Havi időkorlát (órák)"
+
+#: resource/client/forms/admin.glade:1737
+msgid "Month limit amount (minutes part)"
+msgstr "Havi időkorlát (percek)"
+
+#: resource/client/forms/admin.glade:1765
+msgid "This allows You to set up weekly & monthly limits"
+msgstr "A heti és havi időkorlátokat lehet beállítani"
+
+#: resource/client/forms/admin.glade:1779
+msgid "Apply"
+msgstr "Alkalmaz"
+
+#: resource/client/forms/admin.glade:1784
+msgid "Apply weekly and monthly limits"
+msgstr "Heti és havi időkorlátok alkalmazása"
+
+#: resource/client/forms/admin.glade:1829
+msgid "Weekly and monthly limit configuration"
+msgstr "Heti és havi időkorlátok beállítása"
+
+#: resource/client/forms/admin.glade:1830
+msgid "Weekly & Monthly limits"
+msgstr "Heti & havi időkorlátok"
+
+#: resource/client/forms/admin.glade:1851
+msgid "User Configuration"
+msgstr "Felhasználói beállítás"
+
+#: resource/client/forms/admin.glade:1882
+msgid "Control Timekpr-nExT Settings"
+msgstr "A Timekpr-nExT beállítások kezelése"
+
+#: resource/client/forms/admin.glade:1909
+msgid ""
+"Timekpr-nExT log level. Please do not change this unless asked (you likely "
+"won't find anything pretty in the log files)\n"
+"1 - standard, 2 - debug, 3 - extra debug"
+msgstr ""
+"A Timekpr-nExT naplózási szinje. Csak kérés esetén változtassuk "
+"(valószínűleg semmi hasznos nem található a naplófájlokban)\n"
+"1 - standard, 2 - debug, 3 - extra debug"
+
+#: resource/client/forms/admin.glade:1928
+msgid "Poll interval"
+msgstr "Lekérdezési intervallum"
+
+#: resource/client/forms/admin.glade:1940
+msgid ""
+"Specify the time in seconds when Timekpr-nExT starts continuous real-time "
+"countdown before terminating the session"
+msgstr ""
+"A Timekpr-nExT munkamenet lezárása előtti, valós idejű visszaszámlálásának "
+"időtartama másodpercekben"
+
+#: resource/client/forms/admin.glade:1958
+msgid "Save time"
+msgstr "Idő mentése"
+
+#: resource/client/forms/admin.glade:1970
+msgid ""
+"Specify session polling time granularity (at which interval user sessions "
+"and activity are polled).\n"
+"3 -5 seconds are optimal, don't change this if unsure."
+msgstr ""
+"A munkamenet lekérdezésének időköze (amilyen időközönként a felhasználói "
+"munkamenetet és az aktivitási állapotokat lekérdezzük)\n"
+"3-5 másodperc az optimális, ne változtassuk, ha nem vagyunk biztosak."
+
+#: resource/client/forms/admin.glade:1989
+msgid "Termination time"
+msgstr "Befejezés ideje"
+
+#: resource/client/forms/admin.glade:2001
+msgid "This specifies the time interval at which actual user state is saved"
+msgstr "Meghatározza a tényleges felhasználói állapot mentésének időközét"
+
+#: resource/client/forms/admin.glade:2019
+msgid ""
+"Amount of seconds before terminating user sessions. After this is reached, "
+"user will be terminated, nothing can be done to prevent it.\n"
+"Adding time does not help in this case. Do that before reaching this point..."
+msgstr ""
+"A felhasználói munkamenet lezárásáig hátrelévő másodpercek. Innentől a "
+"felhasználó kizárását már nem lehet megakadályozni.\n"
+"Ebben az esetben idő hozzáadása már nem segít. Ezt ezelőtt az időpont előtt "
+"kell megtenni..."
+
+#: resource/client/forms/admin.glade:2038
+msgid "Warning time"
+msgstr "Riasztás időzítése"
+
+#: resource/client/forms/admin.glade:2050
+msgid "Log level"
+msgstr "Naplózási szint"
+
+#: resource/client/forms/admin.glade:2088
+msgid "Control Timekpr-nExT tracking items"
+msgstr "A Timekpr-nExT által felügyelt állapotok kezelése"
+
+#: resource/client/forms/admin.glade:2123
+msgid "Tracked Sessions"
+msgstr "Felügyelet munkamenetek"
+
+#: resource/client/forms/admin.glade:2145
+msgid ""
+"List of session types to be tracked.\n"
+"Please, do not change or experiment with this unless you actually (not "
+"wishfully) know what you are doing."
+msgstr ""
+"Felügyelendő munkamenetek típusa.\n"
+"Ezt lehetőleg ne változtassa meg, hacsak nem tudja pontosan, mit csinál."
+
+#: resource/client/forms/admin.glade:2166
+msgid "Enter session type to be tracked"
+msgstr "Felügyelt munkamenet-típusok bevitele"
+
+#: resource/client/forms/admin.glade:2190
+msgid "Add tracked session type to the list"
+msgstr "Felügyelt munkamenet-típus hozzáadása a listához"
+
+#: resource/client/forms/admin.glade:2206
+msgid "Remove tracked session type from the list"
+msgstr "Felügyelt munkamenet-típus eltávolítása a listáról"
+
+#: resource/client/forms/admin.glade:2243
+msgid "Excluded Sessions"
+msgstr "Kizárt munkamenetek"
+
+#: resource/client/forms/admin.glade:2265
+msgid ""
+"List of sessions to be excluded from tracking.\n"
+"Please, do not change or experiment with this unless you actually (not "
+"wishfully) know what you are doing."
+msgstr ""
+"A felügyelet alól kizárt munkamenetek.\n"
+"Ezt lehetőleg ne változtassa meg, hacsak nem tudja pontosan, mit csinál."
+
+#: resource/client/forms/admin.glade:2286
+msgid "Enter session type to be excluded from tracking"
+msgstr "Felügyelet alól kizárandó munkamenet típusának bevitele"
+
+#: resource/client/forms/admin.glade:2310
+msgid "Add excluded session type to the list"
+msgstr "Kizárt munkamenet típusának hozzáadása a listához"
+
+#: resource/client/forms/admin.glade:2326
+msgid "Remove excluded session type from the list"
+msgstr "Kizárt munkamenet típusának eltávolítása a listából"
+
+#: resource/client/forms/admin.glade:2363
+msgid "Excluded Users"
+msgstr "Kizárt felhasználók"
+
+#: resource/client/forms/admin.glade:2385
+msgid ""
+"List of users excluded from tracking.\n"
+"Please specify actual usernames, not real names here (e.g please specify "
+"jsmith, not John Smith)"
+msgstr ""
+"Felügyelet alól kizárt felhasználók.\n"
+"Valós felhasználóneveket kell megadni, nem való neveket (pl. kovacsj, nem "
+"Kovács János)"
+
+#: resource/client/forms/admin.glade:2406
+msgid "Enter username to be excluded from tracking"
+msgstr "A felügyelet alól kizárandó felhasználók bevitele"
+
+#: resource/client/forms/admin.glade:2430
+msgid "Add user to the exclusion list"
+msgstr "Felhasználó hozzáadása a kizárási listához"
+
+#: resource/client/forms/admin.glade:2446
+msgid "Remove user from the exclusion list"
+msgstr "Felhasználó eltávolítása a kizárási listáról"
+
+#: resource/client/forms/admin.glade:2493
+msgid "Apply Timekpr-nExT setings"
+msgstr "Timekpr-nExT beállítások alkalmazása"
+
+#: resource/client/forms/admin.glade:2498
+msgid "Apply all Timekpr-nExT settings at once"
+msgstr "Timekpr-nExT beállítások együttes alkalmazása"
+
+#: resource/client/forms/admin.glade:2518
+msgid "Timekpr-nExT Administration Configuration"
+msgstr "Timekpr-nExT adminisztráció beállítása"
+
+#: resource/client/forms/admin.glade:2519
+msgid "Timekpr-nExT Configuration"
+msgstr "Timekpr-nExT beállítások"
+
+#: resource/client/forms/admin.glade:2548
+#: resource/client/forms/admin.glade:2567
+msgid "Status of Timekpr-nExT admin client"
+msgstr "A Timekpr-nExT admin kliens állapota"
+
+#: resource/client/forms/config.glade:31
+msgid "Timekpr-nExT client"
+msgstr "Timekpr-nExT kliens"
+
+#: resource/client/forms/config.glade:62
+msgid "Status of Timekpr-nExT client"
+msgstr "A Timekpr-nExT kliens állapota"
+
+#: resource/client/forms/config.glade:95
+msgid "Save all changes"
+msgstr "Összes változtatás mentése"
+
+#: resource/client/forms/config.glade:112
+msgid "Close the window"
+msgstr "Az ablak bezárása"
+
+#: resource/client/forms/config.glade:193
+msgid "Current effective username"
+msgstr "A jelenleg hatásos felhasználónév"
+
+#: resource/client/forms/config.glade:267
+msgid "Current statistics"
+msgstr "Aktuális statisztikák"
+
+#: resource/client/forms/config.glade:288
+msgid "Time spent this session or after Timekpr-nExT has been restarted"
+msgstr ""
+"Az ebben a munkamenetben vagy a Timekpr-nExT újraindítása óta felhasznált idő"
+
+#: resource/client/forms/config.glade:291
+msgid "Time spent (session):"
+msgstr "Felhasznált idő (munkamenet):"
+
+#: resource/client/forms/config.glade:334
+msgid "Time inactive this session or after Timekpr-nExT has been restarted"
+msgstr ""
+"Inaktív felhasználási idő ebben a munkamenetben vagy a Timekpr-nExT "
+"újraindítása óta"
+
+#: resource/client/forms/config.glade:337
+msgid "Time inactive:"
+msgstr "Inaktív idő:"
+
+#: resource/client/forms/config.glade:362
+msgid "Continous time left to You which may span to more than a current day"
+msgstr ""
+"A megszakítások nélkül rendelkezésre álló idő, mely akár a következő napra "
+"is áthúzódhat"
+
+#: resource/client/forms/config.glade:365
+msgid "Continous time left:"
+msgstr "Megszakítások nélkül rendelkezésre álló idő:"
+
+#: resource/client/forms/config.glade:379
+msgid "Total time available left today in a row, up to the end of the day"
+msgstr "A nap végéig fennmaradó idő"
+
+#: resource/client/forms/config.glade:382
+msgid "Time left today:"
+msgstr "Mai fennmaradó idő:"
+
+#: resource/client/forms/config.glade:437
+msgid "These are days and limits that available to You"
+msgstr "A rendelkezésre álló napok és korlátok"
+
+#: resource/client/forms/config.glade:464
+msgid "Days & Limits"
+msgstr "Napok & korlátok"
+
+#: resource/client/forms/config.glade:496
+msgid "This shows time intervals that are available for Your use"
+msgstr "Rendelkezésre álló időintervallumok"
+
+#: resource/client/forms/config.glade:521
+msgid "Intervals"
+msgstr "Időközök"
+
+#: resource/client/forms/config.glade:574
+msgid "Additional statistics"
+msgstr "További statisztikák"
+
+#: resource/client/forms/config.glade:595
+msgid "TIme spent for this week"
+msgstr "Ezen a héten felhasznált idő"
+
+#: resource/client/forms/config.glade:624
+msgid "Time spent for this month"
+msgstr "Ebben a hónapban felhasznált idő"
+
+#: resource/client/forms/config.glade:641
+msgid "Track inactive:"
+msgstr "Inaktív idő felügyelete:"
+
+#: resource/client/forms/config.glade:704
+#: resource/client/forms/config.glade:803
+msgid "Additional limits"
+msgstr "További korlátok"
+
+#: resource/client/forms/config.glade:725
+msgid "Time limit for week available to You"
+msgstr "Rendelkezésre álló heti időkorlát"
+
+#: resource/client/forms/config.glade:728
+msgid "Time limit (week):"
+msgstr "Időkorlát (hét):"
+
+#: resource/client/forms/config.glade:755
+msgid "Time limit for month available to You"
+msgstr "Rendelkezésre álló havi időkorlát"
+
+#: resource/client/forms/config.glade:758
+msgid "Time limit (month):"
+msgstr "Időkorlát (havi):"
+
+#: resource/client/forms/config.glade:819
+msgid "Use speech notifications"
+msgstr "Beszédértesítések használata"
+
+#: resource/client/forms/config.glade:823
+msgid ""
+"Select whether to use speech notifications (if not available, this will be "
+"greyed out). If usage of speech is very much needed, please install python3-"
+"espeak package"
+msgstr ""
+"Beszédértesítések használatának beállítása (kiszürkítve, ha nem elérhető). A "
+"működéshez a python3-espeak csomagnak telepítve kell lennie"
+
+#: resource/client/forms/config.glade:842
+#: resource/client/forms/config.glade:865
+msgid ""
+"This sets logging level (please do not change this unless You know what "
+"You're doing)"
+msgstr ""
+"Beállítja a naplózási szintet (ne állítsuk, hacsak nem tudjuk, pontosan mit "
+"is csinálunk)"
+
+#: resource/client/forms/config.glade:868
+msgid "Logging level"
+msgstr "Naplózási szint"
+
+#: resource/client/forms/config.glade:884
+msgid "Show limit changes"
+msgstr "Korlátok változásainak kijelzése"
+
+#: resource/client/forms/config.glade:888
+msgid ""
+"Specify whether to show notification when limit configurations or allowance "
+"changes"
+msgstr ""
+"Annak megjelenítését állíthatjuk be, hogy korlátozások beállításai vagy "
+"engedélyezések megváltoztak"
+
+#: resource/client/forms/config.glade:901
+msgid "Show all notifications"
+msgstr "Összes értesítés megjelenítése"
+
+#: resource/client/forms/config.glade:905
+msgid ""
+"Specify whether to show all notifications. If unchecked, then only important "
+"ones are shown"
+msgstr ""
+"Összes értesítés megjelenítésének beállítása. Ha nincsen kijelölve, akkor "
+"csak a fontos lesznek megjelenítve"
+
+#: resource/client/forms/config.glade:918
+msgid "Show seconds in notification area"
+msgstr "Másodpercek megjelenítése az értesítési területen"
+
+#: resource/client/forms/config.glade:922
+msgid ""
+"Specify whether to show seconds in notification area (some DE, like KDE5, do "
+"not support text besides notification icons)"
+msgstr ""
+"Másodpercek értesítési sávban történő megjelenítésének beállítása (egyes "
+"asztali környezetek, mint a KDES nem támogatják az értesítési ikonok "
+"melletti szöveget)"
+
+#: resource/client/forms/config.glade:962
+msgid "Configuration"
+msgstr "Beállítások"

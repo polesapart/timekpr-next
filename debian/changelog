@@ -1,3 +1,10 @@
+timekpr-next-beta (0.2.10~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Fixed bug in configuration load when only couple of days are allowed per week
+  * Added hungarian translation (thanks)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 12 Jan 2020 15:46:08 +0300
+
 timekpr-next-beta (0.2.9~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Improve user detection when username is the same as one of the login managers

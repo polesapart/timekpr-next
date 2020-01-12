@@ -232,8 +232,6 @@ class timekprUser(object):
         # load the configuration into working structures
         allowedDays = self._timekprUserConfig.getUserAllowedWeekdays()
         limitsPerWeekday = self._timekprUserConfig.getUserLimitsPerWeekdays()
-        # there might be less than 7 days allowed, so we care about exising days only
-        limitLen = len(limitsPerWeekday)
 
         # limits per week & day
         # we do not have value (yet) for week
@@ -244,7 +242,7 @@ class timekprUser(object):
         # for allowed weekdays
         for rDay in range(1, 7+1):
             # set up limits
-            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = int(limitsPerWeekday[rDay-1]) if limitLen >= rDay else 0
+            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = limitsPerWeekday[allowedDays.index(rDay)] if rDay in allowedDays else 0
 
             # we do not have value (yet) for day
             if self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD] is None:
