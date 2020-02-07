@@ -5,6 +5,7 @@ Created on Aug 28, 2018
 """
 
 # import
+import os
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -87,6 +88,7 @@ class timekprIndicator(timekprNotificationArea):
         self._popup = timekprUIManager.get_widget("/timekprPopupMenu")
 
         # initial config
+        self._tray.set_from_file(os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]))
         self.setTimeLeft("", None)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initTimekprStatusIcon")
@@ -98,8 +100,9 @@ class timekprIndicator(timekprNotificationArea):
 
         # if we have smth to set
         if timeLeft is not None:
-            # set time left (this works with indicator in unity and gnome)
+            # set time left
             self._tray.set_tooltip_text(timeLeft)
+            self._tray.set_title(timeLeft)
 
         # if we have smth to set
         if icon is not None:
