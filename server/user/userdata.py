@@ -126,6 +126,8 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LEFTW] = self._timekprUserData[cons.TK_CTRL_LIMITW] - self._timekprUserData[cons.TK_CTRL_SPENTW]
         # calculate time left for month
         self._timekprUserData[cons.TK_CTRL_LEFTM] = self._timekprUserData[cons.TK_CTRL_LIMITM] - self._timekprUserData[cons.TK_CTRL_SPENTM]
+        # continous time
+        contTime = True
 
         # go through days
         for i in [self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]]:
@@ -134,20 +136,15 @@ class timekprUser(object):
 
             # how many seconds left for that day (not counting hours limits yet)
             secondsLeft = max(min(self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]), 0)
-            # how many seconds to remove from time left
-            secondsToRemove = 0
 
-            # determine current DOW
-            if self._currentDOW == i:
-                # enable current values
-                currentHOD = self._currentHOD
-            else:
-                currentHOD = 0
+            # determine current HOD
+            currentHOD = self._currentHOD if self._currentDOW == i else 0
 
             # go through hours for this day
             for j in range(currentHOD, 23+1):
                 # reset seconds to add
                 secondsToAddHour = 0
+                secondsLeftHour = 0
 
                 # calculate only if hour is enabled
                 if self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT]:
@@ -155,72 +152,47 @@ class timekprUser(object):
                     if self._currentDOW == i and self._currentHOD == j:
                         # this is how many seconds are actually left in hour (as per generic time calculations)
                         secondsLeftHour = self._secondsLeftHour
-                        # current minute, to determine where we are in config
-                        currentMOH = self._currentMOH
-                        # current second of this particular moment (minute)
-                        currentSOM = self._effectiveDatetime.second
+                        # calculate how many seconds are left in this hour as per configuration
+                        secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] * 60 - self._currentMOH * 60 - self._effectiveDatetime.second) if (self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] * 60 < self._currentMOH * 60 + self._effectiveDatetime.second) else 0
                     else:
                         # full hour available
                         secondsLeftHour = 3600
-                        # minutes are 0 for future hours
-                        currentMOH = 0
-                        # seconds are 0 for future minutes
-                        currentSOM = 0
+                        # calculate how many seconds are left in this hour as per configuration
+                        secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60
 
-                    # calculate how many seconds are left in this hour as per configuration
-                    secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60 - currentMOH * 60 - currentSOM
                     # save seconds to subtract for this hour
-                    secondsToRemove = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
+                    secondsToAddHour = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
 
-                    # if there is no continuation with time (eg. this hour start minutes does not align with prev hour end minutes), this is the end
-                    if self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] != 0:
-                        # there is a break in countinous interval
-                        secondsToRemove = secondsLeft + 1
-                    # there is partial continuation of interval
-                    elif self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] == 0 and self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] != 60:
-                        # there is a break in continous interval, but we still need to add some time
-                        secondsToAddHour = secondsToRemove
-                        secondsToRemove = secondsLeft + 1
-                    # time finished
-                    elif secondsToRemove == 0:
-                        # time is up
-                        secondsToRemove = 1
-                    # there's still time to remove from limit
-                    else:
-                        # add time if there is smth
-                        secondsToAddHour = secondsToRemove
-
-                        # if we do not have time anymore, then this is it
-                        if secondsLeft == secondsToRemove:
-                            secondsToRemove += 1
-                # hour is not available
-                else:
-                    # if hour is disabled, this is the end of accounting
-                    secondsToRemove = secondsLeft + 1
-
-                # calculate how many secodns are left
-                secondsLeft -= secondsToRemove
+                    # debug
+                    if log.isDebug():
+                        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "currentDOW: %s, currentHOD: %s, secondsLeftHour: %s, currentMOH: %s, currentSOM: %s, secondsLeftHourLimit: %s, secondsToAddHour: %s, secondsLeft: %s" % (str(i), str(j), secondsLeftHour, self._currentMOH, self._effectiveDatetime.second, secondsLeftHourLimit, secondsToAddHour, secondsLeft))
+                # hour is disabled and it's the current one
+                elif self._currentDOW == i and self._currentHOD == j:
+                    # time is over already from the start (it won't be added to current session, but we'll count the rest of hours allowed)
+                    contTime = False
 
                 # debug
                 if log.isDebug():
-                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addHour: %s, remove: %s, left: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, secondsToRemove, secondsLeft, self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
+                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, left: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, secondsLeft, self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
 
                 # adjust left continously
-                self._timekprUserData[cons.TK_CTRL_LEFT] += secondsToAddHour
+                self._timekprUserData[cons.TK_CTRL_LEFT] += secondsToAddHour if contTime else 0
                 # adjust left this hour
                 self._timekprUserData[i][cons.TK_CTRL_LEFTD] += secondsToAddHour
+                # recalculate whether time is continous
+                contTime = True if (contTime and not secondsToAddHour + 1 < secondsLeftHour) else False
 
-                # this is it
-                if secondsLeft < 0:
+                # this is it (time over)
+                if secondsLeft <= 0:
                     break
 
-            # this is it
-            if secondsLeft < 0:
+            # this is it (no time or there will be no continous time for this day)
+            if secondsLeft <= 0 or not contTime:
                 break
 
         # debug
         if log.isDebug():
-            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "row: %s, day: %s, day+1: %s" % (self._timekprUserData[cons.TK_CTRL_LEFT], self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD], self._timekprUserData[self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]][cons.TK_CTRL_LEFTD]))
+            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "leftInRow: %s, leftDay: %s, lefDay+1: %s" % (self._timekprUserData[cons.TK_CTRL_LEFT], self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD], self._timekprUserData[self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]][cons.TK_CTRL_LEFTD]))
 
     def adjustLimitsFromConfig(self, pSilent=True):
         """Adjust limits as per loaded configuration"""
