@@ -1,6 +1,7 @@
 timekpr-next (0.2.11~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Rework time accouting routines (fixes a bug #1861758)
+  * Fix for week and month accounting when showing continous time (#1856744)
   * Rework session caching routines (for preparation to locking detection)
   * Fixed dependencies for package
   * Improvements for old StatusIcon (at start there will be a default icon and labels as with indicator)
