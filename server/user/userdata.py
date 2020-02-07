@@ -129,13 +129,19 @@ class timekprUser(object):
         # continous time
         contTime = True
 
+        # calculate "lefts"
+        timesLeft = {cons.TK_CTRL_LEFTD: 0, cons.TK_CTRL_LEFTW: self._timekprUserData[cons.TK_CTRL_LEFTW], cons.TK_CTRL_LEFTM: self._timekprUserData[cons.TK_CTRL_LEFTM]}
+
         # go through days
         for i in [self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]]:
             # reset "lefts"
             self._timekprUserData[i][cons.TK_CTRL_LEFTD] = 0
 
             # how many seconds left for that day (not counting hours limits yet)
-            secondsLeft = max(min(self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]), 0)
+            timesLeft[cons.TK_CTRL_LEFTD] = self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD]
+
+            # left is least of the limits
+            secondsLeft = max(min(timesLeft[cons.TK_CTRL_LEFTD], timesLeft[cons.TK_CTRL_LEFTW], timesLeft[cons.TK_CTRL_LEFTM]), 0)
 
             # determine current HOD
             currentHOD = self._currentHOD if self._currentDOW == i else 0
@@ -173,7 +179,7 @@ class timekprUser(object):
 
                 # debug
                 if log.isDebug():
-                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, left: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, secondsLeft, self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
+                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, left: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, timesLeft[cons.TK_CTRL_LEFTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
 
                 # adjust left continously
                 self._timekprUserData[cons.TK_CTRL_LEFT] += secondsToAddHour if contTime else 0
@@ -181,6 +187,12 @@ class timekprUser(object):
                 self._timekprUserData[i][cons.TK_CTRL_LEFTD] += secondsToAddHour
                 # recalculate whether time is continous
                 contTime = True if (contTime and not secondsToAddHour + 1 < secondsLeftHour) else False
+
+                # recalculate "lefts"
+                timesLeft[cons.TK_CTRL_LEFTD] -= secondsToAddHour
+                timesLeft[cons.TK_CTRL_LEFTW] -= secondsToAddHour
+                timesLeft[cons.TK_CTRL_LEFTM] -= secondsToAddHour
+                secondsLeft -= secondsToAddHour
 
                 # this is it (time over)
                 if secondsLeft <= 0:
