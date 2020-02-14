@@ -5,7 +5,7 @@ Created on Aug 28, 2018
 """
 
 # import
-from datetime import datetime, timedelta
+from datetime import timedelta
 import os
 
 # timekpr imports

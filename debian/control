@@ -3,14 +3,14 @@ Section: admin
 Priority: extra
 Maintainer: Eduards Bezverhijs <edzis@inbox.lv>
 Uploaders: Eduards Bezverhijs <edzis@inbox.lv>
-Build-Depends: debhelper (>= 7), po-debconf, dh-python | python-support, python3 (>= 3.2), python-gi, libgtk-3-0 (>= 3.4), python-dbus, gir1.2-gtk-3.0
+Build-Depends: debhelper (>= 7), po-debconf, dh-python | python-support, python3 (>= 3.2), python3-gi, libgtk-3-0 (>= 3.4), python3-dbus, gir1.2-gtk-3.0
 Standards-Version: 3.9.5
 X-Python-Version: >= 3.2
 Homepage: http://launchpad.net/timekpr-next/
 
 Package: timekpr-next
 Architecture: any
-Depends: ${misc:Depends}, lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1, python-gi, libgtk-3-0 (>= 3.4), python-dbus, gir1.2-gtk-3.0, systemd | systemd-shim, python3-psutil (>= 3.4)
+Depends: ${misc:Depends}, lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1, python3 (>= 3.2), python3-gi, libgtk-3-0 (>= 3.4), python3-dbus, gir1.2-gtk-3.0, systemd | systemd-shim, python3-psutil (>= 3.4)
 Suggests: espeak, python3-espeak
 Provides: timekpr
 Conflicts: timekpr-next-beta

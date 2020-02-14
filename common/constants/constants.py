@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.10"
+TK_VERSION = "0.2.11"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -119,6 +119,11 @@ TK_DBUS_ANSWER_TIME = 3
 TK_CTRL_UID = "USERID"
 TK_CTRL_UNAME = "USERNAME"
 TK_CTRL_UPATH = "USERPATH"
+
+# session properties
+TK_CTRL_DBUS_SESS_OBJ = "SESSION_OBJECT"
+TK_CTRL_DBUS_SESS_IF = "SESSION_INTERFACE"
+TK_CTRL_DBUS_SESS_PROP = "SESSION_STATIC_PROPERTIES"
 
 # limit configuration
 TK_CTRL_NDAY = "NEXTDAY"   # next day idx

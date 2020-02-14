@@ -129,7 +129,7 @@ class timekprClient(object):
                 ,signal_name      = "timeLeft")
 
             # connect to signal
-            self._timeLeftSignal = self._timekprBus.add_signal_receiver(
+            self._timeLimitsSignal = self._timekprBus.add_signal_receiver(
                  path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLimits
                 ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
