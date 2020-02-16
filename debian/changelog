@@ -1,3 +1,9 @@
+timekpr-next (0.2.12~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Fix time accounting when check interval is exactly at 0 secs in new hour (fixes a bug #1863482)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 17 Feb 2020 00:08:29 +0300
+
 timekpr-next (0.2.11~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Rework time accouting routines (fixes a bug #1861758)

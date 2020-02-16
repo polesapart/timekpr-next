@@ -203,8 +203,11 @@ class timekprUserLoginManager(object):
                 lastSeat = userSession["seat"]
                 self.switchTTY(lastSeat, userSession["vtnr"])
                 # killing time
-                log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(userSession["session"][1]), str(userSession["type"])))
-                GLib.timeout_add_seconds(1, self._login1ManagerInterface.TerminateSession, userSession["session"][0])
+                if cons.TK_DEV_ACTIVE:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
+                else:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(userSession["session"][1]), str(userSession["type"])))
+                    GLib.timeout_add_seconds(1, self._login1ManagerInterface.TerminateSession, userSession["session"][0])
                 # count sessions to kill
                 sessionsToKill += 1
             else:

@@ -159,13 +159,12 @@ class timekprUser(object):
                         # this is how many seconds are actually left in hour (as per generic time calculations)
                         secondsLeftHour = self._secondsLeftHour
                         # calculate how many seconds are left in this hour as per configuration
-                        secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] * 60 - self._currentMOH * 60 - self._effectiveDatetime.second) if (self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] * 60 < self._currentMOH * 60 + self._effectiveDatetime.second) else 0
+                        secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] * 60 - self._currentMOH * 60 - self._effectiveDatetime.second) if (self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] * 60 <= self._currentMOH * 60 + self._effectiveDatetime.second) else 0
                     else:
                         # full hour available
                         secondsLeftHour = 3600
                         # calculate how many seconds are left in this hour as per configuration
                         secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60
-
                     # save seconds to subtract for this hour
                     secondsToAddHour = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
 
@@ -186,7 +185,7 @@ class timekprUser(object):
                 # adjust left this hour
                 self._timekprUserData[i][cons.TK_CTRL_LEFTD] += secondsToAddHour
                 # recalculate whether time is continous
-                contTime = True if (contTime and not secondsToAddHour + 1 < secondsLeftHour) else False
+                contTime = True if (contTime and not secondsToAddHour < secondsLeftHour) else False
 
                 # recalculate "lefts"
                 timesLeft[cons.TK_CTRL_LEFTD] -= secondsToAddHour
