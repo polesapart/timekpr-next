@@ -171,8 +171,8 @@ class timekprUser(object):
                     # debug
                     if log.isDebug():
                         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "currentDOW: %s, currentHOD: %s, secondsLeftHour: %s, currentMOH: %s, currentSOM: %s, secondsLeftHourLimit: %s, secondsToAddHour: %s, secondsLeft: %s" % (str(i), str(j), secondsLeftHour, self._currentMOH, self._effectiveDatetime.second, secondsLeftHourLimit, secondsToAddHour, secondsLeft))
-                # hour is disabled and it's the current one
-                elif self._currentDOW == i and self._currentHOD == j:
+                # hour is disabled
+                else:
                     # time is over already from the start (it won't be added to current session, but we'll count the rest of hours allowed)
                     contTime = False
 
