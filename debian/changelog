@@ -1,3 +1,9 @@
+timekpr-next (0.3.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added possibility to determine screen lock status (albeit very hackish) - now locking a computer should more or less reliably do NOT count time for the user
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 10 Apr 2020 20:52:28 +0300
+
 timekpr-next (0.2.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Fix time reporting
