@@ -1,11 +1,13 @@
 """
-Created on Aug 28, 2018
+Created on Aug 28, 2018.
 
 @author: mjasnik
 """
 
 # import section
 import dbus
+import os
+import stat
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -14,10 +16,10 @@ from timekpr.common.utils import misc
 
 
 class timekprUserManager(object):
-    """A connection with login1"""
+    """A connection with login1 and other DBUS servers."""
 
     def __init__(self, pLog, pUserName, pUserPathOnBus):
-        """Initialize manager"""
+        """Initialize manager."""
         # init logging firstly
         log.setLogging(pLog)
 
@@ -40,6 +42,7 @@ class timekprUserManager(object):
 
         # user usersessions
         self._timekprUserSessions = {}
+        self._timekprUserObjects = {}
 
     def cacheUserSessionList(self):
         """Determine user sessions and cache session objects for further reference."""
@@ -107,6 +110,54 @@ class timekprUserManager(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
 
+    def cacheUserDBUSSession(self, pUID):
+        """Connect to user DBUS (a hackinsh and no-welcome way, but what can we do)."""
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
+
+        # check whether we are already connected to user DBUS
+        if cons.TK_DBUS_USER_SCR_OBJECT not in self._timekprUserObjects:
+            # get UID
+            userId = int(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "UID"))
+            # final socket path
+            socketPath = None
+
+            # determine user DBUS socket
+            for path in cons.TK_DBUS_USER_PATHS:
+                # determine if path is socket
+                if stat.S_ISSOCK(os.stat(path % str(userId)).st_mode):
+                    socketPath = "unix:path=%s" % (path % str(userId))
+                    break
+
+            # we have a socket
+            if socketPath is not None:
+                try:
+                    # temporarily we act as a user
+                    if not cons.TK_DEV_ACTIVE:
+                        os.seteuid(userId)
+                    # make a connection to user DBUS and try to get user screensaver object
+                    userDBUS = dbus.bus.BusConnection(socketPath)
+                    # get and save interface
+                    self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] = dbus.Interface(userDBUS.get_object(cons.TK_DBUS_USER_SCR_OBJECT, cons.TK_DBUS_USER_SCR_PATH), cons.TK_DBUS_USER_SCR_OBJECT)
+                    # switch to SU mode
+                    if not cons.TK_DEV_ACTIVE:
+                        os.seteuid(0)
+                    log.log(cons.TK_LOG_LEVEL_INFO, "connected to user \"%s\" DBUS for screensaver status" % (self._userName))
+                    # dbus performance measurement
+                    log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for screensaver \"%s\" took too long (%is)" % (self._userName, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                except Exception as exc:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting USER DBUS: %s" % (exc))
+                    # we do not have a connection
+                    self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] = None
+            else:
+                # we do not have a connection
+                self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] = None
+
+            # warn
+            if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] is None:
+                log.log(cons.TK_LOG_LEVEL_INFO, "screen locking detection for user \"%s\" WILL NOT WORK" % (self._userName))
+
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
+
     def isUserActive(self, pSessionTypes, pTrackInactive):
         """Check if user is active."""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserActive for \"%s\" ===---" % (self._userName))
@@ -115,61 +166,73 @@ class timekprUserManager(object):
         # get all user sessions
         userState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "State"))
         userIdleState = str(bool(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "IdleHint")))
+        userId = int(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "UID"))
+
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user stats, state: %s, idleState: %s" % (userState, userIdleState))
 
         # cache sessions
         self.cacheUserSessionList()
+        # cache user screensaver objects
+        self.cacheUserDBUSSession(userId)
 
         # to determine if user is active for all sessions:
         #    session must not be "active"
         #    idlehint must be true
         #    special care must be taken for tty sessions
+        #    screenlocker status from user DBUS session
 
         # init active sessions
         userActive = False
 
-        # go through all user sessions
-        for sessionId in self._timekprUserSessions:
-            # dbus performance measurement
-            misc.measureTimeElapsed(pStart=True)
+        # is user screensaver active
+        screenLocked = bool(self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT].GetActive()) if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] is not None else False
 
-            # get needed static properties
-            sessionType = self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["Type"]
-            sessionVTNr = self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["VTNr"]
-            # get needed properties
-            sessionState = str(self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
-            sessionIdleState = str(bool(self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "IdleHint")))
+        # if user locked the computer
+        if screenLocked and not pTrackInactive:
+            # user is not active
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "session inactive (verified by user \"%s\"screensaver status), sessions won't be checked" % (self._userName))
+        else:
+            # go through all user sessions
+            for sessionId in self._timekprUserSessions:
+                # dbus performance measurement
+                misc.measureTimeElapsed(pStart=True)
 
-            # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (sessionId, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                # get needed static properties
+                sessionType = self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["Type"]
+                sessionVTNr = self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["VTNr"]
+                # get needed properties
+                sessionState = str(self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
+                sessionIdleState = str(bool(self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "IdleHint")))
 
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "got session - type: %s, VTNr: %s, state: %s, idle: %s" % (sessionType, sessionVTNr, sessionState, sessionIdleState))
+                # measurement logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (sessionId, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "got session - type: %s, VTNr: %s, state: %s, idle: %s" % (sessionType, sessionVTNr, sessionState, sessionIdleState))
 
-            # check if active
-            if sessionState == "active" and sessionIdleState == "False":
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s active" % (sessionId))
+                # check if active
+                if sessionState == "active" and sessionIdleState == "False":
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s active" % (sessionId))
 
-                # validate against session types we manage
-                if sessionType not in pSessionTypes:
-                    # session is not on the list of session types we track
-                    log.log(cons.TK_LOG_LEVEL_DEBUG, "    session %s excluded (thus effectively inactive)" % (sessionId))
+                    # validate against session types we manage
+                    if sessionType not in pSessionTypes:
+                        # session is not on the list of session types we track
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "    session %s excluded (thus effectively inactive)" % (sessionId))
+                    else:
+                        # session is on the list of session types we track and session is active
+                        userActive = True
+                elif sessionType in pSessionTypes:
+                    # user is not active
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s inactive" % (sessionId))
+
+                    # if we track inactive
+                    if pTrackInactive:
+                        # we track inactive sessions
+                        userActive = True
+
+                        # session is not on the list of session types we track
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "    session %s included as active (we track inactive sessions)" % (sessionId))
                 else:
-                    # session is on the list of session types we track and session is active
-                    userActive = True
-            elif sessionType in pSessionTypes:
-                # user is not active
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s inactive" % (sessionId))
-
-                # if we track inactive
-                if pTrackInactive:
-                    # we track inactive sessions
-                    userActive = True
-
                     # session is not on the list of session types we track
-                    log.log(cons.TK_LOG_LEVEL_DEBUG, "    session %s included as active (we track inactive sessions)" % (sessionId))
-            else:
-                # session is not on the list of session types we track
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s not tracked" % (sessionId))
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s not tracked" % (sessionId))
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish isUserActive: %s ===---" % (str(userActive)))
 
