@@ -40,9 +40,13 @@ class timekprUserManager(object):
         # measurement logging
         log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
-        # user usersessions
+        # user sessions & additional DBUS objects
         self._timekprUserSessions = {}
         self._timekprUserObjects = {}
+
+        # get user ID
+        self._userId = int(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "UID"))
+        self._scrRetryCnt = 0
 
     def cacheUserSessionList(self):
         """Determine user sessions and cache session objects for further reference."""
@@ -110,22 +114,20 @@ class timekprUserManager(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
 
-    def cacheUserDBUSSession(self, pUID):
+    def cacheUserDBUSSession(self):
         """Connect to user DBUS (a hackinsh and no-welcome way, but what can we do)."""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
 
         # check whether we are already connected to user DBUS
         if cons.TK_DBUS_USER_SCR_OBJECT not in self._timekprUserObjects:
-            # get UID
-            userId = int(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "UID"))
             # final socket path
             socketPath = None
 
             # determine user DBUS socket
             for path in cons.TK_DBUS_USER_PATHS:
                 # determine if path is socket
-                if stat.S_ISSOCK(os.stat(path % str(userId)).st_mode):
-                    socketPath = "unix:path=%s" % (path % str(userId))
+                if stat.S_ISSOCK(os.stat(path % str(self._userId)).st_mode):
+                    socketPath = "unix:path=%s" % (path % str(self._userId))
                     break
 
             # we have a socket
@@ -133,7 +135,7 @@ class timekprUserManager(object):
                 try:
                     # temporarily we act as a user
                     if not cons.TK_DEV_ACTIVE:
-                        os.seteuid(userId)
+                        os.seteuid(self._userId)
                     # make a connection to user DBUS and try to get user screensaver object
                     userDBUS = dbus.bus.BusConnection(socketPath)
                     # get and save interface
@@ -158,6 +160,29 @@ class timekprUserManager(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
 
+    def isUserScreenSaverActive(self):
+        """Check if user screensaver is active. This may fail, since user is unpredictable, so we need to try again."""
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserScreenSaverActive for \"%s\" ===---" % (self._userName))
+        # by default screensave is not acttive
+        isActive = False
+
+        # we do this only when retries allow us and we actuall have a connection
+        if self._scrRetryCnt < cons.TK_MAX_RETRIES and cons.TK_DBUS_USER_SCR_OBJECT in self._timekprUserObjects:
+            try:
+                # try getting status from user DBUS
+                isActive = self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT].GetActive()
+            except Exception as exc:
+                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting screensaver status from USER DBUS for %d time: %s" % (self._scrRetryCnt, exc))
+                # we do not have a connection and this time it will return False
+                self._timekprUserObjects.pop(cons.TK_DBUS_USER_SCR_OBJECT)
+                # add to retry
+                self._scrRetryCnt += 1
+
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish isUserScreenSaverActive for \"%s\" ===---" % (self._userName))
+
+        # return whether user screensaver is active
+        return isActive
+
     def isUserActive(self, pSessionTypes, pTrackInactive):
         """Check if user is active."""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserActive for \"%s\" ===---" % (self._userName))
@@ -166,14 +191,13 @@ class timekprUserManager(object):
         # get all user sessions
         userState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "State"))
         userIdleState = str(bool(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "IdleHint")))
-        userId = int(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "UID"))
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user stats, state: %s, idleState: %s" % (userState, userIdleState))
 
         # cache sessions
         self.cacheUserSessionList()
         # cache user screensaver objects
-        self.cacheUserDBUSSession(userId)
+        self.cacheUserDBUSSession()
 
         # to determine if user is active for all sessions:
         #    session must not be "active"
@@ -185,12 +209,12 @@ class timekprUserManager(object):
         userActive = False
 
         # is user screensaver active
-        screenLocked = bool(self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT].GetActive()) if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] is not None else False
+        screenLocked = self.isUserScreenSaverActive()
 
         # if user locked the computer
         if screenLocked and not pTrackInactive:
             # user is not active
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "session inactive (verified by user \"%s\"screensaver status), sessions won't be checked" % (self._userName))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "session inactive (verified by user \"%s\" screensaver status), sessions won't be checked" % (self._userName))
         else:
             # go through all user sessions
             for sessionId in self._timekprUserSessions:

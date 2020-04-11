@@ -135,7 +135,7 @@ class timekprUserLoginManager(object):
     def determineLoginManagerVT(self, pUserName, pUserPath):
         """Get login manager session VTNr"""
         # if we did not yet find a login manager VTNr
-        if self._loginManagerVTNr is None and self._loginManagerVTNrRetries < cons.TK_VTNR_MAX_RETRIES:
+        if self._loginManagerVTNr is None and self._loginManagerVTNrRetries < cons.TK_MAX_RETRIES:
             # determine if we have one like manager
             if pUserName in cons.TK_USERS_LOGIN_MANAGERS.split(";"):
                 # advance counter
@@ -164,7 +164,7 @@ class timekprUserLoginManager(object):
                 # log
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: searching for login manager, user (%s) does not look like one" % (pUserName))
         # in case we tried hard
-        elif self._loginManagerVTNr is None and self._loginManagerVTNrRetries == cons.TK_VTNR_MAX_RETRIES:
+        elif self._loginManagerVTNr is None and self._loginManagerVTNrRetries == cons.TK_MAX_RETRIES:
             # advance counter (so we never get here again)
             self._loginManagerVTNrRetries += 1
             # seat is NOT found and we'll not try to find it anymore
