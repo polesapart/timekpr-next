@@ -82,7 +82,7 @@ TK_LOGFILE_DIR_DEV = "../../runtime.tmp"
 TK_LOCALIZATION_DIR_DEV = "../resource/locale"
 
 # retry cnt for various actions
-TK_MAX_RETRIES = 10
+TK_MAX_RETRIES = 5
 
 # ## dbus ##
 # common
@@ -102,7 +102,6 @@ TK_DBUS_CK_MANAGER_INTERFACE = "org.freedesktop.ConsoleKit.Manager"
 TK_DBUS_SEAT_OBJECT = "org.freedesktop.login1.Seat"
 TK_DBUS_USER_OBJECT = "org.freedesktop.login1.User"
 TK_DBUS_SESSION_OBJECT = "org.freedesktop.login1.Session"
-TK_DBUS_USER_SCR_OBJECT = "org.freedesktop.ScreenSaver"
 
 # path / objects / interfaces
 TK_DBUS_BUS_NAME = "com.timekpr.server"
@@ -112,7 +111,11 @@ TK_DBUS_USER_NOTIF_PATH_PREFIX = "/com/timekpr/server/user/"
 TK_DBUS_USER_NOTIF_INTERFACE = "com.timekpr.server.user.notifications"
 TK_DBUS_USER_LIMITS_INTERFACE = "com.timekpr.server.user.limits"
 TK_DBUS_USER_ADMIN_INTERFACE = "com.timekpr.server.user.admin"
-TK_DBUS_USER_SCR_PATH = "/org/freedesktop/ScreenSaver"
+
+# user DBUS paths and oject names
+TK_DBUS_USER_SCR_OBJECT_NAME = "ScreenSaver"
+TK_DBUS_USER_SCR_OBJECTS = ("org.freedesktop.ScreenSaver", "org.gnome.ScreenSaver")
+TK_DBUS_USER_SCR_PATHS = ("/org/freedesktop/ScreenSaver", "/org/gnome/ScreenSaver")
 
 # dbus socket paths for users
 TK_DBUS_USER_PATHS = ("/var/run/user/%s/bus", "/run/user/%s/bus")

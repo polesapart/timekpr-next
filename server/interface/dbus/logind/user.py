@@ -115,11 +115,16 @@ class timekprUserManager(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
 
     def cacheUserDBUSSession(self):
-        """Connect to user DBUS (a hackinsh and no-welcome way, but what can we do)."""
+        """
+        Connect to user DBUS (a hackinsh and no-welcome way, but what can we do).
+
+        This bascially switches timekpr to actual user id for a small amount of time, but since
+        python standard implementation runs just one thread at a time, this, theoretically, should not be a problem.
+        """
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
 
         # check whether we are already connected to user DBUS
-        if cons.TK_DBUS_USER_SCR_OBJECT not in self._timekprUserObjects:
+        if cons.TK_DBUS_USER_SCR_OBJECT_NAME not in self._timekprUserObjects:
             # final socket path
             socketPath = None
 
@@ -132,30 +137,47 @@ class timekprUserManager(object):
 
             # we have a socket
             if socketPath is not None:
-                try:
-                    # temporarily we act as a user
-                    if not cons.TK_DEV_ACTIVE:
-                        os.seteuid(self._userId)
-                    # make a connection to user DBUS and try to get user screensaver object
-                    userDBUS = dbus.bus.BusConnection(socketPath)
-                    # get and save interface
-                    self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] = dbus.Interface(userDBUS.get_object(cons.TK_DBUS_USER_SCR_OBJECT, cons.TK_DBUS_USER_SCR_PATH), cons.TK_DBUS_USER_SCR_OBJECT)
-                    # switch to SU mode
-                    if not cons.TK_DEV_ACTIVE:
-                        os.seteuid(0)
+                # temporarily we act as a user
+                if not cons.TK_DEV_ACTIVE:
+                    os.seteuid(self._userId)
+                # when switched to non-root user, we need to save errors, otherwise we'll not be able to log them
+                errors = []
+
+                # try all paths possible
+                for i in range(0, 1+1):
+                    try:
+                        # make a connection to user DBUS and try to get user screensaver object
+                        self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] = dbus.Interface(dbus.bus.BusConnection(socketPath).get_object(cons.TK_DBUS_USER_SCR_OBJECTS[i], cons.TK_DBUS_USER_SCR_PATHS[i]), cons.TK_DBUS_USER_SCR_OBJECTS[i])
+                        # try get values (Gnome for instance, did not implement normal freedekstop spec and it returns "method not implemented" only when called)
+                        self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME].GetActive()
+                        # get out at first success
+                        break
+                    except Exception as exc:
+                        # save errors
+                        errors.append(str(exc))
+                        # object is not found
+                        self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] = None
+
+                # switch to SU mode
+                if not cons.TK_DEV_ACTIVE:
+                    # get back to root
+                    os.seteuid(0)
+                    os.setegid(0)
+
+                # log errors
+                for rErr in errors:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting USER DBUS: %s" % (rErr))
+                # if have a successful connection
+                if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] is not None:
                     log.log(cons.TK_LOG_LEVEL_INFO, "connected to user \"%s\" DBUS for screensaver status" % (self._userName))
-                    # dbus performance measurement
-                    log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for screensaver \"%s\" took too long (%is)" % (self._userName, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-                except Exception as exc:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting USER DBUS: %s" % (exc))
-                    # we do not have a connection
-                    self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] = None
             else:
-                # we do not have a connection
-                self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] = None
+                # no connection
+                self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] = None
 
             # warn
-            if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT] is None:
+            if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] is None:
+                # no connection
+                self._timekprUserObjects.pop(cons.TK_DBUS_USER_SCR_OBJECT_NAME)
                 log.log(cons.TK_LOG_LEVEL_INFO, "screen locking detection for user \"%s\" WILL NOT WORK" % (self._userName))
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
@@ -167,14 +189,14 @@ class timekprUserManager(object):
         isActive = False
 
         # we do this only when retries allow us and we actuall have a connection
-        if self._scrRetryCnt < cons.TK_MAX_RETRIES and cons.TK_DBUS_USER_SCR_OBJECT in self._timekprUserObjects:
+        if self._scrRetryCnt < cons.TK_MAX_RETRIES and cons.TK_DBUS_USER_SCR_OBJECT_NAME in self._timekprUserObjects:
             try:
                 # try getting status from user DBUS
-                isActive = self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT].GetActive()
+                isActive = self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME].GetActive()
             except Exception as exc:
                 log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting screensaver status from USER DBUS for %d time: %s" % (self._scrRetryCnt, exc))
                 # we do not have a connection and this time it will return False
-                self._timekprUserObjects.pop(cons.TK_DBUS_USER_SCR_OBJECT)
+                self._timekprUserObjects.pop(cons.TK_DBUS_USER_SCR_OBJECT_NAME)
                 # add to retry
                 self._scrRetryCnt += 1
 
