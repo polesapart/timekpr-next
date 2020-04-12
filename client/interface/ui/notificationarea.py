@@ -37,7 +37,7 @@ class timekprNotificationArea(object):
         # initialize priority
         self._lastUsedPriority = ""
         # initialize time left
-        self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY - 1)
+        self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME - 1)
 
         # init notificaction stuff
         self._timekprNotifications = timekprNotifications(pLog, self._isDevActive, self._userName, self._timekprConfigManager)
