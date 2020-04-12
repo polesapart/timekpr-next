@@ -6,8 +6,6 @@ Created on Aug 28, 2018.
 
 # import section
 import dbus
-import os
-import stat
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -114,98 +112,7 @@ class timekprUserManager(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
 
-    def cacheUserDBUSSession(self):
-        """
-        Connect to user DBUS (a hackinsh and no-welcome way, but what can we do).
-
-        This bascially switches timekpr to actual user id for a small amount of time, but since
-        python standard implementation runs just one thread at a time, this, theoretically, should not be a problem.
-        """
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
-
-        # check whether we are already connected to user DBUS
-        if cons.TK_DBUS_USER_SCR_OBJECT_NAME not in self._timekprUserObjects:
-            # final socket path
-            socketPath = None
-
-            # determine user DBUS socket
-            for path in cons.TK_DBUS_USER_PATHS:
-                # determine if path is socket
-                if stat.S_ISSOCK(os.stat(path % str(self._userId)).st_mode):
-                    socketPath = "unix:path=%s" % (path % str(self._userId))
-                    break
-
-            # we have a socket
-            if socketPath is not None:
-                # temporarily we act as a user
-                if not cons.TK_DEV_ACTIVE:
-                    os.seteuid(self._userId)
-                # when switched to non-root user, we need to save errors, otherwise we'll not be able to log them
-                errors = []
-
-                # try all paths possible
-                for i in range(0, 1+1):
-                    try:
-                        # make a connection to user DBUS and try to get user screensaver object
-                        self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] = dbus.Interface(dbus.bus.BusConnection(socketPath).get_object(cons.TK_DBUS_USER_SCR_OBJECTS[i], cons.TK_DBUS_USER_SCR_PATHS[i]), cons.TK_DBUS_USER_SCR_OBJECTS[i])
-                        # try get values (Gnome for instance, did not implement normal freedekstop spec and it returns "method not implemented" only when called)
-                        self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME].GetActive()
-                        # get out at first success
-                        break
-                    except Exception as exc:
-                        # save errors
-                        errors.append(str(exc))
-                        # object is not found
-                        self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] = None
-
-                # switch to SU mode
-                if not cons.TK_DEV_ACTIVE:
-                    # get back to root
-                    os.seteuid(0)
-                    os.setegid(0)
-
-                # log errors
-                for rErr in errors:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting USER DBUS: %s" % (rErr))
-                # if have a successful connection
-                if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] is not None:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "connected to user \"%s\" DBUS for screensaver status" % (self._userName))
-            else:
-                # no connection
-                self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] = None
-
-            # warn
-            if self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME] is None:
-                # no connection
-                self._timekprUserObjects.pop(cons.TK_DBUS_USER_SCR_OBJECT_NAME)
-                log.log(cons.TK_LOG_LEVEL_INFO, "screen locking detection for user \"%s\" WILL NOT WORK" % (self._userName))
-
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserDBUSSession for \"%s\" ===---" % (self._userName))
-
-    def isUserScreenSaverActive(self):
-        """Check if user screensaver is active. This may fail, since user is unpredictable, so we need to try again."""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserScreenSaverActive for \"%s\" ===---" % (self._userName))
-        # by default screensave is not acttive
-        isActive = False
-
-        # we do this only when retries allow us and we actuall have a connection
-        if self._scrRetryCnt < cons.TK_MAX_RETRIES and cons.TK_DBUS_USER_SCR_OBJECT_NAME in self._timekprUserObjects:
-            try:
-                # try getting status from user DBUS
-                isActive = self._timekprUserObjects[cons.TK_DBUS_USER_SCR_OBJECT_NAME].GetActive()
-            except Exception as exc:
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting screensaver status from USER DBUS for %d time: %s" % (self._scrRetryCnt, exc))
-                # we do not have a connection and this time it will return False
-                self._timekprUserObjects.pop(cons.TK_DBUS_USER_SCR_OBJECT_NAME)
-                # add to retry
-                self._scrRetryCnt += 1
-
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish isUserScreenSaverActive for \"%s\" ===---" % (self._userName))
-
-        # return whether user screensaver is active
-        return isActive
-
-    def isUserActive(self, pSessionTypes, pTrackInactive):
+    def isUserActive(self, pSessionTypes, pTrackInactive, pIsScreenLocked):
         """Check if user is active."""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserActive for \"%s\" ===---" % (self._userName))
         log.log(cons.TK_LOG_LEVEL_DEBUG, "supported session types: %s" % (str(pSessionTypes)))
@@ -218,8 +125,6 @@ class timekprUserManager(object):
 
         # cache sessions
         self.cacheUserSessionList()
-        # cache user screensaver objects
-        self.cacheUserDBUSSession()
 
         # to determine if user is active for all sessions:
         #    session must not be "active"
@@ -230,11 +135,8 @@ class timekprUserManager(object):
         # init active sessions
         userActive = False
 
-        # is user screensaver active
-        screenLocked = self.isUserScreenSaverActive()
-
         # if user locked the computer
-        if screenLocked and not pTrackInactive:
+        if pIsScreenLocked and not pTrackInactive:
             # user is not active
             log.log(cons.TK_LOG_LEVEL_DEBUG, "session inactive (verified by user \"%s\" screensaver status), sessions won't be checked" % (self._userName))
         else:

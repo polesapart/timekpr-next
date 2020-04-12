@@ -110,15 +110,13 @@ TK_DBUS_ADMIN_INTERFACE = "com.timekpr.server.admin"
 TK_DBUS_USER_NOTIF_PATH_PREFIX = "/com/timekpr/server/user/"
 TK_DBUS_USER_NOTIF_INTERFACE = "com.timekpr.server.user.notifications"
 TK_DBUS_USER_LIMITS_INTERFACE = "com.timekpr.server.user.limits"
+TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE = "com.timekpr.server.user.sessionattributes"
 TK_DBUS_USER_ADMIN_INTERFACE = "com.timekpr.server.user.admin"
 
-# user DBUS paths and oject names
-TK_DBUS_USER_SCR_OBJECT_NAME = "ScreenSaver"
-TK_DBUS_USER_SCR_OBJECTS = ("org.freedesktop.ScreenSaver", "org.gnome.ScreenSaver")
-TK_DBUS_USER_SCR_PATHS = ("/org/freedesktop/ScreenSaver", "/org/gnome/ScreenSaver")
-
-# dbus socket paths for users
-TK_DBUS_USER_PATHS = ("/var/run/user/%s/bus", "/run/user/%s/bus")
+# actual user session validation and control
+TK_CTRL_SCR_N = "scrs"
+TK_CTRL_SCR_K = "scrs:key"
+TK_CTRL_SCR_R = "scrs:retr"
 
 # DBUS performance measurement
 TK_DBUS_ANSWER_TIME = 3

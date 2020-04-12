@@ -122,6 +122,13 @@ class timekprClient(object):
             self._notificationFromDBUS = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS)
 
             # connect to signal
+            self._sessionAttributeVerificationSignal = self._timekprBus.add_signal_receiver(
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
+                ,handler_function = self.reveiveSessionAttributeVerificationRequest
+                ,dbus_interface   = cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE
+                ,signal_name      = "sessionAttributeVerification")
+
+            # connect to signal
             self._timeLeftSignal = self._timekprBus.add_signal_receiver(
                  path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLeft
@@ -193,6 +200,14 @@ class timekprClient(object):
 
         # finish
         return False
+
+    # --------------- admininstration / verification methods (from dbus) --------------- #
+
+    def reveiveSessionAttributeVerificationRequest(self, pWhat, pKey):
+        """Receive the signal and process the data"""
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive verification request: %s, %s" % (pWhat, "key"))
+        # resend stuff to server
+        self._timekprClientIndicator._timekprNotifications.verifySessionAttributes(pWhat, pKey)
 
     # --------------- worker methods (from dbus) --------------- #
 
