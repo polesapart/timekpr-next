@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.2.13"
+TK_VERSION = "0.3.0"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -81,8 +81,8 @@ TK_LOGFILE_DIR_DEV = "../../runtime.tmp"
 # localization
 TK_LOCALIZATION_DIR_DEV = "../resource/locale"
 
-# login manager find retry cnt
-TK_VTNR_MAX_RETRIES = 10
+# retry cnt for various actions
+TK_MAX_RETRIES = 5
 
 # ## dbus ##
 # common
@@ -98,7 +98,7 @@ TK_DBUS_CK_OBJECT = "org.freedesktop.ConsoleKit"
 TK_DBUS_CK_PATH = "/org/freedesktop/ConsoleKit"
 TK_DBUS_CK_MANAGER_INTERFACE = "org.freedesktop.ConsoleKit.Manager"
 
-# seat / user / session
+# seat / user / session / screensaver
 TK_DBUS_SEAT_OBJECT = "org.freedesktop.login1.Seat"
 TK_DBUS_USER_OBJECT = "org.freedesktop.login1.User"
 TK_DBUS_SESSION_OBJECT = "org.freedesktop.login1.Session"
@@ -110,7 +110,13 @@ TK_DBUS_ADMIN_INTERFACE = "com.timekpr.server.admin"
 TK_DBUS_USER_NOTIF_PATH_PREFIX = "/com/timekpr/server/user/"
 TK_DBUS_USER_NOTIF_INTERFACE = "com.timekpr.server.user.notifications"
 TK_DBUS_USER_LIMITS_INTERFACE = "com.timekpr.server.user.limits"
+TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE = "com.timekpr.server.user.sessionattributes"
 TK_DBUS_USER_ADMIN_INTERFACE = "com.timekpr.server.user.admin"
+
+# actual user session validation and control
+TK_CTRL_SCR_N = "scrs"
+TK_CTRL_SCR_K = "scrs:key"
+TK_CTRL_SCR_R = "scrs:retr"
 
 # DBUS performance measurement
 TK_DBUS_ANSWER_TIME = 3

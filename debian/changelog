@@ -1,3 +1,11 @@
+timekpr-next-beta (0.3.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added possibility to determine screen lock status reliably for every DE that exposes screensaver status to DBUS (see below)
+  ** It's implemented in client <-> server fashion using org.freedesktop.ScreenSaver
+  ** but as Gnome3 is "special", I had to implement org.gnome.ScreenSaver as well
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 12 Apr 2020 17:10:06 +0300
+
 timekpr-next-beta (0.2.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Fix time reporting
