@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.3.0"
+TK_VERSION = "0.3.1"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -117,6 +117,9 @@ TK_DBUS_USER_ADMIN_INTERFACE = "com.timekpr.server.user.admin"
 TK_CTRL_SCR_N = "scrs"
 TK_CTRL_SCR_K = "scrs:key"
 TK_CTRL_SCR_R = "scrs:retr"
+
+# workarounds section for use in Gnome and similar to specifically use gnome interface
+TK_SCR_XDGCD_OVERRIDE = ("GNOME", "UNITY")
 
 # DBUS performance measurement
 TK_DBUS_ANSWER_TIME = 3
