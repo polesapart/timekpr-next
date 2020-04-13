@@ -1,3 +1,9 @@
+timekpr-next (0.3.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Introduced workarounds section for screensaver dbus interface to use gnome version instead of freedesktop for Unity and Gnome itself
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 13 Apr 2020 16:46:35 +0300
+
 timekpr-next (0.3.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Added possibility to determine screen lock status reliably for every DE that exposes screensaver status to DBUS (see below)

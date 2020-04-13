@@ -6,6 +6,7 @@ Created on Aug 28, 2018
 
 # import
 import dbus
+import os
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
 
@@ -104,9 +105,25 @@ class timekprNotifications(object):
         # only if screensaver are ok
         if self._screenSaverInterface is None:
             # define inames (I hope "revolutionary company" won't sue me for using i in front of variable names)
-            iNames = ["org.freedesktop.ScreenSaver", "org.gnome.ScreenSaver"]
-            iPaths = ["/org/freedesktop/ScreenSaver", "/org/gnome/ScreenSaver"]
+            iNames = []
+            iPaths = []
             chosenIdx = None
+
+            # workarounds per desktop
+            for rDesk in cons.TK_SCR_XDGCD_OVERRIDE:
+                if rDesk in os.getenv("XDG_CURRENT_DESKTOP", "SUPERDESKTOP").upper():
+                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: using gnome screensaver dbus interface as a workaround")
+                    # use gnome stuff
+                    iNames.extend(["org.gnome.ScreenSaver"])
+                    iPaths.extend(["/org/gnome/ScreenSaver"])
+                    # first match is enough
+                    break
+
+            # if there are no workarounds add default section, the preference is freedesktop standard, the rest is added in case standard can not be used
+            if len(iNames) < 1:
+                # add default section
+                iNames.extend(["org.freedesktop.ScreenSaver", "org.gnome.ScreenSaver"])
+                iPaths.extend(["/org/freedesktop/ScreenSaver", "/org/gnome/ScreenSaver"])
 
             # go through inames
             for idx in range(0, len(iNames)):
