@@ -62,7 +62,7 @@ class timekprNotifications(object):
         self._dbusConnections = {
             self.CL_CONN_TK: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 999, self.CL_DEL: 0},
             self.CL_CONN_NOTIF: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 99, self.CL_DEL: 0},
-            self.CL_CONN_SCR: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 5, self.CL_DEL: 3}
+            self.CL_CONN_SCR: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 5, self.CL_DEL: 1}
         }
 
         # speech init
