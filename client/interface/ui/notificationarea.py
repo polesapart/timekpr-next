@@ -41,7 +41,6 @@ class timekprNotificationArea(object):
 
         # init notificaction stuff
         self._timekprNotifications = timekprNotifications(pLog, self._isDevActive, self._userName, self._timekprConfigManager)
-        self._timekprNotifications.initClientConnections()
 
         # dbus
         self._timekprBus = None
@@ -52,6 +51,28 @@ class timekprNotificationArea(object):
         self._timekprGUI = timekprGUI(cons.TK_VERSION, self._timekprConfigManager, self._userName)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekpr indicator")
+
+    def initClientConnections(self):
+        """Proxy method for initialization"""
+        # initalize DBUS connections to every additional module
+        self._timekprNotifications.initClientConnections()
+
+    def isTimekprConnected(self):
+        """Proxy method for initialization status"""
+        # check if main connection to timekpr is up
+        return self._timekprNotifications.isTimekprConnected()
+
+    def verifySessionAttributes(self, pWhat, pKey):
+        """Proxy method for receive the signal and process the data"""
+        self._timekprNotifications.verifySessionAttributes(pWhat, pKey)
+
+    def requestTimeLimits(self):
+        """Proxy method for request time limits from server"""
+        self._timekprNotifications.requestTimeLimits()
+
+    def requestTimeLeft(self):
+        """Proxy method for request time left from server"""
+        self._timekprNotifications.requestTimeLeft()
 
     def formatTimeLeft(self, pPriority, pTimeLeft):
         """Set time left in the indicator"""

@@ -1,3 +1,9 @@
+timekpr-next-beta (0.3.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Introduced functionality to limit retries to screensaver for DEs that are not compatible with freedesktop or gnome screensaver interface
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2020 16:04:02 +0300
+
 timekpr-next-beta (0.3.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Introduced workarounds section for screensaver dbus interface to use gnome version instead of freedesktop for Unity and Gnome itself
