@@ -22,7 +22,7 @@ DBusGMainLoop(set_as_default=True)
 
 
 class timekprNotifications(object):
-    """Main class for supporting indicator notifications"""
+    """Main class for supporting indicator notifications, connect to request methods for timekpr and connections to other DBUS modules"""
 
     def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
         """Initialize notifications"""
@@ -43,17 +43,27 @@ class timekprNotifications(object):
 
         # session bus
         self._userSessionBus = dbus.SessionBus()
-
-        # dbus (notifications)
-        self._notifyInterface = None
-        # dbus (screensaver)
-        self._screenSaverInterface = None
-        self._screenSaverStateChangedSignal = None
-
-        # dbus (timekpr)
+        # timekpr bus
         self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
-        self._timekprLimitsInterface = None
-        self._timekprAttributesInterface = None
+
+        # DBUS client connections
+        # connection types
+        self.CL_CONN_TK = "timekpr"
+        self.CL_CONN_NOTIF = "notifications"
+        self.CL_CONN_SCR = "screensaver"
+        # constants
+        self.CL_IF = "primary interface"
+        self.CL_IFA = "attributes interface"
+        self.CL_SI = "signal"
+        self.CL_CNT = "retry_count"
+        self.CL_DEL = "delay_times"
+
+        # object collection for DBUS connections
+        self._dbusConnections = {
+            self.CL_CONN_TK: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 999, self.CL_DEL: 0},
+            self.CL_CONN_NOTIF: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 99, self.CL_DEL: 0},
+            self.CL_CONN_SCR: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 5, self.CL_DEL: 3}
+        }
 
         # speech init
         self._timekprSpeechManager = None
@@ -73,8 +83,8 @@ class timekprNotifications(object):
                 # initialize if supported
                 self._timekprSpeechManager.initSpeech()
 
-        # only if notifications are ok
-        if self._notifyInterface is None:
+        # only if notifications are not ok
+        if self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] is None and self._dbusConnections[self.CL_CONN_NOTIF][self.CL_CNT] > 0 and not self._dbusConnections[self.CL_CONN_NOTIF][self.CL_DEL] > 0:
             # define inames (I hope "revolutionary company" won't sue me for using i in front of variable names)
             iNames = ["org.freedesktop.Notifications"]
             iPaths = ["/org/freedesktop/Notifications"]
@@ -86,25 +96,23 @@ class timekprNotifications(object):
                     # dbus performance measurement
                     misc.measureTimeElapsed(pStart=True)
                     # getting interface
-                    self._notifyInterface = dbus.Interface(self._userSessionBus.get_object(iNames[idx], iPaths[idx]), iNames[idx])
+                    self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = dbus.Interface(self._userSessionBus.get_object(iNames[idx], iPaths[idx]), iNames[idx])
                     # measurement logging
                     log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (iNames[idx], misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
                     # first sucess is enough
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s interface" % (self.CL_CONN_NOTIF))
+                    # finish
                     break
                 except Exception as dbusEx:
-                    self._notifyInterface = None
+                    self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
                     # logging
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection ===---")
+                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection (%s, %s) ===---" % (self.CL_CONN_NOTIF, iNames[idx]))
                     log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection ===---")
+                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING ===---")
 
-            # connection successful
-            if self._notifyInterface is not None:
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS notification interface")
-
-        # only if screensaver are ok
-        if self._screenSaverInterface is None:
-            # define inames (I hope "revolutionary company" won't sue me for using i in front of variable names)
+        # only if screensaver is not ok
+        if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None and self._dbusConnections[self.CL_CONN_SCR][self.CL_CNT] > 0 and not self._dbusConnections[self.CL_CONN_SCR][self.CL_DEL] > 0:
+            # define inames (I hope "revolutionary company" won't sue me for using i in front of variable names :) )
             iNames = []
             iPaths = []
             chosenIdx = None
@@ -132,71 +140,100 @@ class timekprNotifications(object):
                     # dbus performance measurement
                     misc.measureTimeElapsed(pStart=True)
                     # getting interface
-                    self._screenSaverInterface = dbus.Interface(self._userSessionBus.get_object(iNames[idx], iPaths[idx]), iNames[idx])
+                    self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] = dbus.Interface(self._userSessionBus.get_object(iNames[idx], iPaths[idx]), iNames[idx])
                     # verification (Gnome has not implemented freedesktop methods, we need to verify this actually works)
-                    self._screenSaverInterface.GetActive()
+                    self._dbusConnections[self.CL_CONN_SCR][self.CL_IF].GetActive()
                     # measurement logging
                     log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (iNames[idx], misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
                     # first sucess is enough
                     chosenIdx = idx
+                    # finish
                     break
                 except Exception as dbusEx:
-                    self._screenSaverInterface = None
+                    self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] = None
                     # logging
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection ===---")
+                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection (%s, %s) ===---" % (self.CL_CONN_SCR, iNames[idx]))
                     log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection ===---")
+                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING ===---")
 
             # connection successful
-            if self._screenSaverInterface is not None:
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS screensaver interface")
+            if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is not None:
+                # log
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s interface" % (self.CL_CONN_SCR))
                 # add a connection to signal
-                self._screenSaverStateChangedSignal = self._userSessionBus.add_signal_receiver(
+                self._dbusConnections[self.CL_CONN_SCR][self.CL_SI] = self._userSessionBus.add_signal_receiver(
                      path             = iPaths[chosenIdx]
                     ,handler_function = self.receiveScreenSaverActivityChange
                     ,dbus_interface   = iNames[chosenIdx]
                     ,signal_name      = "ActiveChanged")
 
-            # only if notifications are ok
-        if self._timekprLimitsInterface is None:
+        # only if screensaver is not ok
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is None and self._dbusConnections[self.CL_CONN_TK][self.CL_CNT] > 0 and not self._dbusConnections[self.CL_CONN_TK][self.CL_DEL] > 0:
             try:
                 # dbus performance measurement
                 misc.measureTimeElapsed(pStart=True)
                 # getting interface
-                self._timekprLimitsInterface = dbus.Interface(self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH), cons.TK_DBUS_USER_LIMITS_INTERFACE)
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = dbus.Interface(self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH), cons.TK_DBUS_USER_LIMITS_INTERFACE)
+                # log
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to %s DBUS %s interface" % (self.CL_CONN_TK, self.CL_IF))
                 # getting interface
-                self._timekprAttributesInterface = dbus.Interface(self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH), cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE)
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] = dbus.Interface(self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH), cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE)
+                # log
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to %s DBUS %s interface" % (self.CL_CONN_TK, self.CL_IFA))
+
                 # measurement logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_LIMITS_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "connected to DBUS timekpr interface")
             except Exception as dbusEx:
-                self._timekprLimitsInterface = None
-                self._timekprAttributesInterface = None
+                # reset
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] = None
                 # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR initiating timekpr dbus connection ===---")
+                log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection (%s, %s) ===---" % (self.CL_CONN_TK, cons.TK_DBUS_BUS_NAME))
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR initiating timekpr dbus connection ===---")
+                log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING ===---")
 
-        # if either of this fails, we keep trying to connect
-        if self._notifyInterface is None or self._timekprLimitsInterface is None or self._screenSaverInterface is None:
-            if self._notifyInterface is None:
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to notifications dbus, trying again...")
-            if self._screenSaverInterface is None:
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to screensaver dbus, trying again...")
-            if self._timekprLimitsInterface is None:
-                # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to timekpr dbus, trying again...")
-
+        # retry?
+        doRetry = False
+        # all variants
+        for rConn in [self.CL_CONN_TK, self.CL_CONN_NOTIF, self.CL_CONN_SCR]:
             # if either of this fails, we keep trying to connect
-            GLib.timeout_add_seconds(3, self.initClientConnections)
+            if self._dbusConnections[rConn][self.CL_IF] is None:
+                # max retries
+                if self._dbusConnections[rConn][self.CL_CNT] > 0:
+                    # only if delay is ended
+                    if not self._dbusConnections[rConn][self.CL_DEL] > 0:
+                        # decrease retries
+                        self._dbusConnections[rConn][self.CL_CNT] -= 1
+                    # continue if more retries available
+                    if self._dbusConnections[rConn][self.CL_CNT] > 0:
+                        # retry
+                        doRetry = True
+                        # do not take into account delay
+                        if self._dbusConnections[rConn][self.CL_DEL] > 0:
+                            # connection delayed
+                            log.log(cons.TK_LOG_LEVEL_INFO, "INFO: dbus connection to %s delayed for %d more times" % (rConn, self._dbusConnections[rConn][self.CL_DEL]))
+                            # decrease delay
+                            self._dbusConnections[rConn][self.CL_DEL] -= 1
+                        else:
+                            # logging
+                            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to %s dbus, trying again..." % (rConn))
+                    else:
+                        # connection aborted
+                        log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: dbus connection to %s failed, some functionality will not be available" % (rConn))
+
+        # retry
+        if doRetry:
+            # if either of this fails, we keep trying to connect
+            GLib.timeout_add_seconds(cons.TK_POLLTIME, self.initClientConnections)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initClientConnections")
 
         # finish
         return False
+
+    def isTimekprConnected(self):
+        """Return status of timekpr connection (nothing else, just timekpr itself)"""
+        return self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is not None
 
     def prepareNotification(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Prepare the message to be sent to dbus notifications"""
@@ -247,22 +284,22 @@ class timekprNotifications(object):
     def notifyUser(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Notify the user."""
         # if we have dbus connection, let"s do so
-        if self._notifyInterface is None:
+        if self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] is None:
             # init
             self.initClientConnections()
 
         # can we notify user
-        if self._notifyInterface is not None:
+        if self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] is not None:
             # prepare notification
             notifId, timekprIcon, msgStr, timekprPrio = self.prepareNotification(pMsgCode, pPriority, pTimeLeft, pAdditionalMessage)
 
             # notify through dbus
             try:
                 # call dbus method
-                notifId = self._notifyInterface.Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, "", {"urgency": timekprPrio}, 2500)
+                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, "", {"urgency": timekprPrio}, 2500)
             except Exception as dbusEx:
                 # we can not send notif through dbus
-                self._notifyInterface = None
+                self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
@@ -287,7 +324,7 @@ class timekprNotifications(object):
         # for screensaver status
         if pWhat == cons.TK_CTRL_SCR_N:
             # value
-            value = str(bool(self._screenSaverInterface.GetActive()))
+            value = str(bool(self._dbusConnections[self.CL_CONN_SCR][self.CL_IF].GetActive()))
 
         # resend stuff to server
         self.processUserSessionAttributes(pWhat, pKey, value)
@@ -306,17 +343,17 @@ class timekprNotifications(object):
     def requestTimeLeft(self):
         """Request time left from server"""
         # if we have dbus connection, let"s do so
-        if self._timekprLimitsInterface is None:
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is None:
             # init
             self.initClientConnections()
 
         # if we have end-point
-        if self._timekprLimitsInterface is not None:
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is not None:
             log.log(cons.TK_LOG_LEVEL_INFO, "requesting timeleft")
             # notify through dbus
             try:
                 # call dbus method
-                result, message = self._timekprLimitsInterface.requestTimeLeft(self._userName)
+                result, message = self._dbusConnections[self.CL_CONN_TK][self.CL_IF].requestTimeLeft(self._userName)
 
                 # check call result
                 if result != 0:
@@ -324,7 +361,7 @@ class timekprNotifications(object):
                     self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
                 # we can not send notif through dbus
-                self._timekprLimitsInterface = None
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
@@ -336,17 +373,17 @@ class timekprNotifications(object):
     def requestTimeLimits(self):
         """Request time limits from server"""
         # if we have dbus connection, let"s do so
-        if self._timekprLimitsInterface is None:
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is None:
             # init
             self.initClientConnections()
 
         # if we have end-point
-        if self._timekprLimitsInterface is not None:
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is not None:
             log.log(cons.TK_LOG_LEVEL_INFO, "requesting timelimits")
             # notify through dbus
             try:
                 # call dbus method
-                result, message = self._timekprLimitsInterface.requestTimeLimits(self._userName)
+                result, message = self._dbusConnections[self.CL_CONN_TK][self.CL_IF].requestTimeLimits(self._userName)
 
                 # check call result
                 if result != 0:
@@ -354,7 +391,7 @@ class timekprNotifications(object):
                     self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
                 # we can not send notif through dbus
-                self._timekprLimitsInterface = None
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
@@ -364,19 +401,19 @@ class timekprNotifications(object):
                 self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
 
     def processUserSessionAttributes(self, pWhat, pKey=None, pValue=None):
-        """Request time limits from server"""
+        """Process user session attributes from server"""
         # if we have dbus connection, let"s do so
-        if self._timekprAttributesInterface is None:
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] is None:
             # init
             self.initClientConnections()
 
         # if we have end-point
-        if self._timekprAttributesInterface is not None:
+        if self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] is not None:
             log.log(cons.TK_LOG_LEVEL_INFO, "%s session attributes" % ("requesting" if pKey is None else "verifying"))
             # notify through dbus
             try:
                 # call dbus method
-                result, message = self._timekprAttributesInterface.processUserSessionAttributes(
+                result, message = self._dbusConnections[self.CL_CONN_TK][self.CL_IFA].processUserSessionAttributes(
                     self._userName
                     ,dbus.String(pWhat if pWhat is not None else "")
                     ,dbus.String(pKey if pKey is not None else "")
@@ -388,8 +425,8 @@ class timekprNotifications(object):
                     self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
                 # we can not send notif through dbus
-                self._timekprLimitsInterface = None
-                self._timekprAttributesInterface = None
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
+                self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
