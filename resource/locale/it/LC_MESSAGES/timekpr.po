@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 18:20+0300\n"
-"PO-Revision-Date: 2019-04-29 18:20+0300\n"
+"POT-Creation-Date: 2020-04-15 13:28+0300\n"
+"PO-Revision-Date: 2020-04-15 14:47+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language: it_IT\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2019-04-29 07:40+0000\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __:1,2\n"
@@ -242,18 +242,18 @@ msgstr ""
 #: common/constants/messages.py:81
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not passed"
-msgstr "iI permesso mensile dell'utente \"%% i\" non e' passato"
+msgstr "Il permesso mensile dell'utente \"%%s\" non e' passato"
 
 #: common/constants/messages.py:82
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not correct"
-msgstr "Il permesso mensile dell'utente \"%% i\" non è corretto"
+msgstr "Il permesso mensile dell'utente \"%%s\" non è corretto"
 
 #: common/constants/messages.py:83
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
 msgstr ""
-"Il permesso mensile dell'utente \"%% i\"non è corretto e non può essere "
+"Il permesso mensile dell'utente \"%%s\"non è corretto e non può essere "
 "impostato"
 
 #: common/constants/messages.py:84
@@ -266,47 +266,47 @@ msgstr ""
 #: common/constants/messages.py:85
 #, python-format
 msgid "User's \"%%s\" set time limit is not correct"
-msgstr "Il tempo limite impostato dall'utente \"%% i\" non è corretto"
+msgstr "Il tempo limite impostato dall'utente \"%%s\" non è corretto"
 
 #: common/constants/messages.py:86
 #, python-format
 msgid "User's \"%%s\" set time limit is not correct and can not be set"
 msgstr ""
-"Il tempo limite impostato dall'utente \"%% i\" non è corretto e non può "
+"Il tempo limite impostato dall'utente \"%%s\" non è corretto e non può "
 "essere impostato"
 
 #: common/constants/messages.py:87
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not passed"
-msgstr "La traccia inattiva  dell'utente \"%% i\"non e' passata"
+msgstr "La traccia inattiva  dell'utente \"%%s\"non e' passata"
 
 #: common/constants/messages.py:88
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct"
-msgstr "La traccia inattiva  dell'utente \"%% i\"non e' passata"
+msgstr "La traccia inattiva  dell'utente \"%%s\"non e' passata"
 
 #: common/constants/messages.py:89
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
 msgstr ""
-"Il contrassegno inattivo della traccia dell'utente\"%% i\" non è corretto e "
+"Il contrassegno inattivo della traccia dell'utente\"%%s\" non è corretto e "
 "non può essere impostato"
 
 #: common/constants/messages.py:90
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not passed"
-msgstr "Il permesso settimanale dell'utente\"%% i\" non viene superato"
+msgstr "Il permesso settimanale dell'utente\"%%s\" non viene superato"
 
 #: common/constants/messages.py:91
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct"
-msgstr "Il permesso settimanale dell'utente \"%% i\" non è corretto"
+msgstr "Il permesso settimanale dell'utente \"%%s\" non è corretto"
 
 #: common/constants/messages.py:92
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
 msgstr ""
-"Il permesso settimanale dell'utente\"%% i\" non è corretto e non può essere "
+"Il permesso settimanale dell'utente\"%%s\" non è corretto e non può essere "
 "impostato"
 
 #. TRANSLATORS: this message must be 80 symbols long at max
@@ -362,17 +362,17 @@ msgstr ""
 #: common/constants/messages.py:107
 #, python-format
 msgid "User \"%%s\" configuration is not found"
-msgstr "La configurazione dell'utente \"%% i\" non è stata trovata"
+msgstr "La configurazione dell'utente \"%%s\" non è stata trovata"
 
 #: common/constants/messages.py:108
 #, python-format
 msgid "User \"%%s\" control file is not found"
-msgstr "Il file di controllo dell'utente \"%% i\" non è stato trovato"
+msgstr "Il file di controllo dell'utente \"%%s\" non è stato trovato"
 
 #: common/constants/messages.py:109
 #, python-format
 msgid "User \"%%s\" is not found"
-msgstr "L'utente \"%% i\" non è stato trovato"
+msgstr "L'utente \"%%s\" non è stato trovato"
 
 #: common/constants/messages.py:112
 msgid "Connected"
@@ -627,20 +627,37 @@ msgid_plural "%(n)s seconds left"
 msgstr[0] "%(n)s secondo rimasto"
 msgstr[1] "%(n)s secondi rimasto"
 
-#: common/constants/messages.py:184
+#: common/constants/messages.py:182
+#, python-format
+msgid ""
+"Feature \"%%s\", which is used to detect idle time, can not be enabled!\n"
+"Idle / inactive time might not be accounted when screen is locked!"
+msgstr ""
+"La funzione \"%%s\", utilizzata per rilevare i tempi di inattività, non può "
+"essere abilitata!\n"
+"Il tempo di inattività / inattivo potrebbe non essere preso in "
+"considerazione quando lo schermo è bloccato!"
+
+#: common/constants/messages.py:185
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "ERRORE INASPETTATO: %%s"
 
-#: common/constants/messages.py:185
+#: common/constants/messages.py:186
+#, python-format
+msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
+msgstr ""
+"ERRORE DI ANALISI DEI PARAMETRI (verificare la validità dei parametri): %%s"
+
+#: common/constants/messages.py:187
 msgid "Command FAILED: access denied"
 msgstr "Comando NON RIUSCITO: accesso negato"
 
-#: common/constants/messages.py:186
+#: common/constants/messages.py:188
 msgid "Command FAILED: communication was not accepted"
 msgstr "Comando NON RIUSCITO: la comunicazione non è stata accettata"
 
-#: common/constants/messages.py:187
+#: common/constants/messages.py:189
 msgid "n/a"
 msgstr "n/a"
 
@@ -1167,7 +1184,7 @@ msgstr "Controllo degli elementi di tracciamento di Timekpr-nExT"
 msgid "Tracked Sessions"
 msgstr "Sessioni monitorate"
 
-#: resource/client/forms/admin.glade:2145
+#: resource/client/forms/admin.glade:2147
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1177,23 +1194,23 @@ msgstr ""
 "Per favore, non cambiare o sperimentare con questo a meno che tu in realtà "
 "(non lo voglia) sappia cosa stai facendo."
 
-#: resource/client/forms/admin.glade:2166
+#: resource/client/forms/admin.glade:2168
 msgid "Enter session type to be tracked"
 msgstr "Inserisci il tipo di sessione da tracciare"
 
-#: resource/client/forms/admin.glade:2190
+#: resource/client/forms/admin.glade:2192
 msgid "Add tracked session type to the list"
 msgstr "Aggiungi il tipo di sessione tracciato alla lista"
 
-#: resource/client/forms/admin.glade:2206
+#: resource/client/forms/admin.glade:2208
 msgid "Remove tracked session type from the list"
 msgstr "Rimuovi il tipo di sessione tracciato dall'elenco"
 
-#: resource/client/forms/admin.glade:2243
+#: resource/client/forms/admin.glade:2245
 msgid "Excluded Sessions"
 msgstr "Sessioni escluse"
 
-#: resource/client/forms/admin.glade:2265
+#: resource/client/forms/admin.glade:2269
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1203,23 +1220,23 @@ msgstr ""
 "Per favore, non cambiare o sperimentare con questo a meno che tu in realtà "
 "(non lo voglia) sappia cosa stai facendo."
 
-#: resource/client/forms/admin.glade:2286
+#: resource/client/forms/admin.glade:2290
 msgid "Enter session type to be excluded from tracking"
 msgstr "Inserisci il tipo di sessione da escludere dal monitoraggio"
 
-#: resource/client/forms/admin.glade:2310
+#: resource/client/forms/admin.glade:2314
 msgid "Add excluded session type to the list"
 msgstr "Aggiungi il tipo di sessione esclusa all'elenco"
 
-#: resource/client/forms/admin.glade:2326
+#: resource/client/forms/admin.glade:2330
 msgid "Remove excluded session type from the list"
 msgstr "Rimuovi il tipo di sessione esclusa dall'elenco"
 
-#: resource/client/forms/admin.glade:2363
+#: resource/client/forms/admin.glade:2367
 msgid "Excluded Users"
 msgstr "Utenti esclusi"
 
-#: resource/client/forms/admin.glade:2385
+#: resource/client/forms/admin.glade:2391
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames, not real names here (e.g please specify "
@@ -1229,36 +1246,36 @@ msgstr ""
 "Si prega di specificare usernames reali e non nomi reali qui (ad es. si "
 "prega di specificare jsmith, non John Smith)"
 
-#: resource/client/forms/admin.glade:2406
+#: resource/client/forms/admin.glade:2412
 msgid "Enter username to be excluded from tracking"
 msgstr "Inserisci il nome utente da escludere dal monitoraggio"
 
-#: resource/client/forms/admin.glade:2430
+#: resource/client/forms/admin.glade:2436
 msgid "Add user to the exclusion list"
 msgstr "Aggiungi utente all'elenco di esclusione"
 
-#: resource/client/forms/admin.glade:2446
+#: resource/client/forms/admin.glade:2452
 msgid "Remove user from the exclusion list"
 msgstr "Rimuovi utente dall'elenco di esclusione"
 
-#: resource/client/forms/admin.glade:2493
+#: resource/client/forms/admin.glade:2499
 msgid "Apply Timekpr-nExT setings"
 msgstr "Applicare le impostazioni di Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2498
+#: resource/client/forms/admin.glade:2504
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Applica tutte le impostazioni di Timekpr-nExT contemporaneamente"
 
-#: resource/client/forms/admin.glade:2518
+#: resource/client/forms/admin.glade:2524
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Configurazione dell'amministrazione di Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2519
+#: resource/client/forms/admin.glade:2525
 msgid "Timekpr-nExT Configuration"
 msgstr "Configurazione Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2548
-#: resource/client/forms/admin.glade:2567
+#: resource/client/forms/admin.glade:2554
+#: resource/client/forms/admin.glade:2573
 msgid "Status of Timekpr-nExT admin client"
 msgstr "Stato del client di amministrazione Timekpr-nExT"
 

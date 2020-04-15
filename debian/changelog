@@ -1,3 +1,10 @@
+timekpr-next (0.3.3~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Warn user if screensaver feature is not available for screen idle time detection
+  ** adjust translations as well
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2020 11:02:31 +0300
+
 timekpr-next (0.3.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Introduced functionality to limit retries to screensaver for DEs that are not compatible with freedesktop or gnome screensaver interface

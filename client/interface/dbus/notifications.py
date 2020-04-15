@@ -225,6 +225,12 @@ class timekprNotifications(object):
         if doRetry:
             # if either of this fails, we keep trying to connect
             GLib.timeout_add_seconds(cons.TK_POLLTIME, self.initClientConnections)
+        # prepare notifications in case smth is not ok
+        else:
+            # let's inform user in case screensaver is not connected
+            if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None:
+                # prepare notification
+                self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, cons.TK_PRIO_IMPORTANT_INFO, pAdditionalMessage=self.CL_CONN_SCR)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initClientConnections")
 
@@ -272,6 +278,9 @@ class timekprNotifications(object):
         elif pMsgCode == cons.TK_MSG_CODE_ICON_INIT_ERROR:
             # msg
             msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_CANNOT_INIT_ICON") % (pAdditionalMessage)
+        elif pMsgCode == cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR:
+            # msg
+            msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_SCR_FEATURE_NOT_AVAILABLE") % (pAdditionalMessage)
 
         # save notification ID
         notifId = self._criticalNotif
