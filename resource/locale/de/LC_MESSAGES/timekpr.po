@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 18:20+0300\n"
-"PO-Revision-Date: 2019-04-29 18:51+0300\n"
+"POT-Creation-Date: 2020-04-15 13:28+0300\n"
+"PO-Revision-Date: 2020-04-15 14:51+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Ulle <punkt.punkt@o2online.de>\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2019-04-28 19:13+0000\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __:1,2\n"
@@ -626,20 +626,38 @@ msgid_plural "%(n)s seconds left"
 msgstr[0] "noch %(n)s Sekunde"
 msgstr[1] "noch %(n)s Sekunden"
 
-#: common/constants/messages.py:184
+#: common/constants/messages.py:182
+#, python-format
+msgid ""
+"Feature \"%%s\", which is used to detect idle time, can not be enabled!\n"
+"Idle / inactive time might not be accounted when screen is locked!"
+msgstr ""
+"Die Funktion \"%%s\", mit der die Leerlaufzeit erkannt wird, kann nicht "
+"aktiviert werden!\n"
+"Leerlauf- / Inaktivitätszeit wird möglicherweise nicht berücksichtigt, wenn "
+"der Bildschirm gesperrt ist!"
+
+#: common/constants/messages.py:185
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "Unerwarteter Fehler: %%s"
 
-#: common/constants/messages.py:185
+#: common/constants/messages.py:186
+#, python-format
+msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
+msgstr ""
+"PARAMETERANALYSEFEHLER (bitte überprüfen Sie die Gültigkeit der Parameter): "
+"%%s"
+
+#: common/constants/messages.py:187
 msgid "Command FAILED: access denied"
 msgstr "Kommando fehlgeschlagen: Zugriff verweigert"
 
-#: common/constants/messages.py:186
+#: common/constants/messages.py:188
 msgid "Command FAILED: communication was not accepted"
 msgstr "Kommando fehlgeschlagen: Kommunikation wurde nicht angenommen"
 
-#: common/constants/messages.py:187
+#: common/constants/messages.py:189
 msgid "n/a"
 msgstr "nicht verfügbar"
 
@@ -1164,7 +1182,7 @@ msgstr "Verwalten der von Timekpr-nExT überwachten Zustände"
 msgid "Tracked Sessions"
 msgstr "Überwachte Sitzungen"
 
-#: resource/client/forms/admin.glade:2145
+#: resource/client/forms/admin.glade:2147
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1174,23 +1192,23 @@ msgstr ""
 "Bitten nicht ändern oder damit herumprobieren, außer Sie wissen genau was "
 "sie damit verändern."
 
-#: resource/client/forms/admin.glade:2166
+#: resource/client/forms/admin.glade:2168
 msgid "Enter session type to be tracked"
 msgstr "Überwachten Sitzungs-Typ eingeben"
 
-#: resource/client/forms/admin.glade:2190
+#: resource/client/forms/admin.glade:2192
 msgid "Add tracked session type to the list"
 msgstr "Überwachten Sitzungs-Typ zur Liste hinzufügen"
 
-#: resource/client/forms/admin.glade:2206
+#: resource/client/forms/admin.glade:2208
 msgid "Remove tracked session type from the list"
 msgstr "Überwachten Sitzungs-Typ von der Liste entfernen"
 
-#: resource/client/forms/admin.glade:2243
+#: resource/client/forms/admin.glade:2245
 msgid "Excluded Sessions"
 msgstr "Nicht überwachte Sitzungs-Typen"
 
-#: resource/client/forms/admin.glade:2265
+#: resource/client/forms/admin.glade:2269
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1200,23 +1218,23 @@ msgstr ""
 "Bitten nicht ändern oder damit herumprobieren, außer Sie wissen genau was "
 "sie damit verändern."
 
-#: resource/client/forms/admin.glade:2286
+#: resource/client/forms/admin.glade:2290
 msgid "Enter session type to be excluded from tracking"
 msgstr "Sitzungs-Typ, der nicht überwacht werden soll, eingeben"
 
-#: resource/client/forms/admin.glade:2310
+#: resource/client/forms/admin.glade:2314
 msgid "Add excluded session type to the list"
 msgstr "Sitzungs-Typ, der nicht überwacht werden soll, zur Liste hinzufügen"
 
-#: resource/client/forms/admin.glade:2326
+#: resource/client/forms/admin.glade:2330
 msgid "Remove excluded session type from the list"
 msgstr "Sitzungs-Typ, der nicht überwacht werden soll, von der Liste entfernen"
 
-#: resource/client/forms/admin.glade:2363
+#: resource/client/forms/admin.glade:2367
 msgid "Excluded Users"
 msgstr "Nicht überwachte Benutzer"
 
-#: resource/client/forms/admin.glade:2385
+#: resource/client/forms/admin.glade:2391
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames, not real names here (e.g please specify "
@@ -1226,36 +1244,36 @@ msgstr ""
 "Bitte die vom System verwendeten Benutzernamen statt Vorname/Nachname "
 "eingeben (bspw. mmustermann statt Max Mustermann)"
 
-#: resource/client/forms/admin.glade:2406
+#: resource/client/forms/admin.glade:2412
 msgid "Enter username to be excluded from tracking"
 msgstr "Benutzername des nicht zu überwachenden Benutzers eingeben"
 
-#: resource/client/forms/admin.glade:2430
+#: resource/client/forms/admin.glade:2436
 msgid "Add user to the exclusion list"
 msgstr "Benutzer zur Ausschluss-Liste hinzufügen"
 
-#: resource/client/forms/admin.glade:2446
+#: resource/client/forms/admin.glade:2452
 msgid "Remove user from the exclusion list"
 msgstr "Benutzer von der Ausschluss-Liste entfernen"
 
-#: resource/client/forms/admin.glade:2493
+#: resource/client/forms/admin.glade:2499
 msgid "Apply Timekpr-nExT setings"
 msgstr "Anwenden der Timekpr-nExT Einstellungen"
 
-#: resource/client/forms/admin.glade:2498
+#: resource/client/forms/admin.glade:2504
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Anwenden aller Timekpr-nExT Einstellungen auf einmal"
 
-#: resource/client/forms/admin.glade:2518
+#: resource/client/forms/admin.glade:2524
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Konfigurieren, wie Timekpr-nExT arbeiten soll (Administration)"
 
-#: resource/client/forms/admin.glade:2519
+#: resource/client/forms/admin.glade:2525
 msgid "Timekpr-nExT Configuration"
 msgstr "Timekpr-nExT-Konfiguration"
 
-#: resource/client/forms/admin.glade:2548
-#: resource/client/forms/admin.glade:2567
+#: resource/client/forms/admin.glade:2554
+#: resource/client/forms/admin.glade:2573
 msgid "Status of Timekpr-nExT admin client"
 msgstr "Status des Timekpr-nExT Admin Client"
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2019-04-29 18:18+0300\n"
-"PO-Revision-Date: 2019-04-29 18:19+0300\n"
+"POT-Creation-Date: 2020-04-15 13:28+0300\n"
+"PO-Revision-Date: 2020-04-15 13:45+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language: lv_LV\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2019-04-28 19:13+0000\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "==> uzstāda laika ierobežojumu mēnesim, piemērs"
 
 #: common/constants/messages.py:39
 msgid "==> set whether to track inactive user sessions, example"
-msgstr "==> uzstāda neaktīvo sesisiju uzskaites pazīmi, piemērs"
+msgstr "==> uzstāda neaktīvo sesiju uzskaites pazīmi, piemērs"
 
 #: common/constants/messages.py:40
 msgid ""
@@ -245,48 +245,49 @@ msgstr ""
 #, python-format
 msgid "User's \"%%s\" set time operation can be one of these: -+="
 msgstr ""
-"User's \"%%s\" pieļaujamā laika operācija varbūt viena no sekojošām: -+="
+"Lietotāja \"%%s\" pieļaujamā laika operācija varbūt viena no sekojošām: -+="
 
 #: common/constants/messages.py:85
 #, python-format
 msgid "User's \"%%s\" set time limit is not correct"
-msgstr "User's \"%%s\" pieļaujamā laika ierobežojums nav korekts"
+msgstr "Lietotāja \"%%s\" pieļaujamā laika ierobežojums nav korekts"
 
 #: common/constants/messages.py:86
 #, python-format
 msgid "User's \"%%s\" set time limit is not correct and can not be set"
-msgstr "User's \"%%s\" pieļaujamā laika ierobežojums nav korekts un uzstādāms"
+msgstr ""
+"Lietotāja \"%%s\" pieļaujamā laika ierobežojums nav korekts un uzstādāms"
 
 #: common/constants/messages.py:87
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not passed"
-msgstr "User's \"%%s\" neaktīvo sesiju uzskaites vērtība nav padota"
+msgstr "Lietotāja \"%%s\" neaktīvo sesiju uzskaites vērtība nav padota"
 
 #: common/constants/messages.py:88
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct"
-msgstr "User's \"%%s\" neaktīvo sesiju uzskaites vērtība nav korekta"
+msgstr "Lietotāja \"%%s\" neaktīvo sesiju uzskaites vērtība nav korekta"
 
 #: common/constants/messages.py:89
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
 msgstr ""
-"User's \"%%s\" neaktīvo sesiju uzskaites vērtība nav korekta un uzstādāma"
+"Lietotāja \"%%s\" neaktīvo sesiju uzskaites vērtība nav korekta un uzstādāma"
 
 #: common/constants/messages.py:90
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not passed"
-msgstr "User's \"%%s\" mēneša laika ierobežojums nav padots"
+msgstr "Lietotāja \"%%s\" mēneša laika ierobežojums nav padots"
 
 #: common/constants/messages.py:91
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct"
-msgstr "User's \"%%s\" mēneša laika ierobežojums nav korekts"
+msgstr "Lietotāja \"%%s\" mēneša laika ierobežojums nav korekts"
 
 #: common/constants/messages.py:92
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
-msgstr "User's \"%%s\" mēneša laika ierobežojums nav korekts un uzstādāms"
+msgstr "Lietotāja \"%%s\" mēneša laika ierobežojums nav korekts un uzstādāms"
 
 #. TRANSLATORS: this message must be 80 symbols long at max
 #: common/constants/messages.py:96
@@ -605,20 +606,38 @@ msgstr[0] "%(n)s sekunde"
 msgstr[1] "%(n)s sekundes"
 msgstr[2] "%(n)s sekundes"
 
-#: common/constants/messages.py:184
+#: common/constants/messages.py:182
+#, python-format
+msgid ""
+"Feature \"%%s\", which is used to detect idle time, can not be enabled!\n"
+"Idle / inactive time might not be accounted when screen is locked!"
+msgstr ""
+"Paplašinājumu \"%%s\", kas tiek izmantots, lai noteiktu vai dators tiek "
+"izmantots, nav iespējams ieslēgt!\n"
+"Dīkstāves laiks var netikt uzskaitīts korekti, gadījumos, ja ekrāns tiek "
+"bloķēts!"
+
+#: common/constants/messages.py:185
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "NEPAREDZĒTA KĻŪDA: %%s"
 
-#: common/constants/messages.py:185
+#: common/constants/messages.py:186
+#, python-format
+msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
+msgstr ""
+"PARAMETRU PĀRBAUDES KĻŪDA (lūdzu pārbaudīt, vai parametrs norādīts korekti): "
+"%%s"
+
+#: common/constants/messages.py:187
 msgid "Command FAILED: access denied"
 msgstr "Komanda NEIZDEVĀS: pieeja liegta"
 
-#: common/constants/messages.py:186
+#: common/constants/messages.py:188
 msgid "Command FAILED: communication was not accepted"
 msgstr "Komanda NEIZDEVĀS: komunikācija nav atļauta"
 
-#: common/constants/messages.py:187
+#: common/constants/messages.py:189
 msgid "n/a"
 msgstr "n/a"
 
@@ -795,7 +814,7 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:662
 msgid "Amount:"
-msgstr "Daudzums"
+msgstr "Daudzums:"
 
 #: resource/client/forms/admin.glade:687 resource/client/forms/admin.glade:1027
 #: resource/client/forms/admin.glade:1250
@@ -1147,7 +1166,7 @@ msgstr "Pārvaldīt Timekpr-nExT uzskaitāmos lielumus"
 msgid "Tracked Sessions"
 msgstr "Uzskaitāmās sesijas"
 
-#: resource/client/forms/admin.glade:2145
+#: resource/client/forms/admin.glade:2147
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1157,23 +1176,23 @@ msgstr ""
 "Lūdzu nemainīt vai neeksperimentēt ar šo sarakstu, ja Jums nav pietiekoši "
 "zināšanu, lai saprastu ko tas nozīmē."
 
-#: resource/client/forms/admin.glade:2166
+#: resource/client/forms/admin.glade:2168
 msgid "Enter session type to be tracked"
 msgstr "Ievadiet uzskaitāmo sesiju tipu"
 
-#: resource/client/forms/admin.glade:2190
+#: resource/client/forms/admin.glade:2192
 msgid "Add tracked session type to the list"
 msgstr "Pievienot uzskaitīto sesiju tipu sarakstam"
 
-#: resource/client/forms/admin.glade:2206
+#: resource/client/forms/admin.glade:2208
 msgid "Remove tracked session type from the list"
 msgstr "Dzēst uzskaitīto sesiju tipu no saraksta"
 
-#: resource/client/forms/admin.glade:2243
+#: resource/client/forms/admin.glade:2245
 msgid "Excluded Sessions"
 msgstr "Neuzskaitāmās sesijas"
 
-#: resource/client/forms/admin.glade:2265
+#: resource/client/forms/admin.glade:2269
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1184,23 +1203,23 @@ msgstr ""
 "Lūdzu nemainīt vai neeksperimentēt ar šo sarakstu, ja Jums nav pietiekoši "
 "zināšanu, lai saprastu ko tas nozīmē."
 
-#: resource/client/forms/admin.glade:2286
+#: resource/client/forms/admin.glade:2290
 msgid "Enter session type to be excluded from tracking"
 msgstr "Ievadiet neuzskaitāmo sesiju tipu"
 
-#: resource/client/forms/admin.glade:2310
+#: resource/client/forms/admin.glade:2314
 msgid "Add excluded session type to the list"
 msgstr "Pievienot neuzskaitīto sesiju tipu sarakstam"
 
-#: resource/client/forms/admin.glade:2326
+#: resource/client/forms/admin.glade:2330
 msgid "Remove excluded session type from the list"
 msgstr "Dzēst neuzskaitīto sesiju tipu no saraksta"
 
-#: resource/client/forms/admin.glade:2363
+#: resource/client/forms/admin.glade:2367
 msgid "Excluded Users"
 msgstr "Neuzskaitāmie lietotāji"
 
-#: resource/client/forms/admin.glade:2385
+#: resource/client/forms/admin.glade:2391
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames, not real names here (e.g please specify "
@@ -1211,36 +1230,36 @@ msgstr ""
 "Lūdzu norādīt faktiskos lietotājvārdus nevis vārdus (piem.: lūdzu norādīt "
 "jsmith, nevis John Smith)"
 
-#: resource/client/forms/admin.glade:2406
+#: resource/client/forms/admin.glade:2412
 msgid "Enter username to be excluded from tracking"
 msgstr "Ievadiet lietotājvārdu kura patērētais laiks netiek uzskaitīts"
 
-#: resource/client/forms/admin.glade:2430
+#: resource/client/forms/admin.glade:2436
 msgid "Add user to the exclusion list"
 msgstr "Pievienot lietotāju neuzskaitīto lietotāju sarakstam"
 
-#: resource/client/forms/admin.glade:2446
+#: resource/client/forms/admin.glade:2452
 msgid "Remove user from the exclusion list"
 msgstr "Dzēst lietotāju no neuzskaitīto lietotāju saraksta"
 
-#: resource/client/forms/admin.glade:2493
+#: resource/client/forms/admin.glade:2499
 msgid "Apply Timekpr-nExT setings"
 msgstr "Iespējot Timekpr-nExT uzstādījumus"
 
-#: resource/client/forms/admin.glade:2498
+#: resource/client/forms/admin.glade:2504
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Iespējot visus Timekpr-nExT uzstādījumus vienlaicīgi"
 
-#: resource/client/forms/admin.glade:2518
+#: resource/client/forms/admin.glade:2524
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Timekpr-nExT pārvaldības iestatījumi"
 
-#: resource/client/forms/admin.glade:2519
+#: resource/client/forms/admin.glade:2525
 msgid "Timekpr-nExT Configuration"
 msgstr "Timekpr-nExT pārvaldība"
 
-#: resource/client/forms/admin.glade:2548
-#: resource/client/forms/admin.glade:2567
+#: resource/client/forms/admin.glade:2554
+#: resource/client/forms/admin.glade:2573
 msgid "Status of Timekpr-nExT admin client"
 msgstr "Timekpr-nExT pārvaldības aplikācijas statuss"
 

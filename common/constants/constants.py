@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.3.2"
+TK_VERSION = "0.3.3"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -293,3 +293,4 @@ TK_MSG_CODE_TIMECONFIGCHANGED = "TIME_CONFIG_CHANGED"
 TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR = "TIMEKPR_REMOTE_COMMUNICATION_ERROR"
 TK_MSG_CODE_REMOTE_INVOCATION_ERROR = "TIMEKPR_REMOTE_INVOCATION_ERROR"
 TK_MSG_CODE_ICON_INIT_ERROR = "TIMEKPR_ICON_INIT_ERROR"
+TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR = "TIMEKPR_SCR_FEATURE_NOT_AVAILABLE_ERROR"
