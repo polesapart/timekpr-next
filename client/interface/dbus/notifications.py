@@ -117,21 +117,33 @@ class timekprNotifications(object):
             iPaths = []
             chosenIdx = None
 
+            # THIS WHOLE SECTION IS WORKAROUNDS FOR MULTIPLE VARIETIES OF SCREENSAVER IMPLEMENTATIONS - START
+            # they must be compatible to freedekstop standard, e.g. have corect naming and at least GetActive method
+
+            # get current DE
+            currentDE = os.getenv("XDG_CURRENT_DESKTOP", "SUPERDESKTOP").upper()
             # workarounds per desktop
-            for rDesk in cons.TK_SCR_XDGCD_OVERRIDE:
-                if rDesk in os.getenv("XDG_CURRENT_DESKTOP", "SUPERDESKTOP").upper():
-                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: using gnome screensaver dbus interface as a workaround")
+            for rIdx in range(0, len(cons.TK_SCR_XDGCD_OVERRIDE)):
+                # check desktops
+                if cons.TK_SCR_XDGCD_OVERRIDE[rIdx][0] in currentDE:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: using %s screensaver dbus interface as a workaround" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1]))
                     # use gnome stuff
-                    iNames.extend(["org.gnome.ScreenSaver"])
-                    iPaths.extend(["/org/gnome/ScreenSaver"])
+                    iNames.extend(["org.%s.ScreenSaver" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1])])
+                    iPaths.extend(["/org/%s/ScreenSaver" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1])])
                     # first match is enough
                     break
 
-            # if there are no workarounds add default section, the preference is freedesktop standard, the rest is added in case standard can not be used
-            if len(iNames) < 1:
+            # add default section with the actual standard
+            iNames.extend(["org.freedesktop.ScreenSaver"])
+            iPaths.extend(["/org/freedesktop/ScreenSaver"])
+
+            # if only freedesktop is in the list, try one more fallback to gnome
+            if len(iNames) < 2:
                 # add default section
-                iNames.extend(["org.freedesktop.ScreenSaver", "org.gnome.ScreenSaver"])
-                iPaths.extend(["/org/freedesktop/ScreenSaver", "/org/gnome/ScreenSaver"])
+                iNames.extend(["org.gnome.ScreenSaver"])
+                iPaths.extend(["/org/gnome/ScreenSaver"])
+
+            # THIS WHOLE SECTION IS WORKAROUNDS FOR MULTIPLE VARIETIES OF SCREENSAVER IMPLEMENTATIONS - END
 
             # go through inames
             for idx in range(0, len(iNames)):
@@ -159,7 +171,7 @@ class timekprNotifications(object):
             # connection successful
             if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is not None:
                 # log
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s interface" % (self.CL_CONN_SCR))
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s (%s) interface" % (self.CL_CONN_SCR, iNames[chosenIdx]))
                 # add a connection to signal
                 self._dbusConnections[self.CL_CONN_SCR][self.CL_SI] = self._userSessionBus.add_signal_receiver(
                      path             = iPaths[chosenIdx]
@@ -230,7 +242,7 @@ class timekprNotifications(object):
             # let's inform user in case screensaver is not connected
             if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None:
                 # prepare notification
-                self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, cons.TK_PRIO_IMPORTANT_INFO, pAdditionalMessage=self.CL_CONN_SCR)
+                self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, cons.TK_PRIO_WARNING, pAdditionalMessage=self.CL_CONN_SCR)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initClientConnections")
 
