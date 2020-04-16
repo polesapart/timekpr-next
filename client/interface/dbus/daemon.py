@@ -106,8 +106,6 @@ class timekprClient(object):
             if result:
                 # get limits
                 self._timekprClientIndicator.requestTimeLimits()
-                # wait a little between limits and left
-                time.sleep(0.1)
                 # get left
                 self._timekprClientIndicator.requestTimeLeft()
 
