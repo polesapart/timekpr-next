@@ -1,3 +1,10 @@
+timekpr-next-beta (0.3.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Improved login manager detection for non-standard names
+  * Added a previously forgotten Hungarian language to installation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 17 Apr 2020 09:56:07 +0300
+
 timekpr-next-beta (0.3.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Added more screensaver workarounds for implementations for major DEs
