@@ -8,6 +8,7 @@ Created on Aug 28, 2018
 from datetime import datetime, timedelta
 import random
 import string
+import math
 
 # timekpr imports
 from timekpr.common.log import log
@@ -584,7 +585,7 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_SCR_R] += 1
 
         # revalidate only when time has come
-        if self._timekprUserData[cons.TK_CTRL_SCR_R] >= cons.TK_MAX_RETRIES:
+        if self._timekprUserData[cons.TK_CTRL_SCR_R] >= math.ceil(cons.TK_MAX_RETRIES / 2):
             # screensaver
             # revalidate only if active (that influences time accounting)
             if self._timekprUserData[cons.TK_CTRL_SCR_N]:

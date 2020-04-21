@@ -1,3 +1,12 @@
+timekpr-next-beta (0.3.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added support for LockedHint to determine whether session is locked
+  ** requires systemd >= 230, e.g. Ubuntu 18.04 at least
+  ** this is in addition to client screensaver detection, but less used (e.g. KDE does not use this)
+  * Exclude closing and lingering sessions from being considered as active when tracking inactive sessions is enabled
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 21 Apr 2020 23:19:42 +0300
+
 timekpr-next-beta (0.3.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Improved login manager detection for non-standard names
