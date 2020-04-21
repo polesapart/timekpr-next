@@ -241,7 +241,7 @@ class timekprUserLoginManager(object):
         if sessionsToKill > 0:
             # before this, try to switch TTY again (somehow sometimes it's not switched)
             self.switchTTY(lastSeat, "999")
-            # schedule leftover processes to be killed
+            # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
             GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pSessionTypes)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")
