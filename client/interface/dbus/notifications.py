@@ -65,6 +65,13 @@ class timekprNotifications(object):
             self.CL_CONN_SCR: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 5, self.CL_DEL: 1}
         }
 
+        # WORKAROUNDS section start
+        # adjust even bigger delay with unity + 18.04 + HDD
+        if "UNITY" in os.getenv("XDG_CURRENT_DESKTOP", "SUPERDESKTOP").upper():
+            # more delay, race condition with screensaver?
+            self._dbusConnections[self.CL_CONN_SCR][self.CL_DEL] += cons.TK_POLLTIME - 1
+        # WORKAROUNDS section end
+
         # speech init
         self._timekprSpeechManager = None
 
