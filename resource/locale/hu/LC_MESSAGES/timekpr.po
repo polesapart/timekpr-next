@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2019-04-29 18:16+0300\n"
-"PO-Revision-Date: 2020-01-12 15:33+0200\n"
-"Last-Translator: Roland <Unknown>\n"
+"POT-Creation-Date: 2020-04-15 13:28+0300\n"
+"PO-Revision-Date: 2020-04-15 14:17+0300\n"
+"Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2020-01-12 13:28+0000\n"
-"X-Generator: Poedit 2.2.4\n"
-"Language: hu\n"
+"X-Generator: Poedit 2.3\n"
 
 #: common/constants/messages.py:31
 msgid "==> print help, example"
@@ -615,20 +615,36 @@ msgid_plural "%(n)s seconds left"
 msgstr[0] "%(n)s másodperc van hátra"
 msgstr[1] "%(n)s másodperc van hátra"
 
-#: common/constants/messages.py:184
+#: common/constants/messages.py:182
+#, python-format
+msgid ""
+"Feature \"%%s\", which is used to detect idle time, can not be enabled!\n"
+"Idle / inactive time might not be accounted when screen is locked!"
+msgstr ""
+"A tétlen idő észlelésére szolgáló \"%%s\" szolgáltatás nem engedélyezhető!\n"
+"Lehet, hogy a tétlen / inaktív időt nem veszik figyelembe, amikor a képernyő "
+"le van zárva!"
+
+#: common/constants/messages.py:185
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "Váratlan hiba: %%s"
 
-#: common/constants/messages.py:185
+#: common/constants/messages.py:186
+#, python-format
+msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
+msgstr ""
+"PARAMÉTER ELEMZÉSI HIBA (kérjük, ellenőrizze a paraméter érvényességét): %%s"
+
+#: common/constants/messages.py:187
 msgid "Command FAILED: access denied"
 msgstr "A parancs meghiúsult: hozzáférés megtagadva"
 
-#: common/constants/messages.py:186
+#: common/constants/messages.py:188
 msgid "Command FAILED: communication was not accepted"
 msgstr "A parancs meghiúsult: a kommunikációt nem fogadták"
 
-#: common/constants/messages.py:187
+#: common/constants/messages.py:189
 msgid "n/a"
 msgstr "nem elérhető"
 
@@ -1147,7 +1163,7 @@ msgstr "A Timekpr-nExT által felügyelt állapotok kezelése"
 msgid "Tracked Sessions"
 msgstr "Felügyelet munkamenetek"
 
-#: resource/client/forms/admin.glade:2145
+#: resource/client/forms/admin.glade:2147
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1156,23 +1172,23 @@ msgstr ""
 "Felügyelendő munkamenetek típusa.\n"
 "Ezt lehetőleg ne változtassa meg, hacsak nem tudja pontosan, mit csinál."
 
-#: resource/client/forms/admin.glade:2166
+#: resource/client/forms/admin.glade:2168
 msgid "Enter session type to be tracked"
 msgstr "Felügyelt munkamenet-típusok bevitele"
 
-#: resource/client/forms/admin.glade:2190
+#: resource/client/forms/admin.glade:2192
 msgid "Add tracked session type to the list"
 msgstr "Felügyelt munkamenet-típus hozzáadása a listához"
 
-#: resource/client/forms/admin.glade:2206
+#: resource/client/forms/admin.glade:2208
 msgid "Remove tracked session type from the list"
 msgstr "Felügyelt munkamenet-típus eltávolítása a listáról"
 
-#: resource/client/forms/admin.glade:2243
+#: resource/client/forms/admin.glade:2245
 msgid "Excluded Sessions"
 msgstr "Kizárt munkamenetek"
 
-#: resource/client/forms/admin.glade:2265
+#: resource/client/forms/admin.glade:2269
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1181,23 +1197,23 @@ msgstr ""
 "A felügyelet alól kizárt munkamenetek.\n"
 "Ezt lehetőleg ne változtassa meg, hacsak nem tudja pontosan, mit csinál."
 
-#: resource/client/forms/admin.glade:2286
+#: resource/client/forms/admin.glade:2290
 msgid "Enter session type to be excluded from tracking"
 msgstr "Felügyelet alól kizárandó munkamenet típusának bevitele"
 
-#: resource/client/forms/admin.glade:2310
+#: resource/client/forms/admin.glade:2314
 msgid "Add excluded session type to the list"
 msgstr "Kizárt munkamenet típusának hozzáadása a listához"
 
-#: resource/client/forms/admin.glade:2326
+#: resource/client/forms/admin.glade:2330
 msgid "Remove excluded session type from the list"
 msgstr "Kizárt munkamenet típusának eltávolítása a listából"
 
-#: resource/client/forms/admin.glade:2363
+#: resource/client/forms/admin.glade:2367
 msgid "Excluded Users"
 msgstr "Kizárt felhasználók"
 
-#: resource/client/forms/admin.glade:2385
+#: resource/client/forms/admin.glade:2391
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames, not real names here (e.g please specify "
@@ -1207,36 +1223,36 @@ msgstr ""
 "Valós felhasználóneveket kell megadni, nem való neveket (pl. kovacsj, nem "
 "Kovács János)"
 
-#: resource/client/forms/admin.glade:2406
+#: resource/client/forms/admin.glade:2412
 msgid "Enter username to be excluded from tracking"
 msgstr "A felügyelet alól kizárandó felhasználók bevitele"
 
-#: resource/client/forms/admin.glade:2430
+#: resource/client/forms/admin.glade:2436
 msgid "Add user to the exclusion list"
 msgstr "Felhasználó hozzáadása a kizárási listához"
 
-#: resource/client/forms/admin.glade:2446
+#: resource/client/forms/admin.glade:2452
 msgid "Remove user from the exclusion list"
 msgstr "Felhasználó eltávolítása a kizárási listáról"
 
-#: resource/client/forms/admin.glade:2493
+#: resource/client/forms/admin.glade:2499
 msgid "Apply Timekpr-nExT setings"
 msgstr "Timekpr-nExT beállítások alkalmazása"
 
-#: resource/client/forms/admin.glade:2498
+#: resource/client/forms/admin.glade:2504
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Timekpr-nExT beállítások együttes alkalmazása"
 
-#: resource/client/forms/admin.glade:2518
+#: resource/client/forms/admin.glade:2524
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Timekpr-nExT adminisztráció beállítása"
 
-#: resource/client/forms/admin.glade:2519
+#: resource/client/forms/admin.glade:2525
 msgid "Timekpr-nExT Configuration"
 msgstr "Timekpr-nExT beállítások"
 
-#: resource/client/forms/admin.glade:2548
-#: resource/client/forms/admin.glade:2567
+#: resource/client/forms/admin.glade:2554
+#: resource/client/forms/admin.glade:2573
 msgid "Status of Timekpr-nExT admin client"
 msgstr "A Timekpr-nExT admin kliens állapota"
 

@@ -12,6 +12,6 @@ class timekprUserManager(object):
         pass
 
     # check if user is active
-    def isUserActive(self, pSessionTypes, pTrackInactive):
+    def isUserActive(self, pSessionTypes, pTrackInactive, pIsScreenLocked):
         # NOT IMPLEMENTED
         pass

@@ -1,3 +1,52 @@
+timekpr-next (0.3.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added support for LockedHint to determine whether session is locked
+  ** requires systemd >= 230, e.g. Ubuntu 18.04 at least
+  ** this is in addition to client screensaver detection, but less used (e.g. KDE does not use this)
+  * Exclude closing and lingering sessions from being considered as active when tracking inactive sessions is enabled
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 21 Apr 2020 23:19:42 +0300
+
+timekpr-next (0.3.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Improved login manager detection for non-standard names
+  * Added a previously forgotten Hungarian language to installation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 17 Apr 2020 09:56:07 +0300
+
+timekpr-next (0.3.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added more screensaver workarounds for implementations for major DEs
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2020 10:31:32 +0300
+
+timekpr-next (0.3.3~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Warn user if screensaver feature is not available for screen idle time detection
+  ** adjust translations as well
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2020 11:02:31 +0300
+
+timekpr-next (0.3.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Introduced functionality to limit retries to screensaver for DEs that are not compatible with freedesktop or gnome screensaver interface
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2020 16:04:02 +0300
+
+timekpr-next (0.3.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Introduced workarounds section for screensaver dbus interface to use gnome version instead of freedesktop for Unity and Gnome itself
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 13 Apr 2020 16:46:35 +0300
+
+timekpr-next (0.3.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added possibility to determine screen lock status reliably for every DE that exposes screensaver status to DBUS (see below)
+  ** It's implemented in client <-> server fashion using org.freedesktop.ScreenSaver
+  ** but as Gnome3 is "special", I had to implement org.gnome.ScreenSaver as well
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 12 Apr 2020 17:10:06 +0300
+
 timekpr-next (0.2.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Fix time reporting
@@ -68,13 +117,13 @@ timekpr-next (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  We, 5 Jun 2019 20:12:12 +0300
 
-timekpr-next-beta (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * fixed application launcher names for unfortunate Gnome3 users
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 5 Jun 2019 20:12:12 +0300
 
-timekpr-next-beta (0.2.4~ppa1~ubuntu2) UNRELEASED; urgency=medium
+timekpr-next (0.2.4~ppa1~ubuntu2) UNRELEASED; urgency=medium
 
   * localization updates (fixes to translations all over the place, thanks to JP Lord)
   **  updated all other languages with capitalizations
@@ -82,7 +131,7 @@ timekpr-next-beta (0.2.4~ppa1~ubuntu2) UNRELEASED; urgency=medium
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 29 Apr 2019 12:47:46 +0300
 
-timekpr-next-beta (0.2.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * implemented TTY switching functionality for those cases, when login manager sits on different TTY than session itself (this should fix #1823717)
   **  the implementation is as follows: Timekpr-nExT tries to determine on which TTY login manager sits and saves it's TTY number, login managers have their
@@ -93,50 +142,50 @@ timekpr-next-beta (0.2.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 27 Apr 2019 23:26:05 +0300
 
-timekpr-next-beta (0.2.3~ppa1~ubuntu3) UNRELEASED; urgency=medium
+timekpr-next (0.2.3~ppa1~ubuntu3) UNRELEASED; urgency=medium
 
   * fixed a bug in logging when multiple users use machine at the same time (permission problem)
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 27 Apr 2019 17:50:24 +0300
 
-timekpr-next-beta (0.2.3~ppa1~ubuntu2) UNRELEASED; urgency=medium
+timekpr-next (0.2.3~ppa1~ubuntu2) UNRELEASED; urgency=medium
 
   * kill leftover processes for the user which do not originate from session processes
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2019 11:51:41 +0300
 
-timekpr-next-beta (0.2.3~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.3~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * kill inactive sessions as well (up until this point inactive sessions were saved from killing)
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 14 Apr 2019 11:51:41 +0300
 
-timekpr-next-beta (0.2.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.2~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * logging improvements (all client side logs are written to /tmp instead of HOME)
   * tweak to translation credits (if none are supplied)
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 12 Apr 2019 15:58:56 +0200
 
-timekpr-next-beta (0.2.1~ppa1~ubuntu2) UNRELEASED; urgency=medium
+timekpr-next (0.2.1~ppa1~ubuntu2) UNRELEASED; urgency=medium
 
   * packaging fix - we do not need to reference login managers any more
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Apr 2019 18:34:31 +0300
 
-timekpr-next-beta (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * added Italian and German translations
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 8 Apr 2019 8:25:17 +0300
 
-timekpr-next-beta (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * added Italian and German translation
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 8 Apr 2019 12:07:25 +0300
 
-timekpr-next-beta (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * first beta release
 

@@ -250,6 +250,9 @@ class timekprDaemon(dbus.service.Object):
                     # process users
                     GLib.timeout_add_seconds(1, self.killUsers)
 
+            # process actual user session variable validation
+            self._timekprUserList[userName].revalidateUserSessionAttributes()
+
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish checkUsers")
 
     def killUsers(self):
@@ -301,7 +304,7 @@ class timekprDaemon(dbus.service.Object):
             return True
 
     # --------------- DBUS / communication methods --------------- #
-    # --------------- simple user methods accessible by any --------------- #
+    # --------------- simple user time limits methods accessible by any --------------- #
 
     @dbus.service.method(cons.TK_DBUS_USER_LIMITS_INTERFACE, in_signature="s", out_signature="is")
     def requestTimeLimits(self, pUserName):
@@ -333,6 +336,27 @@ class timekprDaemon(dbus.service.Object):
         if pUserName in self._timekprUserList:
             # pass this to actual method
             self._timekprUserList[pUserName].getTimeLeft(True)
+
+            # result
+            result = 0
+            message = ""
+
+        # result
+        return result, message
+
+    # --------------- simple user session attributes accessible by any --------------- #
+
+    @dbus.service.method(cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE, in_signature="ssss", out_signature="is")
+    def processUserSessionAttributes(self, pUserName, pWhat, pKey, pValue):
+        """Request to verify or set user session attributes (returns error in case no user and the like)"""
+        # result
+        result = -1
+        message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USER_NOTFOUND") % (pUserName)
+
+        # check if we have this user
+        if pUserName in self._timekprUserList:
+            # pass this to actual method
+            self._timekprUserList[pUserName].processUserSessionAttributes(pWhat, pKey, pValue)
 
             # result
             result = 0

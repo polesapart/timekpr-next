@@ -77,7 +77,7 @@ class timekprClient(object):
             # process time left notification (notifications should be available in any of the icons, even of not supported)
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_ICON_INIT_ERROR, cons.TK_PRIO_CRITICAL, None, "can not initialize the icon in any way")
 
-        # connect signals to dbus
+        # connect to timekpr etc.
         self.connectTimekprSignalsDBUS()
 
         # init startup notification at default interval
@@ -94,16 +94,23 @@ class timekprClient(object):
 
     def requestInitialTimeValues(self):
         """Request initial config from server"""
+        # whether to process again
+        result = False
+        # check if connected
         if self._notificationFromDBUS is not None:
-            # get limits
-            self._timekprClientIndicator._timekprNotifications.requestTimeLimits()
-            # wait a little between limits and left
-            time.sleep(0.1)
-            # get left
-            self._timekprClientIndicator._timekprNotifications.requestTimeLeft()
-        else:
-            # continue execution while not connected (this is called from glib exec)
-            return True
+            # connect to DBUS for the rest of modules
+            self._timekprClientIndicator.initClientConnections()
+            # request values if connections are made successfully
+            result = self._timekprClientIndicator.isTimekprConnected()
+            # connected?
+            if result:
+                # get limits
+                self._timekprClientIndicator.requestTimeLimits()
+                # get left
+                self._timekprClientIndicator.requestTimeLeft()
+
+        # continue execution while not connected (this is called from glib exec)
+        return not result
 
     # --------------- DBUS / communication methods --------------- #
 
@@ -120,6 +127,13 @@ class timekprClient(object):
 
             # get dbus object
             self._notificationFromDBUS = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS)
+
+            # connect to signal
+            self._sessionAttributeVerificationSignal = self._timekprBus.add_signal_receiver(
+                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
+                ,handler_function = self.reveiveSessionAttributeVerificationRequest
+                ,dbus_interface   = cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE
+                ,signal_name      = "sessionAttributeVerification")
 
             # connect to signal
             self._timeLeftSignal = self._timekprBus.add_signal_receiver(
@@ -176,23 +190,33 @@ class timekprClient(object):
             # set status
             self._timekprClientIndicator.setStatus(msg.getTranslation("TK_MSG_STATUS_CONNECTED"))
 
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "DBUS signals connected")
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "main DBUS signals connected")
 
         except Exception as dbusEx:
             # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
             log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
             log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
-            log.log(cons.TK_LOG_LEVEL_INFO, "failed to connect to timekpr dbus, trying again...")
+            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to timekpr dbus, trying again...")
 
             # did not connect (set connection to None) and schedule for reconnect at default interval
             self._notificationFromDBUS = None
+
+            # connect until successful
             GLib.timeout_add_seconds(cons.TK_POLLTIME, self.connectTimekprSignalsDBUS)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish connectTimekprSignalsDBUS")
 
         # finish
         return False
+
+    # --------------- admininstration / verification methods (from dbus) --------------- #
+
+    def reveiveSessionAttributeVerificationRequest(self, pWhat, pKey):
+        """Receive the signal and process the data"""
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive verification request: %s, %s" % (pWhat, "key"))
+        # resend stuff to server
+        self._timekprClientIndicator.verifySessionAttributes(pWhat, pKey)
 
     # --------------- worker methods (from dbus) --------------- #
 

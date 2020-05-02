@@ -72,10 +72,14 @@ class timekprUserLoginManager(object):
 
         # in case debug
         if not pSilent and log.isDebug():
+            # get all properties
             for key, value in loggedInUsers.items():
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "userid: %s" % (key))
+                # optimize logging
+                uNameLog = "USER: %s" % (key)
+                # values and keys
                 for keyx, valuex in value.items():
-                    log.log(cons.TK_LOG_LEVEL_DEBUG, "    %s: %s" % (keyx, valuex))
+                    uNameLog = "%s, %s: %s" % (uNameLog, keyx, valuex)
+            log.log(cons.TK_LOG_LEVEL_DEBUG, uNameLog)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getUserList") if not pSilent else True
 
@@ -135,9 +139,29 @@ class timekprUserLoginManager(object):
     def determineLoginManagerVT(self, pUserName, pUserPath):
         """Get login manager session VTNr"""
         # if we did not yet find a login manager VTNr
-        if self._loginManagerVTNr is None and self._loginManagerVTNrRetries < cons.TK_VTNR_MAX_RETRIES:
+        if self._loginManagerVTNr is None and self._loginManagerVTNrRetries < cons.TK_MAX_RETRIES:
+            # def
+            loginManager = None
+            # loop through login managers
+            for rLMan in cons.TK_USERS_LOGIN_MANAGERS.split(";"):
+                # since we are checking this with UID less than 1K (or whatever is configured in limits file)
+                # we can safely compare usernames or try to use LIKE operator on user name
+                # exact match
+                if rLMan == pUserName:
+                    # we found one
+                    loginManager = pUserName
+                else:
+                    # try to determine if we found one (according to "3.278 Portable Filename Character Set" additional symbols are ._-)
+                    for rSymb in (".", "_", "-"):
+                        # check for name
+                        if "%s%s" % (rSymb, rLMan) in pUserName or "%s%s%s" % (rSymb, rLMan, rSymb) in pUserName or "%s%s" % (rLMan, rSymb) in pUserName:
+                            # we found one
+                            loginManager = pUserName
+                            # first match is ok
+                            break
+
             # determine if we have one like manager
-            if pUserName in cons.TK_USERS_LOGIN_MANAGERS.split(";"):
+            if loginManager is not None:
                 # advance counter
                 self._loginManagerVTNrRetries += 1
                 # log
@@ -164,7 +188,7 @@ class timekprUserLoginManager(object):
                 # log
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: searching for login manager, user (%s) does not look like one" % (pUserName))
         # in case we tried hard
-        elif self._loginManagerVTNr is None and self._loginManagerVTNrRetries == cons.TK_VTNR_MAX_RETRIES:
+        elif self._loginManagerVTNr is None and self._loginManagerVTNrRetries == cons.TK_MAX_RETRIES:
             # advance counter (so we never get here again)
             self._loginManagerVTNrRetries += 1
             # seat is NOT found and we'll not try to find it anymore
@@ -217,7 +241,7 @@ class timekprUserLoginManager(object):
         if sessionsToKill > 0:
             # before this, try to switch TTY again (somehow sometimes it's not switched)
             self.switchTTY(lastSeat, "999")
-            # schedule leftover processes to be killed
+            # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
             GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pSessionTypes)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")

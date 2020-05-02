@@ -145,19 +145,30 @@ class timekprNotificationManager(dbus.service.Object):
         # forward to dbus
         self.timeCriticalNotification(cons.TK_PRIO_CRITICAL, pCountdown)
 
-    # --------------- DBUS / communication methods --------------- #
+    def procesSessionAttributes(self, pWhat, pKey):
+        """Session attribute verification wrapper"""
+        # forward to dbus
+        self.sessionAttributeVerification(pWhat, pKey)
+
+    # --------------- DBUS / communication methods (verification, user session states) --------------- #
+
+    @dbus.service.signal(cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE, signature="ss")
+    def sessionAttributeVerification(self, pWhat, pKey):
+        """Send out signal"""
+        # this just passes time back
+        pass
+
+    # --------------- DBUS / communication methods (limits, config) --------------- #
 
     @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="sa{si}")
     def timeLeft(self, pPriority, pTimeLeft):
         """Send out signal"""
-        # log.log(cons.TK_LOG_LEVEL_DEBUG, "sending tl: %i" % (pTimeLeftTotal))
         # this just passes time back
         pass
 
     @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="sa{sa{sv}}")
     def timeLimits(self, pPriority, pTimeLimits):
         """Send out signal"""
-        # log.log(cons.TK_LOG_LEVEL_DEBUG, "sending tl: %i" % (pTimeLeftTotal))
         # this just passes time back
         pass
 

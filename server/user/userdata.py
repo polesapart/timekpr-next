@@ -6,6 +6,9 @@ Created on Aug 28, 2018
 
 # import section
 from datetime import datetime, timedelta
+import random
+import string
+import math
 
 # timekpr imports
 from timekpr.common.log import log
@@ -36,6 +39,9 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_UID] = pUserId
         self._timekprUserData[cons.TK_CTRL_UNAME] = pUserName
         self._timekprUserData[cons.TK_CTRL_UPATH] = pUserPath
+        # set up user properties
+        self._timekprUserData[cons.TK_CTRL_SCR_N] = False  # is screensaver running
+        self._timekprUserData[cons.TK_CTRL_SCR_K] = None  # verification key
 
         # save the bus
         self._timekprUserManager = timekprUserManager(pLog, self._timekprUserData[cons.TK_CTRL_UNAME], self._timekprUserData[cons.TK_CTRL_UPATH])
@@ -100,6 +106,10 @@ class timekprUser(object):
             ,cons.TK_CTRL_UID    : None  # user id (not used, but still saved)
             ,cons.TK_CTRL_UNAME  : ""  # user name, this is the one we need
             ,cons.TK_CTRL_UPATH  : ""  # this is for DBUS communication purposes
+            # user session values (comes directly from user session)
+            ,cons.TK_CTRL_SCR_N  : False  # actual value
+            ,cons.TK_CTRL_SCR_K  : None  # verification key value
+            ,cons.TK_CTRL_SCR_R  : 0  # retry count for verification
         }
 
         # fill up every hour
@@ -533,13 +543,68 @@ class timekprUser(object):
         # process notifications, if needed
         self._timekprUserNotification.processTimeLimits(timeLimits)
 
+    def processUserSessionAttributes(self, pWhat, pKey, pValue):
+        """This will set up request or verify actual request for user attribute changes"""
+        # depends on what attribute
+        if pWhat == cons.TK_CTRL_SCR_N:
+            # set it to false, e.g. not in force
+            self._timekprUserData[cons.TK_CTRL_SCR_N] = False
+            # if there is no key, we need to set up validation key
+            if pKey == "":
+                # logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "session attributes request: %s" % (pWhat))
+                # generate random key
+                self._timekprUserData[cons.TK_CTRL_SCR_K] = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(16))
+                """
+                Clarification about re-validation.
+                    Theoretically it's not that hard to fake these, if one desires. Just write a sofware that responds to requests.
+                    However, that is doable only for those who know what to do and those are mostly experienced users (I would say
+                    xperienced a LOT (DBUS is not common to non-developers)), so maybe they should not be using timekpr in the first place?
+                """
+                # send verification request
+                self._timekprUserNotification.procesSessionAttributes(pWhat, self._timekprUserData[cons.TK_CTRL_SCR_K])
+            # if key set set up in server, we compare it
+            elif pKey is not None and self._timekprUserData[cons.TK_CTRL_SCR_K] is not None:
+                # logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "session attributes verify: %s,%s,%s" % (pWhat, "key", pValue))
+                # if verification is successful
+                if pKey == self._timekprUserData[cons.TK_CTRL_SCR_K]:
+                    # set up valid property
+                    self._timekprUserData[cons.TK_CTRL_SCR_N] = True if pValue in ("True", "true", "1") else False
+                # reset key anyway
+                self._timekprUserData[cons.TK_CTRL_SCR_K] = None
+            else:
+                # logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "session attributes out of order: %s,%s,%s" % (pWhat, "key", pValue))
+                # reset key anyway
+                self._timekprUserData[cons.TK_CTRL_SCR_K] = None
+
+    def revalidateUserSessionAttributes(self):
+        """Actual user session attributes have to be revalidated from time to time. This will take care of that"""
+        # increase stuff
+        self._timekprUserData[cons.TK_CTRL_SCR_R] += 1
+
+        # revalidate only when time has come
+        if self._timekprUserData[cons.TK_CTRL_SCR_R] >= math.ceil(cons.TK_MAX_RETRIES / 2):
+            # screensaver
+            # revalidate only if active (that influences time accounting)
+            if self._timekprUserData[cons.TK_CTRL_SCR_N]:
+                # logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "send re-validation request to user \"%s\"" % (self._timekprUserData[cons.TK_CTRL_UNAME]))
+                # send verification request
+                self.processUserSessionAttributes(cons.TK_CTRL_SCR_N, "", None)
+
+            # reset retries
+            self._timekprUserData[cons.TK_CTRL_SCR_R] = 0
+
     def getUserPathOnBus(self):
         """Return user DBUS path"""
         return self._timekprUserData[cons.TK_CTRL_UPATH]
 
     def isUserActive(self, pSessionTypes):
         """Whether user is active"""
-        return self._timekprUserManager.isUserActive(pSessionTypes, self._timekprUserConfig.getUserTrackInactive())
+        # check sessions (adding user attributes as well (screenclocked))
+        return self._timekprUserManager.isUserActive(pSessionTypes, self._timekprUserConfig.getUserTrackInactive(), self._timekprUserData[cons.TK_CTRL_SCR_N])
 
     def processFinalWarning(self):
         """Process emergency message about killing"""

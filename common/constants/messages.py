@@ -179,6 +179,7 @@ def initMessages():
     _messages["TK_MSG_NOTIFICATION_TIME_LEFT_2"] = {"s": __("%(n)s minute", "%(n)s minutes")[0], "p": __("%(n)s minute", "%(n)s minutes")[1]}
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_LEFT_3"] = {"s": __("%(n)s second left", "%(n)s seconds left")[0], "p": __("%(n)s second left", "%(n)s seconds left")[1]}
+    _messages["TK_MSG_NOTIFICATION_SCR_FEATURE_NOT_AVAILABLE"] = {"s": _("Feature \"%%s\", which is used to detect idle time, can not be enabled!\nIdle / inactive time might not be accounted when screen is locked!")}
 
     # ## misc errors ##
     _messages["TK_MSG_UNEXPECTED_ERROR"] = {"s": _("UNEXPECTED ERROR: %%s")}
