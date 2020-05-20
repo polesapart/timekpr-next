@@ -1,0 +1,1425 @@
+# Czech translation for timekpr-next
+# Copyright (c) 2019 Rosetta Contributors and Canonical Ltd 2019
+# This file is distributed under the same license as the timekpr-next package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# Ludek NOVAK <ludek.novak@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: timekpr-next\n"
+"Report-Msgid-Bugs-To: Ludek NOVAK <ludek.novak@gmail.com>\n"
+"POT-Creation-Date: 2020-04-15 13:28+0300\n"
+"PO-Revision-Date: 2020-05-13 09:35+0300\n"
+"Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
+"Language-Team: čeština <>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2020-05-13 06:32+0000\n"
+"X-Generator: Poedit 2.3\n"
+
+#: common/constants/messages.py:31
+msgid "==> print help, example"
+msgstr "==> tiskni nápovědu, například"
+
+#: common/constants/messages.py:32
+msgid "==> get saved user list from the server, example"
+msgstr "==> získat uložený seznam uživatelů ze serveru, například"
+
+#: common/constants/messages.py:33
+msgid "==> get user configuration from the server, example"
+msgstr "==> získat konfiguraci uživatele ze serveru, například"
+
+#: common/constants/messages.py:34
+msgid "==> set allowed days for the user, example"
+msgstr "==> nastavit povolené dny pro uživatele, například"
+
+#: common/constants/messages.py:35
+msgid "==> set allowed hours per specified day or ALL for every day, example"
+msgstr "==> nastavit povolené hodiny na určený den nebo pro ALL dny, například"
+
+#: common/constants/messages.py:36
+msgid "==> set time limits per all allowed days, example"
+msgstr "==> nastavit omezení času pro všechny povolené dny, například"
+
+#: common/constants/messages.py:37
+msgid "==> set time limit per week, example"
+msgstr "==> nastavit omezení času na týden, například"
+
+#: common/constants/messages.py:38
+msgid "==> set time limit per month, example"
+msgstr "==> nastavit časový limit za měsíc, například"
+
+#: common/constants/messages.py:39
+msgid "==> set whether to track inactive user sessions, example"
+msgstr ""
+"==> nastavit, zda se mají sledovat neaktivní uživatelské relace, například"
+
+#: common/constants/messages.py:40
+msgid ""
+"==> set time left for the user at current moment, example (add one hour)"
+msgstr ""
+"==> nastavit čas zbývající pro uživatele v aktuálním okamžiku, příklad "
+"(přidat jednu hodinu)"
+
+#: common/constants/messages.py:43
+msgid "Control sessions types are not passed"
+msgstr "Typy kontrolních relací nejsou předávány"
+
+#: common/constants/messages.py:44
+msgid "Control sessions types list is not correct"
+msgstr "Seznam typů kontrolních relací není správný"
+
+#: common/constants/messages.py:45
+msgid "Control sessions types list is not correct and can not be set"
+msgstr "Seznam typů kontrolních relací není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:46
+msgid "Excluded session types are not passed"
+msgstr "Vyloučené typy relací se nepředávají"
+
+#: common/constants/messages.py:47
+msgid "Excluded session types list is not correct"
+msgstr "Seznam vyloučených typů relací není správný"
+
+#: common/constants/messages.py:48
+msgid "Excluded session types list is not correct and can not be set"
+msgstr "Seznam vyloučených typů relací není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:49
+msgid "Excluded user list is not passed"
+msgstr "Seznam vyloučených uživatelů není předán"
+
+#: common/constants/messages.py:50
+msgid "Excluded user list is not correct"
+msgstr "Seznam vyloučených uživatelů není správný"
+
+#: common/constants/messages.py:51
+msgid "Excluded user list is not correct and can not be set"
+msgstr "Seznam vyloučených uživatelů není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:52
+msgid "Final warning time is not passed"
+msgstr "Čas poslední výstrahy není předán"
+
+#: common/constants/messages.py:53
+#, python-format
+msgid "Final warning time \"%%s\"is not correct"
+msgstr "Čas poslední výstrahy \"%%s\"není správný"
+
+#: common/constants/messages.py:54
+#, python-format
+msgid "Final warning time \"%%s\" is not correct and can not be set"
+msgstr "Čas poslední výstrahy \"%%s\" není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:55
+msgid "Termination time is not passed"
+msgstr "Čas ukončení není předán"
+
+#: common/constants/messages.py:56
+#, python-format
+msgid "Termination time \"%%s\"is not correct"
+msgstr "Čas ukončení \"%%s\"není správný"
+
+#: common/constants/messages.py:57
+#, python-format
+msgid "Termination time \"%%s\" is not correct and can not be set"
+msgstr "Čas ukončení \"%%s\"  není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:58
+msgid "Track inactive is not passed"
+msgstr "Stopa není aktivní"
+
+#: common/constants/messages.py:59
+#, python-format
+msgid "Track inactive \"%%s\"is not correct"
+msgstr "Stopa není aktivní \"%%s\"není správné"
+
+#: common/constants/messages.py:60
+#, python-format
+msgid "Track inactive \"%%s\" is not correct and can not be set"
+msgstr "Stopa není aktivní \"%%s\"není správné a nelze jej nastavit"
+
+#: common/constants/messages.py:61
+msgid "Log level is not passed"
+msgstr "Úroveň protokolu není aktivní"
+
+#: common/constants/messages.py:62
+#, python-format
+msgid "Log level \"%%s\"is not correct"
+msgstr "Úroveň protokolu \"%%s\"není správná"
+
+#: common/constants/messages.py:63
+#, python-format
+msgid "Log level \"%%s\" is not correct and can not be set"
+msgstr "Úroveň protokolu \"%%s\"není správná a nelze jí nastavit"
+
+#: common/constants/messages.py:64
+msgid "Poll time is not passed"
+msgstr "Sčítání času není aktivní"
+
+#: common/constants/messages.py:65
+#, python-format
+msgid "Poll time \"%%s\"is not correct"
+msgstr "Sčítání času \"%%s\"není správné"
+
+#: common/constants/messages.py:66
+#, python-format
+msgid "Poll time \"%%s\" is not correct and can not be set"
+msgstr "Sčítání času \"%%s\"není správné a nelze jej nastavit"
+
+#: common/constants/messages.py:67
+msgid "Save time is not passed"
+msgstr "Ušetřený čas není aktivní"
+
+#: common/constants/messages.py:68
+#, python-format
+msgid "Save time \"%%s\"is not correct"
+msgstr "Ušetřený čas\"%%s\"není správně"
+
+#: common/constants/messages.py:69
+#, python-format
+msgid "Save time \"%%s\" is not correct and can not be set"
+msgstr "Ušetřený čas\"%%s\"není správně a nelze jej nastavit"
+
+#: common/constants/messages.py:72
+#, python-format
+msgid "User's \"%%s\" day number must be present"
+msgstr "Číslo dne uživatele %%s musí být k dispozici"
+
+#: common/constants/messages.py:73
+#, python-format
+msgid "User's \"%%s\" day number must be between 1 and 7"
+msgstr "Číslo dne uživatele %%s musí být mezi 1 a 7"
+
+#: common/constants/messages.py:74
+#, python-format
+msgid "User's \"%%s\" allowed hours are not correct and can not be set"
+msgstr "Povolené hodiny uživatele \"%%s\" nejsou správné a nelze je nastavit"
+
+#: common/constants/messages.py:75
+#, python-format
+msgid "User's \"%%s\" day limits list is not passed"
+msgstr "Seznam denních limitů uživatele %%s není předán"
+
+#: common/constants/messages.py:76
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct"
+msgstr "Seznam denních limitů uživatele %%s není správný"
+
+#: common/constants/messages.py:77
+#, python-format
+msgid "User's \"%%s\" day limits list is not correct and can not be set"
+msgstr "Seznam denních limitů uživatele %%s není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:78
+#, python-format
+msgid "User's \"%%s\" day list is not passed"
+msgstr "Seznam dnů uživatele %%s není předán"
+
+#: common/constants/messages.py:79
+#, python-format
+msgid "User's \"%%s\" day list is not correct"
+msgstr "Seznam dnů uživatele %%s není správný"
+
+#: common/constants/messages.py:80
+#, python-format
+msgid "User's \"%%s\" day list is not correct and can not be set"
+msgstr "Seznam dnů uživatele \"%%s\" není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:81
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not passed"
+msgstr "Měsíční příspěvek uživatele %%s není schválen"
+
+#: common/constants/messages.py:82
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not correct"
+msgstr "Měsíční příspěvek uživatele %%s není správný"
+
+#: common/constants/messages.py:83
+#, python-format
+msgid "User's \"%%s\" monthly allowance is not correct and can not be set"
+msgstr "Měsíční příspěvek uživatele \"%%s\" není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:84
+#, python-format
+msgid "User's \"%%s\" set time operation can be one of these: -+="
+msgstr ""
+"Operace nastaveného času uživatele %%s může být jedna z těchto operací: -+="
+
+#: common/constants/messages.py:85
+#, python-format
+msgid "User's \"%%s\" set time limit is not correct"
+msgstr "Nastavený časový limit uživatele %%s není správný"
+
+#: common/constants/messages.py:86
+#, python-format
+msgid "User's \"%%s\" set time limit is not correct and can not be set"
+msgstr ""
+"Nastavený časový limit uživatele \"%%s\" není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:87
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not passed"
+msgstr "Neaktivní příznak neaktivní stopy \"%%s\" uživatele není předán"
+
+#: common/constants/messages.py:88
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not correct"
+msgstr "Příznak neaktivní stopy \"%%s\" uživatele není správný"
+
+#: common/constants/messages.py:89
+#, python-format
+msgid "User's \"%%s\" track inactive flag is not correct and can not be set"
+msgstr ""
+"Příznak neaktivní stopy \"%%s\" uživatele není správný a nelze jej nastavit"
+
+#: common/constants/messages.py:90
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not passed"
+msgstr "Týdenní příspěvek uživatele \"%%s\" není předán"
+
+#: common/constants/messages.py:91
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not correct"
+msgstr "Týdenní příspěvek uživatele \"%%s\" není správný"
+
+#: common/constants/messages.py:92
+#, python-format
+msgid "User's \"%%s\" weekly allowance is not correct and can not be set"
+msgstr "Týdenní příspěvek uživatele \"%%s\" není správný a nelze jej nastavit"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:96
+msgid ""
+"Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT "
+"log files"
+msgstr ""
+"Neočekávaná CHYBA při načítání konfigurace. Zkontrolujte soubory protokolu "
+"Timekpr-nExT"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:98
+msgid ""
+"Unexpected ERROR getting confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Neočekávaná CHYBA při získání konfigurace. Zkontrolujte soubory protokolu "
+"Timekpr-nExT"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:100
+msgid ""
+"Unexpected ERROR getting user confguration. Please inspect Timekpr-nExT log "
+"files"
+msgstr ""
+"Neočekávaná CHYBA při získávání uživatelského spojení. Zkontrolujte soubory "
+"protokolu Timekpr-nExT"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:102
+msgid ""
+"Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Neočekávaná CHYBA při získávání seznamu uživatelů. Zkontrolujte soubory "
+"protokolu Timekpr-nExT"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:104
+msgid ""
+"Unexpected ERROR updating confguration. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Neočekávaná CHYBA aktualizace konfigurace. Zkontrolujte soubory protokolu "
+"Timekpr-nExT"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:106
+msgid ""
+"Unexpected ERROR updating control. Please inspect Timekpr-nExT log files"
+msgstr ""
+"Neočekávaná CHYBA kontroly aktualizace. Zkontrolujte soubory protokolu "
+"Timekpr-nExT"
+
+#: common/constants/messages.py:107
+#, python-format
+msgid "User \"%%s\" configuration is not found"
+msgstr "Uživatelská konfigurace \"%%s\" nebyla nalezena"
+
+#: common/constants/messages.py:108
+#, python-format
+msgid "User \"%%s\" control file is not found"
+msgstr "Uživatelský soubor \"%%s\" nebyl nalezen"
+
+#: common/constants/messages.py:109
+#, python-format
+msgid "User \"%%s\" is not found"
+msgstr "Uživatel \"%%s\" nebyl nalezen"
+
+#: common/constants/messages.py:112
+msgid "Connected"
+msgstr "Připojeno"
+
+#: common/constants/messages.py:113
+msgid "Connecting..."
+msgstr "Připojování…"
+
+#: common/constants/messages.py:114
+msgid "Failed to connect"
+msgstr "Připojení se nezdařilo"
+
+#. TRANSLATORS: this message must be 80 symbols long at max
+#: common/constants/messages.py:116
+msgid ""
+"Please reopen the application if you are superuser and Timekpr-nExT is "
+"running"
+msgstr ""
+"Prosím znovu otevřete aplikaci pokud jste superuser a běží Timekpr-nExT"
+
+#: common/constants/messages.py:117
+msgid "Started"
+msgstr "Spuštěno"
+
+#: common/constants/messages.py:118
+msgid "User configuration retrieved"
+msgstr "Uživatelská nastavení byla načtena"
+
+#: common/constants/messages.py:119
+msgid "Configuration retrieved"
+msgstr "Nastavení byla načtena"
+
+#: common/constants/messages.py:120
+msgid "Track inactive for user has been processed"
+msgstr "Neaktivní sledování uživatele bylo zpracováno"
+
+#: common/constants/messages.py:121
+msgid "Additional time for user has been processed"
+msgstr "Byl zpracován další čas uživatele"
+
+#: common/constants/messages.py:122
+msgid "Weekly and monthly limits for user have been processed"
+msgstr "Byly zpracovány týdenní a měsíční limity uživatele"
+
+#: common/constants/messages.py:123
+msgid "Allowed days for user have been processed"
+msgstr "Byly zpracovány povolené dny uživatele"
+
+#: common/constants/messages.py:124 common/constants/messages.py:126
+msgid "Time limits for days for user have been processed"
+msgstr "Byly zpracovány časové limity dnů uživatele"
+
+#: common/constants/messages.py:125
+msgid "Allowed hours for user have been processed"
+msgstr "Byly zpracovány povolené hodiny uživatele"
+
+#: common/constants/messages.py:127
+msgid "Timekpr-nExT configuration has been saved"
+msgstr "Byla uložena konfigurace Timekpr-nExT"
+
+#: common/constants/messages.py:128
+msgid "Please select a day to set the limits"
+msgstr "Vyberte den a nastavte limity"
+
+#: common/constants/messages.py:129
+msgid "Interval overlaps with existing one"
+msgstr "Interval se překrývá s existujícím"
+
+#: common/constants/messages.py:130
+msgid "Interval start conflicts with existing one"
+msgstr "Konflikty startu intervalu se stávajícím"
+
+#: common/constants/messages.py:131
+msgid "Interval end conflicts with existing one"
+msgstr "Konflikty konce intervalu s existujícím"
+
+#: common/constants/messages.py:132
+msgid "Interval start or end duplicates existing interval"
+msgstr "Začátek nebo konec intervalu je shodný s existujícím intervalem"
+
+#: common/constants/messages.py:133
+msgid "Interval start can not be the same as end"
+msgstr "Začátek intervalu nemůže být stejný jako konec"
+
+#: common/constants/messages.py:134
+msgid "Please select a hour interval to remove"
+msgstr "Vyberte prosím časový interval, který chcete odebrat"
+
+#: common/constants/messages.py:135
+msgid "Interval removed"
+msgstr "Interval odstraněn"
+
+#: common/constants/messages.py:136
+msgid "Timekpr-nExT interface is not yet ready"
+msgstr "Rozhraní Timekpr-nExT není připraveno"
+
+#: common/constants/messages.py:139
+msgid ""
+"WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, "
+"but no displays are available, thus running in CLI..."
+msgstr ""
+"VAROVÁNÍ: Administrační nástroj Timekpr-nExT byl požádán o spuštění v "
+"grafickém režimu, ale nejsou k dispozici žádné displeje, takže běží v "
+"textovém režimu ..."
+
+#: common/constants/messages.py:140
+msgid "The command is incorrect:"
+msgstr "Příkaz je nesprávný:"
+
+#: common/constants/messages.py:141
+msgid "The usage of Timekpr-nExT admin client is as follows:"
+msgstr "Použití administrátorského klienta Timekpr-nExT je následující:"
+
+#: common/constants/messages.py:142
+#, python-format
+msgid "%(n)s user in total:"
+msgid_plural "%(n)s users in total:"
+msgstr[0] "Celkem %(n)s uživatel:"
+msgstr[1] "Celkem %(n)s uživatelé:"
+msgstr[2] "Celkem %(n)s uživatelů:"
+
+#: common/constants/messages.py:143
+#, python-format
+msgid "Config for %s:"
+msgstr "Nastavení pro %s:"
+
+#: common/constants/messages.py:146
+msgid "Time left..."
+msgstr "Zbývající čas..."
+
+#: common/constants/messages.py:147
+msgid "Limits & Configuration"
+msgstr "Limity a nastavení"
+
+#: common/constants/messages.py:148
+msgid "About"
+msgstr "O aplikaci"
+
+#. TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
+#: common/constants/messages.py:152 resource/client/forms/about.glade:28
+msgid "please-enter-translator-credits"
+msgstr "Luděk Novák <ludek.novak@gmail.com>"
+
+#: common/constants/messages.py:153 resource/client/forms/about.glade:19
+msgid "Keep control of computer usage"
+msgstr "Mějte kontrolu nad používáním počítače"
+
+#: common/constants/messages.py:154
+msgid "Day"
+msgstr "Den"
+
+#: common/constants/messages.py:155
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: common/constants/messages.py:156
+msgid "Limit"
+msgstr "Omezení"
+
+#: common/constants/messages.py:157
+msgid "From"
+msgstr "Od"
+
+#: common/constants/messages.py:158
+msgid "To"
+msgstr "Do"
+
+#: common/constants/messages.py:159 common/constants/messages.py:160
+msgid "Session type"
+msgstr "Typ relace"
+
+#: common/constants/messages.py:161
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: common/constants/messages.py:164
+msgid "Timekpr-nExT notification"
+msgstr "Oznámení Timekpr-nExT"
+
+#: common/constants/messages.py:165
+msgid "Your time is not limited today"
+msgstr "Dnes není čas omezen"
+
+#: common/constants/messages.py:166
+msgid "Time allowance has changed, please note new time left!"
+msgstr "Časový limit se změnil, upozorňujeme na nový zbývající čas!"
+
+#: common/constants/messages.py:167
+msgid "Time limit configuration has changed, please note new configuration!"
+msgstr "Nastavení časového limitu se změnilo, mějte na paměti nové hodnoty!"
+
+#: common/constants/messages.py:168
+#, python-format
+msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
+msgstr "Došlo k problému s připojením k démonu Timekpr-nExT (%%s)!"
+
+#: common/constants/messages.py:169
+#, python-format
+msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
+msgstr "Při komunikaci s Timekpr-nExT (%% s) je problém!"
+
+#: common/constants/messages.py:170
+#, python-format
+msgid "Icon inititalization error (%%s)!"
+msgstr "Chyba inicializace ikony (%%s)!"
+
+#. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:172
+msgid "Your time is up, you will be forcibly logged out in"
+msgstr "Váš čas vypršel, začalo odhlášování"
+
+#. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
+#: common/constants/messages.py:174
+#, python-format
+msgid "%(n)s second"
+msgid_plural "%(n)s seconds"
+msgstr[0] "%(n)s sekunda"
+msgstr[1] "%(n)s sekundy"
+msgstr[2] "%(n)s sekund"
+
+#: common/constants/messages.py:175
+msgid "Internal connection error, please check log files"
+msgstr "Interní chyba připojení, zkontrolujte soubory protokolu"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:177
+#, python-format
+msgid "You have %(n)s hour"
+msgid_plural "You have %(n)s hours"
+msgstr[0] "Zbývá %(n)s hodina"
+msgstr[1] "Zbývájí %(n)s hodiny"
+msgstr[2] "Zbývá %(n)s hodin"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:179
+#, python-format
+msgid "%(n)s minute"
+msgid_plural "%(n)s minutes"
+msgstr[0] "%(n)s minuta"
+msgstr[1] "%(n)s minuty"
+msgstr[2] "%(n)s minut"
+
+#. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
+#: common/constants/messages.py:181
+#, python-format
+msgid "%(n)s second left"
+msgid_plural "%(n)s seconds left"
+msgstr[0] "%(n)s sekunda"
+msgstr[1] "%(n)s sekundy"
+msgstr[2] "%(n)s sekund"
+
+#: common/constants/messages.py:182
+#, python-format
+msgid ""
+"Feature \"%%s\", which is used to detect idle time, can not be enabled!\n"
+"Idle / inactive time might not be accounted when screen is locked!"
+msgstr ""
+"Funkci \"%%s\", která se používá k detekci nečinnosti, nelze aktivovat!\n"
+"Když je obrazovka uzamčena, nemusí se počítat doba nečinnosti/neaktivity!"
+
+#: common/constants/messages.py:185
+#, python-format
+msgid "UNEXPECTED ERROR: %%s"
+msgstr "NEOČEKÁVANÁ CHYBA: %%s"
+
+#: common/constants/messages.py:186
+#, python-format
+msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
+msgstr "CHYBA ROZBORU PARAMETRŮ (zkontrolujte platnost parametru): %%s"
+
+#: common/constants/messages.py:187
+msgid "Command FAILED: access denied"
+msgstr "Příkaz byl NEÚSPĚŠNÝ: přístup zamítnut"
+
+#: common/constants/messages.py:188
+msgid "Command FAILED: communication was not accepted"
+msgstr "Příkaz byl NEÚSPĚŠNÝ: komunikace nebyla přijata"
+
+#: common/constants/messages.py:189
+msgid "n/a"
+msgstr "není známo"
+
+#: resource/client/forms/about.glade:7
+msgid "About Timekpr-nExT"
+msgstr "O aplikaci Timekpr-nExT"
+
+#: resource/client/forms/about.glade:16
+msgid ""
+"Copyright (c) 2018-2019 Eduards Bezverhijs\n"
+"Super tester: Rinalds Dobelis\n"
+"Beta tester: SanskritFritz"
+msgstr ""
+"Copyright (c) 2018-2019 Eduards Bezverhijs\n"
+"Super tester: Rinalds Dobelis\n"
+"Beta tester: SanskritFritz"
+
+#: resource/client/forms/about.glade:21
+msgid "Timekpr-nExT"
+msgstr "Timekpr-nExT"
+
+#. Please enter GPL3 licence text in Your language
+#: resource/client/forms/about.glade:22
+msgctxt "timekpr-next"
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see <http://www.gnu.org/licenses/>. In Debian, see "
+"file /usr/share/common-licenses/GPL-3"
+msgstr ""
+"Tento program je svobodný software: můžete jej dále šířit a/nebo upravovat v "
+"souladu s podmínkami GNU General Public License zveřejněné nadací Free "
+"Software Foundation, buď verzí 3 licence, nebo (podle vaší volby) jakoukoli "
+"novější verzí.\n"
+"\n"
+"Tento program je distribuován v naději, že bude užitečný, ale BEZ JAKÉKOLI "
+"ZÁRUKY; bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. "
+"Další podrobnosti naleznete v GNU General Public License.\n"
+"\n"
+"Spolu s tímto programem byste měli obdržet kopii GNU General Public License. "
+"Pokud ne, navštivte http://www.gnu.org/licenses/. V Debianu viz soubor /usr/"
+"share/common-license/GPL-3"
+
+#: resource/client/forms/admin.glade:172
+msgid "Remove excluded session type"
+msgstr "Odebrat vyloučený typ relace"
+
+#: resource/client/forms/admin.glade:270
+msgid "Timekpr-nExT administration"
+msgstr "Správa Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:288
+msgid "Icon, isn't it?"
+msgstr "Ikona, že?"
+
+#: resource/client/forms/admin.glade:308
+msgid "Notes, read carefully ;)"
+msgstr "Pozorně si přečtěte poznámky ;)"
+
+#: resource/client/forms/admin.glade:313
+msgid ""
+"This is Timekpr-nExT configuration app. It allows you to configure time for "
+"your users as well as the Timekpr-nExT parameters.\n"
+"\n"
+"To use this application, you either have to execute it  as superuser or have "
+"to be part of the timekpr group.\n"
+"Please note that the \"Timekpr-nExT Configuration\" is available in "
+"superuser (administrator) mode only!\n"
+"\n"
+"Please configure carefully: do not lock yourself out!"
+msgstr ""
+"Toto je konfigurační aplikace Timekpr-nExT. Umožňuje nakonfigurovat čas pro "
+"vaše uživatele a také parametry Timekpr-nExT.\n"
+"\n"
+"Chcete-li použít tuto aplikaci, musíte ji buď spustit jako superuživatel, "
+"nebo musíte být součástí skupiny timekpr. Uvědomte si prosím, že „Nastavení "
+"Timekpr-nExT\" je k dispozici pouze v režimu superuživatele (správce)!\n"
+"\n"
+"Prosím buďte opatrní, nezablokujte se!"
+
+#: resource/client/forms/admin.glade:341 resource/client/forms/admin.glade:1850
+msgid "Users related configuration"
+msgstr "Nastavení související s uživateli"
+
+#: resource/client/forms/admin.glade:356 resource/client/forms/config.glade:194
+msgid "Username:"
+msgstr "Uživatelské jméno:"
+
+#: resource/client/forms/admin.glade:385 resource/client/forms/admin.glade:396
+msgid "List of usernames registered on the system"
+msgstr "Seznam uživatelských jmen registrovaných v systému"
+
+#: resource/client/forms/admin.glade:409
+msgid "Restore"
+msgstr "Obnovit"
+
+#: resource/client/forms/admin.glade:414
+msgid "Restore configuration from saved state"
+msgstr "Obnovit konfiguraci z uloženého stavu"
+
+#: resource/client/forms/admin.glade:466
+msgid "This shows you information about time spent"
+msgstr "Informace o využitém čase"
+
+#: resource/client/forms/admin.glade:489
+msgid "Time spent today (saved stated, not real-time)"
+msgstr "Čas využitý dnes (uložený, nikoliv reálný čas)"
+
+#: resource/client/forms/admin.glade:491
+msgid "Time spent (today):"
+msgstr "Čas využitý dnes:"
+
+#: resource/client/forms/admin.glade:506 resource/client/forms/admin.glade:553
+#: resource/client/forms/admin.glade:598 resource/client/forms/config.glade:302
+#: resource/client/forms/config.glade:317
+#: resource/client/forms/config.glade:348
+#: resource/client/forms/config.glade:393
+#: resource/client/forms/config.glade:609
+#: resource/client/forms/config.glade:667
+#: resource/client/forms/config.glade:739
+#: resource/client/forms/config.glade:769
+msgid "Format: <days : hours : minutes : seconds>"
+msgstr "Formát: <dny : hodiny : minuty : sekundy>"
+
+#: resource/client/forms/admin.glade:508 resource/client/forms/admin.glade:555
+#: resource/client/forms/admin.glade:600 resource/client/forms/config.glade:305
+#: resource/client/forms/config.glade:320
+#: resource/client/forms/config.glade:351
+#: resource/client/forms/config.glade:396
+#: resource/client/forms/config.glade:612
+#: resource/client/forms/config.glade:670
+#: resource/client/forms/config.glade:743
+#: resource/client/forms/config.glade:773
+msgid "00:00:00:00"
+msgstr "00:00:00:00"
+
+#: resource/client/forms/admin.glade:536
+msgid "Time spent for this week (saved stated, not real-time)"
+msgstr "Čas svyužitý tento týden (uložený, nikoliv reálný čas)"
+
+#: resource/client/forms/admin.glade:538 resource/client/forms/config.glade:598
+msgid "Time spent (week):"
+msgstr "Čas využitý za týden:"
+
+#: resource/client/forms/admin.glade:580
+msgid "Time spent this month (saved stated, not real-time)"
+msgstr "Čas využitý tento měsíc (uložený, nikoliv reálný čas)"
+
+#: resource/client/forms/admin.glade:582 resource/client/forms/config.glade:627
+msgid "Time spent (month):"
+msgstr "Čas využitý za měsíc:"
+
+#: resource/client/forms/admin.glade:637
+msgid ""
+"This allows you to change time for today as well as inactive session tracking"
+msgstr "Umožnit změnu času pro aktivní i neaktivní sledované relace"
+
+#: resource/client/forms/admin.glade:662
+msgid "Amount:"
+msgstr "Úroveň:"
+
+#: resource/client/forms/admin.glade:687 resource/client/forms/admin.glade:1027
+#: resource/client/forms/admin.glade:1250
+#: resource/client/forms/admin.glade:1578
+#: resource/client/forms/admin.glade:1678
+msgid "hr"
+msgstr "h"
+
+#: resource/client/forms/admin.glade:698
+msgid "The amount of minutes to be adjusted for today's limit"
+msgstr "Množství minut, které je třeba upravit pro dnešní limit"
+
+#: resource/client/forms/admin.glade:715
+msgid "The amount of hours to be adjusted for today's limit"
+msgstr "Množství hodin, které je třeba upravit pro dnešní limit"
+
+#: resource/client/forms/admin.glade:732 resource/client/forms/admin.glade:1039
+#: resource/client/forms/admin.glade:1239
+#: resource/client/forms/admin.glade:1589
+#: resource/client/forms/admin.glade:1689
+msgid "min"
+msgstr "min"
+
+#: resource/client/forms/admin.glade:753 resource/client/forms/admin.glade:1332
+msgid "Add"
+msgstr "Přidat"
+
+#: resource/client/forms/admin.glade:758
+msgid "Add specified amount (reward)"
+msgstr "Přidat zadanou částku (odměna)"
+
+#: resource/client/forms/admin.glade:770
+msgid "Subtract"
+msgstr "Odečíst"
+
+#: resource/client/forms/admin.glade:775
+msgid "Subtract specified amount (penalty)"
+msgstr "Odečíst zadanou částku (pokuta)"
+
+#: resource/client/forms/admin.glade:787 resource/client/forms/admin.glade:868
+#: resource/client/forms/admin.glade:1081
+msgid "Set"
+msgstr "Zadat"
+
+#: resource/client/forms/admin.glade:792
+msgid "Set exacly specified limit"
+msgstr "Nastavit přesně stanovený limit"
+
+#: resource/client/forms/admin.glade:835 resource/client/forms/admin.glade:855
+#: resource/client/forms/config.glade:638
+#: resource/client/forms/config.glade:654
+msgid ""
+"Select whether time for inactive sessions are counted. If this is unchecked, "
+"time spent in console (not terminal) and while screen is locked is NOT taken "
+"into account (this very much varies from DE to DE)"
+msgstr ""
+"Vyberte, zda se má počítat čas pro neaktivní relace. Pokud toto není "
+"zaškrtnuto, NEBUDE brána v úvahu doba použití v konzoli (nikoli v terminálu) "
+"a při uzamčené obrazovce (toto se velmi liší DE od DE)"
+
+#: resource/client/forms/admin.glade:838
+msgid "Track inactive sessions:"
+msgstr "Nastavit neaktivní relace"
+
+#: resource/client/forms/admin.glade:873
+msgid "Set track inactive sessions"
+msgstr "Nastavit neaktivní relace"
+
+#: resource/client/forms/admin.glade:904
+msgid ""
+"Brief information about time spent and everything related to time management "
+"for this day"
+msgstr ""
+"Stručné informace o využitém času a všem souvisejícím s řízením času pro "
+"dnešní den"
+
+#: resource/client/forms/admin.glade:905
+msgid "Info & Today"
+msgstr "Aktuální informace"
+
+#: resource/client/forms/admin.glade:942
+msgid "Configure time limits for week days"
+msgstr "Nastavit časové limity pro dny v týdnu"
+
+#: resource/client/forms/admin.glade:966
+msgid ""
+"Lists day of the week and additional information about the day's limit, "
+"please enable / disable days for the user"
+msgstr ""
+"Seznam dnů v týdnu s informací o denním limitu, povolené/zakázané dny "
+"uživatele"
+
+#: resource/client/forms/admin.glade:1005
+msgid "Specify day's limit"
+msgstr "Nastavit denní limit"
+
+#: resource/client/forms/admin.glade:1050
+#: resource/client/forms/admin.glade:1066
+msgid "Set the amount of hours to limit available time for particular day"
+msgstr ""
+"Nastavte počet hodin, abyste omezili čas, který je k dispozici pro konkrétní "
+"den"
+
+#: resource/client/forms/admin.glade:1086
+msgid ""
+"Set specified hours and minutes for particular day at user's disposal (do "
+"not forget to hit the <Apply> button)"
+msgstr ""
+"Nastavit určené hodiny a minuty pro konkrétní den, které má uživatel k "
+"dispozici (nezapomeňte stisknout tlačítko <Zadat>)"
+
+#: resource/client/forms/admin.glade:1152
+msgid "Hour intervals"
+msgstr "Hodinové intervaly"
+
+#: resource/client/forms/admin.glade:1176
+msgid ""
+"Hour intervals per day available to user.\n"
+"Please note that if day ends at 24th hour and next day starts at 0, user can "
+"work continuously past midnight.\n"
+"Please note that multiple intervals cannot be configured within the same "
+"hour. An interval can start or end or contain a specific hour, but not more "
+"than once (this is by design, not a bug)"
+msgstr ""
+"Uživatel má k dispozici předepsané intervaly hodin za den.\n"
+"Uvědomte si prosím, že den končí ve 24:00 a další den začíná v 0:00 hodin. "
+"Proto může uživatel pracovat nepřetržitě i po půlnoci.\n"
+"Také vezměte na vědomí, že v jedné hodině nelze nakonfigurovat více "
+"intervalů. Interval může začínat nebo končit v určité hodině. Případně může "
+"obsahovat určitou hodinu, ale ne více než jednou což je to záměr, nikoli "
+"chyba."
+
+#: resource/client/forms/admin.glade:1218
+msgid "Manage intervals for the day"
+msgstr "Stanovit intervaly pro daný den"
+
+#: resource/client/forms/admin.glade:1261
+msgid "Specify START minute of the allowed hour interval"
+msgstr "Určete minutu ZAČÁTKU povoleného časového intervalu"
+
+#: resource/client/forms/admin.glade:1278
+msgid "Specify START hour of the allowed hour interval"
+msgstr "Určete hodinu ZAČÁTKU povoleného časového intervalu"
+
+#: resource/client/forms/admin.glade:1295
+msgid "from"
+msgstr "od"
+
+#: resource/client/forms/admin.glade:1307
+msgid "to"
+msgstr "do"
+
+#: resource/client/forms/admin.glade:1316
+msgid "Remove"
+msgstr "Odebrat"
+
+#: resource/client/forms/admin.glade:1321
+msgid ""
+"Remove selected interval from the list (do not forget to hit the <Apply> "
+"button)"
+msgstr ""
+"Odstranit vybraný interval ze seznamu (nezapomeňte stisknout tlačítko "
+"<Odebrat>)"
+
+#: resource/client/forms/admin.glade:1337
+msgid ""
+"Add specified hour interval to the list (do not forget to hit th e<Apply> "
+"button)"
+msgstr ""
+"Přidat zadaný hodinový interval do seznamu (nezapomeňte stisknout tlačítko "
+"<Přidat>)"
+
+#: resource/client/forms/admin.glade:1350
+msgid "Specify END hour of the allowed hour interval"
+msgstr "Určete hodinu KONCE povoleného časového intervalu"
+
+#: resource/client/forms/admin.glade:1366
+msgid "Specify END minute of the allowed hour interval"
+msgstr "Určete minutu KONCE povoleného časového intervalu"
+
+#: resource/client/forms/admin.glade:1415
+msgid "Apply daily limits"
+msgstr "Použít denní limity"
+
+#: resource/client/forms/admin.glade:1420
+msgid "Apply all changes made in this page"
+msgstr "Použít všechny změny provedené na této stránce"
+
+#: resource/client/forms/admin.glade:1442
+msgid "Daily limit configuration for all week days"
+msgstr "Nastavení denního limitu pro každý den v týdnu"
+
+#: resource/client/forms/admin.glade:1443
+#: resource/client/forms/config.glade:548
+msgid "Daily limits"
+msgstr "Denní limity"
+
+#: resource/client/forms/admin.glade:1471
+msgid "Time limit for the month"
+msgstr "Měsíční časový limit"
+
+#: resource/client/forms/admin.glade:1473
+msgid "Time limit (month)"
+msgstr "Časový limit za měsíc:"
+
+#: resource/client/forms/admin.glade:1490
+msgid "Time limit for the month is enabled"
+msgstr "Povolit měsíční časový limit"
+
+#: resource/client/forms/admin.glade:1521
+msgid "Time limit for the week"
+msgstr "Týdenní časový limit"
+
+#: resource/client/forms/admin.glade:1523
+msgid "Time limit (week)"
+msgstr "Časový limit za týden"
+
+#: resource/client/forms/admin.glade:1539
+msgid "Time limit for the week is enabled"
+msgstr "Povolit týdenní časový limit"
+
+#: resource/client/forms/admin.glade:1567
+#: resource/client/forms/admin.glade:1667
+msgid "day"
+msgstr "den"
+
+#: resource/client/forms/admin.glade:1601
+msgid "Week limit amount (days part)"
+msgstr "Rozsah týdenního limitu (výběr dnů)"
+
+#: resource/client/forms/admin.glade:1619
+msgid "Week limit amount (hours part)"
+msgstr "Rozsah týdeního limitu (výběr hodin)"
+
+#: resource/client/forms/admin.glade:1637
+msgid "Week limit amount (minutes part)"
+msgstr "Rozsah týdeního limitu (výběr minut)"
+
+#: resource/client/forms/admin.glade:1701
+msgid "Month limit amount (days part)"
+msgstr "Rozsah měsíčního limitu (výběr dnů)"
+
+#: resource/client/forms/admin.glade:1719
+msgid "Month limit amount (hours part)"
+msgstr "Rozsah měsíčního limitu (výběr hodin)"
+
+#: resource/client/forms/admin.glade:1737
+msgid "Month limit amount (minutes part)"
+msgstr "Rozsah měsíčního limitu (výběr minut)"
+
+#: resource/client/forms/admin.glade:1765
+msgid "This allows You to set up weekly & monthly limits"
+msgstr "Zde můžete nastavit týdenní a měsíční limity"
+
+#: resource/client/forms/admin.glade:1779
+msgid "Apply"
+msgstr "Použít"
+
+#: resource/client/forms/admin.glade:1784
+msgid "Apply weekly and monthly limits"
+msgstr "Použt týdenní a měsíční limity"
+
+#: resource/client/forms/admin.glade:1829
+msgid "Weekly and monthly limit configuration"
+msgstr "Nastavení týdenních a měsíčních limitů"
+
+#: resource/client/forms/admin.glade:1830
+msgid "Weekly & Monthly limits"
+msgstr "Týdenní a měsíční limity"
+
+#: resource/client/forms/admin.glade:1851
+msgid "User Configuration"
+msgstr "Nastavení uživatele"
+
+#: resource/client/forms/admin.glade:1882
+msgid "Control Timekpr-nExT Settings"
+msgstr "Nastavení ovládání Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:1909
+msgid ""
+"Timekpr-nExT log level. Please do not change this unless asked (you likely "
+"won't find anything pretty in the log files)\n"
+"1 - standard, 2 - debug, 3 - extra debug"
+msgstr ""
+"Úroveň protokolu Timekpr-nExT. Neměňte to, pokud to nebude požadováno "
+"(pravděpodobně v souborech protokolu nenajdete nic hezkého)\n"
+"1 - standard, 2 - ladit, 3 - ladit podrobněji"
+
+#: resource/client/forms/admin.glade:1928
+msgid "Poll interval"
+msgstr "Interval dotazování"
+
+#: resource/client/forms/admin.glade:1940
+msgid ""
+"Specify the time in seconds when Timekpr-nExT starts continuous real-time "
+"countdown before terminating the session"
+msgstr ""
+"Určete čas v sekundách, kdy Timekpr-nExT zahájí nepřetržité odpočítávání v "
+"reálném čase před ukončením relace"
+
+#: resource/client/forms/admin.glade:1958
+msgid "Save time"
+msgstr "Ušetřený čas"
+
+#: resource/client/forms/admin.glade:1970
+msgid ""
+"Specify session polling time granularity (at which interval user sessions "
+"and activity are polled).\n"
+"3 -5 seconds are optimal, don't change this if unsure."
+msgstr ""
+"Určit četnost mezi dotazováním relace (v jakém intervalu se budou dotazovat "
+"uživatelské relace a aktivity).\n"
+"Nejlepší nastavení je 3 - 5 sekund, neměňte nastavení pokud si nejste jisti."
+
+#: resource/client/forms/admin.glade:1989
+msgid "Termination time"
+msgstr "Čas do odhlášení"
+
+#: resource/client/forms/admin.glade:2001
+msgid "This specifies the time interval at which actual user state is saved"
+msgstr "Určete časový interval, ve kterém je uložen skutečný stav uživatele"
+
+#: resource/client/forms/admin.glade:2019
+msgid ""
+"Amount of seconds before terminating user sessions. After this is reached, "
+"user will be terminated, nothing can be done to prevent it.\n"
+"Adding time does not help in this case. Do that before reaching this point..."
+msgstr ""
+"Počet sekund od ukončení po odhlášení uživatelské relace. Po dosažení "
+"časového limitu začne odpočet, následně bude činnost uživatele ukončena, "
+"odhlášení nelze zabránit.\n"
+"Přidání času v tomto případě nepomůže. Čas přidejte před dosažením tohoto "
+"bodu ..."
+
+#: resource/client/forms/admin.glade:2038
+msgid "Warning time"
+msgstr "Čas varování"
+
+#: resource/client/forms/admin.glade:2050
+msgid "Log level"
+msgstr "Úroveň protokolu"
+
+#: resource/client/forms/admin.glade:2088
+msgid "Control Timekpr-nExT tracking items"
+msgstr "Ovládáné položky Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:2123
+msgid "Tracked Sessions"
+msgstr "Sledované relace"
+
+#: resource/client/forms/admin.glade:2147
+msgid ""
+"List of session types to be tracked.\n"
+"Please, do not change or experiment with this unless you actually (not "
+"wishfully) know what you are doing."
+msgstr ""
+"Seznam typů relací, které mají být sledovány.\n"
+"Prosím, neměňte ani s tím neexperimentujte, pokud skutečně nevíte, co děláte."
+
+#: resource/client/forms/admin.glade:2168
+msgid "Enter session type to be tracked"
+msgstr "Zadejte typ relace, kterou chcete sledovat"
+
+#: resource/client/forms/admin.glade:2192
+msgid "Add tracked session type to the list"
+msgstr "Přidat sledovaný typ relace do seznamu"
+
+#: resource/client/forms/admin.glade:2208
+msgid "Remove tracked session type from the list"
+msgstr "Odebrat sledovaný typ relace ze seznamu"
+
+#: resource/client/forms/admin.glade:2245
+msgid "Excluded Sessions"
+msgstr "Vyloučené relace"
+
+#: resource/client/forms/admin.glade:2269
+msgid ""
+"List of sessions to be excluded from tracking.\n"
+"Please, do not change or experiment with this unless you actually (not "
+"wishfully) know what you are doing."
+msgstr ""
+"Seznam relací, které mají být ze sledování vyloučeny.\n"
+"Prosím, neměňte ani s tím neexperimentujte, pokud skutečně nevíte, co děláte."
+
+#: resource/client/forms/admin.glade:2290
+msgid "Enter session type to be excluded from tracking"
+msgstr "Zadejte typ relace, která má být ze sledování vyloučena"
+
+#: resource/client/forms/admin.glade:2314
+msgid "Add excluded session type to the list"
+msgstr "Přidat vyloučený typ relace do seznamu"
+
+#: resource/client/forms/admin.glade:2330
+msgid "Remove excluded session type from the list"
+msgstr "Odebrat vyloučený typ relace ze seznamu"
+
+#: resource/client/forms/admin.glade:2367
+msgid "Excluded Users"
+msgstr "Vyjmutí uživatelé"
+
+#: resource/client/forms/admin.glade:2391
+msgid ""
+"List of users excluded from tracking.\n"
+"Please specify actual usernames, not real names here (e.g please specify "
+"jsmith, not John Smith)"
+msgstr ""
+"Seznam uživatelů vyloučených ze sledování.\n"
+"Zde prosím zadejte uživatelská jména, nikoli skutečná jména \n"
+"(např. uveďte novakj, ne Jan Novák)"
+
+#: resource/client/forms/admin.glade:2412
+msgid "Enter username to be excluded from tracking"
+msgstr "Zadejte uživatelské jméno, které má být ze sledování vyloučeno"
+
+#: resource/client/forms/admin.glade:2436
+msgid "Add user to the exclusion list"
+msgstr "Přidat uživatele do seznamu vyloučených"
+
+#: resource/client/forms/admin.glade:2452
+msgid "Remove user from the exclusion list"
+msgstr "Odstranit uživatele ze seznamu vyloučených"
+
+#: resource/client/forms/admin.glade:2499
+msgid "Apply Timekpr-nExT setings"
+msgstr "Použít nastavení Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:2504
+msgid "Apply all Timekpr-nExT settings at once"
+msgstr "Použít najednou všechna nastavení Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:2524
+msgid "Timekpr-nExT Administration Configuration"
+msgstr "Nastavení programu Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:2525
+msgid "Timekpr-nExT Configuration"
+msgstr "Nastavení Timekpr-nExT"
+
+#: resource/client/forms/admin.glade:2554
+#: resource/client/forms/admin.glade:2573
+msgid "Status of Timekpr-nExT admin client"
+msgstr "Stav správce Timekpr-nExT"
+
+#: resource/client/forms/config.glade:31
+msgid "Timekpr-nExT client"
+msgstr "Klientská část Timekpr-nExT"
+
+#: resource/client/forms/config.glade:62
+msgid "Status of Timekpr-nExT client"
+msgstr "Stav klienta Timekpr-nExT"
+
+#: resource/client/forms/config.glade:95
+msgid "Save all changes"
+msgstr "Uložit všechny změny"
+
+#: resource/client/forms/config.glade:112
+msgid "Close the window"
+msgstr "Zavřít okno"
+
+#: resource/client/forms/config.glade:193
+msgid "Current effective username"
+msgstr "Aktuální uživatelské jméno"
+
+#: resource/client/forms/config.glade:267
+msgid "Current statistics"
+msgstr "Aktuální statistiky"
+
+#: resource/client/forms/config.glade:288
+msgid "Time spent this session or after Timekpr-nExT has been restarted"
+msgstr "Čas využitý touto relací nebo od restartování Timekpr-nExT"
+
+#: resource/client/forms/config.glade:291
+msgid "Time spent (session):"
+msgstr "Čas využitý relací:"
+
+#: resource/client/forms/config.glade:334
+msgid "Time inactive this session or after Timekpr-nExT has been restarted"
+msgstr "Čas neaktivní využitý touto relací nebo od restartování Timekpr-nExT"
+
+#: resource/client/forms/config.glade:337
+msgid "Time inactive:"
+msgstr "Neaktivní čas:"
+
+#: resource/client/forms/config.glade:362
+msgid "Continous time left to You which may span to more than a current day"
+msgstr "Zbývající nepřetržitý čas, jeho délka může být delší než aktuální den"
+
+#: resource/client/forms/config.glade:365
+msgid "Continous time left:"
+msgstr "Zbývající nepřetržitý čas:"
+
+#: resource/client/forms/config.glade:379
+msgid "Total time available left today in a row, up to the end of the day"
+msgstr "Celkový dnešní čas, který je k dispozici do konce dne"
+
+#: resource/client/forms/config.glade:382
+msgid "Time left today:"
+msgstr "Čas zbývající dnes:"
+
+#: resource/client/forms/config.glade:437
+msgid "These are days and limits that available to You"
+msgstr "Toto jsou limity jednotlivých dnů, které máte k dispozici"
+
+#: resource/client/forms/config.glade:464
+msgid "Days & Limits"
+msgstr "Limity dnů"
+
+#: resource/client/forms/config.glade:496
+msgid "This shows time intervals that are available for Your use"
+msgstr "Zobrazit časové intervaly, které jsou k dispozici pro použití"
+
+#: resource/client/forms/config.glade:521
+msgid "Intervals"
+msgstr "Intervaly"
+
+#: resource/client/forms/config.glade:574
+msgid "Additional statistics"
+msgstr "Další statistiky"
+
+#: resource/client/forms/config.glade:595
+msgid "TIme spent for this week"
+msgstr "Čas využitý v tomto týdnu"
+
+#: resource/client/forms/config.glade:624
+msgid "Time spent for this month"
+msgstr "Čas využitý v tomto měsíci"
+
+#: resource/client/forms/config.glade:641
+msgid "Track inactive:"
+msgstr "Sledovat neaktivní:"
+
+#: resource/client/forms/config.glade:704
+#: resource/client/forms/config.glade:803
+msgid "Additional limits"
+msgstr "Ostatní limity"
+
+#: resource/client/forms/config.glade:725
+msgid "Time limit for week available to You"
+msgstr "Týdenní časový limit, který máte k dispozici"
+
+#: resource/client/forms/config.glade:728
+msgid "Time limit (week):"
+msgstr "Časový limit za týden:"
+
+#: resource/client/forms/config.glade:755
+msgid "Time limit for month available to You"
+msgstr "Měsíční časový limit. který máte k dispozici"
+
+#: resource/client/forms/config.glade:758
+msgid "Time limit (month):"
+msgstr "Časový limit za měsíc:"
+
+#: resource/client/forms/config.glade:819
+msgid "Use speech notifications"
+msgstr "Použít hlasová oznámení"
+
+#: resource/client/forms/config.glade:823
+msgid ""
+"Select whether to use speech notifications (if not available, this will be "
+"greyed out). If usage of speech is very much needed, please install python3-"
+"espeak package"
+msgstr ""
+"Vyberte, zda se mají používat hlasová oznámení (nejsou-li k dispozici, bude "
+"volba šedá). Pokud potřebujete použít hlasová oznámení, nainstalujte prosím "
+"balíček python3-espeak"
+
+#: resource/client/forms/config.glade:842
+#: resource/client/forms/config.glade:865
+msgid ""
+"This sets logging level (please do not change this unless You know what "
+"You're doing)"
+msgstr ""
+"Zde nastavíte úroveň protokolování (prosím pokud nevíte co děláte, neměňte "
+"nastavení)"
+
+#: resource/client/forms/config.glade:868
+msgid "Logging level"
+msgstr "Úroveň protokolování"
+
+#: resource/client/forms/config.glade:884
+msgid "Show limit changes"
+msgstr "Zobrazit změny limitu"
+
+#: resource/client/forms/config.glade:888
+msgid ""
+"Specify whether to show notification when limit configurations or allowance "
+"changes"
+msgstr ""
+"Určete, zda se mají zobrazit oznámení, když se změní konfigurace limitů nebo "
+"povolení"
+
+#: resource/client/forms/config.glade:901
+msgid "Show all notifications"
+msgstr "Zobrazit všechna oznámení"
+
+#: resource/client/forms/config.glade:905
+msgid ""
+"Specify whether to show all notifications. If unchecked, then only important "
+"ones are shown"
+msgstr ""
+"Určete, zda se mají zobrazit všechna oznámení. Pokud není zaškrtnuto, "
+"zobrazí se pouze důležité"
+
+#: resource/client/forms/config.glade:918
+msgid "Show seconds in notification area"
+msgstr "Zobrazit sekundy v oznamovací oblasti"
+
+#: resource/client/forms/config.glade:922
+msgid ""
+"Specify whether to show seconds in notification area (some DE, like KDE5, do "
+"not support text besides notification icons)"
+msgstr ""
+"Určete, zda se mají zobrazovat sekundy v oznamovací oblasti (některé DE, "
+"například KDE5, nepodporují text kromě oznamovacích ikon)"
+
+#: resource/client/forms/config.glade:962
+msgid "Configuration"
+msgstr "Nastavení"

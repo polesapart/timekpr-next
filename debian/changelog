@@ -1,3 +1,10 @@
+timekpr-next (0.3.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Added Czech language (thanks for translations to NOVAK Ludek)
+  * Fixed Hungarian language inclusion (thanks for spotting the typo to NOVAK Ludek)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 21 Apr 2020 23:19:42 +0300
+
 timekpr-next (0.3.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Added support for LockedHint to determine whether session is locked
