@@ -398,12 +398,19 @@ class timekprDaemon(dbus.service.Object):
         # initialize username storage
         userConfigurationStore = {}
 
+        # determine whether user is logged in, so we can get more info out of it
+        if pUserName in self._timekprUserList:
+            # pass this to actual method
+            timekprUser = self._timekprUserList[pUserName]
+        else:
+            timekprUser = None
+
         try:
             # check the user and it's configuration
             userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
-            result, message, userConfigurationStore = userConfigProcessor.getSavedUserConfiguration()
+            result, message, userConfigurationStore = userConfigProcessor.getSavedUserConfiguration(timekprUser)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
