@@ -127,11 +127,12 @@ class timekprUserLoginManager(object):
             sessionType = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
             sessionVTNr = str(int(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
             sessionSeat = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Seat")[0])
+            sessionState = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
             # measurement logging
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             # add user session to return list
-            userSessions.append({"session": userSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat})
+            userSessions.append({"session": userSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
 
         # return sessions
         return userSessions
@@ -217,30 +218,34 @@ class timekprUserLoginManager(object):
         userSessionList = self.getUserSessionList(pUserName, pUserPath)
         # indication whether we are killing smth
         sessionsToKill = 0
+        switchTTYNeeded = False
         lastSeat = None
 
         # go through all user sessions
         for userSession in userSessionList:
             # if excludeTTY and sessionType not in ("unspecified", "tty"):
             if userSession["type"] in pSessionTypes:
-                # switch TTY (it will switch only when needed)
-                lastSeat = userSession["seat"]
-                self.switchTTY(lastSeat, userSession["vtnr"])
+                # switch TTY (it will switch only when needed and user session currently is active, e.g. in foreground)
+                if userSession["state"] == "active":
+                    switchTTYNeeded = True
+                    lastSeat = userSession["seat"]
+                    self.switchTTY(lastSeat, userSession["vtnr"])
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
                 else:
                     log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(userSession["session"][1]), str(userSession["type"])))
                     GLib.timeout_add_seconds(1, self._login1ManagerInterface.TerminateSession, userSession["session"][0])
-                # count sessions to kill
-                sessionsToKill += 1
+                    # count sessions to kill
+                    sessionsToKill += 1
             else:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving \"%s\" session %s (%s)" % (pUserName, str(userSession["session"][1]), str(userSession["type"])))
 
         # kill leftover processes (if we are killing smth)
         if sessionsToKill > 0:
             # before this, try to switch TTY again (somehow sometimes it's not switched)
-            self.switchTTY(lastSeat, "999")
+            if switchTTYNeeded:
+                self.switchTTY(lastSeat, "999")
             # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
             GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pSessionTypes)
 
