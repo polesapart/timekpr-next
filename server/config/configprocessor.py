@@ -19,12 +19,12 @@ import dbus
 class timekprUserConfigurationProcessor(object):
     """Validate and update configuration data for timekpr user"""
 
-    def __init__(self, pLog, pUserName, pConfigDir, pWorkDir):
+    def __init__(self, pLog, pUserName, pTimekprConfig):
         """Initialize all stuff for user"""
         # set up initial variables
         self._logging = pLog
-        self._configDir = pConfigDir
-        self._workDir = pWorkDir
+        self._configDir = pTimekprConfig.getTimekprConfigDir()
+        self._workDir = pTimekprConfig.getTimekprWorkDir()
         self._userName = pUserName
         self._timekprUserConfig = None
         self._timekprUserControl = None
@@ -481,12 +481,12 @@ class timekprUserConfigurationProcessor(object):
 class timekprConfigurationProcessor(object):
     """Validate and update configuration data for timekpr server"""
 
-    def __init__(self, pLog, pIsDevActive):
+    def __init__(self, pLog):
         """Initialize all stuff for user"""
         # set up initial variables
         self._logging = pLog
         # configuration init
-        self._timekprConfig = timekprConfig(pIsDevActive=pIsDevActive, pLog=self._logging)
+        self._timekprConfig = timekprConfig(pLog=self._logging)
 
     def loadTimekprConfiguration(self):
         """Load timekpr config"""

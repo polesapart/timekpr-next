@@ -10,7 +10,6 @@ DBusGMainLoop(set_as_default=True)
 from datetime import timedelta
 import getpass
 import dbus
-import time
 from gi.repository import GLib
 
 # timekpr imports
@@ -28,11 +27,8 @@ class timekprClient(object):
 
     # --------------- initialization / control methods --------------- #
 
-    def __init__(self, pIsDevActive=False):
+    def __init__(self):
         """Initialize client"""
-        # dev
-        self._isDevActive = pIsDevActive
-
         # set username , etc.
         self._userName = getpass.getuser()
         self._userNameDBUS = self._userName.replace(".", "").replace("-", "")
@@ -43,17 +39,17 @@ class timekprClient(object):
         log.setLogging(self._logging)
 
         # get our bus
-        self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
+        self._timekprBus = (dbus.SessionBus() if (cons.TK_DEV_ACTIVE and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
 
         # loop
         self._mainLoop = GLib.MainLoop()
 
         # init logging (load config which has all the necessarry bits)
-        self._timekprConfigManager = timekprClientConfig(pIsDevActive)
-        self._timekprConfigManager.loadClientConfiguration()
+        self._timekprClientConfig = timekprClientConfig()
+        self._timekprClientConfig.loadClientConfiguration()
 
         # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getClientLogLevel(), cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
+        self._logging = {cons.TK_LOG_L: self._timekprClientConfig.getClientLogLevel(), cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
         # set up logging
         log.setLogging(self._logging)
 
@@ -62,12 +58,12 @@ class timekprClient(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "starting up timekpr client")
 
         # check if appind is supported
-        self._timekprClientIndicator = appind_timekprIndicator(self._logging, self._isDevActive, self._userName, self._timekprConfigManager)
+        self._timekprClientIndicator = appind_timekprIndicator(self._logging, self._userName, self._timekprClientConfig)
 
         # if not supported fall back to statico
         if not self._timekprClientIndicator.isSupported():
             # check if appind is supported
-            self._timekprClientIndicator = statico_timekprIndicator(self._logging, self._isDevActive, self._userName, self._timekprConfigManager)
+            self._timekprClientIndicator = statico_timekprIndicator(self._logging, self._userName, self._timekprClientConfig)
 
         # this will check whether we have an icon, if not, the rest goes through timekprClient anyway
         if self._timekprClientIndicator.isSupported():
@@ -240,7 +236,7 @@ class timekprClient(object):
         """Receive time left and update GUI"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive tl notif: %s, %i" % (pPriority, pTimeLeftTotal))
         # if notifications are turned on
-        if self._timekprConfigManager.getClientShowAllNotifications():
+        if self._timekprClientConfig.getClientShowAllNotifications():
             # process time left notification
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
 
@@ -254,7 +250,7 @@ class timekprClient(object):
         """Receive no limit notificaton and show that to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive nl notif")
         # if notifications are turned on
-        if self._timekprConfigManager.getClientShowAllNotifications():
+        if self._timekprClientConfig.getClientShowAllNotifications():
             # process time left
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMEUNLIMITED, pPriority)
 
@@ -262,7 +258,7 @@ class timekprClient(object):
         """Receive time left notification and show it to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive time left changed notif")
         # if notifications are turned on
-        if self._timekprConfigManager.getClientShowLimitNotifications():
+        if self._timekprClientConfig.getClientShowLimitNotifications():
             # limits have changed and applied
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFTCHANGED, pPriority)
 
@@ -270,6 +266,6 @@ class timekprClient(object):
         """Receive notification about config change and show it to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive config changed notif")
         # if notifications are turned on
-        if self._timekprConfigManager.getClientShowLimitNotifications():
+        if self._timekprClientConfig.getClientShowLimitNotifications():
             # configuration has changed, new limits may have been applied
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMECONFIGCHANGED, pPriority)

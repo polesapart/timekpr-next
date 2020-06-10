@@ -100,7 +100,7 @@ def readAndNormalizeValue(pConfigFileParserFn, pSection, pParam, pDefaultValue, 
 class timekprConfig(object):
     """Main configuration class for the server"""
 
-    def __init__(self, pIsDevActive=False, pLog=None):
+    def __init__(self, pLog=None):
         """Initialize stuff"""
         if pLog is not None:
             log.setLogging(pLog)
@@ -109,16 +109,15 @@ class timekprConfig(object):
 
         # config
         self._timekprConfig = {}
-        self._isDevActive = pIsDevActive
 
         # in dev
-        if self._isDevActive:
+        if cons.TK_DEV_ACTIVE:
             self._configDirPrefix = os.getcwd()
         else:
             self._configDirPrefix = ""
 
         # main config
-        self._timekprConfig["TIMEKPR_MAIN_CONFIG_DIR"] = os.path.join(self._configDirPrefix, (cons.TK_MAIN_CONFIG_DIR_DEV if self._isDevActive else cons.TK_MAIN_CONFIG_DIR))
+        self._timekprConfig["TIMEKPR_MAIN_CONFIG_DIR"] = os.path.join(self._configDirPrefix, (cons.TK_MAIN_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else cons.TK_MAIN_CONFIG_DIR))
         self._configFile = os.path.join(self._timekprConfig["TIMEKPR_MAIN_CONFIG_DIR"], cons.TK_MAIN_CONFIG_FILE)
 
         # config parser
@@ -192,19 +191,19 @@ class timekprConfig(object):
         # read
         param = "TIMEKPR_CONFIG_DIR"
         result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_CONFIG_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_CONFIG_DIR_DEV if self._isDevActive else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else value))
         # read
         param = "TIMEKPR_WORK_DIR"
         result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_WORK_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_WORK_DIR_DEV if self._isDevActive else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_WORK_DIR_DEV if cons.TK_DEV_ACTIVE else value))
         # read
         param = "TIMEKPR_SHARED_DIR"
         result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if self._isDevActive else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else value))
         # read
         param = "TIMEKPR_LOGFILE_DIR"
         result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_LOGFILE_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if self._isDevActive else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else value))
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:
@@ -905,11 +904,10 @@ class timekprUserControl(object):
 class timekprClientConfig(object):
     """Class will hold and provide config management for user"""
 
-    def __init__(self, pIsDevActive=False):
+    def __init__(self):
         """Initialize config"""
         # config
         self._timekprClientConfig = {}
-        self._isDevActive = pIsDevActive
         # get home
         self._userHome = os.path.expanduser("~")
 
@@ -924,13 +922,13 @@ class timekprClientConfig(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "start initializing client configuration manager")
 
         # in dev
-        if self._isDevActive:
+        if cons.TK_DEV_ACTIVE:
             self._configDirPrefix = os.getcwd()
         else:
             self._configDirPrefix = ""
 
         # main config
-        self._timekprClientConfig["TIMEKPR_MAIN_CONFIG_DIR"] = os.path.join(self._configDirPrefix, (cons.TK_MAIN_CONFIG_DIR_DEV if self._isDevActive else cons.TK_MAIN_CONFIG_DIR))
+        self._timekprClientConfig["TIMEKPR_MAIN_CONFIG_DIR"] = os.path.join(self._configDirPrefix, (cons.TK_MAIN_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else cons.TK_MAIN_CONFIG_DIR))
         self._configMainFile = os.path.join(self._timekprClientConfig["TIMEKPR_MAIN_CONFIG_DIR"], cons.TK_MAIN_CONFIG_FILE)
 
         # config
@@ -1029,7 +1027,7 @@ class timekprClientConfig(object):
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: could not parse the configuration file (%s) properly, will use default values" % (self._configMainFile))
 
         # finalize directory
-        self._timekprClientConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if self._isDevActive else value))
+        self._timekprClientConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else value))
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading minimal main configuration")
 

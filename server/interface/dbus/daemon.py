@@ -33,14 +33,12 @@ class timekprDaemon(dbus.service.Object):
     """Main daemon class"""
 
     # --------------- initialization / control methods --------------- #
-    def __init__(self, pIsDevActive=False):
+    def __init__(self):
         """Initialize daemon variables"""
         log.log(cons.TK_LOG_LEVEL_INFO, "start init dbus daemon")
 
-        # is dev
-        self._isDevActive = pIsDevActive
         # get our bus
-        self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
+        self._timekprBus = (dbus.SessionBus() if (cons.TK_DEV_ACTIVE and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
         # get our bus name (where clients will find us)
         self._timekprBusName = dbus.service.BusName(cons.TK_DBUS_BUS_NAME, bus=self._timekprBus, replace_existing=True)
         # init DBUS
@@ -62,7 +60,7 @@ class timekprDaemon(dbus.service.Object):
         # this will define login manager
         self._timekprLoginManager = None
         # this will define main timekpr configuration loader
-        self._timekprConfigManager = None
+        self._timekprConfig = None
         # this will hold all timekpr users (collection of user class)
         self._timekprUserList = {}
         # this will hold collection of users to be terminated
@@ -74,11 +72,11 @@ class timekprDaemon(dbus.service.Object):
         # set up tmp logging
         log.setLogging(self._logging)
         # configuration init
-        self._timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive, pLog=self._logging)
-        self._timekprConfigManager.loadMainConfiguration()
+        self._timekprConfig = timekprConfig(pLog=self._logging)
+        self._timekprConfig.loadMainConfiguration()
 
         # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: self._timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
+        self._logging = {cons.TK_LOG_L: self._timekprConfig.getTimekprLogLevel(), cons.TK_LOG_D: self._timekprConfig.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
         # logging init
         log.setLogging(self._logging)
 
@@ -130,7 +128,7 @@ class timekprDaemon(dbus.service.Object):
             log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users ---")
 
             # take a polling pause
-            time.sleep(self._timekprConfigManager.getTimekprPollTime())
+            time.sleep(self._timekprConfig.getTimekprPollTime())
 
         log.log(cons.TK_LOG_LEVEL_INFO, "worker shut down")
 
@@ -167,7 +165,7 @@ class timekprDaemon(dbus.service.Object):
                 # try to get login manager VT (if not already found)
                 self._timekprLoginManager.determineLoginManagerVT(userName, userDict[cons.TK_CTRL_UPATH])
             # if username is in exclusion list, additionally verify that username is not a sysuser / login manager (this is somewhat obsolete now)
-            elif userName in self._timekprConfigManager.getTimekprUsersExcl() and userName not in userhelper.getTimekprLoginManagers():
+            elif userName in self._timekprConfig.getTimekprUsersExcl() and userName not in userhelper.getTimekprLoginManagers():
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: user \"%s\" explicitly excluded" % (userName))
             # if not in, we add it
             elif userName not in self._timekprUserList:
@@ -179,8 +177,8 @@ class timekprDaemon(dbus.service.Object):
                     ,userDict[cons.TK_CTRL_UID]
                     ,userDict[cons.TK_CTRL_UNAME]
                     ,userDict[cons.TK_CTRL_UPATH]
-                    ,self._timekprConfigManager.getTimekprConfigDir()
-                    ,self._timekprConfigManager.getTimekprWorkDir())
+                    ,self._timekprConfig.getTimekprConfigDir()
+                    ,self._timekprConfig.getTimekprWorkDir())
 
                 # init variables for user
                 self._timekprUserList[userName].initTimekprVariables()
@@ -220,12 +218,12 @@ class timekprDaemon(dbus.service.Object):
             killEvenIdle = True
 
             # adjust time spent
-            isUserActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfigManager.getTimekprSessionsCtrl(), self._timekprConfigManager.getTimekprSessionsExcl(), self._timekprConfigManager.getTimekprSaveTime())
+            userActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfig)
             # recalculate time left
             self._timekprUserList[userName].recalculateTimeLeft()
 
             # if user is not active and we are not killing them even idle, we do not send them to death row (suspend the sentence for a while)
-            if (not killEvenIdle and not isUserActive) and userName in self._timekprUserTerminationList:
+            if (not killEvenIdle and not userActive) and userName in self._timekprUserTerminationList:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving user \"%s\" from certain death" % (userName))
                 # remove from death list
                 self._timekprUserTerminationList.pop(userName)
@@ -233,17 +231,17 @@ class timekprDaemon(dbus.service.Object):
             # get stats for user
             timeLeftInARow = self._timekprUserList[userName].getTimeLeft()[1]
 
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s, time left: %i" % (userName, str(isUserActive), timeLeftInARow))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s, time left: %i" % (userName, str(userActive), timeLeftInARow))
 
             # if user has very few time, let's kill him softly + user sessions are not yet sentenced to death and user is active (or forced)
-            if timeLeftInARow <= self._timekprConfigManager.getTimekprTerminationTime() + 1 and userName not in self._timekprUserTerminationList and (isUserActive or killEvenIdle):
+            if timeLeftInARow <= self._timekprConfig.getTimekprTerminationTime() + 1 and userName not in self._timekprUserTerminationList and (userActive or killEvenIdle):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: user \"%s\" has to go..." % (userName))
                 # how many users are on the death row
                 killLen = len(self._timekprUserTerminationList)
                 # add user to kill list (add dbus object path)
                 self._timekprUserTerminationList[userName] = self._timekprUserList[userName].getUserPathOnBus()
                 # initiate final countdown after which session is killed
-                self._timekprUserList[userName]._finalCountdown = max(timeLeftInARow, self._timekprConfigManager.getTimekprTerminationTime())
+                self._timekprUserList[userName]._finalCountdown = max(timeLeftInARow, self._timekprConfig.getTimekprTerminationTime())
 
                 # in case this is first killing
                 if killLen == 0:
@@ -268,7 +266,7 @@ class timekprDaemon(dbus.service.Object):
             log.log(cons.TK_LOG_LEVEL_INFO, "death approaching in %s secs" % (str(self._timekprUserList[rUserName]._finalCountdown)))
 
             # send messages only when certain time is left
-            if self._timekprUserList[rUserName]._finalCountdown <= self._timekprConfigManager.getTimekprFinalWarningTime():
+            if self._timekprUserList[rUserName]._finalCountdown <= self._timekprConfig.getTimekprFinalWarningTime():
                 # final warning
                 self._timekprUserList[rUserName].processFinalWarning()
 
@@ -278,7 +276,7 @@ class timekprDaemon(dbus.service.Object):
                 self._timekprUserList[rUserName].saveSpent()
                 # kill user
                 try:
-                    self._timekprLoginManager.terminateUserSessions(rUserName, self._timekprUserList[rUserName].getUserPathOnBus(), self._timekprConfigManager.getTimekprSessionsCtrl())
+                    self._timekprLoginManager.terminateUserSessions(rUserName, self._timekprUserList[rUserName].getUserPathOnBus(), self._timekprConfig)
                 except Exception:
                     log.log(cons.TK_LOG_LEVEL_INFO, "ERROR killing sessions: %s" % (traceback.format_exc()))
 
@@ -379,7 +377,7 @@ class timekprDaemon(dbus.service.Object):
 
         try:
             # check if we have this user
-            userList = timekprUserStore.getSavedUserList(self._logging, self._timekprConfigManager.getTimekprConfigDir())
+            userList = timekprUserStore.getSavedUserList(self._logging, self._timekprConfig.getTimekprConfigDir())
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -402,7 +400,7 @@ class timekprDaemon(dbus.service.Object):
 
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message, userConfigurationStore = userConfigProcessor.getSavedUserConfiguration()
@@ -426,7 +424,7 @@ class timekprDaemon(dbus.service.Object):
             server expects only the days that are allowed, sorted in ascending order"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userConfigProcessor.checkAndSetAllowedDays(pDayList)
@@ -457,7 +455,7 @@ class timekprDaemon(dbus.service.Object):
             minutes can be specified in brackets after hour, like: 16[00-45], which means until 16:45"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userConfigProcessor.checkAndSetAllowedHours(pDayNumber, pHourList)
@@ -486,7 +484,7 @@ class timekprDaemon(dbus.service.Object):
             server always expects 7 limits, for each day of the week, in the list"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userConfigProcessor.checkAndSetTimeLimitForDays(pDayLimits)
@@ -516,7 +514,7 @@ class timekprDaemon(dbus.service.Object):
             false - user time is not tracked if he locks the session, session is switched to another user, etc."""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userConfigProcessor.checkAndSetTrackInactive(True if pTrackInactive else False)
@@ -543,7 +541,7 @@ class timekprDaemon(dbus.service.Object):
         """Set up new timelimit for week for the user"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userConfigProcessor.checkAndSetTimeLimitForWeek(pTimeLimitWeek)
@@ -570,7 +568,7 @@ class timekprDaemon(dbus.service.Object):
         """Set up new timelimit for month for the user"""
         try:
             # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userConfigProcessor.checkAndSetTimeLimitForMonth(pTimeLimitMonth)
@@ -601,7 +599,7 @@ class timekprDaemon(dbus.service.Object):
             if pOperation is "=" or empty, the time is set as it is"""
         try:
             # check the user and it's configuration
-            userControlProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfigManager.getTimekprConfigDir(), self._timekprConfigManager.getTimekprWorkDir())
+            userControlProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
 
             # load config
             result, message = userControlProcessor.checkAndSetTimeLeft(pOperation, pTimeLeft)
@@ -632,7 +630,7 @@ class timekprDaemon(dbus.service.Object):
         timekprConfig = {}
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message, timekprConfig = mainConfigurationProcessor.getSavedTimekprConfiguration()
@@ -655,13 +653,13 @@ class timekprDaemon(dbus.service.Object):
         """ restart needed to fully engage, but newly logged in users get logging properly"""
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprLogLevel(pLogLevel)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprLogLevel(pLogLevel)
+            self._timekprConfig.setTimekprLogLevel(pLogLevel)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -681,13 +679,13 @@ class timekprDaemon(dbus.service.Object):
         """ set in-memory polling time (this is the accounting precision of the time"""
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprPollTime(pPollTimeSecs)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprPollTime(pPollTimeSecs)
+            self._timekprConfig.setTimekprPollTime(pPollTimeSecs)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -707,13 +705,13 @@ class timekprDaemon(dbus.service.Object):
         """Set the interval at which timekpr saves user data (time spent, etc.)"""
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprSaveTime(pSaveTimeSecs)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprSaveTime(pSaveTimeSecs)
+            self._timekprConfig.setTimekprSaveTime(pSaveTimeSecs)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -733,13 +731,13 @@ class timekprDaemon(dbus.service.Object):
         """Note that this is just the default value which is configurable at user level"""
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprTrackInactive(pTrackInactive)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprTrackInactive(pTrackInactive)
+            self._timekprConfig.setTimekprTrackInactive(pTrackInactive)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -761,13 +759,13 @@ class timekprDaemon(dbus.service.Object):
         """
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprTerminationTime(pTerminationTimeSecs)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprTerminationTime(pTerminationTimeSecs)
+            self._timekprConfig.setTimekprTerminationTime(pTerminationTimeSecs)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -787,13 +785,13 @@ class timekprDaemon(dbus.service.Object):
         """ Final warning time is the countdown lenght (in seconds) for the user before he's thrown out"""
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprFinalWarningTime(pFinalWarningTimeSecs)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprFinalWarningTime(pFinalWarningTimeSecs)
+            self._timekprConfig.setTimekprFinalWarningTime(pFinalWarningTimeSecs)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -813,13 +811,13 @@ class timekprDaemon(dbus.service.Object):
         """ Accountable sessions are sessions which are counted as active, there are handful of them, but predefined"""
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprSessionsCtrl(pSessionsCtrl)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprSessionsCtrl(pSessionsCtrl)
+            self._timekprConfig.setTimekprSessionsCtrl(pSessionsCtrl)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -840,13 +838,13 @@ class timekprDaemon(dbus.service.Object):
         try:
             # result
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprSessionsExcl(pSessionsExcl)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprSessionsExcl(pSessionsExcl)
+            self._timekprConfig.setTimekprSessionsExcl(pSessionsExcl)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
@@ -869,13 +867,13 @@ class timekprDaemon(dbus.service.Object):
         """
         try:
             # check the configuration
-            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging, self._isDevActive)
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
 
             # check and set config
             result, message = mainConfigurationProcessor.checkAndSetTimekprUsersExcl(pUsersExcl)
 
             # set in memory as well
-            self._timekprConfigManager.setTimekprUsersExcl(pUsersExcl)
+            self._timekprConfig.setTimekprUsersExcl(pUsersExcl)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)

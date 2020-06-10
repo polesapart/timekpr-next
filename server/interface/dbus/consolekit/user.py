@@ -21,9 +21,3 @@ class timekprUserManager(object):
         """Check if user is active."""
         # NOT IMPLEMENTED
         raise NotImplementedError("ConsoleKit support is not implemented")
-
-    # check if user is active
-    def isUserActive(self, pSessionTypes, pTrackInactive, pIsScreenLocked):
-        """Check if user is active."""
-        # NOT IMPLEMENTED
-        raise NotImplementedError("ConsoleKit support is not implemented")

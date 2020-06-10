@@ -311,7 +311,6 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_SPENTW] = spentHour if weekChanged else self._timekprUserControl.getUserTimeSpentWeek()
         # if month changed
         self._timekprUserData[cons.TK_CTRL_SPENTM] = spentHour if monthChanged else self._timekprUserControl.getUserTimeSpentMonth()
-
         # import that into runtime config (if last check day is the same as current)
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD]
 
@@ -325,7 +324,7 @@ class timekprUser(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentFromControl")
 
-    def adjustTimeSpentActual(self, pSessionTypes, pSessionTypesExcl, pTimekprSaveInterval):
+    def adjustTimeSpentActual(self, pTimekprConfig):
         """Adjust time spent (and save it)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentActual")
 
@@ -341,7 +340,7 @@ class timekprUser(object):
         timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
 
         # determine if active
-        isUserActive = self.isUserActive(pSessionTypes)
+        userActive = self._timekprUserManager.isUserActive(pTimekprConfig, self._timekprUserConfig, self._timekprUserData[cons.TK_CTRL_SCR_N])
 
         # if time spent is very much higher than the default polling time, computer might went to sleep?
         if timeSpent >= cons.TK_POLLTIME * 15:
@@ -359,11 +358,11 @@ class timekprUser(object):
             timeSpent = min(timeSpent, self._secondsInHour)
 
         # how long user has been sleeping
-        if not isUserActive:
+        if not userActive:
             # track sleep time
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SLEEP] += timeSpent
         # adjust time spent only if user is active
-        elif isUserActive:
+        elif userActive:
             # adjust time spent this hour
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] += timeSpent
             # adjust time spent this day
@@ -403,14 +402,14 @@ class timekprUser(object):
                 self._timekprUserData[cons.TK_CTRL_SPENTM] = timeSpent
 
         # check if we need to save progress
-        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprSaveInterval or lastCheckDOW != self._currentDOW:
+        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprConfig.getTimekprSaveTime() or lastCheckDOW != self._currentDOW:
             # save
             self.saveSpent()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentActual")
 
-        # returns if user is isUserActive
-        return isUserActive
+        # returns if user is active
+        return userActive
 
     def getTimeLeft(self, pForce=False):
         """Get how much time is left (for this day and in a row for max this and next day)"""
@@ -600,11 +599,6 @@ class timekprUser(object):
     def getUserPathOnBus(self):
         """Return user DBUS path"""
         return self._timekprUserData[cons.TK_CTRL_UPATH]
-
-    def isUserActive(self, pSessionTypes):
-        """Whether user is active"""
-        # check sessions (adding user attributes as well (screenclocked))
-        return self._timekprUserManager.isUserActive(pSessionTypes, self._timekprUserConfig.getUserTrackInactive(), self._timekprUserData[cons.TK_CTRL_SCR_N])
 
     def processFinalWarning(self):
         """Process emergency message about killing"""

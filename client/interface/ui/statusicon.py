@@ -23,7 +23,7 @@ _USE_STATUSICON = True
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
+    def __init__(self, pLog, pUserName, pTimekprClientConfig):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog)
@@ -33,7 +33,7 @@ class timekprIndicator(timekprNotificationArea):
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pIsDevActive, pUserName, pTimekprConfigManager)
+            super().__init__(pLog, pUserName, pTimekprClientConfig)
 
             # this is our icon
             self._tray = None
@@ -88,7 +88,7 @@ class timekprIndicator(timekprNotificationArea):
         self._popup = timekprUIManager.get_widget("/timekprPopupMenu")
 
         # initial config
-        self._tray.set_from_file(os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]))
+        self._tray.set_from_file(os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]))
         self.setTimeLeft("", None)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initTimekprStatusIcon")

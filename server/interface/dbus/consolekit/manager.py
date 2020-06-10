@@ -33,7 +33,7 @@ class timekprUserLoginManager(object):
         # NOT IMPLEMENTED
         raise NotImplementedError("ConsoleKit support is not implemented")
 
-    def terminateUserSessions(self, pUserName, pUserPath, pSessionTypes):
+    def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
         """Terminate user sessions"""
         # NOT IMPLEMENTED
         raise NotImplementedError("ConsoleKit support is not implemented")

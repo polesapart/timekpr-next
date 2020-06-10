@@ -82,7 +82,7 @@ class timekprUserStore(object):
         # set up logging
         log.setLogging(logging)
         # get user config
-        timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE, pLog=logging)
+        timekprConfigManager = timekprConfig(pLog=logging)
         # load user config
         timekprConfigManager.loadMainConfiguration()
         # set up logging
@@ -119,7 +119,7 @@ class timekprUserStore(object):
             # set up logging
             log.setLogging(logging)
             # get user config
-            timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE, pLog=logging)
+            timekprConfigManager = timekprConfig(pLog=logging)
             # load user config
             timekprConfigManager.loadMainConfiguration()
             # set up logging

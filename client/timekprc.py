@@ -14,7 +14,6 @@ sys.path.append("/usr/share/pyshared")
 import signal
 
 # timekpr imports
-from timekpr.common.constants import constants as cons
 from timekpr.client.interface.dbus.daemon import timekprClient
 from timekpr.common.utils import misc
 
@@ -26,7 +25,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     # get our client
-    _timekprClient = timekprClient(pIsDevActive=cons.TK_DEV_ACTIVE)
+    _timekprClient = timekprClient()
 
     # this is needed for appindicator to react to ctrl+c
     signal.signal(signal.SIGINT, _timekprClient.finishTimekpr)

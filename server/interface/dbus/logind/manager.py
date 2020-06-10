@@ -209,7 +209,7 @@ class timekprUserLoginManager(object):
         else:
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: switching TTY is not needed")
 
-    def terminateUserSessions(self, pUserName, pUserPath, pSessionTypes):
+    def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
         """Terminate user sessions"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start terminateUserSessions")
         log.log(cons.TK_LOG_LEVEL_DEBUG, "inspecting \"%s\" userpath \"%s\" sessions" % (pUserName, pUserPath))
@@ -224,7 +224,7 @@ class timekprUserLoginManager(object):
         # go through all user sessions
         for userSession in userSessionList:
             # if excludeTTY and sessionType not in ("unspecified", "tty"):
-            if userSession["type"] in pSessionTypes:
+            if userSession["type"] in pTimekprConfig.getTimekprSessionsCtrl():
                 # switch TTY (it will switch only when needed and user session currently is active, e.g. in foreground)
                 if userSession["state"] == "active":
                     switchTTYNeeded = True
@@ -247,6 +247,6 @@ class timekprUserLoginManager(object):
             if switchTTYNeeded:
                 self.switchTTY(lastSeat, "999")
             # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
-            GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pSessionTypes)
+            GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")

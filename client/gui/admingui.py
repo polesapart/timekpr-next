@@ -25,14 +25,13 @@ _NO_TIME_LIMIT_LABEL = "--:--:--:--"
 class timekprAdminGUI(object):
     """Main class for supporting timekpr forms"""
 
-    def __init__(self, pTimekprVersion, pResourcePath, pUsername, pIsDevActive):
+    def __init__(self, pTimekprVersion, pResourcePath, pUsername):
         """Initialize gui"""
         # set up base variables
         self._userName = pUsername
         self._timekprVersion = pTimekprVersion
         self._resourcePath = pResourcePath
         self._timekprAdminConnector = None
-        self._isDevActive = pIsDevActive
         self._isConnected = False
 
         # ## forms builders ##
@@ -86,7 +85,7 @@ class timekprAdminGUI(object):
     def initTimekprAdmin(self):
         """Initialize admin client"""
         # get our connector
-        self._timekprAdminConnector = timekprAdminConnector(self._isDevActive)
+        self._timekprAdminConnector = timekprAdminConnector()
         # connect
         GLib.timeout_add_seconds(0, self._timekprAdminConnector.initTimekprConnection, False)
         # check connection
@@ -313,7 +312,7 @@ class timekprAdminGUI(object):
     def toggleTimekprConfigControls(self, pEnable=True, pAll=True):
         """Enable or disable all timekpr controls for the form"""
         # enable for timekpr can be done only in admin mode
-        enable = pEnable and (os.getuid() == 0 or self._isDevActive)
+        enable = pEnable and (os.getuid() == 0 or cons.TK_DEV_ACTIVE)
         # apply settings to all buttons`in user configuration
         for rButton in self._timekprConfigControlElements:
             if not enable:
