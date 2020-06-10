@@ -6,17 +6,34 @@ Created on Aug 28, 2018
 
 # connection with ck
 class timekprUserLoginManager(object):
-    # init
+    """Class enables the connection with ConsoleKit"""
+
     def __init__(self, pLog):
+        """Initialize all stuff for consolekit"""
         # NOT IMPLEMENTED
-        pass
+        raise NotImplementedError("ConsoleKit support is not implemented")
 
-    # go through a list of logged in users
-    def getUserList(self):
+    def getUserList(self, pSilent=False):
+        """Go through a list of logged in users"""
         # NOT IMPLEMENTED
-        pass
+        raise NotImplementedError("ConsoleKit support is not implemented")
 
-    # terminate user sessions
-    def terminateUserSessions(self, pUser, pUserPath, pSessionTypes):
+    def getUserSessionList(self, pUserName, pUserPath):
+        """Get up-to-date user session list"""
         # NOT IMPLEMENTED
-        pass
+        raise NotImplementedError("ConsoleKit support is not implemented")
+
+    def determineLoginManagerVT(self, pUserName, pUserPath):
+        """Get login manager session VTNr"""
+        # NOT IMPLEMENTED
+        raise NotImplementedError("ConsoleKit support is not implemented")
+
+    def switchTTY(self, pSeatId, pSessionTTY):
+        """Swith TTY for login screen"""
+        # NOT IMPLEMENTED
+        raise NotImplementedError("ConsoleKit support is not implemented")
+
+    def terminateUserSessions(self, pUserName, pUserPath, pSessionTypes):
+        """Terminate user sessions"""
+        # NOT IMPLEMENTED
+        raise NotImplementedError("ConsoleKit support is not implemented")
