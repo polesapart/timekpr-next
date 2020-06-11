@@ -1,3 +1,26 @@
+timekpr-next (0.3.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
+
+  * Registered bug fixes:
+  ** killing user sessions that do not have seats will not switch to login manager TTY (#1861479)
+  ** properly show time spent for the day in administration app (#1882909)
+  * Discovered bug fixes:
+  ** fix config / control file recreation in case it's missing a configuration option
+  * Changes / improvements:
+  ** control files (.time) will now contain balance as well as time spent for day (existing TIME_SPENT will be removed)
+  ** console application (timekpra) changes
+  *** rename TIME_SPENT (previously saved value) to TIME_SPENT_BALANCE
+  *** rename option "userconfig" to "userinfo" which better represents returned values
+  ** console application (timekpra) improvements - added "live" (i.e. calculated every 3 secs) values for options below
+  *** ACTUAL_TIME_SPENT_SESSION - time spent in this session (since timekpr daemon startup)
+  *** ACTUAL_TIME_INACTIVE_SESSION - time user was inactive in this session (since timekpr daemon startup)
+  *** ACTUAL_TIME_SPENT_BALANCE - time spent balance (including added/removed bonus time)
+  *** ACTUAL_TIME_SPENT_DAY - time user spent this day (actual spent time, example: user has 1 hour, if there was a bonus 1 hr, this will show 2 hrs)
+  *** ACTUAL_TIME_LEFT_TODAY -  how much time is left today
+  *** ACTUAL_TIME_LEFT_CONTINUOUS - how much time is left continuously (but no more than this and next day)
+  ** timekpr will not switch to TTY after killing a user / session that is not active (i.e. in foreground)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 12 Jun 2020 00:23:46 +0300
+
 timekpr-next (0.3.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   * Added Czech language (thanks for translations to NOVAK Ludek)
