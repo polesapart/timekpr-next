@@ -105,7 +105,7 @@ class timekprUserConfigurationProcessor(object):
                 # limit per month
                 userConfigurationStore["LIMIT_PER_MONTH"] = self._timekprUserConfig.getUserMonthLimit()
                 # time spent
-                userConfigurationStore["TIME_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
+                userConfigurationStore["TIME_SPENT_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
                 # time spent
                 userConfigurationStore["TIME_SPENT_DAY"] = self._timekprUserControl.getUserTimeSpentDay()
                 # time spent
@@ -116,15 +116,15 @@ class timekprUserConfigurationProcessor(object):
                 # values from live session
                 if pTimekprUser is not None:
                     # get lefts
-                    timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession = pTimekprUser.getTimeLeft()
+                    timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay = pTimekprUser.getTimeLeft()
                     # time spent session
                     userConfigurationStore["ACTUAL_TIME_SPENT_SESSION"] = int(timeSpentThisSession)
                     # time inactive this session
                     userConfigurationStore["ACTUAL_TIME_INACTIVE_SESSION"] = int(timeInactiveThisSession)
                     # time spent
-                    userConfigurationStore["ACTUAL_TIME_BALANCE"] = 0  # TBD
+                    userConfigurationStore["ACTUAL_TIME_SPENT_BALANCE"] = int(timeSpentBalance)
                     # time spent
-                    userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = 0  # TBD
+                    userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = int(timeSpentDay)
                     # time left today
                     userConfigurationStore["ACTUAL_TIME_LEFT_TODAY"] = int(timeLeftToday)
                     # time left in a row

@@ -418,7 +418,7 @@ class timekprUser(object):
         # returns if user is active
         return userActive
 
-    def getTimeLeft(self, pForce=False):
+    def getTimeLeft(self, pForceNotifications=False):
         """Get how much time is left (for this day and in a row for max this and next day)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start getTimeLeft")
         # time left in a row
@@ -440,6 +440,10 @@ class timekprUser(object):
                 # time inactive this session (but not more then prev, current, past days)
                 timeInactiveThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
 
+        # time spent balance for the day
+        timeSpentBalance = self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD]
+        # time spent for the day
+        timeSpentDay = self._timekprUserData[cons.TK_CTRL_SPENTD]
         # time spent for week
         timeSpentWeek = self._timekprUserData[cons.TK_CTRL_SPENTW]
         # time spent for week
@@ -449,12 +453,12 @@ class timekprUser(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # process notifications, if needed
-        self._timekprUserNotification.processTimeLeft(pForce, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], self._timekprUserConfig.getUserTrackInactive())
+        self._timekprUserNotification.processTimeLeft(pForceNotifications, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], self._timekprUserConfig.getUserTrackInactive())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getTimeLeft")
 
         # return calculated
-        return timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession
+        return timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay
 
     def saveSpent(self):
         """Save the time spent by the user"""
