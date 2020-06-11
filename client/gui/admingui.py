@@ -815,7 +815,7 @@ class timekprAdminGUI(object):
                 # loop and print
                 for rKey, rValue in userConfig.items():
                     # check all by keys
-                    if rKey == "TIME_SPENT":
+                    if rKey == "TIME_SPENT_DAY":
                         # spent
                         timeSpent = cons.TK_DATETIME_START + timedelta(seconds=abs(rValue))
                         timeSpentStr = str((timeSpent - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeSpent.hour).rjust(2, "0") + ":" + str(timeSpent.minute).rjust(2, "0") + ":" + str(timeSpent.second).rjust(2, "0")

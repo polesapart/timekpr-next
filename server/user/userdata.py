@@ -81,22 +81,23 @@ class timekprUser(object):
         # day: next day | limit | left per day + hours 0 - 23 (0 hour sample included)
         limits = {
             # per day values
-             "1"                 : {cons.TK_CTRL_NDAY: "2", cons.TK_CTRL_PDAY: "7", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"2"                 : {cons.TK_CTRL_NDAY: "3", cons.TK_CTRL_PDAY: "1", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"3"                 : {cons.TK_CTRL_NDAY: "4", cons.TK_CTRL_PDAY: "2", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"4"                 : {cons.TK_CTRL_NDAY: "5", cons.TK_CTRL_PDAY: "3", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"5"                 : {cons.TK_CTRL_NDAY: "6", cons.TK_CTRL_PDAY: "4", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"6"                 : {cons.TK_CTRL_NDAY: "7", cons.TK_CTRL_PDAY: "5", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
-            ,"7"                 : {cons.TK_CTRL_NDAY: "1", cons.TK_CTRL_PDAY: "6", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_SPENTD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+             "1"                 : {cons.TK_CTRL_NDAY: "2", cons.TK_CTRL_PDAY: "7", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"2"                 : {cons.TK_CTRL_NDAY: "3", cons.TK_CTRL_PDAY: "1", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"3"                 : {cons.TK_CTRL_NDAY: "4", cons.TK_CTRL_PDAY: "2", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"4"                 : {cons.TK_CTRL_NDAY: "5", cons.TK_CTRL_PDAY: "3", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"5"                 : {cons.TK_CTRL_NDAY: "6", cons.TK_CTRL_PDAY: "4", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"6"                 : {cons.TK_CTRL_NDAY: "7", cons.TK_CTRL_PDAY: "5", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
+            ,"7"                 : {cons.TK_CTRL_NDAY: "1", cons.TK_CTRL_PDAY: "6", cons.TK_CTRL_LIMITD: None, cons.TK_CTRL_TSPBALD: None, cons.TK_CTRL_LEFTD: None, "0": {cons.TK_CTRL_ACT: True, cons.TK_CTRL_SPENTH: 0, cons.TK_CTRL_SLEEP: 0, cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}}
             # additional limits
-            ,cons.TK_CTRL_LIMITW : None  # this is limit per week (not used yet)
-            ,cons.TK_CTRL_LIMITM : None  # this is limit per month (not used yet)
+            ,cons.TK_CTRL_LIMITW : None  # this is limit per week
+            ,cons.TK_CTRL_LIMITM : None  # this is limit per month
             # global time acconting values
             ,cons.TK_CTRL_LEFT   : 0 # this is how much time left is countinously
-            ,cons.TK_CTRL_LEFTW  : 0  # this is left per week (not used yet)
-            ,cons.TK_CTRL_LEFTM  : 0  # this is left per month (not used yet)
-            ,cons.TK_CTRL_SPENTW : 0  # this is spent per week (not used yet)
-            ,cons.TK_CTRL_SPENTM : 0  # this is spent per month (not used yet)
+            ,cons.TK_CTRL_LEFTW  : 0  # this is left per week
+            ,cons.TK_CTRL_LEFTM  : 0  # this is left per month
+            ,cons.TK_CTRL_SPENTD : 0  # this is spent per day
+            ,cons.TK_CTRL_SPENTW : 0  # this is spent per week
+            ,cons.TK_CTRL_SPENTM : 0  # this is spent per month
             # checking values
             ,cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0)  # this is last checked time
             ,cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0)  # this is last save time (physical save will be less often as check)
@@ -148,7 +149,7 @@ class timekprUser(object):
             self._timekprUserData[i][cons.TK_CTRL_LEFTD] = 0
 
             # how many seconds left for that day (not counting hours limits yet)
-            timesLeft[cons.TK_CTRL_LEFTD] = self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_SPENTD]
+            timesLeft[cons.TK_CTRL_LEFTD] = self._timekprUserData[i][cons.TK_CTRL_LIMITD] - self._timekprUserData[i][cons.TK_CTRL_TSPBALD]
 
             # left is least of the limits
             secondsLeft = max(min(timesLeft[cons.TK_CTRL_LEFTD], timesLeft[cons.TK_CTRL_LEFTW], timesLeft[cons.TK_CTRL_LEFTM]), 0)
@@ -238,13 +239,13 @@ class timekprUser(object):
             self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = limitsPerWeekday[allowedDays.index(rDay)] if rDay in allowedDays else 0
 
             # we do not have value (yet) for day
-            if self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD] is None:
-                self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD] = 0
+            if self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD] is None:
+                self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD] = 0
 
             # only if not initialized
             if self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFTD] is None:
                 # initialize left as limit, since we just loaded the configuration
-                self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFTD] = self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] - self._timekprUserData[str(rDay)][cons.TK_CTRL_SPENTD]
+                self._timekprUserData[str(rDay)][cons.TK_CTRL_LEFTD] = self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] - self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD]
 
             # get hours for particular day
             allowedHours = self._timekprUserConfig.getUserAllowedHours(rDay)
@@ -305,14 +306,16 @@ class timekprUser(object):
         weekChanged = self._timekprUserControl.getUserLastChecked().date().isocalendar()[1] != self._effectiveDatetime.date().isocalendar()[1]
         monthChanged = self._timekprUserControl.getUserLastChecked().date().month != self._effectiveDatetime.date().month
 
+        # if day has changed adjust balance
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance()
         # if day has changed
-        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpent()
+        self._timekprUserData[cons.TK_CTRL_SPENTD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentDay()
         # if week changed changed
         self._timekprUserData[cons.TK_CTRL_SPENTW] = spentHour if weekChanged else self._timekprUserControl.getUserTimeSpentWeek()
         # if month changed
         self._timekprUserData[cons.TK_CTRL_SPENTM] = spentHour if monthChanged else self._timekprUserControl.getUserTimeSpentMonth()
         # import that into runtime config (if last check day is the same as current)
-        self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD]
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD]
 
         # update last file mod time
         self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
@@ -365,8 +368,10 @@ class timekprUser(object):
         elif userActive:
             # adjust time spent this hour
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] += timeSpent
+            # adjust time spent balance this day
+            self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] += timeSpent
             # adjust time spent this day
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] += timeSpent
+            self._timekprUserData[cons.TK_CTRL_SPENTD] += timeSpent
             # adjust time spent this week
             self._timekprUserData[cons.TK_CTRL_SPENTW] += timeSpent
             # adjust time spent this month
@@ -390,7 +395,9 @@ class timekprUser(object):
             # reset spent for this hour
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent
             # set spent as not initialized for today, so new limits will apply properly
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD] = timeSpent
+            self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] = timeSpent
+            # time spent for this day
+            self._timekprUserData[cons.TK_CTRL_SPENTD] = timeSpent
 
             # check if week changed
             if lastCheckWeek != datetime.date(self._effectiveDatetime).isocalendar()[1]:
@@ -472,7 +479,8 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LSAVE] = self._effectiveDatetime
 
         # save spent time
-        self._timekprUserControl.setUserTimeSpent(self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTD])
+        self._timekprUserControl.setUserTimeSpentBalance(self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD])
+        self._timekprUserControl.setUserTimeSpentDay(self._timekprUserData[cons.TK_CTRL_SPENTD])
         self._timekprUserControl.setUserTimeSpentWeek(self._timekprUserData[cons.TK_CTRL_SPENTW])
         self._timekprUserControl.setUserTimeSpentMonth(self._timekprUserData[cons.TK_CTRL_SPENTM])
         self._timekprUserControl.setUserLastChecked(self._effectiveDatetime)

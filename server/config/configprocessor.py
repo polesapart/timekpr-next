@@ -105,7 +105,7 @@ class timekprUserConfigurationProcessor(object):
                 # limit per month
                 userConfigurationStore["LIMIT_PER_MONTH"] = self._timekprUserConfig.getUserMonthLimit()
                 # time spent
-                userConfigurationStore["TIME_BALANCE"] = self._timekprUserControl.getUserTimeSpent()
+                userConfigurationStore["TIME_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
                 # time spent
                 userConfigurationStore["TIME_SPENT_DAY"] = self._timekprUserControl.getUserTimeSpentDay()
                 # time spent
@@ -117,14 +117,14 @@ class timekprUserConfigurationProcessor(object):
                 if pTimekprUser is not None:
                     # get lefts
                     timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession = pTimekprUser.getTimeLeft()
-                    # time spent
-                    userConfigurationStore["ACTUAL_TIME_BALANCE"] = 0  # TBD
-                    # time spent
-                    userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = 0  # TBD
                     # time spent session
                     userConfigurationStore["ACTUAL_TIME_SPENT_SESSION"] = int(timeSpentThisSession)
                     # time inactive this session
                     userConfigurationStore["ACTUAL_TIME_INACTIVE_SESSION"] = int(timeInactiveThisSession)
+                    # time spent
+                    userConfigurationStore["ACTUAL_TIME_BALANCE"] = 0  # TBD
+                    # time spent
+                    userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = 0  # TBD
                     # time left today
                     userConfigurationStore["ACTUAL_TIME_LEFT_TODAY"] = int(timeLeftToday)
                     # time left in a row
@@ -475,14 +475,14 @@ class timekprUserConfigurationProcessor(object):
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
-                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpentBalance() - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "-":
-                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpentBalance() + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "=":
                         setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
 
                     # set up config for day
-                    self._timekprUserControl.setUserTimeSpent(setLimit)
+                    self._timekprUserControl.setUserTimeSpentBalance(setLimit)
                 except Exception:
                     # result
                     result = -1

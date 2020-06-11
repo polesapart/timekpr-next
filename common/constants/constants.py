@@ -156,6 +156,7 @@ TK_CTRL_LIMITM = "LIMITM"  # left per month idx
 TK_CTRL_ACT = "ACTIVE"     # is hour enabled
 TK_CTRL_SLEEP = "SLEEP"    # time spent in "inactive"
 TK_CTRL_SPENT = "SPENT"    # time spent in this session
+TK_CTRL_TSPBALD = "TSPBD"  # time balance spent in this day
 TK_CTRL_SPENTH = "SPENTH"  # time spent in this hour
 TK_CTRL_SPENTD = "SPENTD"  # time spent in this day
 TK_CTRL_SPENTW = "SPENTW"  # time spent for week

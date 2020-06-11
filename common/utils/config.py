@@ -758,7 +758,7 @@ class timekprUserControl(object):
                 self._timekprUserControlParser.read(self._configFile)
 
             # read
-            param = "TIME_SPENT"
+            param = "TIME_SPENT_BALANCE"
             resultValue, self._timekprUserControl[param] = readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
             # read
             param = "TIME_SPENT_DAY"
@@ -796,8 +796,8 @@ class timekprUserControl(object):
         section = self._userName
         self._timekprUserControlParser.add_section(section)
         # set up param
-        param = "TIME_SPENT"
-        self._timekprUserControlParser.set(section, "# total time spent for today (including bonuses)")
+        param = "TIME_SPENT_BALANCE"
+        self._timekprUserControlParser.set(section, "# total spent time balance for today")
         self._timekprUserControlParser.set(section, "%s" % (param), str(self._timekprUserControl[param]) if pReuseValues else "0")
         # set up param
         param = "TIME_SPENT_DAY"
@@ -830,7 +830,7 @@ class timekprUserControl(object):
         values = {}
 
         # spent day (including bonuses)
-        values["TIME_SPENT"] = str(int(self._timekprUserControl["TIME_SPENT"]))
+        values["TIME_SPENT_BALANCE"] = str(int(self._timekprUserControl["TIME_SPENT_BALANCE"]))
         # spent day
         values["TIME_SPENT_DAY"] = str(int(self._timekprUserControl["TIME_SPENT_DAY"]))
         # spent week
@@ -845,10 +845,10 @@ class timekprUserControl(object):
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
-    def getUserTimeSpent(self):
+    def getUserTimeSpentBalance(self):
         """Get time spent for day (including bonues)"""
         # result
-        return self._timekprUserControl["TIME_SPENT"]
+        return self._timekprUserControl["TIME_SPENT_BALANCE"]
 
     def getUserTimeSpentDay(self):
         """Get time spent for day"""
@@ -875,10 +875,10 @@ class timekprUserControl(object):
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
 
-    def setUserTimeSpent(self, pTimeSpent):
+    def setUserTimeSpentBalance(self, pTimeSpent):
         """Set time spent for day (including bonuses)"""
         # result
-        self._timekprUserControl["TIME_SPENT"] = pTimeSpent
+        self._timekprUserControl["TIME_SPENT_BALANCE"] = pTimeSpent
 
     def setUserTimeSpentDay(self, pTimeSpentDay):
         """Set time spent for day"""
