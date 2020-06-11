@@ -128,7 +128,7 @@ class timekprUserConfigurationProcessor(object):
                     # time left today
                     userConfigurationStore["ACTUAL_TIME_LEFT_TODAY"] = int(timeLeftToday)
                     # time left in a row
-                    userConfigurationStore["ACTUAL_TIME_LEFT_CONTINOUS"] = int(timeLeftInARow)
+                    userConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
 
         # result
         return result, message, userConfigurationStore
