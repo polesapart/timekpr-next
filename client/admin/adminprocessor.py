@@ -126,7 +126,7 @@ class timekprAdminClient(object):
                     log.consoleOut(message)
 
         # this gets user configuration from the server
-        elif adminCmd == "--userconfig":
+        elif adminCmd == "--userinfo":
             # check param len
             if paramLen != paramIdx + 2:
                 # fail
@@ -225,7 +225,7 @@ class timekprAdminClient(object):
 
             log.consoleOut("\n" + msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTES"))
             # initial order
-            cmds = ["--help", "--userlist", "--userconfig"]
+            cmds = ["--help", "--userlist", "--userinfo"]
             # print initial commands as first
             for rCmd in cmds:
                 log.consoleOut(" ", rCmd, cons.TK_USER_ADMIN_COMMANDS[rCmd])
