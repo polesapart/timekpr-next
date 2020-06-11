@@ -197,17 +197,34 @@ class timekprUserLoginManager(object):
 
     def switchTTY(self, pSeatId, pSessionTTY):
         """Swith TTY for login screen"""
+        # defaults
+        willSwitchTTY = True
         # switch to right TTY (if needed)
         if self._loginManagerVTNr is not None and pSessionTTY is not None and pSeatId is not None and pSessionTTY != self._loginManagerVTNr:
             # get all necessary objects from DBUS to switch the TTY
-            seat = self._login1ManagerInterface.GetSeat(pSeatId)
-            login1SeatObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, seat)
-            login1SeatInterface = dbus.Interface(login1SeatObject, cons.TK_DBUS_SEAT_OBJECT)
-            log.log(cons.TK_LOG_LEVEL_INFO, "INFO:%s switching TTY to %s" % (" (forced)" if pSessionTTY == "999" else "", self._loginManagerVTNr))
-            # finally switching the TTY
-            login1SeatInterface.SwitchTo(self._loginManagerVTNr)
+            try:
+                # it appears that sometimes seats are not available (RDP may not have it)
+                seat = self._login1ManagerInterface.GetSeat(pSeatId)
+            except Exception as exc:
+                # can not switch as we can't get seat
+                willSwitchTTY = False
+                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting seat (%s) from DBUS: %s" % (str(pSeatId), exc))
+
+            # only if we got the seat
+            if willSwitchTTY:
+                # seat object processing
+                login1SeatObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, seat)
+                login1SeatInterface = dbus.Interface(login1SeatObject, cons.TK_DBUS_SEAT_OBJECT)
+                log.log(cons.TK_LOG_LEVEL_INFO, "INFO:%s switching TTY to %s" % (" (forced)" if pSessionTTY == "999" else "", self._loginManagerVTNr))
+                # finally switching the TTY
+                login1SeatInterface.SwitchTo(self._loginManagerVTNr)
         else:
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: switching TTY is not needed")
+            # will not switch
+            willSwitchTTY = False
+
+        # return whether switch was initiated
+        return willSwitchTTY
 
     def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
         """Terminate user sessions"""
@@ -227,9 +244,8 @@ class timekprUserLoginManager(object):
             if userSession["type"] in pTimekprConfig.getTimekprSessionsCtrl():
                 # switch TTY (it will switch only when needed and user session currently is active, e.g. in foreground)
                 if userSession["state"] == "active":
-                    switchTTYNeeded = True
                     lastSeat = userSession["seat"]
-                    self.switchTTY(lastSeat, userSession["vtnr"])
+                    switchTTYNeeded = self.switchTTY(lastSeat, userSession["vtnr"])
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
