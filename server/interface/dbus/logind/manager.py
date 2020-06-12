@@ -123,16 +123,19 @@ class timekprUserLoginManager(object):
             # measurement logging
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
-            # get all user sessions
-            sessionType = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
-            sessionVTNr = str(int(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
-            sessionSeat = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Seat")[0])
-            sessionState = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
-            # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            # get all user session properties
+            try:
+                sessionType = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
+                sessionVTNr = str(int(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
+                sessionSeat = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Seat")[0])
+                sessionState = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
+                # measurement logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
-            # add user session to return list
-            userSessions.append({"session": userSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
+                # add user session to return list
+                userSessions.append({"session": userSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
+            except Exception as exc:
+                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting session properties for session \"%s\" DBUS: %s" % (str(userSession[1]), exc))
 
         # return sessions
         return userSessions
