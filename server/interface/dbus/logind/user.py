@@ -189,7 +189,7 @@ class timekprUserManager(object):
                         # user is not active
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is inactive (not exactly logged in too)" % (sessionId))
                     # if we track inactive
-                    elif pTimekprConfig.getTimekprSessionsCtrl():
+                    elif pTimekprUserConfig.getUserTrackInactive():
                         # we track inactive sessions
                         userActive = True
                         # session is not on the list of session types we track
