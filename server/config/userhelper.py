@@ -112,6 +112,9 @@ class timekprUserStore(object):
         # initialize username storage
         userList = []
 
+        # prepare all users in the system
+        self.checkAndInitUsers()
+
         # in case we don't have a dir yet
         if pConfigDir is None:
             # set up tmp logging
