@@ -88,18 +88,11 @@ class timekprNotificationArea(object):
                 # determine hours and minutes
                 timeLeftStr = "--:--" + (":--" if self._timekprClientConfig.getClientShowSeconds() else "")
             else:
-                # determine whether we have an unlimited mode
-                isUnlimited = self.isWholeDayAvailable(self._timeLeftTotal) == self.isWholeDayAvailable(pTimeLeft) and self.isWholeDayAvailable(pTimeLeft)
-
                 # update time
                 self._timeLeftTotal = pTimeLeft
 
-                # if unlimited, we do not need to chnage anything
-                if isUnlimited:
-                    # just pass
-                    pass
-                # if no limit there will be a no limit thing
-                elif self.isWholeDayAvailable(self._timeLeftTotal):
+                # unlimited has special icon and text (if it's not anymore, these will change)
+                if self.isWholeDayAvailable(pTimeLeft):
                     # unlimited!
                     timeLeftStr = "∞"
                     prio = "unlimited"
@@ -112,8 +105,7 @@ class timekprNotificationArea(object):
             # now, if priority changes, set up icon as well
             if self._lastUsedPriority != prio:
                 # set up last used prio
-                self._lastUsedPriority = pPriority
-
+                self._lastUsedPriority = prio
                 # get status icon
                 timekprIcon = os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF[cons.getNotificationPrioriy(prio)][cons.TK_ICON_STAT])
 
@@ -133,7 +125,7 @@ class timekprNotificationArea(object):
 
     def isWholeDayAvailable(self, pTimeLeft):
         """Check if whole day is available from timeleft"""
-        return (pTimeLeft - cons.TK_DATETIME_START).total_seconds() >= (cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME)
+        return (pTimeLeft - cons.TK_DATETIME_START).total_seconds() >= (cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME * 2)
 
     # --------------- user clicked methods --------------- #
 
