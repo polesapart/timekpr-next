@@ -967,6 +967,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="model">TimekprWeekDaysLS</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
+                                                <property name="mode">multiple</property>
                                                 <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
                                               </object>
                                             </child>
@@ -1085,7 +1086,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="receives_default">True</property>
                                             <property name="tooltip_text" translatable="yes">Set specified hours and minutes for particular day at user's disposal (do not forget to hit the &lt;Apply&gt; button)</property>
                                             <property name="image">TimekprApplyImageSetDayLimit</property>
-                                            <signal name="clicked" handler="dayTotalLimitClicked" swapped="no"/>
+                                            <signal name="clicked" handler="dayTotalLimitSetClicked" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
