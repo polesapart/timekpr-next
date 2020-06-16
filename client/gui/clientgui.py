@@ -208,7 +208,7 @@ class timekprGUI(object):
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active() != self._timekprClientConfig.getClientShowAllNotifications()
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active() != self._timekprClientConfig.getClientUseSpeechNotifications()
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active() != self._timekprClientConfig.getClientShowSeconds()
-        configChanged = configChanged or int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value()) != self._timekprClientConfig.getClientLogLevel()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value_as_int() != self._timekprClientConfig.getClientLogLevel()
 
         # this is it
         self._timekprConfigDialogBuilder.get_object("timekprSaveBT").set_sensitive(configChanged)
@@ -291,7 +291,7 @@ class timekprGUI(object):
         self._timekprClientConfig.setClientShowAllNotifications(self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active())
         self._timekprClientConfig.setClientUseSpeechNotifications(self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active())
         self._timekprClientConfig.setClientShowSeconds(self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active())
-        self._timekprClientConfig.setClientLogLevel(int(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value()))
+        self._timekprClientConfig.setClientLogLevel(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value_as_int())
 
         # save config
         self._timekprClientConfig.saveClientConfig()

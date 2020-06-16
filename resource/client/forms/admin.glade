@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.36.0 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
@@ -1077,7 +1077,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDayApplyBT">
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaySetBT">
                                             <property name="label" translatable="yes">Set</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -2593,6 +2593,9 @@ Please specify actual usernames, not real names here (e.g please specify jsmith,
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
 </interface>
