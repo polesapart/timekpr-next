@@ -1296,6 +1296,15 @@ class timekprAdminGUI(object):
         else:
             # enabled
             enabled = True
+            # get day
+            day, dayNr = self.getSelectedDay()
+            # if we have a day, restore limits
+            if int(dayNr) in self._timeLimitDays:
+                # if we have limits set in background store, restore them
+                self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][3] = self._timeLimitDaysLimits[day]
+            # restore intervals from saved state
+            self._timeLimitDaysHoursActual[dayNr] = self._timeLimitDaysHoursSaved[dayNr].copy()
+
             # label
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][4] = self.formatIntervalStr(self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[path][3], True)
             # enable interval refresh
@@ -1493,7 +1502,6 @@ class timekprAdminGUI(object):
 
                     # add end hour
                     self._timeLimitDaysHoursActual[calcDay][calcHour][cons.TK_CTRL_EMIN] = cons.TK_LIMIT_PER_MINUTE if calcTime.minute == 0 else calcTime.minute
-                    # print(calcTime, calcHour, timeToSubtract, totalSeconds, self._timeLimitDaysHoursActual[calcDay][calcHour])
 
     def weekAvailabilityChanged(self, evt):
         """Change in minutes depending on week availability"""
