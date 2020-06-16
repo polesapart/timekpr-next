@@ -3,6 +3,9 @@ timekpr-next (0.3.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
   * Registered bug fixes:
   ** killing user sessions that do not have seats will not switch to login manager TTY (#1861479)
   ** properly show time spent for the day in administration app (#1882909)
+  ** properly set values to numbers in admin app (#1826672)
+  ** restore configuration from saved state in admin app when case uncheck / check is pressed (#1826673)
+  ** it's now possible to set daily limits as well as intervals for multiple days at once (#1826671)
   * Discovered bug fixes:
   ** fix config / control file recreation in case it's missing a configuration option
   * Changes / improvements:
@@ -18,8 +21,9 @@ timekpr-next (0.3.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
   *** ACTUAL_TIME_LEFT_TODAY -  how much time is left today
   *** ACTUAL_TIME_LEFT_CONTINUOUS - how much time is left continuously (but no more than this and next day)
   ** timekpr will not switch to TTY after killing a user / session that is not active (i.e. in foreground)
+  ** timekpr will reload user list when opening admin application (newly added users will be available in timekpr right away)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 12 Jun 2020 00:23:46 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Jun 2020 00:33:21 +0300
 
 timekpr-next (0.3.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
