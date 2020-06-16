@@ -8,6 +8,7 @@ timekpr-next (0.3.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** it's now possible to set daily limits as well as intervals for multiple days at once (#1826671)
   * Discovered bug fixes:
   ** fix config / control file recreation in case it's missing a configuration option
+  ** fix icon and time when user has unlimited time left
   * Changes / improvements:
   ** control files (.time) will now contain balance as well as time spent for day (existing TIME_SPENT will be removed)
   ** console application (timekpra) changes
