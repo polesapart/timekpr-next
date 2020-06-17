@@ -14,12 +14,13 @@ timekpr-next (0.4.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** console application (timekpra) changes
   *** rename TIME_SPENT (previously used as saved time spent value) to TIME_SPENT_BALANCE
   *** rename option "userconfig" to "userinfo" which better represents returned values
+  *** added time left for today (TIME_LEFT_DAY) which is calculated from saved state
   ** console application (timekpra) improvements - added "live" (i.e. calculated every 3 secs) values for options below
   *** ACTUAL_TIME_SPENT_SESSION - time spent in this session (since timekpr daemon startup)
   *** ACTUAL_TIME_INACTIVE_SESSION - time user was inactive in this session (since timekpr daemon startup)
   *** ACTUAL_TIME_SPENT_BALANCE - time spent balance (including added/removed bonus time)
   *** ACTUAL_TIME_SPENT_DAY - time user spent this day (actual spent time, example: user has 1 hour, if there was a bonus 1 hr, this will show 2 hrs)
-  *** ACTUAL_TIME_LEFT_TODAY -  how much time is left today
+  *** ACTUAL_TIME_LEFT_DAY -  how much time is left today
   *** ACTUAL_TIME_LEFT_CONTINUOUS - how much time is left continuously (but no more than this and next day)
   ** timekpr will not switch to login manager TTY after killing a user / session that is not active (i.e. in foreground)
   ** timekpr will reload user list when opening admin application (newly added users will be available in timekpr right away)

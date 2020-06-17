@@ -12,7 +12,7 @@ from timekpr.common.utils.config import timekprConfig
 from timekpr.common.constants import messages as msg
 
 # imports
-from datetime import datetime
+from datetime import datetime, timedelta
 import dbus
 
 
@@ -65,6 +65,41 @@ class timekprUserConfigurationProcessor(object):
         # result
         return result, message
 
+    def calculateTimeAvailableFromSavedConfiguration(self):
+        """Calculate available time for today from saved config"""
+        # current day
+        currDay = datetime.now().isoweekday()
+        # get available hours for today
+        allowedHours = self._timekprUserConfig.getUserAllowedHours(str(currDay))
+        # allowed week days
+        allowedWeekDays = self._timekprUserConfig.getUserAllowedWeekdays()
+        # limits per week days
+        allowedWeekDayLimits = self._timekprUserConfig.getUserLimitsPerWeekdays()
+        # time now
+        dtn = datetime.now().replace(microsecond=0)
+
+        # calc
+        availableSeconds = 0
+        availableSecondsAlt = 0
+        # count available seconds for intervals starting this hour
+        for rHour in range(dtn.hour, 24):
+            # calc from now
+            if str(rHour) in allowedHours:
+                # for current hour we have to take care of time in progress at the moment
+                if rHour == dtn.hour:
+                    availableSeconds += max((max(allowedHours[str(rHour)][cons.TK_CTRL_EMIN], dtn.minute) - max(allowedHours[str(rHour)][cons.TK_CTRL_SMIN], dtn.minute)) * 60 - dtn.second, 0)
+                # for the rest of hours, current secs and mins are not important
+                else:
+                    availableSeconds += ((allowedHours[str(rHour)][cons.TK_CTRL_EMIN] - allowedHours[str(rHour)][cons.TK_CTRL_SMIN]) * 60)
+        # calculate available seconds from todays limit
+        if currDay in allowedWeekDays:
+            availableSecondsAlt = allowedWeekDayLimits[allowedWeekDays.index(currDay)]
+        # calculate how much is actually left (from intervals left, time spent and avilable as well as max that's possible to have)
+        availableSeconds = max(min(min(availableSeconds, availableSecondsAlt - self._timekprUserControl.getUserTimeSpentBalance()), cons.TK_LIMIT_PER_DAY), 0)
+
+        # available seconds
+        return availableSeconds
+
     def getSavedUserConfiguration(self, pTimekprUser):
         """Get saved user configuration"""
         """This operates on saved user configuration, it will return all config as big dict"""
@@ -112,6 +147,8 @@ class timekprUserConfigurationProcessor(object):
                 userConfigurationStore["TIME_SPENT_WEEK"] = self._timekprUserControl.getUserTimeSpentWeek()
                 # time spent
                 userConfigurationStore["TIME_SPENT_MONTH"] = self._timekprUserControl.getUserTimeSpentMonth()
+                # time available today
+                userConfigurationStore["TIME_LEFT_DAY"] = self.calculateTimeAvailableFromSavedConfiguration()
 
                 # values from live session
                 if pTimekprUser is not None:
@@ -126,7 +163,7 @@ class timekprUserConfigurationProcessor(object):
                     # time spent
                     userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = int(timeSpentDay)
                     # time left today
-                    userConfigurationStore["ACTUAL_TIME_LEFT_TODAY"] = int(timeLeftToday)
+                    userConfigurationStore["ACTUAL_TIME_LEFT_DAY"] = int(timeLeftToday)
                     # time left in a row
                     userConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
 
