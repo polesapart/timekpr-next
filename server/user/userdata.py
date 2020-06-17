@@ -429,6 +429,8 @@ class timekprUser(object):
         timeSpentThisSession = 0
         # time inactive this session
         timeInactiveThisSession = 0
+        # time available from intervals
+        timeAvailableIntervals = 0
 
         # go through days
         for i in [self._timekprUserData[self._currentDOW][cons.TK_CTRL_PDAY], self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]]:
@@ -439,6 +441,9 @@ class timekprUser(object):
                 timeSpentThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SPENTH]
                 # time inactive this session (but not more then prev, current, past days)
                 timeInactiveThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
+                # for current day
+                if i == self._currentDOW:
+                    timeAvailableIntervals += ((self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60)
 
         # time spent balance for the day
         timeSpentBalance = self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD]
@@ -453,7 +458,7 @@ class timekprUser(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # process notifications, if needed
-        self._timekprUserNotification.processTimeLeft(pForceNotifications, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], self._timekprUserConfig.getUserTrackInactive())
+        self._timekprUserNotification.processTimeLeft(pForceNotifications, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], timeAvailableIntervals, self._timekprUserConfig.getUserTrackInactive())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getTimeLeft")
 

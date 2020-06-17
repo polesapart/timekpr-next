@@ -55,7 +55,7 @@ class timekprNotificationManager(dbus.service.Object):
         # un-init DBUS
         super().remove_from_connection()
 
-    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTrackInactive):
+    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTtimeAvailableIntervals, pTrackInactive):
         """Process notifications and send signals if needed"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start processTimeLeft")
 
@@ -99,7 +99,7 @@ class timekprNotificationManager(dbus.service.Object):
             self._lastNotified = effectiveDatetime
 
             # if time left is whole day, we have no limit (as an additonal limit is the hours, so check if accounting is actually correct)
-            if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftToday) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftTotal) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY:
+            if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and pTtimeAvailableIntervals >= cons.TK_LIMIT_PER_DAY:
                 # we send no limit just once
                 if self._prevNotificationLvl < 0 or pForce:
                     # no limit
