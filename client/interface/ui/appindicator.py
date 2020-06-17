@@ -89,22 +89,22 @@ class timekprIndicator(timekprNotificationArea):
         self._indicator.set_menu(self._timekprMenu)
 
         # initial config
-        self.setTimeLeft("", None)
+        self.setTimeLeft("", None, None)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish initTimekprIndicatorIcon")
 
-    def setTimeLeft(self, pPriority, pTimeLeft):
+    def setTimeLeft(self, pPriority, pTimeLeft, pTimeLimitDay):
         """Set time left in the indicator"""
         # make strings to set
-        timeLeft, icon = super().formatTimeLeft(pPriority, pTimeLeft)
+        timeLeftStr, icon = super().formatTimeLeft(pPriority, pTimeLeft, pTimeLimitDay)
 
         # if we have smth to set
-        if timeLeft is not None:
+        if timeLeftStr is not None:
             # set time left (this works with indicator in unity and gnome)
-            self._indicator.set_label(timeLeft, "")
+            self._indicator.set_label(timeLeftStr, "")
 
             # set time left (this works with indicator in kde5)
-            self._indicator.set_title(timeLeft)
+            self._indicator.set_title(timeLeftStr)
 
         # if we have smth to set
         if icon is not None:

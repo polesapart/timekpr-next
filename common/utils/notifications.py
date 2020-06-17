@@ -89,6 +89,7 @@ class timekprNotificationManager(dbus.service.Object):
         timeLeft[cons.TK_CTRL_SPENTM] = int(pTimeSpentMonth)
         timeLeft[cons.TK_CTRL_SLEEP] = int(pTimeInactive)
         timeLeft[cons.TK_CTRL_TRACK] = (1 if pTrackInactive else 0)
+        timeLeft[cons.TK_CTRL_LIMITD] = int(pTimeLimitToday)
 
         # inform clients about time left in any case
         self.timeLeft(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], timeLeft)
