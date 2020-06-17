@@ -24,6 +24,7 @@ timekpr-next (0.4.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
   *** ACTUAL_TIME_LEFT_CONTINUOUS - how much time is left continuously (but no more than this and next day)
   ** timekpr will not switch to login manager TTY after killing a user / session that is not active (i.e. in foreground)
   ** timekpr will reload user list when opening admin application (newly added users will be available in timekpr right away)
+  ** add time left for day and time left actual (when user is logged in) for admin app
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Jun 2020 00:33:21 +0300
 
