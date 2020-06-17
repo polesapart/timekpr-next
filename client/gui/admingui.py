@@ -347,7 +347,7 @@ class timekprAdminGUI(object):
     def clearAdminForm(self):
         """Clear and default everything to default values"""
         # clear form
-        for rCtrl in ["TimekprUserConfTodayInfoSpentTodayLB", "TimekprUserConfTodayInfoSpentWeekLB", "TimekprUserConfTodayInfoSpentMonthLB"]:
+        for rCtrl in ["TimekprUserConfTodayInfoSpentTodayLB", "TimekprUserConfTodayInfoSpentWeekLB", "TimekprUserConfTodayInfoSpentMonthLB", "TimekprUserConfTodayInfoAvailableTodayLB", "TimekprUserConfTodayInfoAvailableContLB"]:
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(False)
         for rDay in range(1, 7+1):
@@ -834,7 +834,7 @@ class timekprAdminGUI(object):
             if result == 0:
                 # loop and print
                 for rKey, rValue in userConfig.items():
-                    # check all by keys
+                    # this info is refreshed regularly (based on config keys)
                     if rKey == "TIME_SPENT_DAY":
                         # spent
                         timeSpent = cons.TK_DATETIME_START + timedelta(seconds=abs(rValue))
@@ -850,8 +850,20 @@ class timekprAdminGUI(object):
                         timeSpentMonth = cons.TK_DATETIME_START + timedelta(seconds=rValue)
                         timeSpentMonthStr = str((timeSpentMonth - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeSpentMonth.hour).rjust(2, "0") + ":" + str(timeSpentMonth.minute).rjust(2, "0") + ":" + str(timeSpentMonth.second).rjust(2, "0")
                         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoSpentMonthLB").set_text(timeSpentMonthStr)
+                    # show balance
+                    elif rKey == "TIME_LEFT_DAY":
+                        # balance
+                        timeLeft = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeLeftStr = str((timeLeft - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLeft.hour).rjust(2, "0") + ":" + str(timeLeft.minute).rjust(2, "0") + ":" + str(timeLeft.second).rjust(2, "0")
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoAvailableTodayLB").set_text(timeLeftStr)
+                    # show actual time left for continous use
+                    elif rKey == "ACTUAL_TIME_LEFT_CONTINUOUS":
+                        # total left
+                        timeLeft = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeLeftStr = str((timeLeft - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLeft.hour).rjust(2, "0") + ":" + str(timeLeft.minute).rjust(2, "0") + ":" + str(timeLeft.second).rjust(2, "0")
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoAvailableContLB").set_text(timeLeftStr)
 
-                    # the rest of info is needed when full refresh requested
+                    # info is needed when full refresh requested
                     if pFull:
                         if rKey == "TRACK_INACTIVE":
                             # track inactive
