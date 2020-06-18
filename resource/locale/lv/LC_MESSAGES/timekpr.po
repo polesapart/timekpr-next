@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
 "POT-Creation-Date: 2020-06-17 22:30+0300\n"
-"PO-Revision-Date: 2020-06-17 22:38+0300\n"
+"PO-Revision-Date: 2020-06-18 18:31+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language: lv_LV\n"
@@ -750,7 +750,7 @@ msgstr "Atjaunot konfgurāciju uz saglabāto stāvokli"
 
 #: resource/client/forms/admin.glade:466
 msgid "This shows information about time left / spent"
-msgstr "Atspoguļo informācija par laika patēriņu"
+msgstr "Atspoguļo informāciju par laika patēriņu"
 
 #: resource/client/forms/admin.glade:489
 msgid ""
