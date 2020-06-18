@@ -37,7 +37,7 @@ class timekprNotificationArea(object):
         # initialize time left
         self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME - 1)
         # initialize time limit
-        self._timeLimitDay = 0
+        self._timeNotLimited = 0
 
         # init notificaction stuff
         self._timekprNotifications = timekprNotifications(pLog, self._userName, self._timekprClientConfig)
@@ -74,7 +74,7 @@ class timekprNotificationArea(object):
         """Proxy method for request time left from server"""
         self._timekprNotifications.requestTimeLeft()
 
-    def formatTimeLeft(self, pPriority, pTimeLeft, pTimeLimitDay):
+    def formatTimeLeft(self, pPriority, pTimeLeft, pTimeNotLimited):
         """Set time left in the indicator"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start formatTimeLeft")
 
@@ -92,10 +92,10 @@ class timekprNotificationArea(object):
             else:
                 # update time
                 self._timeLeftTotal = pTimeLeft
-                self._timeLimitDay = pTimeLimitDay
+                self._timeNotLimited = pTimeNotLimited
 
                 # unlimited has special icon and text (if it's not anymore, these will change)
-                if self.isWholeDayAvailable():
+                if self._timeNotLimited > 0:
                     # unlimited!
                     timeLeftStr = "∞"
                     prio = "unlimited"
@@ -126,16 +126,12 @@ class timekprNotificationArea(object):
         """Change status of timekpr"""
         return self._timekprGUI.setStatus(pStatus)
 
-    def isWholeDayAvailable(self):
-        """Check if whole day is available from timeleft"""
-        return (self._timeLeftTotal - cons.TK_DATETIME_START).total_seconds() + (datetime.now().replace(microsecond=0)-datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)).total_seconds() >= (cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME) and self._timeLimitDay >= (cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME)
-
     # --------------- user clicked methods --------------- #
 
     def invokeTimekprTimeLeft(self, pEvent):
         """Inform user about (almost) exact time left"""
         # inform user about precise time
-        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self.isWholeDayAvailable() else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
+        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self._timeNotLimited > 0 else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
 
     def invokeTimekprUserProperties(self, pEvent):
         """Bring up a window for property editing"""

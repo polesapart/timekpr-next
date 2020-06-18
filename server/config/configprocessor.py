@@ -12,7 +12,7 @@ from timekpr.common.utils.config import timekprConfig
 from timekpr.common.constants import messages as msg
 
 # imports
-from datetime import datetime, timedelta
+from datetime import datetime
 import dbus
 
 

@@ -441,8 +441,8 @@ class timekprUser(object):
                 timeSpentThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SPENTH]
                 # time inactive this session (but not more then prev, current, past days)
                 timeInactiveThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
-                # for current day
-                if i == self._currentDOW:
+                # for current day (and enabled hours)
+                if i == self._currentDOW and self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT]:
                     timeAvailableIntervals += ((self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60)
 
         # time spent balance for the day

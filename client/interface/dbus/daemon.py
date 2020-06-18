@@ -218,9 +218,12 @@ class timekprClient(object):
 
     def receiveTimeLeft(self, pPriority, pTimeLeft):
         """Receive the signal and process the data to user"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i" % (pPriority, pTimeLeft[cons.TK_CTRL_LEFT]))
+        # check which options are available
+        timeLeft = (pTimeLeft[cons.TK_CTRL_LEFT] if cons.TK_CTRL_LEFT in pTimeLeft else 0)
+        isTimeNotLimited = (pTimeLeft[cons.TK_CTRL_TNL] if cons.TK_CTRL_TNL in pTimeLeft else 0)
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i, %i" % (pPriority, timeLeft, isTimeNotLimited))
         # process time left
-        self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT]), pTimeLeft[cons.TK_CTRL_LIMITD])
+        self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=timeLeft), isTimeNotLimited)
         # renew limits in GUI
         self._timekprClientIndicator.renewUserLimits(pTimeLeft)
 

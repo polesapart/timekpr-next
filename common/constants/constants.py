@@ -165,6 +165,7 @@ TK_CTRL_SMIN = "STARTMIN"  # start minute in this hour
 TK_CTRL_EMIN = "ENDMIN"    # end minute in this hour
 TK_CTRL_INT = "INTERVALS"  # intervals of time available to user
 TK_CTRL_TRACK = "TRACKI"   # whether to track inactive sessions
+TK_CTRL_TNL = "TNL"        # time not limited
 
 # notificaton limits
 TK_NOTIF_LEFT = "LEFT"
