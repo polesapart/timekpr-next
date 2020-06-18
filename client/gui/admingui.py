@@ -832,6 +832,10 @@ class timekprAdminGUI(object):
 
             # all ok
             if result == 0:
+                # reset optional information labels
+                for rCtrl in ["TimekprUserConfTodayInfoAvailableContLB"]:
+                    self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
+
                 # loop and print
                 for rKey, rValue in userConfig.items():
                     # this info is refreshed regularly (based on config keys)
