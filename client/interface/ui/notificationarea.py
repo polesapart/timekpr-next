@@ -5,7 +5,7 @@ Created on Aug 28, 2018
 """
 
 # import
-from datetime import timedelta
+from datetime import timedelta, datetime
 import os
 
 # timekpr imports
@@ -18,17 +18,15 @@ from timekpr.client.gui.clientgui import timekprGUI
 class timekprNotificationArea(object):
     """Support appindicator or other means of showing icon on the screen (this class is a parent for classes like indicator or staticon)"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
+    def __init__(self, pLog, pUserName, pTimekprClientConfig):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr indicator")
 
-        # dev
-        self._isDevActive = pIsDevActive
         # configuration
-        self._timekprConfigManager = pTimekprConfigManager
+        self._timekprClientConfig = pTimekprClientConfig
 
         # set version
         self._timekprVersion = "-.-.-"
@@ -38,9 +36,11 @@ class timekprNotificationArea(object):
         self._lastUsedPriority = ""
         # initialize time left
         self._timeLeftTotal = cons.TK_DATETIME_START + timedelta(seconds=cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME - 1)
+        # initialize time limit
+        self._timeNotLimited = 0
 
         # init notificaction stuff
-        self._timekprNotifications = timekprNotifications(pLog, self._isDevActive, self._userName, self._timekprConfigManager)
+        self._timekprNotifications = timekprNotifications(pLog, self._userName, self._timekprClientConfig)
 
         # dbus
         self._timekprBus = None
@@ -48,7 +48,7 @@ class timekprNotificationArea(object):
         self._notifyInterface = None
 
         # gui forms
-        self._timekprGUI = timekprGUI(cons.TK_VERSION, self._timekprConfigManager, self._userName)
+        self._timekprGUI = timekprGUI(cons.TK_VERSION, self._timekprClientConfig, self._userName)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekpr indicator")
 
@@ -74,7 +74,7 @@ class timekprNotificationArea(object):
         """Proxy method for request time left from server"""
         self._timekprNotifications.requestTimeLeft()
 
-    def formatTimeLeft(self, pPriority, pTimeLeft):
+    def formatTimeLeft(self, pPriority, pTimeLeft, pTimeNotLimited):
         """Set time left in the indicator"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start formatTimeLeft")
 
@@ -88,20 +88,14 @@ class timekprNotificationArea(object):
             # if there is no time left set yet, show --
             if pTimeLeft is None:
                 # determine hours and minutes
-                timeLeftStr = "--:--" + (":--" if self._timekprConfigManager.getClientShowSeconds() else "")
+                timeLeftStr = "--:--" + (":--" if self._timekprClientConfig.getClientShowSeconds() else "")
             else:
-                # determine whether we have an unlimited mode
-                isUnlimited = self.isWholeDayAvailable(self._timeLeftTotal) == self.isWholeDayAvailable(pTimeLeft) and self.isWholeDayAvailable(pTimeLeft)
-
                 # update time
                 self._timeLeftTotal = pTimeLeft
+                self._timeNotLimited = pTimeNotLimited
 
-                # if unlimited, we do not need to chnage anything
-                if isUnlimited:
-                    # just pass
-                    pass
-                # if no limit there will be a no limit thing
-                elif self.isWholeDayAvailable(self._timeLeftTotal):
+                # unlimited has special icon and text (if it's not anymore, these will change)
+                if self._timeNotLimited > 0:
                     # unlimited!
                     timeLeftStr = "∞"
                     prio = "unlimited"
@@ -109,15 +103,14 @@ class timekprNotificationArea(object):
                     # determine hours and minutes
                     timeLeftStr = str((self._timeLeftTotal - cons.TK_DATETIME_START).days * 24 + self._timeLeftTotal.hour).rjust(2, "0")
                     timeLeftStr += ":" + str(self._timeLeftTotal.minute).rjust(2, "0")
-                    timeLeftStr += ((":" + str(self._timeLeftTotal.second).rjust(2, "0")) if self._timekprConfigManager.getClientShowSeconds() else "")
+                    timeLeftStr += ((":" + str(self._timeLeftTotal.second).rjust(2, "0")) if self._timekprClientConfig.getClientShowSeconds() else "")
 
             # now, if priority changes, set up icon as well
             if self._lastUsedPriority != prio:
                 # set up last used prio
-                self._lastUsedPriority = pPriority
-
+                self._lastUsedPriority = prio
                 # get status icon
-                timekprIcon = os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF[cons.getNotificationPrioriy(prio)][cons.TK_ICON_STAT])
+                timekprIcon = os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF[cons.getNotificationPrioriy(prio)][cons.TK_ICON_STAT])
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish formatTimeLeft")
 
@@ -133,16 +126,12 @@ class timekprNotificationArea(object):
         """Change status of timekpr"""
         return self._timekprGUI.setStatus(pStatus)
 
-    def isWholeDayAvailable(self, pTimeLeft):
-        """Check if whole day is available from timeleft"""
-        return (pTimeLeft - cons.TK_DATETIME_START).total_seconds() >= (cons.TK_LIMIT_PER_DAY - cons.TK_POLLTIME)
-
     # --------------- user clicked methods --------------- #
 
     def invokeTimekprTimeLeft(self, pEvent):
         """Inform user about (almost) exact time left"""
         # inform user about precise time
-        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self.isWholeDayAvailable(self._timeLeftTotal) else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
+        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self._timeNotLimited > 0 else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
 
     def invokeTimekprUserProperties(self, pEvent):
         """Bring up a window for property editing"""

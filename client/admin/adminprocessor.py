@@ -22,13 +22,10 @@ class timekprAdminClient(object):
 
     # --------------- initialization / control methods --------------- #
 
-    def __init__(self, pIsDevActive=False):
+    def __init__(self):
         """Initialize admin client"""
-        # dev
-        self._isDevActive = pIsDevActive
-
         # get our connector
-        self._timekprAdminConnector = timekprAdminConnector(self._isDevActive)
+        self._timekprAdminConnector = timekprAdminConnector()
 
         # main object for GUI
         self._adminGUI = None
@@ -54,16 +51,16 @@ class timekprAdminClient(object):
                 log.setLogging(self._logging)
 
                 # configuration init
-                _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive, pLog=self._logging)
+                _timekprConfig = timekprConfig(pLog=self._logging)
                 # load config
-                _timekprConfigManager.loadMainConfiguration()
+                _timekprConfig.loadMainConfiguration()
                 # resource dir
-                _resourcePathGUI = os.path.join(_timekprConfigManager.getTimekprSharedDir(), "client/forms")
+                _resourcePathGUI = os.path.join(_timekprConfig.getTimekprSharedDir(), "client/forms")
 
                 # use GUI
                 from timekpr.client.gui.admingui import timekprAdminGUI
                 # load GUI and process from there
-                self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser(), self._isDevActive)
+                self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser())
             # nor X nor wayland are available
             else:
                 # print to console
@@ -129,7 +126,7 @@ class timekprAdminClient(object):
                     log.consoleOut(message)
 
         # this gets user configuration from the server
-        elif adminCmd == "--userconfig":
+        elif adminCmd == "--userinfo":
             # check param len
             if paramLen != paramIdx + 2:
                 # fail
@@ -228,7 +225,7 @@ class timekprAdminClient(object):
 
             log.consoleOut("\n" + msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTES"))
             # initial order
-            cmds = ["--help", "--userlist", "--userconfig"]
+            cmds = ["--help", "--userlist", "--userinfo"]
             # print initial commands as first
             for rCmd in cmds:
                 log.consoleOut(" ", rCmd, cons.TK_USER_ADMIN_COMMANDS[rCmd])
@@ -255,7 +252,7 @@ class timekprAdminClient(object):
     def printUserConfig(self, pUserName, pPrintUserConfig):
         """Format and print user config"""
         # print to console
-        log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_CONFIG_FOR") % (pUserName))
+        log.consoleOut("# %s" % (msg.getTranslation("TK_MSG_CONSOLE_CONFIG_FOR") % (pUserName)))
         # loop and print the same format as ppl will use to set that
         for rUserKey, rUserConfig in pPrintUserConfig.items():
             # join the lists

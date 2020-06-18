@@ -22,18 +22,15 @@ DBusGMainLoop(set_as_default=True)
 class timekprAdminConnector(object):
     """Main class for supporting indicator notifications"""
 
-    def __init__(self, pIsDevActive):
+    def __init__(self):
         """Initialize stuff for connecting to timekpr server"""
-        # dev
-        self._isDevActive = pIsDevActive
-
         # times
         self._retryTimeoutSecs = 3
         self._retryCountLeft = 5
         self._initFailed = False
 
         # dbus (timekpr)
-        self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
+        self._timekprBus = (dbus.SessionBus() if (cons.TK_DEV_ACTIVE and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
         self._timekprObject = None
         self._timekprUserAdminInterface = None
         self._timekprAdminInterface = None

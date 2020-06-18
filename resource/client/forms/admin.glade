@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.36.0 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
@@ -463,7 +463,7 @@ Please configure carefully: do not lock yourself out!</property>
                                 <property name="margin_right">5</property>
                                 <property name="margin_top">5</property>
                                 <property name="margin_bottom">5</property>
-                                <property name="label" translatable="yes">This shows you information about time spent</property>
+                                <property name="label" translatable="yes">This shows information about time left / spent</property>
                                 <property name="wrap">True</property>
                                 <property name="max_width_chars">35</property>
                                 <attributes>
@@ -474,6 +474,96 @@ Please configure carefully: do not lock yourself out!</property>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoAvailableContBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">5</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoAvailableContLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Continous time left to user which may span to more than a current day (realtime, available when user is logged in)</property>
+                                    <property name="halign">end</property>
+                                    <property name="label" translatable="yes">Time left (actual):</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoAvailableContLB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">00:00:00:00</property>
+                                    <property name="ellipsize">end</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="TimekprUserConfTodayInfoAvailableTodayBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">5</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoAvailableTodayLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Time available today (saved stated, not real-time)</property>
+                                    <property name="halign">end</property>
+                                    <property name="label" translatable="yes">Time left (today):</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="TimekprUserConfTodayInfoAvailableTodayLB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">Format: &lt;days : hours : minutes : seconds&gt;</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">00:00:00:00</property>
+                                    <property name="ellipsize">end</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -518,15 +608,13 @@ Please configure carefully: do not lock yourself out!</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkBox" id="TimekprUserConfTodayInfoSpentWeekBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_top">5</property>
-                                <property name="margin_bottom">5</property>
                                 <property name="spacing">5</property>
                                 <property name="homogeneous">True</property>
                                 <child>
@@ -564,7 +652,7 @@ Please configure carefully: do not lock yourself out!</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">2</property>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                             <child>
@@ -609,7 +697,7 @@ Please configure carefully: do not lock yourself out!</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">3</property>
+                                <property name="position">5</property>
                               </packing>
                             </child>
                           </object>
@@ -967,6 +1055,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="model">TimekprWeekDaysLS</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
+                                                <property name="mode">multiple</property>
                                                 <signal name="changed" handler="dailyLimitsDaySelectionChanged" swapped="no"/>
                                               </object>
                                             </child>
@@ -1077,7 +1166,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDayApplyBT">
+                                          <object class="GtkButton" id="TimekprUserConfDaySettingsConfDaySetBT">
                                             <property name="label" translatable="yes">Set</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
@@ -1085,7 +1174,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="receives_default">True</property>
                                             <property name="tooltip_text" translatable="yes">Set specified hours and minutes for particular day at user's disposal (do not forget to hit the &lt;Apply&gt; button)</property>
                                             <property name="image">TimekprApplyImageSetDayLimit</property>
-                                            <signal name="clicked" handler="dayTotalLimitClicked" swapped="no"/>
+                                            <signal name="clicked" handler="dayTotalLimitSetClicked" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -2593,6 +2682,9 @@ Please specify actual usernames, not real names here (e.g please specify jsmith,
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
 </interface>

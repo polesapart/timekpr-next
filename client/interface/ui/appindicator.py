@@ -33,7 +33,7 @@ except (ImportError, ValueError):
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pClientConfigManager):
+    def __init__(self, pLog, pUserName, pTimekprClientConfig):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog)
@@ -43,7 +43,7 @@ class timekprIndicator(timekprNotificationArea):
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pIsDevActive, pUserName, pClientConfigManager)
+            super().__init__(pLog, pUserName, pTimekprClientConfig)
 
             # this is our icon
             self._indicator = None
@@ -61,7 +61,7 @@ class timekprIndicator(timekprNotificationArea):
         log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprIndicatorIcon")
 
         # init indicator itself (icon will be set later)
-        self._indicator = AppIndicator.Indicator.new("indicator-timekpr", os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]), AppIndicator.IndicatorCategory.APPLICATION_STATUS)
+        self._indicator = AppIndicator.Indicator.new("indicator-timekpr", os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]), AppIndicator.IndicatorCategory.APPLICATION_STATUS)
         self._indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
 
         # define empty menu
@@ -89,22 +89,22 @@ class timekprIndicator(timekprNotificationArea):
         self._indicator.set_menu(self._timekprMenu)
 
         # initial config
-        self.setTimeLeft("", None)
+        self.setTimeLeft("", None, 0)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish initTimekprIndicatorIcon")
 
-    def setTimeLeft(self, pPriority, pTimeLeft):
+    def setTimeLeft(self, pPriority, pTimeLeft, pTimeNotLimited):
         """Set time left in the indicator"""
         # make strings to set
-        timeLeft, icon = super().formatTimeLeft(pPriority, pTimeLeft)
+        timeLeftStr, icon = super().formatTimeLeft(pPriority, pTimeLeft, pTimeNotLimited)
 
         # if we have smth to set
-        if timeLeft is not None:
+        if timeLeftStr is not None:
             # set time left (this works with indicator in unity and gnome)
-            self._indicator.set_label(timeLeft, "")
+            self._indicator.set_label(timeLeftStr, "")
 
             # set time left (this works with indicator in kde5)
-            self._indicator.set_title(timeLeft)
+            self._indicator.set_title(timeLeftStr)
 
         # if we have smth to set
         if icon is not None:
