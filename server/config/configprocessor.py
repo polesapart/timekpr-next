@@ -232,6 +232,16 @@ class timekprUserConfigurationProcessor(object):
         # check if we have this user
         result, message = self.loadAndCheckUserConfiguration()
 
+        # pre-check day number
+        isDayNumberValid = False
+        # pre-check day number
+        if pDayNumber is not None:
+            # check
+            for i in range(1, 7+1):
+                if pDayNumber == str(i):
+                    isDayNumberValid = True
+                    break
+
         # if we are still fine
         if result != 0:
             # result
@@ -242,7 +252,7 @@ class timekprUserConfigurationProcessor(object):
             result = -1
             message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_NONE") % (self._userName)
         # if days are crazy
-        elif pDayNumber != "ALL" and not 1 <= int(pDayNumber) <= 7:
+        elif pDayNumber != "ALL" and not isDayNumberValid:
             # result
             result = -1
             message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_INVALID") % (self._userName)
