@@ -194,20 +194,20 @@ class timekprAdminGUI(object):
             "TimekprUserSelectionCB"
             # combom refresh
             ,"TimekprUserSelectionRefreshBT"
-            # check box
-            ,"TimekprUserConfTodaySettingsTrackInactiveCB"
-            ,"TimekprUserConfMONCB"
-            ,"TimekprUserConfWKCB"
             # control buttons
+            ,"TimekprUserConfDaySettingsApplyBT"
+            ,"TimekprUserConfWKMONApplyBT"
             ,"TimekprUserConfTodaySettingsSetAddBT"
             ,"TimekprUserConfTodaySettingsSetSubractBT"
             ,"TimekprUserConfTodaySettingsSetSetBT"
             ,"TimekprUserConfTodaySettingsTrackInactiveSetBT"
             ,"TimekprUserConfDaySettingsConfDaysIntervalsAddBT"
             ,"TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT"
-            ,"TimekprUserConfDaySettingsApplyBT"
-            ,"TimekprUserConfWKMONApplyBT"
             ,"TimekprUserConfDaySettingsConfDaySetBT"
+            # check box
+            ,"TimekprUserConfTodaySettingsTrackInactiveCB"
+            ,"TimekprUserConfMONCB"
+            ,"TimekprUserConfWKCB"
             # spin buttons for adjustments
             ,"TimekprUserConfTodaySettingsSetMinSB"
             ,"TimekprUserConfTodaySettingsSetHrSB"
