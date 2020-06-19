@@ -194,20 +194,20 @@ class timekprAdminGUI(object):
             "TimekprUserSelectionCB"
             # combom refresh
             ,"TimekprUserSelectionRefreshBT"
-            # check box
-            ,"TimekprUserConfTodaySettingsTrackInactiveCB"
-            ,"TimekprUserConfMONCB"
-            ,"TimekprUserConfWKCB"
             # control buttons
+            ,"TimekprUserConfDaySettingsApplyBT"
+            ,"TimekprUserConfWKMONApplyBT"
             ,"TimekprUserConfTodaySettingsSetAddBT"
             ,"TimekprUserConfTodaySettingsSetSubractBT"
             ,"TimekprUserConfTodaySettingsSetSetBT"
             ,"TimekprUserConfTodaySettingsTrackInactiveSetBT"
             ,"TimekprUserConfDaySettingsConfDaysIntervalsAddBT"
             ,"TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT"
-            ,"TimekprUserConfDaySettingsApplyBT"
-            ,"TimekprUserConfWKMONApplyBT"
             ,"TimekprUserConfDaySettingsConfDaySetBT"
+            # check box
+            ,"TimekprUserConfTodaySettingsTrackInactiveCB"
+            ,"TimekprUserConfMONCB"
+            ,"TimekprUserConfWKCB"
             # spin buttons for adjustments
             ,"TimekprUserConfTodaySettingsSetMinSB"
             ,"TimekprUserConfTodaySettingsSetHrSB"
@@ -1200,7 +1200,7 @@ class timekprAdminGUI(object):
             # check the connection
             self.checkConnection()
 
-    def applyTimekprConfigurationChanges(self, evt):
+    def applyTimekprConfigurationChanges(self):
         """Apply configuration changes to server"""
         # get what's changed
         changeControl = self.calculateTimekprConfigControlAvailability(False)
@@ -1363,7 +1363,7 @@ class timekprAdminGUI(object):
         # recalc control availability
         self.calculateUserConfigControlAvailability()
 
-    def dayTotalLimitSetClicked(self, path):
+    def dayTotalLimitSet(self):
         """Recalc total seconds"""
         # calculate todays limit
         totalSecs = self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetHrSB").get_value_as_int() * cons.TK_LIMIT_PER_HOUR
@@ -1395,7 +1395,7 @@ class timekprAdminGUI(object):
         # recalc control availability
         self.calculateUserConfigControlAvailability()
 
-    def addHourIntervalClicked(self, evt):
+    def addHourInterval(self):
         """Process addition of hour interval"""
         # seconds from
         secondsFrom = (self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsFromHrSB").get_value_as_int() * cons.TK_LIMIT_PER_HOUR)
@@ -1483,7 +1483,7 @@ class timekprAdminGUI(object):
                 # recalc control availability
                 self.calculateUserConfigControlAvailability()
 
-    def removeHourIntervalClicked(self, evt):
+    def removeHourInterval(self):
         """Handle remove hour interval"""
         # get days
         days = self.getSelectedDays()
@@ -1720,23 +1720,73 @@ class timekprAdminGUI(object):
 
     def todayAddTimeClicked(self, evt):
         """Add time to user"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetAddBT").set_sensitive(False)
+        # process setting
         self.adjustTimeForToday("+")
 
     def todaySubtractTimeClicked(self, evt):
         """Subtract time from user"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetSubractBT").set_sensitive(False)
+        # process setting
         self.adjustTimeForToday("-")
 
     def todaySetTimeClicked(self, evt):
         """Set exact time for user"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetSetBT").set_sensitive(False)
+        # process setting
         self.adjustTimeForToday("=")
 
     def trackInactiveClicked(self, evt):
         """Set track inactive"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveSetBT").set_sensitive(False)
+        # process setting
         self.adjustTrackInactive()
+
+    def applyDaysHourIntervalsClicked(self, evt):
+        """Call set methods for changes"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").set_sensitive(False)
+        # process setting
+        self.applyDayAndHourIntervalChanges()
+
+    def dayTotalLimitSetClicked(self, evt):
+        """Recalc total seconds"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetBT").set_sensitive(False)
+        # process setting
+        self.dayTotalLimitSet()
+
+    def addHourIntervalClicked(self, evt):
+        """Recalc total seconds"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsAddBT").set_sensitive(False)
+        # process setting
+        self.addHourInterval()
+
+    def removeHourIntervalClicked(self, evt):
+        """Recalc total seconds"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT").set_sensitive(False)
+        # process setting
+        self.removeHourInterval()
 
     def WKMONLimitSetClicked(self, evt):
         """Adjust weekly and monthly limits"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfWKMONApplyBT").set_sensitive(False)
+        # process setting
         self.adjustWKMONLimit()
+
+    def applyTimekprConfigurationChangesClicked(self, evt):
+        """Apply configuration changes"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").set_sensitive(False)
+        # process setting
+        self.applyTimekprConfigurationChanges()
 
     def hourIntervalSelectionChanged(self, evt):
         """When hour interval selection changed"""
@@ -1745,10 +1795,6 @@ class timekprAdminGUI(object):
 
         # only if there is smth selected
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT").set_sensitive(ti is not None)
-
-    def applyDaysHourIntervalsClicked(self, evt):
-        """Call set methods for changes"""
-        self.applyDayAndHourIntervalChanges()
 
     def trackedSessionTypesChanged(self, evt):
         """Tracked sessions types changed"""

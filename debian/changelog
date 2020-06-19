@@ -1,4 +1,4 @@
-timekpr-next-beta (0.4.0~ppa1~ubuntu2) UNRELEASED; urgency=medium
+timekpr-next-beta (0.4.0~ppa1~ubuntu3) UNRELEASED; urgency=medium
 
   * Registered bug fixes:
   ** killing user sessions that do not have "seats" will not switch to login manager TTY (#1861479)

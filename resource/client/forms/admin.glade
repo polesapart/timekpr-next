@@ -2593,7 +2593,7 @@ Please specify actual usernames, not real names here (e.g please specify jsmith,
                     <property name="tooltip_text" translatable="yes">Apply all Timekpr-nExT settings at once</property>
                     <property name="margin_bottom">5</property>
                     <property name="image">TimekprApplyImageAdminSettings</property>
-                    <signal name="clicked" handler="applyTimekprConfigurationChanges" swapped="no"/>
+                    <signal name="clicked" handler="applyTimekprConfigurationChangesClicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
