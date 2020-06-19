@@ -79,7 +79,7 @@ class timekprUserLoginManager(object):
                 # values and keys
                 for keyx, valuex in value.items():
                     uNameLog = "%s, %s: %s" % (uNameLog, keyx, valuex)
-            log.log(cons.TK_LOG_LEVEL_DEBUG, uNameLog)
+                log.log(cons.TK_LOG_LEVEL_DEBUG, uNameLog)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getUserList") if not pSilent else True
 
