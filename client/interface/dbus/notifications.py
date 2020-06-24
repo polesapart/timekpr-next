@@ -244,7 +244,7 @@ class timekprNotifications(object):
         # prepare notifications in case smth is not ok
         else:
             # let's inform user in case screensaver is not connected
-            if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None:
+            if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None and self._timekprClientConfig.getClientShowAllNotifications():
                 # prepare notification
                 self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, cons.TK_PRIO_WARNING, pAdditionalMessage=self.CL_CONN_SCR)
 

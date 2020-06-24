@@ -135,6 +135,8 @@ class timekprUserConfigurationProcessor(object):
                 userConfigurationStore["LIMITS_PER_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDayLimits)) if len(allowedWeekDayLimits) > 0 else dbus.Array(signature="i")
                 # track inactive
                 userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
+                # hide icon
+                userConfigurationStore["HIDE_TRAY_ICON"] = self._timekprUserConfig.getUserHideTrayIcon()
                 # limit per week
                 userConfigurationStore["LIMIT_PER_WEEK"] = self._timekprUserConfig.getUserWeekLimit()
                 # limit per month
@@ -351,7 +353,7 @@ class timekprUserConfigurationProcessor(object):
 
     def checkAndSetTrackInactive(self, pTrackInactive):
         """Validate and set track inactive sessions for the user"""
-        """Validate whehter inactive user sessions are tracked
+        """Validate whether inactive user sessions are tracked
             true - logged in user is always tracked (even if switched to console or locked or ...)
             false - user time is not tracked if he locks the session, session is switched to another user, etc."""
 
@@ -386,6 +388,52 @@ class timekprUserConfigurationProcessor(object):
                 # result
                 result = -1
                 message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_INVALID_SET") % (self._userName)
+
+            # if we are still fine
+            if result == 0:
+                # save config
+                self._timekprUserConfig.saveUserConfiguration()
+
+        # result
+        return result, message
+
+    def checkAndSetHideTrayIcon(self, pHideTrayIcon):
+        """Validate and set hide tray icon for the user"""
+        """Validate whether icon will be hidden from user
+            true - icon and notifications are NOT shown to user
+            false - icon and notifications are shown to user"""
+
+        # check if we have this user
+        result, message = self.loadAndCheckUserConfiguration()
+
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        # if we have no days
+        elif pHideTrayIcon is None:
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_NONE") % (self._userName)
+        else:
+            # parse config
+            try:
+                if pHideTrayIcon:
+                    pass
+            except Exception:
+                # result
+                result = -1
+                message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID") % (self._userName)
+
+        # if all is correct, we update the configuration
+        if result == 0:
+            # set up config
+            try:
+                self._timekprUserConfig.setUserHideTrayIcon(pHideTrayIcon)
+            except Exception:
+                # result
+                result = -1
+                message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID_SET") % (self._userName)
 
             # if we are still fine
             if result == 0:

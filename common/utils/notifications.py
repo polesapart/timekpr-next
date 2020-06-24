@@ -55,7 +55,7 @@ class timekprNotificationManager(dbus.service.Object):
         # un-init DBUS
         super().remove_from_connection()
 
-    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTimeAvailableIntervals, pTrackInactive):
+    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTimeAvailableIntervals, pTrackInactive, pHideTrayIcon):
         """Process notifications and send signals if needed"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start processTimeLeft")
 
@@ -88,6 +88,7 @@ class timekprNotificationManager(dbus.service.Object):
         timeLeft[cons.TK_CTRL_SPENTM] = int(pTimeSpentMonth)
         timeLeft[cons.TK_CTRL_SLEEP] = int(pTimeInactive)
         timeLeft[cons.TK_CTRL_TRACK] = (1 if pTrackInactive else 0)
+        timeLeft[cons.TK_CTRL_HIDEI] = (1 if pHideTrayIcon else 0)
         timeLeft[cons.TK_CTRL_TNL] = (1 if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and pTimeAvailableIntervals >= cons.TK_LIMIT_PER_DAY else 0)
 
         # inform clients about time left in any case

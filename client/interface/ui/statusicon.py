@@ -112,3 +112,11 @@ class timekprIndicator(timekprNotificationArea):
     def onTimekprMenu(self, status, button, time):
         """Show popup menu for tray"""
         self._popup.popup(None, None, None, None, 0, time)
+
+    def getTrayIconEnabled(self):
+        """Get whether tray icon is enabled"""
+        return self._tray.get_visible()
+
+    def setTrayIconEnabled(self, pEnabled):
+        """Set whether tray icon is enabled"""
+        self._tray.set_visible(pEnabled)

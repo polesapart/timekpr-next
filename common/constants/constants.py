@@ -165,6 +165,7 @@ TK_CTRL_SMIN = "STARTMIN"  # start minute in this hour
 TK_CTRL_EMIN = "ENDMIN"    # end minute in this hour
 TK_CTRL_INT = "INTERVALS"  # intervals of time available to user
 TK_CTRL_TRACK = "TRACKI"   # whether to track inactive sessions
+TK_CTRL_HIDEI = "HIDEI"    # whether to hide timekpr icon
 TK_CTRL_TNL = "TNL"        # time not limited
 
 # notificaton limits
@@ -217,6 +218,8 @@ TK_TERMINATION_TIME = 15
 TK_FINAL_COUNTDOWN_TIME = 10
 # default value for tracking inactive sessions
 TK_TRACK_INACTIVE = False
+# default value for tracking inactive sessions
+TK_HIDE_TRAY_ICON = False
 
 # ## files ##
 # config
@@ -275,6 +278,7 @@ TK_USER_ADMIN_COMMANDS = {
     ,"--settimelimitweek"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK") + ":\n    timekpra --settimelimitweek \"testuser\" \"50000\""
     ,"--settimelimitmonth" : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON") + ":\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
     ,"--settrackinactive"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE") + ":\n    timekpra --settrackinactive \"testuser\" \"false\""
+    ,"--sethidetrayicon"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON") + ":\n    timekpra --sethidetrayicon \"testuser\" \"false\""
     ,"--settimeleft"       : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT") + ":\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
 }
 

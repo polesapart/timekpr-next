@@ -113,18 +113,18 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").set_active(self._timekprClientConfig.getClientShowSeconds())
         self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").set_value(self._timekprClientConfig.getClientLogLevel())
 
-    def renewLimits(self, pTimeLeft=None):
+    def renewLimits(self, pTimeInformation=None):
         """Renew information to be show for user in GUI"""
         # sets time left
-        if pTimeLeft is not None:
+        if pTimeInformation is not None:
             # limits
-            self._timeSpent = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENT])
-            self._timeSpentWeek = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENTW])
-            self._timeSpentMonth = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SPENTM])
-            self._timeInactive = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_SLEEP])
-            self._timeLeftToday = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFTD])
-            self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeLeft[cons.TK_CTRL_LEFT])
-            self._timeTrackInactive = True if pTimeLeft[cons.TK_CTRL_TRACK] else False
+            self._timeSpent = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_SPENT])
+            self._timeSpentWeek = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_SPENTW])
+            self._timeSpentMonth = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_SPENTM])
+            self._timeInactive = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_SLEEP])
+            self._timeLeftToday = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_LEFTD])
+            self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_LEFT])
+            self._timeTrackInactive = True if pTimeInformation[cons.TK_CTRL_TRACK] else False
 
         # calculate strings to show (and show only those, which have data)
         timeSpentStr = self.formatTime(self._timeSpent)

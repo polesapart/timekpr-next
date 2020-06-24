@@ -206,6 +206,7 @@ class timekprAdminGUI(object):
             ,"TimekprUserConfDaySettingsConfDaySetBT"
             # check box
             ,"TimekprUserConfTodaySettingsTrackInactiveCB"
+            ,"TimekprUserConfTodaySettingsHideTrayIconCB"
             ,"TimekprUserConfMONCB"
             ,"TimekprUserConfWKCB"
             # spin buttons for adjustments
@@ -255,6 +256,7 @@ class timekprAdminGUI(object):
 
         # sets up limit variables for user configuration
         self._timeTrackInactive = False
+        self._timeHideTrayIcon = False
         self._timeLimitWeek = 0
         self._timeLimitMonth = 0
         self._timeLimitDays = []
@@ -347,9 +349,10 @@ class timekprAdminGUI(object):
     def clearAdminForm(self):
         """Clear and default everything to default values"""
         # clear form
-        for rCtrl in ["TimekprUserConfTodayInfoSpentTodayLB", "TimekprUserConfTodayInfoSpentWeekLB", "TimekprUserConfTodayInfoSpentMonthLB", "TimekprUserConfTodayInfoAvailableTodayLB", "TimekprUserConfTodayInfoAvailableContLB"]:
+        for rCtrl in ["TimekprUserConfTodayInfoSpentTodayLB", "TimekprUserConfTodayInfoSpentWeekLB", "TimekprUserConfTodayInfoSpentMonthLB", "TimekprUserConfTodayInfoLeftTodayLB", "TimekprUserConfTodayInfoLeftContLB", "TimekprUserConfTodayInfoInactiveLB"]:
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(False)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").set_active(False)
         for rDay in range(1, 7+1):
             # clear list store
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay-1][2] = False
@@ -532,11 +535,13 @@ class timekprAdminGUI(object):
 
     def applyUserConfig(self):
         """Apply user configuration after getting it from server"""
-        # ## track inactive ##
-        # set value
-        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(self._timeTrackInactive)
-        # enable field & set button
-        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_sensitive(True)
+        # additional config
+        # set values for track inactive and disable notifications
+        for rCtrl in ["TimekprUserConfTodaySettingsTrackInactiveCB", "TimekprUserConfTodaySettingsHideTrayIconCB"]:
+            # set value
+            self._timekprAdminFormBuilder.get_object(rCtrl).set_active(self._timeTrackInactive if rCtrl == "TimekprUserConfTodaySettingsTrackInactiveCB" else self._timeHideTrayIcon)
+            # enable field & set button
+            self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
 
         # enable refresh
         self._timekprAdminFormBuilder.get_object("TimekprUserSelectionRefreshBT").set_sensitive(True)
@@ -654,6 +659,10 @@ class timekprAdminGUI(object):
         # ## track inactive ##
         # enable field if different from what is set
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveSetBT").set_sensitive(self._timeTrackInactive != self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").get_active())
+
+        # ## hide icon & notifications ##
+        # enable field if different from what is set
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconSetBT").set_sensitive(self._timeHideTrayIcon != self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").get_active())
 
         # ## day config ##
         enabledDays = 0
@@ -833,7 +842,7 @@ class timekprAdminGUI(object):
             # all ok
             if result == 0:
                 # reset optional information labels
-                for rCtrl in ["TimekprUserConfTodayInfoAvailableContLB"]:
+                for rCtrl in ["TimekprUserConfTodayInfoLeftContLB", "TimekprUserConfTodayInfoInactiveLB"]:
                     self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
 
                 # loop and print
@@ -859,19 +868,28 @@ class timekprAdminGUI(object):
                         # balance
                         timeLeft = cons.TK_DATETIME_START + timedelta(seconds=rValue)
                         timeLeftStr = str((timeLeft - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLeft.hour).rjust(2, "0") + ":" + str(timeLeft.minute).rjust(2, "0") + ":" + str(timeLeft.second).rjust(2, "0")
-                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoAvailableTodayLB").set_text(timeLeftStr)
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoLeftTodayLB").set_text(timeLeftStr)
                     # show actual time left for continous use
                     elif rKey == "ACTUAL_TIME_LEFT_CONTINUOUS":
                         # total left
                         timeLeft = cons.TK_DATETIME_START + timedelta(seconds=rValue)
                         timeLeftStr = str((timeLeft - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLeft.hour).rjust(2, "0") + ":" + str(timeLeft.minute).rjust(2, "0") + ":" + str(timeLeft.second).rjust(2, "0")
-                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoAvailableContLB").set_text(timeLeftStr)
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoLeftContLB").set_text(timeLeftStr)
+                    # show actual time inactive
+                    elif rKey == "ACTUAL_TIME_INACTIVE_SESSION":
+                        # total left
+                        timeLeft = cons.TK_DATETIME_START + timedelta(seconds=rValue)
+                        timeLeftStr = str((timeLeft - cons.TK_DATETIME_START).days).rjust(2, "0") + ":" + str(timeLeft.hour).rjust(2, "0") + ":" + str(timeLeft.minute).rjust(2, "0") + ":" + str(timeLeft.second).rjust(2, "0")
+                        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayInfoInactiveLB").set_text(timeLeftStr)
 
                     # info is needed when full refresh requested
                     if pFull:
                         if rKey == "TRACK_INACTIVE":
                             # track inactive
                             self._timeTrackInactive = bool(rValue)
+                        elif rKey == "HIDE_TRAY_ICON":
+                            # hide icon and notif
+                            self._timeHideTrayIcon = bool(rValue)
                         elif rKey == "ALLOWED_WEEKDAYS":
                             # empty the values
                             self._timeLimitDays = []
@@ -1008,6 +1026,35 @@ class timekprAdminGUI(object):
                 # set values to internal config
                 self._timeTrackInactive = trackInactive
                 self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").emit("toggled")
+            else:
+                # disable all but choser
+                self.toggleUserConfigControls(False, True)
+                # status
+                self.setTimekprStatus(False, message)
+                # check the connection
+                self.checkConnection()
+
+    def adjustHideTrayIcon(self):
+        """Adjust track inactive sessions for user"""
+        # get username
+        userName = self.getSelectedUserName()
+
+        # if we have username
+        if userName is not None:
+            # get time to add
+            hideTrayIcon = self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").get_active()
+
+            # set time
+            result, message = self._timekprAdminConnector.setHideTrayIcon(userName, hideTrayIcon)
+
+            # all ok
+            if result == 0:
+                # status
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_HIDETRAYICON_PROCESSED"))
+
+                # set values to internal config
+                self._timeHideTrayIcon = hideTrayIcon
+                self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").emit("toggled")
             else:
                 # disable all but choser
                 self.toggleUserConfigControls(False, True)
@@ -1664,6 +1711,11 @@ class timekprAdminGUI(object):
         # recalc control availability
         self.calculateUserConfigControlAvailability()
 
+    def hideTrayIconChanged(self, evt):
+        """Call control calculations when hide icon has been added"""
+        # recalc control availability
+        self.calculateUserConfigControlAvailability()
+
     def todayAddTimeChanged(self, evt):
         """Call control calculations when time has been added"""
         # recalc control availability
@@ -1745,6 +1797,13 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveSetBT").set_sensitive(False)
         # process setting
         self.adjustTrackInactive()
+
+    def hideTrayIconClicked(self, evt):
+        """Set track inactive"""
+        # disable button so it can not be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconSetBT").set_sensitive(False)
+        # process setting
+        self.adjustHideTrayIcon()
 
     def applyDaysHourIntervalsClicked(self, evt):
         """Call set methods for changes"""

@@ -317,6 +317,30 @@ class timekprAdminConnector(object):
         # result
         return result, message
 
+    def setHideTrayIcon(self, pUserName, pHideTrayIcon):
+        """Set user allowed days"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setHideTrayIcon(pUserName, pHideTrayIcon)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we can not send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
     def setTimeLeft(self, pUserName, pOperation, pTimeLeft):
         """Set user time left"""
         # initial values
