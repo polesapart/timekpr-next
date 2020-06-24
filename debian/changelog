@@ -1,4 +1,4 @@
-timekpr-next (0.4.0~ppa1~ubuntu3) UNRELEASED; urgency=medium
+timekpr-next (0.4.0~ppa1~ubuntu4) UNRELEASED; urgency=medium
 
   * Registered bug fixes:
   ** killing user sessions that do not have "seats" will not switch to login manager TTY (#1861479)
@@ -13,7 +13,9 @@ timekpr-next (0.4.0~ppa1~ubuntu3) UNRELEASED; urgency=medium
   ** control files (.time) will now contain balance as well as time spent for day (existing TIME_SPENT will be removed, TIME_SPENT_BALANCE and TIME_SPENT_DAY are added)
   ** console application (timekpra) changes
   *** rename TIME_SPENT (previously used as saved time spent value) to TIME_SPENT_BALANCE
+  *** added an option which represents hide tray icon option (HIDE_TRAY_ICON)
   *** rename option "userconfig" to "userinfo" which better represents returned values
+  *** add method to hide tray icon for user (--sethidetrayicon)
   *** added time left for today (TIME_LEFT_DAY) which is calculated from saved state
   ** console application (timekpra) improvements - added "live" (i.e. calculated every 3 secs) values for options below
   *** ACTUAL_TIME_SPENT_SESSION - time spent in this session (since timekpr daemon startup)
@@ -24,7 +26,11 @@ timekpr-next (0.4.0~ppa1~ubuntu3) UNRELEASED; urgency=medium
   *** ACTUAL_TIME_LEFT_CONTINUOUS - how much time is left continuously (but no more than this and next day)
   ** timekpr will not switch to login manager TTY after killing a user / session that is not active (i.e. in foreground)
   ** timekpr will reload user list when opening admin application (newly added users will be available in timekpr right away)
-  ** add time left for day and time left actual (when user is logged in) for admin app
+  ** add time inactive (actual) and time left (actual), i.e. when user is logged in, for admin app
+  ** add translations to new features
+  ** minor GUI changes
+  ** message which informs user that timekpr can not connect to screensaver is now shown only when all notifications are enabled
+  ** client application icon will not show if hide icon is checked in admin app
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Jun 2020 00:33:21 +0300
 
