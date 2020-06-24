@@ -145,10 +145,10 @@ class timekprNotificationArea(object):
 
     # --------------- configuration update methods --------------- #
 
-    def renewUserLimits(self, pTimeLeft):
+    def renewUserLimits(self, pTimeInformation):
         """Call an update to renew time left"""
         # pass this to actual gui storage
-        self._timekprGUI.renewLimits(pTimeLeft)
+        self._timekprGUI.renewLimits(pTimeInformation)
 
     def renewLimitConfiguration(self, pLimits):
         """Call an update on actual limits"""

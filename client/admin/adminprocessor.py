@@ -203,6 +203,16 @@ class timekprAdminClient(object):
                 # set days
                 self.processSetTrackInactive(args[paramIdx+1], args[paramIdx+2])
 
+        # this sets whether to show tray icon
+        elif adminCmd == "--sethidetrayicon":
+            # check param len
+            if paramLen != paramIdx + 3:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # set days
+                self.processSetHideTrayIcon(args[paramIdx+1], args[paramIdx+2])
+
         # this sets time left for the user at current moment
         elif adminCmd == "--settimeleft":
             # check param len
@@ -275,7 +285,7 @@ class timekprAdminClient(object):
                             hrs = "%s;%s" % (hrs, hr)
 
                 log.consoleOut("%s: %s" % (rUserKey, hrs))
-            elif "TRACK_IN" in rUserKey:
+            elif "TRACK_IN" in rUserKey or "HIDE_TRAY_I" in rUserKey:
                 log.consoleOut("%s: %s" % (rUserKey, bool(rUserConfig)))
             else:
                 log.consoleOut("%s: %s" % (rUserKey, str(rUserConfig)))
@@ -429,7 +439,7 @@ class timekprAdminClient(object):
         if pTrackInactive not in ["true", "True", "TRUE", "false", "False", "FALSE"]:
             # fail
             result = -1
-            message =  msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
             trackInactive = True if pTrackInactive in ["true", "True", "TRUE"] else False
 
@@ -437,6 +447,30 @@ class timekprAdminClient(object):
         if result == 0:
             # invoke
             result, message = self._timekprAdminConnector.setTrackInactive(pUserName, trackInactive)
+
+        # process
+        if result != 0:
+            # log error
+            log.consoleOut(message)
+
+    def processSetHideTrayIcon(self, pUserName, pHideTrayIcon):
+        """Process track inactive"""
+        # defaults
+        hideTrayIcon = None
+        result = 0
+
+        # check
+        if pHideTrayIcon not in ["true", "True", "TRUE", "false", "False", "FALSE"]:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
+        else:
+            hideTrayIcon = True if pHideTrayIcon in ["true", "True", "TRUE"] else False
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setHideTrayIcon(pUserName, hideTrayIcon)
 
         # process
         if result != 0:

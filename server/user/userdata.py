@@ -458,7 +458,7 @@ class timekprUser(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # process notifications, if needed
-        self._timekprUserNotification.processTimeLeft(pForceNotifications, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], timeAvailableIntervals, self._timekprUserConfig.getUserTrackInactive())
+        self._timekprUserNotification.processTimeLeft(pForceNotifications, timeSpentThisSession, timeSpentWeek, timeSpentMonth, timeInactiveThisSession, timeLeftToday, timeLeftInARow, self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD], timeAvailableIntervals, self._timekprUserConfig.getUserTrackInactive(), self._timekprUserConfig.getUserHideTrayIcon())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getTimeLeft")
 

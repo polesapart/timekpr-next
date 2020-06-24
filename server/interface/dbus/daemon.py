@@ -518,7 +518,7 @@ class timekprDaemon(dbus.service.Object):
     @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="sb", out_signature="is")
     def setTrackInactive(self, pUserName, pTrackInactive):
         """Set track inactive sessions for the user"""
-        """This sets whehter inactive user sessions are tracked
+        """This sets whether inactive user sessions are tracked
             true - logged in user is always tracked (even if switched to console or locked or ...)
             false - user time is not tracked if he locks the session, session is switched to another user, etc."""
         try:
@@ -527,6 +527,36 @@ class timekprDaemon(dbus.service.Object):
 
             # load config
             result, message = userConfigProcessor.checkAndSetTrackInactive(True if pTrackInactive else False)
+
+            # check if we have this user
+            if pUserName in self._timekprUserList:
+                # inform the user immediately
+                self._timekprUserList[pUserName].adjustLimitsFromConfig(False)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # report shit
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="sb", out_signature="is")
+    def setHideTrayIcon(self, pUserName, pHideTrayIcon):
+        """Set hide tray icon for the user"""
+        """This sets whether icon will be hidden from user
+            true - icon and notifications are NOT shown to user
+            false - icon and notifications are shown to user"""
+        try:
+            # check the user and it's configuration
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
+
+            # load config
+            result, message = userConfigProcessor.checkAndSetHideTrayIcon(True if pHideTrayIcon else False)
 
             # check if we have this user
             if pUserName in self._timekprUserList:

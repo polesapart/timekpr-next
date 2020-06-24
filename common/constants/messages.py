@@ -37,6 +37,7 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"] = {"s": _("==> set time limit per week, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"] = {"s": _("==> set whether to hide tray icon and prevent notifications, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at current moment, example (add one hour)")}
 
     # ## this defines messages for use in configuration validation ##
@@ -50,22 +51,25 @@ def initMessages():
     _messages["TK_MSG_ADMIN_CHK_EXCLUSERS_INVALID"] = {"s": _("Excluded user list is not correct")}
     _messages["TK_MSG_ADMIN_CHK_EXCLUSERS_INVALID_SET"] = {"s": _("Excluded user list is not correct and can not be set")}
     _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_NONE"] = {"s": _("Final warning time is not passed")}
-    _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_INVALID"] = {"s": _("Final warning time \"%%s\"is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_INVALID"] = {"s": _("Final warning time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_INVALID_SET"] = {"s": _("Final warning time \"%%s\" is not correct and can not be set")}
     _messages["TK_MSG_ADMIN_CHK_TERMTIME_NONE"] = {"s": _("Termination time is not passed")}
-    _messages["TK_MSG_ADMIN_CHK_TERMTIME_INVALID"] = {"s": _("Termination time \"%%s\"is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_TERMTIME_INVALID"] = {"s": _("Termination time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_TERMTIME_INVALID_SET"] = {"s": _("Termination time \"%%s\" is not correct and can not be set")}
     _messages["TK_MSG_ADMIN_CHK_TRACKINACTIVE_NONE"] = {"s": _("Track inactive is not passed")}
-    _messages["TK_MSG_ADMIN_CHK_TRACKINACTIVE_INVALID"] = {"s": _("Track inactive \"%%s\"is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_TRACKINACTIVE_INVALID"] = {"s": _("Track inactive \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_TRACKINACTIVE_INVALID_SET"] = {"s": _("Track inactive \"%%s\" is not correct and can not be set")}
+    _messages["TK_MSG_ADMIN_CHK_HIDETRAYICON_NONE"] = {"s": _("Hide tray icon is not passed")}
+    _messages["TK_MSG_ADMIN_CHK_HIDETRAYICON_INVALID"] = {"s": _("Hide tray icon \"%%s\" is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_HIDETRAYICON_INVALID_SET"] = {"s": _("Hide tray icon \"%%s\" is not correct and can not be set")}
     _messages["TK_MSG_ADMIN_CHK_LOGLEVEL_NONE"] = {"s": _("Log level is not passed")}
-    _messages["TK_MSG_ADMIN_CHK_LOGLEVEL_INVALID"] = {"s": _("Log level \"%%s\"is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_LOGLEVEL_INVALID"] = {"s": _("Log level \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_LOGLEVEL_INVALID_SET"] = {"s": _("Log level \"%%s\" is not correct and can not be set")}
     _messages["TK_MSG_ADMIN_CHK_POLLTIME_NONE"] = {"s": _("Poll time is not passed")}
-    _messages["TK_MSG_ADMIN_CHK_POLLTIME_INVALID"] = {"s": _("Poll time \"%%s\"is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_POLLTIME_INVALID"] = {"s": _("Poll time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_POLLTIME_INVALID_SET"] = {"s": _("Poll time \"%%s\" is not correct and can not be set")}
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_NONE"] = {"s": _("Save time is not passed")}
-    _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID"] = {"s": _("Save time \"%%s\"is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID"] = {"s": _("Save time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID_SET"] = {"s": _("Save time \"%%s\" is not correct and can not be set")}
 
     # ## this defines messages for use in user configuration validation ##
@@ -87,6 +91,9 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_NONE"] = {"s": _("User's \"%%s\" track inactive flag is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_INVALID"] = {"s": _("User's \"%%s\" track inactive flag is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_INVALID_SET"] = {"s": _("User's \"%%s\" track inactive flag is not correct and can not be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_NONE"] = {"s": _("User's \"%%s\" hide tray icon flag is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID"] = {"s": _("User's \"%%s\" hide tray icon flag is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID_SET"] = {"s": _("User's \"%%s\" hide tray icon flag is not correct and can not be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_NONE"] = {"s": _("User's \"%%s\" weekly allowance is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID"] = {"s": _("User's \"%%s\" weekly allowance is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID_SET"] = {"s": _("User's \"%%s\" weekly allowance is not correct and can not be set")}
@@ -118,6 +125,7 @@ def initMessages():
     _messages["TK_MSG_STATUS_USER_CONFIG_RETRIEVED"] = {"s": _("User configuration retrieved")}
     _messages["TK_MSG_STATUS_CONFIG_RETRIEVED"] = {"s": _("Configuration retrieved")}
     _messages["TK_MSG_STATUS_TRACKINACTIVE_PROCESSED"] = {"s": _("Track inactive for user has been processed")}
+    _messages["TK_MSG_STATUS_HIDETRAYICON_PROCESSED"] = {"s": _("Hide tray icon for user has been processed")}
     _messages["TK_MSG_STATUS_ADJUSTTIME_PROCESSED"] = {"s": _("Additional time for user has been processed")}
     _messages["TK_MSG_STATUS_WKMONADJUSTTIME_PROCESSED"] = {"s": _("Weekly and monthly limits for user have been processed")}
     _messages["TK_MSG_STATUS_ALLOWEDDAYS_PROCESSED"] = {"s": _("Allowed days for user have been processed")}

@@ -214,18 +214,31 @@ class timekprClient(object):
         # resend stuff to server
         self._timekprClientIndicator.verifySessionAttributes(pWhat, pKey)
 
+    def processShowClientIcon(self, pTimeInformation):
+        """Check wheter to show or hide tray icon"""
+        # do we have information about show or hide icon
+        if cons.TK_CTRL_HIDEI in pTimeInformation:
+            # enable?
+            iconStatus = (not bool(pTimeInformation[cons.TK_CTRL_HIDEI]))
+            # check if those differ
+            if self._timekprClientIndicator.getTrayIconEnabled() != iconStatus:
+                # set it
+                self._timekprClientIndicator.setTrayIconEnabled(iconStatus)
+
     # --------------- worker methods (from dbus) --------------- #
 
-    def receiveTimeLeft(self, pPriority, pTimeLeft):
+    def receiveTimeLeft(self, pPriority, pTimeInformation):
         """Receive the signal and process the data to user"""
         # check which options are available
-        timeLeft = (pTimeLeft[cons.TK_CTRL_LEFT] if cons.TK_CTRL_LEFT in pTimeLeft else 0)
-        isTimeNotLimited = (pTimeLeft[cons.TK_CTRL_TNL] if cons.TK_CTRL_TNL in pTimeLeft else 0)
+        timeLeft = (pTimeInformation[cons.TK_CTRL_LEFT] if cons.TK_CTRL_LEFT in pTimeInformation else 0)
+        isTimeNotLimited = (pTimeInformation[cons.TK_CTRL_TNL] if cons.TK_CTRL_TNL in pTimeInformation else 0)
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i, %i" % (pPriority, timeLeft, isTimeNotLimited))
+        # process show / hide icon
+        self.processShowClientIcon(pTimeInformation)
         # process time left
         self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=timeLeft), isTimeNotLimited)
         # renew limits in GUI
-        self._timekprClientIndicator.renewUserLimits(pTimeLeft)
+        self._timekprClientIndicator.renewUserLimits(pTimeInformation)
 
     def receiveTimeLimits(self, pPriority, pTimeLimits):
         """Receive the signal and process the data to user"""
@@ -239,7 +252,7 @@ class timekprClient(object):
         """Receive time left and update GUI"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive tl notif: %s, %i" % (pPriority, pTimeLeftTotal))
         # if notifications are turned on
-        if self._timekprClientConfig.getClientShowAllNotifications():
+        if self._timekprClientConfig.getClientShowAllNotifications() and self._timekprClientIndicator.getTrayIconEnabled():
             # process time left notification
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
 
@@ -253,7 +266,7 @@ class timekprClient(object):
         """Receive no limit notificaton and show that to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive nl notif")
         # if notifications are turned on
-        if self._timekprClientConfig.getClientShowAllNotifications():
+        if self._timekprClientConfig.getClientShowAllNotifications() and self._timekprClientIndicator.getTrayIconEnabled():
             # process time left
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMEUNLIMITED, pPriority)
 
@@ -261,7 +274,7 @@ class timekprClient(object):
         """Receive time left notification and show it to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive time left changed notif")
         # if notifications are turned on
-        if self._timekprClientConfig.getClientShowLimitNotifications():
+        if self._timekprClientConfig.getClientShowLimitNotifications() and self._timekprClientIndicator.getTrayIconEnabled():
             # limits have changed and applied
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFTCHANGED, pPriority)
 
@@ -269,6 +282,6 @@ class timekprClient(object):
         """Receive notification about config change and show it to user"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive config changed notif")
         # if notifications are turned on
-        if self._timekprClientConfig.getClientShowLimitNotifications():
+        if self._timekprClientConfig.getClientShowLimitNotifications() and self._timekprClientIndicator.getTrayIconEnabled():
             # configuration has changed, new limits may have been applied
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMECONFIGCHANGED, pPriority)

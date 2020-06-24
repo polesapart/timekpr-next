@@ -110,3 +110,11 @@ class timekprIndicator(timekprNotificationArea):
         if icon is not None:
             # set up the icon
             self._indicator.set_icon(icon)
+
+    def getTrayIconEnabled(self):
+        """Get whether tray icon is enabled"""
+        return self._indicator.get_status() == AppIndicator.IndicatorStatus.ACTIVE
+
+    def setTrayIconEnabled(self, pEnabled):
+        """Set whether tray icon is enabled"""
+        self._indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE if pEnabled else AppIndicator.IndicatorStatus.PASSIVE)

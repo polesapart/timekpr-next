@@ -518,6 +518,9 @@ class timekprUserConfig(object):
             # read
             param = "TRACK_INACTIVE"
             resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "HIDE_TRAY_ICON"
+            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_HIDE_TRAY_ICON, pCheckValue=None, pOverallSuccess=resultValue)
 
             # if we could not read some values, save what we could + defaults
             if not resultValue:
@@ -573,6 +576,10 @@ class timekprUserConfig(object):
         param = "TRACK_INACTIVE"
         self._timekprUserConfigParser.set(section, "# this defines whether to account sessions which are inactive (locked screen, user switched away from desktop, etc.)")
         self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_TRACK_INACTIVE))
+        # set up param
+        param = "HIDE_TRAY_ICON"
+        self._timekprUserConfigParser.set(section, "# this defines whether to show icon and notifications for user")
+        self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_HIDE_TRAY_ICON))
 
         # save the file
         with open(self._configFile, "w") as fp:
@@ -597,6 +604,8 @@ class timekprUserConfig(object):
         values["LIMIT_PER_MONTH"] = str(self._timekprUserConfig["LIMIT_PER_MONTH"])
         # track inactive
         values["TRACK_INACTIVE"] = str(self._timekprUserConfig["TRACK_INACTIVE"])
+        # try icon
+        values["HIDE_TRAY_ICON"] = str(self._timekprUserConfig["HIDE_TRAY_ICON"])
         # allowed hours for every week day
         for rDay in range(1, 7+1):
             values["ALLOWED_HOURS_%s" % (str(rDay))] = self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(rDay))]
@@ -653,13 +662,18 @@ class timekprUserConfig(object):
         # result
         return self._timekprUserConfig["TRACK_INACTIVE"]
 
+    def getUserHideTrayIcon(self):
+        """Get whether to hide icon and notifications"""
+        # result
+        return self._timekprUserConfig["HIDE_TRAY_ICON"]
+
     def getUserLastModified(self):
         """Get last file modification time for user"""
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
 
     def setUserAllowedHours(self, pAllowedHours):
-        """Get allowed hours"""
+        """Set allowed hours"""
         # go through all days given for modifications
         for rDay, rHours in pAllowedHours.items():
             # inital hours
@@ -690,7 +704,7 @@ class timekprUserConfig(object):
         self._timekprUserConfig["ALLOWED_WEEKDAYS"] = ";".join(map(str, pAllowedWeekdays))
 
     def setUserLimitsPerWeekdays(self, pLimits):
-        """Get allowed limits per week day"""
+        """Set allowed limits per week day"""
         # set up limits for weekdays
         self._timekprUserConfig["LIMITS_PER_WEEKDAYS"] = ";".join(map(str, pLimits))
 
@@ -705,9 +719,14 @@ class timekprUserConfig(object):
         self._timekprUserConfig["LIMIT_PER_MONTH"] = int(pMonthLimitSecs)
 
     def setUserTrackInactive(self, pTrackInactive):
-        """Get whether to track inactive sessions"""
+        """Set whether to track inactive sessions"""
         # set track inactive
         self._timekprUserConfig["TRACK_INACTIVE"] = bool(pTrackInactive)
+
+    def setUserHideTrayIcon(self, pHideTrayIcon):
+        """Set whether to hide icon and notifications"""
+        # result
+        self._timekprUserConfig["HIDE_TRAY_ICON"] = bool(pHideTrayIcon)
 
 
 class timekprUserControl(object):
@@ -1170,16 +1189,16 @@ class timekprClientConfig(object):
         self._timekprClientConfig["SHOW_ALL_NOTIFICATIONS"] = pClientShowAllNotifications
 
     def setClientUseSpeechNotifications(self, pClientUseSpeechNotifications):
-        """Get whether to use speech"""
+        """Set whether to use speech"""
         # set
         self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS"] = pClientUseSpeechNotifications
 
     def setClientShowSeconds(self, pClientShowSeconds):
-        """Get whether to show seconds"""
+        """Set whether to show seconds"""
         # set
         self._timekprClientConfig["SHOW_SECONDS"] = pClientShowSeconds
 
     def setClientLogLevel(self, pClientLogLevel):
-        """Get client log level"""
+        """Set client log level"""
         # set
         self._timekprClientConfig["LOG_LEVEL"] = pClientLogLevel
