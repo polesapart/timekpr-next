@@ -112,10 +112,10 @@ class timekprUserManager(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
 
-    def isUserActive(self, pSessionTypes, pTrackInactive, pIsScreenLocked):
+    def isUserActive(self, pTimekprConfig, pTimekprUserConfig, pIsScreenLocked):
         """Check if user is active."""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start isUserActive for \"%s\" ===---" % (self._userName))
-        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "supported session types: %s" % (str(pSessionTypes)))
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "supported session types: %s" % (str(pTimekprConfig.getTimekprSessionsCtrl())))
 
         # get all user sessions
         userState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "State"))
@@ -136,7 +136,7 @@ class timekprUserManager(object):
         userActive = False
 
         # if user locked the computer
-        if pIsScreenLocked and not pTrackInactive:
+        if pIsScreenLocked and not pTimekprUserConfig.getUserTrackInactive():
             # user is not active
             log.log(cons.TK_LOG_LEVEL_DEBUG, "session inactive (verified by user \"%s\" screensaver status), sessions won't be checked" % (self._userName))
         else:
@@ -174,14 +174,14 @@ class timekprUserManager(object):
                 # check if active
                 if sessionState == "active" and sessionIdleState == "False" and sessionLockedState == "False":
                     # validate against session types we manage
-                    if sessionType not in pSessionTypes:
+                    if sessionType not in pTimekprConfig.getTimekprSessionsCtrl():
                         # session is not on the list of session types we track
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but excluded (thus effectively inactive)" % (sessionId))
                     else:
                         # session is on the list of session types we track and session is active
                         userActive = True
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s active" % (sessionId))
-                elif sessionType in pSessionTypes:
+                elif sessionType in pTimekprConfig.getTimekprSessionsCtrl():
                     # do not count lingering and closing sessions as active either way
                     # lingering  - user processes are around, but user not logged in
                     # closing - user logged out, but some processes are still left
@@ -189,7 +189,7 @@ class timekprUserManager(object):
                         # user is not active
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is inactive (not exactly logged in too)" % (sessionId))
                     # if we track inactive
-                    elif pTrackInactive:
+                    elif pTimekprUserConfig.getUserTrackInactive():
                         # we track inactive sessions
                         userActive = True
                         # session is not on the list of session types we track

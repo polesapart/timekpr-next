@@ -31,7 +31,7 @@ if __name__ == "__main__":
     log.log(cons.TK_LOG_LEVEL_INFO, "--- initiating timekpr v. %s ---" % (cons.TK_VERSION))
 
     # get daemon class
-    _timekprDaemon = timekprDaemon(pIsDevActive=cons.TK_DEV_ACTIVE)
+    _timekprDaemon = timekprDaemon()
 
     # this is needed for appindicator to react to ctrl+c
     signal.signal(signal.SIGINT, _timekprDaemon.finishTimekpr)

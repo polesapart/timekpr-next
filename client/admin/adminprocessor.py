@@ -22,13 +22,10 @@ class timekprAdminClient(object):
 
     # --------------- initialization / control methods --------------- #
 
-    def __init__(self, pIsDevActive=False):
+    def __init__(self):
         """Initialize admin client"""
-        # dev
-        self._isDevActive = pIsDevActive
-
         # get our connector
-        self._timekprAdminConnector = timekprAdminConnector(self._isDevActive)
+        self._timekprAdminConnector = timekprAdminConnector()
 
         # main object for GUI
         self._adminGUI = None
@@ -54,16 +51,16 @@ class timekprAdminClient(object):
                 log.setLogging(self._logging)
 
                 # configuration init
-                _timekprConfigManager = timekprConfig(pIsDevActive=self._isDevActive, pLog=self._logging)
+                _timekprConfig = timekprConfig(pLog=self._logging)
                 # load config
-                _timekprConfigManager.loadMainConfiguration()
+                _timekprConfig.loadMainConfiguration()
                 # resource dir
-                _resourcePathGUI = os.path.join(_timekprConfigManager.getTimekprSharedDir(), "client/forms")
+                _resourcePathGUI = os.path.join(_timekprConfig.getTimekprSharedDir(), "client/forms")
 
                 # use GUI
                 from timekpr.client.gui.admingui import timekprAdminGUI
                 # load GUI and process from there
-                self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser(), self._isDevActive)
+                self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser())
             # nor X nor wayland are available
             else:
                 # print to console
@@ -129,7 +126,7 @@ class timekprAdminClient(object):
                     log.consoleOut(message)
 
         # this gets user configuration from the server
-        elif adminCmd == "--userconfig":
+        elif adminCmd == "--userinfo":
             # check param len
             if paramLen != paramIdx + 2:
                 # fail
@@ -206,6 +203,16 @@ class timekprAdminClient(object):
                 # set days
                 self.processSetTrackInactive(args[paramIdx+1], args[paramIdx+2])
 
+        # this sets whether to show tray icon
+        elif adminCmd == "--sethidetrayicon":
+            # check param len
+            if paramLen != paramIdx + 3:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # set days
+                self.processSetHideTrayIcon(args[paramIdx+1], args[paramIdx+2])
+
         # this sets time left for the user at current moment
         elif adminCmd == "--settimeleft":
             # check param len
@@ -228,7 +235,7 @@ class timekprAdminClient(object):
 
             log.consoleOut("\n" + msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTES"))
             # initial order
-            cmds = ["--help", "--userlist", "--userconfig"]
+            cmds = ["--help", "--userlist", "--userinfo"]
             # print initial commands as first
             for rCmd in cmds:
                 log.consoleOut(" ", rCmd, cons.TK_USER_ADMIN_COMMANDS[rCmd])
@@ -255,7 +262,7 @@ class timekprAdminClient(object):
     def printUserConfig(self, pUserName, pPrintUserConfig):
         """Format and print user config"""
         # print to console
-        log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_CONFIG_FOR") % (pUserName))
+        log.consoleOut("# %s" % (msg.getTranslation("TK_MSG_CONSOLE_CONFIG_FOR") % (pUserName)))
         # loop and print the same format as ppl will use to set that
         for rUserKey, rUserConfig in pPrintUserConfig.items():
             # join the lists
@@ -278,7 +285,7 @@ class timekprAdminClient(object):
                             hrs = "%s;%s" % (hrs, hr)
 
                 log.consoleOut("%s: %s" % (rUserKey, hrs))
-            elif "TRACK_IN" in rUserKey:
+            elif "TRACK_IN" in rUserKey or "HIDE_TRAY_I" in rUserKey:
                 log.consoleOut("%s: %s" % (rUserKey, bool(rUserConfig)))
             else:
                 log.consoleOut("%s: %s" % (rUserKey, str(rUserConfig)))
@@ -432,7 +439,7 @@ class timekprAdminClient(object):
         if pTrackInactive not in ["true", "True", "TRUE", "false", "False", "FALSE"]:
             # fail
             result = -1
-            message =  msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
             trackInactive = True if pTrackInactive in ["true", "True", "TRUE"] else False
 
@@ -440,6 +447,30 @@ class timekprAdminClient(object):
         if result == 0:
             # invoke
             result, message = self._timekprAdminConnector.setTrackInactive(pUserName, trackInactive)
+
+        # process
+        if result != 0:
+            # log error
+            log.consoleOut(message)
+
+    def processSetHideTrayIcon(self, pUserName, pHideTrayIcon):
+        """Process track inactive"""
+        # defaults
+        hideTrayIcon = None
+        result = 0
+
+        # check
+        if pHideTrayIcon not in ["true", "True", "TRUE", "false", "False", "FALSE"]:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
+        else:
+            hideTrayIcon = True if pHideTrayIcon in ["true", "True", "TRUE"] else False
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setHideTrayIcon(pUserName, hideTrayIcon)
 
         # process
         if result != 0:

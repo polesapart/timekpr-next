@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.3.6"
+TK_VERSION = "0.4.0"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 
@@ -156,6 +156,7 @@ TK_CTRL_LIMITM = "LIMITM"  # left per month idx
 TK_CTRL_ACT = "ACTIVE"     # is hour enabled
 TK_CTRL_SLEEP = "SLEEP"    # time spent in "inactive"
 TK_CTRL_SPENT = "SPENT"    # time spent in this session
+TK_CTRL_TSPBALD = "TSPBD"  # time balance spent in this day
 TK_CTRL_SPENTH = "SPENTH"  # time spent in this hour
 TK_CTRL_SPENTD = "SPENTD"  # time spent in this day
 TK_CTRL_SPENTW = "SPENTW"  # time spent for week
@@ -164,6 +165,8 @@ TK_CTRL_SMIN = "STARTMIN"  # start minute in this hour
 TK_CTRL_EMIN = "ENDMIN"    # end minute in this hour
 TK_CTRL_INT = "INTERVALS"  # intervals of time available to user
 TK_CTRL_TRACK = "TRACKI"   # whether to track inactive sessions
+TK_CTRL_HIDEI = "HIDEI"    # whether to hide timekpr icon
+TK_CTRL_TNL = "TNL"        # time not limited
 
 # notificaton limits
 TK_NOTIF_LEFT = "LEFT"
@@ -215,6 +218,8 @@ TK_TERMINATION_TIME = 15
 TK_FINAL_COUNTDOWN_TIME = 10
 # default value for tracking inactive sessions
 TK_TRACK_INACTIVE = False
+# default value for tracking inactive sessions
+TK_HIDE_TRAY_ICON = False
 
 # ## files ##
 # config
@@ -240,7 +245,7 @@ TK_PRIO_CONF[TK_PRIO_NORMAL] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg
 TK_PRIO_CONF[TK_PRIO_WARNING] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-warning", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-error", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
 
 # ## timekpr notification config ##
 # init python gettext
@@ -266,13 +271,14 @@ TK_ADMIN_COMMANDS = {
 TK_USER_ADMIN_COMMANDS = {
      "--help"              : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP") + ":\n    timekpra --help"
     ,"--userlist"          : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST") + ":\n    timekpra --userlist"
-    ,"--userconfig"        : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG") + ":\n    timekpra --userconfig \"testuser\""
+    ,"--userinfo"          : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG") + ":\n    timekpra --userinfo \"testuser\""
     ,"--setalloweddays"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS") + ":\n    timekpra --setalloweddays \"testuser\" \"1;2;3;4;5\""
     ,"--setallowedhours"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS") + ":\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7;8;9;1;11[00-30];17;18;19;20[00-45]\""
     ,"--settimelimits"     : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS") + ":\n    timekpra --settimelimits \"testuser\" \"7200;7200;7200;7200;10800\""
     ,"--settimelimitweek"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK") + ":\n    timekpra --settimelimitweek \"testuser\" \"50000\""
     ,"--settimelimitmonth" : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON") + ":\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
     ,"--settrackinactive"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE") + ":\n    timekpra --settrackinactive \"testuser\" \"false\""
+    ,"--sethidetrayicon"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON") + ":\n    timekpra --sethidetrayicon \"testuser\" \"false\""
     ,"--settimeleft"       : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT") + ":\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
 }
 

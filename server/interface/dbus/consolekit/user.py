@@ -7,11 +7,17 @@ Created on Aug 28, 2018
 # connection with ck
 class timekprUserManager(object):
     # init
-    def __init__(self, pLog, pUserPathOnBus):
+    def __init__(self, pLog, pUserName, pUserPathOnBus):
+        """Initialize manager for ConsoleKit."""
         # NOT IMPLEMENTED
-        pass
+        raise NotImplementedError("ConsoleKit support is not implemented")
 
-    # check if user is active
-    def isUserActive(self, pSessionTypes, pTrackInactive, pIsScreenLocked):
+    def cacheUserSessionList(self):
+        """Determine user sessions and cache session objects for further reference."""
         # NOT IMPLEMENTED
-        pass
+        raise NotImplementedError("ConsoleKit support is not implemented")
+
+    def isUserActive(self, pSessionTypes, pTrackInactive, pIsScreenLocked):
+        """Check if user is active."""
+        # NOT IMPLEMENTED
+        raise NotImplementedError("ConsoleKit support is not implemented")

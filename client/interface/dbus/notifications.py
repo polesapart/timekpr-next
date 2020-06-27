@@ -24,19 +24,16 @@ DBusGMainLoop(set_as_default=True)
 class timekprNotifications(object):
     """Main class for supporting indicator notifications, connect to request methods for timekpr and connections to other DBUS modules"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
+    def __init__(self, pLog, pUserName, pTimekprClientConfig):
         """Initialize notifications"""
         # init logging firstly
         log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr notifications")
 
-        # dev
-        self._isDevActive = pIsDevActive
-
         # uname
         self._userName = pUserName
-        self._timekprConfigManager = pTimekprConfigManager
+        self._timekprClientConfig = pTimekprClientConfig
 
         # critical notification (to replace itself)
         self._criticalNotif = 0
@@ -44,7 +41,7 @@ class timekprNotifications(object):
         # session bus
         self._userSessionBus = dbus.SessionBus()
         # timekpr bus
-        self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
+        self._timekprBus = (dbus.SessionBus() if (cons.TK_DEV_ACTIVE and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
 
         # DBUS client connections
         # connection types
@@ -247,7 +244,7 @@ class timekprNotifications(object):
         # prepare notifications in case smth is not ok
         else:
             # let's inform user in case screensaver is not connected
-            if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None:
+            if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None and self._timekprClientConfig.getClientShowAllNotifications():
                 # prepare notification
                 self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, cons.TK_PRIO_WARNING, pAdditionalMessage=self.CL_CONN_SCR)
 
@@ -337,7 +334,7 @@ class timekprNotifications(object):
             self._criticalNotif = notifId
 
             # user wants to hear things
-            if self._timekprConfigManager.getClientUseSpeechNotifications():
+            if self._timekprClientConfig.getClientUseSpeechNotifications():
                 # say that out loud
                 self._timekprSpeechManager.saySmth(msgStr)
 

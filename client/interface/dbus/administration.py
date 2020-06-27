@@ -22,18 +22,15 @@ DBusGMainLoop(set_as_default=True)
 class timekprAdminConnector(object):
     """Main class for supporting indicator notifications"""
 
-    def __init__(self, pIsDevActive):
+    def __init__(self):
         """Initialize stuff for connecting to timekpr server"""
-        # dev
-        self._isDevActive = pIsDevActive
-
         # times
         self._retryTimeoutSecs = 3
         self._retryCountLeft = 5
         self._initFailed = False
 
         # dbus (timekpr)
-        self._timekprBus = (dbus.SessionBus() if (self._isDevActive and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
+        self._timekprBus = (dbus.SessionBus() if (cons.TK_DEV_ACTIVE and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
         self._timekprObject = None
         self._timekprUserAdminInterface = None
         self._timekprAdminInterface = None
@@ -310,6 +307,30 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message = self._timekprUserAdminInterface.setTrackInactive(pUserName, pTrackInactive)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we can not send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setHideTrayIcon(self, pUserName, pHideTrayIcon):
+        """Set user allowed days"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminInterface.setHideTrayIcon(pUserName, pHideTrayIcon)
             except Exception as ex:
                 # exception
                 result, message = self.formatException(str(ex))

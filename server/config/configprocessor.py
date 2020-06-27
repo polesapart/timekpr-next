@@ -19,12 +19,12 @@ import dbus
 class timekprUserConfigurationProcessor(object):
     """Validate and update configuration data for timekpr user"""
 
-    def __init__(self, pLog, pUserName, pConfigDir, pWorkDir):
+    def __init__(self, pLog, pUserName, pTimekprConfig):
         """Initialize all stuff for user"""
         # set up initial variables
         self._logging = pLog
-        self._configDir = pConfigDir
-        self._workDir = pWorkDir
+        self._configDir = pTimekprConfig.getTimekprConfigDir()
+        self._workDir = pTimekprConfig.getTimekprWorkDir()
         self._userName = pUserName
         self._timekprUserConfig = None
         self._timekprUserControl = None
@@ -65,7 +65,42 @@ class timekprUserConfigurationProcessor(object):
         # result
         return result, message
 
-    def getSavedUserConfiguration(self):
+    def calculateTimeAvailableFromSavedConfiguration(self):
+        """Calculate available time for today from saved config"""
+        # current day
+        currDay = datetime.now().isoweekday()
+        # get available hours for today
+        allowedHours = self._timekprUserConfig.getUserAllowedHours(str(currDay))
+        # allowed week days
+        allowedWeekDays = self._timekprUserConfig.getUserAllowedWeekdays()
+        # limits per week days
+        allowedWeekDayLimits = self._timekprUserConfig.getUserLimitsPerWeekdays()
+        # time now
+        dtn = datetime.now().replace(microsecond=0)
+
+        # calc
+        availableSeconds = 0
+        availableSecondsAlt = 0
+        # count available seconds for intervals starting this hour
+        for rHour in range(dtn.hour, 24):
+            # calc from now
+            if str(rHour) in allowedHours:
+                # for current hour we have to take care of time in progress at the moment
+                if rHour == dtn.hour:
+                    availableSeconds += max((max(allowedHours[str(rHour)][cons.TK_CTRL_EMIN], dtn.minute) - max(allowedHours[str(rHour)][cons.TK_CTRL_SMIN], dtn.minute)) * 60 - dtn.second, 0)
+                # for the rest of hours, current secs and mins are not important
+                else:
+                    availableSeconds += ((allowedHours[str(rHour)][cons.TK_CTRL_EMIN] - allowedHours[str(rHour)][cons.TK_CTRL_SMIN]) * 60)
+        # calculate available seconds from todays limit
+        if currDay in allowedWeekDays:
+            availableSecondsAlt = allowedWeekDayLimits[allowedWeekDays.index(currDay)]
+        # calculate how much is actually left (from intervals left, time spent and avilable as well as max that's possible to have)
+        availableSeconds = max(min(min(availableSeconds, availableSecondsAlt - self._timekprUserControl.getUserTimeSpentBalance()), cons.TK_LIMIT_PER_DAY), 0)
+
+        # available seconds
+        return availableSeconds
+
+    def getSavedUserConfiguration(self, pTimekprUser):
         """Get saved user configuration"""
         """This operates on saved user configuration, it will return all config as big dict"""
         # check if we have this user
@@ -100,16 +135,39 @@ class timekprUserConfigurationProcessor(object):
                 userConfigurationStore["LIMITS_PER_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDayLimits)) if len(allowedWeekDayLimits) > 0 else dbus.Array(signature="i")
                 # track inactive
                 userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
+                # hide icon
+                userConfigurationStore["HIDE_TRAY_ICON"] = self._timekprUserConfig.getUserHideTrayIcon()
                 # limit per week
                 userConfigurationStore["LIMIT_PER_WEEK"] = self._timekprUserConfig.getUserWeekLimit()
                 # limit per month
                 userConfigurationStore["LIMIT_PER_MONTH"] = self._timekprUserConfig.getUserMonthLimit()
                 # time spent
-                userConfigurationStore["TIME_SPENT"] = self._timekprUserControl.getUserTimeSpent()
+                userConfigurationStore["TIME_SPENT_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
+                # time spent
+                userConfigurationStore["TIME_SPENT_DAY"] = self._timekprUserControl.getUserTimeSpentDay()
                 # time spent
                 userConfigurationStore["TIME_SPENT_WEEK"] = self._timekprUserControl.getUserTimeSpentWeek()
                 # time spent
                 userConfigurationStore["TIME_SPENT_MONTH"] = self._timekprUserControl.getUserTimeSpentMonth()
+                # time available today
+                userConfigurationStore["TIME_LEFT_DAY"] = self.calculateTimeAvailableFromSavedConfiguration()
+
+                # values from live session
+                if pTimekprUser is not None:
+                    # get lefts
+                    timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay = pTimekprUser.getTimeLeft()
+                    # time spent session
+                    userConfigurationStore["ACTUAL_TIME_SPENT_SESSION"] = int(timeSpentThisSession)
+                    # time inactive this session
+                    userConfigurationStore["ACTUAL_TIME_INACTIVE_SESSION"] = int(timeInactiveThisSession)
+                    # time spent
+                    userConfigurationStore["ACTUAL_TIME_SPENT_BALANCE"] = int(timeSpentBalance)
+                    # time spent
+                    userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = int(timeSpentDay)
+                    # time left today
+                    userConfigurationStore["ACTUAL_TIME_LEFT_DAY"] = int(timeLeftToday)
+                    # time left in a row
+                    userConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
 
         # result
         return result, message, userConfigurationStore
@@ -176,6 +234,16 @@ class timekprUserConfigurationProcessor(object):
         # check if we have this user
         result, message = self.loadAndCheckUserConfiguration()
 
+        # pre-check day number
+        isDayNumberValid = False
+        # pre-check day number
+        if pDayNumber is not None:
+            # check
+            for i in range(1, 7+1):
+                if pDayNumber == str(i):
+                    isDayNumberValid = True
+                    break
+
         # if we are still fine
         if result != 0:
             # result
@@ -186,7 +254,7 @@ class timekprUserConfigurationProcessor(object):
             result = -1
             message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_NONE") % (self._userName)
         # if days are crazy
-        elif pDayNumber != "ALL" and not 1 <= int(pDayNumber) <= 7:
+        elif pDayNumber != "ALL" and not isDayNumberValid:
             # result
             result = -1
             message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_INVALID") % (self._userName)
@@ -285,7 +353,7 @@ class timekprUserConfigurationProcessor(object):
 
     def checkAndSetTrackInactive(self, pTrackInactive):
         """Validate and set track inactive sessions for the user"""
-        """Validate whehter inactive user sessions are tracked
+        """Validate whether inactive user sessions are tracked
             true - logged in user is always tracked (even if switched to console or locked or ...)
             false - user time is not tracked if he locks the session, session is switched to another user, etc."""
 
@@ -320,6 +388,52 @@ class timekprUserConfigurationProcessor(object):
                 # result
                 result = -1
                 message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_INVALID_SET") % (self._userName)
+
+            # if we are still fine
+            if result == 0:
+                # save config
+                self._timekprUserConfig.saveUserConfiguration()
+
+        # result
+        return result, message
+
+    def checkAndSetHideTrayIcon(self, pHideTrayIcon):
+        """Validate and set hide tray icon for the user"""
+        """Validate whether icon will be hidden from user
+            true - icon and notifications are NOT shown to user
+            false - icon and notifications are shown to user"""
+
+        # check if we have this user
+        result, message = self.loadAndCheckUserConfiguration()
+
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        # if we have no days
+        elif pHideTrayIcon is None:
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_NONE") % (self._userName)
+        else:
+            # parse config
+            try:
+                if pHideTrayIcon:
+                    pass
+            except Exception:
+                # result
+                result = -1
+                message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID") % (self._userName)
+
+        # if all is correct, we update the configuration
+        if result == 0:
+            # set up config
+            try:
+                self._timekprUserConfig.setUserHideTrayIcon(pHideTrayIcon)
+            except Exception:
+                # result
+                result = -1
+                message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID_SET") % (self._userName)
 
             # if we are still fine
             if result == 0:
@@ -456,14 +570,14 @@ class timekprUserConfigurationProcessor(object):
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
-                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpentBalance() - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "-":
-                        setLimit = min(max(self._timekprUserControl.getUserTimeSpent() + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(self._timekprUserControl.getUserTimeSpentBalance() + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "=":
                         setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
 
                     # set up config for day
-                    self._timekprUserControl.setUserTimeSpent(setLimit)
+                    self._timekprUserControl.setUserTimeSpentBalance(setLimit)
                 except Exception:
                     # result
                     result = -1
@@ -481,12 +595,12 @@ class timekprUserConfigurationProcessor(object):
 class timekprConfigurationProcessor(object):
     """Validate and update configuration data for timekpr server"""
 
-    def __init__(self, pLog, pIsDevActive):
+    def __init__(self, pLog):
         """Initialize all stuff for user"""
         # set up initial variables
         self._logging = pLog
         # configuration init
-        self._timekprConfig = timekprConfig(pIsDevActive=pIsDevActive, pLog=self._logging)
+        self._timekprConfig = timekprConfig(pLog=self._logging)
 
     def loadTimekprConfiguration(self):
         """Load timekpr config"""

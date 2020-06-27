@@ -11,7 +11,6 @@ import sys
 sys.path.append("/usr/share/pyshared")
 
 # timekpr imports
-from timekpr.common.constants import constants as cons
 from timekpr.client.admin.adminprocessor import timekprAdminClient
 from timekpr.common.utils import misc
 
@@ -23,7 +22,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     # get our admin client
-    _timekprAdminClient = timekprAdminClient(pIsDevActive=cons.TK_DEV_ACTIVE)
+    _timekprAdminClient = timekprAdminClient()
 
     # start up timekpr admin client
     _timekprAdminClient.startTimekprAdminClient(*sys.argv)

@@ -82,7 +82,7 @@ class timekprUserStore(object):
         # set up logging
         log.setLogging(logging)
         # get user config
-        timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE, pLog=logging)
+        timekprConfigManager = timekprConfig(pLog=logging)
         # load user config
         timekprConfigManager.loadMainConfiguration()
         # set up logging
@@ -112,6 +112,9 @@ class timekprUserStore(object):
         # initialize username storage
         userList = []
 
+        # prepare all users in the system
+        self.checkAndInitUsers()
+
         # in case we don't have a dir yet
         if pConfigDir is None:
             # set up tmp logging
@@ -119,7 +122,7 @@ class timekprUserStore(object):
             # set up logging
             log.setLogging(logging)
             # get user config
-            timekprConfigManager = timekprConfig(pIsDevActive=cons.TK_DEV_ACTIVE, pLog=logging)
+            timekprConfigManager = timekprConfig(pLog=logging)
             # load user config
             timekprConfigManager.loadMainConfiguration()
             # set up logging

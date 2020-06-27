@@ -55,7 +55,7 @@ class timekprNotificationManager(dbus.service.Object):
         # un-init DBUS
         super().remove_from_connection()
 
-    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTrackInactive):
+    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTimeAvailableIntervals, pTrackInactive, pHideTrayIcon):
         """Process notifications and send signals if needed"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start processTimeLeft")
 
@@ -65,7 +65,6 @@ class timekprNotificationManager(dbus.service.Object):
         # defaults
         newNotificatonLvl = -1
         effectiveDatetime = datetime.now().replace(microsecond=0)
-        secondsFromDayStart = (effectiveDatetime - effectiveDatetime.replace(hour=0, minute=0, second=0)).total_seconds()
 
         # find current limit
         for i in self._notificationLimits:
@@ -89,6 +88,8 @@ class timekprNotificationManager(dbus.service.Object):
         timeLeft[cons.TK_CTRL_SPENTM] = int(pTimeSpentMonth)
         timeLeft[cons.TK_CTRL_SLEEP] = int(pTimeInactive)
         timeLeft[cons.TK_CTRL_TRACK] = (1 if pTrackInactive else 0)
+        timeLeft[cons.TK_CTRL_HIDEI] = (1 if pHideTrayIcon else 0)
+        timeLeft[cons.TK_CTRL_TNL] = (1 if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and pTimeAvailableIntervals >= cons.TK_LIMIT_PER_DAY else 0)
 
         # inform clients about time left in any case
         self.timeLeft(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], timeLeft)
@@ -99,7 +100,7 @@ class timekprNotificationManager(dbus.service.Object):
             self._lastNotified = effectiveDatetime
 
             # if time left is whole day, we have no limit (as an additonal limit is the hours, so check if accounting is actually correct)
-            if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftToday) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY and int(pTimeLeftTotal) + secondsFromDayStart + 10 >= cons.TK_LIMIT_PER_DAY:
+            if timeLeft[cons.TK_CTRL_TNL] > 0:
                 # we send no limit just once
                 if self._prevNotificationLvl < 0 or pForce:
                     # no limit

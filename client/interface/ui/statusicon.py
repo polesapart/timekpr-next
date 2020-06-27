@@ -23,7 +23,7 @@ _USE_STATUSICON = True
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pIsDevActive, pUserName, pTimekprConfigManager):
+    def __init__(self, pLog, pUserName, pTimekprClientConfig):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog)
@@ -33,7 +33,7 @@ class timekprIndicator(timekprNotificationArea):
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pIsDevActive, pUserName, pTimekprConfigManager)
+            super().__init__(pLog, pUserName, pTimekprClientConfig)
 
             # this is our icon
             self._tray = None
@@ -88,21 +88,21 @@ class timekprIndicator(timekprNotificationArea):
         self._popup = timekprUIManager.get_widget("/timekprPopupMenu")
 
         # initial config
-        self._tray.set_from_file(os.path.join(self._timekprConfigManager.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]))
-        self.setTimeLeft("", None)
+        self._tray.set_from_file(os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF["client-logo"][cons.TK_ICON_STAT]))
+        self.setTimeLeft("", None, 0)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initTimekprStatusIcon")
 
-    def setTimeLeft(self, pPriority, pTimeLeft):
+    def setTimeLeft(self, pPriority, pTimeLeft, pTimeNotLimited):
         """Set time left in the indicator"""
         # make strings to set
-        timeLeft, icon = super().formatTimeLeft(pPriority, pTimeLeft)
+        timeLeftStr, icon = super().formatTimeLeft(pPriority, pTimeLeft, pTimeNotLimited)
 
         # if we have smth to set
-        if timeLeft is not None:
+        if timeLeftStr is not None:
             # set time left
-            self._tray.set_tooltip_text(timeLeft)
-            self._tray.set_title(timeLeft)
+            self._tray.set_tooltip_text(timeLeftStr)
+            self._tray.set_title(timeLeftStr)
 
         # if we have smth to set
         if icon is not None:
@@ -112,3 +112,11 @@ class timekprIndicator(timekprNotificationArea):
     def onTimekprMenu(self, status, button, time):
         """Show popup menu for tray"""
         self._popup.popup(None, None, None, None, 0, time)
+
+    def getTrayIconEnabled(self):
+        """Get whether tray icon is enabled"""
+        return self._tray.get_visible()
+
+    def setTrayIconEnabled(self, pEnabled):
+        """Set whether tray icon is enabled"""
+        self._tray.set_visible(pEnabled)
