@@ -1,0 +1,22 @@
+BUILD instructions (do NOT leave this (spec) directory when building package):
+
+    # install build tools
+    sudo dnf install rpmdevtools
+
+    # this sets up build tree (rpmbuild dir in home directory)
+    rpmdev-setuptree
+
+    # download timekpr tar ball right into sources directory
+    spectool -g -R timekpr-next.spec
+
+    # install build dependencies
+    sudo dnf builddep timekpr-next.spec
+
+    # build binary package
+    rpmbuild -bb timekpr-next.spec
+
+    # install needs to be adjusted to correct version of distro (example given for FC32)
+    sudo dnf localinstall $HOME/rpmbuild/RPMS/$(arch)/timekpr-next-0.4.0-1.0.fc32.x86_64.rpm
+
+    # if You are using G3, please DO NOT forget to install this (otherwise icon will be hidden)
+    sudo dnf install gnome-shell-extension-appindicator
