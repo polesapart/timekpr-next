@@ -1,5 +1,5 @@
 #!/bin/sh
-systemctl disable timekpr
+systemctl disable timekpr 2>&1 | grep -v 'Removed '
 systemctl stop timekpr
 systemctl reload dbus
 if [ -d /usr/share/pyshared/timekpr ];

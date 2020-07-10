@@ -38,7 +38,7 @@ with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
 def verifyNormalUserID(pUserId):
     """Return min user id"""
     global _limitsConfig
-    # to test in VMs default user for Ubuntu / Kubuntu has UID of 999 (-1 from limit), this should work fine for any other case
+    # to test in VMs default user (it may have UID of 999, -1 from limit), this should work fine for any other case
     return((_limitsConfig["UID_MIN"]-1 <= int(pUserId) <= _limitsConfig["UID_MAX"]))
 
 
@@ -70,12 +70,14 @@ class timekprUserStore(object):
             for rLine in rUsersFile:
                 # get our users splitted
                 userDef = rLine.split(":")
-                # get uuid
-                uuid = int(userDef[2])
-                # save our user, if it mactches
-                if verifyNormalUserID(uuid):
-                    # save
-                    users[userDef[0]] = uuid
+                # get whether the user can log in
+                if not ("/nologin" in userDef[6] or "/false" in userDef[6]):
+                    # get uuid
+                    uuid = int(userDef[2])
+                    # save our user, if it mactches
+                    if verifyNormalUserID(uuid):
+                        # save
+                        users[userDef[0]] = uuid
 
         # set up tmp logging
         logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
@@ -103,6 +105,9 @@ class timekprUserStore(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing setting up users")
 
+        # user list
+        return users
+
     def getSavedUserList(self, pLog=None, pConfigDir=None):
         """
             Get user list, this will get user list from config files present in the system:
@@ -113,7 +118,7 @@ class timekprUserStore(object):
         userList = []
 
         # prepare all users in the system
-        self.checkAndInitUsers()
+        users = self.checkAndInitUsers()
 
         # in case we don't have a dir yet
         if pConfigDir is None:
@@ -151,8 +156,10 @@ class timekprUserStore(object):
             if "timekpr.USER.conf" not in rUserConfigFile:
                 # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
                 user = os.path.splitext(os.path.splitext(os.path.basename(rUserConfigFile))[0])[1].lstrip(".")
-                # extract user name
-                userList.append(user)
+                # validate user against valid (existing) users in the system
+                if user in users:
+                    # extract user name
+                    userList.append(user)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing user list")
 

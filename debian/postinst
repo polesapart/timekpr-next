@@ -6,6 +6,10 @@ then
 fi
 groupadd -g 2000 timekpr 2>/dev/null || true
 systemctl reload dbus
-systemctl enable timekpr
+systemctl enable timekpr 2>&1 | grep -v 'Created '
 systemctl restart timekpr
-touch /usr/share/icons/hicolor && gtk-update-icon-cache -fv /usr/share/icons/hicolor
+which gtk-update-icon-cache > /dev/null 2>&1
+if [ $? -eq 0 ];
+then
+    touch --no-create /usr/share/icons/hicolor && gtk-update-icon-cache -fv /usr/share/icons/hicolor
+fi
