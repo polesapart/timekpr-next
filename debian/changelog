@@ -4,7 +4,7 @@ timekpr-next (0.4.0~ppa1~ubuntu5) UNRELEASED; urgency=medium
   * added Fedora/openSUSE build instructions
   * improved user detection
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 12 Jul 2020 13:48:236 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 12 Jul 2020 13:48:36 +0300
 
 timekpr-next (0.4.0~ppa1~ubuntu4) UNRELEASED; urgency=medium
 
