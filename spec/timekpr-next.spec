@@ -12,23 +12,23 @@ Source0:          https://launchpad.net/%{name}/stable/%{version}/+download/%{na
 
 BuildRoot:        %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires:    python3
-BuildRequires:    desktop-file-utils
-BuildRequires:    libappstream-glib
-BuildRequires:    systemd
-BuildRequires:    sed
-BuildRequires:    grep
+BuildRequires:    ( python3 )
+BuildRequires:    ( desktop-file-utils )
+BuildRequires:    ( libappstream-glib or appstream-glib )
+BuildRequires:    ( systemd )
+BuildRequires:    ( sed )
+BuildRequires:    ( grep )
 
-Requires:         gtk3
-Requires:         python3
-Requires:         python3-dbus
-Requires:         python3-gobject
-Requires:         libindicator-gtk3
-Requires:         gettext
+Requires:         ( gtk3 >= 3.12 )
+Requires:         ( python3 )
+Requires:         ( python3-dbus or python3-dbus-python )
+Requires:         ( python3-gobject )
+Requires:         ( ( libindicator-gtk3 and libappindicator-gtk3 ) or ( libindicator3-7 and typelib-1_0-Gtk-3_0 and typelib-1_0-AppIndicator3-0_1 ) )
+Requires:         ( gettext )
 
-Requires(post):   systemd
-Requires(preun):  systemd
-Requires(postun): systemd
+Requires(post):   ( systemd )
+Requires(preun):  ( systemd )
+Requires(postun): ( systemd )
 
 %description
 This program will track and control the computer usage of
@@ -49,7 +49,7 @@ https://bugs.launchpad.net/timekpr-next/+bugs
 rm -rf $RPM_BUILD_ROOT
 
 # install files
-grep -v -e '^#' -e '^$' debian/install | sed 's|^\(.\+/\)\(.*\) \(.*\)/\?$|mkdir -p %{buildroot}/\3 ; cp \1\2 %{buildroot}/\3|g' | sh -
+grep -v -e '^#' -e '^$' debian/install | sed -e 's|/$||' -e 's|^\(.\+/\)\(.*\) \(.*\)/\?$|mkdir -p %{buildroot}/\3 ; cp \1\2 %{buildroot}/\3|g' | sh -
 
 # install pre/post files
 mkdir mkdir -p %{buildroot}/%{_sharedstatedir}/timekpr
@@ -84,13 +84,32 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 update-desktop-database &> /dev/null || :
 
 %files
+# specific purpose files
 %defattr(-,root,root,-)
 %doc debian/changelog debian/copyright
 %config /etc/timekpr/timekpr.conf
-%(grep -v -e '^#' -e '^$' -e 'server/timekpr.conf' %{_builddir}/timekpr-next/debian/install | sed 's|.\+/\(.*\)/\? \(.*\)|/\2/\1|g')
-%{_sharedstatedir}/timekpr/%{name}.postinst
-%{_sharedstatedir}/timekpr/%{name}.postrm
 %{_datadir}/appdata/%{name}.appdata.xml
+
+# package files
+%{_bindir}/*
+%{_datadir}/*
+%{_datadir}/applications/*
+%{_datadir}/icons/hicolor/64x64/apps/*
+%{_datadir}/icons/hicolor/scalable/apps/*
+%{_datadir}/locale/cs/LC_MESSAGES/*
+%{_datadir}/locale/de/LC_MESSAGES/*
+%{_datadir}/locale/fr/LC_MESSAGES/*
+%{_datadir}/locale/hu/LC_MESSAGES/*
+%{_datadir}/locale/it/LC_MESSAGES/*
+%{_datadir}/locale/lv/LC_MESSAGES/*
+%{_datadir}/polkit-1/actions/*
+%{_datadir}/pyshared/*
+%{_sharedstatedir}/*
+%{_sysconfdir}/dbus-1/system.d/*
+%{_sysconfdir}/logrotate.d/*
+%{_sysconfdir}/systemd/system/*
+%{_sysconfdir}/timekpr/*
+%{_sysconfdir}/xdg/autostart/*
 
 %changelog
 * Fri Jul 10 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.0-1.0
