@@ -11,8 +11,8 @@ resource/server/systemd/timekpr.service etc/systemd/system/
 resource/server/timekpr.conf etc/timekpr/
 
 # sample runtime files
-resource/server/timekpr.USER.conf var/lib/timekpr/config
-resource/server/USER.time var/lib/timekpr/work
+resource/server/timekpr.USER.conf var/lib/timekpr/config/
+resource/server/USER.time var/lib/timekpr/work/
 
 # icons
 resource/icons/timekpr-client.png usr/share/icons/hicolor/64x64/apps/

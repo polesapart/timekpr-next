@@ -1,22 +1,47 @@
-BUILD instructions (do NOT leave this (spec) directory when building package):
+BUILD instructions (please open terminal and install this in one go not leaving the terminal (unless You know what to do))!
+
+    # set version
+    Fedora / openSUSE:
+        export TNVER="0.4.0"
 
     # install build tools
-    sudo dnf install rpmdevtools
+    Fedora:
+        sudo dnf install rpmdevtools
+    openSUSE:
+        sudo zypper install rpmdevtools rpm-build
 
     # this sets up build tree (rpmbuild dir in home directory)
-    rpmdev-setuptree
+    Fedora / openSUSE:
+        rpmdev-setuptree
 
-    # download timekpr tar ball right into sources directory
-    spectool -g -R timekpr-next.spec
+    # get the timekpr sources
+    Fedora / openSUSE:
+        wget https://launchpad.net/timekpr-next/stable/${TNVER}/+download/timekpr-next-${TNVER}.tar.gz -P $HOME/rpmbuild/SOURCES/
+
+    # got to source directory and get the spec file
+    Fedora / openSUSE:
+        cd $HOME/rpmbuild/SPECS/
+        tar xzf $HOME/rpmbuild/SOURCES/timekpr-next-${TNVER}.tar.gz --strip-components=2 timekpr-next/spec/timekpr-next.spec
 
     # install build dependencies
-    sudo dnf builddep timekpr-next.spec
+    Fedora:
+        sudo dnf builddep timekpr-next.spec
+    openSUSE:
+        sudo zypper install python3 desktop-file-utils appstream-glib systemd sed grep gtk3 python3-dbus-python python3-gobject libindicator3-7 gettext typelib-1_0-Gtk-3_0 typelib-1_0-AppIndicator3-0_1
 
     # build binary package
-    rpmbuild -bb timekpr-next.spec
+    Fedora / openSUSE:
+        rpmbuild -bb timekpr-next.spec
 
     # install needs to be adjusted to correct version of distro (example given for FC32)
-    sudo dnf localinstall $HOME/rpmbuild/RPMS/$(arch)/timekpr-next-0.4.0-1.0.fc32.x86_64.rpm
+    Fedora / openSUSE:
+        sudo rpm -ihv $HOME/rpmbuild/RPMS/$(arch)/timekpr-next-${TNVER}-1.0*.x86_64.rpm
 
     # if You are using G3, please DO NOT forget to install this (otherwise icon will be hidden)
-    sudo dnf install gnome-shell-extension-appindicator
+    Fedora:
+        sudo dnf install gnome-shell-extension-appindicator
+    openSUSE:
+        install "KStatusNotifierItem/AppIndicator Support" extension manually from https://extensions.gnome.org/
+
+    # enable extensions if needed (for Fedora install Gnome Tweaks application and enable said extension)
+    # let the user log out and in to see the timekpr-nExT in action
