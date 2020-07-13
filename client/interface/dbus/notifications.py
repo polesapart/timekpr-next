@@ -105,6 +105,10 @@ class timekprNotifications(object):
                     log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (iNames[idx], misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
                     # first sucess is enough
                     log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s interface" % (self.CL_CONN_NOTIF))
+                    # check capabilities
+                    if "sound" not in self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].GetCapabilities():
+                        # sound is not available
+                        self._timekprClientConfig.setIsNotificationSoundSupported(False)
                     # finish
                     break
                 except Exception as dbusEx:
@@ -318,10 +322,35 @@ class timekprNotifications(object):
             # prepare notification
             notifId, timekprIcon, msgStr, timekprPrio = self.prepareNotification(pMsgCode, pPriority, pTimeLeft, pAdditionalMessage)
 
+            # defaults
+            hints = {"urgency": timekprPrio}
+
+            # notification params based on criticality
+            if pPriority == cons.TK_PRIO_CRITICAL:
+                # timeout
+                notificationTimeout = self._timekprClientConfig.getClientNotificationTimeoutCritical()
+                # sound
+                if self._timekprClientConfig.getIsNotificationSoundSupported() and self._timekprClientConfig.getClientUseNotificationSound():
+                    # add sound hint
+                    hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_CRITICAL
+            else:
+                # timeout
+                notificationTimeout = self._timekprClientConfig.getClientNotificationTimeout()
+                # sound
+                if self._timekprClientConfig.getIsNotificationSoundSupported() and self._timekprClientConfig.getClientUseNotificationSound():
+                    # add sound hint
+                    hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_WARN
+
+            # calculate notification values
+            notificationTimeout = min(cons.TK_CL_NOTIF_MAX, max(0, notificationTimeout)) * 1000
+
+            # notification value of 0 means "forever"
+            actions = ["Dismiss", "Dismiss"] if notificationTimeout == 0 else ["default", "Dismiss"]
+
             # notify through dbus
             try:
                 # call dbus method
-                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, "", {"urgency": timekprPrio}, 2500)
+                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
             except Exception as dbusEx:
                 # we can not send notif through dbus
                 self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
@@ -334,7 +363,7 @@ class timekprNotifications(object):
             self._criticalNotif = notifId
 
             # user wants to hear things
-            if self._timekprClientConfig.getClientUseSpeechNotifications():
+            if self._timekprClientConfig.getIsNotificationSpeechSupported() and self._timekprClientConfig.getClientUseSpeechNotifications():
                 # say that out loud
                 self._timekprSpeechManager.saySmth(msgStr)
 

@@ -6,6 +6,7 @@ Created on Aug 28, 2018
 
 import gi
 import os
+import webbrowser
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import GLib
@@ -1974,6 +1975,10 @@ class timekprAdminGUI(object):
             rIdx += 1
         # verify control avilaility
         self.calculateTimekprConfigControlAvailability()
+
+    def timekprLogoClicked(self, evt, smth):
+        """Open link to development support page"""
+        webbrowser.open(cons.TK_DEV_SUPPORT_PAGE, new=2, autoraise=True)
 
     def configControlTimesChanged(self, evt):
         """Change any control time"""

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8
-Name=Timekpr Control Panel
+Name=Timekpr-nExT Control Panel
 Comment=Keep control of computer usage
 Exec=/usr/bin/timekpra
 Icon=timekpr
