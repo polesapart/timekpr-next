@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-Encoding=UTF-8
 Name=Timekpr-nExT Control Panel
 Comment=Keep control of computer usage
+Keywords=timekpr;time;
 Exec=/usr/bin/timekpra
 Icon=timekpr
 Terminal=false

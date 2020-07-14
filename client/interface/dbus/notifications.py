@@ -345,7 +345,7 @@ class timekprNotifications(object):
             notificationTimeout = min(cons.TK_CL_NOTIF_MAX, max(0, notificationTimeout)) * 1000
 
             # notification value of 0 means "forever"
-            actions = ["Dismiss", "Dismiss"] if notificationTimeout == 0 else ["default", "Dismiss"]
+            actions = ["Dismiss", "Dismiss"] if notificationTimeout == 0 else []
 
             # notify through dbus
             try:

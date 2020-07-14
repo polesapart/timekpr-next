@@ -1,11 +1,12 @@
 [Unit]
-Description=Timekpr daemon service
+Description=Timekpr-nExT daemon service
+Documentation=file:/etc/timekpr/timekpr.conf
 After=multi-user.target
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/usr/share/pyshared/timekpr/
+WorkingDirectory=/usr/lib/python3/dist-packages/timekpr/
 ExecStart=/usr/bin/timekprd
 StandardOutput=syslog
 StandardError=syslog

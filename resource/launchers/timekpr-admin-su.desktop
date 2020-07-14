@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-Encoding=UTF-8
 Name=(SU) Timekpr-nExT Control Panel (superuser mode)
 Comment=Keep control of computer usage
+Keywords=timekpr;time;
 Exec=pkexec /usr/bin/timekpra
 Icon=timekpr
 Terminal=false

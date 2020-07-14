@@ -9,6 +9,7 @@ import os
 import webbrowser
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from gi.repository import Gdk
 from gi.repository import GLib
 from datetime import timedelta, datetime
 
@@ -315,7 +316,7 @@ class timekprAdminGUI(object):
     def toggleTimekprConfigControls(self, pEnable=True, pAll=True):
         """Enable or disable all timekpr controls for the form"""
         # enable for timekpr can be done only in admin mode
-        enable = pEnable and (os.getuid() == 0 or cons.TK_DEV_ACTIVE)
+        enable = pEnable and (os.geteuid() == 0 or cons.TK_DEV_ACTIVE)
         # apply settings to all buttons`in user configuration
         for rButton in self._timekprConfigControlElements:
             if not enable:
@@ -1977,8 +1978,18 @@ class timekprAdminGUI(object):
         self.calculateTimekprConfigControlAvailability()
 
     def timekprLogoClicked(self, evt, smth):
-        """Open link to development support page"""
-        webbrowser.open(cons.TK_DEV_SUPPORT_PAGE, new=2, autoraise=True)
+        """Open link to development support page, disabled, and maybe never will be enabled :)"""
+        if 1 == 1:
+            pass
+        elif os.geteuid() == 0:
+            # copy to clipboard and show message
+            Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(cons.TK_DEV_SUPPORT_PAGE, -1)
+            tkrMsg = Gtk.MessageDialog(parent=self._timekprAdminForm, flags=Gtk.DialogFlags.MODAL, type=Gtk.MessageType.INFO, buttons=Gtk.ButtonsType.OK, message_format="\nDonations link copied to clipbard!\nPlease paste the address in internet browser.\nThanks for Your support!")
+            tkrMsg.run()
+            tkrMsg.destroy()
+        else:
+            # open link
+            webbrowser.open(cons.TK_DEV_SUPPORT_PAGE, new=2, autoraise=True)
 
     def configControlTimesChanged(self, evt):
         """Change any control time"""

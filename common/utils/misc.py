@@ -84,7 +84,7 @@ def checkAndSetRunning(pAppName):
         # we are running
         isAlreadyRunning = True
         # print this to console as well
-        print("Timekpr \"%s\" is already running" % (pAppName))
+        print("Timekpr-nExT \"%s\" is already running" % (pAppName))
     else:
         # set our pid
         with open(pidFile, "w") as pidfile:

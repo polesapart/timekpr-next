@@ -1039,7 +1039,7 @@ class timekprClientConfig(object):
             from espeak import espeak
             # supported
             self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = True
-        except (ImportError, ValueError, ModuleNotFoundError):
+        except:
             # NOT supported
             self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = False
 
