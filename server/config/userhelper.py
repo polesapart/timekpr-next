@@ -71,7 +71,7 @@ class timekprUserStore(object):
                 # get our users splitted
                 userDef = rLine.split(":")
                 # get whether the user can log in
-                if not ("/nologin" in userDef[6] or "/false" in userDef[6]):
+                if not ("/nologin" in userDef[6] or "/false" in userDef[6]) and userDef[6] != "":
                     # get uuid
                     uuid = int(userDef[2])
                     # save our user, if it mactches
