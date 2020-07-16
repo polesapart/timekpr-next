@@ -233,6 +233,7 @@ TK_HIDE_TRAY_ICON = False
 # config
 TK_MAIN_CONFIG_FILE = "timekpr.conf"
 TK_USER_CONFIG_FILE = "timekpr.%s.conf"
+TK_UNAME_SRCH_LN_LMT = 10  # this defines line count for verifying username in first n lines
 
 # ## timekpr notification config ##
 # priorites

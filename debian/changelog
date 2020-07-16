@@ -5,8 +5,8 @@ timekpr-next (0.4.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** added configuration option to set how long Critical notifications should be visible
   ** if time in seconds is set to 0 for either of options, notification will stay on until dismissed
   ** added option to play a short (standard) notification bell sound when showing notifications (if supported by current DE)
-  TODO:
-  ** translations for new options
+  ** added username verification for configuration files
+  ** translations for new options in client application
 
   * fixed and changed warnings / suggestions from user foka based on his observations when importing package into Debian:
   ** adjust code install paths (with support for non-Debian distros as well)
@@ -14,7 +14,6 @@ timekpr-next (0.4.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** adjust service / desktop / control / install / changelog files
   ** fixed some lintian warnings (will not be fixing all)
   TODO:
-  ** lintian warnings (will not be fixing all of them)
   ** project README file
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 15 Jul 2020 22:39:41 +0300

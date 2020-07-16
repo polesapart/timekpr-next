@@ -115,6 +115,7 @@ class timekprUserStore(object):
               leftover config - please set up non-existent user (maybe pre-defined one?)
         """
         # initialize username storage
+        filterExistingOnly = False  # this is to filter only existing local users (currently just here, not decided on what to do)
         userList = []
 
         # prepare all users in the system
@@ -156,8 +157,20 @@ class timekprUserStore(object):
             if "timekpr.USER.conf" not in rUserConfigFile:
                 # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
                 user = os.path.splitext(os.path.splitext(os.path.basename(rUserConfigFile))[0])[1].lstrip(".")
+                # whether user is valid in config file
+                userNameValidated = False
+                # try to read the first line with username
+                with open(rUserConfigFile, 'r') as confFile:
+                    # read first (x) lines and try to get username
+                    for i in range(0, cons.TK_UNAME_SRCH_LN_LMT):
+                        # check whether we have correct username
+                        if "[%s]" % (user) in confFile.readline():
+                            # user validated
+                            userNameValidated = True
+                            # found
+                            break
                 # validate user against valid (existing) users in the system
-                if user in users:
+                if userNameValidated and (not filterExistingOnly or user in users):
                     # extract user name
                     userList.append(user)
 
