@@ -43,12 +43,15 @@ TK_LOG_OWNER_CLIENT = 1
 TK_LOG_OWNER_ADMIN = 2
 TK_LOG_OWNER_ADMIN_SU = 3
 
-# client config default values
+# client config and default values
 TK_CL_NOTIF_MAX = 30
 TK_CL_NOTIF_TMO = 3
 TK_CL_NOTIF_CRIT_TMO = 10
 TK_CL_NOTIF_SND_FILE_WARN = "/usr/share/sounds/freedesktop/stereo/dialog-information.oga"
 TK_CL_NOTIF_SND_FILE_CRITICAL = "/usr/share/sounds/freedesktop/stereo/dialog-error.oga"
+TK_CL_INF_FULL = "F"
+TK_CL_INF_SAVED = "S"
+TK_CL_INF_RT = "R"
 
 # ## files and locations ##
 # users and login configuration

@@ -133,7 +133,7 @@ class timekprAdminClient(object):
                 adminCmdIncorrect = True
             else:
                 # get user config
-                result, message, userConfig = self._timekprAdminConnector.getUserConfig(args[paramIdx+1])
+                result, message, userConfig = self._timekprAdminConnector.getUserConfigurationAndInformation(args[paramIdx+1], cons.TK_CL_INF_FULL)
 
                 # process
                 if result == 0:
