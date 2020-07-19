@@ -65,11 +65,11 @@ install -Dpm 644 resource/appstream/org.timekpr.%{name}.metainfo.xml %{buildroot
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.timekpr.%{name}.metainfo.xml
 
 %post
+# reload units
+systemctl daemon-reload
+
 # post installation
-if [ $1 == 1 ]
-then
-    %{_sharedstatedir}/timekpr/%{name}.postinst
-fi
+%{_sharedstatedir}/timekpr/%{name}.postinst
 
 # update mime / desktop
 update-mime-database %{_datadir}/mime &> /dev/null || :
