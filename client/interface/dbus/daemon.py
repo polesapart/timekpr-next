@@ -8,7 +8,7 @@ Created on Aug 28, 2018
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 from datetime import timedelta
-import getpass
+import os
 import dbus
 from gi.repository import GLib
 
@@ -30,7 +30,7 @@ class timekprClient(object):
     def __init__(self):
         """Initialize client"""
         # set username , etc.
-        self._userName = getpass.getuser()
+        self._userName, self._userNameFull = misc.getUserNames(os.getuid())
         self._userNameDBUS = self._userName.replace(".", "").replace("-", "")
 
         # log
@@ -58,12 +58,12 @@ class timekprClient(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "starting up timekpr client")
 
         # check if appind is supported
-        self._timekprClientIndicator = appind_timekprIndicator(self._logging, self._userName, self._timekprClientConfig)
+        self._timekprClientIndicator = appind_timekprIndicator(self._logging, self._userName, self._userNameFull, self._timekprClientConfig)
 
         # if not supported fall back to statico
         if not self._timekprClientIndicator.isSupported():
             # check if appind is supported
-            self._timekprClientIndicator = statico_timekprIndicator(self._logging, self._userName, self._timekprClientConfig)
+            self._timekprClientIndicator = statico_timekprIndicator(self._logging, self._userName, self._userNameFull, self._timekprClientConfig)
 
         # this will check whether we have an icon, if not, the rest goes through timekprClient anyway
         if self._timekprClientIndicator.isSupported():

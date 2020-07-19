@@ -23,7 +23,7 @@ _NO_TIME_LIMIT_LABEL = "--:--:--:--"
 class timekprGUI(object):
     """Main class for supporting timekpr forms"""
 
-    def __init__(self, pTimekprVersion, pTimekprClientConfig, pUsername):
+    def __init__(self, pTimekprVersion, pTimekprClientConfig, pUsername, pUserNameFull):
         """Initialize gui"""
         # set up base variables
         self._userName = pUsername
@@ -61,7 +61,7 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.connect_signals(self)
 
         # set up username (this does not change)
-        self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text(self._userName)
+        self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text(pUserNameFull)
 
         # this sets up columns for list
         col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=1)

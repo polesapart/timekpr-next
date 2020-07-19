@@ -8,6 +8,7 @@ Created on Feb 05, 2019
 import fileinput
 import re
 import os
+import pwd
 from glob import glob
 
 # timekpr imports
@@ -64,20 +65,14 @@ class timekprUserStore(object):
         # config
         users = {}
 
-        # load limits
-        with fileinput.input(cons.TK_USERS_FILE) as rUsersFile:
-            # read line and do manipulations
-            for rLine in rUsersFile:
-                # get our users splitted
-                userDef = rLine.split(":")
-                # get whether the user can log in
-                if userDef[2] != "" and not ("/nologin" in userDef[6] or "/false" in userDef[6]):
-                    # get uuid
-                    uuid = int(userDef[2])
-                    # save our user, if it mactches
-                    if verifyNormalUserID(uuid):
-                        # save
-                        users[userDef[0]] = uuid
+        # iterate through all usernames
+        for rUser in pwd.getpwall():
+            # check userid
+            if rUser.pw_uid is not None and rUser.pw_uid != "" and not ("/nologin" in rUser.pw_shell or "/false" in rUser.pw_shell):
+                # save our user, if it mactches
+                if verifyNormalUserID(rUser.pw_uid):
+                    # save
+                    users[rUser.pw_name] = [rUser.pw_uid, rUser.pw_gecos]
 
         # set up tmp logging
         logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
@@ -171,8 +166,13 @@ class timekprUserStore(object):
                             break
                 # validate user against valid (existing) users in the system
                 if userNameValidated and (not filterExistingOnly or user in users):
-                    # extract user name
-                    userList.append(user)
+                    # get actual user name
+                    if user in users:
+                        # add user name and full name
+                        userList.append([user, users[user][1]])
+                    else:
+                        # add user name and full name
+                        userList.append([user, ""])
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing user list")
 

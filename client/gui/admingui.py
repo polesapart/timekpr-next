@@ -804,6 +804,8 @@ class timekprAdminGUI(object):
         # clear up
         userStore.clear()
         userStore.append(["", ""])
+        # def len
+        widthInChars = 15
 
         # get list
         result, message, userList = self._timekprAdminConnector.getUserList()
@@ -812,14 +814,19 @@ class timekprAdminGUI(object):
         if result == 0:
             # loop and print
             for rUser in userList:
+                # name
+                userName = "%s (%s)" % (rUser[0], rUser[1]) if (rUser[1] is not None and rUser[1] != "") else rUser[0]
+                # determine maxlen
+                widthInChars = max(widthInChars, len(userName) - 3)
                 # add user
-                userStore.append([rUser, rUser])
-
+                userStore.append([rUser[0], userName])
             # status
             self.setTimekprStatus(False, "User list retrieved")
             # enable
             self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").set_sensitive(True)
             self._timekprAdminFormBuilder.get_object("TimekprUserSelectionRefreshBT").set_sensitive(self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").get_sensitive())
+            # adjust widht
+            self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCBEntry").set_width_chars(widthInChars)
             # init first selection
             self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB").set_active(0)
         else:

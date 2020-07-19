@@ -385,7 +385,7 @@ class timekprDaemon(dbus.service.Object):
 
     # --------------- user admin methods accessible by privileged users (root and all in timekpr group) --------------- #
 
-    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="", out_signature="isas")
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="", out_signature="isaas")
     def getUserList(self):
         """Get user list and their time left"""
         """Sets allowed days for the user

@@ -393,11 +393,11 @@ Please configure carefully: do not lock yourself out!</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkComboBox" id="TimekprUserSelectionCB">
-                        <property name="width_request">150</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
+                        <property name="margin_top">5</property>
                         <property name="margin_bottom">10</property>
                         <property name="model">TimekprUserSelectionLS</property>
                         <property name="has_frame">False</property>
@@ -409,6 +409,7 @@ Please configure carefully: do not lock yourself out!</property>
                           <object class="GtkEntry" id="TimekprUserSelectionCBEntry">
                             <property name="can_focus">False</property>
                             <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
+                            <property name="width_chars">15</property>
                           </object>
                         </child>
                       </object>

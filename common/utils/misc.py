@@ -12,6 +12,7 @@ _RESULT = 0
 # imports
 from datetime import datetime
 import os
+import pwd
 import inspect
 try:
     import psutil
@@ -29,6 +30,20 @@ from timekpr.common.log import log
 def whoami():
     """Return callers name from the call stack, the 0 is this function, prev is the one needd"""
     return inspect.stack()[1][3]
+
+
+def getUserNames(pUID):
+    """Get full username"""
+    userName = None
+    userNameFull = ""
+    try:
+        userName = pwd.getpwuid(pUID).pw_name
+        userNameFull = "%s%s" % (userName, " (%s)" % (pwd.getpwuid(pUID).pw_gecos if pwd.getpwuid(pUID).pw_gecos != "" else ""))
+    except KeyError:
+        pass
+
+    # full username
+    return userName, userNameFull
 
 
 def measureTimeElapsed(pStart=False, pStop=False, pResult=False):

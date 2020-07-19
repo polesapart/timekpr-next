@@ -7,6 +7,12 @@ timekpr-next (0.4.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** added option to play a short (standard) notification bell sound when showing notifications (if supported by current DE)
   ** added username verification for configuration files
   ** translations for new options in client application
+  ** added full name display for username
+
+  * added quality of life improvements to administration app
+  ** added refresh to actual ("realtime") refresh for users that are logged in
+  ** a little optimization for time refresh in administration application
+  ** added full name display for usernames
 
   * fixed and changed warnings / suggestions from user foka based on his observations when importing package into Debian:
   ** adjust code install paths (with support for non-Debian distros as well)

@@ -257,7 +257,7 @@ class timekprAdminClient(object):
         log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_USERS_TOTAL", len(pUserList)))
         # loop and print
         for rUser in pUserList:
-            log.consoleOut(rUser)
+            log.consoleOut(rUser[0])
 
     def printUserConfig(self, pUserName, pPrintUserConfig):
         """Format and print user config"""
