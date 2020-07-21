@@ -1,4 +1,4 @@
-timekpr-next (0.4.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.4.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added quality of life configuration options for client application (as suggested by one of Timekpr-nExT users)
   ** added configuration option to set how long regular notifications should be visible
@@ -10,7 +10,7 @@ timekpr-next (0.4.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** added full name display for username
 
   * added quality of life improvements to administration app
-  ** added refresh to actual ("realtime") refresh for users that are logged in
+  ** added refresh to actual ("realtime") values for users that are logged in
   ** a little optimization for time refresh in administration application
   ** added full name display for usernames
 
@@ -19,10 +19,11 @@ timekpr-next (0.4.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
   ** create metainfo file
   ** adjust service / desktop / control / install / changelog files
   ** fixed some lintian warnings (will not be fixing all)
-  TODO:
   ** project README file
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 15 Jul 2020 22:39:41 +0300
+  * changed version numbering scheme
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 21 Jul 2020 07:39:41 +0300
 
 timekpr-next (0.4.0~ppa1~ubuntu5) UNRELEASED; urgency=medium
 
