@@ -7,15 +7,19 @@ Timekpr-nExT, a fresh, simple and easy to use time managing software that helps 
 The software is targeted at parents or supervisors to optimize / limit time spent at computer as they see fit.
 </br></br>
 
-_**This README** is quite large, if You want to just get to it, here's the guide (if links do not work, please scroll down manually):_
+_**This README** is quite large, so I have prepared a guide for You:_
 
 * _a short description of [applications](#applications) with [typical use case](#typicalusecase)_
-* _installation [instructions](#installation) for most widely used systems_
+* _installation / removal [instructions](#installation) for most widely used systems_
 * _a short description about [how You can help](#support)_
-* _to better understand functionality, please go to [description of functionality](#details)_
-</br></br>
+* _to better understand functionality click on [description of functionality](#details)_
+* _to get information on console / file usage click on [additional configuration possibilities](#manualconfig)_
+* _information about questions, suggestions and bugs is [here](#bugs)_
+</br>
 
-### <a name="applications"></a>Applications
+<a name="applications"></a>
+</br>
+### Applications
 
 Timekpr-nExT has two user facing applications:
 
@@ -32,9 +36,11 @@ Timekpr-nExT has two user facing applications:
 * Timekpr-nExT Administration application - administration application to set time limits for any user in the system as well as configure technical aspects of Timekpr-nExT
 
 ![Timekpr-nExT Administration application](https://git.launchpad.net/timekpr-next/plain/resource/screenshots/timekpr-next-screenshot-admin.png)
-</br></br>
+</br>
 
-### <a name="typicalusecase"></a>Typical use case
+<a name="typicalusecase"></a>
+</br>
+### Typical use case
 
 Let's imagine a situation that Liane had to limit computer time for Cartman because he uses computer way too much to talk to Kyle and Stan _(but not Kenny, because he doesn't have a computer ;-))_ about messing up a day for Mr. Garrison or something along these lines.
 
@@ -69,9 +75,11 @@ By this she achieves flexibility of:
 </br></br>
 
 Typical setup is rather simple and easy, there are (of course) more to it, please read on [Detailed information](#details), if You're interested.
-</br></br>
+</br>
 
-## <a name="installation"></a>Installation / removal
+<a name="installation"></a>
+</br>
+## Installation / removal
 
 First step to start using Timekpr-nExT is to install it, right? :-)
 
@@ -156,17 +164,26 @@ I have tested that KDE, Gnome, Cinnamon, MATE, XFCE works in Ubuntu compatible O
 Please read [nuances](#quirks) section for more information.
 
 If You have an issue with Timekpr-nExT, please read [this](#bugs) and file a bug.
-</br></br></br>
+</br></br>
 
-## <a name="support"></a>How You can help
+<a name="support"></a>
+</br>
+## How You can help
 
 Quite a lot of time and effort went into making this a reality, so if You would like to say thanks for making Timekpr-nExT or just want to contribute, please do so via PayPal: https://tinyurl.com/yc9x85v2 .
 
 Alternatively, You can help to translate Timekpr-nExT in Your language [here](https://translations.launchpad.net/timekpr-next) too.
-</br></br></br>
+</br></br>
 
-## <a name="details"></a>Detailed information
-### <a name="quirks"></a>Quirks
+<a name="details"></a>
+</br>
+## Detailed information
+
+This section contains information about major / most important features of Timekpr-nExT. Section is meant to deep dive into functionality without tehnical details.
+
+<a name="quirks"></a>
+</br>
+### Quirks
 Linux distributions (i.e. Ubuntu, Fedora, Mint, ...) ecosystem is large, nice, diverse and all those good things, but not everything there adheres to the same standards, so naturally there are some differences here and there, which affects Timekpr-nExT looks and/or functionality.
 
 I'll add notes (i.e. _Note: ..._) to highlight differences in functionality for the descriptions below, so users are fully aware of what to expect.
@@ -282,8 +299,10 @@ The main interface used is systemd's [login1](https://www.freedesktop.org/wiki/S
 It tries to use FreeDesktops screensaver [interfaces _(better source needed)_](https://people.freedesktop.org/~hadess/idle-inhibition-spec/ch05.html) as well as notification [interfaces](https://specifications.freedesktop.org/notification-spec/latest/ar01s09.html) too. In case FreeDesktop screensaver interfaces are not available, it tries to use [Gnome's](https://people.gnome.org/~mccann/gnome-screensaver/docs/gnome-screensaver.html).
 
 Timekpr-nExT makes connections to D-BUS objects, they are cached and during execution, it mostly just calls.
-</br></br>
+</br>
 
+<a name="manualconfig"></a>
+</br>
 ### Additional configuration possibilities
 
 In addition to graphical applications, Timekpr-nExT still can be configured via CLI (Command Line Interfaces) and actual config files by hand.
@@ -346,13 +365,17 @@ Here are some examples:
 
 </br>
 So, there are inconsistencies and at times it was quite tricky / required workarounds to get the solution to be compatible with most popular Desktop Environments at the same functionality level.
-</br></br>
+</br>
 
-## <a name="bugs"></a>Suggestions and bugs
+<a name="bugs"></a>
+</br>
+## Suggestions and bugs
 
-Please register suggestions and bugs [here](https://bugs.launchpad.net/timekpr-next), as for questions, please ask them [here](https://answers.launchpad.net/timekpr-next).
+Please register suggestions and bugs [here](https://bugs.launchpad.net/timekpr-next), alternatively suggestions can be sent to me via e-mail. As for questions, please ask them [here](https://answers.launchpad.net/timekpr-next).
 
 For bugs, please describe Your setup, i.e. which distribution, version of OS, Desktop Environment are You using, be prepared to send me config and log files (they do not contain anything sensitive, except usernames).
 
 I'll do my best to address them as my free time allows.
+
 </br></br>
+Thanks for choosing Timekpr-nExT!
