@@ -6,9 +6,10 @@ Created on Aug 28, 2018
 
 # imports
 import os
-# set up our python path
 import sys
-sys.path.append("/usr/share/pyshared")
+# set up our python path
+if "/usr/lib/python3/dist-packages" not in sys.path:
+    sys.path.append("/usr/lib/python3/dist-packages")
 
 # imports
 import signal

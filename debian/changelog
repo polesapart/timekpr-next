@@ -1,3 +1,30 @@
+timekpr-next-beta (0.4.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * added quality of life configuration options for client application (as suggested by one of Timekpr-nExT users)
+  ** added configuration option to set how long regular notifications should be visible
+  ** added configuration option to set how long Critical notifications should be visible
+  ** if time in seconds is set to 0 for either of options, notification will stay on until dismissed
+  ** added option to play a short (standard) notification bell sound when showing notifications (if supported by current DE)
+  ** added username verification for configuration files
+  ** translations for new options in client application
+  ** added full name display for username
+
+  * added quality of life improvements to administration app
+  ** added refresh to actual ("realtime") values for users that are logged in
+  ** a little optimization for time refresh in administration application
+  ** added full name display for usernames
+
+  * fixed and changed warnings / suggestions from user foka based on his observations when importing package into Debian:
+  ** adjust code install paths (with support for non-Debian distros as well)
+  ** create metainfo file
+  ** adjust service / desktop / control / install / changelog files
+  ** fixed some lintian warnings (will not be fixing all)
+  ** project README file
+
+  * changed version numbering scheme
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 21 Jul 2020 07:39:41 +0300
+
 timekpr-next-beta (0.4.0~ppa1~ubuntu5) UNRELEASED; urgency=medium
 
   * minor change for debian/install
@@ -341,18 +368,18 @@ timekpr-next (0.1.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
   TODO: administration via DBUS and CLI/GUI around it
   TODO: localization and speech
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 18 Dec 2018 20:03:22 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 18 Dec 2018 20:03:22 +0300
 
- timekpr-next (0.1.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
+timekpr-next (0.1.5~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
-   * fixed lazy dbus connection initialization on client side
-   * fixes for client side GUI
-   * minor fixes for time accounting and logging
+  * fixed lazy dbus connection initialization on client side
+  * fixes for client side GUI
+  * minor fixes for time accounting and logging
 
-   TODO: administration via DBUS and CLI/GUI around it
-   TODO: localization and speech
+  TODO: administration via DBUS and CLI/GUI around it
+  TODO: localization and speech
 
-  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 11 Nov 2018 07:55:46 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 11 Nov 2018 07:55:46 +0300
 
 timekpr-next (0.1.4~ppa1~ubuntu1) UNRELEASED; urgency=medium
 

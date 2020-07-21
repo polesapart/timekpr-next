@@ -5,7 +5,7 @@ Created on Aug 28, 2018
 """
 
 # import
-from datetime import timedelta, datetime
+from datetime import timedelta
 import os
 
 # timekpr imports
@@ -18,7 +18,7 @@ from timekpr.client.gui.clientgui import timekprGUI
 class timekprNotificationArea(object):
     """Support appindicator or other means of showing icon on the screen (this class is a parent for classes like indicator or staticon)"""
 
-    def __init__(self, pLog, pUserName, pTimekprClientConfig):
+    def __init__(self, pLog, pUserName, pUserNameFull, pTimekprClientConfig):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog)
@@ -48,7 +48,7 @@ class timekprNotificationArea(object):
         self._notifyInterface = None
 
         # gui forms
-        self._timekprGUI = timekprGUI(cons.TK_VERSION, self._timekprClientConfig, self._userName)
+        self._timekprGUI = timekprGUI(cons.TK_VERSION, self._timekprClientConfig, self._userName, pUserNameFull)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekpr indicator")
 

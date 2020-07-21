@@ -12,7 +12,6 @@ from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
-from timekpr.client.interface.speech.espeak import timekprSpeech
 from timekpr.common.constants import messages as msg
 
 # constant
@@ -24,7 +23,7 @@ _NO_TIME_LIMIT_LABEL = "--:--:--:--"
 class timekprGUI(object):
     """Main class for supporting timekpr forms"""
 
-    def __init__(self, pTimekprVersion, pTimekprClientConfig, pUsername):
+    def __init__(self, pTimekprVersion, pTimekprClientConfig, pUsername, pUserNameFull):
         """Initialize gui"""
         # set up base variables
         self._userName = pUsername
@@ -40,9 +39,6 @@ class timekprGUI(object):
         self._timeLeftContinous = None
         self._timeTrackInactive = True
         self._limitConfig = {}
-
-        # is speech supported
-        self._isSpeechSupported = timekprSpeech().isSupported()
 
         # change tracking
         self._configChanged = False
@@ -65,7 +61,7 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.connect_signals(self)
 
         # set up username (this does not change)
-        self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text(self._userName)
+        self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text(pUserNameFull)
 
         # this sets up columns for list
         col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=1)
@@ -102,15 +98,22 @@ class timekprGUI(object):
     def renewUserConfiguration(self):
         """Update configuration options"""
         # if speech is not supported, we disable and uncheck the box
-        if self._isSpeechSupported is False:
+        if self._timekprClientConfig.getIsNotificationSpeechSupported() is not True:
             # disable speech
             self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_sensitive(False)
+        # if sound is not supported by libnotify implementation, we disable and uncheck the box
+        if self._timekprClientConfig.getIsNotificationSoundSupported() is not True:
+            # disable speech
+            self._timekprConfigDialogBuilder.get_object("timekprUseNotificationSoundCB").set_sensitive(False)
 
         # user config
         self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").set_active(self._timekprClientConfig.getClientShowLimitNotifications())
         self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").set_active(self._timekprClientConfig.getClientShowAllNotifications())
         self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_active(self._timekprClientConfig.getClientUseSpeechNotifications())
         self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").set_active(self._timekprClientConfig.getClientShowSeconds())
+        self._timekprConfigDialogBuilder.get_object("timekprUseNotificationSoundCB").set_active(self._timekprClientConfig.getClientUseNotificationSound())
+        self._timekprConfigDialogBuilder.get_object("timekprNotificationTimeoutSB").set_value(self._timekprClientConfig.getClientNotificationTimeout())
+        self._timekprConfigDialogBuilder.get_object("timekprNotificationTimeoutCriticalSB").set_value(self._timekprClientConfig.getClientNotificationTimeoutCritical())
         self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").set_value(self._timekprClientConfig.getClientLogLevel())
 
     def renewLimits(self, pTimeInformation=None):
@@ -208,6 +211,9 @@ class timekprGUI(object):
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active() != self._timekprClientConfig.getClientShowAllNotifications()
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active() != self._timekprClientConfig.getClientUseSpeechNotifications()
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active() != self._timekprClientConfig.getClientShowSeconds()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprUseNotificationSoundCB").get_active() != self._timekprClientConfig.getClientUseNotificationSound()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprNotificationTimeoutSB").get_value_as_int() != self._timekprClientConfig.getClientNotificationTimeout()
+        configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprNotificationTimeoutCriticalSB").get_value_as_int() != self._timekprClientConfig.getClientNotificationTimeoutCritical()
         configChanged = configChanged or self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value_as_int() != self._timekprClientConfig.getClientLogLevel()
 
         # this is it
@@ -291,6 +297,9 @@ class timekprGUI(object):
         self._timekprClientConfig.setClientShowAllNotifications(self._timekprConfigDialogBuilder.get_object("timekprShowAllNotifCB").get_active())
         self._timekprClientConfig.setClientUseSpeechNotifications(self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").get_active())
         self._timekprClientConfig.setClientShowSeconds(self._timekprConfigDialogBuilder.get_object("timekprShowSecondsCB").get_active())
+        self._timekprClientConfig.setClientUseNotificationSound(self._timekprConfigDialogBuilder.get_object("timekprUseNotificationSoundCB").get_active())
+        self._timekprClientConfig.setClientNotificationTimeout(self._timekprConfigDialogBuilder.get_object("timekprNotificationTimeoutSB").get_value_as_int())
+        self._timekprClientConfig.setClientNotificationTimeoutCritical(self._timekprConfigDialogBuilder.get_object("timekprNotificationTimeoutCriticalSB").get_value_as_int())
         self._timekprClientConfig.setClientLogLevel(self._timekprConfigDialogBuilder.get_object("timekprLogLevelSB").get_value_as_int())
 
         # save config

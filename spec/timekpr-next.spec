@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.4.0
+Version:          0.4.1
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -19,10 +19,11 @@ BuildRequires:    ( systemd )
 BuildRequires:    ( sed )
 BuildRequires:    ( grep )
 
-Requires:         ( gtk3 >= 3.12 )
+Requires:         ( gtk3 >= 3.4 )
 Requires:         ( python3 )
 Requires:         ( python3-dbus or python3-dbus-python )
 Requires:         ( python3-gobject )
+Requires:         ( python3-psutil )
 Requires:         ( ( libindicator-gtk3 and libappindicator-gtk3 ) or ( libindicator3-7 and typelib-1_0-Gtk-3_0 and typelib-1_0-AppIndicator3-0_1 ) )
 Requires:         ( gettext )
 
@@ -31,13 +32,16 @@ Requires(preun):  ( systemd )
 Requires(postun): ( systemd )
 
 %description
-This program will track and control the computer usage of
-your user accounts. You can limit their daily usage based
-on a timed access duration and configure periods of day
-when they can or cannot log in.
+Timekpr-nExT is a program that tracks and controls the computer usage
+of your user accounts. You can limit their daily usage based on a
+timed access duration and configure periods of day when they can or
+cannot log in.
 .
-Any bugs should be reported to our bug tracker:
-https://bugs.launchpad.net/timekpr-next/+bugs
+This may be used for parental control to limit the amount of screen time
+a child spends in front of the computer.
+.
+Please report any bugs to Timekpr-nExT’s bug tracker on Launchpad at:
+https://bugs.launchpad.net/timekpr-next
 
 %prep
 %setup -q -n %{name}
@@ -57,15 +61,15 @@ mkdir mkdir -p %{buildroot}/%{_sharedstatedir}/timekpr
 %__cp debian/postrm  %{buildroot}/%{_sharedstatedir}/timekpr/%{name}.postrm
 
 # appdata file
-install -Dpm 0644 spec/%{name}.appdata.xml %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
+install -Dpm 644 resource/appstream/org.timekpr.%{name}.metainfo.xml %{buildroot}%{_datadir}/metainfo/org.timekpr.%{name}.metainfo.xml
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.timekpr.%{name}.metainfo.xml
 
 %post
+# reload units
+systemctl daemon-reload
+
 # post installation
-if [ $1 == 1 ]
-then
-    %{_sharedstatedir}/timekpr/%{name}.postinst
-fi
+%{_sharedstatedir}/timekpr/%{name}.postinst
 
 # update mime / desktop
 update-mime-database %{_datadir}/mime &> /dev/null || :
@@ -88,12 +92,12 @@ update-desktop-database &> /dev/null || :
 %defattr(-,root,root,-)
 %doc debian/changelog debian/copyright
 %config /etc/timekpr/timekpr.conf
-%{_datadir}/appdata/%{name}.appdata.xml
 
 # package files
 %{_bindir}/*
-%{_datadir}/*
 %{_datadir}/applications/*
+%{_datadir}/icons/hicolor/128x128/apps/*
+%{_datadir}/icons/hicolor/48x48/apps/*
 %{_datadir}/icons/hicolor/64x64/apps/*
 %{_datadir}/icons/hicolor/scalable/apps/*
 %{_datadir}/locale/cs/LC_MESSAGES/*
@@ -102,15 +106,19 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
+%{_datadir}/metainfo/*
 %{_datadir}/polkit-1/actions/*
-%{_datadir}/pyshared/*
-%{_sharedstatedir}/*
+%{_datadir}/timekpr
+/lib/systemd/system/*
+%{_prefix}/lib/python3/dist-packages/timekpr
+%{_sharedstatedir}/timekpr
 %{_sysconfdir}/dbus-1/system.d/*
 %{_sysconfdir}/logrotate.d/*
-%{_sysconfdir}/systemd/system/*
-%{_sysconfdir}/timekpr/*
+%{_sysconfdir}/timekpr
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Wed Jul 15 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.1-1.0
+- Updated spec file for version 0.4.1
 * Fri Jul 10 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.0-1.0
 - Initial version of the spec file

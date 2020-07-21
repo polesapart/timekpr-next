@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) Eduards Bezverhijs <edzis@inbox.lv>, et al. Contact: Eduards Bezverhijs <edzis@inbox.lv> -->
+<component type="desktop">
+  <id>org.timekpr.timekpr-next</id>
+  <name>Timekpr-nExT Control Panel</name>
+  <summary>Track and control computer usage of user accounts</summary>
+  <metadata_license>CC-BY-SA</metadata_license>
+  <project_license>GPLv3</project_license>
+  <translation type="gettext">timekpr-next</translation>
+  <description>
+    <p>
+      Timekpr-nExT is a program that tracks and controls the computer usage
+      of your user accounts. You can limit their daily usage based on a
+      timed access duration and configure periods of day when they can or
+      cannot log in.
+
+      This may be used for parental control to limit the amount of screen time
+      a child spends in front of the computer.
+
+      Please report any bugs to Timekpr-nExT’s bug tracker on Launchpad at:
+      https://bugs.launchpad.net/timekpr-next
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">https://git.launchpad.net/timekpr-next/plain/resource/screenshots/timekpr-screenshot-admin.png</screenshot>
+	<screenshot>https://git.launchpad.net/timekpr-next/plain/resource/screenshots/timekpr-screenshot-client.png</screenshot>
+  </screenshots>
+  <url type="homepage">https://launchpad.net/timekpr-next</url>
+  <url type="bugtracker">https://bugs.launchpad.net/timekpr-next</url>
+  <url type="translate">https://translations.launchpad.net/timekpr-next</url>
+  <url type="donation">https://tinyurl.com/yc9x85v2</url>
+  <launchable type="desktop-id">timekpr-admin-su.desktop</launchable>
+  <updatecontact>edzis@inbox.lv</updatecontact>
+</component>

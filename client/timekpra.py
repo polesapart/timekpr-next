@@ -6,9 +6,10 @@ Created on Jan 4, 2019
 # imports
 import os
 import getpass
-# set up our python path
 import sys
-sys.path.append("/usr/share/pyshared")
+# set up our python path
+if "/usr/lib/python3/dist-packages" not in sys.path:
+    sys.path.append("/usr/lib/python3/dist-packages")
 
 # timekpr imports
 from timekpr.client.admin.adminprocessor import timekprAdminClient

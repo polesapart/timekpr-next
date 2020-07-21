@@ -148,7 +148,7 @@ class timekprAdminConnector(object):
         # result
         return result, message, userList
 
-    def getUserConfig(self, pUserName):
+    def getUserConfigurationAndInformation(self, pUserName, pInfoLvl):
         """Get user configuration from server"""
         # defaults
         result, message = self.initReturnCodes(pInit=True, pCall=False)
@@ -162,7 +162,7 @@ class timekprAdminConnector(object):
             # notify through dbus
             try:
                 # call dbus method
-                result, message, userConfig = self._timekprUserAdminInterface.getUserConfiguration(pUserName)
+                result, message, userConfig = self._timekprUserAdminInterface.getUserConfiguration(pUserName, pInfoLvl)
             except Exception as ex:
                 # exception
                 result, message = self.formatException(str(ex))

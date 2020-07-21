@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: Ludek NOVAK <ludek.novak@gmail.com>\n"
-"POT-Creation-Date: 2020-06-24 17:33+0300\n"
-"PO-Revision-Date: 2020-06-24 17:38+0300\n"
+"POT-Creation-Date: 2020-07-15 08:06+0300\n"
+"PO-Revision-Date: 2020-07-15 08:15+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -733,15 +733,15 @@ msgstr "Odebrat vyloučený typ relace"
 msgid "Timekpr-nExT administration"
 msgstr "Správa Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:294
+#: resource/client/forms/admin.glade:294 resource/client/forms/admin.glade:300
 msgid "Icon, isn't it?"
 msgstr "Ikona, že?"
 
-#: resource/client/forms/admin.glade:314
+#: resource/client/forms/admin.glade:323
 msgid "Notes, read carefully ;)"
 msgstr "Pozorně si přečtěte poznámky ;)"
 
-#: resource/client/forms/admin.glade:319
+#: resource/client/forms/admin.glade:328
 msgid ""
 "This is Timekpr-nExT configuration app. It allows you to configure time for "
 "your users as well as the Timekpr-nExT parameters.\n"
@@ -762,31 +762,31 @@ msgstr ""
 "\n"
 "Prosím buďte opatrní, nezablokujte se!"
 
-#: resource/client/forms/admin.glade:347 resource/client/forms/admin.glade:2059
+#: resource/client/forms/admin.glade:356 resource/client/forms/admin.glade:2068
 msgid "Users related configuration"
 msgstr "Nastavení související s uživateli"
 
-#: resource/client/forms/admin.glade:362 resource/client/forms/config.glade:194
+#: resource/client/forms/admin.glade:371 resource/client/forms/config.glade:205
 msgid "Username:"
 msgstr "Uživatelské jméno:"
 
-#: resource/client/forms/admin.glade:391 resource/client/forms/admin.glade:402
+#: resource/client/forms/admin.glade:400 resource/client/forms/admin.glade:411
 msgid "List of usernames registered on the system"
 msgstr "Seznam uživatelských jmen registrovaných v systému"
 
-#: resource/client/forms/admin.glade:415
+#: resource/client/forms/admin.glade:424
 msgid "Restore"
 msgstr "Obnovit"
 
-#: resource/client/forms/admin.glade:420
+#: resource/client/forms/admin.glade:429
 msgid "Restore configuration from saved state"
 msgstr "Obnovit konfiguraci z uloženého stavu"
 
-#: resource/client/forms/admin.glade:471
+#: resource/client/forms/admin.glade:480
 msgid "This shows information about time left / spent"
 msgstr "Informace o zbývajícím / stráveném čase"
 
-#: resource/client/forms/admin.glade:494
+#: resource/client/forms/admin.glade:503
 msgid ""
 "Continuous time left to user which may span to more than a current day "
 "(realtime, available when user is logged in)"
@@ -794,39 +794,39 @@ msgstr ""
 "Nepřetržitý čas zbývající uživateli, který může trvat déle než aktuální den "
 "(reálný čas, k dispozici po přihlášení uživatele)"
 
-#: resource/client/forms/admin.glade:496
+#: resource/client/forms/admin.glade:505
 msgid "Time left (actual):"
 msgstr "Zbývající čas (skutečný):"
 
-#: resource/client/forms/admin.glade:511 resource/client/forms/admin.glade:556
-#: resource/client/forms/admin.glade:601 resource/client/forms/admin.glade:658
-#: resource/client/forms/admin.glade:703 resource/client/forms/admin.glade:748
-#: resource/client/forms/config.glade:302
-#: resource/client/forms/config.glade:317
-#: resource/client/forms/config.glade:348
-#: resource/client/forms/config.glade:393
-#: resource/client/forms/config.glade:609
-#: resource/client/forms/config.glade:667
-#: resource/client/forms/config.glade:739
-#: resource/client/forms/config.glade:769
+#: resource/client/forms/admin.glade:520 resource/client/forms/admin.glade:565
+#: resource/client/forms/admin.glade:610 resource/client/forms/admin.glade:667
+#: resource/client/forms/admin.glade:712 resource/client/forms/admin.glade:757
+#: resource/client/forms/config.glade:313
+#: resource/client/forms/config.glade:328
+#: resource/client/forms/config.glade:359
+#: resource/client/forms/config.glade:404
+#: resource/client/forms/config.glade:620
+#: resource/client/forms/config.glade:678
+#: resource/client/forms/config.glade:750
+#: resource/client/forms/config.glade:780
 msgid "Format: <days : hours : minutes : seconds>"
 msgstr "Formát: <dny : hodiny : minuty : sekundy>"
 
-#: resource/client/forms/admin.glade:513 resource/client/forms/admin.glade:558
-#: resource/client/forms/admin.glade:603 resource/client/forms/admin.glade:660
-#: resource/client/forms/admin.glade:705 resource/client/forms/admin.glade:750
-#: resource/client/forms/config.glade:305
-#: resource/client/forms/config.glade:320
-#: resource/client/forms/config.glade:351
-#: resource/client/forms/config.glade:396
-#: resource/client/forms/config.glade:612
-#: resource/client/forms/config.glade:670
-#: resource/client/forms/config.glade:743
-#: resource/client/forms/config.glade:773
+#: resource/client/forms/admin.glade:522 resource/client/forms/admin.glade:567
+#: resource/client/forms/admin.glade:612 resource/client/forms/admin.glade:669
+#: resource/client/forms/admin.glade:714 resource/client/forms/admin.glade:759
+#: resource/client/forms/config.glade:316
+#: resource/client/forms/config.glade:331
+#: resource/client/forms/config.glade:362
+#: resource/client/forms/config.glade:407
+#: resource/client/forms/config.glade:623
+#: resource/client/forms/config.glade:681
+#: resource/client/forms/config.glade:754
+#: resource/client/forms/config.glade:784
 msgid "00:00:00:00"
 msgstr "00:00:00:00"
 
-#: resource/client/forms/admin.glade:539
+#: resource/client/forms/admin.glade:548
 msgid ""
 "How long user was inactive since last login (realtime, available when user "
 "is logged in)"
@@ -834,102 +834,102 @@ msgstr ""
 "Jak dlouho byl uživatel od posledního přihlášení neaktivní (v reálném čase, "
 "k dispozici při přihlášení uživatele)"
 
-#: resource/client/forms/admin.glade:541
+#: resource/client/forms/admin.glade:550
 msgid "Time inactive (actual):"
 msgstr "Čas neaktivní (skutečný):"
 
-#: resource/client/forms/admin.glade:584
+#: resource/client/forms/admin.glade:593
 msgid "Time available today (saved stated, not real-time)"
 msgstr "Čas k dispozici dnes (uložený, nikoli v reálném čase)"
 
-#: resource/client/forms/admin.glade:586
+#: resource/client/forms/admin.glade:595
 msgid "Time left (today):"
 msgstr "Zbývající čas (dnes):"
 
-#: resource/client/forms/admin.glade:641
+#: resource/client/forms/admin.glade:650
 msgid "Time spent today (saved stated, not real-time)"
 msgstr "Čas využitý dnes (uložený, nikoliv reálný čas)"
 
-#: resource/client/forms/admin.glade:643
+#: resource/client/forms/admin.glade:652
 msgid "Time spent (today):"
 msgstr "Čas využitý dnes:"
 
-#: resource/client/forms/admin.glade:686
+#: resource/client/forms/admin.glade:695
 msgid "Time spent for this week (saved stated, not real-time)"
 msgstr "Čas svyužitý tento týden (uložený, nikoliv reálný čas)"
 
-#: resource/client/forms/admin.glade:688 resource/client/forms/config.glade:598
+#: resource/client/forms/admin.glade:697 resource/client/forms/config.glade:609
 msgid "Time spent (week):"
 msgstr "Čas využitý za týden:"
 
-#: resource/client/forms/admin.glade:730
+#: resource/client/forms/admin.glade:739
 msgid "Time spent this month (saved stated, not real-time)"
 msgstr "Čas využitý tento měsíc (uložený, nikoliv reálný čas)"
 
-#: resource/client/forms/admin.glade:732 resource/client/forms/config.glade:627
+#: resource/client/forms/admin.glade:741 resource/client/forms/config.glade:638
 msgid "Time spent (month):"
 msgstr "Čas využitý za měsíc:"
 
-#: resource/client/forms/admin.glade:786
+#: resource/client/forms/admin.glade:795
 msgid ""
 "This allows you to change time for today as well as inactive session tracking"
 msgstr "Umožnit změnu času pro aktivní i neaktivní sledované relace"
 
-#: resource/client/forms/admin.glade:811
+#: resource/client/forms/admin.glade:820
 msgid "Amount:"
 msgstr "Úroveň:"
 
-#: resource/client/forms/admin.glade:837 resource/client/forms/admin.glade:1232
-#: resource/client/forms/admin.glade:1456
-#: resource/client/forms/admin.glade:1787
-#: resource/client/forms/admin.glade:1887
+#: resource/client/forms/admin.glade:846 resource/client/forms/admin.glade:1241
+#: resource/client/forms/admin.glade:1465
+#: resource/client/forms/admin.glade:1796
+#: resource/client/forms/admin.glade:1896
 msgid "hr"
 msgstr "h"
 
-#: resource/client/forms/admin.glade:848
+#: resource/client/forms/admin.glade:857
 msgid "The amount of minutes to be adjusted for today's limit"
 msgstr "Množství minut, které je třeba upravit pro dnešní limit"
 
-#: resource/client/forms/admin.glade:865
+#: resource/client/forms/admin.glade:874
 msgid "The amount of hours to be adjusted for today's limit"
 msgstr "Množství hodin, které je třeba upravit pro dnešní limit"
 
-#: resource/client/forms/admin.glade:882 resource/client/forms/admin.glade:1244
-#: resource/client/forms/admin.glade:1445
-#: resource/client/forms/admin.glade:1798
-#: resource/client/forms/admin.glade:1898
+#: resource/client/forms/admin.glade:891 resource/client/forms/admin.glade:1253
+#: resource/client/forms/admin.glade:1454
+#: resource/client/forms/admin.glade:1807
+#: resource/client/forms/admin.glade:1907
 msgid "min"
 msgstr "min"
 
-#: resource/client/forms/admin.glade:904 resource/client/forms/admin.glade:1540
+#: resource/client/forms/admin.glade:913 resource/client/forms/admin.glade:1549
 msgid "Add"
 msgstr "Přidat"
 
-#: resource/client/forms/admin.glade:909
+#: resource/client/forms/admin.glade:918
 msgid "Add specified amount (reward)"
 msgstr "Přidat zadanou částku (odměna)"
 
-#: resource/client/forms/admin.glade:921
+#: resource/client/forms/admin.glade:930
 msgid "Subtract"
 msgstr "Odečíst"
 
-#: resource/client/forms/admin.glade:926
+#: resource/client/forms/admin.glade:935
 msgid "Subtract specified amount (penalty)"
 msgstr "Odečíst zadanou částku (pokuta)"
 
-#: resource/client/forms/admin.glade:938 resource/client/forms/admin.glade:1000
-#: resource/client/forms/admin.glade:1035
-#: resource/client/forms/admin.glade:1286
+#: resource/client/forms/admin.glade:947 resource/client/forms/admin.glade:1009
+#: resource/client/forms/admin.glade:1044
+#: resource/client/forms/admin.glade:1295
 msgid "Set"
 msgstr "Zadat"
 
-#: resource/client/forms/admin.glade:943
+#: resource/client/forms/admin.glade:952
 msgid "Set exacly specified limit"
 msgstr "Nastavit přesně stanovený limit"
 
-#: resource/client/forms/admin.glade:985 resource/client/forms/admin.glade:1020
-#: resource/client/forms/config.glade:638
-#: resource/client/forms/config.glade:654
+#: resource/client/forms/admin.glade:994 resource/client/forms/admin.glade:1029
+#: resource/client/forms/config.glade:649
+#: resource/client/forms/config.glade:665
 msgid ""
 "Select whether time for inactive sessions are counted. If this is unchecked, "
 "time spent in console (not terminal) and while screen is locked is NOT taken "
@@ -939,20 +939,20 @@ msgstr ""
 "zaškrtnuto, NEBUDE brána v úvahu doba použití v konzoli (nikoli v terminálu) "
 "a při uzamčené obrazovce (toto se velmi liší DE od DE)"
 
-#: resource/client/forms/admin.glade:987
+#: resource/client/forms/admin.glade:996
 msgid "Track inactive sessions:"
 msgstr "Nastavit neaktivní relace:"
 
-#: resource/client/forms/admin.glade:1005
+#: resource/client/forms/admin.glade:1014
 msgid "Set track inactive sessions"
 msgstr "Nastavit neaktivní relace"
 
-#: resource/client/forms/admin.glade:1040
+#: resource/client/forms/admin.glade:1049
 msgid "Set preference for showing icon to user"
 msgstr "Nastavit předvolbu zobrazování ikony uživateli"
 
-#: resource/client/forms/admin.glade:1055
-#: resource/client/forms/admin.glade:1073
+#: resource/client/forms/admin.glade:1064
+#: resource/client/forms/admin.glade:1082
 msgid ""
 "Select whether to show padlock icon and notifications to user.\n"
 "Please note that this will disable showing all information and notifications "
@@ -962,11 +962,11 @@ msgstr ""
 "Upozorňujeme, že tím zakážete zobrazování všech informací a oznámení "
 "uživateli!"
 
-#: resource/client/forms/admin.glade:1076
+#: resource/client/forms/admin.glade:1085
 msgid "Hide icon and notifications:"
 msgstr "Skrýt ikonu a upozornění:"
 
-#: resource/client/forms/admin.glade:1108
+#: resource/client/forms/admin.glade:1117
 msgid ""
 "Brief information about time spent and everything related to time management "
 "for this day"
@@ -974,15 +974,15 @@ msgstr ""
 "Stručné informace o využitém času a všem souvisejícím s řízením času pro "
 "dnešní den"
 
-#: resource/client/forms/admin.glade:1109
+#: resource/client/forms/admin.glade:1118
 msgid "Info & Today"
 msgstr "Aktuální informace"
 
-#: resource/client/forms/admin.glade:1146
+#: resource/client/forms/admin.glade:1155
 msgid "Configure time limits for week days"
 msgstr "Nastavit časové limity pro dny v týdnu"
 
-#: resource/client/forms/admin.glade:1170
+#: resource/client/forms/admin.glade:1179
 msgid ""
 "Lists day of the week and additional information about the day's limit, "
 "please enable / disable days for the user"
@@ -990,18 +990,18 @@ msgstr ""
 "Seznam dnů v týdnu s informací o denním limitu, povolené/zakázané dny "
 "uživatele"
 
-#: resource/client/forms/admin.glade:1210
+#: resource/client/forms/admin.glade:1219
 msgid "Specify day's limit"
 msgstr "Nastavit denní limit"
 
-#: resource/client/forms/admin.glade:1255
-#: resource/client/forms/admin.glade:1271
+#: resource/client/forms/admin.glade:1264
+#: resource/client/forms/admin.glade:1280
 msgid "Set the amount of hours to limit available time for particular day"
 msgstr ""
 "Nastavte počet hodin, abyste omezili čas, který je k dispozici pro konkrétní "
 "den"
 
-#: resource/client/forms/admin.glade:1291
+#: resource/client/forms/admin.glade:1300
 msgid ""
 "Set specified hours and minutes for particular day at user's disposal (do "
 "not forget to hit the <Apply> button)"
@@ -1009,11 +1009,11 @@ msgstr ""
 "Nastavit určené hodiny a minuty pro konkrétní den, které má uživatel k "
 "dispozici (nezapomeňte stisknout tlačítko <Zadat>)"
 
-#: resource/client/forms/admin.glade:1357
+#: resource/client/forms/admin.glade:1366
 msgid "Hour intervals"
 msgstr "Hodinové intervaly"
 
-#: resource/client/forms/admin.glade:1381
+#: resource/client/forms/admin.glade:1390
 msgid ""
 "Hour intervals per day available to user.\n"
 "Please note that if day ends at 24th hour and next day starts at 0, user can "
@@ -1030,31 +1030,31 @@ msgstr ""
 "obsahovat určitou hodinu, ale ne více než jednou což je to záměr, nikoli "
 "chyba."
 
-#: resource/client/forms/admin.glade:1423
+#: resource/client/forms/admin.glade:1432
 msgid "Manage intervals for the day"
 msgstr "Stanovit intervaly pro daný den"
 
-#: resource/client/forms/admin.glade:1467
+#: resource/client/forms/admin.glade:1476
 msgid "Specify START minute of the allowed hour interval"
 msgstr "Určete minutu ZAČÁTKU povoleného časového intervalu"
 
-#: resource/client/forms/admin.glade:1484
+#: resource/client/forms/admin.glade:1493
 msgid "Specify START hour of the allowed hour interval"
 msgstr "Určete hodinu ZAČÁTKU povoleného časového intervalu"
 
-#: resource/client/forms/admin.glade:1502
+#: resource/client/forms/admin.glade:1511
 msgid "from"
 msgstr "od"
 
-#: resource/client/forms/admin.glade:1515
+#: resource/client/forms/admin.glade:1524
 msgid "to"
 msgstr "do"
 
-#: resource/client/forms/admin.glade:1524
+#: resource/client/forms/admin.glade:1533
 msgid "Remove"
 msgstr "Odebrat"
 
-#: resource/client/forms/admin.glade:1529
+#: resource/client/forms/admin.glade:1538
 msgid ""
 "Remove selected interval from the list (do not forget to hit the <Apply> "
 "button)"
@@ -1062,7 +1062,7 @@ msgstr ""
 "Odstranit vybraný interval ze seznamu (nezapomeňte stisknout tlačítko "
 "<Odebrat>)"
 
-#: resource/client/forms/admin.glade:1545
+#: resource/client/forms/admin.glade:1554
 msgid ""
 "Add specified hour interval to the list (do not forget to hit th e<Apply> "
 "button)"
@@ -1070,113 +1070,113 @@ msgstr ""
 "Přidat zadaný hodinový interval do seznamu (nezapomeňte stisknout tlačítko "
 "<Přidat>)"
 
-#: resource/client/forms/admin.glade:1558
+#: resource/client/forms/admin.glade:1567
 msgid "Specify END hour of the allowed hour interval"
 msgstr "Určete hodinu KONCE povoleného časového intervalu"
 
-#: resource/client/forms/admin.glade:1574
+#: resource/client/forms/admin.glade:1583
 msgid "Specify END minute of the allowed hour interval"
 msgstr "Určete minutu KONCE povoleného časového intervalu"
 
-#: resource/client/forms/admin.glade:1623
+#: resource/client/forms/admin.glade:1632
 msgid "Apply daily limits"
 msgstr "Použít denní limity"
 
-#: resource/client/forms/admin.glade:1628
+#: resource/client/forms/admin.glade:1637
 msgid "Apply all changes made in this page"
 msgstr "Použít všechny změny provedené na této stránce"
 
-#: resource/client/forms/admin.glade:1651
+#: resource/client/forms/admin.glade:1660
 msgid "Daily limit configuration for all week days"
 msgstr "Nastavení denního limitu pro každý den v týdnu"
 
-#: resource/client/forms/admin.glade:1652
-#: resource/client/forms/config.glade:548
+#: resource/client/forms/admin.glade:1661
+#: resource/client/forms/config.glade:559
 msgid "Daily limits"
 msgstr "Denní limity"
 
-#: resource/client/forms/admin.glade:1680
+#: resource/client/forms/admin.glade:1689
 msgid "Time limit for the month"
 msgstr "Měsíční časový limit"
 
-#: resource/client/forms/admin.glade:1682
+#: resource/client/forms/admin.glade:1691
 msgid "Time limit (month)"
 msgstr "Časový limit za měsíc:"
 
-#: resource/client/forms/admin.glade:1699
+#: resource/client/forms/admin.glade:1708
 msgid "Time limit for the month is enabled"
 msgstr "Povolit měsíční časový limit"
 
-#: resource/client/forms/admin.glade:1730
+#: resource/client/forms/admin.glade:1739
 msgid "Time limit for the week"
 msgstr "Týdenní časový limit"
 
-#: resource/client/forms/admin.glade:1732
+#: resource/client/forms/admin.glade:1741
 msgid "Time limit (week)"
 msgstr "Časový limit za týden"
 
-#: resource/client/forms/admin.glade:1748
+#: resource/client/forms/admin.glade:1757
 msgid "Time limit for the week is enabled"
 msgstr "Povolit týdenní časový limit"
 
-#: resource/client/forms/admin.glade:1776
-#: resource/client/forms/admin.glade:1876
+#: resource/client/forms/admin.glade:1785
+#: resource/client/forms/admin.glade:1885
 msgid "day"
 msgstr "den"
 
-#: resource/client/forms/admin.glade:1810
+#: resource/client/forms/admin.glade:1819
 msgid "Week limit amount (days part)"
 msgstr "Rozsah týdenního limitu (výběr dnů)"
 
-#: resource/client/forms/admin.glade:1828
+#: resource/client/forms/admin.glade:1837
 msgid "Week limit amount (hours part)"
 msgstr "Rozsah týdeního limitu (výběr hodin)"
 
-#: resource/client/forms/admin.glade:1846
+#: resource/client/forms/admin.glade:1855
 msgid "Week limit amount (minutes part)"
 msgstr "Rozsah týdeního limitu (výběr minut)"
 
-#: resource/client/forms/admin.glade:1910
+#: resource/client/forms/admin.glade:1919
 msgid "Month limit amount (days part)"
 msgstr "Rozsah měsíčního limitu (výběr dnů)"
 
-#: resource/client/forms/admin.glade:1928
+#: resource/client/forms/admin.glade:1937
 msgid "Month limit amount (hours part)"
 msgstr "Rozsah měsíčního limitu (výběr hodin)"
 
-#: resource/client/forms/admin.glade:1946
+#: resource/client/forms/admin.glade:1955
 msgid "Month limit amount (minutes part)"
 msgstr "Rozsah měsíčního limitu (výběr minut)"
 
-#: resource/client/forms/admin.glade:1974
+#: resource/client/forms/admin.glade:1983
 msgid "This allows You to set up weekly & monthly limits"
 msgstr "Zde můžete nastavit týdenní a měsíční limity"
 
-#: resource/client/forms/admin.glade:1988
+#: resource/client/forms/admin.glade:1997
 msgid "Apply"
 msgstr "Použít"
 
-#: resource/client/forms/admin.glade:1993
+#: resource/client/forms/admin.glade:2002
 msgid "Apply weekly and monthly limits"
 msgstr "Použt týdenní a měsíční limity"
 
-#: resource/client/forms/admin.glade:2038
+#: resource/client/forms/admin.glade:2047
 msgid "Weekly and monthly limit configuration"
 msgstr "Nastavení týdenních a měsíčních limitů"
 
-#: resource/client/forms/admin.glade:2039
+#: resource/client/forms/admin.glade:2048
 msgid "Weekly & Monthly limits"
 msgstr "Týdenní a měsíční limity"
 
-#: resource/client/forms/admin.glade:2060
+#: resource/client/forms/admin.glade:2069
 msgid "User Configuration"
 msgstr "Nastavení uživatele"
 
-#: resource/client/forms/admin.glade:2091
+#: resource/client/forms/admin.glade:2100
 msgid "Control Timekpr-nExT Settings"
 msgstr "Nastavení ovládání Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2118
+#: resource/client/forms/admin.glade:2127
 msgid ""
 "Timekpr-nExT log level. Please do not change this unless asked (you likely "
 "won't find anything pretty in the log files)\n"
@@ -1186,11 +1186,11 @@ msgstr ""
 "(pravděpodobně v souborech protokolu nenajdete nic hezkého)\n"
 "1 - standard, 2 - ladit, 3 - ladit podrobněji"
 
-#: resource/client/forms/admin.glade:2137
+#: resource/client/forms/admin.glade:2146
 msgid "Poll interval"
 msgstr "Interval dotazování"
 
-#: resource/client/forms/admin.glade:2149
+#: resource/client/forms/admin.glade:2158
 msgid ""
 "Specify the time in seconds when Timekpr-nExT starts continuous real-time "
 "countdown before terminating the session"
@@ -1198,11 +1198,11 @@ msgstr ""
 "Určete čas v sekundách, kdy Timekpr-nExT zahájí nepřetržité odpočítávání v "
 "reálném čase před ukončením relace"
 
-#: resource/client/forms/admin.glade:2167
+#: resource/client/forms/admin.glade:2176
 msgid "Save time"
 msgstr "Ušetřený čas"
 
-#: resource/client/forms/admin.glade:2179
+#: resource/client/forms/admin.glade:2188
 msgid ""
 "Specify session polling time granularity (at which interval user sessions "
 "and activity are polled).\n"
@@ -1212,15 +1212,15 @@ msgstr ""
 "uživatelské relace a aktivity).\n"
 "Nejlepší nastavení je 3 - 5 sekund, neměňte nastavení pokud si nejste jisti."
 
-#: resource/client/forms/admin.glade:2198
+#: resource/client/forms/admin.glade:2207
 msgid "Termination time"
 msgstr "Čas do odhlášení"
 
-#: resource/client/forms/admin.glade:2210
+#: resource/client/forms/admin.glade:2219
 msgid "This specifies the time interval at which actual user state is saved"
 msgstr "Určete časový interval, ve kterém je uložen skutečný stav uživatele"
 
-#: resource/client/forms/admin.glade:2228
+#: resource/client/forms/admin.glade:2237
 msgid ""
 "Amount of seconds before terminating user sessions. After this is reached, "
 "user will be terminated, nothing can be done to prevent it.\n"
@@ -1232,23 +1232,23 @@ msgstr ""
 "Přidání času v tomto případě nepomůže. Čas přidejte před dosažením tohoto "
 "bodu ..."
 
-#: resource/client/forms/admin.glade:2247
+#: resource/client/forms/admin.glade:2256
 msgid "Warning time"
 msgstr "Čas varování"
 
-#: resource/client/forms/admin.glade:2259
+#: resource/client/forms/admin.glade:2268
 msgid "Log level"
 msgstr "Úroveň protokolu"
 
-#: resource/client/forms/admin.glade:2297
+#: resource/client/forms/admin.glade:2306
 msgid "Control Timekpr-nExT tracking items"
 msgstr "Ovládáné položky Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2332
+#: resource/client/forms/admin.glade:2341
 msgid "Tracked Sessions"
 msgstr "Sledované relace"
 
-#: resource/client/forms/admin.glade:2356
+#: resource/client/forms/admin.glade:2365
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1257,23 +1257,23 @@ msgstr ""
 "Seznam typů relací, které mají být sledovány.\n"
 "Prosím, neměňte ani s tím neexperimentujte, pokud skutečně nevíte, co děláte."
 
-#: resource/client/forms/admin.glade:2377
+#: resource/client/forms/admin.glade:2386
 msgid "Enter session type to be tracked"
 msgstr "Zadejte typ relace, kterou chcete sledovat"
 
-#: resource/client/forms/admin.glade:2401
+#: resource/client/forms/admin.glade:2410
 msgid "Add tracked session type to the list"
 msgstr "Přidat sledovaný typ relace do seznamu"
 
-#: resource/client/forms/admin.glade:2417
+#: resource/client/forms/admin.glade:2426
 msgid "Remove tracked session type from the list"
 msgstr "Odebrat sledovaný typ relace ze seznamu"
 
-#: resource/client/forms/admin.glade:2454
+#: resource/client/forms/admin.glade:2463
 msgid "Excluded Sessions"
 msgstr "Vyloučené relace"
 
-#: resource/client/forms/admin.glade:2478
+#: resource/client/forms/admin.glade:2487
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless you actually (not "
@@ -1282,23 +1282,23 @@ msgstr ""
 "Seznam relací, které mají být ze sledování vyloučeny.\n"
 "Prosím, neměňte ani s tím neexperimentujte, pokud skutečně nevíte, co děláte."
 
-#: resource/client/forms/admin.glade:2499
+#: resource/client/forms/admin.glade:2508
 msgid "Enter session type to be excluded from tracking"
 msgstr "Zadejte typ relace, která má být ze sledování vyloučena"
 
-#: resource/client/forms/admin.glade:2523
+#: resource/client/forms/admin.glade:2532
 msgid "Add excluded session type to the list"
 msgstr "Přidat vyloučený typ relace do seznamu"
 
-#: resource/client/forms/admin.glade:2539
+#: resource/client/forms/admin.glade:2548
 msgid "Remove excluded session type from the list"
 msgstr "Odebrat vyloučený typ relace ze seznamu"
 
-#: resource/client/forms/admin.glade:2576
+#: resource/client/forms/admin.glade:2585
 msgid "Excluded Users"
 msgstr "Vyjmutí uživatelé"
 
-#: resource/client/forms/admin.glade:2600
+#: resource/client/forms/admin.glade:2609
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames, not real names here (e.g please specify "
@@ -1308,153 +1308,153 @@ msgstr ""
 "Zde prosím zadejte uživatelská jména, nikoli skutečná jména \n"
 "(např. uveďte novakj, ne Jan Novák)"
 
-#: resource/client/forms/admin.glade:2621
+#: resource/client/forms/admin.glade:2630
 msgid "Enter username to be excluded from tracking"
 msgstr "Zadejte uživatelské jméno, které má být ze sledování vyloučeno"
 
-#: resource/client/forms/admin.glade:2645
+#: resource/client/forms/admin.glade:2654
 msgid "Add user to the exclusion list"
 msgstr "Přidat uživatele do seznamu vyloučených"
 
-#: resource/client/forms/admin.glade:2661
+#: resource/client/forms/admin.glade:2670
 msgid "Remove user from the exclusion list"
 msgstr "Odstranit uživatele ze seznamu vyloučených"
 
-#: resource/client/forms/admin.glade:2708
+#: resource/client/forms/admin.glade:2717
 msgid "Apply Timekpr-nExT setings"
 msgstr "Použít nastavení Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2713
+#: resource/client/forms/admin.glade:2722
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Použít najednou všechna nastavení Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2733
+#: resource/client/forms/admin.glade:2742
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Nastavení programu Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2734
+#: resource/client/forms/admin.glade:2743
 msgid "Timekpr-nExT Configuration"
 msgstr "Nastavení Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:2763
-#: resource/client/forms/admin.glade:2782
+#: resource/client/forms/admin.glade:2772
+#: resource/client/forms/admin.glade:2791
 msgid "Status of Timekpr-nExT admin client"
 msgstr "Stav správce Timekpr-nExT"
 
-#: resource/client/forms/config.glade:31
+#: resource/client/forms/config.glade:41
 msgid "Timekpr-nExT client"
 msgstr "Klientská část Timekpr-nExT"
 
-#: resource/client/forms/config.glade:62
+#: resource/client/forms/config.glade:72
 msgid "Status of Timekpr-nExT client"
 msgstr "Stav klienta Timekpr-nExT"
 
-#: resource/client/forms/config.glade:95
+#: resource/client/forms/config.glade:105
 msgid "Save all changes"
 msgstr "Uložit všechny změny"
 
-#: resource/client/forms/config.glade:112
+#: resource/client/forms/config.glade:122
 msgid "Close the window"
 msgstr "Zavřít okno"
 
-#: resource/client/forms/config.glade:193
+#: resource/client/forms/config.glade:204
 msgid "Current effective username"
 msgstr "Aktuální uživatelské jméno"
 
-#: resource/client/forms/config.glade:267
+#: resource/client/forms/config.glade:278
 msgid "Current statistics"
 msgstr "Aktuální statistiky"
 
-#: resource/client/forms/config.glade:288
+#: resource/client/forms/config.glade:299
 msgid "Time spent this session or after Timekpr-nExT has been restarted"
 msgstr "Čas využitý touto relací nebo od restartování Timekpr-nExT"
 
-#: resource/client/forms/config.glade:291
+#: resource/client/forms/config.glade:302
 msgid "Time spent (session):"
 msgstr "Čas využitý relací:"
 
-#: resource/client/forms/config.glade:334
+#: resource/client/forms/config.glade:345
 msgid "Time inactive this session or after Timekpr-nExT has been restarted"
 msgstr "Čas neaktivní využitý touto relací nebo od restartování Timekpr-nExT"
 
-#: resource/client/forms/config.glade:337
+#: resource/client/forms/config.glade:348
 msgid "Time inactive:"
 msgstr "Neaktivní čas:"
 
-#: resource/client/forms/config.glade:362
+#: resource/client/forms/config.glade:373
 msgid "Continous time left to You which may span to more than a current day"
 msgstr "Zbývající nepřetržitý čas, jeho délka může být delší než aktuální den"
 
-#: resource/client/forms/config.glade:365
+#: resource/client/forms/config.glade:376
 msgid "Continous time left:"
 msgstr "Zbývající nepřetržitý čas:"
 
-#: resource/client/forms/config.glade:379
+#: resource/client/forms/config.glade:390
 msgid "Total time available left today in a row, up to the end of the day"
 msgstr "Celkový dnešní čas, který je k dispozici do konce dne"
 
-#: resource/client/forms/config.glade:382
+#: resource/client/forms/config.glade:393
 msgid "Time left today:"
 msgstr "Čas zbývající dnes:"
 
-#: resource/client/forms/config.glade:437
+#: resource/client/forms/config.glade:448
 msgid "These are days and limits that available to You"
 msgstr "Toto jsou limity jednotlivých dnů, které máte k dispozici"
 
-#: resource/client/forms/config.glade:464
+#: resource/client/forms/config.glade:475
 msgid "Days & Limits"
 msgstr "Limity dnů"
 
-#: resource/client/forms/config.glade:496
+#: resource/client/forms/config.glade:507
 msgid "This shows time intervals that are available for Your use"
 msgstr "Zobrazit časové intervaly, které jsou k dispozici pro použití"
 
-#: resource/client/forms/config.glade:521
+#: resource/client/forms/config.glade:532
 msgid "Intervals"
 msgstr "Intervaly"
 
-#: resource/client/forms/config.glade:574
+#: resource/client/forms/config.glade:585
 msgid "Additional statistics"
 msgstr "Další statistiky"
 
-#: resource/client/forms/config.glade:595
+#: resource/client/forms/config.glade:606
 msgid "TIme spent for this week"
 msgstr "Čas využitý v tomto týdnu"
 
-#: resource/client/forms/config.glade:624
+#: resource/client/forms/config.glade:635
 msgid "Time spent for this month"
 msgstr "Čas využitý v tomto měsíci"
 
-#: resource/client/forms/config.glade:641
+#: resource/client/forms/config.glade:652
 msgid "Track inactive:"
 msgstr "Sledovat neaktivní:"
 
-#: resource/client/forms/config.glade:704
-#: resource/client/forms/config.glade:803
+#: resource/client/forms/config.glade:715
+#: resource/client/forms/config.glade:814
 msgid "Additional limits"
 msgstr "Ostatní limity"
 
-#: resource/client/forms/config.glade:725
+#: resource/client/forms/config.glade:736
 msgid "Time limit for week available to You"
 msgstr "Týdenní časový limit, který máte k dispozici"
 
-#: resource/client/forms/config.glade:728
+#: resource/client/forms/config.glade:739
 msgid "Time limit (week):"
 msgstr "Časový limit za týden:"
 
-#: resource/client/forms/config.glade:755
+#: resource/client/forms/config.glade:766
 msgid "Time limit for month available to You"
 msgstr "Měsíční časový limit. který máte k dispozici"
 
-#: resource/client/forms/config.glade:758
+#: resource/client/forms/config.glade:769
 msgid "Time limit (month):"
 msgstr "Časový limit za měsíc:"
 
-#: resource/client/forms/config.glade:819
+#: resource/client/forms/config.glade:830
 msgid "Use speech notifications"
 msgstr "Použít hlasová oznámení"
 
-#: resource/client/forms/config.glade:823
+#: resource/client/forms/config.glade:834
 msgid ""
 "Select whether to use speech notifications (if not available, this will be "
 "greyed out). If usage of speech is very much needed, please install python3-"
@@ -1464,8 +1464,8 @@ msgstr ""
 "volba šedá). Pokud potřebujete použít hlasová oznámení, nainstalujte prosím "
 "balíček python3-espeak"
 
-#: resource/client/forms/config.glade:842
-#: resource/client/forms/config.glade:865
+#: resource/client/forms/config.glade:853
+#: resource/client/forms/config.glade:874
 msgid ""
 "This sets logging level (please do not change this unless You know what "
 "You're doing)"
@@ -1473,15 +1473,15 @@ msgstr ""
 "Zde nastavíte úroveň protokolování (prosím pokud nevíte co děláte, neměňte "
 "nastavení)"
 
-#: resource/client/forms/config.glade:868
+#: resource/client/forms/config.glade:877
 msgid "Logging level"
 msgstr "Úroveň protokolování"
 
-#: resource/client/forms/config.glade:884
+#: resource/client/forms/config.glade:893
 msgid "Show limit changes"
 msgstr "Zobrazit změny limitu"
 
-#: resource/client/forms/config.glade:888
+#: resource/client/forms/config.glade:897
 msgid ""
 "Specify whether to show notification when limit configurations or allowance "
 "changes"
@@ -1489,11 +1489,11 @@ msgstr ""
 "Určete, zda se mají zobrazit oznámení, když se změní konfigurace limitů nebo "
 "povolení"
 
-#: resource/client/forms/config.glade:901
+#: resource/client/forms/config.glade:910
 msgid "Show all notifications"
 msgstr "Zobrazit všechna oznámení"
 
-#: resource/client/forms/config.glade:905
+#: resource/client/forms/config.glade:914
 msgid ""
 "Specify whether to show all notifications. If unchecked, then only important "
 "ones are shown"
@@ -1501,11 +1501,11 @@ msgstr ""
 "Určete, zda se mají zobrazit všechna oznámení. Pokud není zaškrtnuto, "
 "zobrazí se pouze důležité"
 
-#: resource/client/forms/config.glade:918
+#: resource/client/forms/config.glade:927
 msgid "Show seconds in notification area"
 msgstr "Zobrazit sekundy v oznamovací oblasti"
 
-#: resource/client/forms/config.glade:922
+#: resource/client/forms/config.glade:931
 msgid ""
 "Specify whether to show seconds in notification area (some DE, like KDE5, do "
 "not support text besides notification icons)"
@@ -1513,6 +1513,65 @@ msgstr ""
 "Určete, zda se mají zobrazovat sekundy v oznamovací oblasti (některé DE, "
 "například KDE5, nepodporují text kromě oznamovacích ikon)"
 
-#: resource/client/forms/config.glade:962
+#: resource/client/forms/config.glade:950
+#: resource/client/forms/config.glade:972
+msgid ""
+"This sets how long a notification is shown for reguar notifications about "
+"time left and configuration changes.\n"
+"Value is specified in seconds, value of 0 means show until dismissed (not "
+"recommended for regular notificatons).\n"
+"Please note that environment You use may override timeout which means that "
+"this setting will not have any effect on notification."
+msgstr ""
+"Tím se nastavuje, jak dlouho se bude zobrazovat oznámení pro upozornění na "
+"zbývající čas a změny konfigurace.\n"
+"Hodnota je zadána v sekundách, hodnota 0 znamená zobrazit, dokud není "
+"zrušena (nedoporučuje se pro běžné oznámení).\n"
+"Upozorňujeme, že prostředí, které používáte, může přepsat časový limit, což "
+"znamená, že toto nastavení nebude mít žádný vliv na oznámení."
+
+#: resource/client/forms/config.glade:976
+msgid "Notification timeout (sec)"
+msgstr "Časový limit oznámení (s)"
+
+#: resource/client/forms/config.glade:998
+#: resource/client/forms/config.glade:1021
+msgid ""
+"This sets how long a notification is shown for Critical notifications about "
+"time left (when icon turns red).\n"
+"Value is specified in seconds, value of 0 means show until dismissed.\n"
+"Please note that environment You use may override timeout which means that "
+"this setting will not have any effect on notification."
+msgstr ""
+"Toto nastavuje, jak dlouho se bude zobrazovat oznámení pro kritická oznámení "
+"o zbývajícím času (když ikona zčervená).\n"
+"Hodnota je zadána v sekundách, hodnota 0 znamená zobrazit, dokud není "
+"odmítnuta.\n"
+"Upozorňujeme, že prostředí, které používáte, může přepsat časový limit, což "
+"znamená, že toto nastavení nebude mít žádný vliv na oznámení."
+
+#: resource/client/forms/config.glade:1025
+msgid "Critical notification timeout (sec)"
+msgstr "Časový limit kritického oznámení (s)"
+
+#: resource/client/forms/config.glade:1041
+msgid "Use sound \"bell\" for notifications"
+msgstr "K upozornění použijte zvukový signál"
+
+#: resource/client/forms/config.glade:1045
+msgid ""
+"Select whether to use sound \"bell\" (short notification sound) to indicate "
+"new notification from Timekpr-nExT. This works only for enabled "
+"notifications.\n"
+"If setting is not editable, Your environment does not advertise sound "
+"notification support."
+msgstr ""
+"Vyberte, zda chcete použít zvukové „pípnutí“ (krátký zvukový signál) k "
+"označení nového oznámení od Timekpr-nExT. Toto funguje pouze pro aktivovaná "
+"oznámení.\n"
+"Pokud nastavení nelze upravovat, vaše prostředí neinvertuje podporu "
+"zvukového upozornění."
+
+#: resource/client/forms/config.glade:1065
 msgid "Configuration"
 msgstr "Nastavení"
