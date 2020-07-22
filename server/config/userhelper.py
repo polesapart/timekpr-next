@@ -90,13 +90,13 @@ class timekprUserStore(object):
         logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
 
         # go through our users
-        for rUser, rUserId in users.items():
+        for rUser in users:
             # get path of file
             file = os.path.join(timekprConfigManager.getTimekprConfigDir(), cons.TK_USER_CONFIG_FILE % (rUser))
 
             # check if we have config for them
             if not os.path.isfile(file):
-                log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, rUserId))
+                log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, users[rUser][0]))
                 # user config
                 timekprUserConfig(logging, timekprConfigManager.getTimekprConfigDir(), rUser).initUserConfiguration()
                 # user control
