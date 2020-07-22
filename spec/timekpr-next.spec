@@ -53,7 +53,7 @@ https://bugs.launchpad.net/timekpr-next
 rm -rf $RPM_BUILD_ROOT
 
 # install files
-grep -v -e '^#' -e '^$' debian/install | sed -e 's|/$||' -e 's|^\(.\+/\)\(.*\) \(.*\)/\?$|mkdir -p %{buildroot}/\3 ; cp \1\2 %{buildroot}/\3|g' | sh -
+grep -v -e '^#' -e '^$' debian/install | sed -e 's|/$||' -e 's| lib/systemd/| usr/lib/systemd/|g' -e 's|^\(.\+/\)\(.*\) \(.*\)/\?$|mkdir -p %{buildroot}/\3 ; cp \1\2 %{buildroot}/\3|g' | sh -
 
 # install pre/post files
 mkdir mkdir -p %{buildroot}/%{_sharedstatedir}/timekpr
@@ -109,8 +109,8 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/metainfo/*
 %{_datadir}/polkit-1/actions/*
 %{_datadir}/timekpr
-/lib/systemd/system/*
 %{_prefix}/lib/python3/dist-packages/timekpr
+%{_prefix}/lib/systemd/system/*
 %{_sharedstatedir}/timekpr
 %{_sysconfdir}/dbus-1/system.d/*
 %{_sysconfdir}/logrotate.d/*
