@@ -289,16 +289,19 @@ class timekprAdminGUI(object):
         """Get selected username"""
         # result
         userName = None
-        # get username
+        # is admin app connected to server
         if self._isConnected:
+            # get object
             userCombobox = self._timekprAdminFormBuilder.get_object("TimekprUserSelectionCB")
             # get chosen index, model and actual id of the item
             userIdx = userCombobox.get_active()
             userModel = userCombobox.get_model()
             # only if we have selection
             if userIdx is not None and userModel is not None:
-                # get username
-                userName = userModel[userIdx][0]
+                # only if selected
+                if userIdx >= 0:
+                    # get username
+                    userName = userModel[userIdx][0]
 
         # result
         return userName

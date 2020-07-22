@@ -1,4 +1,4 @@
-timekpr-next-beta (0.4.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.4.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added quality of life configuration options for client application (as suggested by one of Timekpr-nExT users)
   ** added configuration option to set how long regular notifications should be visible
@@ -22,6 +22,9 @@ timekpr-next-beta (0.4.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
   ** project README file
 
   * changed version numbering scheme
+
+  * bug fixes in administration application
+  ** time spent / left was shown from previous time (day / week / month) user was logged in
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 21 Jul 2020 07:39:41 +0300
 

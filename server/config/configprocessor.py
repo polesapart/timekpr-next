@@ -65,6 +65,32 @@ class timekprUserConfigurationProcessor(object):
         # result
         return result, message
 
+    def calculateAdjustedDatesForUserControl(self, pCheckDate):
+        """Calculate and save proper dates in control file, in case they wastly differ from what as saved"""
+        # control date components changed
+        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserSavedDateComponentChanges(pCheckDate)
+
+        # set defaults in case day changed
+        if dayChanged:
+            # balance and day must be changed
+            self._timekprUserControl.setUserTimeSpentDay(0)
+            self._timekprUserControl.setUserTimeSpentBalance(0)
+        # set defaults in case week changed
+        if weekChanged:
+            # balance and day must be changed
+            self._timekprUserControl.setUserTimeSpentWeek(0)
+        # set defaults in case month changed
+        if monthChanged:
+            # balance and day must be changed
+            self._timekprUserControl.setUserTimeSpentMonth(0)
+
+        # save user control file if dates changed
+        if dayChanged or weekChanged or monthChanged:
+            # last check date
+            self._timekprUserControl.setUserLastChecked(pCheckDate)
+            # save
+            self._timekprUserControl.saveControl()
+
     def calculateTimeAvailableFromSavedConfiguration(self):
         """Calculate available time for today from saved config"""
         # current day
@@ -100,7 +126,7 @@ class timekprUserConfigurationProcessor(object):
         # available seconds
         return availableSeconds
 
-    def getSavedUserInformation(self, pInfoLvl):
+    def getSavedUserInformation(self, pInfoLvl, pIsUserLoggedIn):
         """Get saved user configuration"""
         """This operates on saved user configuration, it will return all config as big dict"""
         # defaults
@@ -151,6 +177,12 @@ class timekprUserConfigurationProcessor(object):
 
                 # this goes for full and saved info
                 if pInfoLvl in (cons.TK_CL_INF_FULL, cons.TK_CL_INF_SAVED):
+                    # before return results, we need to check whether user was active and dates did not change since then
+                    # this makes sense only of user is NOT currently logged in
+                    if not pIsUserLoggedIn:
+                        # calculate
+                        self.calculateAdjustedDatesForUserControl(datetime.now().replace(microsecond=0))
+                    # get saved values
                     # time spent
                     userConfigurationStore["TIME_SPENT_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
                     # time spent

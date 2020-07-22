@@ -301,10 +301,8 @@ class timekprUser(object):
         self._timekprUserControl.loadControl()
         # spent this hour
         spentHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
-        # day changed
-        dayChanged = self._timekprUserControl.getUserLastChecked().date() != self._effectiveDatetime.date()
-        weekChanged = self._timekprUserControl.getUserLastChecked().date().isocalendar()[1] != self._effectiveDatetime.date().isocalendar()[1]
-        monthChanged = self._timekprUserControl.getUserLastChecked().date().month != self._effectiveDatetime.date().month
+        # control date components changed
+        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserSavedDateComponentChanges(self._effectiveDatetime)
 
         # if day has changed adjust balance
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance()
