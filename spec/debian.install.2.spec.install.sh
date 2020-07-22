@@ -10,4 +10,5 @@ grep -v -e '^#' -e '^$' ../debian/install | sort | sed \
 -e 's|/usr/|%{_prefix}/|' \
 -e 's|/etc/|%{_sysconfdir}/|' \
 -e 's|/var/lib/|%{_sharedstatedir}/|' \
+-e 's|/lib/systemd/|%{_prefix}/lib/systemd/|' \
 | sort -u
