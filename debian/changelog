@@ -1,4 +1,4 @@
-timekpr-next-beta (0.4.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.4.1-3ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added quality of life configuration options for client application (as suggested by one of Timekpr-nExT users)
   ** added configuration option to set how long regular notifications should be visible
@@ -12,7 +12,7 @@ timekpr-next-beta (0.4.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
   * added quality of life improvements to administration app
   ** added refresh to actual ("realtime") values for users that are logged in
   ** a little optimization for time refresh in administration application
-  ** added full name display for usernames
+  ** added full name display for usernames (if username is the same as full name, show only username)
 
   * fixed and changed warnings / suggestions from user foka based on his observations when importing package into Debian:
   ** adjust code install paths (with support for non-Debian distros as well)
