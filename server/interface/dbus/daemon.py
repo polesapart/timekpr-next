@@ -428,7 +428,7 @@ class timekprDaemon(dbus.service.Object):
                 # check the user and it's configuration
                 userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
                 # load config
-                result, message, userConfigurationStore = userConfigProcessor.getSavedUserInformation(pInfoLvl)
+                result, message, userConfigurationStore = userConfigProcessor.getSavedUserInformation(pInfoLvl, pUserName in self._timekprUserList)
 
             # additionally, if realtime needed
             if pInfoLvl in (cons.TK_CL_INF_FULL, cons.TK_CL_INF_RT) and pUserName in self._timekprUserList:
