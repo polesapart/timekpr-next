@@ -71,8 +71,12 @@ class timekprUserStore(object):
             if rUser.pw_uid is not None and rUser.pw_uid != "" and not ("/nologin" in rUser.pw_shell or "/false" in rUser.pw_shell):
                 # save our user, if it mactches
                 if verifyNormalUserID(rUser.pw_uid):
-                    # save
-                    users[rUser.pw_name] = [rUser.pw_uid, rUser.pw_gecos]
+                    # workaround for Ubuntu to remove trailing ",,," in case full name / comment was not given when creating user
+                    userFName = rUser.pw_gecos if not rUser.pw_gecos.endswith(",,,") else rUser.pw_gecos[:-3]
+                    # if username is exactly the same as full name, no need to show it separately
+                    userFName = userFName if userFName != rUser.pw_name else ""
+                    # save ()
+                    users[rUser.pw_name] = [rUser.pw_uid, userFName]
 
         # set up tmp logging
         logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
