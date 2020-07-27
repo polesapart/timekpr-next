@@ -48,8 +48,8 @@ def getNormalizedUserNames(pUID=None, pUser=None):
             # username
             userName = user.pw_name
             userNameFull = user.pw_gecos
-        # workaround for Ubuntu to remove trailing ",,," in case full name / comment was not given when creating user
-        userNameFull = userNameFull if not userNameFull.endswith(",,,") else userNameFull[:-3]
+        # workaround for distros that have one or more "," at the end of user full name
+        userNameFull = userNameFull.rstrip(",")
         # if username is exactly the same as full name, no need to show it separately
         userNameFull = userNameFull if userNameFull != userName else ""
     except KeyError:
