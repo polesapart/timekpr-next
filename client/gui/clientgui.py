@@ -61,7 +61,7 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.connect_signals(self)
 
         # set up username (this does not change)
-        self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text(pUserNameFull)
+        self._timekprConfigDialogBuilder.get_object("timekprUsernameL").set_text("%s (%s)" % (self._userName, pUserNameFull) if pUserNameFull != "" else self._userName)
 
         # this sets up columns for list
         col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=1)

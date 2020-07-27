@@ -17,7 +17,7 @@ from timekpr.common.log import log
 from timekpr.common.utils.config import timekprConfig
 from timekpr.common.utils.config import timekprUserConfig
 from timekpr.common.utils.config import timekprUserControl
-
+from timekpr.common.utils.misc import getNormalizedUserNames
 
 # user limits
 _limitsConfig = {}
@@ -71,10 +71,8 @@ class timekprUserStore(object):
             if rUser.pw_uid is not None and rUser.pw_uid != "" and not ("/nologin" in rUser.pw_shell or "/false" in rUser.pw_shell):
                 # save our user, if it mactches
                 if verifyNormalUserID(rUser.pw_uid):
-                    # workaround for Ubuntu to remove trailing ",,," in case full name / comment was not given when creating user
-                    userFName = rUser.pw_gecos if not rUser.pw_gecos.endswith(",,,") else rUser.pw_gecos[:-3]
-                    # if username is exactly the same as full name, no need to show it separately
-                    userFName = userFName if userFName != rUser.pw_name else ""
+                    # get processed usernames
+                    userFName = getNormalizedUserNames(pUser=rUser)[1]
                     # save ()
                     users[rUser.pw_name] = [rUser.pw_uid, userFName]
 
