@@ -32,13 +32,26 @@ def whoami():
     return inspect.stack()[1][3]
 
 
-def getUserNames(pUID):
-    """Get full username"""
+def getNormalizedUserNames(pUID=None, pUser=None):
+    """Get usernames and/or normalize them"""
+    user = pUser
     userName = None
     userNameFull = ""
+
     try:
-        userName = pwd.getpwuid(pUID).pw_name
-        userNameFull = "%s%s" % (userName, " (%s)" % (pwd.getpwuid(pUID).pw_gecos if pwd.getpwuid(pUID).pw_gecos != "" else ""))
+        # if we need to get one
+        if pUID is not None:
+            # user
+            user = pwd.getpwuid(pUID)
+        # we have user
+        if user is not None:
+            # username
+            userName = user.pw_name
+            userNameFull = user.pw_gecos
+        # workaround for Ubuntu to remove trailing ",,," in case full name / comment was not given when creating user
+        userNameFull = userNameFull if not userNameFull.endswith(",,,") else userNameFull[:-3]
+        # if username is exactly the same as full name, no need to show it separately
+        userNameFull = userNameFull if userNameFull != userName else ""
     except KeyError:
         pass
 

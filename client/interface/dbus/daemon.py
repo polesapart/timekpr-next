@@ -30,7 +30,7 @@ class timekprClient(object):
     def __init__(self):
         """Initialize client"""
         # set username , etc.
-        self._userName, self._userNameFull = misc.getUserNames(os.getuid())
+        self._userName, self._userNameFull = misc.getNormalizedUserNames(pUID=os.getuid())
         self._userNameDBUS = self._userName.replace(".", "").replace("-", "")
 
         # log
