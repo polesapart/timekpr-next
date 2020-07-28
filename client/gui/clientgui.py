@@ -53,7 +53,7 @@ class timekprGUI(object):
         # init config builder
         self._timekprConfigDialogBuilder = Gtk.Builder()
         # get our dialog
-        self._timekprConfigDialogBuilder.add_from_file(os.path.join(self._timekprClientConfig.getTimekprSharedDir(),  "client/forms", "config.glade"))
+        self._timekprConfigDialogBuilder.add_from_file(os.path.join(self._timekprClientConfig.getTimekprSharedDir(),  "client/forms", "client.glade"))
         # get main form (to set various runtime things)
         self._timekprConfigDialog = self._timekprConfigDialogBuilder.get_object("timekprConfigDialog")
 
