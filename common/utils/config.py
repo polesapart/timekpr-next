@@ -864,6 +864,20 @@ class timekprUserControl(object):
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
+    def getUserSavedDateComponentChanges(self, pCheckDate):
+        """Determine whether days / weeks / months changed since last change date in file"""
+        # year changed
+        yearChanged = (self.getUserLastChecked().date().year != pCheckDate.date().year)
+        # month changed
+        monthChanged = (yearChanged or self.getUserLastChecked().date().month != pCheckDate.date().month)
+        # week changed
+        weekChanged = (monthChanged or self.getUserLastChecked().date().isocalendar()[1] != pCheckDate.date().isocalendar()[1])
+        # day changed
+        dayChanged = (weekChanged or self.getUserLastChecked().date() != pCheckDate.date())
+
+        # result (day / week / month)
+        return dayChanged, weekChanged, monthChanged
+
     def getUserTimeSpentBalance(self):
         """Get time spent for day (including bonues)"""
         # result
@@ -1006,6 +1020,15 @@ class timekprClientConfig(object):
         param = "SHOW_SECONDS"
         resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
         # read
+        param = "NOTIFICATION_TIMEOUT"
+        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_CL_NOTIF_TMO, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
+        param = "NOTIFICATION_TIMEOUT_CRITICAL"
+        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_CL_NOTIF_CRIT_TMO, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
+        param = "USE_NOTIFICATION_SOUNDS"
+        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
         param = "LOG_LEVEL"
         resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
 
@@ -1015,6 +1038,24 @@ class timekprClientConfig(object):
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some of the values in client confguration file (%s) could not be read properly, defaults used and saved" % (self._configFile))
             # save what we could
             self.initClientConfig(True)
+
+        # check whether sound is supported
+        if os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_WARN) and os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_CRITICAL):
+            # supported
+            self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = True
+        else:
+            # NOT supported
+            self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = False
+
+        # check whether speech is supported
+        try:
+            # try importing speech
+            from espeak import espeak
+            # supported
+            self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = True
+        except:
+            # NOT supported
+            self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = False
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading client configuration")
 
@@ -1088,6 +1129,18 @@ class timekprClientConfig(object):
         self._timekprClientConfigParser.set(section, "# whether to use speech notifications")
         self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else "False")
         # set up param
+        param = "NOTIFICATION_TIMEOUT"
+        self._timekprClientConfigParser.set(section, "# how long regular notifications should be displayed (in seconds)")
+        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_CL_NOTIF_TMO))
+        # set up param
+        param = "NOTIFICATION_TIMEOUT_CRITICAL"
+        self._timekprClientConfigParser.set(section, "# how long critical notifications should be displayed (in seconds)")
+        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_CL_NOTIF_CRIT_TMO))
+        # set up param
+        param = "USE_NOTIFICATION_SOUNDS"
+        self._timekprClientConfigParser.set(section, "# use notification sounds for notifications")
+        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else "False")
+        # set up param
         param = "LOG_LEVEL"
         self._timekprClientConfigParser.set(section, "# user logging level (1 - normal, 2 - debug, 3 - extra debug)")
         self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_LOG_LEVEL_INFO))
@@ -1105,16 +1158,30 @@ class timekprClientConfig(object):
         # init dict
         values = {}
 
-        # spent
-        values["SHOW_LIMIT_NOTIFICATION"] = str(self._timekprClientConfig["SHOW_LIMIT_NOTIFICATION"])
+        # first limit notification
+        param = "SHOW_LIMIT_NOTIFICATION"
+        values[param] = str(self._timekprClientConfig[param])
+        # all notifications
+        param = "SHOW_ALL_NOTIFICATIONS"
+        values[param] = str(self._timekprClientConfig[param])
+        # speech notifications
+        param = "USE_SPEECH_NOTIFICATIONS"
+        values[param] = str(self._timekprClientConfig[param])
+        # show seconds
+        param = "SHOW_SECONDS"
+        values[param] = str(self._timekprClientConfig[param])
+        # timeout for notifications
+        param = "NOTIFICATION_TIMEOUT"
+        values[param] = str(self._timekprClientConfig[param])
+        # timeout for critical notifications
+        param = "NOTIFICATION_TIMEOUT_CRITICAL"
+        values[param] = str(self._timekprClientConfig[param])
+        # notification sounds
+        param = "USE_NOTIFICATION_SOUNDS"
+        values[param] = str(self._timekprClientConfig[param])
         # last checked
-        values["SHOW_ALL_NOTIFICATIONS"] = str(self._timekprClientConfig["SHOW_ALL_NOTIFICATIONS"])
-        # spent
-        values["USE_SPEECH_NOTIFICATIONS"] = str(self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS"])
-        # spent
-        values["SHOW_SECONDS"] = str(self._timekprClientConfig["SHOW_SECONDS"])
-        # last checked
-        values["LOG_LEVEL"] = str(self._timekprClientConfig["LOG_LEVEL"])
+        param = "LOG_LEVEL"
+        values[param] = str(self._timekprClientConfig[param])
 
         # edit control file (using alternate method because configparser looses comments in the process)
         saveConfigFile(self._configFile, values)
@@ -1138,6 +1205,16 @@ class timekprClientConfig(object):
         # result
         return result
 
+    def getIsNotificationSoundSupported(self):
+        """Whether notification sounds are supported"""
+        # result
+        return self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"]
+
+    def getIsNotificationSpeechSupported(self):
+        """Whether speech notifications are supported"""
+        # result
+        return self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"]
+
     def getClientShowLimitNotifications(self):
         """Get whether to show frst notification"""
         # result
@@ -1157,6 +1234,21 @@ class timekprClientConfig(object):
         """Get whether to show seconds"""
         # result
         return self._timekprClientConfig["SHOW_SECONDS"]
+
+    def getClientNotificationTimeout(self):
+        """Get timeout for regular notifications"""
+        # result
+        return self._timekprClientConfig["NOTIFICATION_TIMEOUT"]
+
+    def getClientNotificationTimeoutCritical(self):
+        """Get timeout for critical notifications"""
+        # result
+        return self._timekprClientConfig["NOTIFICATION_TIMEOUT_CRITICAL"]
+
+    def getClientUseNotificationSound(self):
+        """Get whether to show use sound notifications"""
+        # result
+        return self._timekprClientConfig["USE_NOTIFICATION_SOUNDS"]
 
     def getClientLogLevel(self):
         """Get client log level"""
@@ -1178,6 +1270,11 @@ class timekprClientConfig(object):
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
 
+    def setIsNotificationSoundSupported(self, pIsSupported):
+        """Whether notification sounds are supported"""
+        # result
+        self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = pIsSupported
+
     def setClientShowLimitNotifications(self, pClientShowLimitNotification):
         """Set whether to show frst notification"""
         # set
@@ -1197,6 +1294,21 @@ class timekprClientConfig(object):
         """Set whether to show seconds"""
         # set
         self._timekprClientConfig["SHOW_SECONDS"] = pClientShowSeconds
+
+    def setClientNotificationTimeout(self, pClientNotificationTimeout):
+        """Set timeout for regular notifications"""
+        # set
+        self._timekprClientConfig["NOTIFICATION_TIMEOUT"] = pClientNotificationTimeout
+
+    def setClientNotificationTimeoutCritical(self, pClientNotificationTimeoutCritical):
+        """Set timeout for critical notifications"""
+        # set
+        self._timekprClientConfig["NOTIFICATION_TIMEOUT_CRITICAL"] = pClientNotificationTimeoutCritical
+
+    def setClientUseNotificationSound(self, pClientUseNotificationSound):
+        """Set whether to use sound notifications"""
+        # set
+        self._timekprClientConfig["USE_NOTIFICATION_SOUNDS"] = pClientUseNotificationSound
 
     def setClientLogLevel(self, pClientLogLevel):
         """Set client log level"""

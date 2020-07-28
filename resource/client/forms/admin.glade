@@ -288,18 +288,27 @@
             <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <child>
-              <object class="GtkImage" id="TimekprLogoImage">
+              <object class="GtkEventBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Icon, isn't it?</property>
-                <property name="halign">start</property>
-                <property name="margin_left">30</property>
-                <property name="margin_right">30</property>
-                <property name="margin_top">30</property>
-                <property name="margin_bottom">30</property>
-                <property name="pixel_size">64</property>
-                <property name="icon_name">timekpr-client</property>
-                <property name="icon_size">6</property>
+                <signal name="button-press-event" handler="timekprLogoClicked" swapped="no"/>
+                <child>
+                  <object class="GtkImage" id="TimekprLogoImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Icon, isn't it?</property>
+                    <property name="halign">start</property>
+                    <property name="margin_left">30</property>
+                    <property name="margin_right">30</property>
+                    <property name="margin_top">30</property>
+                    <property name="margin_bottom">30</property>
+                    <property name="pixel_size">128</property>
+                    <property name="icon_name">timekpr-client</property>
+                    <property name="icon_size">6</property>
+                    <signal name="button-press-event" handler="timekprLogoClicked" swapped="no"/>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -384,11 +393,11 @@ Please configure carefully: do not lock yourself out!</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkComboBox" id="TimekprUserSelectionCB">
-                        <property name="width_request">150</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
                         <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
+                        <property name="margin_top">5</property>
                         <property name="margin_bottom">10</property>
                         <property name="model">TimekprUserSelectionLS</property>
                         <property name="has_frame">False</property>
@@ -400,6 +409,7 @@ Please configure carefully: do not lock yourself out!</property>
                           <object class="GtkEntry" id="TimekprUserSelectionCBEntry">
                             <property name="can_focus">False</property>
                             <property name="tooltip_text" translatable="yes">List of usernames registered on the system</property>
+                            <property name="width_chars">15</property>
                           </object>
                         </child>
                       </object>

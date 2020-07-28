@@ -33,7 +33,7 @@ except (ImportError, ValueError):
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pUserName, pTimekprClientConfig):
+    def __init__(self, pLog, pUserName, pUserNameFull, pTimekprClientConfig):
         """Init all required stuff for indicator"""
         # init logging firstly
         log.setLogging(pLog)
@@ -43,7 +43,7 @@ class timekprIndicator(timekprNotificationArea):
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pUserName, pTimekprClientConfig)
+            super().__init__(pLog, pUserName, pUserNameFull, pTimekprClientConfig)
 
             # this is our icon
             self._indicator = None

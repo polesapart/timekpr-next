@@ -65,6 +65,32 @@ class timekprUserConfigurationProcessor(object):
         # result
         return result, message
 
+    def calculateAdjustedDatesForUserControl(self, pCheckDate):
+        """Calculate and save proper dates in control file, in case they wastly differ from what as saved"""
+        # control date components changed
+        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserSavedDateComponentChanges(pCheckDate)
+
+        # set defaults in case day changed
+        if dayChanged:
+            # balance and day must be changed
+            self._timekprUserControl.setUserTimeSpentDay(0)
+            self._timekprUserControl.setUserTimeSpentBalance(0)
+        # set defaults in case week changed
+        if weekChanged:
+            # balance and day must be changed
+            self._timekprUserControl.setUserTimeSpentWeek(0)
+        # set defaults in case month changed
+        if monthChanged:
+            # balance and day must be changed
+            self._timekprUserControl.setUserTimeSpentMonth(0)
+
+        # save user control file if dates changed
+        if dayChanged or weekChanged or monthChanged:
+            # last check date
+            self._timekprUserControl.setUserLastChecked(pCheckDate)
+            # save
+            self._timekprUserControl.saveControl()
+
     def calculateTimeAvailableFromSavedConfiguration(self):
         """Calculate available time for today from saved config"""
         # current day
@@ -100,9 +126,13 @@ class timekprUserConfigurationProcessor(object):
         # available seconds
         return availableSeconds
 
-    def getSavedUserConfiguration(self, pTimekprUser):
+    def getSavedUserInformation(self, pInfoLvl, pIsUserLoggedIn):
         """Get saved user configuration"""
         """This operates on saved user configuration, it will return all config as big dict"""
+        # defaults
+        result = 0
+        message = ""
+
         # check if we have this user
         result, message = self.loadAndCheckUserConfiguration()
 
@@ -113,6 +143,7 @@ class timekprUserConfigurationProcessor(object):
         if result != 0:
             # result
             pass
+        # for full and saved info only
         else:
             # check if we have this user
             result, message = self.loadAndCheckUserControl()
@@ -122,52 +153,46 @@ class timekprUserConfigurationProcessor(object):
                 # result
                 pass
             else:
-                # allowed hours per weekdays
-                param = "ALLOWED_HOURS"
-                for i in range(1, 7+1):
-                    allowedHours = self._timekprUserConfig.getUserAllowedHours(str(i))
-                    userConfigurationStore["%s_%s" % (param, str(i))] = allowedHours if len(allowedHours) > 0 else dbus.Dictionary(signature="sv")
-                # allowed week days
-                allowedWeekDays = self._timekprUserConfig.getUserAllowedWeekdays()
-                userConfigurationStore["ALLOWED_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDays)) if len(allowedWeekDays) > 0 else dbus.Array(signature="i")
-                # limits per week days
-                allowedWeekDayLimits = self._timekprUserConfig.getUserLimitsPerWeekdays()
-                userConfigurationStore["LIMITS_PER_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDayLimits)) if len(allowedWeekDayLimits) > 0 else dbus.Array(signature="i")
-                # track inactive
-                userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
-                # hide icon
-                userConfigurationStore["HIDE_TRAY_ICON"] = self._timekprUserConfig.getUserHideTrayIcon()
-                # limit per week
-                userConfigurationStore["LIMIT_PER_WEEK"] = self._timekprUserConfig.getUserWeekLimit()
-                # limit per month
-                userConfigurationStore["LIMIT_PER_MONTH"] = self._timekprUserConfig.getUserMonthLimit()
-                # time spent
-                userConfigurationStore["TIME_SPENT_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
-                # time spent
-                userConfigurationStore["TIME_SPENT_DAY"] = self._timekprUserControl.getUserTimeSpentDay()
-                # time spent
-                userConfigurationStore["TIME_SPENT_WEEK"] = self._timekprUserControl.getUserTimeSpentWeek()
-                # time spent
-                userConfigurationStore["TIME_SPENT_MONTH"] = self._timekprUserControl.getUserTimeSpentMonth()
-                # time available today
-                userConfigurationStore["TIME_LEFT_DAY"] = self.calculateTimeAvailableFromSavedConfiguration()
+                # this goes for full information
+                if pInfoLvl == cons.TK_CL_INF_FULL:
+                    # allowed hours per weekdays
+                    param = "ALLOWED_HOURS"
+                    for i in range(1, 7+1):
+                        allowedHours = self._timekprUserConfig.getUserAllowedHours(str(i))
+                        userConfigurationStore["%s_%s" % (param, str(i))] = allowedHours if len(allowedHours) > 0 else dbus.Dictionary(signature="sv")
+                    # allowed week days
+                    allowedWeekDays = self._timekprUserConfig.getUserAllowedWeekdays()
+                    userConfigurationStore["ALLOWED_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDays)) if len(allowedWeekDays) > 0 else dbus.Array(signature="i")
+                    # limits per week days
+                    allowedWeekDayLimits = self._timekprUserConfig.getUserLimitsPerWeekdays()
+                    userConfigurationStore["LIMITS_PER_WEEKDAYS"] = list(map(dbus.Int32, allowedWeekDayLimits)) if len(allowedWeekDayLimits) > 0 else dbus.Array(signature="i")
+                    # track inactive
+                    userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
+                    # hide icon
+                    userConfigurationStore["HIDE_TRAY_ICON"] = self._timekprUserConfig.getUserHideTrayIcon()
+                    # limit per week
+                    userConfigurationStore["LIMIT_PER_WEEK"] = self._timekprUserConfig.getUserWeekLimit()
+                    # limit per month
+                    userConfigurationStore["LIMIT_PER_MONTH"] = self._timekprUserConfig.getUserMonthLimit()
 
-                # values from live session
-                if pTimekprUser is not None:
-                    # get lefts
-                    timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay = pTimekprUser.getTimeLeft()
-                    # time spent session
-                    userConfigurationStore["ACTUAL_TIME_SPENT_SESSION"] = int(timeSpentThisSession)
-                    # time inactive this session
-                    userConfigurationStore["ACTUAL_TIME_INACTIVE_SESSION"] = int(timeInactiveThisSession)
+                # this goes for full and saved info
+                if pInfoLvl in (cons.TK_CL_INF_FULL, cons.TK_CL_INF_SAVED):
+                    # before return results, we need to check whether user was active and dates did not change since then
+                    # this makes sense only of user is NOT currently logged in
+                    if not pIsUserLoggedIn:
+                        # calculate
+                        self.calculateAdjustedDatesForUserControl(datetime.now().replace(microsecond=0))
+                    # get saved values
                     # time spent
-                    userConfigurationStore["ACTUAL_TIME_SPENT_BALANCE"] = int(timeSpentBalance)
+                    userConfigurationStore["TIME_SPENT_BALANCE"] = self._timekprUserControl.getUserTimeSpentBalance()
                     # time spent
-                    userConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = int(timeSpentDay)
-                    # time left today
-                    userConfigurationStore["ACTUAL_TIME_LEFT_DAY"] = int(timeLeftToday)
-                    # time left in a row
-                    userConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
+                    userConfigurationStore["TIME_SPENT_DAY"] = self._timekprUserControl.getUserTimeSpentDay()
+                    # time spent
+                    userConfigurationStore["TIME_SPENT_WEEK"] = self._timekprUserControl.getUserTimeSpentWeek()
+                    # time spent
+                    userConfigurationStore["TIME_SPENT_MONTH"] = self._timekprUserControl.getUserTimeSpentMonth()
+                    # time available today
+                    userConfigurationStore["TIME_LEFT_DAY"] = self.calculateTimeAvailableFromSavedConfiguration()
 
         # result
         return result, message, userConfigurationStore

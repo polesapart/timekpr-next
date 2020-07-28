@@ -301,6 +301,26 @@ class timekprDaemon(dbus.service.Object):
         else:
             return True
 
+    # --------------- helper methods --------------- #
+    def getUserActualTimeInformation(self, pTimekprUser, pUserConfigurationStore):
+        """Helper to provide actual (in memory information)"""
+        # values from live session
+        if pTimekprUser is not None:
+            # get lefts
+            timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay = pTimekprUser.getTimeLeft()
+            # time spent session
+            pUserConfigurationStore["ACTUAL_TIME_SPENT_SESSION"] = int(timeSpentThisSession)
+            # time inactive this session
+            pUserConfigurationStore["ACTUAL_TIME_INACTIVE_SESSION"] = int(timeInactiveThisSession)
+            # time spent
+            pUserConfigurationStore["ACTUAL_TIME_SPENT_BALANCE"] = int(timeSpentBalance)
+            # time spent
+            pUserConfigurationStore["ACTUAL_TIME_SPENT_DAY"] = int(timeSpentDay)
+            # time left today
+            pUserConfigurationStore["ACTUAL_TIME_LEFT_DAY"] = int(timeLeftToday)
+            # time left in a row
+            pUserConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
+
     # --------------- DBUS / communication methods --------------- #
     # --------------- simple user time limits methods accessible by any --------------- #
 
@@ -365,7 +385,7 @@ class timekprDaemon(dbus.service.Object):
 
     # --------------- user admin methods accessible by privileged users (root and all in timekpr group) --------------- #
 
-    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="", out_signature="isas")
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="", out_signature="isaas")
     def getUserList(self):
         """Get user list and their time left"""
         """Sets allowed days for the user
@@ -393,26 +413,27 @@ class timekprDaemon(dbus.service.Object):
         # result
         return result, message, userList
 
-    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="s", out_signature="isa{sv}")
-    def getUserConfiguration(self, pUserName):
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="ss", out_signature="isa{sv}")
+    def getUserConfiguration(self, pUserName, pInfoLvl):
         """Get user configuration (saved)"""
         """  this retrieves stored configuration for the user"""
         # initialize username storage
         userConfigurationStore = {}
-
-        # determine whether user is logged in, so we can get more info out of it
-        if pUserName in self._timekprUserList:
-            # pass this to actual method
-            timekprUser = self._timekprUserList[pUserName]
-        else:
-            timekprUser = None
+        result = 0
+        message = ""
 
         try:
-            # check the user and it's configuration
-            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
+            # only saved and full
+            if pInfoLvl in (cons.TK_CL_INF_FULL, cons.TK_CL_INF_SAVED):
+                # check the user and it's configuration
+                userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
+                # load config
+                result, message, userConfigurationStore = userConfigProcessor.getSavedUserInformation(pInfoLvl, pUserName in self._timekprUserList)
 
-            # load config
-            result, message, userConfigurationStore = userConfigProcessor.getSavedUserConfiguration(timekprUser)
+            # additionally, if realtime needed
+            if pInfoLvl in (cons.TK_CL_INF_FULL, cons.TK_CL_INF_RT) and pUserName in self._timekprUserList:
+                # get in-memory settings
+                self.getUserActualTimeInformation(self._timekprUserList[pUserName], userConfigurationStore)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)

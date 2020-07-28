@@ -12,6 +12,7 @@ _RESULT = 0
 # imports
 from datetime import datetime
 import os
+import pwd
 import inspect
 try:
     import psutil
@@ -29,6 +30,33 @@ from timekpr.common.log import log
 def whoami():
     """Return callers name from the call stack, the 0 is this function, prev is the one needd"""
     return inspect.stack()[1][3]
+
+
+def getNormalizedUserNames(pUID=None, pUser=None):
+    """Get usernames and/or normalize them"""
+    user = pUser
+    userName = None
+    userNameFull = ""
+
+    try:
+        # if we need to get one
+        if pUID is not None:
+            # user
+            user = pwd.getpwuid(pUID)
+        # we have user
+        if user is not None:
+            # username
+            userName = user.pw_name
+            userNameFull = user.pw_gecos
+        # workaround for distros that have one or more "," at the end of user full name
+        userNameFull = userNameFull.rstrip(",")
+        # if username is exactly the same as full name, no need to show it separately
+        userNameFull = userNameFull if userNameFull != userName else ""
+    except KeyError:
+        pass
+
+    # full username
+    return userName, userNameFull
 
 
 def measureTimeElapsed(pStart=False, pStop=False, pResult=False):
@@ -84,7 +112,7 @@ def checkAndSetRunning(pAppName):
         # we are running
         isAlreadyRunning = True
         # print this to console as well
-        print("Timekpr \"%s\" is already running" % (pAppName))
+        print("Timekpr-nExT \"%s\" is already running" % (pAppName))
     else:
         # set our pid
         with open(pidFile, "w") as pidfile:

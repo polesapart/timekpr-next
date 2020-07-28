@@ -133,7 +133,7 @@ class timekprAdminClient(object):
                 adminCmdIncorrect = True
             else:
                 # get user config
-                result, message, userConfig = self._timekprAdminConnector.getUserConfig(args[paramIdx+1])
+                result, message, userConfig = self._timekprAdminConnector.getUserConfigurationAndInformation(args[paramIdx+1], cons.TK_CL_INF_FULL)
 
                 # process
                 if result == 0:
@@ -257,7 +257,7 @@ class timekprAdminClient(object):
         log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_USERS_TOTAL", len(pUserList)))
         # loop and print
         for rUser in pUserList:
-            log.consoleOut(rUser)
+            log.consoleOut(rUser[0])
 
     def printUserConfig(self, pUserName, pPrintUserConfig):
         """Format and print user config"""

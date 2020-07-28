@@ -1,7 +1,6 @@
 [Desktop Entry]
-Encoding=UTF-8
-Name=Timekpr Client
-Comment=Timekpr Client
+Name=Timekpr-nExT Client
+Comment=Timekpr-nExT Client application
 Icon=timekpr-client
 Exec=/usr/bin/timekprc
 Terminal=false

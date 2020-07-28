@@ -8,6 +8,7 @@ Created on Feb 05, 2019
 import fileinput
 import re
 import os
+import pwd
 from glob import glob
 
 # timekpr imports
@@ -16,7 +17,7 @@ from timekpr.common.log import log
 from timekpr.common.utils.config import timekprConfig
 from timekpr.common.utils.config import timekprUserConfig
 from timekpr.common.utils.config import timekprUserControl
-
+from timekpr.common.utils.misc import getNormalizedUserNames
 
 # user limits
 _limitsConfig = {}
@@ -64,20 +65,16 @@ class timekprUserStore(object):
         # config
         users = {}
 
-        # load limits
-        with fileinput.input(cons.TK_USERS_FILE) as rUsersFile:
-            # read line and do manipulations
-            for rLine in rUsersFile:
-                # get our users splitted
-                userDef = rLine.split(":")
-                # get whether the user can log in
-                if not ("/nologin" in userDef[6] or "/false" in userDef[6]):
-                    # get uuid
-                    uuid = int(userDef[2])
-                    # save our user, if it mactches
-                    if verifyNormalUserID(uuid):
-                        # save
-                        users[userDef[0]] = uuid
+        # iterate through all usernames
+        for rUser in pwd.getpwall():
+            # check userid
+            if rUser.pw_uid is not None and rUser.pw_uid != "" and not ("/nologin" in rUser.pw_shell or "/false" in rUser.pw_shell):
+                # save our user, if it mactches
+                if verifyNormalUserID(rUser.pw_uid):
+                    # get processed usernames
+                    userFName = getNormalizedUserNames(pUser=rUser)[1]
+                    # save ()
+                    users[rUser.pw_name] = [rUser.pw_uid, userFName]
 
         # set up tmp logging
         logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
@@ -91,13 +88,13 @@ class timekprUserStore(object):
         logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
 
         # go through our users
-        for rUser, rUserId in users.items():
+        for rUser in users:
             # get path of file
             file = os.path.join(timekprConfigManager.getTimekprConfigDir(), cons.TK_USER_CONFIG_FILE % (rUser))
 
             # check if we have config for them
             if not os.path.isfile(file):
-                log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, rUserId))
+                log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, users[rUser][0]))
                 # user config
                 timekprUserConfig(logging, timekprConfigManager.getTimekprConfigDir(), rUser).initUserConfiguration()
                 # user control
@@ -115,6 +112,7 @@ class timekprUserStore(object):
               leftover config - please set up non-existent user (maybe pre-defined one?)
         """
         # initialize username storage
+        filterExistingOnly = False  # this is to filter only existing local users (currently just here, not decided on what to do)
         userList = []
 
         # prepare all users in the system
@@ -156,10 +154,27 @@ class timekprUserStore(object):
             if "timekpr.USER.conf" not in rUserConfigFile:
                 # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
                 user = os.path.splitext(os.path.splitext(os.path.basename(rUserConfigFile))[0])[1].lstrip(".")
+                # whether user is valid in config file
+                userNameValidated = False
+                # try to read the first line with username
+                with open(rUserConfigFile, 'r') as confFile:
+                    # read first (x) lines and try to get username
+                    for i in range(0, cons.TK_UNAME_SRCH_LN_LMT):
+                        # check whether we have correct username
+                        if "[%s]" % (user) in confFile.readline():
+                            # user validated
+                            userNameValidated = True
+                            # found
+                            break
                 # validate user against valid (existing) users in the system
-                if user in users:
-                    # extract user name
-                    userList.append(user)
+                if userNameValidated and (not filterExistingOnly or user in users):
+                    # get actual user name
+                    if user in users:
+                        # add user name and full name
+                        userList.append([user, users[user][1]])
+                    else:
+                        # add user name and full name
+                        userList.append([user, ""])
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing user list")
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.36.0 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkListStore" id="timekprAllowedDaysDaysLS">
@@ -24,6 +24,16 @@
     <property name="value">1</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="timekprNotificationTimeoutADJ">
+    <property name="upper">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="timekprNotificationTimeoutCriticalADJ">
+    <property name="upper">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkDialog" id="timekprConfigDialog">
     <property name="can_focus">False</property>
@@ -147,20 +157,20 @@
                   <object class="GtkBox" id="timekprTopRowBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkAlignment" id="timekprIconAignment">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="xscale">0,50000000000000000000</property>
                         <child>
                           <object class="GtkImage" id="timekprIcon">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="xpad">50</property>
+                            <property name="xpad">30</property>
                             <property name="ypad">20</property>
-                            <property name="pixel_size">48</property>
+                            <property name="pixel_size">64</property>
                             <property name="icon_name">timekpr-client</property>
                             <property name="icon_size">6</property>
                           </object>
@@ -185,7 +195,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">center</property>
-                            <property name="spacing">4</property>
+                            <property name="valign">end</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="spacing">5</property>
                             <child>
                               <object class="GtkLabel" id="timekprUsernameLabel">
                                 <property name="visible">True</property>
@@ -193,9 +205,11 @@
                                 <property name="tooltip_text" translatable="yes">Current effective username</property>
                                 <property name="label" translatable="yes">Username:</property>
                                 <property name="ellipsize">start</property>
-                                <property name="lines">2</property>
-                                <property name="xalign">0.60000002384185791</property>
-                                <property name="yalign">0.80000001192092896</property>
+                                <property name="xalign">0</property>
+                                <property name="yalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="semibold"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -207,8 +221,9 @@
                               <object class="GtkLabel" id="timekprUsernameL">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0.60000002384185791</property>
-                                <property name="yalign">0.80000001192092896</property>
+                                <property name="ellipsize">end</property>
+                                <property name="xalign">0</property>
+                                <property name="yalign">0</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -220,7 +235,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -812,7 +827,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
-                            <property name="column_spacing">10</property>
+                            <property name="column_spacing">20</property>
                             <property name="row_homogeneous">True</property>
                             <child>
                               <object class="GtkCheckButton" id="timekprUseSpeechNotifCB">
@@ -840,15 +855,13 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="tooltip_text" translatable="yes">This sets logging level (please do not change this unless You know what You're doing)</property>
-                                    <property name="max_length">1</property>
-                                    <property name="width_chars">1</property>
+                                    <property name="max_length">2</property>
+                                    <property name="width_chars">2</property>
                                     <property name="max_width_chars">1</property>
                                     <property name="adjustment">timekprLogLevelLimitsADJ</property>
                                     <property name="climb_rate">1</property>
-                                    <property name="digits">1</property>
                                     <property name="snap_to_ticks">True</property>
                                     <property name="numeric">True</property>
-                                    <property name="wrap">True</property>
                                     <property name="value">1</property>
                                     <signal name="value-changed" handler="clientConfigChangedSignal" swapped="no"/>
                                   </object>
@@ -931,24 +944,118 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="timekprSpacerLabel">
+                              <object class="GtkBox" id="timekprNotificationTimeoutBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="width_chars">40</property>
-                                <attributes>
-                                  <attribute name="size" value="200"/>
-                                </attributes>
+                                <child>
+                                  <object class="GtkSpinButton" id="timekprNotificationTimeoutSB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for reguar notifications about time left and configuration changes.
+Value is specified in seconds, value of 0 means show until dismissed (not recommended for regular notificatons).
+Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+                                    <property name="max_length">2</property>
+                                    <property name="width_chars">2</property>
+                                    <property name="max_width_chars">2</property>
+                                    <property name="adjustment">timekprNotificationTimeoutADJ</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="snap_to_ticks">True</property>
+                                    <property name="numeric">True</property>
+                                    <signal name="value-changed" handler="clientConfigChangedSignal" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="timekprNotificationTimeoutLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for reguar notifications about time left and configuration changes.
+Value is specified in seconds, value of 0 means show until dismissed (not recommended for regular notificatons).
+Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+                                    <property name="xpad">5</property>
+                                    <property name="label" translatable="yes">Notification timeout (sec)</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="timekprNotificationTimeoutCriticalBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkSpinButton" id="timekprNotificationTimeoutCriticalSB">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for Critical notifications about time left (when icon turns red).
+Value is specified in seconds, value of 0 means show until dismissed.
+Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+                                    <property name="max_length">2</property>
+                                    <property name="width_chars">2</property>
+                                    <property name="max_width_chars">2</property>
+                                    <property name="adjustment">timekprNotificationTimeoutCriticalADJ</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="snap_to_ticks">True</property>
+                                    <property name="numeric">True</property>
+                                    <property name="value">1</property>
+                                    <signal name="value-changed" handler="clientConfigChangedSignal" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="timekprNotificationTimeoutCriticalLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for Critical notifications about time left (when icon turns red).
+Value is specified in seconds, value of 0 means show until dismissed.
+Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+                                    <property name="xpad">5</property>
+                                    <property name="label" translatable="yes">Critical notification timeout (sec)</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="timekprUseNotificationSoundCB">
+                                <property name="label" translatable="yes">Use sound "bell" for notifications</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="tooltip_text" translatable="yes">Select whether to use sound "bell" (short notification sound) to indicate new notification from Timekpr-nExT. This works only for enabled notifications.
+If setting is not editable, Your environment does not advertise sound notification support.</property>
+                                <property name="xalign">0</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="top_attach">0</property>
                               </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -989,6 +1096,9 @@
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
 </interface>
