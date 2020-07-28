@@ -157,11 +157,12 @@
                   <object class="GtkBox" id="timekprTopRowBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
                     <child>
                       <object class="GtkAlignment" id="timekprIconAignment">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="xscale">0,50000000000000000000</property>
                         <child>
                           <object class="GtkImage" id="timekprIcon">
                             <property name="visible">True</property>
@@ -194,8 +195,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">center</property>
-                            <property name="valign">center</property>
-                            <property name="spacing">4</property>
+                            <property name="valign">end</property>
+                            <property name="margin_bottom">15</property>
+                            <property name="spacing">5</property>
                             <child>
                               <object class="GtkLabel" id="timekprUsernameLabel">
                                 <property name="visible">True</property>
@@ -206,7 +208,7 @@
                                 <property name="xalign">0</property>
                                 <property name="yalign">0</property>
                                 <attributes>
-                                  <attribute name="underline" value="True"/>
+                                  <attribute name="weight" value="semibold"/>
                                 </attributes>
                               </object>
                               <packing>
@@ -219,6 +221,7 @@
                               <object class="GtkLabel" id="timekprUsernameL">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="ellipsize">end</property>
                                 <property name="xalign">0</property>
                                 <property name="yalign">0</property>
                               </object>
