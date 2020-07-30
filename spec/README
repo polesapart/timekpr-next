@@ -38,7 +38,7 @@ BUILD instructions (please open terminal and install this in one go not leaving 
     # if installation complains about conflicts with existing package, please remove the old version of package
     # and then install new one or use --force at the end of the command
     Fedora / openSUSE:
-        sudo rpm -ihv $HOME/rpmbuild/RPMS/$(arch)/timekpr-next-${TNVER}-1.0*.x86_64.rpm
+        sudo rpm -Uhv $HOME/rpmbuild/RPMS/$(arch)/timekpr-next-${TNVER}-4.0*.x86_64.rpm
 
     # if You are using G3, please DO NOT forget to install this (otherwise icon will be hidden)
     Fedora:

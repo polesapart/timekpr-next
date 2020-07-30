@@ -1,3 +1,9 @@
+timekpr-next (0.4.1-7ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * fixed a packaging bug with systemd units
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 30 Jul 2020 20:13:39 +0300
+
 timekpr-next (0.4.1-6ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added quality of life configuration options for client application (as suggested by one of Timekpr-nExT users)
