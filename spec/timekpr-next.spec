@@ -2,7 +2,7 @@
 
 Name:             timekpr-next
 Version:          0.4.1
-Release:          1.0%{?dist}
+Release:          4.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
