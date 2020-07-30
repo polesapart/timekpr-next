@@ -1,9 +1,20 @@
 #!/bin/sh
-systemctl disable timekpr 2>&1 | grep -v 'Removed '
+
+# timekpr directories and units
+TK_DIR="/usr/lib/python3/dist-packages/timekpr"
+
+# systemctl
 systemctl stop timekpr
-systemctl reload dbus
-if [ -d /usr/share/pyshared/timekpr ];
+systemctl disable timekpr
+
+# remove compiled python units (may interfere with python versions)
+if [ -d "${TK_DIR}" ];
 then
-    find /usr/share/pyshared/timekpr -type d -name '__pycache__' -exec rm -rf {} \; -prune
-    find /usr/share/pyshared/timekpr -iname '*.pyc' -exec rm {} \;
+    # remove compiled
+    find "${TK_DIR}" -type d -name '__pycache__' -exec rm -rf {} \; -prune
+    find "${TK_DIR}" -type f -iname '*.pyc' -exec rm {} \;
 fi
+
+# reload d-bus for access controls and systemd for service removals
+systemctl reload dbus
+systemctl daemon-reload
