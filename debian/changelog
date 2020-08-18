@@ -18,6 +18,9 @@ timekpr-next (0.4.2-1ubuntu1~ppa1) UNRELEASED; urgency=medium
   * improved allowed days and respective limits processing in case these are not set up properly
     mismatch possible only by manually and incorrectly editing the config file
 
+  * fix continous time calculation on day change
+    this issue did not affect functionality
+
  -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 18 Jul 2020 07:35:26 +0300
 
 timekpr-next (0.4.1-7ubuntu1~ppa1) UNRELEASED; urgency=medium
