@@ -240,11 +240,17 @@ class timekprUser(object):
 
         # for allowed weekdays
         for rDay in range(1, 7+1):
+            # days index
+            idx = allowedDays.index(rDay) if rDay in allowedDays else -1
+            # limits index
+            idx = idx if idx >= 0 and len(limitsPerWeekday) > idx else -1
+
             # set up limits
-            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = limitsPerWeekday[allowedDays.index(rDay)] if rDay in allowedDays else 0
+            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = limitsPerWeekday[idx] if idx >= 0 else 0
 
             # we do not have value (yet) for day
             if self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD] is None:
+                # no value means 0
                 self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD] = 0
 
             # only if not initialized
@@ -256,14 +262,11 @@ class timekprUser(object):
             allowedHours = self._timekprUserConfig.getUserAllowedHours(rDay)
 
             # check if it is enabled as per config
-            if rDay in allowedDays:
-                dayAllowed = True
-            else:
-                dayAllowed = False
+            dayAllowed = rDay in allowedDays
 
             # loop through all days
             for rHour in range(0, 23+1):
-                # if day is disabled, it does not matter whether hour is
+                # if day is disabled, it does not matter whether hour is (order of this if is important)
                 if not dayAllowed:
                     # disallowed
                     hourAllowed = False
@@ -393,7 +396,6 @@ class timekprUser(object):
                     self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SPENTH] = 0
                     # reset sleeping
                     self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SLEEP] = 0
-                    # TODO: do we need to clean next day as well? (think)
 
             # reset spent for this hour
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent

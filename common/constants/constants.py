@@ -214,7 +214,7 @@ TK_LIMIT_PER_DAY = 86400
 TK_LIMIT_PER_WEEK = TK_LIMIT_PER_DAY*7
 # default value for limit per month
 TK_LIMIT_PER_MONTH = TK_LIMIT_PER_DAY*31
-# default value for limit per day
+# default value for limit per every weekday
 TK_LIMITS_PER_WEEKDAYS = "%s;%s;%s;%s;%s;%s;%s" % (TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY)
 
 # ## default values for control ##
@@ -249,15 +249,15 @@ TK_PRIO_IMPORTANT_INFO = "important_info"
 
 # config
 TK_PRIO_CONF = {}
-TK_PRIO_CONF["logo"] = {TK_ICON_STAT: "timekpr-logo.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
-TK_PRIO_CONF["client-logo"] = {TK_ICON_STAT: "timekpr-client-logo.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
-TK_PRIO_CONF["unlimited"] = {TK_ICON_STAT: "timekpr-padlock-unlimited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_LOW] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_NORMAL] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_WARNING] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-warning", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "gtk-dialog-error", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
-TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "gtk-dialog-info", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
+TK_PRIO_CONF["logo"] = {TK_ICON_STAT: "timekpr-logo.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
+TK_PRIO_CONF["client-logo"] = {TK_ICON_STAT: "timekpr-client-logo.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
+TK_PRIO_CONF["unlimited"] = {TK_ICON_STAT: "timekpr-padlock-unlimited-green.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_LOW] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(0, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_NORMAL] = {TK_ICON_STAT: "timekpr-padlock-limited-green.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_WARNING] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "dialog-error", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
 
 # ## timekpr notification config ##
 # init python gettext

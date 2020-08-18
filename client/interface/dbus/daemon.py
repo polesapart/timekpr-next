@@ -252,7 +252,7 @@ class timekprClient(object):
         """Receive time left and update GUI"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive tl notif: %s, %i" % (pPriority, pTimeLeftTotal))
         # if notifications are turned on
-        if self._timekprClientConfig.getClientShowAllNotifications() and self._timekprClientIndicator.getTrayIconEnabled():
+        if (self._timekprClientConfig.getClientShowAllNotifications() and self._timekprClientIndicator.getTrayIconEnabled()) or pPriority == cons.TK_PRIO_CRITICAL:
             # process time left notification
             self._timekprClientIndicator.notifyUser(cons.TK_MSG_CODE_TIMELEFT, pPriority, cons.TK_DATETIME_START + timedelta(seconds=pTimeLeftTotal))
 
