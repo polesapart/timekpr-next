@@ -154,6 +154,10 @@ class timekprUser(object):
             # left is least of the limits
             secondsLeft = max(min(timesLeft[cons.TK_CTRL_LEFTD], timesLeft[cons.TK_CTRL_LEFTW], timesLeft[cons.TK_CTRL_LEFTM]), 0)
 
+            # this is it (no time or there will be no continous time for this day)
+            if secondsLeft <= 0 or not contTime:
+                break
+
             # determine current HOD
             currentHOD = self._currentHOD if self._currentDOW == i else 0
 
@@ -189,14 +193,12 @@ class timekprUser(object):
 
                 # debug
                 if log.isDebug():
-                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, left: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, timesLeft[cons.TK_CTRL_LEFTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
+                    log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, leftD: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, timesLeft[cons.TK_CTRL_LEFTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
 
                 # adjust left continously
                 self._timekprUserData[cons.TK_CTRL_LEFT] += secondsToAddHour if contTime else 0
                 # adjust left this hour
                 self._timekprUserData[i][cons.TK_CTRL_LEFTD] += secondsToAddHour
-                # recalculate whether time is continous
-                contTime = True if (contTime and not secondsToAddHour < secondsLeftHour) else False
 
                 # recalculate "lefts"
                 timesLeft[cons.TK_CTRL_LEFTD] -= secondsToAddHour
@@ -204,13 +206,16 @@ class timekprUser(object):
                 timesLeft[cons.TK_CTRL_LEFTM] -= secondsToAddHour
                 secondsLeft -= secondsToAddHour
 
-                # this is it (time over)
-                if secondsLeft <= 0:
-                    break
+                # recalculate whether time is continous
+                #   time previously was previously continous (no break)
+                #   seconds to add must be at least equal to the seconds left in this hour
+                #   total seconds left this day can not be 0 unless it's the end of the day
+                contTime = True if (contTime and not secondsToAddHour < secondsLeftHour and not (secondsLeft <= 0 and j != 23)) else False
 
-            # this is it (no time or there will be no continous time for this day)
-            if secondsLeft <= 0 or not contTime:
-                break
+                # this is it (time over)
+                if secondsLeft <= 0 or (not contTime and self._currentDOW != i):
+                    # time is over
+                    break
 
         # debug
         if log.isDebug():
@@ -235,11 +240,17 @@ class timekprUser(object):
 
         # for allowed weekdays
         for rDay in range(1, 7+1):
+            # days index
+            idx = allowedDays.index(rDay) if rDay in allowedDays else -1
+            # limits index
+            idx = idx if idx >= 0 and len(limitsPerWeekday) > idx else -1
+
             # set up limits
-            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = limitsPerWeekday[allowedDays.index(rDay)] if rDay in allowedDays else 0
+            self._timekprUserData[str(rDay)][cons.TK_CTRL_LIMITD] = limitsPerWeekday[idx] if idx >= 0 else 0
 
             # we do not have value (yet) for day
             if self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD] is None:
+                # no value means 0
                 self._timekprUserData[str(rDay)][cons.TK_CTRL_TSPBALD] = 0
 
             # only if not initialized
@@ -251,14 +262,11 @@ class timekprUser(object):
             allowedHours = self._timekprUserConfig.getUserAllowedHours(rDay)
 
             # check if it is enabled as per config
-            if rDay in allowedDays:
-                dayAllowed = True
-            else:
-                dayAllowed = False
+            dayAllowed = rDay in allowedDays
 
             # loop through all days
             for rHour in range(0, 23+1):
-                # if day is disabled, it does not matter whether hour is
+                # if day is disabled, it does not matter whether hour is (order of this if is important)
                 if not dayAllowed:
                     # disallowed
                     hourAllowed = False
@@ -383,12 +391,11 @@ class timekprUser(object):
             # only if this is not the end of the day (this should not happen)
             if self._currentHOD != 23:
                 # clean up hours for this day
-                for j in range(self._currentHOD+1, 23+1):
+                for j in range(self._currentHOD, 23+1):
                     # reset spent for this hour
                     self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SPENTH] = 0
                     # reset sleeping
                     self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SLEEP] = 0
-                    # TODO: do we need to clean next day as well? (think)
 
             # reset spent for this hour
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent
