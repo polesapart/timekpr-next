@@ -180,6 +180,8 @@ class timekprUser(object):
                         secondsLeftHour = 3600
                         # calculate how many seconds are left in this hour as per configuration
                         secondsLeftHourLimit = (self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60
+                        # continous time check for start of the hour (needed to see whether any of next hours are continous before adding to available time)
+                        contTime = (contTime and self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN] == 0)
                     # save seconds to subtract for this hour
                     secondsToAddHour = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
 
@@ -206,10 +208,10 @@ class timekprUser(object):
                 timesLeft[cons.TK_CTRL_LEFTM] -= secondsToAddHour
                 secondsLeft -= secondsToAddHour
 
-                # recalculate whether time is continous
+                # recalculate whether time is continous after accounting the time (handles the end of hour)
                 #   time previously was previously continous (no break)
-                #   seconds to add must be at least equal to the seconds left in this hour
-                #   total seconds left this day can not be 0 unless it's the end of the day
+                #   seconds to add must be at least equal to the seconds left in this hour (all hour is available)
+                #   total seconds left this day can not be 0 unless it's the end of the day (when seconds for the day ends, the only plausible case is the end of the day)
                 contTime = True if (contTime and not secondsToAddHour < secondsLeftHour and not (secondsLeft <= 0 and j != 23)) else False
 
                 # this is it (time over)
