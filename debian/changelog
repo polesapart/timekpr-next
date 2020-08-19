@@ -21,7 +21,7 @@ timekpr-next-beta (0.4.2-2ubuntu1~ppa1) UNRELEASED; urgency=medium
   * fix continous time calculation on day change
     this issue did not affect functionality
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 18 Jul 2020 07:35:26 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 18 Aug 2020 07:35:26 +0300
 
 timekpr-next-beta (0.4.1-7ubuntu1~ppa1) UNRELEASED; urgency=medium
 
