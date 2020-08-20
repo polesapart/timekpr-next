@@ -1,3 +1,17 @@
+timekpr-next (0.4.2-3ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * improvements
+    added average performance metrics for timekpr execution
+    introduce server ability to survive login manager DBUS interface crash and restore functional timekpr state after recovery
+
+  * refactoring
+    improve various functionality in timekpr codebase
+    tiny optimizations for variables
+    improvements for config reader / writer
+    improvements for in-memory config creation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 20 Aug 2020 20:14:09 +0300
+
 timekpr-next (0.4.2-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * fixed #1891921, critical notifications did not show up until final countdown (if show all notifications was checked)
