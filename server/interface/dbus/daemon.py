@@ -154,7 +154,19 @@ class timekprDaemon(dbus.service.Object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start checkUsers")
 
         # get user list
-        userList = self._timekprLoginManager.getUserList()
+        wasConnectionLost, userList = self._timekprLoginManager.getUserList()
+        # if we had a disaster, remove all users because connection to DBUS was lost
+        if wasConnectionLost:
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "IMPORTANT WARNING: due to lost DBUS connection, all users are de-initialized (including from DBUS) and re-initalized from saved state")
+            # remove them from dbus
+            for rUser in self._timekprUserList:
+                # remove from DBUS
+                self._timekprUserList[rUser].deInitUser()
+            # delete all users
+            self._timekprUserList.clear()
+            # delete termination list as well
+            self._timekprUserTerminationList.clear()
 
         # add new users to track
         for userName, userDict in userList.items():

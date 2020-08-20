@@ -126,6 +126,8 @@ class timekprUser(object):
 
     def deInitUser(self):
         """De-initialize timekpr user"""
+        # logging
+        log.log(cons.TK_LOG_LEVEL_INFO, "de-initialization of \"%s\" DBUS connections" % (self.getUserName()))
         # deinit
         self._timekprUserNotification.deInitUser()
 

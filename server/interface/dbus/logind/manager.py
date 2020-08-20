@@ -6,6 +6,7 @@ Created on Aug 28, 2018
 
 # import section
 import dbus
+import time
 from gi.repository import GLib
 
 # timekpr imports
@@ -30,9 +31,23 @@ class timekprUserLoginManager(object):
         self._login1ManagerInterface = None
         self._loginManagerVTNr = None
         self._loginManagerVTNrRetries = 0
+        self._connectionRetryCount = 0
 
         # dbus initialization
         self._timekprBus = dbus.SystemBus()
+
+        # init connections
+        self._initDbusConnections()
+
+        log.log(cons.TK_LOG_LEVEL_INFO, "finish login1 manager")
+
+    def _initDbusConnections(self):
+        """Init connections to dbus"""
+        # count retries
+        self._connectionRetryCount += 1
+        # if there was a connection before, give a big fat warning
+        if self._login1ManagerInterface is not None:
+            log.log(cons.TK_LOG_LEVEL_INFO, "IMPORTANT WARNING: connection to DBUS was lost, trying to establish it again, retry %i" % (self._connectionRetryCount))
 
         try:
             log.log(cons.TK_LOG_LEVEL_DEBUG, "getting login1 object on DBUS")
@@ -51,18 +66,49 @@ class timekprUserLoginManager(object):
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_MANAGER_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "got interface, login1 successfully set up")
-        except Exception as exc:
-            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting DBUS: %s" % (exc))
-            raise
 
-        log.log(cons.TK_LOG_LEVEL_INFO, "finish login1 manager")
+            # reset retries
+            self._connectionRetryCount = 0
+        except Exception as exc:
+            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting DBUS login manager: %s" % (exc))
+            # reset connections
+            self._login1ManagerInterface = None
+            self._login1Object = None
+            # raise error when too much retries
+            if self._connectionRetryCount >= cons.TK_MAX_RETRIES:
+                raise
+
+    def _listUsers(self):
+        """Exec ListUsers dbus methods (this is the only method which just has to succeed)"""
+        # reset counter on retry
+        self._connectionRetryCount = 0
+        # def result
+        loggedInUsersDBUS = None
+        wasConnectionLost = False
+        # try executing when there are retries left and there is no result
+        while loggedInUsersDBUS is None and self._connectionRetryCount < cons.TK_MAX_RETRIES:
+            # try get result
+            try:
+                # exec
+                loggedInUsersDBUS = self._login1ManagerInterface.ListUsers()
+            except Exception:
+                # failure
+                wasConnectionLost = True
+                # no sleep on first retry
+                if self._connectionRetryCount > 0:
+                    # wait a little before retry
+                    time.sleep(0.5)
+                # retry connection
+                self._initDbusConnections()
+        # pass back the result
+        return wasConnectionLost, loggedInUsersDBUS
 
     def getUserList(self, pSilent=False):
         """Go through a list of logged in users"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start getUserList") if not pSilent else True
 
         # get user list
-        loggedInUsersDBUS = self._login1ManagerInterface.ListUsers()
+        wasConnectionLost, loggedInUsersDBUS = self._listUsers()
         loggedInUsers = {}
 
         # loop through all users
@@ -84,7 +130,7 @@ class timekprUserLoginManager(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getUserList") if not pSilent else True
 
         # passing back user tuples
-        return loggedInUsers
+        return wasConnectionLost, loggedInUsers
 
     def getUserSessionList(self, pUserName, pUserPath):
         """Get up-to-date user session list"""
