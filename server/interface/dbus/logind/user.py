@@ -60,7 +60,7 @@ class timekprUserManager(object):
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "got %i sessions: %s, start loop" % (len(userSessions), str(userSessions)))
 
         # init active sessions
-        activeSessions = {}
+        activeSessions = []
 
         # go through all user sessions
         for userSession in userSessions:
@@ -68,7 +68,7 @@ class timekprUserManager(object):
             sessionId = str(userSession[0])
             sessionPath = str(userSession[1])
             # save active sessions
-            activeSessions[sessionId] = 0
+            activeSessions.append(sessionId)
 
             # if we have not yet saved a user session, let's do that to improve interaction with dbus
             if sessionId not in self._timekprUserSessions:
@@ -97,13 +97,7 @@ class timekprUserManager(object):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "session already cached: %s" % (sessionId))
 
         # list of sessions to delete
-        removableSesssions = {}
-
-        # collect sessions not on the list
-        for userSession in self._timekprUserSessions:
-            # user session is not found
-            if userSession not in activeSessions:
-                removableSesssions[userSession] = 0
+        removableSesssions = [rUserSession for rUserSession in self._timekprUserSessions if rUserSession not in activeSessions]
 
         # get rid of sessions not on the list
         for userSession in removableSesssions:

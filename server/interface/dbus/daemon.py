@@ -11,6 +11,7 @@ import dbus.service
 import time
 import threading
 import traceback
+from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -112,10 +113,15 @@ class timekprDaemon(dbus.service.Object):
     def executeTimekprWorker(self):
         """Execute all the logic of timekpr"""
         log.log(cons.TK_LOG_LEVEL_INFO, "start up worker thread")
-
+        # def
+        execLen = timedelta(0, 0, 0)
+        execCnt = 0
         # we execute tasks until not asked to stop
         while not self._finishExecution:
             log.log(cons.TK_LOG_LEVEL_INFO, "--- start working on users ---")
+            # perf
+            execCnt += 1
+            dts = datetime.now()
 
             # do the actual work
             try:
@@ -125,10 +131,14 @@ class timekprDaemon(dbus.service.Object):
                 log.log(cons.TK_LOG_LEVEL_INFO, traceback.format_exc())
                 log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR working on users ===---")
 
-            log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users ---")
+            # perf
+            execLen += (datetime.now() - dts)
 
-            # take a polling pause
-            time.sleep(self._timekprConfig.getTimekprPollTime())
+            log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users ---")
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "--- performance: %s ---" % str(execLen/execCnt))
+
+            # take a polling pause (try to do that exactly every 3 secs)
+            time.sleep(self._timekprConfig.getTimekprPollTime() - min(round((datetime.now()-dts).total_seconds(), 4), 1.5))
 
         log.log(cons.TK_LOG_LEVEL_INFO, "worker shut down")
 
@@ -190,24 +200,18 @@ class timekprDaemon(dbus.service.Object):
                     ,userDict[cons.TK_CTRL_UNAME]
                     ,userDict[cons.TK_CTRL_UPATH]
                     ,self._timekprConfig.getTimekprConfigDir()
-                    ,self._timekprConfig.getTimekprWorkDir())
+                    ,self._timekprConfig.getTimekprWorkDir()
+                )
 
                 # init variables for user
-                self._timekprUserList[userName].initTimekprVariables()
+                self._timekprUserList[userName].refreshTimekprRuntimeVariables()
                 # adjust config
                 self._timekprUserList[userName].adjustLimitsFromConfig()
                 # adjust time spent
                 self._timekprUserList[userName].adjustTimeSpentFromControl()
 
         # session list to remove
-        removableUsers = {}
-
-        # collect users which left
-        for userName in self._timekprUserList:
-            # check if user is there
-            if userName not in userList:
-                # collect removable
-                removableUsers[userName] = 0
+        removableUsers = [rUserName for rUserName in self._timekprUserList if rUserName not in userList]
 
         # get rid of users which left
         for userName in removableUsers:
@@ -225,14 +229,18 @@ class timekprDaemon(dbus.service.Object):
         # go through all users
         for userName in self._timekprUserList:
             # init variables for user
-            self._timekprUserList[userName].initTimekprVariables()
-            # additional options
+            self._timekprUserList[userName].refreshTimekprRuntimeVariables()
+            # additional options (HCODED: NOT IN USE)
             killEvenIdle = True
 
             # adjust time spent
             userActive = self._timekprUserList[userName].adjustTimeSpentActual(self._timekprConfig)
+
             # recalculate time left
             self._timekprUserList[userName].recalculateTimeLeft()
+
+            # process actual user session variable validation
+            self._timekprUserList[userName].revalidateUserSessionAttributes()
 
             # if user is not active and we are not killing them even idle, we do not send them to death row (suspend the sentence for a while)
             if (not killEvenIdle and not userActive) and userName in self._timekprUserTerminationList:
@@ -260,9 +268,6 @@ class timekprDaemon(dbus.service.Object):
                     # process users
                     GLib.timeout_add_seconds(1, self.killUsers)
 
-            # process actual user session variable validation
-            self._timekprUserList[userName].revalidateUserSessionAttributes()
-
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish checkUsers")
 
     def killUsers(self):
@@ -270,7 +275,7 @@ class timekprDaemon(dbus.service.Object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start user killer")
 
         # session list to remove
-        removableUsers = {}
+        removableUsers = []
 
         # loop through users to be killed
         for rUserName in self._timekprUserTerminationList:
@@ -295,7 +300,7 @@ class timekprDaemon(dbus.service.Object):
                 # now we have one less (we hope he's killed)
                 if rUserName not in removableUsers:
                     # collect removable
-                    removableUsers[rUserName] = 0
+                    removableUsers.append(rUserName)
 
             # decrease time to kill
             self._timekprUserList[rUserName]._finalCountdown -= 1
@@ -415,7 +420,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -449,7 +454,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -478,7 +483,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -509,7 +514,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -538,7 +543,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -568,7 +573,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -598,7 +603,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -625,7 +630,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -652,7 +657,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -683,7 +688,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -709,7 +714,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -735,7 +740,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -761,7 +766,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -787,7 +792,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -813,7 +818,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -841,7 +846,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -867,7 +872,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -893,7 +898,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -920,7 +925,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
@@ -949,7 +954,7 @@ class timekprDaemon(dbus.service.Object):
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
 
             # result
