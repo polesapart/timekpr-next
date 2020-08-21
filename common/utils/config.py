@@ -17,21 +17,65 @@ from timekpr.common.log import log
 from timekpr.common.constants import constants as cons
 
 
-def saveConfigFile(pConfigFile, pKeyValuePairs):
+def _findHourStartEndMinutes(pStr):
+    """Separate name and desription in brackets"""
+    # hour, start, end
+    hour = None
+    sMin = None
+    eMin = None
+
+    # get hour
+    if len(pStr) <= 2:
+        # hour, start, end
+        hour = pStr
+        sMin = 0
+        eMin = 60
+    else:
+        # find minutes
+        st = pStr.find("[")
+        sep = pStr.find("-")
+        en = pStr.find("]")
+        # in case user config is broken, we can not determine stuff
+        if st < 0 or en < 0 or sep < 0 or not st < sep < en:
+            # nothing
+            pass
+        else:
+            # hour, start, end
+            try:
+                # determine hour and minutes (and check for errors as well)
+                hour = int(pStr[0:st])
+                sMin = int(pStr[st+1:sep])
+                eMin = int(pStr[sep+1:en])
+                # checks for errors (and raise one if there is an error)
+                hour = hour if 0 <= hour <= 23 else 1/0
+                sMin = sMin if 0 <= sMin <= 60 else 1/0
+                eMin = eMin if 0 <= eMin <= 60 else 1/0
+                eMin = eMin if sMin < eMin else 1/0
+            except (ValueError, ZeroDivisionError):
+                # hour, start, end
+                hour = None
+                sMin = None
+                eMin = None
+
+    # return
+    return hour, sMin, eMin
+
+
+def _saveConfigFile(pConfigFile, pKeyValuePairs):
     """Save the config file using custom helper function"""
     # edit control file (using alternate method because configparser looses comments in the process)
     # make a backup of the file
     shutil.copy(pConfigFile, pConfigFile + cons.TK_BACK_EXT)
     # read backup and write actual config file
-    with open(pConfigFile + cons.TK_BACK_EXT, 'r') as srcFile, open(pConfigFile, 'w') as dstFile:
+    with open(pConfigFile + cons.TK_BACK_EXT, "r") as srcFile, open(pConfigFile, "w") as dstFile:
         # read line and do manipulations
         for rLine in srcFile:
             # check if we have proper line
             for rKey, rValue in pKeyValuePairs.items():
-                # check if we have to use regexp
-                if ("%s =" % (rKey)) in rLine or ("%s=" % (rKey)) in rLine:
+                # check if we have to change value
+                if re.match("%s%s%s" % ("^", rKey, " *="), rLine):
                     # replace key = value pairs
-                    line = re.sub(r"(?i)" + rKey + " *=.*$", rKey + " = " + rValue, rLine)
+                    line = re.sub("%s%s%s" % ("^", rKey, " *=.*$"), "%s%s%s" % (rKey, " = ", rValue), rLine)
                     # first replacement is enough
                     break
                 else:
@@ -42,7 +86,7 @@ def saveConfigFile(pConfigFile, pKeyValuePairs):
             dstFile.write(line)
 
 
-def loadAndPrepareConfigFile(pConfigFileParser, pConfigFile):
+def _loadAndPrepareConfigFile(pConfigFileParser, pConfigFile, pLoadOnly=False):
     """Try to load config file, if that fails, try to read backup file"""
     # by default fail
     result = False
@@ -51,7 +95,7 @@ def loadAndPrepareConfigFile(pConfigFileParser, pConfigFile):
         # if file is ok
         if os.path.isfile(rFile) and os.path.getsize(rFile) != 0:
             # copy file back to original (if this is backup file)
-            if rFile != pConfigFile:
+            if rFile != pConfigFile and not pLoadOnly:
                 shutil.copy(rFile, pConfigFile)
             # read config
             try:
@@ -61,11 +105,13 @@ def loadAndPrepareConfigFile(pConfigFileParser, pConfigFile):
                 result = True
                 break
             except Exception:
-                # fail, move corrupted file
-                os.rename(rFile, rFile + ".invalid")
+                # not load only
+                if not pLoadOnly:
+                    # fail, move corrupted file
+                    os.rename(rFile, rFile + ".invalid")
         else:
             # we do not need empty files
-            if os.path.isfile(rFile):
+            if os.path.isfile(rFile) and not pLoadOnly:
                 # remove empty file
                 os.remove(rFile)
 
@@ -73,7 +119,7 @@ def loadAndPrepareConfigFile(pConfigFileParser, pConfigFile):
     return result
 
 
-def readAndNormalizeValue(pConfigFileParserFn, pSection, pParam, pDefaultValue, pCheckValue, pOverallSuccess):
+def _readAndNormalizeValue(pConfigFileParserFn, pSection, pParam, pDefaultValue, pCheckValue, pOverallSuccess):
     """Read value from parser, if fails, then return default value"""
     # default values
     result = pOverallSuccess
@@ -111,11 +157,7 @@ class timekprConfig(object):
         self._timekprConfig = {}
 
         # in dev
-        if cons.TK_DEV_ACTIVE:
-            self._configDirPrefix = os.getcwd()
-        else:
-            self._configDirPrefix = ""
-
+        self._configDirPrefix = os.getcwd() if cons.TK_DEV_ACTIVE else ""
         # main config
         self._timekprConfig["TIMEKPR_MAIN_CONFIG_DIR"] = os.path.join(self._configDirPrefix, (cons.TK_MAIN_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else cons.TK_MAIN_CONFIG_DIR))
         self._configFile = os.path.join(self._timekprConfig["TIMEKPR_MAIN_CONFIG_DIR"], cons.TK_MAIN_CONFIG_FILE)
@@ -135,13 +177,13 @@ class timekprConfig(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start loading configuration")
 
         # try to load config file
-        result = loadAndPrepareConfigFile(self._timekprConfigParser, self._configFile)
+        result = _loadAndPrepareConfigFile(self._timekprConfigParser, self._configFile)
         # value read result
         resultValue = True
 
         # read config failed, we need to initialize
         if not result:
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: could not parse main configuration file (%s) properly, will use default values" % (self._configFile))
             # init config
             self.initDefaultConfiguration()
@@ -157,65 +199,68 @@ class timekprConfig(object):
         self._timekprConfig[param] = cons.TK_VERSION
         # read
         param = "TIMEKPR_LOGLEVEL"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_POLLTIME"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_POLLTIME, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_POLLTIME, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_SAVE_TIME"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_SAVE_INTERVAL, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_SAVE_INTERVAL, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_TRACK_INACTIVE"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_TERMINATION_TIME"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_TERMINATION_TIME, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_TERMINATION_TIME, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_FINAL_WARNING_TIME"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_FINAL_COUNTDOWN_TIME, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_FINAL_COUNTDOWN_TIME, pCheckValue=None, pOverallSuccess=resultValue)
 
         # session section
         section = "SESSION"
         # read
         param = "TIMEKPR_SESSION_TYPES_CTRL"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SESSION_TYPES_CTRL, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SESSION_TYPES_CTRL, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_SESSION_TYPES_EXCL"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SESSION_TYPES_EXCL, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SESSION_TYPES_EXCL, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "TIMEKPR_USERS_EXCL"
-        resultValue, self._timekprConfig[param] = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_USERS_EXCL, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_USERS_EXCL, pCheckValue=None, pOverallSuccess=resultValue)
 
         # directory section (! in case directories are not correct, they are not overwritten with defaults !)
         section = "DIRECTORIES"
         # read
         param = "TIMEKPR_CONFIG_DIR"
-        result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_CONFIG_DIR, pCheckValue=None, pOverallSuccess=result)
+        result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_CONFIG_DIR, pCheckValue=None, pOverallSuccess=result)
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else value))
         # read
         param = "TIMEKPR_WORK_DIR"
-        result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_WORK_DIR, pCheckValue=None, pOverallSuccess=result)
+        result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_WORK_DIR, pCheckValue=None, pOverallSuccess=result)
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_WORK_DIR_DEV if cons.TK_DEV_ACTIVE else value))
         # read
         param = "TIMEKPR_SHARED_DIR"
-        result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=result)
+        result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=result)
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else value))
         # read
         param = "TIMEKPR_LOGFILE_DIR"
-        result, value = readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_LOGFILE_DIR, pCheckValue=None, pOverallSuccess=result)
+        result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_LOGFILE_DIR, pCheckValue=None, pOverallSuccess=result)
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else value))
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:
-            # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some of the values in main config file (%s) could not be read properly, defaults used and saved" % (self._configFile))
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: some values in main config file (%s) could not be read or new configuration option was introduced, valid values and defaults are used / saved instead" % (self._configFile))
             # save what we could
             self.initDefaultConfiguration(True)
 
         # if we could not read some values, report that (directories only)
         if not result:
-            # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some of the directory values in main config file (%s) could not be read properly, defaults used (config NOT overwritten)" % (self._configFile))
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some directory values in main config file (%s) could not be read, valid values and defaults used (config NOT overwritten)" % (self._configFile))
+
+        # clear parser
+        self._timekprConfigParser.clear()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading configuration")
 
@@ -223,7 +268,7 @@ class timekprConfig(object):
         return True
 
     def initDefaultConfiguration(self, pReuseValues=False):
-        """Save config file (if someone fucked up config file, we have to write new one)"""
+        """Save config file (if someone messed up config file, we have to write new one)"""
         log.log(cons.TK_LOG_LEVEL_INFO, "start saving default configuration")
 
         # clear parser
@@ -304,6 +349,8 @@ class timekprConfig(object):
         # save the file
         with open(self._configFile, "w") as fp:
             self._timekprConfigParser.write(fp)
+        # clear parser
+        self._timekprConfigParser.clear()
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish saving default configuration")
 
@@ -315,26 +362,35 @@ class timekprConfig(object):
         values = {}
 
         # server loglevel
-        values["TIMEKPR_LOGLEVEL"] = str(self._timekprConfig["TIMEKPR_LOGLEVEL"])
+        param = "TIMEKPR_LOGLEVEL"
+        values[param] = str(self._timekprConfig[param])
         # in-memory polling time
-        values["TIMEKPR_POLLTIME"] = str(self._timekprConfig["TIMEKPR_POLLTIME"])
+        param = "TIMEKPR_POLLTIME"
+        values[param] = str(self._timekprConfig[param])
         # time interval to save user spent time
-        values["TIMEKPR_SAVE_TIME"] = str(self._timekprConfig["TIMEKPR_SAVE_TIME"])
+        param = "TIMEKPR_SAVE_TIME"
+        values[param] = str(self._timekprConfig[param])
         # track inactive (default value)
-        values["TIMEKPR_TRACK_INACTIVE"] = str(self._timekprConfig["TIMEKPR_TRACK_INACTIVE"])
+        param = "TIMEKPR_TRACK_INACTIVE"
+        values[param] = str(self._timekprConfig[param])
         # termination time (allowed login time when there is no time left before user is thrown out)
-        values["TIMEKPR_TERMINATION_TIME"] = str(self._timekprConfig["TIMEKPR_TERMINATION_TIME"])
+        param = "TIMEKPR_TERMINATION_TIME"
+        values[param] = str(self._timekprConfig[param])
         # final warning time (countdown to 0 before terminating session)
-        values["TIMEKPR_FINAL_WARNING_TIME"] = str(self._timekprConfig["TIMEKPR_FINAL_WARNING_TIME"])
+        param = "TIMEKPR_FINAL_WARNING_TIME"
+        values[param] = str(self._timekprConfig[param])
         # which session types to control
-        values["TIMEKPR_SESSION_TYPES_CTRL"] = str(self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"])
+        param = "TIMEKPR_SESSION_TYPES_CTRL"
+        values[param] = str(self._timekprConfig[param])
         # explicitly excludeds ession types (do not count time in these sessions)
-        values["TIMEKPR_SESSION_TYPES_EXCL"] = str(self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"])
+        param = "TIMEKPR_SESSION_TYPES_EXCL"
+        values[param] = str(self._timekprConfig[param])
         # which users to exclude from time accounting
-        values["TIMEKPR_USERS_EXCL"] = str(self._timekprConfig["TIMEKPR_USERS_EXCL"])
+        param = "TIMEKPR_USERS_EXCL"
+        values[param] = str(self._timekprConfig[param])
 
         # edit client config file (using alternate method because configparser looses comments in the process)
-        saveConfigFile(self._configFile, values)
+        _saveConfigFile(self._configFile, values)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving timekpr configuration")
 
@@ -482,17 +538,17 @@ class timekprUserConfig(object):
         """Read user timekpr config file"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start load user configuration")
 
-        # directory section
+        # user config section
         section = self._userName
         # try to load config file
-        result = loadAndPrepareConfigFile(self._timekprUserConfigParser, self._configFile)
+        result = _loadAndPrepareConfigFile(self._timekprUserConfigParser, self._configFile)
         # value read result
         resultValue = True
         # if we still are fine (and not just checking)
         if not pValidateOnly or (pValidateOnly and result):
             # read config failed, we need to initialize
             if not result:
-                # report shit
+                # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: could not parse the main configuration file (%s) properly, will use default values" % (self._configFile))
                 # init config
                 self.initUserConfiguration()
@@ -502,32 +558,35 @@ class timekprUserConfig(object):
             # read
             param = "ALLOWED_HOURS"
             for i in range(1, 7+1):
-                resultValue, self._timekprUserConfig["%s_%s" % (param, str(i))] = readAndNormalizeValue(self._timekprUserConfigParser.get, section, ("%s_%s" % (param, str(i))), pDefaultValue=cons.TK_ALLOWED_HOURS, pCheckValue=None, pOverallSuccess=resultValue)
+                resultValue, self._timekprUserConfig["%s_%s" % (param, str(i))] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, ("%s_%s" % (param, str(i))), pDefaultValue=cons.TK_ALLOWED_HOURS, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "ALLOWED_WEEKDAYS"
-            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "LIMITS_PER_WEEKDAYS"
-            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_LIMITS_PER_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_LIMITS_PER_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "LIMIT_PER_WEEK"
-            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.getint, section, param, pDefaultValue=cons.TK_LIMIT_PER_WEEK, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getint, section, param, pDefaultValue=cons.TK_LIMIT_PER_WEEK, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "LIMIT_PER_MONTH"
-            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.getint, section, param, pDefaultValue=cons.TK_LIMIT_PER_MONTH, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getint, section, param, pDefaultValue=cons.TK_LIMIT_PER_MONTH, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "TRACK_INACTIVE"
-            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "HIDE_TRAY_ICON"
-            resultValue, self._timekprUserConfig[param] = readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_HIDE_TRAY_ICON, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_HIDE_TRAY_ICON, pCheckValue=None, pOverallSuccess=resultValue)
 
             # if we could not read some values, save what we could + defaults
             if not resultValue:
-                # report shit
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some of the values in user config file (%s) could not be read properly, defaults used and saved" % (self._configFile))
+                # logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: some values in user config file (%s) could not be read or new configuration option was introduced, valid values and defaults are used / saved instead" % (self._configFile))
                 # init config with partial values read and save what we could
                 self.initUserConfiguration(True)
+
+        # clear parser
+        self._timekprUserConfigParser.clear()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish load user configuration")
 
@@ -585,6 +644,9 @@ class timekprUserConfig(object):
         with open(self._configFile, "w") as fp:
             self._timekprUserConfigParser.write(fp)
 
+        # clear parser
+        self._timekprUserConfigParser.clear()
+
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init default user configuration")
 
     def saveUserConfiguration(self):
@@ -595,23 +657,30 @@ class timekprUserConfig(object):
         values = {}
 
         # allowed weekdays
-        values["ALLOWED_WEEKDAYS"] = self._timekprUserConfig["ALLOWED_WEEKDAYS"]
+        param = "ALLOWED_WEEKDAYS"
+        values[param] = self._timekprUserConfig[param]
         # limits per weekdays
-        values["LIMITS_PER_WEEKDAYS"] = self._timekprUserConfig["LIMITS_PER_WEEKDAYS"]
+        param = "LIMITS_PER_WEEKDAYS"
+        values[param] = self._timekprUserConfig[param]
         # limits per week
-        values["LIMIT_PER_WEEK"] = str(self._timekprUserConfig["LIMIT_PER_WEEK"])
+        param = "LIMIT_PER_WEEK"
+        values[param] = str(self._timekprUserConfig[param])
         # limits per month
-        values["LIMIT_PER_MONTH"] = str(self._timekprUserConfig["LIMIT_PER_MONTH"])
+        param = "LIMIT_PER_MONTH"
+        values[param] = str(self._timekprUserConfig[param])
         # track inactive
-        values["TRACK_INACTIVE"] = str(self._timekprUserConfig["TRACK_INACTIVE"])
+        param = "TRACK_INACTIVE"
+        values[param] = str(self._timekprUserConfig[param])
         # try icon
-        values["HIDE_TRAY_ICON"] = str(self._timekprUserConfig["HIDE_TRAY_ICON"])
+        param = "HIDE_TRAY_ICON"
+        values[param] = str(self._timekprUserConfig[param])
         # allowed hours for every week day
         for rDay in range(1, 7+1):
-            values["ALLOWED_HOURS_%s" % (str(rDay))] = self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(rDay))]
+            param = "ALLOWED_HOURS_%s" % (str(rDay))
+            values[param] = self._timekprUserConfig[param]
 
         # edit client config file (using alternate method because configparser looses comments in the process)
-        saveConfigFile(self._configFile, values)
+        _saveConfigFile(self._configFile, values)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving new user configuration")
 
@@ -621,31 +690,33 @@ class timekprUserConfig(object):
         allowedHours = {}
 
         # get allowed hours for all of the week days
+        param = "ALLOWED_HOURS_%s" % (str(pDay))
         # minutes can be specified in brackets after hour
-        if self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(pDay))] != "":
-            for rHour in self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(pDay))].split(";"):
-                # if we have advanced config (minutes)
-                if "[" in rHour and "]" in rHour and "-" in rHour:
-                    # get minutes
-                    minutes = rHour.split("[", 1)[1].split("]")[0].split("-")
+        if self._timekprUserConfig[param] != "":
+            for rHour in self._timekprUserConfig[param].split(";"):
+                # determine hour and minutes
+                hour, sMin, eMin = _findHourStartEndMinutes(rHour)
+                # hour is correct
+                if hour is not None:
                     # get our dict done
-                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: min(max(int(minutes[0]), 0), 60), cons.TK_CTRL_EMIN: min(max(int(minutes[1]), 0), 60)}
-                else:
-                    # get our dict done
-                    allowedHours[rHour.split("[", 1)[0]] = {cons.TK_CTRL_SMIN: 0, cons.TK_CTRL_EMIN: 60}
+                    allowedHours[str(hour)] = {cons.TK_CTRL_SMIN: sMin, cons.TK_CTRL_EMIN: eMin}
 
         # result
         return allowedHours
 
     def getUserAllowedWeekdays(self):
         """Get allowed week days"""
+        # param
+        param = "ALLOWED_WEEKDAYS"
         # result
-        return [int(result.strip(None)) for result in self._timekprUserConfig["ALLOWED_WEEKDAYS"].split(";") if self._timekprUserConfig["ALLOWED_WEEKDAYS"] != ""]
+        return [int(result.strip(None)) for result in self._timekprUserConfig[param].split(";") if self._timekprUserConfig[param] != ""]
 
     def getUserLimitsPerWeekdays(self):
         """Get allowed limits per week day"""
+        # param
+        param = "LIMITS_PER_WEEKDAYS"
         # result
-        return [int(result.strip(None)) for result in self._timekprUserConfig["LIMITS_PER_WEEKDAYS"].split(";") if self._timekprUserConfig["LIMITS_PER_WEEKDAYS"] != ""]
+        return [int(result.strip(None)) for result in self._timekprUserConfig[param].split(";") if self._timekprUserConfig[param] != ""]
 
     def getUserWeekLimit(self):
         """Get limit per week"""
@@ -687,11 +758,7 @@ class timekprUserConfig(object):
                 # do we have config for this hour
                 if hour in rHours:
                     # do we have proper minuten
-                    if rHours[hour][cons.TK_CTRL_SMIN] > 0 or rHours[hour][cons.TK_CTRL_EMIN] < 60:
-                        minutes = "[%i-%i]" % (rHours[hour][cons.TK_CTRL_SMIN], rHours[hour][cons.TK_CTRL_EMIN])
-                    else:
-                        minutes = ""
-
+                    minutes = ("[%i-%i]" % (rHours[hour][cons.TK_CTRL_SMIN], rHours[hour][cons.TK_CTRL_EMIN])) if (rHours[hour][cons.TK_CTRL_SMIN] > 0 or rHours[hour][cons.TK_CTRL_EMIN] < 60) else ""
                     # build up this hour
                     hours.append("%s%s" % (hour, minutes))
 
@@ -761,7 +828,7 @@ class timekprUserControl(object):
         # directory section
         section = self._userName
         # try to load config file
-        result = loadAndPrepareConfigFile(self._timekprUserControlParser, self._configFile)
+        result = _loadAndPrepareConfigFile(self._timekprUserControlParser, self._configFile)
         # value read result
         resultValue = True
 
@@ -769,7 +836,7 @@ class timekprUserControl(object):
         if not pValidateOnly or (pValidateOnly and result):
             # read config failed, we need to initialize
             if not result:
-                # report shit
+                # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: could not parse the user control file (%s) properly, will recreate" % (self._configFile))
                 # init config
                 self.initUserControl()
@@ -778,26 +845,29 @@ class timekprUserControl(object):
 
             # read
             param = "TIME_SPENT_BALANCE"
-            resultValue, self._timekprUserControl[param] = readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
             # read
             param = "TIME_SPENT_DAY"
-            resultValue, self._timekprUserControl[param] = readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
             # read
             param = "TIME_SPENT_WEEK"
-            resultValue, self._timekprUserControl[param] = readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_WEEK, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_WEEK, pOverallSuccess=resultValue)
             # read
             param = "TIME_SPENT_MONTH"
-            resultValue, self._timekprUserControl[param] = readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_MONTH, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_MONTH, pOverallSuccess=resultValue)
             # read
             param = "LAST_CHECKED"
-            resultValue, self._timekprUserControl[param] = readAndNormalizeValue(self._timekprUserControlParser.get, section, param, pDefaultValue=datetime.now().replace(microsecond=0), pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.get, section, param, pDefaultValue=datetime.now().replace(microsecond=0), pCheckValue=None, pOverallSuccess=resultValue)
 
             # if we could not read some values, save what we could + defaults
             if not resultValue:
-                # report shit
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some of the values in user control file (%s) could not be read properly, defaults used and saved" % (self._configFile))
+                # logging
+                log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: some values in user control file (%s) could not be read or new configuration option was introduced, valid values and defaults are used / saved instead" % (self._configFile))
                 # save what we could
                 self.initUserControl(True)
+
+        # clear parser
+        self._timekprUserControlParser.clear()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading user control")
 
@@ -839,6 +909,9 @@ class timekprUserControl(object):
         with open(self._configFile, "w") as fp:
             self._timekprUserControlParser.write(fp)
 
+        # clear parser
+        self._timekprUserControlParser.clear()
+
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init user control")
 
     def saveControl(self):
@@ -849,18 +922,23 @@ class timekprUserControl(object):
         values = {}
 
         # spent day (including bonuses)
-        values["TIME_SPENT_BALANCE"] = str(int(self._timekprUserControl["TIME_SPENT_BALANCE"]))
+        param = "TIME_SPENT_BALANCE"
+        values[param] = str(int(self._timekprUserControl[param]))
         # spent day
-        values["TIME_SPENT_DAY"] = str(int(self._timekprUserControl["TIME_SPENT_DAY"]))
+        param = "TIME_SPENT_DAY"
+        values[param] = str(int(self._timekprUserControl[param]))
         # spent week
-        values["TIME_SPENT_WEEK"] = str(int(self._timekprUserControl["TIME_SPENT_WEEK"]))
+        param = "TIME_SPENT_WEEK"
+        values[param] = str(int(self._timekprUserControl[param]))
         # spent month
-        values["TIME_SPENT_MONTH"] = str(int(self._timekprUserControl["TIME_SPENT_MONTH"]))
+        param = "TIME_SPENT_MONTH"
+        values[param] = str(int(self._timekprUserControl[param]))
         # last checked
-        values["LAST_CHECKED"] = self._timekprUserControl["LAST_CHECKED"].strftime(cons.TK_DATETIME_FORMAT)
+        param = "LAST_CHECKED"
+        values[param] = self._timekprUserControl[param].strftime(cons.TK_DATETIME_FORMAT)
 
         # edit control file (using alternate method because configparser looses comments in the process)
-        saveConfigFile(self._configFile, values)
+        _saveConfigFile(self._configFile, values)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
@@ -955,10 +1033,7 @@ class timekprClientConfig(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "start initializing client configuration manager")
 
         # in dev
-        if cons.TK_DEV_ACTIVE:
-            self._configDirPrefix = os.getcwd()
-        else:
-            self._configDirPrefix = ""
+        self._configDirPrefix = os.getcwd() if cons.TK_DEV_ACTIVE else ""
 
         # main config
         self._timekprClientConfig["TIMEKPR_MAIN_CONFIG_DIR"] = os.path.join(self._configDirPrefix, (cons.TK_MAIN_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else cons.TK_MAIN_CONFIG_DIR))
@@ -989,13 +1064,13 @@ class timekprClientConfig(object):
             self._timekprClientConfigParser.clear()
 
         # try to load config file
-        result = loadAndPrepareConfigFile(self._timekprClientConfigParser, self._configFile)
+        result = _loadAndPrepareConfigFile(self._timekprClientConfigParser, self._configFile)
         # value read result
         resultValue = True
 
         # read config failed, we need to initialize
         if not result:
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: could not parse the configuration file (%s) properly, will use default values" % (self._configFile))
             # write correct config file
             self.initClientConfig()
@@ -1009,43 +1084,38 @@ class timekprClientConfig(object):
         section = "CONFIG"
         # read
         param = "SHOW_LIMIT_NOTIFICATION"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=True, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=True, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "SHOW_ALL_NOTIFICATIONS"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=True, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=True, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "USE_SPEECH_NOTIFICATIONS"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "SHOW_SECONDS"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "NOTIFICATION_TIMEOUT"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_CL_NOTIF_TMO, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_CL_NOTIF_TMO, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "NOTIFICATION_TIMEOUT_CRITICAL"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_CL_NOTIF_CRIT_TMO, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_CL_NOTIF_CRIT_TMO, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "USE_NOTIFICATION_SOUNDS"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
         # read
         param = "LOG_LEVEL"
-        resultValue, self._timekprClientConfig[param] = readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:
-            # report shit
-            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: some of the values in client confguration file (%s) could not be read properly, defaults used and saved" % (self._configFile))
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: some values in client confguration file (%s) could not be read or new configuration option was introduced, valid values and defaults are used / saved instead" % (self._configFile))
             # save what we could
             self.initClientConfig(True)
 
         # check whether sound is supported
-        if os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_WARN) and os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_CRITICAL):
-            # supported
-            self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = True
-        else:
-            # NOT supported
-            self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = False
+        self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = (os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_WARN) and os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_CRITICAL))
 
         # check whether speech is supported
         try:
@@ -1056,6 +1126,9 @@ class timekprClientConfig(object):
         except:
             # NOT supported
             self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = False
+
+        # clear parser
+        self._timekprClientConfigParser.clear()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish loading client configuration")
 
@@ -1072,18 +1145,18 @@ class timekprClientConfig(object):
         param = "TIMEKPR_SHARED_DIR"
 
         # try to load config file
-        result = loadAndPrepareConfigFile(self._timekprClientConfigParser, self._configMainFile)
+        result = _loadAndPrepareConfigFile(self._timekprClientConfigParser, self._configMainFile, True)
         # if file can not be read
         if not result:
             # default value
             value = cons.TK_SHARED_DIR
         else:
             # read file
-            result, value = readAndNormalizeValue(self._timekprClientConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=True)
+            result, value = _readAndNormalizeValue(self._timekprClientConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=True)
 
         # problems loading default config
         if not result:
-            # report shit
+            # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: could not parse the configuration file (%s) properly, will use default values" % (self._configMainFile))
 
         # finalize directory
@@ -1149,6 +1222,9 @@ class timekprClientConfig(object):
         with open(self._configFile, "w") as fp:
             self._timekprClientConfigParser.write(fp)
 
+        # clear parser
+        self._timekprClientConfigParser.clear()
+
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init client configuration")
 
     def saveClientConfig(self):
@@ -1184,7 +1260,7 @@ class timekprClientConfig(object):
         values[param] = str(self._timekprClientConfig[param])
 
         # edit control file (using alternate method because configparser looses comments in the process)
-        saveConfigFile(self._configFile, values)
+        _saveConfigFile(self._configFile, values)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save client config")
 
