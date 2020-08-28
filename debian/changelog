@@ -1,3 +1,9 @@
+timekpr-next-beta (0.4.2-4ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * added verbose output to timekpr installation
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 29 Aug 2020 01:40:53 +0300
+
 timekpr-next-beta (0.4.2-3ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * improvements
