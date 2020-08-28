@@ -2,19 +2,46 @@
 
 # timekpr directories and units
 TK_DIR="/usr/lib/python3/dist-packages/timekpr"
+# unit name
+TK_UNIT_NAME="timekpr.service"
+# unit directory (starting with debian)
+TK_UNIT_DIR="/lib/systemd/system"
+# prefixes for other distros then debian based
+TK_UNIT_DIR_PREFIXES="/usr"
 
-# systemctl
-systemctl stop timekpr
-systemctl disable timekpr
+# we need to take into account the various directory configs
+for R_PREF in ${TK_UNIT_DIR_PREFIXES};
+do
+    # alternatives exist
+    if [ -d "${R_PREF}${TK_UNIT_DIR}" ];
+    then
+        # assign additional prefix
+        TK_UNIT_DIR="${R_PREF}${TK_UNIT_DIR}"
+        # this is it
+        break
+    fi
+done
+
+# if there are units, let's handle them
+if [ -f "${TK_UNIT_DIR}/${TK_UNIT_NAME}" ];
+then
+    # systemctl
+    echo "Stopping and disabling Timekpr-nExT units"
+    systemctl stop timekpr
+    systemctl disable timekpr
+fi
 
 # remove compiled python units (may interfere with python versions)
 if [ -d "${TK_DIR}" ];
 then
     # remove compiled
+    echo "Cleaning up Timekpr-nExT compiled units"
     find "${TK_DIR}" -type d -name '__pycache__' -exec rm -rf {} \; -prune
     find "${TK_DIR}" -type f -iname '*.pyc' -exec rm {} \;
 fi
 
 # reload d-bus for access controls and systemd for service removals
+echo "Reloading dbus daemon to refresh access policies"
 systemctl reload dbus
+echo "Reloading systemd to refresh units"
 systemctl daemon-reload
