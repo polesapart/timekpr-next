@@ -365,8 +365,6 @@ class timekprUser(object):
 
         # determine if active
         userActive = self._timekprUserManager.isUserActive(pTimekprConfig, self._timekprUserConfig, self._timekprUserData[cons.TK_CTRL_SCR_N])
-        # def PlayTime
-        userActivePT = False
 
         # how long user has been sleeping
         if not userActive:
