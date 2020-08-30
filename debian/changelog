@@ -1,6 +1,8 @@
-timekpr-next (0.4.2-4ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.4.2-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added verbose output to timekpr installation
+  * fix license names in AppStream file
+  * better explain usage notes for CLI usage
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 29 Aug 2020 01:40:53 +0300
 
