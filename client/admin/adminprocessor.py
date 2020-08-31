@@ -231,23 +231,28 @@ class timekprAdminClient(object):
         if (adminCmd not in cons.TK_USER_ADMIN_COMMANDS and adminCmd not in cons.TK_ADMIN_COMMANDS) or adminCmd == "--help" or adminCmdIncorrect:
             # fail
             if adminCmdIncorrect:
-                log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_COMMAND_INCORRECT"), *args)
+                log.consoleOut(msg.getTranslation("TK_MSG_CONSOLE_COMMAND_INCORRECT"), *args, "\n")
 
-            log.consoleOut("\n" + msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTES"))
+            # log notice
+            log.consoleOut("%s\n%s\n%s\n%s\n" % (
+                msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTICE_HEAD"),
+                msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTICE_TIME"),
+                msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTICE_HOURS"),
+                msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTICE_DAYS"))
+            )
+            # log usage notes text
+            log.consoleOut("%s\n" % (msg.getTranslation("TK_MSG_CONSOLE_USAGE_NOTES")))
             # initial order
             cmds = ["--help", "--userlist", "--userinfo"]
             # print initial commands as first
             for rCmd in cmds:
-                log.consoleOut(" ", rCmd, cons.TK_USER_ADMIN_COMMANDS[rCmd])
-
-            # put a little space in between
-            log.consoleOut("")
+                log.consoleOut(" ", rCmd, cons.TK_USER_ADMIN_COMMANDS[rCmd], "\n")
 
             # print help
             for rCmd, rCmdDesc in cons.TK_USER_ADMIN_COMMANDS.items():
                 # do not print already known commands
                 if rCmd not in cmds:
-                    log.consoleOut(" ", rCmd, rCmdDesc)
+                    log.consoleOut(" ", rCmd, rCmdDesc, "\n")
 
     # --------------- parameter execution methods --------------- #
 

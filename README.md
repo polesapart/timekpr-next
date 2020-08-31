@@ -1,4 +1,3 @@
- [//]: # (https://matteobrusa.github.io/md-styler/?url=https://git.launchpad.net/timekpr-next/plain/README.md)
 # Timekpr-nExT
 ## Keep control of computer usage
 
@@ -305,9 +304,9 @@ Timekpr-nExT makes connections to D-BUS objects, they are cached and during exec
 </br>
 ### Additional configuration possibilities
 
-In addition to graphical applications, Timekpr-nExT still can be configured via CLI (Command Line Interfaces) and actual config files by hand.
+In addition to graphical applications, Timekpr-nExT can be configured using CLI (Command Line Interface) and config files (by hand). Please note that at this time CLI interface is available for user configuration only.
 
-For CLI usage, please open Your terminal emulator of choice (i.e. Gnome Terminal / Konsole / XTerm) and type ```timekpra --help```, it will print all You need to know ;-)
+For CLI usage, please open Your terminal emulator of choice (i.e. Gnome Terminal / Konsole / XTerm) and type ```timekpra --help```, it will introduce Timekpr-nExT CLI by printing usage notes and examples.
 
 Graphical applications and CLI apply configuration right away, but if config files are edited manually, configuration is read and applied at save intervals (every 30 sec).
 </br></br>

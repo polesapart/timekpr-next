@@ -605,6 +605,8 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.add_section(section)
         self._timekprUserConfigParser.set(section, "#### this is the user configuration file for timekpr-next")
         self._timekprUserConfigParser.set(section, "#### if this file can not be read properly, it will be overwritten with defaults")
+        self._timekprUserConfigParser.set(section, "#### all numeric time values are specified in seconds")
+        self._timekprUserConfigParser.set(section, "#### days and hours should be configured as per ISO 8601 (i.e. Monday is the first day of week (1-7) and hours are in 24h format (0-23))")
 
         # add new user section
         section = self._userName

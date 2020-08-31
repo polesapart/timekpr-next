@@ -30,15 +30,15 @@ def initMessages():
     # ## define user admin command texts ##
     _messages["TK_MSG_USER_ADMIN_CMD_HELP"] = {"s": _("==> print help, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_USERLIST"] = {"s": _("==> get saved user list from the server, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("==> get user configuration from the server, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("==> get user configuration and time information from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"] = {"s": _("==> set allowed days for the user, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours per specified day or ALL for every day, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("==> set time limits per all allowed days, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours for specified day or \"ALL\" for every day (optionally specify start and end minutes in brackets), example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("==> set time limits per all allowed days (value count must match allowed day count), example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"] = {"s": _("==> set time limit per week, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"] = {"s": _("==> set whether to hide tray icon and prevent notifications, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at current moment, example (add one hour)")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
 
     # ## this defines messages for use in configuration validation ##
     _messages["TK_MSG_ADMIN_CHK_CTRLSESSIONS_NONE"] = {"s": _("Control sessions types are not passed")}
@@ -147,6 +147,11 @@ def initMessages():
     _messages["TK_MSG_CONSOLE_GUI_NOT_AVAILABLE"] = {"s": _("WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, but no displays are available, thus running in CLI...")}
     _messages["TK_MSG_CONSOLE_COMMAND_INCORRECT"] = {"s": _("The command is incorrect:")}
     _messages["TK_MSG_CONSOLE_USAGE_NOTES"] = {"s": _("The usage of Timekpr-nExT admin client is as follows:")}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_HEAD"] = {"s": _("---=== NOTICE ===---")}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_TIME"] = {"s": "%s%s" % ("*) ", _("numeric time values are in seconds"))}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_DAYS"] = {"s": "%s%s" % ("*) ", _("weekdays are numbered according to ISO 8601 (i.e. Monday is the first day, format: 1-7)"))}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_HOURS"] = {"s": "%s%s" % ("*) ", _("hours are numbered according to ISO 8601 (i.e. 24h clock, format: 0-23)"))}
+
     _messages["TK_MSG_CONSOLE_USERS_TOTAL"] = {"s": __("%(n)s user in total:", "%(n)s users in total:")[0], "p": __("%(n)s user in total:", "%(n)s users in total:")[1]}
     _messages["TK_MSG_CONSOLE_CONFIG_FOR"] = {"s": _("Config for %s:")}
 
