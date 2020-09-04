@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.4.1
-Release:          4.0%{?dist}
+Version:          0.4.2
+Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -20,6 +20,7 @@ BuildRequires:    ( sed )
 BuildRequires:    ( grep )
 
 Requires:         ( gtk3 >= 3.4 )
+Requires:         ( polkit )
 Requires:         ( python3 )
 Requires:         ( python3-dbus or python3-dbus-python )
 Requires:         ( python3-gobject )
@@ -118,6 +119,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Tue Aug 18 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.2-1.0
+- Updated spec file for version 0.4.2
 * Wed Jul 15 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.1-1.0
 - Updated spec file for version 0.4.1
 * Fri Jul 10 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.0-1.0

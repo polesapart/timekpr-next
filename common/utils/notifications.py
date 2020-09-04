@@ -32,15 +32,17 @@ class timekprNotificationManager(dbus.service.Object):
         self._notificationLvl = -1
         self._prevNotificationLvl = -1
 
-        # define notifications levels
+        # ## define notifications levels
+        # notifications are calculated as more than specified limit in ascending order, e.g. if there is 2400 seconds
+        # left, it means that (3600 > 2400 > 1800) second level is chosen
         self._notificationLimits = (
-            {cons.TK_NOTIF_LEFT: 3600, cons.TK_NOTIF_INTERVAL: 3600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
-            ,{cons.TK_NOTIF_LEFT: 1800, cons.TK_NOTIF_INTERVAL: 900, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_NORMAL}
-            ,{cons.TK_NOTIF_LEFT: 900, cons.TK_NOTIF_INTERVAL: 300, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
-            ,{cons.TK_NOTIF_LEFT: 300, cons.TK_NOTIF_INTERVAL: 180, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
-            ,{cons.TK_NOTIF_LEFT: 120, cons.TK_NOTIF_INTERVAL: 120, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_IMPORTANT}
+             {cons.TK_NOTIF_LEFT: 3600*2, cons.TK_NOTIF_INTERVAL: 3600*2, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
+            ,{cons.TK_NOTIF_LEFT: 3600, cons.TK_NOTIF_INTERVAL: 3600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
+            ,{cons.TK_NOTIF_LEFT: 1800, cons.TK_NOTIF_INTERVAL: 1800, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_NORMAL}
+            ,{cons.TK_NOTIF_LEFT: 300, cons.TK_NOTIF_INTERVAL: 600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
+            ,{cons.TK_NOTIF_LEFT: 60, cons.TK_NOTIF_INTERVAL: 120, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_IMPORTANT}
             ,{cons.TK_NOTIF_LEFT: 0, cons.TK_NOTIF_INTERVAL:60, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
-            ,{cons.TK_NOTIF_LEFT: -cons.TK_LIMIT_PER_DAY, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
+            ,{cons.TK_NOTIF_LEFT: -cons.TK_LIMIT_PER_DAY*31, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
         )
 
         # init DBUS

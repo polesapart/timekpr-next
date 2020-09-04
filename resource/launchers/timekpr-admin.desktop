@@ -9,4 +9,5 @@ Terminal=false
 Type=Application
 Categories=System;Settings;GTK;
 StartupNotify=true
+X-AppStream-Ignore=true
 X-Ubuntu-Gettext-Domain=timekpr

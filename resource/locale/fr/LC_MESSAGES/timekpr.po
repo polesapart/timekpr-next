@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2020-07-28 08:05+0300\n"
-"PO-Revision-Date: 2020-07-28 08:07+0300\n"
+"POT-Creation-Date: 2020-08-30 22:52+0300\n"
+"PO-Revision-Date: 2020-08-30 23:05+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: French (Canada) <fr_CA@li.org>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Launchpad-Export-Date: 2019-04-28 19:16+0000\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: common/constants/messages.py:31
 msgid "==> print help, example"
@@ -28,23 +28,32 @@ msgid "==> get saved user list from the server, example"
 msgstr "==> enregistrer la liste des utilisateurs à partir du serveur, exemple"
 
 #: common/constants/messages.py:33
-msgid "==> get user configuration from the server, example"
+msgid ""
+"==> get user configuration and time information from the server, example"
 msgstr ""
-"==> obtenir la configuration de l'utilisateur à partir du serveur, exemple"
+"==> obtenir les informations de configuration utilisateur et d'heure du "
+"serveur, exemple"
 
 #: common/constants/messages.py:34
 msgid "==> set allowed days for the user, example"
 msgstr "==> régler les jours permis pour l'utilisateur, exemple"
 
 #: common/constants/messages.py:35
-msgid "==> set allowed hours per specified day or ALL for every day, example"
+msgid ""
+"==> set allowed hours for specified day or \"ALL\" for every day (optionally "
+"specify start and end minutes in brackets), example"
 msgstr ""
-"==> régler les heures permises pour le jour choisi ou TOUS pour tous les "
-"jours, exemple"
+"==> régler les heures permises pour le jour choisi ou \"ALL\" pour tous les "
+"jours (éventuellement spécifier les minutes de début et de fin entre "
+"parenthèses), exemple"
 
 #: common/constants/messages.py:36
-msgid "==> set time limits per all allowed days, example"
-msgstr "==> régler la durée pour tous les jours permis, exemple"
+msgid ""
+"==> set time limits per all allowed days (value count must match allowed day "
+"count), example"
+msgstr ""
+"==> régler la durée pour tous les jours permis (le nombre de valeurs doit "
+"correspondre au nombre de jours autorisés), exemple"
 
 #: common/constants/messages.py:37
 msgid "==> set time limit per week, example"
@@ -66,10 +75,13 @@ msgstr ""
 
 #: common/constants/messages.py:41
 msgid ""
-"==> set time left for the user at current moment, example (add one hour)"
+"==> set time left for the user at the current moment of time: \"+\" (add "
+"time), \"-\" (subtract time), \"=\" (set exact time available), example (add "
+"one hour)"
 msgstr ""
-"==> régler le temps restant pour l'utilisateur à partir de maintenant, "
-"exemple (ajouter une heure)"
+"==> régler le temps restant pour l'utilisateur à partir de maintenant: \"+"
+"\" (ajouter l'heure), \"-\" (soustraire l'heure), \"=\" (définir l'heure "
+"exacte disponible), exemple (ajouter une heure)"
 
 #: common/constants/messages.py:44
 msgid "Control sessions types are not passed"
@@ -534,120 +546,141 @@ msgid "The usage of Timekpr-nExT admin client is as follows:"
 msgstr "L'utilisation du client de gestion de Timekpr-nExT est la suivante :"
 
 #: common/constants/messages.py:150
+msgid "---=== NOTICE ===---"
+msgstr "---=== REMARQUER ===---"
+
+#: common/constants/messages.py:151
+msgid "numeric time values are in seconds"
+msgstr "les valeurs de temps numériques sont en secondes"
+
+#: common/constants/messages.py:152
+msgid ""
+"weekdays are numbered according to ISO 8601 (i.e. Monday is the first day, "
+"format: 1-7)"
+msgstr ""
+"les jours de la semaine sont numérotés selon la norme ISO 8601 (c'est-à-dire "
+"que le lundi est le premier jour, format: 1-7)"
+
+#: common/constants/messages.py:153
+msgid "hours are numbered according to ISO 8601 (i.e. 24h clock, format: 0-23)"
+msgstr ""
+"les heures sont numérotées selon ISO 8601 (c.-à-d. horloge 24h, format: 0-23)"
+
+#: common/constants/messages.py:155
 #, python-format
 msgid "%(n)s user in total:"
 msgid_plural "%(n)s users in total:"
 msgstr[0] "%(n)s utilisateur au total :"
 msgstr[1] "%(n)s utilisateurs au total:"
 
-#: common/constants/messages.py:151
+#: common/constants/messages.py:156
 #, python-format
 msgid "Config for %s:"
 msgstr "Configuration pour %s :"
 
-#: common/constants/messages.py:154
+#: common/constants/messages.py:159
 msgid "Time left..."
 msgstr "Temps restant..."
 
-#: common/constants/messages.py:155
+#: common/constants/messages.py:160
 msgid "Limits & Configuration"
 msgstr "Limites et configuration"
 
-#: common/constants/messages.py:156
+#: common/constants/messages.py:161
 msgid "About"
 msgstr "À propos"
 
 #. TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-#: common/constants/messages.py:160 resource/client/forms/about.glade:28
+#: common/constants/messages.py:165 resource/client/forms/about.glade:28
 msgid "please-enter-translator-credits"
 msgstr "jplord@gmail.com"
 
-#: common/constants/messages.py:161 resource/client/forms/about.glade:19
+#: common/constants/messages.py:166 resource/client/forms/about.glade:19
 msgid "Keep control of computer usage"
 msgstr "Demeurez en contrôle de l'utilisation de votre ordinateur"
 
-#: common/constants/messages.py:162
+#: common/constants/messages.py:167
 msgid "Day"
 msgstr "Jour"
 
-#: common/constants/messages.py:163
+#: common/constants/messages.py:168
 msgid "Enabled"
 msgstr "Activé"
 
-#: common/constants/messages.py:164
+#: common/constants/messages.py:169
 msgid "Limit"
 msgstr "Limite"
 
-#: common/constants/messages.py:165
+#: common/constants/messages.py:170
 msgid "From"
 msgstr "De"
 
-#: common/constants/messages.py:166
+#: common/constants/messages.py:171
 msgid "To"
 msgstr "À"
 
-#: common/constants/messages.py:167 common/constants/messages.py:168
+#: common/constants/messages.py:172 common/constants/messages.py:173
 msgid "Session type"
 msgstr "Type de session"
 
-#: common/constants/messages.py:169
+#: common/constants/messages.py:174
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
-#: common/constants/messages.py:172
+#: common/constants/messages.py:177
 msgid "Timekpr-nExT notification"
 msgstr "Message de Timekpr-nExT"
 
-#: common/constants/messages.py:173
+#: common/constants/messages.py:178
 msgid "Your time is not limited today"
 msgstr "Votre temps n'est pas limité aujourd'hui"
 
-#: common/constants/messages.py:174
+#: common/constants/messages.py:179
 msgid "Time allowance has changed, please note new time left!"
 msgstr ""
 "Votre allocation a changé, veuillez prendre note de votre nouveau temps!"
 
-#: common/constants/messages.py:175
+#: common/constants/messages.py:180
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
 "Votre configuration de temps a changé, veuillez prendre note de votre "
 "nouvelle configuration!"
 
-#: common/constants/messages.py:176
+#: common/constants/messages.py:181
 #, python-format
 msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
 msgstr "Il y a un problème de connexion au service de Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:177
+#: common/constants/messages.py:182
 #, python-format
 msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
 msgstr "Il y a un problème de communication avec Timekpr-nExT (%%s)!"
 
-#: common/constants/messages.py:178
+#: common/constants/messages.py:183
 #, python-format
 msgid "Icon inititalization error (%%s)!"
 msgstr "Erreur d'initialisation de l'icône (%%s)"
 
 #. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:180
+#: common/constants/messages.py:185
 msgid "Your time is up, you will be forcibly logged out in"
 msgstr ""
 "Votre temps est expiré, votre session sera automatiquement terminée dans"
 
 #. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:182
+#: common/constants/messages.py:187
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
 msgstr[0] "%(n)s seconde"
 msgstr[1] "%(n)s secondes"
 
-#: common/constants/messages.py:183
+#: common/constants/messages.py:188
 msgid "Internal connection error, please check log files"
 msgstr "Erreur de connexion interne, veuillez consulter le journal"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:185
+#: common/constants/messages.py:190
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
@@ -655,7 +688,7 @@ msgstr[0] "Il reste %(n)s heure"
 msgstr[1] "Il reste %(n)s heures"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:187
+#: common/constants/messages.py:192
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
@@ -663,14 +696,14 @@ msgstr[0] "%(n)s minute"
 msgstr[1] "%(n)s minutes"
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:189
+#: common/constants/messages.py:194
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
 msgstr[0] "%(n)s seconde à votre session"
 msgstr[1] "%(n)s secondes à votre session"
 
-#: common/constants/messages.py:190
+#: common/constants/messages.py:195
 #, python-format
 msgid ""
 "Feature \"%%s\", which is used to detect idle time, can not be enabled!\n"
@@ -681,27 +714,27 @@ msgstr ""
 "Le temps inactif / inactif peut ne pas être pris en compte lorsque l'écran "
 "est verrouillé!"
 
-#: common/constants/messages.py:193
+#: common/constants/messages.py:198
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr "ERREUR INATTENDUE: %%S"
 
-#: common/constants/messages.py:194
+#: common/constants/messages.py:199
 #, python-format
 msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
 msgstr ""
 "ERREUR D'ANALYSE DE PARAMÈTRE (veuillez vérifier la validité du paramètre): "
 "%%s"
 
-#: common/constants/messages.py:195
+#: common/constants/messages.py:200
 msgid "Command FAILED: access denied"
 msgstr "ÉCHEC de l'opération: accès interdit"
 
-#: common/constants/messages.py:196
+#: common/constants/messages.py:201
 msgid "Command FAILED: communication was not accepted"
 msgstr "ÉCHEC de l'opération: communication refusée"
 
-#: common/constants/messages.py:197
+#: common/constants/messages.py:202
 msgid "n/a"
 msgstr "n/a"
 

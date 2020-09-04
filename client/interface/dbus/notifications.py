@@ -326,7 +326,7 @@ class timekprNotifications(object):
             hints = {"urgency": timekprPrio}
 
             # notification params based on criticality
-            if pPriority == cons.TK_PRIO_CRITICAL:
+            if pPriority in (cons.TK_PRIO_CRITICAL, cons.TK_PRIO_IMPORTANT):
                 # timeout
                 notificationTimeout = self._timekprClientConfig.getClientNotificationTimeoutCritical()
                 # sound

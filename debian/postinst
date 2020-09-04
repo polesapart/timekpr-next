@@ -2,6 +2,8 @@
 
 # timekpr directories and units
 TK_DIR="/usr/lib/python3/dist-packages/timekpr"
+# unit name
+TK_UNIT_NAME="timekpr.service"
 # unit directory (starting with debian)
 TK_UNIT_DIR="/lib/systemd/system"
 # prefixes for other distros then debian based
@@ -21,9 +23,10 @@ do
 done
 
 # final unit
-TK_UNIT="${TK_UNIT_DIR}/timekpr.service"
+TK_UNIT="${TK_UNIT_DIR}/${TK_UNIT_NAME}"
 
 # add timekpr group (for accessing administration functionality without sudo)
+echo "Checking and/or adding timekpr group to access functionality without superuser privileges"
 groupadd -g 2000 timekpr 2>/dev/null || true
 
 # remove compiled python units (may interfere with python versions)
@@ -33,26 +36,32 @@ do
     if [ -d "${R_DIR}" ];
     then
         # remove compiled
+        echo "Cleaning up Timekpr-nExT compiled units"
         find "${R_DIR}" -type d -name '__pycache__' -exec rm -rf {} \; -prune
         find "${R_DIR}" -type f -iname '*.pyc' -exec rm {} \;
     fi
 done
 
 # previously we installed unit into /etc, we need to take care of it
-TK_OBSOLETE_UNIT="/etc/systemd/system/timekpr.service"
+TK_OBSOLETE_UNIT="/etc/systemd/system/${TK_UNIT_NAME}"
 if [ -f "${TK_OBSOLETE_UNIT}" ];
 then
+    echo "Removing obsolete Timekpr-nExT systemd unit"
     rm "${TK_OBSOLETE_UNIT}"
 fi
 
 # enable service by default and start it
-systemctl enable timekpr "${TK_UNIT}"
+echo "Enabling Timekpr-nExT systemd unit"
+systemctl enable "${TK_UNIT}"
 
 # reload d-bus for access controls and systemd for service removals
+echo "Reloading dbus daemon to refresh access policies for Timekpr-nExT daemon"
 systemctl reload dbus
+echo "Reloading systemd to refresh unit for Timekpr-nExT"
 systemctl daemon-reload
 
 # restart or start (if that was not started before)
+echo "Starting Timekpr-nExT"
 systemctl restart timekpr
 
 # update gtk icon cache (if utility exists)
@@ -60,5 +69,6 @@ which gtk-update-icon-cache > /dev/null 2>&1
 # utility exists, update cache
 if [ $? -eq 0 ];
 then
+    echo "Update icon cache"
     touch --no-create /usr/share/icons/hicolor && gtk-update-icon-cache -fv /usr/share/icons/hicolor
 fi
