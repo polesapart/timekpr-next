@@ -342,9 +342,9 @@
                 <property name="margin_right">10</property>
                 <property name="xpad">5</property>
                 <property name="ypad">5</property>
-                <property name="label" translatable="yes">This is Timekpr-nExT configuration app. It allows you to configure time for your users as well as the Timekpr-nExT parameters.
+                <property name="label" translatable="yes">This is the configuration app for Timekpr-nExT. It allows you to set time limits for your individual users as well as general Timekpr-nExT options.
 
-To use this application, you either have to execute it  as superuser or have to be part of the timekpr group.
+To use this application, you either have to execute it as superuser or have to be part of the timekpr group.
 Please note that the "Timekpr-nExT Configuration" is available in superuser (administrator) mode only!
 
 Please configure carefully: do not lock yourself out!</property>
@@ -518,7 +518,7 @@ Please configure carefully: do not lock yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoLeftContLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="tooltip_text" translatable="yes">Continuous time left to user which may span to more than a current day (realtime, available when user is logged in)</property>
+                                    <property name="tooltip_text" translatable="yes">Continuous time left. May span more than the current day (realtime, available when user is logged in)</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Time left (actual):</property>
                                     <attributes>
@@ -563,7 +563,7 @@ Please configure carefully: do not lock yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoInactiveLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="tooltip_text" translatable="yes">How long user was inactive since last login (realtime, available when user is logged in)</property>
+                                    <property name="tooltip_text" translatable="yes">How long the user was inactive since last login (realtime, available when user is logged in)</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Time inactive (actual):</property>
                                     <attributes>
@@ -710,7 +710,7 @@ Please configure carefully: do not lock yourself out!</property>
                                   <object class="GtkLabel" id="TimekprUserConfTodayInfoSpentWeekLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="tooltip_text" translatable="yes">Time spent for this week (saved stated, not real-time)</property>
+                                    <property name="tooltip_text" translatable="yes">Time spent this week (saved stated, not real-time)</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Time spent (week):</property>
                                     <attributes>
@@ -873,7 +873,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">The amount of minutes to be adjusted for today's limit</property>
+                                            <property name="tooltip_text" translatable="yes">The number of minutes to be adjusted for today's limit</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="adjustment">TimekprTodayMinAdjustment</property>
@@ -890,7 +890,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfTodaySettingsSetHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">The amount of hours to be adjusted for today's limit</property>
+                                            <property name="tooltip_text" translatable="yes">The number of hours to be adjusted for today's limit</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="adjustment">TimekprTodayHrAdjustment</property>
@@ -934,7 +934,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Add specified amount (reward)</property>
+                                            <property name="tooltip_text" translatable="yes">Add specified time (reward)</property>
                                             <property name="image">TimekprApplyImageAddTime</property>
                                             <signal name="clicked" handler="todayAddTimeClicked" swapped="no"/>
                                           </object>
@@ -951,7 +951,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Subtract specified amount (penalty)</property>
+                                            <property name="tooltip_text" translatable="yes">Subtract specified time (penalty)</property>
                                             <property name="image">TimekprApplyImageSubtractTime</property>
                                             <signal name="clicked" handler="todaySubtractTimeClicked" swapped="no"/>
                                           </object>
@@ -968,7 +968,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Set exacly specified limit</property>
+                                            <property name="tooltip_text" translatable="yes">Set this specific limit</property>
                                             <property name="image">TimekprApplyImageSetTime</property>
                                             <signal name="clicked" handler="todaySetTimeClicked" swapped="no"/>
                                           </object>
@@ -1075,7 +1075,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">Lists day of the week and additional information about the day's limit, please enable / disable days for the user</property>
+                                            <property name="tooltip_text" translatable="yes">Lists day of the week and additional information about the day's limit. Please enable / disable days for the user.</property>
                                             <property name="model">TimekprWeekDaysLS</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
@@ -1115,7 +1115,7 @@ Please configure carefully: do not lock yourself out!</property>
                                         <property name="margin_bottom">5</property>
                                         <property name="xpad">5</property>
                                         <property name="ypad">5</property>
-                                        <property name="label" translatable="yes">Specify day's limit</property>
+                                        <property name="label" translatable="yes">Set day's time limit</property>
                                         <property name="wrap">True</property>
                                         <property name="max_width_chars">20</property>
                                         <attributes>
@@ -1160,7 +1160,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">Set the amount of hours to limit available time for particular day</property>
+                                            <property name="tooltip_text" translatable="yes">Set the number of hours to limit available time for particular day</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="adjustment">TimekprDailyHrLimitAdjustment</property>
@@ -1176,7 +1176,7 @@ Please configure carefully: do not lock yourself out!</property>
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaySetMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">Set the amount of hours to limit available time for particular day</property>
+                                            <property name="tooltip_text" translatable="yes">Set the number of hours to limit available time for particular day</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="adjustment">TimekprDailyMinLimitAdjustment</property>
@@ -1196,7 +1196,7 @@ Please configure carefully: do not lock yourself out!</property>
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Set specified hours and minutes for particular day at user's disposal (do not forget to hit the &lt;Apply&gt; button)</property>
+                                            <property name="tooltip_text" translatable="yes">Set hours and minutes at this user's disposal for this particular day. Don't forget to hit the &lt;Apply&gt; button!</property>
                                             <property name="image">TimekprApplyImageSetDayLimit</property>
                                             <signal name="clicked" handler="dayTotalLimitSetClicked" swapped="no"/>
                                           </object>
@@ -1286,9 +1286,9 @@ Please configure carefully: do not lock yourself out!</property>
                                           <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">Hour intervals per day available to user.
-Please note that if day ends at 24th hour and next day starts at 0, user can work continuously past midnight.
-Please note that multiple intervals cannot be configured within the same hour. An interval can start or end or contain a specific hour, but not more than once (this is by design, not a bug)</property>
+                                            <property name="tooltip_text" translatable="yes">Hour intervals per day available to this user.
+Please note that if the day's limit ends at 24:00 and the next day's limit starts at 00:00, then the user can work continuously past midnight.
+Please note that multiple intervals cannot be configured within the same hour. An interval can start or end or contain a specific hour, but not more than once. This is by design, not a bug.</property>
                                             <property name="model">TimekprHourIntervalsLS</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprHourIntervalsTreeViewSelection">
@@ -1434,7 +1434,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Remove selected interval from the list (do not forget to hit the &lt;Apply&gt; button)</property>
+                                            <property name="tooltip_text" translatable="yes">Remove selected interval from the list. Do not forget to hit the &lt;Apply&gt; button!</property>
                                             <property name="image">TimekprApplyImageRemoveInterval</property>
                                             <signal name="clicked" handler="removeHourIntervalClicked" swapped="no"/>
                                           </object>
@@ -1450,7 +1450,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                             <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip_text" translatable="yes">Add specified hour interval to the list (do not forget to hit th e&lt;Apply&gt; button)</property>
+                                            <property name="tooltip_text" translatable="yes">Add specified hour interval to the list. Do not forget to hit the &lt;Apply&gt; button!</property>
                                             <property name="image">TimekprApplyImageAddInterval</property>
                                             <signal name="clicked" handler="addHourIntervalClicked" swapped="no"/>
                                           </object>
@@ -1463,7 +1463,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToHrSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">Specify END hour of the allowed hour interval</property>
+                                            <property name="tooltip_text" translatable="yes">Specify the END hour of the allowed hour interval</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="adjustment">TimekprDailyHrToAdjustment</property>
@@ -1479,7 +1479,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                           <object class="GtkSpinButton" id="TimekprUserConfDaySettingsConfDaysIntervalsToMinSB">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">Specify END minute of the allowed hour interval</property>
+                                            <property name="tooltip_text" translatable="yes">Specify the END minute of the allowed hour interval</property>
                                             <property name="width_chars">2</property>
                                             <property name="max_width_chars">2</property>
                                             <property name="adjustment">TimekprDailyMinToAdjustment</property>
@@ -1715,7 +1715,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Week limit amount (days part)</property>
+                                <property name="tooltip_text" translatable="yes">Week limit (days part)</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprWKDayAdjustment</property>
@@ -1733,7 +1733,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Week limit amount (hours part)</property>
+                                <property name="tooltip_text" translatable="yes">Week limit (hours part)</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprWKHrAdjustment</property>
@@ -1751,7 +1751,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Week limit amount (minutes part)</property>
+                                <property name="tooltip_text" translatable="yes">Week limit (minutes part)</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprWKMinAdjustment</property>
@@ -1815,7 +1815,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Month limit amount (days part)</property>
+                                <property name="tooltip_text" translatable="yes">Month limit (days part)</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprMONDayAdjustment</property>
@@ -1833,7 +1833,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Month limit amount (hours part)</property>
+                                <property name="tooltip_text" translatable="yes">Month limit (hours part)</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprMONHrAdjustment</property>
@@ -1851,7 +1851,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Month limit amount (minutes part)</property>
+                                <property name="tooltip_text" translatable="yes">Month limit (minutes part)</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprMONMinAdjustment</property>
@@ -1879,7 +1879,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                             <property name="margin_right">5</property>
                             <property name="margin_top">5</property>
                             <property name="margin_bottom">5</property>
-                            <property name="label" translatable="yes">This allows You to set up weekly &amp; monthly limits</property>
+                            <property name="label" translatable="yes">This allows you to set up weekly and monthly limits</property>
                             <property name="wrap">True</property>
                             <property name="max_width_chars">45</property>
                             <attributes>
@@ -2402,7 +2402,7 @@ Please note that this option is only effective if wake up by RealTime Clock is s
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Timekpr-nExT log level. Please do not change this unless asked (you likely won't find anything pretty in the log files)
+                                <property name="tooltip_text" translatable="yes">Timekpr-nExT log level. Please do not change this unless asked. You likely won't find anything pretty in the log files.
 1 - standard, 2 - debug, 3 - extra debug</property>
                                 <property name="width_chars">1</property>
                                 <property name="max_width_chars">1</property>
@@ -2463,8 +2463,8 @@ Please note that this option is only effective if wake up by RealTime Clock is s
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Specify session polling time granularity (at which interval user sessions and activity are polled).
-3 -5 seconds are optimal, don't change this if unsure.</property>
+                                <property name="tooltip_text" translatable="yes">Specify session polling time granularity (how often user sessions and activity are checked).
+3 - 5 seconds are optimal, don't change this if unsure.</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprPollingAdjustment</property>
@@ -2494,7 +2494,7 @@ Please note that this option is only effective if wake up by RealTime Clock is s
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">This specifies the time interval at which actual user state is saved</property>
+                                <property name="tooltip_text" translatable="yes">This specifies the frequency with which actual user state is saved</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
                                 <property name="adjustment">TimekprSaveAdjustment</property>
@@ -2512,7 +2512,7 @@ Please note that this option is only effective if wake up by RealTime Clock is s
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="tooltip_text" translatable="yes">Amount of seconds before terminating user sessions. After this is reached, user will be terminated, nothing can be done to prevent it.
+                                <property name="tooltip_text" translatable="yes">Number of seconds before terminating user sessions. After this is reached, the user's session will be terminated / locked, and nothing can be done to prevent it.
 Adding time does not help in this case. Do that before reaching this point...</property>
                                 <property name="width_chars">2</property>
                                 <property name="max_width_chars">2</property>
@@ -2807,7 +2807,7 @@ Please, do not change or experiment with this unless you actually (not wishfully
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="tooltip_text" translatable="yes">Add excluded session type to the list</property>
+                                        <property name="tooltip_text" translatable="yes">Add an excluded session type to the list</property>
                                         <property name="image">TimekprAddExcludedSessionsImage</property>
                                         <signal name="clicked" handler="excludedSessionsAddClicked" swapped="no"/>
                                       </object>
@@ -2823,7 +2823,7 @@ Please, do not change or experiment with this unless you actually (not wishfully
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="tooltip_text" translatable="yes">Remove excluded session type from the list</property>
+                                        <property name="tooltip_text" translatable="yes">Remove an excluded session type from the list</property>
                                         <property name="image">TimekprRemoveExcludedSessionsImage</property>
                                         <signal name="clicked" handler="excludedSessionsRemoveClicked" swapped="no"/>
                                       </object>
@@ -2885,7 +2885,7 @@ Please, do not change or experiment with this unless you actually (not wishfully
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip_text" translatable="yes">List of users excluded from tracking.
-Please specify actual usernames, not real names here (e.g please specify jsmith, not John Smith)</property>
+Please specify actual usernames, not real names here. For example, "jsmith", not "John Smith".</property>
                                         <property name="model">TimekprExcludedUsersLS</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection">
@@ -2929,7 +2929,7 @@ Please specify actual usernames, not real names here (e.g please specify jsmith,
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="tooltip_text" translatable="yes">Add user to the exclusion list</property>
+                                        <property name="tooltip_text" translatable="yes">Add a user to the exclusion list</property>
                                         <property name="image">TimekprAddExcludedUsersImage</property>
                                         <signal name="clicked" handler="excludedUsersAddClicked" swapped="no"/>
                                       </object>
@@ -2945,7 +2945,7 @@ Please specify actual usernames, not real names here (e.g please specify jsmith,
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="tooltip_text" translatable="yes">Remove user from the exclusion list</property>
+                                        <property name="tooltip_text" translatable="yes">Remove a user from the exclusion list</property>
                                         <property name="image">TimekprRemoveExcludedUsersImage</property>
                                         <signal name="clicked" handler="excludedUsersRemoveClicked" swapped="no"/>
                                       </object>

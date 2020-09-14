@@ -374,10 +374,10 @@
                                       <object class="GtkLabel" id="timekprLimitInfoContTimeLeftLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Continous time left to You which may span to more than a current day</property>
+                                        <property name="tooltip_text" translatable="yes">Continuous time left to you. May span more than the current day.</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
-                                        <property name="label" translatable="yes">Continous time left:</property>
+                                        <property name="label" translatable="yes">Continuous time left:</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
                                         </attributes>
@@ -449,7 +449,7 @@
                                           <object class="GtkTreeView" id="timekprAllowedDaysDaysTreeview">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">These are days and limits that available to You</property>
+                                            <property name="tooltip_text" translatable="yes">These are the days and limits that are available to you</property>
                                             <property name="hexpand">True</property>
                                             <property name="vexpand">True</property>
                                             <property name="model">timekprAllowedDaysDaysLS</property>
@@ -508,7 +508,7 @@
                                           <object class="GtkTreeView" id="timekprAllowedDaysIntervalsTreeview">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip_text" translatable="yes">This shows time intervals that are available for Your use</property>
+                                            <property name="tooltip_text" translatable="yes">This shows the time periods that are available for your use</property>
                                             <property name="hexpand">True</property>
                                             <property name="vexpand">True</property>
                                             <property name="model">timekprAllowedDaysIntervalsLS</property>
@@ -607,7 +607,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentWeekLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">TIme spent for this week</property>
+                                        <property name="tooltip_text" translatable="yes">Time spent this week</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time spent (week):</property>
@@ -636,7 +636,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTimeSpentMonthLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time spent for this month</property>
+                                        <property name="tooltip_text" translatable="yes">Time spent this month</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time spent (month):</property>
@@ -650,7 +650,7 @@
                                       <object class="GtkLabel" id="timekprLimitInfoTrackInactiveLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Select whether time for inactive sessions are counted. If this is unchecked, time spent in console (not terminal) and while screen is locked is NOT taken into account (this very much varies from DE to DE)</property>
+                                        <property name="tooltip_text" translatable="yes">Select whether inactive session time is counted. If this is unchecked, time spent in console (not terminal emulator) login sessions and while the screen is locked is NOT taken into account. This varies among desktop environments.</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Track inactive:</property>
@@ -666,7 +666,7 @@
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="tooltip_text" translatable="yes">Select whether time for inactive sessions are counted. If this is unchecked, time spent in console (not terminal) and while screen is locked is NOT taken into account (this very much varies from DE to DE)</property>
+                                        <property name="tooltip_text" translatable="yes">Select whether inactive session time is counted. If this is unchecked, time spent in console (not terminal emulator) login sessions and while the screen is locked is NOT taken into account. This varies among desktop environments.</property>
                                         <property name="xalign">0</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
@@ -737,7 +737,7 @@
                                       <object class="GtkLabel" id="timekprLimitForWeekLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time limit for week available to You</property>
+                                        <property name="tooltip_text" translatable="yes">Time limit for this week available to you</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time limit (week):</property>
@@ -767,7 +767,7 @@
                                       <object class="GtkLabel" id="timekprLimitForMonthLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Time limit for month available to You</property>
+                                        <property name="tooltip_text" translatable="yes">Time limit for this month available to you</property>
                                         <property name="halign">end</property>
                                         <property name="ypad">4</property>
                                         <property name="label" translatable="yes">Time limit (month):</property>
@@ -835,7 +835,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Select whether to use speech notifications (if not available, this will be greyed out). If usage of speech is very much needed, please install python3-espeak package</property>
+                                <property name="tooltip_text" translatable="yes">Select whether to use speech notifications, if available. You may be able to make speech notifications available by installing package "python3-espeak".</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -854,7 +854,7 @@
                                   <object class="GtkSpinButton" id="timekprLogLevelSB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="tooltip_text" translatable="yes">This sets logging level (please do not change this unless You know what You're doing)</property>
+                                    <property name="tooltip_text" translatable="yes">This sets the logging level. Please do not change this unless you know what you're doing.</property>
                                     <property name="max_length">2</property>
                                     <property name="width_chars">2</property>
                                     <property name="max_width_chars">1</property>
@@ -875,7 +875,7 @@
                                   <object class="GtkLabel" id="timekprLogLevelLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="tooltip_text" translatable="yes">This sets logging level (please do not change this unless You know what You're doing)</property>
+                                    <property name="tooltip_text" translatable="yes">This sets the logging level. Please do not change this unless you know what you're doing.</property>
                                     <property name="margin_right">5</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Logging level</property>
@@ -898,7 +898,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Specify whether to show notification when limit configurations or allowance changes</property>
+                                <property name="tooltip_text" translatable="yes">Specify whether to show a notification when limit configurations or allowance changes</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -932,7 +932,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Specify whether to show seconds in notification area (some DE, like KDE5, do not support text besides notification icons)</property>
+                                <property name="tooltip_text" translatable="yes">Specify whether to show seconds in notification area. Some desktop environments, like KDE5, do not support text besides notification icons.</property>
                                 <property name="margin_left">5</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -952,8 +952,8 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for reguar notifications about time left and configuration changes.
-Value is specified in seconds, value of 0 means show until dismissed (not recommended for regular notificatons).
-Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+The value is specified in seconds. A value of 0 means show until dismissed (not recommended for regular notificatons).
+Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="max_length">2</property>
                                     <property name="width_chars">2</property>
                                     <property name="max_width_chars">2</property>
@@ -974,8 +974,8 @@ Please note that environment You use may override timeout which means that this 
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for reguar notifications about time left and configuration changes.
-Value is specified in seconds, value of 0 means show until dismissed (not recommended for regular notificatons).
-Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+The value is specified in seconds. A value of 0 means show until dismissed (not recommended for regular notificatons).
+Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Notification timeout (sec)</property>
                                   </object>
@@ -999,9 +999,9 @@ Please note that environment You use may override timeout which means that this 
                                   <object class="GtkSpinButton" id="timekprNotificationTimeoutCriticalSB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for Critical notifications about time left (when icon turns red).
-Value is specified in seconds, value of 0 means show until dismissed.
-Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for "Critical" notifications about time left (when the icon turns red).
+The value is specified in seconds. A value of 0 means show until dismissed.
+Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="max_length">2</property>
                                     <property name="width_chars">2</property>
                                     <property name="max_width_chars">2</property>
@@ -1022,9 +1022,9 @@ Please note that environment You use may override timeout which means that this 
                                   <object class="GtkLabel" id="timekprNotificationTimeoutCriticalLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for Critical notifications about time left (when icon turns red).
-Value is specified in seconds, value of 0 means show until dismissed.
-Please note that environment You use may override timeout which means that this setting will not have any effect on notification.</property>
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for "Critical" notifications about time left (when the icon turns red).
+The value is specified in seconds. A value of 0 means show until dismissed.
+Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Critical notification timeout (sec)</property>
                                   </object>
@@ -1046,8 +1046,8 @@ Please note that environment You use may override timeout which means that this 
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip_text" translatable="yes">Select whether to use sound "bell" (short notification sound) to indicate new notification from Timekpr-nExT. This works only for enabled notifications.
-If setting is not editable, Your environment does not advertise sound notification support.</property>
+                                <property name="tooltip_text" translatable="yes">Select whether to use sound "bell" (short notification sound) to announe a new notification from Timekpr-nExT. This works only for enabled notifications.
+If this setting is not editable, your environment does not advertise sound notification support.</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
