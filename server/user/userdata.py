@@ -5,7 +5,7 @@ Created on Aug 28, 2018
 """
 
 # import section
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import random
 import string
 import math
@@ -28,9 +28,6 @@ class timekprUser(object):
         log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekprUser")
-
-        # deatch sentence
-        self._finalCountdown = 0
 
         # init limit structure
         self._timekprUserData = self.initUserLimits()
@@ -209,7 +206,7 @@ class timekprUser(object):
                 # recalculate whether time is continous after accounting the time (handles the end of hour)
                 #   time previously was previously continous (no break)
                 #   seconds to add must be at least equal to the seconds left in this hour (all hour is available)
-                #   total seconds left this day can not be 0 unless it's the end of the day (when seconds for the day ends, the only plausible case is the end of the day)
+                #   total seconds left this day cannot be 0 unless it's the end of the day (when seconds for the day ends, the only plausible case is the end of the day)
                 contTime = True if (contTime and not secondsToAddHour < secondsLeftHour and not (secondsLeft <= 0 and j != 23)) else False
 
                 # this is it (time over)
@@ -364,7 +361,7 @@ class timekprUser(object):
             timeSpent = min(timeSpent, self._secondsInHour)
 
         # determine if active
-        userActive = self._timekprUserManager.isUserActive(pTimekprConfig, self._timekprUserConfig, self._timekprUserData[cons.TK_CTRL_SCR_N])
+        userActive, userScreenLocked = self._timekprUserManager.isUserActive(pTimekprConfig, self._timekprUserConfig, self._timekprUserData[cons.TK_CTRL_SCR_N])
 
         # how long user has been sleeping
         if not userActive:
@@ -421,7 +418,7 @@ class timekprUser(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentActual")
 
         # returns if user is active
-        return userActive
+        return userActive, userScreenLocked
 
     def getTimeLeft(self, pForceNotifications=False):
         """Get how much time is left (for this day and in a row for max this and next day)"""
@@ -620,7 +617,7 @@ class timekprUser(object):
         if self._timekprUserData[cons.TK_CTRL_SCR_R] >= math.ceil(cons.TK_MAX_RETRIES / 2):
             # screensaver
             # revalidate only if active (that influences time accounting)
-            if self._timekprUserData[cons.TK_CTRL_SCR_N]:
+            if self._timekprUserData[cons.TK_CTRL_SCR_N] is True:
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "send re-validation request to user \"%s\"" % (self._timekprUserData[cons.TK_CTRL_UNAME]))
                 # send verification request
@@ -628,6 +625,34 @@ class timekprUser(object):
 
             # reset retries
             self._timekprUserData[cons.TK_CTRL_SCR_R] = 0
+
+    def findNextAvailableIntervalStart(self):
+        """Find next available interval start for user"""
+        # result
+        res = None
+        # wakeup hours
+        hrs = self._timekprUserConfig.getUserWakeupHourInterval()
+        hrFrom = int(hrs[0])
+        hrTo = int(hrs[1])
+        # loop through all hours for today
+        for rHour in range(self._currentHOD, 23+1):
+            # check if hour is enabled
+            if self._timekprUserData[self._currentDOW][str(rHour)][cons.TK_CTRL_ACT] is True:
+                # if current hour, we need to check whether it's possible to use it (check +one minute ahead)
+                if rHour == self._currentHOD and self._currentMOH + 1 >= self._timekprUserData[self._currentDOW][str(rHour)][cons.TK_CTRL_SMIN]:
+                    # start can not be used as it is in the past
+                    continue
+                # only if wakeup interval is right
+                elif hrFrom <= rHour <= hrTo:
+                    # check if we have interval
+                    res = int(datetime(self._effectiveDatetime.year, self._effectiveDatetime.month, self._effectiveDatetime.day, rHour, self._timekprUserData[self._currentDOW][str(rHour)][cons.TK_CTRL_SMIN]).strftime("%s"))
+                # this is it
+                break
+        # msg if none found
+        if res is None:
+            log.log(cons.TK_LOG_LEVEL_INFO, "there is no next interval available today for user \"%s\"" % (self.getUserName()))
+        # return
+        return res
 
     def getUserId(self):
         """Return user id"""
@@ -641,6 +666,19 @@ class timekprUser(object):
         """Return user DBUS path"""
         return self._timekprUserData[cons.TK_CTRL_UPATH]
 
-    def processFinalWarning(self):
+    def getUserLockoutType(self):
+        """Return user lockout type"""
+        return self._timekprUserConfig.getUserLockoutType()
+
+    def processFinalWarning(self, pFinalNotificationType, pSecondsLeft):
         """Process emergency message about killing"""
-        self._timekprUserNotification.processEmergencyNotification(max(self._finalCountdown, 0))
+        self._timekprUserNotification.processEmergencyNotification(pFinalNotificationType, max(pSecondsLeft, 0))
+
+    def lockUserSessions(self):
+        """Lock all user sessions"""
+        # only if we are not in DEV mode
+        if cons.TK_DEV_ACTIVE:
+            log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not locking myself, sorry...")
+        else:
+            # lock session
+            self._timekprUserManager.lockUserSessions()

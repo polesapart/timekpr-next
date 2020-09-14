@@ -36,7 +36,7 @@ class timekprNotifications(object):
         self._timekprClientConfig = pTimekprClientConfig
 
         # critical notification (to replace itself)
-        self._criticalNotif = 0
+        self._lastNotifId = 0
 
         # session bus
         self._userSessionBus = dbus.SessionBus()
@@ -250,7 +250,7 @@ class timekprNotifications(object):
             # let's inform user in case screensaver is not connected
             if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None and self._timekprClientConfig.getClientShowAllNotifications():
                 # prepare notification
-                self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, cons.TK_PRIO_WARNING, pAdditionalMessage=self.CL_CONN_SCR)
+                self.notifyUser(cons.TK_MSG_CODE_FEATURE_SCR_NOT_AVAILABLE_ERROR, None, cons.TK_PRIO_WARNING, pAdditionalMessage=self.CL_CONN_SCR)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish initClientConnections")
 
@@ -261,7 +261,7 @@ class timekprNotifications(object):
         """Return status of timekpr connection (nothing else, just timekpr itself)"""
         return self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is not None
 
-    def prepareNotification(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
+    def _prepareNotification(self, pMsgCode, pMsgType, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Prepare the message to be sent to dbus notifications"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start prepareNotification")
 
@@ -281,8 +281,10 @@ class timekprNotifications(object):
             # msg
             msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_1", timeLeftHours), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_2", pTimeLeft.minute), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_3", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMECRITICAL:
+            # depending on type
+            msgCode = "TK_MSG_NOTIFICATION_TIME_IS_UP_1L" if pMsgType == cons.TK_CTRL_RES_L else ("TK_MSG_NOTIFICATION_TIME_IS_UP_1S" if pMsgType in (cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W) else "TK_MSG_NOTIFICATION_TIME_IS_UP_1T")
             # msg
-            msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_IS_UP_1"), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_IS_UP_2", pTimeLeft.second)))
+            msgStr = " ".join((msg.getTranslation(msgCode), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_IS_UP_2", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMELEFTCHANGED:
             # msg
             msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_ALLOWANCE_CHANGED")
@@ -303,14 +305,14 @@ class timekprNotifications(object):
             msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_SCR_FEATURE_NOT_AVAILABLE") % (pAdditionalMessage)
 
         # save notification ID
-        notifId = self._criticalNotif
+        notifId = self._lastNotifId
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish prepareNotification")
 
         # pass this back
         return notifId, timekprIcon, msgStr, timekprPrio
 
-    def notifyUser(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
+    def notifyUser(self, pMsgCode, pMsgType, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Notify the user."""
         # if we have dbus connection, let"s do so
         if self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] is None:
@@ -320,7 +322,7 @@ class timekprNotifications(object):
         # can we notify user
         if self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] is not None:
             # prepare notification
-            notifId, timekprIcon, msgStr, timekprPrio = self.prepareNotification(pMsgCode, pPriority, pTimeLeft, pAdditionalMessage)
+            notifId, timekprIcon, msgStr, timekprPrio = self._prepareNotification(pMsgCode, pMsgType, pPriority, pTimeLeft, pAdditionalMessage)
 
             # defaults
             hints = {"urgency": timekprPrio}
@@ -352,7 +354,7 @@ class timekprNotifications(object):
                 # call dbus method
                 notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
             except Exception as dbusEx:
-                # we can not send notif through dbus
+                # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
@@ -360,7 +362,7 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
 
             # save notification ID (to replace it)
-            self._criticalNotif = notifId
+            self._lastNotifId = notifId
 
             # user wants to hear things
             if self._timekprClientConfig.getIsNotificationSpeechSupported() and self._timekprClientConfig.getClientUseSpeechNotifications():
@@ -412,9 +414,9 @@ class timekprNotifications(object):
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
+                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, None, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
-                # we can not send notif through dbus
+                # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
@@ -422,7 +424,7 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, None, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
 
     def requestTimeLimits(self):
         """Request time limits from server"""
@@ -442,9 +444,9 @@ class timekprNotifications(object):
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
+                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, None, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
             except Exception as dbusEx:
-                # we can not send notif through dbus
+                # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
@@ -452,7 +454,7 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, None, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
 
     def processUserSessionAttributes(self, pWhat, pKey=None, pValue=None):
         """Process user session attributes from server"""
@@ -476,9 +478,9 @@ class timekprNotifications(object):
                 # check call result
                 if result != 0:
                     # show message to user as well
-                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=message)
+                    self.notifyUser(cons.TK_MSG_CODE_REMOTE_INVOCATION_ERROR, None, cons.TK_PRIO_CRITICAL, None, pAdditionalMessage=message)
             except Exception as dbusEx:
-                # we can not send notif through dbus
+                # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] = None
                 # logging
@@ -487,4 +489,4 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through timekpr dbus ===---")
 
                 # show message to user as well
-                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))
+                self.notifyUser(cons.TK_MSG_CODE_REMOTE_COMMUNICATION_ERROR, None, cons.TK_PRIO_CRITICAL, pAdditionalMessage=msg.getTranslation("TK_MSG_NOTIFICATION_CONNECTION_ERROR"))

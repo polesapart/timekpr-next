@@ -38,6 +38,7 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"] = {"s": _("==> set whether to hide tray icon and prevent notifications, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"] = {"s": _("==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", \"terminate\"), examples")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
 
     # ## this defines messages for use in configuration validation ##
@@ -94,6 +95,9 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_NONE"] = {"s": _("User's \"%%s\" hide tray icon flag is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID"] = {"s": _("User's \"%%s\" hide tray icon flag is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID_SET"] = {"s": _("User's \"%%s\" hide tray icon flag is not correct and can not be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_NONE"] = {"s": _("User's \"%%s\" restriction / lockout type is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_INVALID"] = {"s": _("User's \"%%s\" restriction / lockout type is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_INVALID_SET"] = {"s": _("User's \"%%s\" restriction / lockout type is not correct and cannot be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_NONE"] = {"s": _("User's \"%%s\" weekly allowance is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID"] = {"s": _("User's \"%%s\" weekly allowance is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID_SET"] = {"s": _("User's \"%%s\" weekly allowance is not correct and can not be set")}
@@ -126,6 +130,7 @@ def initMessages():
     _messages["TK_MSG_STATUS_CONFIG_RETRIEVED"] = {"s": _("Configuration retrieved")}
     _messages["TK_MSG_STATUS_TRACKINACTIVE_PROCESSED"] = {"s": _("Track inactive for user has been processed")}
     _messages["TK_MSG_STATUS_HIDETRAYICON_PROCESSED"] = {"s": _("Hide tray icon for user has been processed")}
+    _messages["TK_MSG_STATUS_LOCKOUTTYPE_PROCESSED"] = {"s": _("Restriction / lockout type for user has been processed")}
     _messages["TK_MSG_STATUS_ADJUSTTIME_PROCESSED"] = {"s": _("Additional time for user has been processed")}
     _messages["TK_MSG_STATUS_WKMONADJUSTTIME_PROCESSED"] = {"s": _("Weekly and monthly limits for user have been processed")}
     _messages["TK_MSG_STATUS_ALLOWEDDAYS_PROCESSED"] = {"s": _("Allowed days for user have been processed")}
@@ -182,7 +187,11 @@ def initMessages():
     _messages["TK_MSG_NOTIFICATION_CANNOT_COMMUNICATE"] = {"s": _("There is a problem communicating to Timekpr-nExT (%%s)!")}
     _messages["TK_MSG_NOTIFICATION_CANNOT_INIT_ICON"] = {"s": _("Icon inititalization error (%%s)!")}
     # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1"] = {"s": _("Your time is up, you will be forcibly logged out in")}
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1T"] = {"s": _("Your time is up, you will be forcibly logged out in")}
+    # TRANSLATORS: this is a part of message "Your time is up, your session will be forcibly locked in %s seconds", please translate accordingly
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1L"] = {"s": _("Your time is up, your session will be forcibly locked in")}
+    # TRANSLATORS: this is a part of message ", Your computer will be forcily suspended in %s seconds", please translate accordingly
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1S"] = {"s": _("Your time is up, your computer will be forcibly suspended in")}
     # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_2"] = {"s": __("%(n)s second", "%(n)s seconds")[0], "p": __("%(n)s second", "%(n)s seconds")[1]}
     _messages["TK_MSG_NOTIFICATION_CONNECTION_ERROR"] = {"s": _("Internal connection error, please check log files")}

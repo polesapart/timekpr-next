@@ -132,7 +132,7 @@ def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
     log.setLogging(pLog)
 
     # determine which sessions we are going to kill (either graphical or tty)
-    # this is somewhat interesting as for processes we can not exactly tell whether it's graphical or not, but we check terminal sessions,
+    # this is somewhat interesting as for processes we cannot exactly tell whether it's graphical or not, but we check terminal sessions,
     # if terminal is not set, then it's assumed graphical or so
     killTty = False
     killGUI = False

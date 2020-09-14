@@ -10,7 +10,7 @@ _**This README** is quite large, so I have prepared a guide for You:_
 
 * _a short description of [applications](#applications) with [typical use case](#typicalusecase)_
 * _installation / removal [instructions](#installation) for most widely used systems_
-* _a short description about [how You can help](#support)_
+* _a short description about [how You can help (donations, etc.)](#support)_
 * _to better understand functionality click on [description of functionality](#details)_
 * _to get information on console / file usage click on [additional configuration possibilities](#manualconfig)_
 * _information about questions, suggestions and bugs is [here](#bugs)_
@@ -85,6 +85,9 @@ First step to start using Timekpr-nExT is to install it, right? :-)
 Basically there are two versions - beta and stable, usually they are not that different, but beta comes out earlier, especially when changes in upcoming version are larger.
 
 The installation instructions are easy as well (I know that one can do that in GUI, but terminal is just simply faster :-)), just paste these lines in terminal and You're set.
+
+_Note: it's highly advised to log in and out after installation of new version._
+
 </br></br>
 
 ### Ubuntu & co (via PPA)
@@ -186,6 +189,8 @@ This section contains information about major / most important features of Timek
 Linux distributions (i.e. Ubuntu, Fedora, Mint, ...) ecosystem is large, nice, diverse and all those good things, but not everything there adheres to the same standards, so naturally there are some differences here and there, which affects Timekpr-nExT looks and/or functionality.
 
 I'll add notes (i.e. _Note: ..._) to highlight differences in functionality for the descriptions below, so users are fully aware of what to expect.
+
+_**Note**: Currently it's known that if user has enabled ```Use sound "bell" for notifications```, then critical notifications might not show on Desktop, they are registered and can be seen in notification register, though._
 </br></br>
 
 ### Description of functionality
@@ -248,6 +253,33 @@ This section describes what Timekpr-nExT does rather than details every configur
 </br></br>
 
 #### Robust time limit configuration
+
+* it's possible to configure what happens when allowed time for user ended:
+
+ _**Note**: please be careful if choosing non-default option, think ahead and figure out whether other options are suited for your use case!_
+
+ * terminate sessions - this is the default restrictive option, it terminates user sessions, that is, user is forcibly logged out
+
+   * _this is the classic behavior_
+   </br></br>
+
+ * suspend computer - this is lockout option, when time runs out computer is suspended, option is more suited for self control rather than restrict computer usage
+
+   * _when computer is woken up at the moment when there is no time left, but user does not unlock the computer, it stays that way, if computer is unlocked, then instead of suspend, the screen is locked (this is to
+     avoid excessive turn on / off), if user tried to unlock computer too many times (20), then it's suspended again_
+   </br></br>
+
+ * suspend and wake up computer - this is lockout option, when time runs out computer is suspended and woken up at next possible available time for user, option is more suited for self control rather than restrict computer usage
+
+   * _this works similarly to "suspend computer" except that computer will be woken up at first available time interval for particular day if it was put to sleep by Timekpr-nExT automatically,
+   wakeup time is dependent on BIOS / UEFI support for RTC wakeup, if there is no support for it or it is disabled, computer will NOT be woken up_
+   * _additionally please specify hour interval when computer may be woken up automatically, if wakeup time is outside of this interval, computer will NOT be woken up_
+   </br></br>
+
+ * lock screen - this is lockout option, when time runs out computer screen is locked, option is more suited for self control rather than restrict computer usage
+
+   * _as per description this option only locks the screen, if unlocked it will be locked again shortly_
+   </br></br>
 
 * allowed time frame can be configured in intervals (including minutes):
 

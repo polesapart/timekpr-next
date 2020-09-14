@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.4.2
+Version:          0.4.3
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -119,6 +119,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Tue Sep 8 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.3-1.0
+- Updated spec file for version 0.4.3
 * Tue Aug 18 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.2-1.0
 - Updated spec file for version 0.4.2
 * Wed Jul 15 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.1-1.0
