@@ -56,19 +56,13 @@
     <property name="xpad">5</property>
     <property name="stock">gtk-add</property>
   </object>
-  <object class="GtkImage" id="TimekprApplyImageSetInactive1">
+  <object class="GtkImage" id="TimekprApplyImageSetHideIcon">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="xpad">5</property>
     <property name="stock">gtk-apply</property>
   </object>
-  <object class="GtkImage" id="TimekprApplyImageSetInactive2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="xpad">5</property>
-    <property name="stock">gtk-apply</property>
-  </object>
-  <object class="GtkImage" id="TimekprApplyImageSetInactive3">
+  <object class="GtkImage" id="TimekprApplyImageSetLockoutType">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="xpad">5</property>
@@ -79,6 +73,12 @@
     <property name="can_focus">False</property>
     <property name="xpad">5</property>
     <property name="stock">gtk-justify-fill</property>
+  </object>
+  <object class="GtkImage" id="TimekprApplyImageSetTrackInactive">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="xpad">5</property>
+    <property name="stock">gtk-apply</property>
   </object>
   <object class="GtkImage" id="TimekprApplyImageSubtractTime">
     <property name="visible">True</property>
@@ -2017,7 +2017,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                     <property name="tooltip_text" translatable="yes">Set track inactive sessions</property>
                                     <property name="halign">start</property>
                                     <property name="valign">center</property>
-                                    <property name="image">TimekprApplyImageSetInactive2</property>
+                                    <property name="image">TimekprApplyImageSetTrackInactive</property>
                                     <signal name="clicked" handler="setTrackInactiveClicked" swapped="no"/>
                                   </object>
                                   <packing>
@@ -2051,7 +2051,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                     <property name="tooltip_text" translatable="yes">Set preference for showing icon to user</property>
                                     <property name="halign">start</property>
                                     <property name="valign">center</property>
-                                    <property name="image">TimekprApplyImageSetInactive3</property>
+                                    <property name="image">TimekprApplyImageSetHideIcon</property>
                                     <signal name="clicked" handler="setHideTrayIconClicked" swapped="no"/>
                                   </object>
                                   <packing>
@@ -2230,7 +2230,7 @@ This option is not a restriction and is more suited for self control purposes.</
                                     <property name="tooltip_text" translatable="yes">Set restriction / lockout type</property>
                                     <property name="halign">start</property>
                                     <property name="valign">center</property>
-                                    <property name="image">TimekprApplyImageSetInactive1</property>
+                                    <property name="image">TimekprApplyImageSetLockoutType</property>
                                     <signal name="clicked" handler="setLockoutTypeClicked" swapped="no"/>
                                   </object>
                                   <packing>
