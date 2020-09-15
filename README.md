@@ -266,6 +266,7 @@ This section describes what Timekpr-nExT does rather than details every configur
  * shutdown computer - this is restrictive option, when time runs out, the computer will be shut down
 
    * _please use with caution, especially in multi-user environments_
+   </br></br>
 
  * suspend computer - this is lockout option, when time runs out computer is suspended, option is more suited for self control rather than restrict computer usage
 
