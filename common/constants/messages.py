@@ -164,7 +164,6 @@ def initMessages():
 
     # ## GUI labels ##
     # TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-    _messages["TK_MSG_ENTER_TRANSLATION_CREDITS"] = {"s": _("please-enter-translator-credits")}
     _messages["TK_MSG_LOGO_LABEL"] = {"s": _("Keep control of computer usage")}
     _messages["TK_MSG_DAY_LIST_DAY_LABEL"] = {"s": _("Day")}
     _messages["TK_MSG_DAY_LIST_ENABLED_LABEL"] = {"s": _("Enabled")}

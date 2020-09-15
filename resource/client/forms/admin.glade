@@ -1956,6 +1956,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">5</property>
+                        <property name="margin_right">5</property>
                         <property name="margin_top">5</property>
                         <property name="margin_bottom">5</property>
                         <property name="orientation">vertical</property>
@@ -1965,6 +1966,7 @@ Please note that multiple intervals cannot be configured within the same hour. A
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
                             <property name="margin_left">5</property>
+                            <property name="margin_right">5</property>
                             <property name="margin_top">5</property>
                             <property name="label" translatable="yes">Additional configuration options</property>
                           </object>
@@ -1987,6 +1989,8 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="valign">center</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
                                 <property name="margin_top">5</property>
                                 <property name="margin_bottom">5</property>
                                 <property name="column_spacing">5</property>
@@ -2107,6 +2111,8 @@ Please note that unchecking this will disable showing all information and notifi
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="valign">center</property>
+                                <property name="margin_left">5</property>
+                                <property name="margin_right">5</property>
                                 <property name="margin_top">5</property>
                                 <property name="margin_bottom">5</property>
                                 <property name="column_spacing">5</property>
@@ -2253,7 +2259,7 @@ Please note that this option is only effective if wake up by RealTime Clock is s
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox">
+                                  <object class="GtkBox" id="TimekprUserConfAddOptsLockoutTypeSuspendWakeOptsBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>

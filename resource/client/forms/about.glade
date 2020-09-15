@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.36.0 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkAboutDialog" id="timekprAboutDialog">
@@ -25,7 +25,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;. In Debian, see file /usr/share/common-licenses/GPL-3</property>
     <property name="authors">Eduards Bezverhijs &lt;edzis@inbox.lv&gt;</property>
-    <property name="translator_credits" translatable="yes">please-enter-translator-credits</property>
+    <property name="translator_credits" translatable="yes" comments="Please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...">Eduards Bezverhijs &lt;edzis@inbox.lv&gt;
+(English fine-tuning by Phil Hudson &lt;phil.hudson@iname.com&gt;)</property>
     <property name="logo_icon_name"/>
     <property name="wrap_license">True</property>
     <property name="license_type">custom</property>
@@ -60,6 +61,9 @@ You should have received a copy of the GNU General Public License along with thi
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
 </interface>
