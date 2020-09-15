@@ -263,13 +263,17 @@ This section describes what Timekpr-nExT does rather than details every configur
    * _this is the classic behavior_
    </br></br>
 
+ * shutdown computer - this is restrictive option, when time runs out, the computer will be shut down
+
+   * _please use with caution, especially in multi-user environments_
+
  * suspend computer - this is lockout option, when time runs out computer is suspended, option is more suited for self control rather than restrict computer usage
 
    * _when computer is woken up at the moment when there is no time left, but user does not unlock the computer, it stays that way, if computer is unlocked, then instead of suspend, the screen is locked (this is to
      avoid excessive turn on / off), if user tried to unlock computer too many times (20), then it's suspended again_
    </br></br>
 
- * suspend and wake up computer - this is lockout option, when time runs out computer is suspended and woken up at next possible available time for user, option is more suited for self control rather than restrict computer usage
+ * suspend / wakeup computer - this is lockout option, when time runs out computer is suspended and woken up at next possible available time for user, option is more suited for self control rather than restrict computer usage
 
    * _this works similarly to "suspend computer" except that computer will be woken up at first available time interval for particular day if it was put to sleep by Timekpr-nExT automatically,
    wakeup time is dependent on BIOS / UEFI support for RTC wakeup, if there is no support for it or it is disabled, computer will NOT be woken up_
@@ -410,3 +414,4 @@ I'll do my best to address them as my free time allows.
 
 </br></br>
 Thanks for choosing Timekpr-nExT!
+
