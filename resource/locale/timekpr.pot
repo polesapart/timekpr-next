@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2020-09-15 08:22+0300\n"
+"POT-Creation-Date: 2020-09-15 21:53+0300\n"
 "PO-Revision-Date: 2019-03-28 09:50+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
@@ -66,7 +66,7 @@ msgstr ""
 #: common/constants/messages.py:41
 msgid ""
 "==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", "
-"\"terminate\"), examples"
+"\"terminate\", \"shutdown\"), examples"
 msgstr ""
 
 #: common/constants/messages.py:42
@@ -613,30 +613,35 @@ msgstr ""
 msgid "Your time is up, you will be forcibly logged out in"
 msgstr ""
 
-#. TRANSLATORS: this is a part of message "Your time is up, your session will be forcibly locked in %s seconds", please translate accordingly
+#. TRANSLATORS: this is a part of message "Your time is up, your computer will be forcily shutdown in %s seconds", please translate accordingly
 #: common/constants/messages.py:188
+msgid "Your time is up, your computer will be forcily shutdown in"
+msgstr ""
+
+#. TRANSLATORS: this is a part of message "Your time is up, your session will be forcibly locked in %s seconds", please translate accordingly
+#: common/constants/messages.py:190
 msgid "Your time is up, your session will be forcibly locked in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message ", Your computer will be forcily suspended in %s seconds", please translate accordingly
-#: common/constants/messages.py:190
+#: common/constants/messages.py:192
 msgid "Your time is up, your computer will be forcibly suspended in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:192
+#: common/constants/messages.py:194
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:193
+#: common/constants/messages.py:195
 msgid "Internal connection error, please check log files"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:195
+#: common/constants/messages.py:197
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
@@ -644,7 +649,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:197
+#: common/constants/messages.py:199
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
@@ -652,39 +657,39 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:199
+#: common/constants/messages.py:201
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:200
+#: common/constants/messages.py:202
 #, python-format
 msgid ""
 "Feature \"%%s\", which is used to detect idle time, cannot be enabled!\n"
 "Idle / inactive time might not be accounted when screen is locked!"
 msgstr ""
 
-#: common/constants/messages.py:203
+#: common/constants/messages.py:205
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr ""
 
-#: common/constants/messages.py:204
+#: common/constants/messages.py:206
 #, python-format
 msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
 msgstr ""
 
-#: common/constants/messages.py:205
+#: common/constants/messages.py:207
 msgid "Command FAILED: access denied"
 msgstr ""
 
-#: common/constants/messages.py:206
+#: common/constants/messages.py:208
 msgid "Command FAILED: communication was not accepted"
 msgstr ""
 
-#: common/constants/messages.py:207
+#: common/constants/messages.py:209
 msgid "n/a"
 msgstr ""
 
@@ -759,7 +764,7 @@ msgid ""
 "Please configure carefully: do not lock yourself out!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:373 resource/client/forms/admin.glade:2352
+#: resource/client/forms/admin.glade:373 resource/client/forms/admin.glade:2374
 msgid "Users related configuration"
 msgstr ""
 
@@ -910,9 +915,9 @@ msgid "Subtract specified time (penalty)"
 msgstr ""
 
 #: resource/client/forms/admin.glade:966 resource/client/forms/admin.glade:1194
-#: resource/client/forms/admin.glade:2016
-#: resource/client/forms/admin.glade:2050
-#: resource/client/forms/admin.glade:2231
+#: resource/client/forms/admin.glade:2019
+#: resource/client/forms/admin.glade:2053
+#: resource/client/forms/admin.glade:2253
 msgid "Set"
 msgstr ""
 
@@ -1107,8 +1112,8 @@ msgstr ""
 msgid "Additional configuration options"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2001
-#: resource/client/forms/admin.glade:2037
+#: resource/client/forms/admin.glade:2004
+#: resource/client/forms/admin.glade:2040
 #: resource/client/forms/client.glade:653
 #: resource/client/forms/client.glade:669
 msgid ""
@@ -1117,20 +1122,20 @@ msgid ""
 "is locked is NOT taken into account. This varies among desktop environments."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2003
+#: resource/client/forms/admin.glade:2006
 msgid "Track inactive sessions:"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2021
+#: resource/client/forms/admin.glade:2024
 msgid "Set track inactive sessions"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2055
+#: resource/client/forms/admin.glade:2058
 msgid "Set preference for showing icon to user"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2070
-#: resource/client/forms/admin.glade:2089
+#: resource/client/forms/admin.glade:2073
+#: resource/client/forms/admin.glade:2092
 msgid ""
 "Select whether to show Timekpr-next's padlock icon and notifications to the "
 "user.\n"
@@ -1138,37 +1143,48 @@ msgid ""
 "notifications to the user!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2073
+#: resource/client/forms/admin.glade:2076
 msgid "Hide icon and notifications:"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2123
+#: resource/client/forms/admin.glade:2126
 msgid ""
 "Select a restriction / lockout type for the user.\n"
-"NOTE: please be very careful, think ahead and read every option's "
-"description when chaging this setting from default value!"
+"NOTE: please be very careful, think ahead and read every options description "
+"when changing this setting from default value!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2126
+#: resource/client/forms/admin.glade:2129
 msgid "Restriction / lockout type:"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2146
+#: resource/client/forms/admin.glade:2148
 msgid "terminate sessions"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2150
+#: resource/client/forms/admin.glade:2152
 msgid ""
 "When time ends, user sessions will be terminated.\n"
 "This option is a restriction!\n"
 "This is the default option and most likely is the one you need!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2166
-msgid "suspend / sleep"
+#: resource/client/forms/admin.glade:2168
+msgid "shutdown computer"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2170
+#: resource/client/forms/admin.glade:2172
+msgid ""
+"When time ends, computer will be shut down.\n"
+"This option is a restriction!\n"
+"Please evaluate whether you need this type of restriction!"
+msgstr ""
+
+#: resource/client/forms/admin.glade:2188
+msgid "suspend computer"
+msgstr ""
+
+#: resource/client/forms/admin.glade:2192
 msgid ""
 "When time ends, computer will be suspended (put to sleep).\n"
 "This option is not a restriction and is more suited for self control "
@@ -1177,11 +1193,11 @@ msgid ""
 "locked and put to sleep again after some time."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2186
-msgid "suspend / sleep and wakeup"
+#: resource/client/forms/admin.glade:2208
+msgid "suspend / wakeup computer"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2190
+#: resource/client/forms/admin.glade:2212
 msgid ""
 "When time ends, computer will be suspended (put to sleep) and will be woken "
 "up at start of next availabe time interval for the user.\n"
@@ -1191,99 +1207,99 @@ msgid ""
 "locked and put to sleep again after some time."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2206
-msgid "lock"
+#: resource/client/forms/admin.glade:2228
+msgid "lock screen"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2210
+#: resource/client/forms/admin.glade:2232
 msgid ""
 "When time ends, computer screen will be locked.\n"
 "This option is not a restriction and is more suited for self control "
 "purposes."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2236
+#: resource/client/forms/admin.glade:2258
 msgid "Set restriction / lockout type"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2250
+#: resource/client/forms/admin.glade:2272
 msgid ""
 "Select a time interval when computer can be woken up automatically.\n"
 "Please note that this option is only effective if wake up by RealTime Clock "
 "is supported and enabled in BIOS / UEFI!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2253
+#: resource/client/forms/admin.glade:2275
 msgid "Wakeup hour interval:"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2268
+#: resource/client/forms/admin.glade:2290
 msgid ""
 "Enter start hour for the automatic wakeup function.\n"
 "Please note that this option is only effective if wake up by RealTime Clock "
 "is supported and enabled in BIOS / UEFI!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2285
+#: resource/client/forms/admin.glade:2307
 msgid ""
 "Enter end hour for the automatic wakeup function.\n"
 "Please note that this option is only effective if wake up by RealTime Clock "
 "is supported and enabled in BIOS / UEFI!"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2331
+#: resource/client/forms/admin.glade:2353
 msgid "Additional configuration"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2332
+#: resource/client/forms/admin.glade:2354
 msgid "Additional options"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2353
+#: resource/client/forms/admin.glade:2375
 msgid "User Configuration"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2384
+#: resource/client/forms/admin.glade:2406
 msgid "Control Timekpr-nExT Settings"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2411
+#: resource/client/forms/admin.glade:2433
 msgid ""
 "Timekpr-nExT log level. Please do not change this unless asked. You likely "
 "won't find anything pretty in the log files.\n"
 "1 - standard, 2 - debug, 3 - extra debug"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2430
+#: resource/client/forms/admin.glade:2452
 msgid "Poll interval"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2442
+#: resource/client/forms/admin.glade:2464
 msgid ""
 "Specify the time in seconds when Timekpr-nExT starts continuous real-time "
 "countdown before terminating the session"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2460
+#: resource/client/forms/admin.glade:2482
 msgid "Save time"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2472
+#: resource/client/forms/admin.glade:2494
 msgid ""
 "Specify session polling time granularity (how often user sessions and "
 "activity are checked).\n"
 "3 - 5 seconds are optimal, don't change this if unsure."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2491
+#: resource/client/forms/admin.glade:2513
 msgid "Termination time"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2503
+#: resource/client/forms/admin.glade:2525
 msgid "This specifies the frequency with which actual user state is saved"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2521
+#: resource/client/forms/admin.glade:2543
 msgid ""
 "Number of seconds before terminating user sessions. After this is reached, "
 "the user's session will be terminated / locked, and nothing can be done to "
@@ -1291,105 +1307,105 @@ msgid ""
 "Adding time does not help in this case. Do that before reaching this point..."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2540
+#: resource/client/forms/admin.glade:2562
 msgid "Warning time"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2552
+#: resource/client/forms/admin.glade:2574
 msgid "Log level"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2590
+#: resource/client/forms/admin.glade:2612
 msgid "Control Timekpr-nExT tracking items"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2625
+#: resource/client/forms/admin.glade:2647
 msgid "Tracked Sessions"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2649
+#: resource/client/forms/admin.glade:2671
 msgid ""
 "List of session types to be tracked.\n"
 "Please, do not change or experiment with this unless you actually (not "
 "wishfully) know what you are doing."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2670
+#: resource/client/forms/admin.glade:2692
 msgid "Enter session type to be tracked"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2694
+#: resource/client/forms/admin.glade:2716
 msgid "Add tracked session type to the list"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2710
+#: resource/client/forms/admin.glade:2732
 msgid "Remove tracked session type from the list"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2747
+#: resource/client/forms/admin.glade:2769
 msgid "Excluded Sessions"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2771
+#: resource/client/forms/admin.glade:2793
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "Please, do not change or experiment with this unless you actually (not "
 "wishfully) know what you are doing."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2792
+#: resource/client/forms/admin.glade:2814
 msgid "Enter session type to be excluded from tracking"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2816
+#: resource/client/forms/admin.glade:2838
 msgid "Add an excluded session type to the list"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2832
+#: resource/client/forms/admin.glade:2854
 msgid "Remove an excluded session type from the list"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2869
+#: resource/client/forms/admin.glade:2891
 msgid "Excluded Users"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2893
+#: resource/client/forms/admin.glade:2915
 msgid ""
 "List of users excluded from tracking.\n"
 "Please specify actual usernames, not real names here. For example, \"jsmith"
 "\", not \"John Smith\"."
 msgstr ""
 
-#: resource/client/forms/admin.glade:2914
+#: resource/client/forms/admin.glade:2936
 msgid "Enter username to be excluded from tracking"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2938
+#: resource/client/forms/admin.glade:2960
 msgid "Add a user to the exclusion list"
 msgstr ""
 
-#: resource/client/forms/admin.glade:2954
+#: resource/client/forms/admin.glade:2976
 msgid "Remove a user from the exclusion list"
 msgstr ""
 
-#: resource/client/forms/admin.glade:3001
+#: resource/client/forms/admin.glade:3023
 msgid "Apply Timekpr-nExT setings"
 msgstr ""
 
-#: resource/client/forms/admin.glade:3006
+#: resource/client/forms/admin.glade:3028
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr ""
 
-#: resource/client/forms/admin.glade:3026
+#: resource/client/forms/admin.glade:3048
 msgid "Timekpr-nExT Administration Configuration"
 msgstr ""
 
-#: resource/client/forms/admin.glade:3027
+#: resource/client/forms/admin.glade:3049
 msgid "Timekpr-nExT Configuration"
 msgstr ""
 
-#: resource/client/forms/admin.glade:3056
-#: resource/client/forms/admin.glade:3075
+#: resource/client/forms/admin.glade:3078
+#: resource/client/forms/admin.glade:3097
 msgid "Status of Timekpr-nExT admin client"
 msgstr ""
 
@@ -1556,7 +1572,7 @@ msgstr ""
 #: resource/client/forms/client.glade:954
 #: resource/client/forms/client.glade:976
 msgid ""
-"This sets how long a notification is shown for reguar notifications about "
+"This sets how long a notification is shown for regular notifications about "
 "time left and configuration changes.\n"
 "The value is specified in seconds. A value of 0 means show until dismissed "
 "(not recommended for regular notificatons).\n"
