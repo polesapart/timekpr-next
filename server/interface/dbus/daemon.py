@@ -249,14 +249,14 @@ class timekprDaemon(dbus.service.Object):
 
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:
-                # if user is not active and we are not restricting them even idle
-                if (not _killEvenIdle and userActive and userScreenLocked) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_T:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "saving user \"%s\" from ending his sessions" % (rUserName))
+                # (internal idle killing switch) + user is not active + there is a time available today (opposing to in a row)
+                if (not _killEvenIdle and not userActive and timeLeftToday > timeLeftInARow) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_T:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "SAVING user \"%s\" from ending his sessions" % (rUserName))
                     # remove from death list
                     self._timekprUserRestrictionList.pop(rUserName)
                 # if restricted time has passed, we need to lift the restriction
                 elif timeLeftInARow > self._timekprConfig.getTimekprTerminationTime() and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W):
-                    log.log(cons.TK_LOG_LEVEL_INFO, "releasing lock / suspend from user \"%s\"" % (rUserName))
+                    log.log(cons.TK_LOG_LEVEL_INFO, "RELEASING lock / suspend from user \"%s\"" % (rUserName))
                     # remove from restriction list
                     self._timekprUserRestrictionList.pop(rUserName)
                 # update restriction stats
