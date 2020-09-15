@@ -38,7 +38,7 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"] = {"s": _("==> set whether to hide tray icon and prevent notifications, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"] = {"s": _("==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", \"terminate\"), examples")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"] = {"s": _("==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", \"terminate\", \"shutdown\"), examples")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
 
     # ## this defines messages for use in configuration validation ##
@@ -184,6 +184,8 @@ def initMessages():
     _messages["TK_MSG_NOTIFICATION_CANNOT_INIT_ICON"] = {"s": _("Icon inititalization error (%%s)!")}
     # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1T"] = {"s": _("Your time is up, you will be forcibly logged out in")}
+    # TRANSLATORS: this is a part of message "Your time is up, your computer will be forcily shutdown in %s seconds", please translate accordingly
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1D"] = {"s": _("Your time is up, your computer will be forcily shutdown in")}
     # TRANSLATORS: this is a part of message "Your time is up, your session will be forcibly locked in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1L"] = {"s": _("Your time is up, your session will be forcibly locked in")}
     # TRANSLATORS: this is a part of message ", Your computer will be forcily suspended in %s seconds", please translate accordingly

@@ -324,3 +324,12 @@ class timekprUserLoginManager(object):
         else:
             log.log(cons.TK_LOG_LEVEL_DEBUG, "start suspendComputer in the name of \"%s\"" % (pUserName))
             GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.Suspend, False)
+
+    def shutdownComputer(self, pUserName):
+        """Shutdown computer"""
+        # only if we are not in DEV mode
+        if cons.TK_DEV_ACTIVE:
+            log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not issuing shutdown for myself, sorry...")
+        else:
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "start shutdownComputer in the name of \"%s\"" % (pUserName))
+            GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.PowerOff, False)

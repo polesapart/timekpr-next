@@ -951,7 +951,7 @@
                                   <object class="GtkSpinButton" id="timekprNotificationTimeoutSB">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for reguar notifications about time left and configuration changes.
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for regular notifications about time left and configuration changes.
 The value is specified in seconds. A value of 0 means show until dismissed (not recommended for regular notificatons).
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="max_length">2</property>
@@ -973,7 +973,7 @@ Please note that the desktop environment you use may override this timeout, in w
                                   <object class="GtkLabel" id="timekprNotificationTimeoutLabel">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for reguar notifications about time left and configuration changes.
+                                    <property name="tooltip_text" translatable="yes">This sets how long a notification is shown for regular notifications about time left and configuration changes.
 The value is specified in seconds. A value of 0 means show until dismissed (not recommended for regular notificatons).
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>

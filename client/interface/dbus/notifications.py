@@ -282,7 +282,14 @@ class timekprNotifications(object):
             msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_1", timeLeftHours), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_2", pTimeLeft.minute), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_3", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMECRITICAL:
             # depending on type
-            msgCode = "TK_MSG_NOTIFICATION_TIME_IS_UP_1L" if pMsgType == cons.TK_CTRL_RES_L else ("TK_MSG_NOTIFICATION_TIME_IS_UP_1S" if pMsgType in (cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W) else "TK_MSG_NOTIFICATION_TIME_IS_UP_1T")
+            if pMsgType == cons.TK_CTRL_RES_L:
+                msgCode = "TK_MSG_NOTIFICATION_TIME_IS_UP_1L"
+            elif pMsgType in (cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W):
+                msgCode = "TK_MSG_NOTIFICATION_TIME_IS_UP_1S"
+            elif pMsgType == cons.TK_CTRL_RES_D:
+                msgCode = "TK_MSG_NOTIFICATION_TIME_IS_UP_1D"
+            else:
+                msgCode = "TK_MSG_NOTIFICATION_TIME_IS_UP_1T"
             # msg
             msgStr = " ".join((msg.getTranslation(msgCode), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_IS_UP_2", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMELEFTCHANGED:

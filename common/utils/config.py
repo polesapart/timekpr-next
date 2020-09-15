@@ -649,7 +649,7 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_HIDE_TRAY_ICON))
         # set up param
         param = "LOCKOUT_TYPE"
-        self._timekprUserConfigParser.set(section, "# this defines user restriction / lockout mode: lock - lock screen, suspend - put computer to sleep, suspendwake - put computer to sleep and wake it up, terminate - terminate sessions")
+        self._timekprUserConfigParser.set(section, "# this defines user restriction / lockout mode: lock - lock screen, suspend - put computer to sleep, suspendwake - put computer to sleep and wake it up, terminate - terminate sessions, shutdown - shutdown the computer")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_CTRL_RES_T)
         # set up param
         param = "WAKEUP_HOUR_INTERVAL"

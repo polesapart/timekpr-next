@@ -186,7 +186,7 @@ class timekprNotificationManager(dbus.service.Object):
     def timeCriticalNotification(self, pFinalNotificationType, pPriority, pSecondsLeft):
         """Send out signal"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "sending tcn: %s, %i" % (pFinalNotificationType, pSecondsLeft))
-        # Your time is up, you will be forcibly logged / locked / suspended out in %i seconds!
+        # Your time is up, you will be forcibly logged / locked / suspended / shutdown out in %i seconds!
         pass
 
     @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="s")

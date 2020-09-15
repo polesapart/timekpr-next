@@ -349,8 +349,8 @@ Please note that the "Timekpr-nExT Configuration" is available in superuser (adm
 
 Please configure carefully: do not lock yourself out!</property>
                 <property name="wrap">True</property>
-                <property name="width_chars">75</property>
-                <property name="max_width_chars">75</property>
+                <property name="width_chars">70</property>
+                <property name="max_width_chars">70</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1969,6 +1969,9 @@ Please note that multiple intervals cannot be configured within the same hour. A
                             <property name="margin_right">5</property>
                             <property name="margin_top">5</property>
                             <property name="label" translatable="yes">Additional configuration options</property>
+                            <attributes>
+                              <attribute name="style" value="italic"/>
+                            </attributes>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1988,10 +1991,10 @@ Please note that multiple intervals cannot be configured within the same hour. A
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="valign">center</property>
+                                <property name="valign">start</property>
                                 <property name="margin_left">5</property>
                                 <property name="margin_right">5</property>
-                                <property name="margin_top">5</property>
+                                <property name="margin_top">20</property>
                                 <property name="margin_bottom">5</property>
                                 <property name="column_spacing">5</property>
                                 <child>
@@ -2121,7 +2124,7 @@ Please note that unchecking this will disable showing all information and notifi
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="tooltip_text" translatable="yes">Select a restriction / lockout type for the user.
-NOTE: please be very careful, think ahead and read every option's description when chaging this setting from default value!</property>
+NOTE: please be very careful, think ahead and read every options description when changing this setting from default value!</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Restriction / lockout type:</property>
                                     <property name="ellipsize">end</property>
@@ -2139,7 +2142,6 @@ NOTE: please be very careful, think ahead and read every option's description wh
                                     <property name="visible">True</property>
                                     <property name="sensitive">False</property>
                                     <property name="can_focus">False</property>
-                                    <property name="margin_top">5</property>
                                     <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeTerminate">
@@ -2162,8 +2164,28 @@ This is the default option and most likely is the one you need!</property>
                                       </packing>
                                     </child>
                                     <child>
+                                      <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeShutdown">
+                                        <property name="label" translatable="yes">shutdown computer</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="tooltip_text" translatable="yes">When time ends, computer will be shut down.
+This option is a restriction!
+Please evaluate whether you need this type of restriction!</property>
+                                        <property name="halign">start</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <property name="group">TimekprUserConfAddOptsLockoutTypeTerminate</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
                                       <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeSuspend">
-                                        <property name="label" translatable="yes">suspend / sleep</property>
+                                        <property name="label" translatable="yes">suspend computer</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -2178,12 +2200,12 @@ When woken up when there is still no time left, computer screen will be locked a
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeSuspendWake">
-                                        <property name="label" translatable="yes">suspend / sleep and wakeup</property>
+                                        <property name="label" translatable="yes">suspend / wakeup computer</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -2198,12 +2220,12 @@ When woken up when there is still no time left, computer screen will be locked a
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeLock">
-                                        <property name="label" translatable="yes">lock</property>
+                                        <property name="label" translatable="yes">lock screen</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -2217,7 +2239,7 @@ This option is not a restriction and is more suited for self control purposes.</
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">3</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                   </object>

@@ -145,7 +145,7 @@ TK_CTRL_UID = "UID"      # user id
 TK_CTRL_UNAME = "UNAME"  # user name
 TK_CTRL_UPATH = "UPATH"  # user path on dbus
 TK_CTRL_FCNTD = "FCNTD"  # final countdown
-TK_CTRL_RESTY = "RESTY"  # restricton type: lock, suspend, suspendwake, terminate
+TK_CTRL_RESTY = "RESTY"  # restricton type: lock, suspend, suspendwake, terminate, shutdown
 TK_CTRL_RTDEL = "RTDEL"  # retry delay before next attempt to enforce restrictions
 TK_CTRL_RTDEA = "RTDEA"  # retry delay (additional delay for lock in case of suspend)
 TK_CTRL_USACT = "USACT"  # whether user is active
@@ -158,6 +158,7 @@ TK_CTRL_RES_L = "lock"
 TK_CTRL_RES_S = "suspend"
 TK_CTRL_RES_W = "suspendwake"
 TK_CTRL_RES_T = "terminate"
+TK_CTRL_RES_D = "shutdown"
 # wake up RTC file
 TK_CTRL_WKUPF = "/sys/class/rtc/rtc0/wakealarm"
 

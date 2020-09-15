@@ -553,6 +553,7 @@ class timekprAdminGUI(object):
         # get lockout type
         lockoutType = None
         lockoutType = cons.TK_CTRL_RES_T if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeTerminate").get_active() else lockoutType
+        lockoutType = cons.TK_CTRL_RES_D if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeShutdown").get_active() else lockoutType
         lockoutType = cons.TK_CTRL_RES_S if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspend").get_active() else lockoutType
         lockoutType = cons.TK_CTRL_RES_W if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWake").get_active() else lockoutType
         lockoutType = cons.TK_CTRL_RES_L if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeLock").get_active() else lockoutType
@@ -564,6 +565,8 @@ class timekprAdminGUI(object):
         # set lockout type
         if pLockoutType == cons.TK_CTRL_RES_T:
             self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeTerminate").set_active(True)
+        elif pLockoutType == cons.TK_CTRL_RES_D:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeShutdown").set_active(True)
         elif pLockoutType == cons.TK_CTRL_RES_S:
             self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspend").set_active(True)
         elif pLockoutType == cons.TK_CTRL_RES_W:
