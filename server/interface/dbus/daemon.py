@@ -250,7 +250,7 @@ class timekprDaemon(dbus.service.Object):
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:
                 # (internal idle killing switch) + user is not active + there is a time available today (opposing to in a row)
-                if (not _killEvenIdle and not userActive and timeLeftToday > timeLeftInARow) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
+                if (not _killEvenIdle and not userActive and timeLeftToday > self._timekprConfig.getTimekprTerminationTime()) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
                     log.log(cons.TK_LOG_LEVEL_INFO, "SAVING user \"%s\" from ending his sessions / shutdown" % (rUserName))
                     # remove from death list
                     self._timekprUserRestrictionList.pop(rUserName)
