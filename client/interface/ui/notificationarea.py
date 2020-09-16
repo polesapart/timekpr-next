@@ -122,11 +122,6 @@ class timekprNotificationArea(object):
         # if we have dbus connection, let's do so
         self._timekprNotifications.notifyUser(pMsgCode, pMsgType, pPriority, pTimeLeft, pAdditionalMessage)
 
-    def closeNotification(self):
-        """Close last notification (a wrapper call)"""
-        # if we have dbus connection, let's do so
-        self._timekprNotifications.closeNotification()
-
     def setStatus(self, pStatus):
         """Change status of timekpr"""
         return self._timekprGUI.setStatus(pStatus)
