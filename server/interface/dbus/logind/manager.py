@@ -155,14 +155,14 @@ class timekprUserLoginManager(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting sessions for \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
         # go through all user sessions
-        for userSession in login1UserSessions:
+        for rUserSession in login1UserSessions:
             # dbus performance measurement
             misc.measureTimeElapsed(pStart=True)
 
             # get dbus object
-            login1SessionObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, str(userSession[1]))
+            login1SessionObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, str(rUserSession[1]))
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (str(userSession[1]), misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (str(rUserSession[1]), misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
             # get dbus interface for properties
             login1SessionInterface = dbus.Interface(login1SessionObject, cons.TK_DBUS_PROPERTIES_INTERFACE)
@@ -179,9 +179,9 @@ class timekprUserLoginManager(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
 
                 # add user session to return list
-                userSessions.append({"session": userSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
+                userSessions.append({"session": rUserSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
             except Exception as exc:
-                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting session properties for session \"%s\" DBUS: %s" % (str(userSession[1]), exc))
+                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting session properties for session \"%s\" DBUS: %s" % (str(rUserSession[1]), exc))
 
         # return sessions
         return userSessions
@@ -255,7 +255,7 @@ class timekprUserLoginManager(object):
                 # it appears that sometimes seats are not available (RDP may not have it)
                 seat = self._login1ManagerInterface.GetSeat(pSeatId)
             except Exception as exc:
-                # can not switch as we can't get seat
+                # cannot switch as we can't get seat
                 willSwitchTTY = False
                 log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting seat (%s) from DBUS: %s" % (str(pSeatId), exc))
 
@@ -288,23 +288,23 @@ class timekprUserLoginManager(object):
         lastSeat = None
 
         # go through all user sessions
-        for userSession in userSessionList:
+        for rUserSession in userSessionList:
             # if excludeTTY and sessionType not in ("unspecified", "tty"):
-            if userSession["type"] in pTimekprConfig.getTimekprSessionsCtrl():
+            if rUserSession["type"] in pTimekprConfig.getTimekprSessionsCtrl():
                 # switch TTY (it will switch only when needed and user session currently is active, e.g. in foreground)
-                if userSession["state"] == "active":
-                    lastSeat = userSession["seat"]
-                    switchTTYNeeded = self.switchTTY(lastSeat, userSession["vtnr"])
+                if rUserSession["state"] == "active":
+                    lastSeat = rUserSession["seat"]
+                    switchTTYNeeded = self.switchTTY(lastSeat, rUserSession["vtnr"])
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
                 else:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(userSession["session"][1]), str(userSession["type"])))
-                    GLib.timeout_add_seconds(1, self._login1ManagerInterface.TerminateSession, userSession["session"][0])
+                    log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
+                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["session"][0])
                     # count sessions to kill
                     sessionsToKill += 1
             else:
-                log.log(cons.TK_LOG_LEVEL_INFO, "saving \"%s\" session %s (%s)" % (pUserName, str(userSession["session"][1]), str(userSession["type"])))
+                log.log(cons.TK_LOG_LEVEL_INFO, "saving \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
 
         # kill leftover processes (if we are killing smth)
         if sessionsToKill > 0:
@@ -315,3 +315,21 @@ class timekprUserLoginManager(object):
             GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")
+
+    def suspendComputer(self, pUserName):
+        """Suspend computer"""
+        # only if we are not in DEV mode
+        if cons.TK_DEV_ACTIVE:
+            log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not suspending myself, sorry...")
+        else:
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "start suspendComputer in the name of \"%s\"" % (pUserName))
+            GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.Suspend, False)
+
+    def shutdownComputer(self, pUserName):
+        """Shutdown computer"""
+        # only if we are not in DEV mode
+        if cons.TK_DEV_ACTIVE:
+            log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not issuing shutdown for myself, sorry...")
+        else:
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "start shutdownComputer in the name of \"%s\"" % (pUserName))
+            GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.PowerOff, False)

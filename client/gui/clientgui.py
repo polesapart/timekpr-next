@@ -225,14 +225,8 @@ class timekprGUI(object):
         """Initialize about form"""
         # version
         self._timekprAboutDialog.set_version(self._timekprVersion)
-        # translation stuff
-        self._timekprAboutDialog.set_translator_credits(msg.getTranslation("TK_MSG_ENTER_TRANSLATION_CREDITS"))
         # comment
         self._timekprAboutDialog.set_comments(msg.getTranslation("TK_MSG_LOGO_LABEL"))
-        # get translations
-        if msg.getTranslation("TK_MSG_TRANSLATOR_CREDITS") in ("please-enter-translator-credits", ""):
-            # n/a
-            self._timekprAboutDialog.set_property("translator_credits", "n/a")
 
         # show up all
         self._timekprAboutDialog.show_all()

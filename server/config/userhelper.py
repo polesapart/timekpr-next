@@ -35,7 +35,6 @@ with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
             _limitsConfig[x[0][0]] = int(x[0][1])
 
 
-# this gets user limits
 def verifyNormalUserID(pUserId):
     """Return min user id"""
     global _limitsConfig
@@ -47,6 +46,25 @@ def getTimekprLoginManagers():
     """Get login manager names"""
     global _loginManagers
     return(_loginManagers)
+
+
+def setWakeUpByRTC(pWkeUpTimeEpoch):
+    """Set wakeup time for computer"""
+    res = False
+    # first check that we can access rtc
+    if os.path.isfile(cons.TK_CTRL_WKUPF):
+        try:
+            # now write wakeup timer
+            with open(cons.TK_CTRL_WKUPF, "w") as wakeFile:
+                # write time
+                wakeFile.write(str(pWkeUpTimeEpoch))
+                # success
+                res = True
+        except:
+            # we only care about this, at least for now, if it succeeds
+            res = False
+    # result
+    return res
 
 
 class timekprUserStore(object):
@@ -157,7 +175,7 @@ class timekprUserStore(object):
                 # whether user is valid in config file
                 userNameValidated = False
                 # try to read the first line with username
-                with open(rUserConfigFile, 'r') as confFile:
+                with open(rUserConfigFile, "r") as confFile:
                     # read first (x) lines and try to get username
                     for i in range(0, cons.TK_UNAME_SRCH_LN_LMT):
                         # check whether we have correct username

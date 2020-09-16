@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.4.2"
+TK_VERSION = "0.4.3"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DEV_SUPPORT_PAGE = "https://tinyurl.com/yc9x85v2"
@@ -140,14 +140,32 @@ TK_SCR_XDGCD_OVERRIDE = [
 # DBUS performance measurement
 TK_DBUS_ANSWER_TIME = 3
 
-# user properties
-TK_CTRL_UID = "UID"
-TK_CTRL_UNAME = "UNAME"
-TK_CTRL_UPATH = "UPATH"
+# user and their restriction constants
+TK_CTRL_UID = "UID"      # user id
+TK_CTRL_UNAME = "UNAME"  # user name
+TK_CTRL_UPATH = "UPATH"  # user path on dbus
+TK_CTRL_FCNTD = "FCNTD"  # final countdown
+TK_CTRL_RESTY = "RESTY"  # restricton type: lock, suspend, suspendwake, terminate, shutdown
+TK_CTRL_RTDEL = "RTDEL"  # retry delay before next attempt to enforce restrictions
+TK_CTRL_RTDEA = "RTDEA"  # retry delay (additional delay for lock in case of suspend)
+TK_CTRL_USACT = "USACT"  # whether user is active
+TK_CTRL_USLCK = "USLCK"  # whether user screen is locked
+TK_CTRL_USWKU = "USWKU"  # wake up time for computer if one is specified
+TK_CTRL_LCDEL = 1        # lock cycle delay (how many ticks happen before repetitive lock)
+TK_CTRL_SCDEL = 20       # suspend cycle delay (how many ticks happen before repetitive suspend)
+# restriction / lockout types
+TK_CTRL_RES_L = "lock"
+TK_CTRL_RES_S = "suspend"
+TK_CTRL_RES_W = "suspendwake"
+TK_CTRL_RES_T = "terminate"
+TK_CTRL_RES_D = "shutdown"
+# wake up RTC file
+TK_CTRL_WKUPF = "/sys/class/rtc/rtc0/wakealarm"
 
 # session properties
 TK_CTRL_DBUS_SESS_OBJ = "SESSION_OBJECT"
 TK_CTRL_DBUS_SESS_IF = "SESSION_INTERFACE"
+TK_CTRL_DBUS_SESS_PROP_IF = "SESSION_PROPERTIES_INTERFACE"
 TK_CTRL_DBUS_SESS_PROP = "SESSION_STATIC_PROPERTIES"
 
 # limit configuration
@@ -291,6 +309,7 @@ TK_USER_ADMIN_COMMANDS = {
     ,"--settimelimitmonth" : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON") + ":\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
     ,"--settrackinactive"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE") + ":\n    timekpra --settrackinactive \"testuser\" \"false\""
     ,"--sethidetrayicon"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON") + ":\n    timekpra --sethidetrayicon \"testuser\" \"false\""
+    ,"--setlockouttype"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE") + ":\n    timekpra --setlockouttype \"testuser\" \"terminate\"\n    timekpra --setlockouttype \"testuser\" \"suspendwake;7;18\""
     ,"--settimeleft"       : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT") + ":\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
 }
 

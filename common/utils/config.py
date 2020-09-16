@@ -35,7 +35,7 @@ def _findHourStartEndMinutes(pStr):
         st = pStr.find("[")
         sep = pStr.find("-")
         en = pStr.find("]")
-        # in case user config is broken, we can not determine stuff
+        # in case user config is broken, we cannot determine stuff
         if st < 0 or en < 0 or sep < 0 or not st < sep < en:
             # nothing
             pass
@@ -278,7 +278,7 @@ class timekprConfig(object):
         section = "DOCUMENTATION"
         self._timekprConfigParser.add_section(section)
         self._timekprConfigParser.set(section, "#### this is the main configuration file for timekpr-next")
-        self._timekprConfigParser.set(section, "#### if this file can not be read properly, it will be overwritten with defaults")
+        self._timekprConfigParser.set(section, "#### if this file cannot be read properly, it will be overwritten with defaults")
 
         section = "GENERAL"
         self._timekprConfigParser.add_section(section)
@@ -577,6 +577,12 @@ class timekprUserConfig(object):
             # read
             param = "HIDE_TRAY_ICON"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_HIDE_TRAY_ICON, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "LOCKOUT_TYPE"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_CTRL_RES_T, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "WAKEUP_HOUR_INTERVAL"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_CTRL_RES_T, pCheckValue=None, pOverallSuccess=resultValue)
 
             # if we could not read some values, save what we could + defaults
             if not resultValue:
@@ -604,7 +610,7 @@ class timekprUserConfig(object):
         section = "DOCUMENTATION"
         self._timekprUserConfigParser.add_section(section)
         self._timekprUserConfigParser.set(section, "#### this is the user configuration file for timekpr-next")
-        self._timekprUserConfigParser.set(section, "#### if this file can not be read properly, it will be overwritten with defaults")
+        self._timekprUserConfigParser.set(section, "#### if this file cannot be read properly, it will be overwritten with defaults")
         self._timekprUserConfigParser.set(section, "#### all numeric time values are specified in seconds")
         self._timekprUserConfigParser.set(section, "#### days and hours should be configured as per ISO 8601 (i.e. Monday is the first day of week (1-7) and hours are in 24h format (0-23))")
 
@@ -641,6 +647,14 @@ class timekprUserConfig(object):
         param = "HIDE_TRAY_ICON"
         self._timekprUserConfigParser.set(section, "# this defines whether to show icon and notifications for user")
         self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_HIDE_TRAY_ICON))
+        # set up param
+        param = "LOCKOUT_TYPE"
+        self._timekprUserConfigParser.set(section, "# this defines user restriction / lockout mode: lock - lock screen, suspend - put computer to sleep, suspendwake - put computer to sleep and wake it up, terminate - terminate sessions, shutdown - shutdown the computer")
+        self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_CTRL_RES_T)
+        # set up param
+        param = "WAKEUP_HOUR_INTERVAL"
+        self._timekprUserConfigParser.set(section, "# this defines wakeup hour interval (wakeup itself must be supported by BIOS / UEFI) as hours from;to (format: 0-23), this is effective only when lockout type is suspendwake")
+        self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else "0;23")
 
         # save the file
         with open(self._configFile, "w") as fp:
@@ -661,6 +675,10 @@ class timekprUserConfig(object):
         # allowed weekdays
         param = "ALLOWED_WEEKDAYS"
         values[param] = self._timekprUserConfig[param]
+        # allowed hours for every week day
+        for rDay in range(1, 7+1):
+            param = "ALLOWED_HOURS_%s" % (str(rDay))
+            values[param] = self._timekprUserConfig[param]
         # limits per weekdays
         param = "LIMITS_PER_WEEKDAYS"
         values[param] = self._timekprUserConfig[param]
@@ -676,10 +694,12 @@ class timekprUserConfig(object):
         # try icon
         param = "HIDE_TRAY_ICON"
         values[param] = str(self._timekprUserConfig[param])
-        # allowed hours for every week day
-        for rDay in range(1, 7+1):
-            param = "ALLOWED_HOURS_%s" % (str(rDay))
-            values[param] = self._timekprUserConfig[param]
+        # restriction / lockout type
+        param = "LOCKOUT_TYPE"
+        values[param] = self._timekprUserConfig[param]
+        # wakeup hour interval
+        param = "WAKEUP_HOUR_INTERVAL"
+        values[param] = self._timekprUserConfig[param]
 
         # edit client config file (using alternate method because configparser looses comments in the process)
         _saveConfigFile(self._configFile, values)
@@ -740,6 +760,16 @@ class timekprUserConfig(object):
         # result
         return self._timekprUserConfig["HIDE_TRAY_ICON"]
 
+    def getUserLockoutType(self):
+        """Get user restriction / lockout type"""
+        # result
+        return self._timekprUserConfig["LOCKOUT_TYPE"]
+
+    def getUserWakeupHourInterval(self):
+        """Get user wakeup hour intervals"""
+        # result
+        return [result.strip(None) for result in self._timekprUserConfig["WAKEUP_HOUR_INTERVAL"].split(";") if self._timekprUserConfig["WAKEUP_HOUR_INTERVAL"] != ""]
+
     def getUserLastModified(self):
         """Get last file modification time for user"""
         # result
@@ -796,6 +826,16 @@ class timekprUserConfig(object):
         """Set whether to hide icon and notifications"""
         # result
         self._timekprUserConfig["HIDE_TRAY_ICON"] = bool(pHideTrayIcon)
+
+    def setUserLockoutType(self, pLockoutType):
+        """Set user restriction / lockout type"""
+        # result
+        self._timekprUserConfig["LOCKOUT_TYPE"] = pLockoutType
+
+    def setUserWakeupHourInterval(self, pWakeupHourInterval):
+        """Set user wake up hours from / to"""
+        # result
+        self._timekprUserConfig["WAKEUP_HOUR_INTERVAL"] = ";".join(pWakeupHourInterval)
 
 
 class timekprUserControl(object):
@@ -1148,7 +1188,7 @@ class timekprClientConfig(object):
 
         # try to load config file
         result = _loadAndPrepareConfigFile(self._timekprClientConfigParser, self._configMainFile, True)
-        # if file can not be read
+        # if file cannot be read
         if not result:
             # default value
             value = cons.TK_SHARED_DIR

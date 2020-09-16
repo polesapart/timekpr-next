@@ -1,3 +1,16 @@
+timekpr-next-beta (0.4.3-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * added lock, suspend and shutdown options as a restriction / lockout types
+  * added option for computer to be woken up automatically if it was put to sleep by timekpr
+    additionally it's possible to specify hour interval when it is allowed to be woken up
+  * changed termination sequence a little
+    if user has no time and locked the screen, user is removed from termination list, which effectively means that
+    user sessions won't be terminated unless user unlocks the screen or other user logs in via user switching
+    (we should not leave sessions without time left floating around forever)
+  * proper english label / message corrections from Phil Hudson (thanks!)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 16 Sep 2020 07:46:53 +0300
+
 timekpr-next-beta (0.4.2-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added verbose output to timekpr installation

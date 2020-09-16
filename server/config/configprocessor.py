@@ -170,6 +170,12 @@ class timekprUserConfigurationProcessor(object):
                     userConfigurationStore["TRACK_INACTIVE"] = self._timekprUserConfig.getUserTrackInactive()
                     # hide icon
                     userConfigurationStore["HIDE_TRAY_ICON"] = self._timekprUserConfig.getUserHideTrayIcon()
+                    # restriction / lockout type
+                    userConfigurationStore["LOCKOUT_TYPE"] = self._timekprUserConfig.getUserLockoutType()
+                    # add wake up intervals if type is wake
+                    if userConfigurationStore["LOCKOUT_TYPE"] == cons.TK_CTRL_RES_W:
+                        # wake up intervals
+                        userConfigurationStore["WAKEUP_HOUR_INTERVAL"] = ";".join(self._timekprUserConfig.getUserWakeupHourInterval())
                     # limit per week
                     userConfigurationStore["LIMIT_PER_WEEK"] = self._timekprUserConfig.getUserWeekLimit()
                     # limit per month
@@ -459,6 +465,53 @@ class timekprUserConfigurationProcessor(object):
                 # result
                 result = -1
                 message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_HIDETRAYICON_INVALID_SET") % (self._userName)
+
+            # if we are still fine
+            if result == 0:
+                # save config
+                self._timekprUserConfig.saveUserConfiguration()
+
+        # result
+        return result, message
+
+    def checkAndSetLockoutType(self, pLockoutType, pWakeFrom=None, pWakeTo=None):
+        """Validate and set restriction / lockout type for the user"""
+        """Validate the restricton / lockout type:
+            lock - lock the screen
+            suspend - suspend the computer
+            suspendwake - suspend the computer
+            terminate - terminate sessions (default)
+            shutdown - shutdown computer"""
+
+        # check if we have this user
+        result, message = self.loadAndCheckUserConfiguration()
+
+        # if we are still fine
+        if result != 0:
+            # result
+            pass
+        # if we have no days
+        elif pLockoutType is None:
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_NONE") % (self._userName)
+        # parse config
+        elif pLockoutType not in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D) or not (pWakeFrom.isnumeric() if pWakeFrom is not None else True) or not (pWakeTo.isnumeric() if pWakeTo is not None else True):
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_INVALID") % (self._userName)
+
+        # if all is correct, we update the configuration
+        if result == 0:
+            # set up config
+            try:
+                self._timekprUserConfig.setUserLockoutType(pLockoutType)
+                if pWakeFrom is not None and pWakeTo is not None:
+                    self._timekprUserConfig.setUserWakeupHourInterval([pWakeFrom, pWakeTo])
+            except Exception:
+                # result
+                result = -1
+                message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_INVALID_SET") % (self._userName)
 
             # if we are still fine
             if result == 0:

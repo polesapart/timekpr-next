@@ -213,6 +213,16 @@ class timekprAdminClient(object):
                 # set days
                 self.processSetHideTrayIcon(args[paramIdx+1], args[paramIdx+2])
 
+        # this sets whether to show tray icon
+        elif adminCmd == "--setlockouttype":
+            # check param len
+            if paramLen != paramIdx + 3:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # set days
+                self.processSetLockoutType(args[paramIdx+1], args[paramIdx+2])
+
         # this sets time left for the user at current moment
         elif adminCmd == "--settimeleft":
             # check param len
@@ -476,6 +486,32 @@ class timekprAdminClient(object):
         if result == 0:
             # invoke
             result, message = self._timekprAdminConnector.setHideTrayIcon(pUserName, hideTrayIcon)
+
+        # process
+        if result != 0:
+            # log error
+            log.consoleOut(message)
+
+    def processSetLockoutType(self, pUserName, pLockoutType):
+        """Process lockout type"""
+        # defaults
+        result = 0
+        # parse lockout
+        lockout = pLockoutType.split(";")
+        lockoutType = lockout[0]
+        lockoutWakeFrom = lockout[1] if len(lockout) == 3 else '0'
+        lockoutWakeTo = lockout[2] if len(lockout) == 3 else '23'
+
+        # check
+        if lockoutType not in [cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D]:
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify one of these: %s, %s, %s, %s, %s" % (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D))
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setLockoutType(pUserName, lockoutType, lockoutWakeFrom, lockoutWakeTo)
 
         # process
         if result != 0:
