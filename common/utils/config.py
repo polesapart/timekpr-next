@@ -582,7 +582,7 @@ class timekprUserConfig(object):
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_CTRL_RES_T, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "WAKEUP_HOUR_INTERVAL"
-            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_CTRL_RES_T, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue="0;23", pCheckValue=None, pOverallSuccess=resultValue)
 
             # if we could not read some values, save what we could + defaults
             if not resultValue:
@@ -653,7 +653,7 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_CTRL_RES_T)
         # set up param
         param = "WAKEUP_HOUR_INTERVAL"
-        self._timekprUserConfigParser.set(section, "# this defines wakeup hour interval (wakeup itself must be supported by BIOS / UEFI) as hours from;to (format: 0-23), this is effective only when lockout type is suspendwake")
+        self._timekprUserConfigParser.set(section, "# this defines wakeup hour interval in format xn;yn where xn / yn are hours from 0 to 23, wakeup itself must be supported by BIOS / UEFI and enabled, this is effective only when lockout type is suspendwake")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else "0;23")
 
         # save the file
