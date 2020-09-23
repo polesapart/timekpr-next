@@ -582,7 +582,7 @@ class timekprUserConfig(object):
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_CTRL_RES_T, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "WAKEUP_HOUR_INTERVAL"
-            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_CTRL_RES_T, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue="0;23", pCheckValue=None, pOverallSuccess=resultValue)
 
             # if we could not read some values, save what we could + defaults
             if not resultValue:
