@@ -226,15 +226,16 @@ class timekprDaemon(dbus.service.Object):
                 # delete from killing list as well
                 self._timekprUserRestrictionList.pop(rUserName)
 
+        # additional killing option (legacy True, current False)
+        _killEvenIdle = False
+
         # go through all users
         for rUserName in self._timekprUserList:
             # init variables for user
             self._timekprUserList[rUserName].refreshTimekprRuntimeVariables()
-            # additional options
-            _killEvenIdle = False
 
             # adjust time spent
-            userActive, userScreenLocked = self._timekprUserList[rUserName].adjustTimeSpentActual(self._timekprConfig)
+            userActiveActual, userScreenLocked = self._timekprUserList[rUserName].adjustTimeSpentActual(self._timekprConfig)
             # recalculate time left
             self._timekprUserList[rUserName].recalculateTimeLeft()
             # process actual user session variable validation
@@ -245,12 +246,12 @@ class timekprDaemon(dbus.service.Object):
             timeLeftInARow = timeLeft[1]
 
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s, time left: %i" % (rUserName, str(userActive), timeLeftInARow))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s (act/lck), time left: %i" % (rUserName, str(userActiveActual), str(userScreenLocked), timeLeftInARow))
 
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:
                 # (internal idle killing switch) + user is not active + there is a time available today (opposing to in a row)
-                if (not _killEvenIdle and not userActive and timeLeftToday > self._timekprConfig.getTimekprTerminationTime()) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
+                if (not _killEvenIdle and not userActiveActual and timeLeftToday > self._timekprConfig.getTimekprTerminationTime()) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
                     log.log(cons.TK_LOG_LEVEL_INFO, "SAVING user \"%s\" from ending his sessions / shutdown" % (rUserName))
                     # remove from death list
                     self._timekprUserRestrictionList.pop(rUserName)
@@ -262,19 +263,19 @@ class timekprDaemon(dbus.service.Object):
                 # update restriction stats
                 else:
                     # update active states for restriction routines
-                    self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USACT] = userActive
+                    self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USACT] = userActiveActual
                     self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USLCK] = userScreenLocked
                     self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = max(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] - 1, 0)
                     # only if user is active / screen is not locked
-                    if ((userActive and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D))
+                    if ((userActiveActual and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D))
                     or (not userScreenLocked and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_W))):
                         # update active states for restriction routines
                         self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = max(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] - 1, 0)
 
             # ## FILL IN USER RESTRICTIONS ##
 
-            # if user has very few time left, we need to enforce limits: Lock screen / Sleep computer / Terminate sessions
-            if timeLeftInARow <= self._timekprConfig.getTimekprTerminationTime() + 1 and rUserName not in self._timekprUserRestrictionList and (userActive or _killEvenIdle):
+            # if user has very few time left, we need to enforce limits: Lock screen / Sleep computer / Shutdown computer / Terminate sessions
+            if timeLeftInARow <= self._timekprConfig.getTimekprTerminationTime() + 1 and rUserName not in self._timekprUserRestrictionList and (userActiveActual or _killEvenIdle):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: user \"%s\" has got restrictions..." % (rUserName))
                 # add user to restrictions list
                 self._timekprUserRestrictionList[rUserName] = {
@@ -283,7 +284,7 @@ class timekprDaemon(dbus.service.Object):
                     cons.TK_CTRL_RESTY: self._timekprUserList[rUserName].getUserLockoutType(),  # restricton type: lock, suspend, suspendwake, terminate, shutdown
                     cons.TK_CTRL_RTDEL: 0,  # retry delay before next attempt to enforce restrictions
                     cons.TK_CTRL_RTDEA: 0,  # retry delay (additional delay for lock in case of suspend)
-                    cons.TK_CTRL_USACT: userActive,  # whether user is active
+                    cons.TK_CTRL_USACT: userActiveActual,  # whether user is actually active
                     cons.TK_CTRL_USLCK: userScreenLocked,  # whether user screen is locked
                     cons.TK_CTRL_USWKU: self._timekprUserList[rUserName].findNextAvailableIntervalStart() if self._timekprUserList[rUserName].getUserLockoutType() == cons.TK_CTRL_RES_W and timeLeftToday > timeLeftInARow else None
                 }
@@ -330,13 +331,16 @@ class timekprDaemon(dbus.service.Object):
                             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR killing sessions: %s" % (traceback.format_exc()))
             # we are going to LOCK user sessions
             elif self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_L:
+                # is user active
+                isUserInactive = (not self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USACT] or self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USLCK])
                 # check if user has locked the screen
-                if (not self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USACT] or self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USLCK]) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] <= 0:
+                if isUserInactive and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] <= 0:
                     # we are going lock user sessions
                     log.log(cons.TK_LOG_LEVEL_INFO, "time is up, but user \"%s\" not active, not enforcing the lock" % (rUserName))
                     # set restriction for repetitive lock
                     self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = cons.TK_CTRL_LCDEL
-                else:
+                # lock must be enforced only if user is active
+                elif not isUserInactive:
                     # continue if there is no delay
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] <= 0:
                         # log
@@ -355,13 +359,16 @@ class timekprDaemon(dbus.service.Object):
                             self._timekprUserList[rUserName].lockUserSessions()
             # we are going to SUSPEND user sessions
             elif self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W):
+                # is user active
+                isUserInactive = (not self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USACT] or self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USLCK])
                 # check if user has locked the screen
-                if (not self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USACT] or self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USLCK]) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] <= 0:
+                if isUserInactive and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] <= 0:
                     # we are going lock user sessions
                     log.log(cons.TK_LOG_LEVEL_INFO, "time is up, but user \"%s\" not active, not enforcing the suspend" % (rUserName))
                     # set restriction for repetitive lock when suspending
                     self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = cons.TK_CTRL_LCDEL
-                else:
+                # suspend / lock must be enforced only if user is active
+                elif not isUserInactive:
                     # continue if there is no delay
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] <= 0:
                         # log
@@ -376,6 +383,8 @@ class timekprDaemon(dbus.service.Object):
                         if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] <= 0:
                             # log suspend
                             log.log(cons.TK_LOG_LEVEL_INFO, "time is up for user \"%s\", enforcing the SUSPEND" % (rUserName))
+                            # set restriction for repetitive lock when suspending
+                            self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = cons.TK_CTRL_LCDEL
                             # set restriction for repetitive suspend
                             self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = cons.TK_CTRL_SCDEL
                             # set up wake time if that was set
@@ -390,7 +399,7 @@ class timekprDaemon(dbus.service.Object):
                         # do not enforce lock right away after suspend, wait a little
                         elif cons.TK_CTRL_SCDEL - cons.TK_CTRL_LCDEL > self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] > 0 and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] <= 0:
                             # log suspend lock
-                            log.log(cons.TK_LOG_LEVEL_INFO, "time is up for user \"%s\", enforcing the SUSPEND LOCK" % (rUserName))
+                            log.log(cons.TK_LOG_LEVEL_INFO, "time is up for user \"%s\", enforcing the SUSPEND LOCK (SUSPEND in %i iterations)" % (rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL]))
                             # set restriction for repetitive lock when suspending
                             self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = cons.TK_CTRL_LCDEL
                             # if delay is still in place, just lock the screen
