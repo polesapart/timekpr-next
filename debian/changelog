@@ -9,7 +9,7 @@ timekpr-next (0.4.3-3ubuntu1~ppa1) UNRELEASED; urgency=medium
     (we should not leave sessions without time left floating around forever)
   * proper english label / message corrections from Phil Hudson (thanks!)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 26 Sep 2020 00:16:34 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 26 Sep 2020 00:16:34 +0300
 
 timekpr-next (0.4.2-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
