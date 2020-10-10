@@ -314,7 +314,7 @@ class timekprDaemon(dbus.service.Object):
                     # time to die
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= 0:
                         # set restriction for repetitive kill
-                        self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = cons.TK_CTRL_LCDEL
+                        self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = cons.TK_CTRL_LCDEL * 3
                         # save user before kill
                         self._timekprUserList[rUserName].saveSpent()
                         # terminate user sessions
