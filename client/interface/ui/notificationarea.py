@@ -117,10 +117,10 @@ class timekprNotificationArea(object):
         # return time left and icon (if changed), so implementations can use it
         return timeLeftStr, timekprIcon
 
-    def notifyUser(self, pMsgCode, pPriority, pTimeLeft=None, pAdditionalMessage=None):
+    def notifyUser(self, pMsgCode, pMsgType, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Notify user (a wrapper call)"""
         # if we have dbus connection, let's do so
-        self._timekprNotifications.notifyUser(pMsgCode, pPriority, pTimeLeft, pAdditionalMessage)
+        self._timekprNotifications.notifyUser(pMsgCode, pMsgType, pPriority, pTimeLeft, pAdditionalMessage)
 
     def setStatus(self, pStatus):
         """Change status of timekpr"""
@@ -131,7 +131,7 @@ class timekprNotificationArea(object):
     def invokeTimekprTimeLeft(self, pEvent):
         """Inform user about (almost) exact time left"""
         # inform user about precise time
-        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self._timeNotLimited > 0 else cons.TK_MSG_CODE_TIMELEFT), self._lastUsedPriority, self._timeLeftTotal)
+        self.notifyUser((cons.TK_MSG_CODE_TIMEUNLIMITED if self._timeNotLimited > 0 else cons.TK_MSG_CODE_TIMELEFT), None, self._lastUsedPriority, self._timeLeftTotal)
 
     def invokeTimekprUserProperties(self, pEvent):
         """Bring up a window for property editing"""

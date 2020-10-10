@@ -59,13 +59,13 @@ class timekprAdminGUI(object):
         self.setTimekprStatus(True, msg.getTranslation("TK_MSG_STATUS_STARTED"))
 
         # initialize internal stuff
-        GLib.timeout_add_seconds(1, self.initTimekprAdmin)
+        GLib.timeout_add_seconds(0.1, self.initTimekprAdmin)
 
         # loop
         self._mainLoop = GLib.MainLoop()
 
         # show up all
-        self._timekprAdminForm.show_all()
+        self._timekprAdminForm.show()
 
         # this seems to be needed
         self.dummyPageChanger()
@@ -228,9 +228,13 @@ class timekprAdminGUI(object):
             ,"TimekprUserConfMONMinSB"
             ,"TimekprUserConfDaySettingsConfDaySetHrSB"
             ,"TimekprUserConfDaySettingsConfDaySetMinSB"
+            ,"TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB"
+            ,"TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB"
             # lists
             ,"TimekprWeekDaysTreeView"
             ,"TimekprHourIntervalsTreeView"
+            # radio groups
+            ,"TimekprUserConfAddOptsLockoutTypeChoiceBoxBX"
         ]
 
         self._timekprConfigControlElements = [
@@ -242,6 +246,7 @@ class timekprAdminGUI(object):
             ,"TimekprExcludedUsersAddBT"
             ,"TimekprExcludedUsersRemoveBT"
             ,"TimekprConfigurationApplyBT"
+            ,"TimekprUserConfAddOptsLockoutTypeSetBT"
             # spin buttons for adjustments
             ,"TimekprConfigurationLoglevelSB"
             ,"TimekprConfigurationWarningTimeSB"
@@ -261,6 +266,8 @@ class timekprAdminGUI(object):
         # sets up limit variables for user configuration
         self._timeTrackInactive = False
         self._timeHideTrayIcon = False
+        self._timeLockoutType = cons.TK_CTRL_RES_T
+        self._timeWakeInterval = "0;23"
         self._timeLimitWeek = 0
         self._timeLimitMonth = 0
         self._timeLimitDays = []
@@ -360,6 +367,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").set_active(False)
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").set_active(False)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeTerminate").set_active(True)
         for rDay in range(1, 7+1):
             # clear list store
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay-1][2] = False
@@ -540,6 +548,48 @@ class timekprAdminGUI(object):
         # reorder rows in liststore
         self._timekprAdminFormBuilder.get_object("TimekprHourIntervalsLS").reorder(sortedHours)
 
+    def getSelectedLockoutType(self):
+        """Get selected restriction / lockout type"""
+        # get lockout type
+        lockoutType = None
+        lockoutType = cons.TK_CTRL_RES_T if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeTerminate").get_active() else lockoutType
+        lockoutType = cons.TK_CTRL_RES_D if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeShutdown").get_active() else lockoutType
+        lockoutType = cons.TK_CTRL_RES_S if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspend").get_active() else lockoutType
+        lockoutType = cons.TK_CTRL_RES_W if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWake").get_active() else lockoutType
+        lockoutType = cons.TK_CTRL_RES_L if lockoutType is None and self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeLock").get_active() else lockoutType
+        # result
+        return lockoutType
+
+    def setSelectedLockoutType(self, pLockoutType):
+        """Get selected restriction / lockout type"""
+        # set lockout type
+        if pLockoutType == cons.TK_CTRL_RES_T:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeTerminate").set_active(True)
+        elif pLockoutType == cons.TK_CTRL_RES_D:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeShutdown").set_active(True)
+        elif pLockoutType == cons.TK_CTRL_RES_S:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspend").set_active(True)
+        elif pLockoutType == cons.TK_CTRL_RES_W:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWake").set_active(True)
+        elif pLockoutType == cons.TK_CTRL_RES_L:
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeLock").set_active(True)
+
+    def controlSelectedLockoutTypeHourIntervals(self, pInterval):
+        """Set selected hour intervals"""
+        # if no interval, just hide them
+        if pInterval is not None:
+            # get split interval
+            hrInterval = pInterval.split(";")
+            # set values
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB").set_value(int(hrInterval[0]))
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB").set_value(int(hrInterval[1]))
+        # set hours visible only when suspendwake
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeWakeupIntervalsLabel").set_visible(pInterval is not None)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB").set_visible(pInterval is not None)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB").set_visible(pInterval is not None)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB").set_sensitive(pInterval is not None)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB").set_sensitive(pInterval is not None)
+
     def applyUserConfig(self):
         """Apply user configuration after getting it from server"""
         # additional config
@@ -564,7 +614,7 @@ class timekprAdminGUI(object):
                 self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay-1][2] = False
 
         # enable editing
-        for rCtrl in ["TimekprWeekDaysTreeView", "TimekprHourIntervalsTreeView", "TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB"]:
+        for rCtrl in ["TimekprWeekDaysTreeView", "TimekprHourIntervalsTreeView", "TimekprUserConfDaySettingsConfDaySetHrSB", "TimekprUserConfDaySettingsConfDaySetMinSB", "TimekprUserConfAddOptsLockoutTypeChoiceBoxBX"]:
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
 
         # ## limits per allowed days ###
@@ -670,6 +720,15 @@ class timekprAdminGUI(object):
         # ## hide icon & notifications ##
         # enable field if different from what is set
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconSetBT").set_sensitive(self._timeHideTrayIcon != self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").get_active())
+
+        # ## restriction / lockout type ##
+        # enable field if different from what is set
+        hrFrom = str(self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB").get_value_as_int())
+        hrTo = str(self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB").get_value_as_int())
+        interval = "%s;%s" % (hrFrom, hrTo)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSetBT").set_sensitive(self._timeLockoutType != self.getSelectedLockoutType() or self._timeWakeInterval != interval)
+        # intervals
+        self.controlSelectedLockoutTypeHourIntervals(interval if self.getSelectedLockoutType() == cons.TK_CTRL_RES_W else None)
 
         # ## day config ##
         enabledDays = 0
@@ -910,6 +969,16 @@ class timekprAdminGUI(object):
                         elif rKey == "HIDE_TRAY_ICON":
                             # hide icon and notif
                             self._timeHideTrayIcon = bool(rValue)
+                        elif rKey == "LOCKOUT_TYPE":
+                            # set lockout type
+                            self._timeLockoutType = rValue
+                            # set option
+                            self.setSelectedLockoutType(rValue)
+                        elif rKey == "WAKEUP_HOUR_INTERVAL":
+                            # set interval values
+                            self._timeWakeInterval = rValue
+                            # set option
+                            self.controlSelectedLockoutTypeHourIntervals(rValue)
                         elif rKey == "ALLOWED_WEEKDAYS":
                             # empty the values
                             self._timeLimitDays = []
@@ -1032,7 +1101,7 @@ class timekprAdminGUI(object):
 
         # if we have username
         if userName is not None:
-            # get time to add
+            # whether track inactive is selected
             trackInactive = self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveCB").get_active()
 
             # set time
@@ -1061,7 +1130,7 @@ class timekprAdminGUI(object):
 
         # if we have username
         if userName is not None:
-            # get time to add
+            # whether hide tray icon is selected
             hideTrayIcon = self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").get_active()
 
             # set time
@@ -1075,6 +1144,40 @@ class timekprAdminGUI(object):
                 # set values to internal config
                 self._timeHideTrayIcon = hideTrayIcon
                 self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconCB").emit("toggled")
+            else:
+                # disable all but choser
+                self.toggleUserConfigControls(False, True)
+                # status
+                self.setTimekprStatus(False, message)
+                # check the connection
+                self.checkConnection()
+
+    def adjustLockoutType(self):
+        """Adjust track inactive sessions for user"""
+        # get username
+        userName = self.getSelectedUserName()
+
+        # if we have username
+        if userName is not None:
+            # get lockout type
+            lockoutType = self.getSelectedLockoutType()
+            # intervals
+            hrFrom = str(self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB").get_value_as_int()) if lockoutType == cons.TK_CTRL_RES_W else "0"
+            hrTo = str(self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB").get_value_as_int()) if lockoutType == cons.TK_CTRL_RES_W else "23"
+
+            # set time
+            result, message = self._timekprAdminConnector.setLockoutType(userName, lockoutType, hrFrom, hrTo)
+
+            # all ok
+            if result == 0:
+                # status
+                self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_LOCKOUTTYPE_PROCESSED"))
+
+                # set values to internal config
+                self._timeLockoutType = lockoutType
+                self._timeWakeInterval = "%s;%s" % (hrFrom, hrTo)
+                self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeFromSB").set_value(int(hrFrom))
+                self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSuspendWakeToSB").set_value(int(hrTo))
             else:
                 # disable all but choser
                 self.toggleUserConfigControls(False, True)
@@ -1403,7 +1506,7 @@ class timekprAdminGUI(object):
             days = self.getSelectedDays()
             # if day is selected
             if len(days) > 0:
-                # go to last day (this can not and should not be calculated for everything)
+                # go to last day (this cannot and should not be calculated for everything)
                 dayIdx = days[len(days)-1]["idx"]
                 dayNr = days[len(days)-1]["nr"]
 
@@ -1727,12 +1830,22 @@ class timekprAdminGUI(object):
         self.calculateUserConfigControlAvailability()
 
     def trackInactiveChanged(self, evt):
-        """Call control calculations when inactive flag has been added"""
+        """Call control calculations when inactive flag has been changed"""
         # recalc control availability
         self.calculateUserConfigControlAvailability()
 
     def hideTrayIconChanged(self, evt):
-        """Call control calculations when hide icon has been added"""
+        """Call control calculations when hide icon has been changed"""
+        # recalc control availability
+        self.calculateUserConfigControlAvailability()
+
+    def lockoutTypeGroupChanged(self, evt):
+        """Call control calculations when restriction / lockout type has been changed"""
+        # recalc control availability
+        self.calculateUserConfigControlAvailability()
+
+    def wakeUpIntervalChanged(self, evt):
+        """Call control calculations when restriction / lockout wake up hours have been changed"""
         # recalc control availability
         self.calculateUserConfigControlAvailability()
 
@@ -1748,7 +1861,7 @@ class timekprAdminGUI(object):
 
         # only if there is smth selected
         if len(days) > 0:
-            # go to last day (this can not and should not be calculated for everything)
+            # go to last day (this cannot and should not be calculated for everything)
             dayIdx = days[len(days)-1]["idx"]
             dayNum = days[len(days)-1]["nr"]
 
@@ -1792,77 +1905,84 @@ class timekprAdminGUI(object):
 
     def todayAddTimeClicked(self, evt):
         """Add time to user"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetAddBT").set_sensitive(False)
         # process setting
         self.adjustTimeForToday("+")
 
     def todaySubtractTimeClicked(self, evt):
         """Subtract time from user"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetSubractBT").set_sensitive(False)
         # process setting
         self.adjustTimeForToday("-")
 
     def todaySetTimeClicked(self, evt):
         """Set exact time for user"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetSetBT").set_sensitive(False)
         # process setting
         self.adjustTimeForToday("=")
 
-    def trackInactiveClicked(self, evt):
+    def setTrackInactiveClicked(self, evt):
         """Set track inactive"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsTrackInactiveSetBT").set_sensitive(False)
         # process setting
         self.adjustTrackInactive()
 
-    def hideTrayIconClicked(self, evt):
+    def setHideTrayIconClicked(self, evt):
         """Set track inactive"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsHideTrayIconSetBT").set_sensitive(False)
         # process setting
         self.adjustHideTrayIcon()
 
+    def setLockoutTypeClicked(self, evt):
+        """Set restriction / lockout type"""
+        # disable button so it cannot be triggered again
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeSetBT").set_sensitive(False)
+        # process setting
+        self.adjustLockoutType()
+
     def applyDaysHourIntervalsClicked(self, evt):
         """Call set methods for changes"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").set_sensitive(False)
         # process setting
         self.applyDayAndHourIntervalChanges()
 
     def dayTotalLimitSetClicked(self, evt):
         """Recalc total seconds"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaySetBT").set_sensitive(False)
         # process setting
         self.dayTotalLimitSet()
 
     def addHourIntervalClicked(self, evt):
         """Recalc total seconds"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsAddBT").set_sensitive(False)
         # process setting
         self.addHourInterval()
 
     def removeHourIntervalClicked(self, evt):
         """Recalc total seconds"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsConfDaysIntervalsSubtractBT").set_sensitive(False)
         # process setting
         self.removeHourInterval()
 
     def WKMONLimitSetClicked(self, evt):
         """Adjust weekly and monthly limits"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserConfWKMONApplyBT").set_sensitive(False)
         # process setting
         self.adjustWKMONLimit()
 
     def applyTimekprConfigurationChangesClicked(self, evt):
         """Apply configuration changes"""
-        # disable button so it can not be triggered again
+        # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").set_sensitive(False)
         # process setting
         self.applyTimekprConfigurationChanges()
@@ -2002,7 +2122,7 @@ class timekprAdminGUI(object):
         elif os.geteuid() == 0:
             # copy to clipboard and show message
             Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(cons.TK_DEV_SUPPORT_PAGE, -1)
-            tkrMsg = Gtk.MessageDialog(parent=self._timekprAdminForm, flags=Gtk.DialogFlags.MODAL, type=Gtk.MessageType.INFO, buttons=Gtk.ButtonsType.OK, message_format="\nDonations link copied to clipbard!\nPlease paste the address in internet browser.\nThanks for Your support!")
+            tkrMsg = Gtk.MessageDialog(parent=self._timekprAdminForm, flags=Gtk.DialogFlags.MODAL, type=Gtk.MessageType.INFO, buttons=Gtk.ButtonsType.OK, message_format="\nDonations link copied to clipbard!\nPlease paste the address in internet browser.\nThanks for your support!")
             tkrMsg.run()
             tkrMsg.destroy()
         else:

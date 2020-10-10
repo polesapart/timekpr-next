@@ -143,10 +143,10 @@ class timekprNotificationManager(dbus.service.Object):
         # process
         self.timeLimits(cons.TK_PRIO_LOW, timeLimits)
 
-    def processEmergencyNotification(self, pCountdown):
+    def processEmergencyNotification(self, pFinalNotificationType, pCountdown):
         """Emergency notifcation call wrapper"""
         # forward to dbus
-        self.timeCriticalNotification(cons.TK_PRIO_CRITICAL, pCountdown)
+        self.timeCriticalNotification(pFinalNotificationType, cons.TK_PRIO_CRITICAL, pCountdown)
 
     def procesSessionAttributes(self, pWhat, pKey):
         """Session attribute verification wrapper"""
@@ -182,18 +182,18 @@ class timekprNotificationManager(dbus.service.Object):
         # You have %s to use continously, including %s ouf of %s today
         pass
 
-    @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="si")
-    def timeCriticalNotification(self, pPriority, pSecondsLeft):
+    @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="ssi")
+    def timeCriticalNotification(self, pFinalNotificationType, pPriority, pSecondsLeft):
         """Send out signal"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "sending tcn: %i" % (pSecondsLeft))
-        # Your time is up, You will be forcibly logged out in %i seconds!
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "sending tcn: %s, %i" % (pFinalNotificationType, pSecondsLeft))
+        # Your time is up, you will be forcibly logged / locked / suspended / shutdown out in %i seconds!
         pass
 
     @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="s")
     def timeNoLimitNotification(self, pPriority):
         """Send out signal"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "sending ntln")
-        # Congratulations, Your time is not limited today
+        # Congratulations, your time is not limited today
         pass
 
     @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="s")
