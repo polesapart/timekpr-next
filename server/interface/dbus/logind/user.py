@@ -134,6 +134,7 @@ class timekprUserManager(object):
         # init active sessions
         userActive = False
         userScreenLocked = False
+        sessionLockedState = "False"
 
         # if user locked the computer
         if pIsScreenLocked is True and not pTimekprUserConfig.getUserTrackInactive():
