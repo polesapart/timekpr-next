@@ -202,7 +202,7 @@ class timekprUserManager(object):
                     log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s not tracked" % (rSessionId))
 
         # screen lock state
-        userScreenLocked = (pIsScreenLocked is True or sessionLockedState is True)
+        userScreenLocked = (pIsScreenLocked or sessionLockedState == "True")
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish isUserActive: %s ===---" % (str(userActive)))
 
