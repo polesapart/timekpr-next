@@ -1,4 +1,4 @@
-timekpr-next (0.4.3-4ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.4.3-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added lock, suspend and shutdown options as a restriction / lockout types
   * added option for computer to be woken up automatically if it was put to sleep by timekpr
