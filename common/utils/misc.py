@@ -163,8 +163,12 @@ def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
                 try:
                     # get process and kill it
                     userPrc = psutil.Process(procInfo["pid"])
-                    # asking process to terminate
-                    userPrc.terminate()
+                    # killing time
+                    if cons.TK_DEV_ACTIVE:
+                        log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing my own processes, sorry...")
+                    else:
+                        # asking process to terminate
+                        userPrc.terminate()
                 except psutil.Error:
                     log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: killing %s failed" % (procInfo["pid"]))
                     pass
