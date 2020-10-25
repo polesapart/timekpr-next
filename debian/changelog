@@ -2,7 +2,7 @@ timekpr-next (0.4.4-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust previously built workaround for switching to login manager screen
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 25 Oct 2020 19:25:59 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 25 Oct 2020 19:25:59 +0300
 
 timekpr-next (0.4.3-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
