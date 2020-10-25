@@ -275,7 +275,7 @@ class timekprDaemon(dbus.service.Object):
             # ## FILL IN USER RESTRICTIONS ##
 
             # if user has very few time left, we need to enforce limits: Lock screen / Sleep computer / Shutdown computer / Terminate sessions
-            if timeLeftInARow <= self._timekprConfig.getTimekprTerminationTime() + 1 and rUserName not in self._timekprUserRestrictionList and (userActiveActual or _killEvenIdle):
+            if timeLeftInARow <= self._timekprConfig.getTimekprTerminationTime() and rUserName not in self._timekprUserRestrictionList and (userActiveActual or _killEvenIdle):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: user \"%s\" has got restrictions..." % (rUserName))
                 # add user to restrictions list
                 self._timekprUserRestrictionList[rUserName] = {
@@ -314,7 +314,7 @@ class timekprDaemon(dbus.service.Object):
                     # time to die
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= 0:
                         # set restriction for repetitive kill
-                        self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = cons.TK_CTRL_LCDEL * 3
+                        self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = cons.TK_CTRL_LCDEL * 5
                         # save user before kill
                         self._timekprUserList[rUserName].saveSpent()
                         # terminate user sessions

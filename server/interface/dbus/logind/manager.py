@@ -229,7 +229,7 @@ class timekprUserLoginManager(object):
                         # done
                         break
                 # if we found login manager VTNr
-                if loginSessionVTNr is not None:
+                if loginSessionVTNr is not None and loginSessionVTNr != "":
                     # return VTNr
                     self._loginManagerVTNr = loginSessionVTNr
                     # seat is found
@@ -244,12 +244,15 @@ class timekprUserLoginManager(object):
             # seat is NOT found and we'll not try to find it anymore
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: login manager (%s) TTY is NOT found, giving up until restart" % (pUserName))
 
-    def switchTTY(self, pSeatId, pSessionTTY):
+    def switchTTY(self, pSeatId, pForce):
         """Swith TTY for login screen"""
         # defaults
         willSwitchTTY = True
         # switch to right TTY (if needed)
-        if self._loginManagerVTNr is not None and pSessionTTY is not None and pSeatId is not None and pSessionTTY != self._loginManagerVTNr:
+        if self._loginManagerVTNr is None:
+            log.log(cons.TK_LOG_LEVEL_INFO, "INFO: switching TTY is not possible, login manager TTY was not found")
+            willSwitchTTY = False
+        elif pSeatId is not None and pSeatId != "":
             # get all necessary objects from DBUS to switch the TTY
             try:
                 # it appears that sometimes seats are not available (RDP may not have it)
@@ -264,16 +267,25 @@ class timekprUserLoginManager(object):
                 # seat object processing
                 login1SeatObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, seat)
                 login1SeatInterface = dbus.Interface(login1SeatObject, cons.TK_DBUS_SEAT_OBJECT)
-                log.log(cons.TK_LOG_LEVEL_INFO, "INFO:%s switching TTY to %s" % (" (forced)" if pSessionTTY == "999" else "", self._loginManagerVTNr))
+                log.log(cons.TK_LOG_LEVEL_INFO, "INFO:%s switching TTY to %s" % (" (forced)" if pForce else "", self._loginManagerVTNr))
                 # finally switching the TTY
-                login1SeatInterface.SwitchTo(self._loginManagerVTNr)
+                if cons.TK_DEV_ACTIVE:
+                    log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not switching my sessions, sorry...")
+                else:
+                    # finally switching the TTY
+                    login1SeatInterface.SwitchTo(self._loginManagerVTNr)
         else:
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: switching TTY is not needed")
             # will not switch
             willSwitchTTY = False
 
-        # return whether switch was initiated
-        return willSwitchTTY
+        # in case switch is needed, reschedule it (might not work from first try)
+        if willSwitchTTY and not pForce:
+            # schedule a switch
+            GLib.timeout_add_seconds(cons.TK_POLLTIME, self.switchTTY, pSeatId, True)
+
+        # return false for repeat schedule to be discarded
+        return False
 
     def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
         """Terminate user sessions"""
@@ -284,35 +296,47 @@ class timekprUserLoginManager(object):
         userSessionList = self.getUserSessionList(pUserName, pUserPath)
         # indication whether we are killing smth
         sessionsToKill = 0
-        switchTTYNeeded = False
         lastSeat = None
+        userActive = False
 
         # go through all user sessions
         for rUserSession in userSessionList:
             # if excludeTTY and sessionType not in ("unspecified", "tty"):
             if rUserSession["type"] in pTimekprConfig.getTimekprSessionsCtrl():
-                # switch TTY (it will switch only when needed and user session currently is active, e.g. in foreground)
-                if rUserSession["state"] == "active":
-                    lastSeat = rUserSession["seat"]
-                    switchTTYNeeded = self.switchTTY(lastSeat, rUserSession["vtnr"])
+                log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 0.1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
                 else:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
                     GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["session"][0])
-                    # count sessions to kill
-                    sessionsToKill += 1
+                # get last seat
+                lastSeat = rUserSession["seat"] if rUserSession["seat"] is not None and rUserSession["seat"] != "" and rUserSession["vtnr"] is not None and rUserSession["vtnr"] != "" and self._loginManagerVTNr != rUserSession["vtnr"] else lastSeat
+                # determine whether user is active
+                userActive = userActive or rUserSession["state"] == "active"
+                # count sessions to kill
+                sessionsToKill += 1
             else:
                 log.log(cons.TK_LOG_LEVEL_INFO, "saving \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
 
         # kill leftover processes (if we are killing smth)
+        if sessionsToKill > 0 and userActive and lastSeat is not None:
+            # timeout
+            tmo = cons.TK_POLLTIME - 1
+            # switch TTY
+            log.log(cons.TK_LOG_LEVEL_INFO, "scheduling a TTY switch sequence after %i seconds" % (tmo))
+            # schedule a switch
+            GLib.timeout_add_seconds(tmo, self.switchTTY, lastSeat, False)
+        else:
+            log.log(cons.TK_LOG_LEVEL_INFO, "TTY switch ommitted for user %s" % (pUserName))
+
+        # cleanup
         if sessionsToKill > 0:
-            # before this, try to switch TTY again (somehow sometimes it's not switched)
-            if switchTTYNeeded:
-                self.switchTTY(lastSeat, "999")
+            # timeout
+            tmo = cons.TK_POLLTIME * 2 + 1
+            # dispatch a killer for leftovers
+            log.log(cons.TK_LOG_LEVEL_INFO, "dipatching a killer for leftover processes after %i seconds" % (tmo))
             # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
-            GLib.timeout_add_seconds(cons.TK_POLLTIME, misc.killLeftoverUserProcesses, self._logging, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
+            GLib.timeout_add_seconds(tmo, misc.killLeftoverUserProcesses, self._logging, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")
 
