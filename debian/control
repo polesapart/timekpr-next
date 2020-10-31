@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 7) | debhelper-compat (= 12),
                python3-dbus,
                python3-gi
 Standards-Version: 3.9.5
-Homepage: http://launchpad.net/timekpr-next
+Homepage: https://launchpad.net/timekpr-next
 Rules-Requires-Root: no
 
 Package: timekpr-next
