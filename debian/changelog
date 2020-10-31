@@ -245,7 +245,7 @@ timekpr-next-beta (0.2.8~ppa1~ubuntu1) UNRELEASED; urgency=medium
   * User list is now sorted
   * Fixed an issue with object paths (timekpr uses usernames as part of pathnames) on DBUS which contain dots (.) and/or hyphens (-)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 24 Sep 2019 01:28:12 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 24 Sep 2019 01:28:12 +0300
 
 timekpr-next-beta (0.2.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
@@ -318,7 +318,7 @@ timekpr-next-beta (0.2.1~ppa1~ubuntu2) UNRELEASED; urgency=medium
 
   * packaging fix - we do not need to reference login managers any more
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Apr 2019 18:34:31 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 08 Apr 2019 18:34:31 +0300
 
 timekpr-next-beta (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
@@ -358,7 +358,7 @@ timekpr-next (0.1.14~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
   TODO: localization
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 21 Mar 2019 21:06:43 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 21 Mar 2019 21:06:43 +0300
 
 timekpr-next (0.1.13~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
@@ -433,7 +433,7 @@ timekpr-next (0.1.7~ppa1~ubuntu1) UNRELEASED; urgency=medium
   TODO: administration via DBUS and CLI/GUI around it
   TODO: localization and speech
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Jan 2019 7:35:19 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 17 Jan 2019 07:35:19 +0300
 
 timekpr-next (0.1.6~ppa1~ubuntu1) UNRELEASED; urgency=medium
 
