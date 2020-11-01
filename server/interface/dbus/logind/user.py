@@ -137,7 +137,7 @@ class timekprUserManager(object):
         sessionLockedState = "False"
 
         # if user locked the computer
-        if pIsScreenLocked is True and not pTimekprUserConfig.getUserTrackInactive():
+        if pIsScreenLocked and not pTimekprUserConfig.getUserTrackInactive():
             # user is not active
             log.log(cons.TK_LOG_LEVEL_DEBUG, "session inactive (verified by user \"%s\" screensaver status), sessions won't be checked" % (self._userName))
         else:

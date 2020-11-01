@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.4.4"
+TK_VERSION = "0.5.0"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DEV_SUPPORT_PAGE = "https://tinyurl.com/yc9x85v2"
@@ -171,7 +171,7 @@ TK_CTRL_DBUS_SESS_PROP = "SESSION_STATIC_PROPERTIES"
 # limit configuration
 TK_CTRL_NDAY = "NEXTDAY"   # next day idx
 TK_CTRL_PDAY = "PREVDAY"   # previous day idx
-TK_CTRL_LIMITD = "LIMITD"  # limit idx
+TK_CTRL_LIMITD = "LIMITD"  # limit idx / today
 TK_CTRL_LEFTD = "LEFTD"    # time left today idx
 TK_CTRL_LEFT = "LEFT"      # time left idx (continously)
 TK_CTRL_LEFTW = "LEFTW"    # time left for week
@@ -183,6 +183,7 @@ TK_CTRL_LCMOD = "LMCOD"    # file modification idx (config)
 TK_CTRL_LIMITW = "LIMITW"  # left per week idx
 TK_CTRL_LIMITM = "LIMITM"  # left per month idx
 TK_CTRL_ACT = "ACTIVE"     # is hour enabled
+TK_CTRL_UACC = "UACC"      # is hour unaccounted
 TK_CTRL_SLEEP = "SLEEP"    # time spent in "inactive"
 TK_CTRL_SPENT = "SPENT"    # time spent in this session
 TK_CTRL_TSPBALD = "TSPBD"  # time balance spent in this day
@@ -196,6 +197,14 @@ TK_CTRL_INT = "INTERVALS"  # intervals of time available to user
 TK_CTRL_TRACK = "TRACKI"   # whether to track inactive sessions
 TK_CTRL_HIDEI = "HIDEI"    # whether to hide timekpr icon
 TK_CTRL_TNL = "TNL"        # time not limited
+TK_CTRL_PTTLE = "PTTLE"    # PlayTime enabled
+TK_CTRL_PTCNT = "PTCNT"    # PlayTime counters
+TK_CTRL_PTSPD = "PTSPD"    # time spent for PlayTime
+TK_CTRL_PTLPD = "PTLPD"    # time left for PlayTime
+TK_CTRL_PTTLO = "PTTLO"    # PlayTime limit override
+TK_CTRL_PTLMT = "PTLMT"    # time limits for each day for PlayTime
+TK_CTRL_PTLST = "PTLST"    # process list for PlayTime
+TK_CTRL_PTLSTC = "PTLSTC"  # process list count for PlayTime
 
 # notificaton limits
 TK_NOTIF_LEFT = "LEFT"
@@ -234,6 +243,17 @@ TK_LIMIT_PER_WEEK = TK_LIMIT_PER_DAY*7
 TK_LIMIT_PER_MONTH = TK_LIMIT_PER_DAY*31
 # default value for limit per every weekday
 TK_LIMITS_PER_WEEKDAYS = "%s;%s;%s;%s;%s;%s;%s" % (TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY, TK_LIMIT_PER_DAY)
+# default value for nitification levels
+TK_NOTIFICATION_LEVELS = "3600[3];1800[2];600[1];300[0]"
+TK_PT_NOTIFICATION_LEVELS = "180[1]"
+
+# ## user PlayTime defaults ##
+# enabled
+TK_PLAYTIME_ENABLED = False
+# default value for allowed week days
+TK_PLAYTIME_ALLOWED_WEEKDAYS = "1;2;3;4;5;6;7"
+# how much PlayTime is allowed per allowed days
+TK_PLAYTIME_LIMITS_PER_WEEKDAYS = "0;0;0;0;0;0;0"
 
 # ## default values for control ##
 # time control
@@ -245,6 +265,8 @@ TK_SAVE_INTERVAL = 30
 TK_TERMINATION_TIME = 15
 # time left for final warning time
 TK_FINAL_COUNTDOWN_TIME = 10
+# time left for final warning time
+TK_FINAL_NOTIFICATION_TIME = 60
 # default value for tracking inactive sessions
 TK_TRACK_INACTIVE = False
 # default value for tracking inactive sessions
@@ -264,6 +286,9 @@ TK_PRIO_WARNING = "warning"
 TK_PRIO_IMPORTANT = "important"
 TK_PRIO_CRITICAL = "critical"
 TK_PRIO_IMPORTANT_INFO = "important_info"
+# notification levels mapping from / to codes
+TK_PRIO_LVL_MAP = {"3": TK_PRIO_LOW, "2": TK_PRIO_WARNING, "1": TK_PRIO_IMPORTANT, "0": TK_PRIO_CRITICAL,
+    TK_PRIO_LOW: "3", TK_PRIO_WARNING: "2", TK_PRIO_IMPORTANT: "1", TK_PRIO_CRITICAL: "0"}
 
 # config
 TK_PRIO_CONF = {}
@@ -299,18 +324,24 @@ TK_ADMIN_COMMANDS = {
 }
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {
-     "--help"              : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP") + ":\n    timekpra --help"
-    ,"--userlist"          : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST") + ":\n    timekpra --userlist"
-    ,"--userinfo"          : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG") + ":\n    timekpra --userinfo \"testuser\""
-    ,"--setalloweddays"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS") + ":\n    timekpra --setalloweddays \"testuser\" \"1;2;3;4;5\""
-    ,"--setallowedhours"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS") + ":\n    timekpra --setallowedhours \"testuser\" \"ALL\" \"7;8;9;1;11[00-30];17;18;19;20[00-45]\""
-    ,"--settimelimits"     : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS") + ":\n    timekpra --settimelimits \"testuser\" \"7200;7200;7200;7200;10800\""
-    ,"--settimelimitweek"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK") + ":\n    timekpra --settimelimitweek \"testuser\" \"50000\""
-    ,"--settimelimitmonth" : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON") + ":\n    timekpra --settimelimitmonth \"testuser\" \"200000\""
-    ,"--settrackinactive"  : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE") + ":\n    timekpra --settrackinactive \"testuser\" \"false\""
-    ,"--sethidetrayicon"   : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON") + ":\n    timekpra --sethidetrayicon \"testuser\" \"false\""
-    ,"--setlockouttype"    : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE") + ":\n    timekpra --setlockouttype \"testuser\" \"terminate\"\n    timekpra --setlockouttype \"testuser\" \"suspendwake;7;18\""
-    ,"--settimeleft"       : msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT") + ":\n    timekpra --settimeleft \"testuser\" \"+\" 3600"
+     "--help"                     : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP"), "timekpra --help")
+    ,"--userlist"                 : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST"), "timekpra --userlist")
+    ,"--userinfo"                 : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG"), "timekpra --userinfo 'testuser'")
+    ,"--setalloweddays"           : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"), "timekpra --setalloweddays 'testuser' '1;2;3;4;5'")
+    ,"--setallowedhours"          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"), "timekpra --setallowedhours 'testuser' 'ALL' '7;8;9;10;11[00-30];!14;!15;17;18;19;20[00-45]'")
+    ,"--settimelimits"            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"), "timekpra --settimelimits 'testuser' '7200;7200;7200;7200;10800'")
+    ,"--settimelimitweek"         : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"), "timekpra --settimelimitweek 'testuser' '50000'")
+    ,"--settimelimitmonth"        : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"), "timekpra --settimelimitmonth 'testuser' '200000'")
+    ,"--settrackinactive"         : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"), "timekpra --settrackinactive 'testuser' 'false'")
+    ,"--sethidetrayicon"          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"), "timekpra --sethidetrayicon 'testuser' 'false'")
+    ,"--setlockouttype"           : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"), "timekpra --setlockouttype 'testuser' 'terminate'\n    timekpra --setlockouttype 'testuser' 'suspendwake;7;18'")
+    ,"--settimeleft"              : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"), "timekpra --settimeleft 'testuser' '+' 3600")
+    ,"--setplaytimeenabled"       : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"), "timekpra --setplaytimeenabled 'testuser' 'false'")
+    ,"--setplaytimelimitoverride" : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"), "timekpra --setplaytimelimitoverride 'testuser' 'false'")
+    ,"--setplaytimealloweddays"   : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEALLOWEDDAYS"), "timekpra --setplaytimealloweddays 'testuser' '1;2;3;4;5'")
+    ,"--setplaytimelimits"        : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITS"), "timekpra --setplaytimelimits 'testuser' '1800;1800;1800;1800;3600'")
+    ,"--setplaytimeactivities"    : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEACTIVITIES"), "timekpra --setplaytimeactivities 'testuser' 'DOOMEternalx64vk.exe[Doom Eternal];csgo_linux[CS: GO];firefox[Firefox browser]'")
+    ,"--setplaytimeleft"          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELEFT"), "timekpra --setplaytimeleft 'testuser' '+' 3600")
 }
 
 

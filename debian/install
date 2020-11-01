@@ -88,6 +88,7 @@ server/interface/dbus/logind/manager.py usr/lib/python3/dist-packages/timekpr/se
 server/interface/dbus/logind/user.py usr/lib/python3/dist-packages/timekpr/server/interface/dbus/logind/
 server/interface/__init__.py usr/lib/python3/dist-packages/timekpr/server/interface/
 server/timekprd.py usr/lib/python3/dist-packages/timekpr/server/
+server/user/playtime.py usr/lib/python3/dist-packages/timekpr/server/user/
 server/user/__init__.py usr/lib/python3/dist-packages/timekpr/server/user/
 server/user/userdata.py usr/lib/python3/dist-packages/timekpr/server/user/
 

@@ -18,12 +18,15 @@ class timekprNotificationManager(dbus.service.Object):
 
     # --------------- initialization / control methods --------------- #
 
-    def __init__(self, pLog, pBusName, pUserName):
+    def __init__(self, pLog, pBusName, pUserName, pTimekprConfig):
         """Initialize notification manager"""
         # init logging firstly
         log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init notifications")
+
+        # config
+        self._timekprConfig = pTimekprConfig
 
         # last notification
         self._userName = pUserName
@@ -36,19 +39,37 @@ class timekprNotificationManager(dbus.service.Object):
         # notifications are calculated as more than specified limit in ascending order, e.g. if there is 2400 seconds
         # left, it means that (3600 > 2400 > 1800) second level is chosen
         self._notificationLimits = (
-             {cons.TK_NOTIF_LEFT: 3600*2, cons.TK_NOTIF_INTERVAL: 3600*2, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
-            ,{cons.TK_NOTIF_LEFT: 3600, cons.TK_NOTIF_INTERVAL: 3600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
-            ,{cons.TK_NOTIF_LEFT: 1800, cons.TK_NOTIF_INTERVAL: 1800, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_NORMAL}
-            ,{cons.TK_NOTIF_LEFT: 300, cons.TK_NOTIF_INTERVAL: 600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
-            ,{cons.TK_NOTIF_LEFT: 60, cons.TK_NOTIF_INTERVAL: 120, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_IMPORTANT}
-            ,{cons.TK_NOTIF_LEFT: 0, cons.TK_NOTIF_INTERVAL:60, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
-            ,{cons.TK_NOTIF_LEFT: -cons.TK_LIMIT_PER_DAY*31, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
+            #  ## historical config, just for reference ##
+            #  {cons.TK_NOTIF_LEFT: 3600*2, cons.TK_NOTIF_INTERVAL: 3600*2, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
+            # ,{cons.TK_NOTIF_LEFT: 3600, cons.TK_NOTIF_INTERVAL: 3600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW}
+            # ,{cons.TK_NOTIF_LEFT: 1800, cons.TK_NOTIF_INTERVAL: 1800, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_NORMAL}
+            # ,{cons.TK_NOTIF_LEFT: 300, cons.TK_NOTIF_INTERVAL: 600, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_WARNING}
+            # ,{cons.TK_NOTIF_LEFT: 60, cons.TK_NOTIF_INTERVAL: 120, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_IMPORTANT}
+            # ,{cons.TK_NOTIF_LEFT: 0, cons.TK_NOTIF_INTERVAL:60, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
+            # ,{cons.TK_NOTIF_LEFT: -cons.TK_LIMIT_PER_DAY*31, cons.TK_NOTIF_INTERVAL: 10, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
+
+            # ## since notifications are client responsibility, but we still need to send them at some point, so this is a placeholder config ##
+            # ## notification levels should not matter anymore, when message arrives to client, it will calc prio depending on it's config ##
+            {cons.TK_NOTIF_LEFT: self._timekprConfig.getTimekprFinalNotificationTime, cons.TK_NOTIF_INTERVAL: self._getTwoDaysTime, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_LOW},
+            {cons.TK_NOTIF_LEFT: self._getZeroDaysTime, cons.TK_NOTIF_INTERVAL: self._timekprConfig.getTimekprFinalNotificationTime, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL},
+            {cons.TK_NOTIF_LEFT: self._getLongestTimeNeg, cons.TK_NOTIF_INTERVAL: self._getLongestTime, cons.TK_NOTIF_URGENCY: cons.TK_PRIO_CRITICAL}
         )
 
         # init DBUS
         super().__init__(pBusName, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init notifications")
+
+    # --------------- helper methods --------------- #
+
+    # a time ceiling of time for comparison
+    def _getLongestTime(self): return cons.TK_LIMIT_PER_DAY * 31
+    # a time floor of time for comparison
+    def _getLongestTimeNeg(self): return -self._getLongestTime
+    # max time user could have
+    def _getTwoDaysTime(self): return cons.TK_LIMIT_PER_DAY * 2
+    # 0 time
+    def _getZeroDaysTime(self): return 0
 
     # --------------- worker methods --------------- #
 
@@ -57,7 +78,7 @@ class timekprNotificationManager(dbus.service.Object):
         # un-init DBUS
         super().remove_from_connection()
 
-    def processTimeLeft(self, pForce, pTimeSpent, pTimeSpentWeek, pTimeSpentMonth, pTimeInactive, pTimeLeftToday, pTimeLeftTotal, pTimeLimitToday, pTimeAvailableIntervals, pTrackInactive, pHideTrayIcon):
+    def processTimeLeft(self, pForce, pTimeValues):
         """Process notifications and send signals if needed"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start processTimeLeft")
 
@@ -72,32 +93,36 @@ class timekprNotificationManager(dbus.service.Object):
         for i in self._notificationLimits:
             # set up new level
             newNotificatonLvl += 1
-
             # check
-            if pTimeLeftTotal >= i[cons.TK_NOTIF_LEFT]:
+            if pTimeValues[cons.TK_CTRL_LEFT] >= i[cons.TK_NOTIF_LEFT]():
                 # set up new level
                 self._notificationLvl = newNotificatonLvl
-
                 # we found what we needed
                 break
 
         # timeleft
         timeLeft = dbus.Dictionary({}, signature="si")
-        timeLeft[cons.TK_CTRL_LEFTD] = int(pTimeLeftToday)
-        timeLeft[cons.TK_CTRL_LEFT] = int(pTimeLeftTotal)
-        timeLeft[cons.TK_CTRL_SPENT] = int(pTimeSpent)
-        timeLeft[cons.TK_CTRL_SPENTW] = int(pTimeSpentWeek)
-        timeLeft[cons.TK_CTRL_SPENTM] = int(pTimeSpentMonth)
-        timeLeft[cons.TK_CTRL_SLEEP] = int(pTimeInactive)
-        timeLeft[cons.TK_CTRL_TRACK] = (1 if pTrackInactive else 0)
-        timeLeft[cons.TK_CTRL_HIDEI] = (1 if pHideTrayIcon else 0)
-        timeLeft[cons.TK_CTRL_TNL] = (1 if pTimeLimitToday >= cons.TK_LIMIT_PER_DAY and pTimeAvailableIntervals >= cons.TK_LIMIT_PER_DAY else 0)
+        timeLeft[cons.TK_CTRL_LEFTD] = int(pTimeValues[cons.TK_CTRL_LEFTD])
+        timeLeft[cons.TK_CTRL_LEFT] = int(pTimeValues[cons.TK_CTRL_LEFT])
+        timeLeft[cons.TK_CTRL_SPENT] = int(pTimeValues[cons.TK_CTRL_SPENT])
+        timeLeft[cons.TK_CTRL_SPENTW] = int(pTimeValues[cons.TK_CTRL_SPENTW])
+        timeLeft[cons.TK_CTRL_SPENTM] = int(pTimeValues[cons.TK_CTRL_SPENTM])
+        timeLeft[cons.TK_CTRL_SLEEP] = int(pTimeValues[cons.TK_CTRL_SLEEP])
+        timeLeft[cons.TK_CTRL_TRACK] = (1 if pTimeValues[cons.TK_CTRL_TRACK] else 0)
+        timeLeft[cons.TK_CTRL_HIDEI] = (1 if pTimeValues[cons.TK_CTRL_HIDEI] else 0)
+        timeLeft[cons.TK_CTRL_TNL] = pTimeValues[cons.TK_CTRL_TNL]
+        # include PlayTime (if enabled, check is done for couple of mandatory values)
+        if cons.TK_CTRL_PTTLO in pTimeValues and cons.TK_CTRL_PTSPD in pTimeValues:
+            timeLeft[cons.TK_CTRL_PTTLO] = (1 if pTimeValues[cons.TK_CTRL_PTTLO] else 0)
+            timeLeft[cons.TK_CTRL_PTSPD] = int(pTimeValues[cons.TK_CTRL_PTSPD])
+            timeLeft[cons.TK_CTRL_PTLPD] = int(pTimeValues[cons.TK_CTRL_PTLPD])
+            timeLeft[cons.TK_CTRL_PTLSTC] = int(pTimeValues[cons.TK_CTRL_PTLSTC])
 
         # inform clients about time left in any case
         self.timeLeft(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], timeLeft)
 
         # if notification levels changed (and it was not the first iteration)
-        if (pForce) or (self._notificationLvl != self._prevNotificationLvl) or ((effectiveDatetime - self._lastNotified).total_seconds() >= self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_INTERVAL]):
+        if (pForce) or (self._notificationLvl != self._prevNotificationLvl) or ((effectiveDatetime - self._lastNotified).total_seconds() >= self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_INTERVAL]()):
             # set up last notified
             self._lastNotified = effectiveDatetime
 
@@ -106,12 +131,12 @@ class timekprNotificationManager(dbus.service.Object):
                 # we send no limit just once
                 if self._prevNotificationLvl < 0 or pForce:
                     # no limit
-                    self.timeNoLimitNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY])
+                    self.timeNoLimitNotification(cons.TK_PRIO_LOW)
             else:
                 # limit
-                self.timeLeftNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], max(pTimeLeftTotal, 0), max(pTimeLeftToday, 0), pTimeLimitToday)
+                self.timeLeftNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], max(pTimeValues[cons.TK_CTRL_LEFT], 0), max(pTimeValues[cons.TK_CTRL_LEFTD], 0), pTimeValues[cons.TK_CTRL_LIMITD])
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "time left: %i; %i; %i, notification lvl: %s, priority: %s, force: %s" % (pTimeLeftTotal, pTimeLeftToday, pTimeLimitToday, self._notificationLvl, self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], str(pForce)))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "time left: %i; %i; %i, notification lvl: %s, priority: %s, force: %s" % (pTimeValues[cons.TK_CTRL_LEFT], pTimeValues[cons.TK_CTRL_LEFTD], pTimeValues[cons.TK_CTRL_LIMITD], self._notificationLvl, self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], str(pForce)))
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish processTimeLeft")
 
     def processTimeLimits(self, pTimeLimits):
@@ -122,10 +147,18 @@ class timekprNotificationManager(dbus.service.Object):
         # convert this all to dbus
         for rKey, rValue in pTimeLimits.items():
             # weekly & monthly limits are set differently
-            if rKey in [cons.TK_CTRL_LIMITW, cons.TK_CTRL_LIMITM]:
+            if rKey in (cons.TK_CTRL_LIMITW, cons.TK_CTRL_LIMITM, cons.TK_CTRL_PTTLO, cons.TK_CTRL_PTTLE):
                 # this is to comply with standard limits structure
                 timeLimits[rKey] = dbus.Dictionary(signature="sv")
                 timeLimits[rKey][rKey] = dbus.Int32(rValue)
+            # PlayTime
+            elif rKey in (cons.TK_CTRL_PTLMT, cons.TK_CTRL_PTLST):
+                # dbus dict for holding days, limits and activities
+                timeLimits[rKey] = dbus.Dictionary(signature="sv")
+                timeLimits[rKey][rKey] = dbus.Array(signature="av")
+                # fill in limits or activities (both have 2 node arrays)
+                for rSubValue in rValue:
+                    timeLimits[rKey][rKey].append(dbus.Array([rSubValue[0], rSubValue[1]], signature=("i" if rKey == cons.TK_CTRL_PTLMT else "s")))
             else:
                 # dbus dict for holding limits and intervals
                 timeLimits[rKey] = dbus.Dictionary(signature="sv")
@@ -135,7 +168,7 @@ class timekprNotificationManager(dbus.service.Object):
                 # set up dbus dict
                 for rLimit in rValue[cons.TK_CTRL_INT]:
                     # add intervals
-                    timeLimits[rKey][cons.TK_CTRL_INT].append(dbus.Array([rLimit[0], rLimit[1]], signature="i"))
+                    timeLimits[rKey][cons.TK_CTRL_INT].append(dbus.Array([rLimit[0], rLimit[1], rLimit[2]], signature="i"))
 
         if log.isDebug():
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "TLDB: %s" % (str(timeLimits)))
@@ -163,17 +196,19 @@ class timekprNotificationManager(dbus.service.Object):
 
     # --------------- DBUS / communication methods (limits, config) --------------- #
 
-    @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="sa{si}")
+    @dbus.service.signal(cons.TK_DBUS_USER_LIMITS_INTERFACE, signature="sa{si}")
     def timeLeft(self, pPriority, pTimeLeft):
         """Send out signal"""
         # this just passes time back
         pass
 
-    @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="sa{sa{sv}}")
+    @dbus.service.signal(cons.TK_DBUS_USER_LIMITS_INTERFACE, signature="sa{sa{sv}}")
     def timeLimits(self, pPriority, pTimeLimits):
         """Send out signal"""
         # this just passes time back
         pass
+
+    # --------------- DBUS / communication methods (notifications) --------------- #
 
     @dbus.service.signal(cons.TK_DBUS_USER_NOTIF_INTERFACE, signature="siii")
     def timeLeftNotification(self, pPriority, pTimeLeftTotal, pTimeLeftToday, pTimeLimitToday):

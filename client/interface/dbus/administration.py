@@ -121,7 +121,7 @@ class timekprAdminConnector(object):
         """Initialize the return codes for calls"""
         return -2 if pInit else -1 if pCall else 0, msg.getTranslation("TK_MSG_STATUS_INTERFACE_NOTREADY") if pInit else msg.getTranslation("TK_MSG_DBUS_COMMUNICATION_COMMAND_NOT_ACCEPTED") if pCall else ""
 
-    # --------------- user configuration info population / set methods --------------- #
+    # --------------- user configuration info population methods --------------- #
 
     def getUserList(self):
         """Get user list from server"""
@@ -162,7 +162,7 @@ class timekprAdminConnector(object):
             # notify through dbus
             try:
                 # call dbus method
-                result, message, userConfig = self._timekprUserAdminDbusInterface.getUserConfiguration(pUserName, pInfoLvl)
+                result, message, userConfig = self._timekprUserAdminDbusInterface.getUserInformation(pUserName, pInfoLvl)
             except Exception as ex:
                 # exception
                 result, message = self.formatException(str(ex))
@@ -172,6 +172,8 @@ class timekprAdminConnector(object):
 
         # result
         return result, message, userConfig
+
+    # --------------- user configuration set methods --------------- #
 
     def setAllowedDays(self, pUserName, pDayList):
         """Set user allowed days"""
@@ -389,6 +391,152 @@ class timekprAdminConnector(object):
         # result
         return result, message
 
+    # --------------- PlayTime user configuration info set methods --------------- #
+
+    def setPlayTimeEnabled(self, pUserName, pPlayTimeEnabled):
+        """Set PlayTime enabled flag for user"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeEnabled(pUserName, pPlayTimeEnabled)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setPlayTimeLimitOverride(self, pUserName, pPlayTimeLimitOverride):
+        """Set PlayTime override flag for user"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeLimitOverride(pUserName, pPlayTimeLimitOverride)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setPlayTimeAllowedDays(self, pUserName, pPlayTimeAllowedDays):
+        """Set allowed days for PlayTime for user"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeAllowedDays(pUserName, pPlayTimeAllowedDays)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setPlayTimeLimitsForDays(self, pUserName, pPlayTimeLimits):
+        """Set PlayTime limits for the allowed days for the user"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeLimitsForDays(pUserName, pPlayTimeLimits)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setPlayTimeActivities(self, pUserName, pPlayTimeActivities):
+        """Set PlayTime limits for the allowed days for the user"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeActivities(pUserName, pPlayTimeActivities)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setPlayTimeLeft(self, pUserName, pOperation, pTimeLeft):
+        """Set user time left"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeLeft(pUserName, pOperation, pTimeLeft)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
     # --------------- timekpr configuration info population / set methods --------------- #
 
     def getTimekprConfiguration(self):
@@ -560,6 +708,30 @@ class timekprAdminConnector(object):
         # result
         return result, message
 
+    def setTimekprFinalNotificationTime(self, pFinalNotificationTimeSecs):
+        """Set up final notification time for users"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminDbusInterface.setTimekprFinalNotificationTime(pFinalNotificationTimeSecs)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
     def setTimekprSessionsCtrl(self, pSessionsCtrl):
         """Set accountable session types for users"""
         # initial values
@@ -622,6 +794,30 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message = self._timekprAdminDbusInterface.setTimekprUsersExcl(pUsersExcl)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setTimekprPlayTimeEnabled(self, pPlayTimeEnabled):
+        """Set up global PlayTime enable switch"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminDbusInterface.setTimekprPlayTimeEnabled(pPlayTimeEnabled)
             except Exception as ex:
                 # exception
                 result, message = self.formatException(str(ex))

@@ -14,8 +14,8 @@
     <property name="program_name">Timekpr-nExT</property>
     <property name="version">0.0.1</property>
     <property name="copyright" translatable="yes">Copyright (c) 2018-2020 Eduards Bezverhijs
-Super tester: Rinalds Dobelis
-Beta tester: SanskritFritz</property>
+Main test (ex): Rinalds Dobelis
+Beta test: SanskritFritz</property>
     <property name="comments" translatable="yes">Keep control of computer usage</property>
     <property name="website">https://launchpad.net/timekpr-next</property>
     <property name="website_label" translatable="yes">Timekpr-nExT</property>
