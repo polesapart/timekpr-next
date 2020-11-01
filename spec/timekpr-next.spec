@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.4.3
+Version:          0.4.4
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
