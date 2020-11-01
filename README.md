@@ -29,28 +29,28 @@ until it's released or use ```beta```._
 
 **This README** is useful, but quite large, so I have prepared a guide for You.
 
-* Topics about functionality:
+* About functionality:
 
-  - _a short description of [applications](#applications) with [typical use case](#typicalusecase)_
+  - a short description of [applications](#applications) with [typical use case](#typicalusecase)
 
-  - _latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime controls](#playtimeconfiguration), 
-  [user configurable notifications](#userconfigurablenotifications)_, ["freeride" time periods](#freerideintervals)
+  - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime controls](#playtimeconfiguration), 
+  [user configurable notifications](#userconfigurablenotifications), ["freeride" time periods](#freerideintervals)
 
-  - _to better understand functionality click on [description of functionality](#detaileddescription)_
+  - to better understand functionality click on [description of functionality](#detaileddescription)
 
-  - _to get information about CLI (console) use / file configuration possibilities [additional configuration possibilities](#additionalconfigpossibilities)_
+  - to get information about CLI (console) use / file configuration possibilities [additional configuration possibilities](#additionalconfigpossibilities)
 
 * Support the project:
 
-  * _how You can help [(donations, translations)](#support)_
+  - support by **[donating](#support)** or translating it to your [language](#translate)
 
 * Installation guide:
 
-  - _installation / removal [instructions](#installation) for most popular Linux systems_
+  - installation / removal [instructions](#installation) for most popular Linux systems
 
 * Disclaimer, questions, suggestions and bugs:
 
-  - _disclaimer is [here](#disclaimer) and information about questions, suggestions and bugs is [here](#bugs)_
+  - disclaimer is [here](#disclaimer) and information about questions, suggestions and bugs is [here](#bugs)
 
 </br>
 <a name="applications"></a>
@@ -619,7 +619,8 @@ Typical setup is rather simple and easy, there are (of course) more to it, pleas
 
 First step to start using Timekpr-nExT is to install it, right? :-)
 
-Basically there are two versions - beta and stable, usually they are not that different, but beta comes out earlier, especially when changes in upcoming version 
+Basically there are two versions - beta and stable, usually they are not that different, but beta comes out earlier, especially when changes in upcoming 
+version 
 are larger.
 
 The installation instructions are easy as well (I know that one can do that in GUI, but terminal is just simply faster :-)), just paste these lines in terminal 
@@ -641,15 +642,18 @@ Timekpr-nExT is available in:
 
 | Distribution | Stable install | Stable remove |
 | :--- | :--- | :--- |
-| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` |
+| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo 
+apt-get remove --purge timekpr-next``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next``` | ```sudo pacman -Rdd timekpr-next``` |
-| Fedora and openSUSE | [manual installation](https://launchpad.net/timekpr-next/+announcement/27532) | [manual uninstallation](https://launchpad.net/timekpr-next/+announcement/27532) |
+| Fedora and openSUSE | [manual installation](https://launchpad.net/timekpr-next/+announcement/27532) | [manual 
+uninstallation](https://launchpad.net/timekpr-next/+announcement/27532) |
 
 #### Beta
 
 | Distribution | Beta install | Beta remove |
 | :-- | :--: | --: |
-| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next-beta``` | ```sudo apt-get remove --purge timekpr-next-beta``` |
+| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next-beta``` | ```sudo 
+apt-get remove --purge timekpr-next-beta``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next-git``` | ```sudo pacman -Rdd timekpr-next-git``` |
 
 _**Note**: for ArchLinux and Manjaro, please choose Your favourite AUR helper, if that differs from mine._
@@ -880,6 +884,8 @@ The PayPal donations URL (shortened): https://tinyurl.com/yc9x85v2 .
 As a matter of fact, I'm starting to look for a replacement of my year 2001 Chicony keyboard with more programming / ergo oriented one which can be used in 
 gaming too, like Dygma Raise. I will be happy for any help getting it ;)
 
+</br>
+<a name="translate"></a>
 Alternatively, You can help to translate Timekpr-nExT in Your language [here](https://translations.launchpad.net/timekpr-next) too.
 
 </br>
