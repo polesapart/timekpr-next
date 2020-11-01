@@ -806,8 +806,8 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "#   where NNN is number left padded with 0 (keys must be unique and ordered), optionally it's possible to add user")
         self._timekprUserConfigParser.set(section, "#   friendly description in [] brackets. Process mask supports regexp, except symbols [], please be careful entering it!")
         self._timekprUserConfigParser.set(section, "##PLAYTIME_ACTIVITIES## Do NOT remove or alter this line!")
-        # save all activity values (activities are varying list)
-        for rPTAppIdx in range(0, len(self._timekprUserConfig["PLAYTIME_ACTIVITIES"])):
+        # save all activity values (activities are varying list), do this only if values are reused
+        for rPTAppIdx in range(0, len(self._timekprUserConfig["PLAYTIME_ACTIVITIES"]) if pReuseValues else 0):
             # write all to file
             param = "PLAYTIME_ACTIVITY_%s" % (str(rPTAppIdx+1).rjust(3, "0"))
             act = self._timekprUserConfig["PLAYTIME_ACTIVITIES"][rPTAppIdx][0]
