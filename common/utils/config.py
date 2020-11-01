@@ -15,75 +15,66 @@ import getpass
 # timekpr imports
 from timekpr.common.log import log
 from timekpr.common.constants import constants as cons
+from timekpr.common.utils.misc import findHourStartEndMinutes as findHourStartEndMinutes
+from timekpr.common.utils.misc import splitConfigValueNameParam as splitConfigValueNameParam
 
-
-def _findHourStartEndMinutes(pStr):
-    """Separate name and desription in brackets"""
-    # hour, start, end
-    hour = None
-    sMin = None
-    eMin = None
-
-    # get hour
-    if len(pStr) <= 2:
-        # hour, start, end
-        hour = pStr
-        sMin = 0
-        eMin = 60
-    else:
-        # find minutes
-        st = pStr.find("[")
-        sep = pStr.find("-")
-        en = pStr.find("]")
-        # in case user config is broken, we cannot determine stuff
-        if st < 0 or en < 0 or sep < 0 or not st < sep < en:
-            # nothing
-            pass
-        else:
-            # hour, start, end
-            try:
-                # determine hour and minutes (and check for errors as well)
-                hour = int(pStr[0:st])
-                sMin = int(pStr[st+1:sep])
-                eMin = int(pStr[sep+1:en])
-                # checks for errors (and raise one if there is an error)
-                hour = hour if 0 <= hour <= 23 else 1/0
-                sMin = sMin if 0 <= sMin <= 60 else 1/0
-                eMin = eMin if 0 <= eMin <= 60 else 1/0
-                eMin = eMin if sMin < eMin else 1/0
-            except (ValueError, ZeroDivisionError):
-                # hour, start, end
-                hour = None
-                sMin = None
-                eMin = None
-
-    # return
-    return hour, sMin, eMin
+# ## GLOBAL ##
+# key pattern search
+RE_KEYFINDER = re.compile("^ *([A-Z]+[A-Z_]+[0-9]*) *=.*$")
+RE_ARRAYKEYFINDER = re.compile("^##([A-Z]+[A-Z_]+)##.*$")
 
 
 def _saveConfigFile(pConfigFile, pKeyValuePairs):
     """Save the config file using custom helper function"""
+    global RE_KEYFINDER, RE_ARRAYKEYFINDER
     # edit control file (using alternate method because configparser looses comments in the process)
     # make a backup of the file
     shutil.copy(pConfigFile, pConfigFile + cons.TK_BACK_EXT)
     # read backup and write actual config file
     with open(pConfigFile + cons.TK_BACK_EXT, "r") as srcFile, open(pConfigFile, "w") as dstFile:
+        # destination file
+        dstLines = []
         # read line and do manipulations
         for rLine in srcFile:
-            # check if we have proper line
-            for rKey, rValue in pKeyValuePairs.items():
-                # check if we have to change value
-                if re.match("%s%s%s" % ("^", rKey, " *="), rLine):
-                    # replace key = value pairs
-                    line = re.sub("%s%s%s" % ("^", rKey, " *=.*$"), "%s%s%s" % (rKey, " = ", rValue), rLine)
-                    # first replacement is enough
-                    break
+            # def line
+            line = rLine
+            # if line matches parameter pattern, we look up for that key in our value list
+            if RE_KEYFINDER.match(rLine):
+                # check whether we can find the value for it
+                key = RE_KEYFINDER.sub(r"\1", rLine.rstrip())
+                # if key exists
+                if key in pKeyValuePairs:
+                    # in case of placeholder (value = None), just keep the line, else replace it
+                    if pKeyValuePairs[key] is not None:
+                        # now get the value
+                        dstLines.append("%s = %s\n" % (key, pKeyValuePairs[key]))
+                        # do not add original line
+                        line = None
                 else:
-                    # line does not need a replacement
-                    line = rLine
+                    # do not add unknown options
+                    line = None
+            # search for variable options
+            elif RE_ARRAYKEYFINDER.match(rLine):
+                # check whether we can find the value for it
+                key = RE_ARRAYKEYFINDER.sub(r"\1", rLine.rstrip())
+                # now get the value
+                dstLines.append("%s" % (rLine))
+                # if key exists
+                if key in pKeyValuePairs:
+                    # append array of values
+                    for rVal in pKeyValuePairs[key]:
+                        # now get the value
+                        dstLines.append("%s\n" % (rVal))
+                # do not add original line
+                line = None
 
-            # save file line back to file
-            dstFile.write(line)
+            # append if there is a line
+            if line is not None:
+                # add line
+                dstLines.append(line)
+
+        # save config lines back to file
+        dstFile.writelines(dstLines)
 
 
 def _loadAndPrepareConfigFile(pConfigFileParser, pConfigFile, pLoadOnly=False):
@@ -108,7 +99,7 @@ def _loadAndPrepareConfigFile(pConfigFileParser, pConfigFile, pLoadOnly=False):
                 # not load only
                 if not pLoadOnly:
                     # fail, move corrupted file
-                    os.rename(rFile, rFile + ".invalid")
+                    os.rename(rFile, "%s.invalid" % (rFile))
         else:
             # we do not need empty files
             if os.path.isfile(rFile) and not pLoadOnly:
@@ -215,6 +206,9 @@ class timekprConfig(object):
         # read
         param = "TIMEKPR_FINAL_WARNING_TIME"
         resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_FINAL_COUNTDOWN_TIME, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
+        param = "TIMEKPR_FINAL_NOTIFICATION_TIME"
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getint, section, param, pDefaultValue=cons.TK_FINAL_NOTIFICATION_TIME, pCheckValue=None, pOverallSuccess=resultValue)
 
         # session section
         section = "SESSION"
@@ -246,6 +240,12 @@ class timekprConfig(object):
         param = "TIMEKPR_LOGFILE_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_LOGFILE_DIR, pCheckValue=None, pOverallSuccess=result)
         self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+
+        # global PlayTime config section
+        section = "PLAYTIME"
+        # read
+        param = "TIMEKPR_PLAYTIME_ENABLED"
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:
@@ -297,7 +297,8 @@ class timekprConfig(object):
         self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_SAVE_INTERVAL))
         # set up param
         param = "TIMEKPR_TRACK_INACTIVE"
-        self._timekprConfigParser.set(section, "# this defines whether to account sessions which are inactive (locked screen, user switched away from desktop, etc.), this defines the default value for new users")
+        self._timekprConfigParser.set(section, "# this defines whether to account sessions which are inactive (locked screen, user switched away from desktop, etc.),")
+        self._timekprConfigParser.set(section, "#   new users, when created, will inherit this value")
         self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_TRACK_INACTIVE))
         # set up param
         param = "TIMEKPR_TERMINATION_TIME"
@@ -307,8 +308,12 @@ class timekprConfig(object):
         self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_TERMINATION_TIME))
         # set up param
         param = "TIMEKPR_FINAL_WARNING_TIME"
-        self._timekprConfigParser.set(section, "# this defines a time interval when timekpr will send continous final warnings until the termination of user sessions")
+        self._timekprConfigParser.set(section, "# this defines a time interval prior to termination of user sessions when timekpr will send continous final warnings (countdown) until the actual termination")
         self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_FINAL_COUNTDOWN_TIME))
+        # set up param
+        param = "TIMEKPR_FINAL_NOTIFICATION_TIME"
+        self._timekprConfigParser.set(section, "# this defines a time interval prior to termination of user sessions when timekpr will send one final warning about time left")
+        self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_FINAL_NOTIFICATION_TIME))
 
         section = "SESSION"
         self._timekprConfigParser.add_section(section)
@@ -346,6 +351,14 @@ class timekprConfig(object):
         self._timekprConfigParser.set(section, "# directory for log files")
         self._timekprConfigParser.set(section, "%s" % (param), self._timekprConfig[param] if pReuseValues else cons.TK_LOGFILE_DIR)
 
+        section = "PLAYTIME"
+        self._timekprConfigParser.add_section(section)
+        self._timekprConfigParser.set(section, "#### this section contains global PlayTime activity configuration")
+        # set up param
+        param = "TIMEKPR_PLAYTIME_ENABLED"
+        self._timekprConfigParser.set(section, "# whether PlayTime is enabled globally")
+        self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_TRACK_INACTIVE))
+
         # save the file
         with open(self._configFile, "w") as fp:
             self._timekprConfigParser.write(fp)
@@ -379,6 +392,9 @@ class timekprConfig(object):
         # final warning time (countdown to 0 before terminating session)
         param = "TIMEKPR_FINAL_WARNING_TIME"
         values[param] = str(self._timekprConfig[param])
+        # final notification time (final warning before terminating session)
+        param = "TIMEKPR_FINAL_NOTIFICATION_TIME"
+        values[param] = str(self._timekprConfig[param])
         # which session types to control
         param = "TIMEKPR_SESSION_TYPES_CTRL"
         values[param] = str(self._timekprConfig[param])
@@ -388,6 +404,22 @@ class timekprConfig(object):
         # which users to exclude from time accounting
         param = "TIMEKPR_USERS_EXCL"
         values[param] = str(self._timekprConfig[param])
+        # whether PlayTime is enabled
+        param = "TIMEKPR_PLAYTIME_ENABLED"
+        values[param] = str(self._timekprConfig[param])
+        # ## pass placeholders for directories ##
+        # config dir
+        param = "TIMEKPR_CONFIG_DIR"
+        values[param] = None
+        # work dir
+        param = "TIMEKPR_WORK_DIR"
+        values[param] = None
+        # shared dir
+        param = "TIMEKPR_SHARED_DIR"
+        values[param] = None
+        # log dir
+        param = "TIMEKPR_LOGFILE_DIR"
+        values[param] = None
 
         # edit client config file (using alternate method because configparser looses comments in the process)
         _saveConfigFile(self._configFile, values)
@@ -396,70 +428,115 @@ class timekprConfig(object):
 
     def getTimekprVersion(self):
         """Get version"""
+        # param
+        param = "TIMEKPR_VERSION"
         # result
-        return self._timekprConfig["TIMEKPR_VERSION"]
+        return self._timekprConfig[param]
 
     def getTimekprLogLevel(self):
         """Get logging level"""
+        # param
+        param = "TIMEKPR_LOGLEVEL"
         # result
-        return self._timekprConfig["TIMEKPR_LOGLEVEL"]
+        return self._timekprConfig[param]
 
     def getTimekprPollTime(self):
         """Get polling time"""
+        # param
+        param = "TIMEKPR_POLLTIME"
         # result
-        return self._timekprConfig["TIMEKPR_POLLTIME"]
+        return self._timekprConfig[param]
 
     def getTimekprSaveTime(self):
         """Get save time"""
+        # param
+        param = "TIMEKPR_SAVE_TIME"
         # result
-        return self._timekprConfig["TIMEKPR_SAVE_TIME"]
+        return self._timekprConfig[param]
 
     def getTimekprTrackInactive(self):
         """Get tracking inactive"""
+        # param
+        param = "TIMEKPR_TRACK_INACTIVE"
         # result
-        return self._timekprConfig["TIMEKPR_TRACK_INACTIVE"]
+        return self._timekprConfig[param]
 
     def getTimekprTerminationTime(self):
         """Get termination time"""
+        # param
+        param = "TIMEKPR_TERMINATION_TIME"
         # result
-        return self._timekprConfig["TIMEKPR_TERMINATION_TIME"]
+        return self._timekprConfig[param]
 
     def getTimekprFinalWarningTime(self):
         """Get final warning time"""
+        # param
+        param = "TIMEKPR_FINAL_WARNING_TIME"
         # result
-        return self._timekprConfig["TIMEKPR_FINAL_WARNING_TIME"]
+        return self._timekprConfig[param]
+
+    def getTimekprFinalNotificationTime(self):
+        """Get final notification time"""
+        # param
+        param = "TIMEKPR_FINAL_NOTIFICATION_TIME"
+        # result
+        return self._timekprConfig[param]
 
     def getTimekprSessionsCtrl(self):
         """Get sessions to control"""
-        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"].split(";") if self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"] != ""]
+        # param
+        param = "TIMEKPR_SESSION_TYPES_CTRL"
+        # result
+        return [rVal.strip() for rVal in self._timekprConfig[param].split(";") if rVal != ""] if param in self._timekprConfig else []
 
     def getTimekprSessionsExcl(self):
         """Get sessions to exclude"""
-        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"].split(";") if self._timekprConfig["TIMEKPR_SESSION_TYPES_EXCL"] != ""]
+        # param
+        param = "TIMEKPR_SESSION_TYPES_EXCL"
+        # result
+        return [rVal.strip() for rVal in self._timekprConfig[param].split(";") if rVal != ""] if param in self._timekprConfig else []
 
     def getTimekprUsersExcl(self):
         """Get sessions to exclude"""
-        return [result.strip(None) for result in self._timekprConfig["TIMEKPR_USERS_EXCL"].split(";") if self._timekprConfig["TIMEKPR_USERS_EXCL"] != ""]
+        # param
+        param = "TIMEKPR_USERS_EXCL"
+        # result
+        return [rVal.strip() for rVal in self._timekprConfig[param].split(";") if rVal != ""] if param in self._timekprConfig else []
 
     def getTimekprConfigDir(self):
         """Get config dir"""
+        # param
+        param = "TIMEKPR_CONFIG_DIR"
         # result
-        return self._timekprConfig["TIMEKPR_CONFIG_DIR"]
+        return self._timekprConfig[param]
 
     def getTimekprWorkDir(self):
         """Get working dir"""
+        # param
+        param = "TIMEKPR_WORK_DIR"
         # result
-        return self._timekprConfig["TIMEKPR_WORK_DIR"]
+        return self._timekprConfig[param]
 
     def getTimekprSharedDir(self):
         """Get shared dir"""
+        # param
+        param = "TIMEKPR_SHARED_DIR"
         # result
-        return self._timekprConfig["TIMEKPR_SHARED_DIR"]
+        return self._timekprConfig[param]
 
     def getTimekprLogfileDir(self):
         """Get log file dir"""
+        # param
+        param = "TIMEKPR_LOGFILE_DIR"
         # result
-        return self._timekprConfig["TIMEKPR_LOGFILE_DIR"]
+        return self._timekprConfig[param]
+
+    def getTimekprPlayTimeEnabled(self):
+        """Return whether we have PlayTime enabled"""
+        # param
+        param = "TIMEKPR_PLAYTIME_ENABLED"
+        # result
+        return self._timekprConfig[param]
 
     def getTimekprLastModified(self):
         """Get last file modification time"""
@@ -496,6 +573,11 @@ class timekprConfig(object):
         # result
         self._timekprConfig["TIMEKPR_FINAL_WARNING_TIME"] = pFinalWarningTimeSecs
 
+    def setTimekprFinalNotificationTime(self, pFinalNotificationTimeSecs):
+        """Set final warning time"""
+        # result
+        self._timekprConfig["TIMEKPR_FINAL_NOTIFICATION_TIME"] = pFinalNotificationTimeSecs
+
     def setTimekprSessionsCtrl(self, pSessionsCtrl):
         """Set sessions to control"""
         self._timekprConfig["TIMEKPR_SESSION_TYPES_CTRL"] = ";".join(pSessionsCtrl)
@@ -507,6 +589,10 @@ class timekprConfig(object):
     def setTimekprUsersExcl(self, pUsersExcl):
         """Set sessions to exclude"""
         self._timekprConfig["TIMEKPR_USERS_EXCL"] = ";".join(pUsersExcl)
+
+    def setTimekprPlayTimeEnabled(self, pPlayTimeEnabled):
+        """Set PlayTime enable flag"""
+        self._timekprConfig["TIMEKPR_PLAYTIME_ENABLED"] = bool(pPlayTimeEnabled)
 
 
 class timekprUserConfig(object):
@@ -584,12 +670,49 @@ class timekprUserConfig(object):
             param = "WAKEUP_HOUR_INTERVAL"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue="0;23", pCheckValue=None, pOverallSuccess=resultValue)
 
+            # user PlayTime config section
+            section = "%s.%s" % (self._userName, "PLAYTIME")
+            # read
+            param = "PLAYTIME_ENABLED"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "PLAYTIME_ALLOWED_WEEKDAYS"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_PLAYTIME_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_PLAYTIME_LIMITS_PER_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            # read activities
+            self._timekprUserConfig["PLAYTIME_ACTIVITIES"] = []
+            appCfgKeys = [rParam[0] for rParam in self._timekprUserConfigParser.items(section) if "PLAYTIME_ACTIVITY_" in rParam[0]] if self._timekprUserConfigParser.has_section(section) else []
+            # read all apps (apps have to be properly configured)
+            for rAppIdx in range(0, len(appCfgKeys)):
+                # read value
+                resultValue, process = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, appCfgKeys[rAppIdx], pDefaultValue=None, pCheckValue=None, pOverallSuccess=resultValue)
+                # read successful
+                if process is not None:
+                    # add to the activities list
+                    proc, desc = splitConfigValueNameParam(process)
+                    # we have valid process
+                    if proc is not None:
+                        # save process
+                        self._timekprUserConfig["PLAYTIME_ACTIVITIES"].append([proc, desc])
+            # log
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "PT: found total %i activities, valid %i" % (len(appCfgKeys), len(self._timekprUserConfig["PLAYTIME_ACTIVITIES"])))
+
             # if we could not read some values, save what we could + defaults
             if not resultValue:
                 # logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: some values in user config file (%s) could not be read or new configuration option was introduced, valid values and defaults are used / saved instead" % (self._configFile))
                 # init config with partial values read and save what we could
                 self.initUserConfiguration(True)
+
+            # clear parser
+            self._timekprUserConfigParser.clear()
+            # load minimal main config for PlayTime checks
+            self.loadMinimalMainConfig()
 
         # clear parser
         self._timekprUserConfigParser.clear()
@@ -629,7 +752,7 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_ALLOWED_WEEKDAYS)
         # set up param
         param = "LIMITS_PER_WEEKDAYS"
-        self._timekprUserConfigParser.set(section, "# this defines allowed time in seconds per week day a user can use the computer")
+        self._timekprUserConfigParser.set(section, "# this defines allowed time in seconds per week day a user can use the computer (number of values must match number if values for ALLOWED_WEEKDAYS)")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_LIMITS_PER_WEEKDAYS)
         # set up param
         param = "LIMIT_PER_WEEK"
@@ -649,12 +772,47 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_HIDE_TRAY_ICON))
         # set up param
         param = "LOCKOUT_TYPE"
-        self._timekprUserConfigParser.set(section, "# this defines user restriction / lockout mode: lock - lock screen, suspend - put computer to sleep, suspendwake - put computer to sleep and wake it up, terminate - terminate sessions, shutdown - shutdown the computer")
+        self._timekprUserConfigParser.set(section, "# this defines user restriction / lockout mode: lock - lock screen, suspend - put computer to sleep, suspendwake - put computer to sleep and wake it up,")
+        self._timekprUserConfigParser.set(section, "#   terminate - terminate sessions, shutdown - shutdown the computer")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_CTRL_RES_T)
         # set up param
         param = "WAKEUP_HOUR_INTERVAL"
-        self._timekprUserConfigParser.set(section, "# this defines wakeup hour interval in format xn;yn where xn / yn are hours from 0 to 23, wakeup itself must be supported by BIOS / UEFI and enabled, this is effective only when lockout type is suspendwake")
+        self._timekprUserConfigParser.set(section, "# this defines wakeup hour interval in format xn;yn where xn / yn are hours from 0 to 23, wakeup itself must be supported by BIOS / UEFI and enabled,")
+        self._timekprUserConfigParser.set(section, "#   this is effective only when lockout type is suspendwake")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else "0;23")
+
+        # PlayTime
+        section = "%s.%s" % (self._userName, "PLAYTIME")
+        self._timekprUserConfigParser.add_section(section)
+        # set up param
+        param = "PLAYTIME_ENABLED"
+        self._timekprUserConfigParser.set(section, "# whether PlayTime is enabled for this user")
+        self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
+        # set up param
+        param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+        self._timekprUserConfigParser.set(section, "# whether PlayTime is enabled to override existing time accounting, i.e. time ticks only when PlayTime processes / activities are running,")
+        self._timekprUserConfigParser.set(section, "#   in this case explicit PlayTime limits are ignored")
+        self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
+        # set up param
+        param = "PLAYTIME_ALLOWED_WEEKDAYS"
+        self._timekprUserConfigParser.set(section, "# specify on which days PlayTime is enabled")
+        self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_PLAYTIME_ALLOWED_WEEKDAYS)
+        # set up param
+        param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
+        self._timekprUserConfigParser.set(section, "# how much PlayTime is allowed per allowed days (number of values must match number if values for PLAYTIME_ALLOWED_WEEKDAYS)")
+        self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_PLAYTIME_LIMITS_PER_WEEKDAYS)
+        # set up param
+        self._timekprUserConfigParser.set(section, "# this defines which activities / processes are monitored, pattern: PLAYTIME_ACTIVITY_NNN = PROCESS_MASK[DESCRIPTION],")
+        self._timekprUserConfigParser.set(section, "#   where NNN is number left padded with 0 (keys must be unique and ordered), optionally it's possible to add user")
+        self._timekprUserConfigParser.set(section, "#   friendly description in [] brackets. Process mask supports regexp, except symbols [], please be careful entering it!")
+        self._timekprUserConfigParser.set(section, "##PLAYTIME_ACTIVITIES## Do NOT remove or alter this line!")
+        # save all activity values (activities are varying list)
+        for rPTAppIdx in range(0, len(self._timekprUserConfig["PLAYTIME_ACTIVITIES"])):
+            # write all to file
+            param = "PLAYTIME_ACTIVITY_%s" % (str(rPTAppIdx+1).rjust(3, "0"))
+            act = self._timekprUserConfig["PLAYTIME_ACTIVITIES"][rPTAppIdx][0]
+            desc = self._timekprUserConfig["PLAYTIME_ACTIVITIES"][rPTAppIdx][1]
+            self._timekprUserConfigParser.set(section, "%s" % (param), "%s[%s]" % (act, desc) if desc is not None else "%s" % (act))
 
         # save the file
         with open(self._configFile, "w") as fp:
@@ -701,28 +859,69 @@ class timekprUserConfig(object):
         param = "WAKEUP_HOUR_INTERVAL"
         values[param] = self._timekprUserConfig[param]
 
+        # PlayTime config
+        # wakeup hour interval
+        param = "PLAYTIME_ENABLED"
+        values[param] = str(self._timekprUserConfig[param])
+        # wakeup hour interval
+        param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+        values[param] = str(self._timekprUserConfig[param])
+        # wakeup hour interval
+        param = "PLAYTIME_ALLOWED_WEEKDAYS"
+        values[param] = self._timekprUserConfig[param]
+        # wakeup hour interval
+        param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
+        values[param] = str(self._timekprUserConfig[param])
+        # PlayTime activities
+        param = "PLAYTIME_ACTIVITIES"
+        values[param] = []
+        # save all activity values
+        for rPTAppIdx in range(0, len(self._timekprUserConfig[param])):
+            # write all to file
+            subparam = "PLAYTIME_ACTIVITY_%s" % (str(rPTAppIdx + 1).rjust(3, "0"))
+            act = self._timekprUserConfig["PLAYTIME_ACTIVITIES"][rPTAppIdx][0]
+            desc = self._timekprUserConfig["PLAYTIME_ACTIVITIES"][rPTAppIdx][1]
+            values[param].append("%s = %s[%s]" % (subparam, act, desc) if desc is not None else "%s = %s" % (subparam, act))
+
         # edit client config file (using alternate method because configparser looses comments in the process)
         _saveConfigFile(self._configFile, values)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving new user configuration")
 
-    def getUserAllowedHours(self, pDay=1):
+    def loadMinimalMainConfig(self):
+        """Load main configuration file to get master PlayTime switch value"""
+        # defaults
+        # directory section
+        section = "PLAYTIME"
+        # read
+        param = "TIMEKPR_PLAYTIME_ENABLED"
+
+        # main config
+        configMainFile = os.path.join(os.getcwd() if cons.TK_DEV_ACTIVE else "", (cons.TK_MAIN_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else cons.TK_MAIN_CONFIG_DIR), cons.TK_MAIN_CONFIG_FILE)
+        # try to load config file
+        result = _loadAndPrepareConfigFile(self._timekprUserConfigParser, configMainFile, True)
+        # get overall result for PT
+        value = False if not result else _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=True)[1]
+
+        # finalize directory
+        self._timekprUserConfig[param] = value
+
+    def getUserAllowedHours(self, pDay):
         """Get allowed hours"""
         # this is the dict for hour config
         allowedHours = {}
 
         # get allowed hours for all of the week days
-        param = "ALLOWED_HOURS_%s" % (str(pDay))
+        param = "ALLOWED_HOURS_%s" % (pDay)
         # minutes can be specified in brackets after hour
         if self._timekprUserConfig[param] != "":
             for rHour in self._timekprUserConfig[param].split(";"):
                 # determine hour and minutes
-                hour, sMin, eMin = _findHourStartEndMinutes(rHour)
+                hour, sMin, eMin, uacc = findHourStartEndMinutes(rHour)
                 # hour is correct
                 if hour is not None:
                     # get our dict done
-                    allowedHours[str(hour)] = {cons.TK_CTRL_SMIN: sMin, cons.TK_CTRL_EMIN: eMin}
-
+                    allowedHours[str(hour)] = {cons.TK_CTRL_SMIN: sMin, cons.TK_CTRL_EMIN: eMin, cons.TK_CTRL_UACC: uacc}
         # result
         return allowedHours
 
@@ -731,14 +930,14 @@ class timekprUserConfig(object):
         # param
         param = "ALLOWED_WEEKDAYS"
         # result
-        return [int(result.strip(None)) for result in self._timekprUserConfig[param].split(";") if self._timekprUserConfig[param] != ""]
+        return [rVal.strip() for rVal in self._timekprUserConfig[param].split(";") if rVal != ""]
 
     def getUserLimitsPerWeekdays(self):
         """Get allowed limits per week day"""
         # param
         param = "LIMITS_PER_WEEKDAYS"
         # result
-        return [int(result.strip(None)) for result in self._timekprUserConfig[param].split(";") if self._timekprUserConfig[param] != ""]
+        return [int(rVal.strip()) for rVal in self._timekprUserConfig[param].split(";") if rVal != ""]
 
     def getUserWeekLimit(self):
         """Get limit per week"""
@@ -767,8 +966,45 @@ class timekprUserConfig(object):
 
     def getUserWakeupHourInterval(self):
         """Get user wakeup hour intervals"""
+        # param
+        param = "WAKEUP_HOUR_INTERVAL"
         # result
-        return [result.strip(None) for result in self._timekprUserConfig["WAKEUP_HOUR_INTERVAL"].split(";") if self._timekprUserConfig["WAKEUP_HOUR_INTERVAL"] != ""]
+        return [rVal.strip() for rVal in self._timekprUserConfig[param].split(";") if rVal != ""]
+
+    def getUserPlayTimeEnabled(self):
+        """Return whether we have PlayTime enabled"""
+        # param
+        param = "PLAYTIME_ENABLED"
+        # check whether user has this enabled in config
+        return (self._timekprUserConfig[param] if self._timekprUserConfig["TIMEKPR_PLAYTIME_ENABLED"] else False)
+
+    def getUserPlayTimeOverrideEnabled(self):
+        """Return whether we have PlayTime overrides the normal time accounting"""
+        # param
+        param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+        # result
+        return self._timekprUserConfig[param]
+
+    def getUserPlayTimeAllowedWeekdays(self):
+        """Get allowed week days for PlayTime"""
+        # param
+        param = "PLAYTIME_ALLOWED_WEEKDAYS"
+        # result
+        return [rVal.strip() for rVal in self._timekprUserConfig[param].split(";") if rVal != ""]
+
+    def getUserPlayTimeLimitsPerWeekdays(self):
+        """Get allowed limits per week day for PlayTime"""
+        # param
+        param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
+        # result
+        return [int(rVal.strip()) for rVal in self._timekprUserConfig[param].split(";") if rVal != ""]
+
+    def getUserPlayTimeActivities(self):
+        """Return PlayTime process / process list"""
+        # param
+        param = "PLAYTIME_ACTIVITIES"
+        # result
+        return self._timekprUserConfig[param]
 
     def getUserLastModified(self):
         """Get last file modification time for user"""
@@ -789,10 +1025,12 @@ class timekprUserConfig(object):
 
                 # do we have config for this hour
                 if hour in rHours:
+                    # is this hour unaccounted
+                    unaccounted = "!" if rHours[hour][cons.TK_CTRL_UACC] else ""
                     # do we have proper minuten
                     minutes = ("[%i-%i]" % (rHours[hour][cons.TK_CTRL_SMIN], rHours[hour][cons.TK_CTRL_EMIN])) if (rHours[hour][cons.TK_CTRL_SMIN] > 0 or rHours[hour][cons.TK_CTRL_EMIN] < 60) else ""
                     # build up this hour
-                    hours.append("%s%s" % (hour, minutes))
+                    hours.append("%s%s%s" % (unaccounted, hour, minutes))
 
             # add this hour to allowable list
             self._timekprUserConfig["ALLOWED_HOURS_%s" % (str(rDay))] = ";".join(hours)
@@ -837,6 +1075,37 @@ class timekprUserConfig(object):
         # result
         self._timekprUserConfig["WAKEUP_HOUR_INTERVAL"] = ";".join(pWakeupHourInterval)
 
+    def setUserPlayTimeEnabled(self, pPlayTimeEnabled):
+        """Set PlayTime enabled for user"""
+        # result
+        self._timekprUserConfig["PLAYTIME_ENABLED"] = pPlayTimeEnabled
+
+    def setUserPlayTimeOverrideEnabled(self, pPlayTimeOverrideEnabled):
+        """Set PlayTime override to the normal time accounting"""
+        # result
+        self._timekprUserConfig["PLAYTIME_LIMIT_OVERRIDE_ENABLED"] = pPlayTimeOverrideEnabled
+
+    def setUserPlayTimeAllowedWeekdays(self, pPlayTimeAllowedWeekdays):
+        """Set allowed week days for PlayTime"""
+        # set up weekdays
+        self._timekprUserConfig["PLAYTIME_ALLOWED_WEEKDAYS"] = ";".join(map(str, pPlayTimeAllowedWeekdays))
+
+    def setUserPlayTimeLimitsPerWeekdays(self, pPlayTimeAllowedLimitsPerWeekdays):
+        """Set allowed week day limits for PlayTime"""
+        # set up weekdays
+        self._timekprUserConfig["PLAYTIME_LIMITS_PER_WEEKDAYS"] = ";".join(map(str, pPlayTimeAllowedLimitsPerWeekdays))
+
+    def setUserPlayTimeAcitivityList(self, pPlayTimeActivityList):
+        """Set PlayTime process / process list"""
+        # def
+        self._timekprUserConfig["PLAYTIME_ACTIVITIES"] = []
+        # loop through all
+        for i in range(0, len(pPlayTimeActivityList)):
+            # desc
+            desc = None if pPlayTimeActivityList[i][1] == "" else pPlayTimeActivityList[i][1]
+            # set this up
+            self._timekprUserConfig["PLAYTIME_ACTIVITIES"].append([pPlayTimeActivityList[i][0], desc])
+
 
 class timekprUserControl(object):
     """Class will provide time spent file management functionality"""
@@ -849,7 +1118,7 @@ class timekprUserControl(object):
         log.log(cons.TK_LOG_LEVEL_INFO, "init user (%s) control" % (pUserName))
 
         # initialize class variables
-        self._configFile = os.path.join(pDirectory, pUserName + ".time")
+        self._configFile = os.path.join(pDirectory, "%s.time" % (pUserName))
         self._userName = pUserName
         self._timekprUserControl = {}
 
@@ -901,6 +1170,15 @@ class timekprUserControl(object):
             param = "LAST_CHECKED"
             resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.get, section, param, pDefaultValue=datetime.now().replace(microsecond=0), pCheckValue=None, pOverallSuccess=resultValue)
 
+            # user PlayTime config section
+            section = "%s.%s" % (self._userName, "PLAYTIME")
+            # read
+            param = "PLAYTIME_SPENT_BALANCE"
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
+            # read
+            param = "PLAYTIME_SPENT_DAY"
+            resultValue, self._timekprUserControl[param] = _readAndNormalizeValue(self._timekprUserControlParser.getint, section, param, pDefaultValue=0, pCheckValue=cons.TK_LIMIT_PER_DAY, pOverallSuccess=resultValue)
+
             # if we could not read some values, save what we could + defaults
             if not resultValue:
                 # logging
@@ -928,11 +1206,11 @@ class timekprUserControl(object):
         self._timekprUserControlParser.add_section(section)
         # set up param
         param = "TIME_SPENT_BALANCE"
-        self._timekprUserControlParser.set(section, "# total spent time balance for today")
+        self._timekprUserControlParser.set(section, "# total time balance spent for this day")
         self._timekprUserControlParser.set(section, "%s" % (param), str(self._timekprUserControl[param]) if pReuseValues else "0")
         # set up param
         param = "TIME_SPENT_DAY"
-        self._timekprUserControlParser.set(section, "# total actual spent for today")
+        self._timekprUserControlParser.set(section, "# total time spent for this day")
         self._timekprUserControlParser.set(section, "%s" % (param), str(self._timekprUserControl[param]) if pReuseValues else "0")
         # set up param
         param = "TIME_SPENT_WEEK"
@@ -946,6 +1224,16 @@ class timekprUserControl(object):
         param = "LAST_CHECKED"
         self._timekprUserControlParser.set(section, "# last update time of the file")
         self._timekprUserControlParser.set(section, "%s" % (param), self._timekprUserControl[param].strftime(cons.TK_DATETIME_FORMAT) if pReuseValues else datetime.now().replace(microsecond=0).strftime(cons.TK_DATETIME_FORMAT))
+
+        # user PlayTime config section
+        section = "%s.%s" % (self._userName, "PLAYTIME")
+        self._timekprUserControlParser.add_section(section)
+        param = "PLAYTIME_SPENT_BALANCE"
+        self._timekprUserControlParser.set(section, "# total PlayTime balance spent for this day")
+        self._timekprUserControlParser.set(section, "%s" % (param), str(self._timekprUserControl[param]) if pReuseValues else "0")
+        param = "PLAYTIME_SPENT_DAY"
+        self._timekprUserControlParser.set(section, "# total PlayTime spent for this day")
+        self._timekprUserControlParser.set(section, "%s" % (param), str(self._timekprUserControl[param]) if pReuseValues else "0")
 
         # save the file
         with open(self._configFile, "w") as fp:
@@ -978,6 +1266,12 @@ class timekprUserControl(object):
         # last checked
         param = "LAST_CHECKED"
         values[param] = self._timekprUserControl[param].strftime(cons.TK_DATETIME_FORMAT)
+        # PlayTime balance
+        param = "PLAYTIME_SPENT_BALANCE"
+        values[param] = str(int(self._timekprUserControl[param]))
+        # PlayTime spent day
+        param = "PLAYTIME_SPENT_DAY"
+        values[param] = str(int(self._timekprUserControl[param]))
 
         # edit control file (using alternate method because configparser looses comments in the process)
         _saveConfigFile(self._configFile, values)
@@ -1023,6 +1317,16 @@ class timekprUserControl(object):
         # result
         return self._timekprUserControl["LAST_CHECKED"]
 
+    def getUserPlayTimeSpentBalance(self):
+        """Get PlayTime balance for day (including bonues)"""
+        # result
+        return self._timekprUserControl["PLAYTIME_SPENT_BALANCE"]
+
+    def getUserPlayTimeSpentDay(self):
+        """Get PlayTime spent for day (including bonues)"""
+        # result
+        return self._timekprUserControl["PLAYTIME_SPENT_DAY"]
+
     def getUserLastModified(self):
         """Get last file modification time for user"""
         # result
@@ -1053,6 +1357,15 @@ class timekprUserControl(object):
         # result
         self._timekprUserControl["LAST_CHECKED"] = pEffectiveDatetime
 
+    def setUserPlayTimeSpentBalance(self, pTimeSpent):
+        """Set PlayTime balance for day (including bonues)"""
+        # result
+        self._timekprUserControl["PLAYTIME_SPENT_BALANCE"] = pTimeSpent
+
+    def setUserPlayTimeSpentDay(self, pTimeSpent):
+        """Set PlayTime spent for day (including bonues)"""
+        # result
+        self._timekprUserControl["PLAYTIME_SPENT_DAY"] = pTimeSpent
 
 class timekprClientConfig(object):
     """Class will hold and provide config management for user"""
@@ -1125,6 +1438,9 @@ class timekprClientConfig(object):
         # directory section
         section = "CONFIG"
         # read
+        param = "LOG_LEVEL"
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
         param = "SHOW_LIMIT_NOTIFICATION"
         resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=True, pCheckValue=None, pOverallSuccess=resultValue)
         # read
@@ -1146,8 +1462,11 @@ class timekprClientConfig(object):
         param = "USE_NOTIFICATION_SOUNDS"
         resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=resultValue)
         # read
-        param = "LOG_LEVEL"
-        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.getint, section, param, pDefaultValue=cons.TK_LOG_LEVEL_INFO, pCheckValue=None, pOverallSuccess=resultValue)
+        param = "NOTIFICATION_LEVELS"
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.get, section, param, pDefaultValue=cons.TK_NOTIFICATION_LEVELS, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
+        param = "PLAYTIME_NOTIFICATION_LEVELS"
+        resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.get, section, param, pDefaultValue=cons.TK_PT_NOTIFICATION_LEVELS, pCheckValue=None, pOverallSuccess=resultValue)
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:
@@ -1227,6 +1546,13 @@ class timekprClientConfig(object):
         # add new user section
         section = "CONFIG"
         self._timekprClientConfigParser.add_section(section)
+        self._timekprClientConfigParser.set(section, "# client application configuration file")
+        self._timekprClientConfigParser.set(section, "# NOTE: this file is not intended to be edited manually, however, if it is, please restart application")
+        self._timekprClientConfigParser.set(section, "")
+        # set up param
+        param = "LOG_LEVEL"
+        self._timekprClientConfigParser.set(section, "# user logging level (1 - normal, 2 - debug, 3 - extra debug)")
+        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_LOG_LEVEL_INFO))
         # set up param
         param = "SHOW_LIMIT_NOTIFICATION"
         self._timekprClientConfigParser.set(section, "# whether to show limit change notification")
@@ -1242,7 +1568,7 @@ class timekprClientConfig(object):
         # set up param
         param = "USE_SPEECH_NOTIFICATIONS"
         self._timekprClientConfigParser.set(section, "# whether to use speech notifications")
-        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else "False")
+        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_TRACK_INACTIVE))
         # set up param
         param = "NOTIFICATION_TIMEOUT"
         self._timekprClientConfigParser.set(section, "# how long regular notifications should be displayed (in seconds)")
@@ -1254,11 +1580,15 @@ class timekprClientConfig(object):
         # set up param
         param = "USE_NOTIFICATION_SOUNDS"
         self._timekprClientConfigParser.set(section, "# use notification sounds for notifications")
-        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else "False")
+        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_TRACK_INACTIVE))
         # set up param
-        param = "LOG_LEVEL"
-        self._timekprClientConfigParser.set(section, "# user logging level (1 - normal, 2 - debug, 3 - extra debug)")
-        self._timekprClientConfigParser.set(section, "%s" % (param), str(self._timekprClientConfig[param]) if pReuseValues else str(cons.TK_LOG_LEVEL_INFO))
+        param = "NOTIFICATION_LEVELS"
+        self._timekprClientConfigParser.set(section, "# user configured notification levels in form of level[priority];...")
+        self._timekprClientConfigParser.set(section, "%s" % (param), self._timekprClientConfig[param] if pReuseValues else cons.TK_NOTIFICATION_LEVELS)
+        # set up param
+        param = "PLAYTIME_NOTIFICATION_LEVELS"
+        self._timekprClientConfigParser.set(section, "# user configured PlayTime notification levels in form of level[priority];...")
+        self._timekprClientConfigParser.set(section, "%s" % (param), self._timekprClientConfig[param] if pReuseValues else cons.TK_PT_NOTIFICATION_LEVELS)
 
         # save the file
         with open(self._configFile, "w") as fp:
@@ -1276,6 +1606,9 @@ class timekprClientConfig(object):
         # init dict
         values = {}
 
+        # log level
+        param = "LOG_LEVEL"
+        values[param] = str(self._timekprClientConfig[param])
         # first limit notification
         param = "SHOW_LIMIT_NOTIFICATION"
         values[param] = str(self._timekprClientConfig[param])
@@ -1297,9 +1630,12 @@ class timekprClientConfig(object):
         # notification sounds
         param = "USE_NOTIFICATION_SOUNDS"
         values[param] = str(self._timekprClientConfig[param])
-        # last checked
-        param = "LOG_LEVEL"
-        values[param] = str(self._timekprClientConfig[param])
+        # notification levels
+        param = "NOTIFICATION_LEVELS"
+        values[param] = self._timekprClientConfig[param]
+        # PlayTime notification levels
+        param = "PLAYTIME_NOTIFICATION_LEVELS"
+        values[param] = self._timekprClientConfig[param]
 
         # edit control file (using alternate method because configparser looses comments in the process)
         _saveConfigFile(self._configFile, values)
@@ -1320,6 +1656,36 @@ class timekprClientConfig(object):
             # changed
             result = True
 
+        # result
+        return result
+
+    def _parseNotificationLevels(self, pKey):
+        """Parse notification levels, if can not be parsed, return None"""
+        # def
+        result = []
+        # work on levels
+        for rLvl in self._timekprClientConfig[pKey].split(";"):
+            # no need for non-empty values
+            if rLvl != "":
+                # try to find time left and level
+                secs, prio = splitConfigValueNameParam(rLvl)
+                # if identified correctly (e.g. we have secs and level too)
+                if secs is not None and prio is not None:
+                    # this is just to verify that config is OK
+                    if prio in cons.TK_PRIO_LVL_MAP:
+                        # add to list
+                        result.append([int(secs), prio])
+        # result
+        return result
+
+    def _formatClientNotificationLevels(self, pNotificationLevels):
+        """Get formatted notification levels"""
+        # def
+        result = ""
+        # loop through settings
+        for rPrio in pNotificationLevels:
+            # levels should be sorted from higher limit to lower
+            result = "%s%s%s" % (result, ("" if result == "" else ";"), "%s[%s]" % (str(rPrio[0]), str(rPrio[1])))
         # result
         return result
 
@@ -1368,6 +1734,16 @@ class timekprClientConfig(object):
         # result
         return self._timekprClientConfig["USE_NOTIFICATION_SOUNDS"]
 
+    def getClientNotificationLevels(self):
+        """Get notification levels"""
+        # result
+        return self._parseNotificationLevels("NOTIFICATION_LEVELS")
+
+    def getClientPlayTimeNotificationLevels(self):
+        """Get PlayTime notification levels"""
+        # result
+        return self._parseNotificationLevels("PLAYTIME_NOTIFICATION_LEVELS")
+
     def getClientLogLevel(self):
         """Get client log level"""
         # result
@@ -1387,6 +1763,11 @@ class timekprClientConfig(object):
         """Get last file modification time for user"""
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
+
+    def setClientLogLevel(self, pClientLogLevel):
+        """Set client log level"""
+        # set
+        self._timekprClientConfig["LOG_LEVEL"] = pClientLogLevel
 
     def setIsNotificationSoundSupported(self, pIsSupported):
         """Whether notification sounds are supported"""
@@ -1428,7 +1809,12 @@ class timekprClientConfig(object):
         # set
         self._timekprClientConfig["USE_NOTIFICATION_SOUNDS"] = pClientUseNotificationSound
 
-    def setClientLogLevel(self, pClientLogLevel):
-        """Set client log level"""
+    def setClientNotificationLevels(self, pNotificationLevels):
+        """Set whether to use sound notifications"""
         # set
-        self._timekprClientConfig["LOG_LEVEL"] = pClientLogLevel
+        self._timekprClientConfig["NOTIFICATION_LEVELS"] = self._formatClientNotificationLevels(pNotificationLevels)
+
+    def setClientPlayTimeNotificationLevels(self, pPlayTimeNotificationLevels):
+        """Set whether to use sound notifications"""
+        # set
+        self._timekprClientConfig["PLAYTIME_NOTIFICATION_LEVELS"] = self._formatClientNotificationLevels(pPlayTimeNotificationLevels)

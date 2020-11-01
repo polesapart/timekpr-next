@@ -177,3 +177,85 @@ def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
             else:
                 # do not kill terminal sessions if ones are not tracked
                 log.log(cons.TK_LOG_LEVEL_INFO, "INFO: NOT killing process %s as it's from sessions which are not being tracked" % (procInfo["pid"]))
+
+
+def findHourStartEndMinutes(pStr):
+    """Separate name and desription in brackets"""
+    # hour, start, end
+    hour = None
+    sMin = None
+    eMin = None
+    uacc = None
+
+    # is hour unaccounted
+    uacc = True if pStr[0] == "!" else False
+
+    # get hour
+    if len(pStr) <= 3:
+        # hour, start, end
+        hour = pStr[1:] if uacc else pStr
+        sMin = 0
+        eMin = 60
+    else:
+        # find minutes
+        beg = 1 if uacc else 0
+        st = pStr.find("[")
+        sep = pStr.find("-")
+        en = pStr.find("]")
+        # in case user config is broken, we cannot determine stuff
+        if st < 0 or en < 0 or sep < 0 or not st < sep < en:
+            # nothing
+            pass
+        else:
+            # hour, start, end
+            try:
+                # determine hour and minutes (and check for errors as well)
+                hour = int(pStr[beg:st])
+                sMin = int(pStr[st+1:sep])
+                eMin = int(pStr[sep+1:en])
+                # checks for errors (and raise one if there is an error)
+                hour = hour if 0 <= hour <= 23 else 1/0
+                sMin = sMin if 0 <= sMin <= 60 else 1/0
+                eMin = eMin if 0 <= eMin <= 60 else 1/0
+                eMin = eMin if sMin < eMin else 1/0
+            except (ValueError, ZeroDivisionError):
+                # hour, start, end
+                hour = None
+                sMin = None
+                eMin = None
+                uacc = None
+
+    # return
+    return hour, sMin, eMin, uacc
+
+
+def splitConfigValueNameParam(pStr):
+    """Separate value and param in brackets"""
+    # name and its value
+    value = None
+    param = None
+
+    # nothing
+    if len(pStr) < 2:
+        # can not be a normal value
+        pass
+    else:
+        try:
+            # find description ("") is for backwards compatibility
+            st = pStr.find("(\"")  # compatibility description start
+            en = pStr.find("\")")  # compatibility description end
+            ln = 1 if st < 0 else 2  # compatility case searches for 2 letters, new one 1
+            # new style config
+            st = pStr.find("[") if st < 0 else st  # new style config
+            en = pStr.find("]") if en < 0 else en  # new style config
+            st = en if st < 0 else st  # no description, we'll get just pattern
+            # process and its description
+            value = pStr[0:st if st > 0 else len(pStr)]
+            param = "" if st < 0 else pStr[st+ln:en if en >= 0 else len(pStr)]
+        except:
+            # it doesn't matter which error occurs
+            value = None
+            param = None
+
+    # return
+    return value, param

@@ -32,14 +32,20 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_USERLIST"] = {"s": _("==> get saved user list from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("==> get user configuration and time information from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"] = {"s": _("==> set allowed days for the user, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours for the specified day, or \"ALL\" for every day, optionally specify start and end minutes in brackets, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("==> set time limits for all allowed days, the total must not exceed the allowed per-day count, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours for the specified day, or \"ALL\" for every day, optionally specify start and end minutes in brackets like this [x-y], additionally specify ! in front of hour if it doesn't have to be accounted (free time for user), example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("==> set time limits for all allowed days, the number of values must not exceed the allowed days for the user, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"] = {"s": _("==> set time limit per week, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"] = {"s": _("==> set whether to hide tray icon and prevent notifications, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"] = {"s": _("==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", \"terminate\", \"shutdown\"), examples")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"] = {"s": _("==> set whether PlayTime is enabled for the user, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"] = {"s": _("==> set whether PlayTime must be accounted instead of normal activity, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEALLOWEDDAYS"] = {"s": _("==> set allowed days for PlayTime activities, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITS"] = {"s": _("==> set PlayTime limits for all allowed days, the number of values must not exceed the allowed PlayTime allowed days for the user, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEACTIVITIES"] = {"s": _("==> set PlayTime activity process masks, for which the time is accounted, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELEFT"] = {"s": _("==> set PlayTime left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
 
     # ## this defines messages for use in configuration validation ##
     _messages["TK_MSG_ADMIN_CHK_CTRLSESSIONS_NONE"] = {"s": _("Control sessions types are not passed")}
@@ -54,6 +60,9 @@ def initMessages():
     _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_NONE"] = {"s": _("Final warning time is not passed")}
     _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_INVALID"] = {"s": _("Final warning time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_FINALWARNTIME_INVALID_SET"] = {"s": _("Final warning time \"%%s\" is not correct and cannot be set")}
+    _messages["TK_MSG_ADMIN_CHK_FINALNOTIFTIME_NONE"] = {"s": _("Final notification time is not passed")}
+    _messages["TK_MSG_ADMIN_CHK_FINALNOTIFTIME_INVALID"] = {"s": _("Final notification time \"%%s\" is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_FINALNOTIFTIME_INVALID_SET"] = {"s": _("Final notification time \"%%s\" is not correct and cannot be set")}
     _messages["TK_MSG_ADMIN_CHK_TERMTIME_NONE"] = {"s": _("Termination time is not passed")}
     _messages["TK_MSG_ADMIN_CHK_TERMTIME_INVALID"] = {"s": _("Termination time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_TERMTIME_INVALID_SET"] = {"s": _("Termination time \"%%s\" is not correct and cannot be set")}
@@ -74,18 +83,18 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_NONE"] = {"s": _("User's \"%%s\" day number must be present")}
     _messages["TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_INVALID"] = {"s": _("User's \"%%s\" day number must be between 1 and 7")}
     _messages["TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_INVALID_SET"] = {"s": _("User's \"%%s\" allowed hours are not correct and cannot be set")}
-    _messages["TK_MSG_USER_ADMIN_CHK_DAILYLIMITS_NONE"] = {"s": _("User's \"%%s\" day limits list is not passed")}
-    _messages["TK_MSG_USER_ADMIN_CHK_DAILYLIMITS_INVALID"] = {"s": _("User's \"%%s\" day limits list is not correct")}
-    _messages["TK_MSG_USER_ADMIN_CHK_DAILYLIMITS_INVALID_SET"] = {"s": _("User's \"%%s\" day limits list is not correct and cannot be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_DAYLIST_NONE"] = {"s": _("User's \"%%s\" day list is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_DAYLIST_INVALID"] = {"s": _("User's \"%%s\" day list is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_DAYLIST_INVALID_SET"] = {"s": _("User's \"%%s\" day list is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_DAILYLIMITS_NONE"] = {"s": _("User's \"%%s\" day limits list is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_DAILYLIMITS_INVALID"] = {"s": _("User's \"%%s\" day limits list is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_DAILYLIMITS_INVALID_SET"] = {"s": _("User's \"%%s\" day limits list is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_TIMELIMIT_OPERATION_INVALID"] = {"s": _("User's \"%%s\" time operation can be one of these: - + =")}
+    _messages["TK_MSG_USER_ADMIN_CHK_TIMELIMIT_INVALID"] = {"s": _("User's \"%%s\" time limit is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_TIMELIMIT_INVALID_SET"] = {"s": _("User's \"%%s\" time limit is not correct and cannot be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_MONTHLYALLOWANCE_NONE"] = {"s": _("User's \"%%s\" monthly allowance is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_MONTHLYALLOWANCE_INVALID"] = {"s": _("User's \"%%s\" monthly allowance is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_MONTHLYALLOWANCE_INVALID_SET"] = {"s": _("User's \"%%s\" monthly allowance is not correct and cannot be set")}
-    _messages["TK_MSG_USER_ADMIN_CHK_TIMELIMIT_OPERATION_INVALID"] = {"s": _("User's \"%%s\" set time operation can be one of these: -+=")}
-    _messages["TK_MSG_USER_ADMIN_CHK_TIMELIMIT_INVALID"] = {"s": _("User's \"%%s\" set time limit is not correct")}
-    _messages["TK_MSG_USER_ADMIN_CHK_TIMELIMIT_INVALID_SET"] = {"s": _("User's \"%%s\" set time limit is not correct and cannot be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_NONE"] = {"s": _("User's \"%%s\" track inactive flag is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_INVALID"] = {"s": _("User's \"%%s\" track inactive flag is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_TRACKINACTIVE_INVALID_SET"] = {"s": _("User's \"%%s\" track inactive flag is not correct and cannot be set")}
@@ -98,6 +107,24 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_NONE"] = {"s": _("User's \"%%s\" weekly allowance is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID"] = {"s": _("User's \"%%s\" weekly allowance is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID_SET"] = {"s": _("User's \"%%s\" weekly allowance is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime enablement flag is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime enablement flag is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime enablement flag is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime override flag is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime override flag is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime override flag is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIST_NONE"] = {"s": _("User's \"%%s\" PlayTime day list is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIST_INVALID"] = {"s": _("User's \"%%s\" PlayTime day list is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIST_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime day list is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIMITS_NONE"] = {"s": _("User's \"%%s\" PlayTime day limits list is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIMITS_INVALID"] = {"s": _("User's \"%%s\" PlayTime day limits list is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIMITS_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime day limits list is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ACTIVITIES_NONE"] = {"s": _("User's \"%%s\" PlayTime day limits list is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ACTIVITIES_INVALID"] = {"s": _("User's \"%%s\" PlayTime day limits list is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ACTIVITIES_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime day limits list is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_TIMELIMIT_OPERATION_INVALID"] = {"s": _("User's \"%%s\" PlayTime operation can be one of these: - + =")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_TIMELIMIT_INVALID"] = {"s": _("User's \"%%s\" set PlayTime limit is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_TIMELIMIT_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime time limit is not correct and cannot be set")}
 
     # ## this defines messages for use in configuration loader ##
     # TRANSLATORS: this message must be 80 symbols long at max
@@ -129,18 +156,27 @@ def initMessages():
     _messages["TK_MSG_STATUS_HIDETRAYICON_PROCESSED"] = {"s": _("Hide tray icon for user has been processed")}
     _messages["TK_MSG_STATUS_LOCKOUTTYPE_PROCESSED"] = {"s": _("Restriction / lockout type for user has been processed")}
     _messages["TK_MSG_STATUS_ADJUSTTIME_PROCESSED"] = {"s": _("Additional time for user has been processed")}
+    _messages["TK_MSG_STATUS_PT_ADJUSTTIME_PROCESSED"] = {"s": _("Additional PlayTime for user has been processed")}
     _messages["TK_MSG_STATUS_WKMONADJUSTTIME_PROCESSED"] = {"s": _("Weekly and monthly limits for user have been processed")}
     _messages["TK_MSG_STATUS_ALLOWEDDAYS_PROCESSED"] = {"s": _("Allowed days for user have been processed")}
-    _messages["TK_MSG_STATUS_TIMELIMITS_PROCESSED"] = {"s": _("Time limits for days for user have been processed")}
+    _messages["TK_MSG_STATUS_TIMELIMITS_PROCESSED"] = {"s": _("Day time limits for user have been processed")}
     _messages["TK_MSG_STATUS_ALLOWEDHOURS_PROCESSED"] = {"s": _("Allowed hours for user have been processed")}
-    _messages["TK_MSG_STATUS_ALLTIMELIMITS_PROCESSED"] = {"s": _("Time limits for days for user have been processed")}
     _messages["TK_MSG_STATUS_CONFIGURATION_SAVED"] = {"s": _("Timekpr-nExT configuration has been saved")}
+    _messages["TK_MSG_STATUS_USER_LIMIT_CONFIGURATION_SAVED"] = {"s": _("User time limits have been saved")}
+    _messages["TK_MSG_STATUS_USER_PT_LIMIT_CONFIGURATION_SAVED"] = {"s": _("User PlayTime limits have been saved")}
+    _messages["TK_MSG_STATUS_USER_ADDOPTS_CONFIGURATION_SAVED"] = {"s": _("User additional options have been saved")}
+    _messages["TK_MSG_STATUS_PT_ENABLEMENT_PROCESSED"] = {"s": _("PlayTime enablement fot the user has been processed")}
+    _messages["TK_MSG_STATUS_PT_OVERRIDE_PROCESSED"] = {"s": _("PlayTime override for the user has been processed")}
+    _messages["TK_MSG_STATUS_PT_ALLOWEDDAYS_PROCESSED"] = {"s": _("PlayTime allowed days for user have been processed")}
+    _messages["TK_MSG_STATUS_PT_TIMELIMITS_PROCESSED"] = {"s": _("PlayTime day limits for user have been processed")}
+    _messages["TK_MSG_STATUS_PT_ACTIVITIES_PROCESSED"] = {"s": _("PlayTime activities for user have been processed")}
     _messages["TK_MSG_STATUS_NODAY_SELECTED"] = {"s": _("Please select a day to set the limits")}
     _messages["TK_MSG_STATUS_INTERVAL_OVERLAP_DETECTED"] = {"s": _("That interval overlaps with an existing one")}
     _messages["TK_MSG_STATUS_INTERVALSTART_CONFLICT_DETECTED"] = {"s": _("That interval's start conflicts with an existing one")}
     _messages["TK_MSG_STATUS_INTERVALEND_CONFLICT_DETECTED"] = {"s": _("That interval's end conflicts with an existing one")}
     _messages["TK_MSG_STATUS_INTERVAL_DUPLICATE_DETECTED"] = {"s": _("That interval's start or end duplicates an existing one")}
     _messages["TK_MSG_STATUS_INTERVAL_STARTENDEQUAL_DETECTED"] = {"s": _("Interval start cannot be the same as end")}
+    _messages["TK_MSG_STATUS_INTERVAL_ENDLESSTHANSTART_DETECTED"] = {"s": _("Interval's start cannot be later than end")}
     _messages["TK_MSG_STATUS_NOHOUR_SELECTED"] = {"s": _("Please select an hour interval to remove")}
     _messages["TK_MSG_STATUS_INTERVAL_REMOVED"] = {"s": _("Interval removed")}
     _messages["TK_MSG_STATUS_INTERFACE_NOTREADY"] = {"s": _("Timekpr-nExT interface is not yet ready")}
@@ -150,9 +186,9 @@ def initMessages():
     _messages["TK_MSG_CONSOLE_COMMAND_INCORRECT"] = {"s": _("The command is incorrect:")}
     _messages["TK_MSG_CONSOLE_USAGE_NOTES"] = {"s": _("The usage of Timekpr-nExT admin client is as follows:")}
     _messages["TK_MSG_CONSOLE_USAGE_NOTICE_HEAD"] = {"s": _("---=== NOTICE ===---")}
-    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_TIME"] = {"s": "%s%s" % ("*) ", _("numeric time values are in seconds"))}
-    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_DAYS"] = {"s": "%s%s" % ("*) ", _("weekdays are numbered according to ISO 8601 (i.e. Monday is the first day, format: 1-7)"))}
-    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_HOURS"] = {"s": "%s%s" % ("*) ", _("hours are numbered according to ISO 8601 (i.e. 24h clock, format: 0-23)"))}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_TIME"] = {"s": _("numeric time values are in seconds")}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_DAYS"] = {"s": _("weekdays are numbered according to ISO 8601 (i.e. Monday is the first day, format: 1-7)")}
+    _messages["TK_MSG_CONSOLE_USAGE_NOTICE_HOURS"] = {"s": _("hours are numbered according to ISO 8601 (i.e. 24h clock, format: 0-23)")}
 
     _messages["TK_MSG_CONSOLE_USERS_TOTAL"] = {"s": __("%(n)s user in total:", "%(n)s users in total:")[0], "p": __("%(n)s user in total:", "%(n)s users in total:")[1]}
     _messages["TK_MSG_CONSOLE_CONFIG_FOR"] = {"s": _("Config for %s:")}
@@ -163,19 +199,36 @@ def initMessages():
     _messages["TK_MSG_MENU_ABOUT"] = {"s": _("About")}
 
     # ## GUI labels ##
-    # TRANSLATORS: please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
     _messages["TK_MSG_LOGO_LABEL"] = {"s": _("Keep control of computer usage")}
     _messages["TK_MSG_DAY_LIST_DAY_LABEL"] = {"s": _("Day")}
     _messages["TK_MSG_DAY_LIST_ENABLED_LABEL"] = {"s": _("Enabled")}
     _messages["TK_MSG_DAY_LIST_LIMIT_LABEL"] = {"s": _("Limit")}
     _messages["TK_MSG_DAY_INTERVALS_FROM_LABEL"] = {"s": _("From")}
+    _messages["TK_MSG_DAY_INTERVALS_FROM_PHLD_LABEL"] = {"s": _("from...")}
     _messages["TK_MSG_DAY_INTERVALS_TO_LABEL"] = {"s": _("To")}
+    _messages["TK_MSG_DAY_INTERVALS_TO_PHLD_LABEL"] = {"s": _("to...")}
+    _messages["TK_MSG_WK_MON_LABEL"] = {"s": _("Period")}
+    _messages["TK_MSG_WK_MON_LIMIT_LABEL"] = {"s": _("Limit")}
+    _messages["TK_MSG_WEEKLY_LABEL"] = {"s": _("Weekly")}
+    _messages["TK_MSG_MONTHLY_LABEL"] = {"s": _("Monthly")}
     _messages["TK_MSG_TRACKED_SESSIONS_LABEL"] = {"s": _("Session type")}
+    _messages["TK_MSG_TRACKED_SESSIONS_PHLD_LABEL"] = {"s": _("session type...")}
     _messages["TK_MSG_UNTRACKED_SESSIONS_LABEL"] = {"s": _("Session type")}
+    _messages["TK_MSG_UNTRACKED_SESSIONS_PHLD_LABEL"] = {"s": _("session type...")}
     _messages["TK_MSG_EXCLUDED_USERS_LABEL"] = {"s": _("Username")}
+    _messages["TK_MSG_EXCLUDED_USERS_PHLD_LABEL"] = {"s": _("username...")}
+    _messages["TK_MSG_PLAYTIME_ACTIVITY_MASK_LABEL"] = {"s": _("Process mask")}
+    _messages["TK_MSG_PLAYTIME_ACTIVITY_MASK_PHLD_LABEL"] = {"s": _("executable mask...")}
+    _messages["TK_MSG_PLAYTIME_ACTIVITY_DESCRIPTION_LABEL"] = {"s": _("Process description")}
+    _messages["TK_MSG_PLAYTIME_ACTIVITY_DESCRIPTION_PHLD_LABEL"] = {"s": _("process description...")}
+    _messages["TK_MSG_NOTIF_CONFIG_TIME_LABEL"] = {"s": _("Time")}
+    _messages["TK_MSG_NOTIF_CONFIG_TIME_PHLD_LABEL"] = {"s": _("time...")}
+    _messages["TK_MSG_NOTIF_CONFIG_IMPORTANCE_LABEL"] = {"s": _("Importance")}
+    _messages["TK_MSG_NOTIF_CONFIG_IMPORTANCE_PHLD_LABEL"] = {"s": _("importance...")}
 
     # ## this defines messages for use in notifications ##
     _messages["TK_MSG_NOTIFICATION_TITLE"] = {"s": _("Timekpr-nExT notification")}
+    _messages["TK_MSG_NOTIFICATION_PLAYTIME_TITLE"] = {"s": _("Timekpr-nExT PlayTime notification")}
     _messages["TK_MSG_NOTIFICATION_NOT_LIMITED"] = {"s": _("Your time is not limited today")}
     _messages["TK_MSG_NOTIFICATION_ALLOWANCE_CHANGED"] = {"s": _("Time allowance has changed, please note new time left!")}
     _messages["TK_MSG_NOTIFICATION_CONFIGURATION_CHANGED"] = {"s": _("Time limit configuration has changed, please note new configuration!")}
@@ -199,6 +252,8 @@ def initMessages():
     _messages["TK_MSG_NOTIFICATION_TIME_LEFT_2"] = {"s": __("%(n)s minute", "%(n)s minutes")[0], "p": __("%(n)s minute", "%(n)s minutes")[1]}
     # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_LEFT_3"] = {"s": __("%(n)s second left", "%(n)s seconds left")[0], "p": __("%(n)s second left", "%(n)s seconds left")[1]}
+    # TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) of PlayTime left" please translate accordingly
+    _messages["TK_MSG_NOTIFICATION_PLAYTIME_LEFT_3"] = {"s": __("%(n)s second left", "%(n)s seconds of PlayTime left")[0], "p": __("%(n)s second of PlayTime left", "%(n)s seconds of PlayTime left")[1]}
     _messages["TK_MSG_NOTIFICATION_SCR_FEATURE_NOT_AVAILABLE"] = {"s": _("Feature \"%%s\", which is used to detect idle time, cannot be enabled!\nIdle / inactive time might not be accounted when screen is locked!")}
 
     # ## misc errors ##

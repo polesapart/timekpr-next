@@ -65,4 +65,4 @@ if __name__ == "__main__":
         sp.saySmth("You have no time left")
         time.sleep(10)
     else:
-        print("Nosleep")
+        print("Nospeech")

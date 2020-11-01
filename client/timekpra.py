@@ -18,7 +18,7 @@ from timekpr.common.utils import misc
 # main start
 if __name__ == "__main__":
     # simple self-running check
-    if misc.checkAndSetRunning(os.path.splitext(os.path.basename(__file__))[0] + "." + getpass.getuser()):
+    if misc.checkAndSetRunning("%s.%s" % (os.path.splitext(os.path.basename(__file__))[0], getpass.getuser())):
         # get out
         sys.exit(0)
 
