@@ -641,18 +641,15 @@ Timekpr-nExT is available in:
 
 | Distribution | Stable install | Stable remove |
 | :--- | :--- | :--- |
-| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next```   | ```sudo 
-apt-get remove --purge timekpr-next``` |
+| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next``` | ```sudo pacman -Rdd timekpr-next``` |
-| Fedora and openSUSE | [manual installation](https://launchpad.net/timekpr-next/+announcement/27532) | [manual 
-uninstallation](https://launchpad.net/timekpr-next/+announcement/27532) |
+| Fedora and openSUSE | [manual installation](https://launchpad.net/timekpr-next/+announcement/27532) | [manual uninstallation](https://launchpad.net/timekpr-next/+announcement/27532) |
 
 #### Beta
 
 | Distribution | Beta install | Beta remove |
 | :-- | :--: | --: |
-| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next-beta``` | ```sudo 
-apt-get remove --purge timekpr-next-beta``` |
+| Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next-beta``` | ```sudo apt-get remove --purge timekpr-next-beta``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next-git``` | ```sudo pacman -Rdd timekpr-next-git``` |
 
 _**Note**: for ArchLinux and Manjaro, please choose Your favourite AUR helper, if that differs from mine._
