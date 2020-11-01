@@ -873,7 +873,9 @@ Environments at the same functionality level.
 ## How You can help
 
 Quite a lot of time and effort went into making this a reality, so if You appreciate my work, would like to say thanks for making Timekpr-nExT or just want to 
-contribute, please do so via PayPal: https://tinyurl.com/yc9x85v2 .
+contribute, please do so via PayPal.
+
+The PayPal donations URL (shortened): https://tinyurl.com/yc9x85v2 .
 
 As a matter of fact, I'm starting to look for a replacement of my year 2001 Chicony keyboard with more programming / ergo oriented one which can be used in 
 gaming too, like Dygma Raise. I will be happy for any help getting it ;)
