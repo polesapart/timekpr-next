@@ -135,8 +135,9 @@ _Note: "(SU)" was added in front of application names because some earlier Gnome
 was indistinguishable between the modes._
 
 Running as part of the group requires more involvement. Add yourself to timekpr group either by your favourite user administration 
-application which should be provided by your favourite desktop environment or simply run ```sudo gpasswd -a user timekpr```· You'll need to 
-log out and in for this to take effect.
+application which should be provided by your favourite desktop environment or simply run ```sudo gpasswd -a $USER timekpr``` (change $USER to proper
+username for administration, if it differs from currently logged in one and do NOT put your subordinate's username there ;)). The user who was added to 
+```timekpr``` group will need to log out and in for this to work.
 
 </br>
 _**Please note**: certain configuration options are not accessible when running in password-less mode, they're not related to user 
@@ -679,7 +680,7 @@ If You have an issue with Timekpr-nExT, please read [this](#bugs) and file a bug
 <a name="desktopenvironmentdifferences"></a>
 ## Information representation differences
 
-Not every desktop environment is made the same, there are differences how information and shown to user.
+Not every desktop environment is made the same, there are differences how information is shown to user.
 
 ---------------------------------------
 
