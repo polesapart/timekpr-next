@@ -172,7 +172,7 @@ class timekprUserStore(object):
             # exclude standard sample file
             if "timekpr.USER.conf" not in rUserConfigFile:
                 # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
-                user = re.sub(re.escape(cons.TK_USER_CONFIG_FILE).replace("%s", "(.*)"), r"\1", os.path.basename(rUserConfigFile))
+                user = re.sub(cons.TK_USER_CONFIG_FILE.replace(".%s.", r"\.(.*)\."), r"\1", os.path.basename(rUserConfigFile))
                 # whether user is valid in config file
                 userNameValidated = False
                 # try to read the first line with username
