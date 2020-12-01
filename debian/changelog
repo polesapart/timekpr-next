@@ -1,3 +1,10 @@
+timekpr-next-beta (0.5.0-3ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * replaced re.escape with simple replace due to it's different behavior in different versions
+    this fixes user list retrieval in Ubuntu 18.04 (python 3.6.9)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 1 Dec 2020 22:39:55 +0300
+
 timekpr-next-beta (0.5.0-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * fixed a bug when user names will not show up in administration application if username contains a . (dot)
