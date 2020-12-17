@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.1 -->
+<!-- Generated with glade 3.38.2 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddTrackedSessionsImage">
@@ -24,19 +24,19 @@
     <data>
       <row>
         <col id="0">low</col>
-        <col id="1" translatable="yes" comments="This is one of the notifiction priorities">Information</col>
+        <col id="1" translatable="yes" comments="This is one of the notification priorities">Information</col>
       </row>
       <row>
         <col id="0">warning</col>
-        <col id="1" translatable="yes" comments="This is one of the notifiction priorities">Warning</col>
+        <col id="1" translatable="yes" comments="This is one of the notification priorities">Warning</col>
       </row>
       <row>
         <col id="0">important</col>
-        <col id="1" translatable="yes" comments="This is one of the notifiction priorities">Severe</col>
+        <col id="1" translatable="yes" comments="This is one of the notification priorities">Severe</col>
       </row>
       <row>
         <col id="0">critical</col>
-        <col id="1" translatable="yes" comments="This is one of the notifiction priorities">Critical</col>
+        <col id="1" translatable="yes" comments="This is one of the notification priorities">Critical</col>
       </row>
     </data>
   </object>
@@ -185,7 +185,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">end</property>
-                <property name="spacing">5</property>
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="timekprSaveBT">
@@ -1248,12 +1247,12 @@ If it's checked, the time is accounted only when activities in "Activity / appli
 
 Please configure notifications as you see fit. However, please keep in mind that there will be two types of notifications that cannot be personalized: a final warning some time before time ends and a countdown notifications when time is about to end.
 
-The configuration "Time" value indicates a value of time left when notification will be shown, the "Importance" option governs an icon color and notification properties as follows.
+The configuration "Time" value indicates a value of time left when notification will be shown, the "Importance" option governs an icon colour and notification properties as follows.
 
 Information - a green icon and an informational notification will be shown
 Warning - a yellow icon and an informational notification will be shown
 Severe - a red icon and important notification will be shown
-Critical - a red icon and critical notification will be shown, this notification usually is shown over all open applications and stays open until dismissed, however this behavior highly depends on Desktop Environment in use</property>
+Critical - a red icon and critical notification will be shown, this notification usually is shown over all open applications and stays open until dismissed, however this behaviour highly depends on Desktop Environment in use</property>
                                         <property name="model">TimekprUserNotificationConfigLS</property>
                                         <property name="search-column">0</property>
                                         <child internal-child="selection">
@@ -1364,12 +1363,12 @@ Critical - a red icon and critical notification will be shown, this notification
 
 Please configure notifications as you see fit.
 
-The configuration "Time" value indicates a value of PlayTime left when notification will be shown, the "Importance" option governs an icon color and notification properties as follows.
+The configuration "Time" value indicates a value of PlayTime left when notification will be shown, the "Importance" option governs an icon colour and notification properties as follows.
 
 Information - a green icon and an informational notification will be shown
 Warning - a yellow icon and an informational notification will be shown
 Severe - a red icon and important notification will be shown
-Critical - a red icon and critical notification will be shown, this notification usually is shown over all open applications and stays open until dismissed, however this behavior highly depends on Desktop Environment in use</property>
+Critical - a red icon and critical notification will be shown, this notification usually is shown over all open applications and stays open until dismissed, however this behaviour highly depends on Desktop Environment in use</property>
                                         <property name="model">TimekprUserPlayTimeNotificationConfigLS</property>
                                         <property name="search-column">0</property>
                                         <child internal-child="selection">
@@ -1634,7 +1633,7 @@ Some desktop environments, like KDE5, do not support text besides notification i
                                     <property name="tooltip-text" translatable="yes">This sets how long a notification is shown for regular notifications about time left and configuration changes.
 
 The value is specified in seconds.
-A value of 0 means show until dismissed (not recommended for regular notificatons).
+A value of 0 means show until dismissed (not recommended for regular notifications).
 
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="max-length">2</property>
@@ -1658,7 +1657,7 @@ Please note that the desktop environment you use may override this timeout, in w
                                     <property name="tooltip-text" translatable="yes">This sets how long a notification is shown for regular notifications about time left and configuration changes.
 
 The value is specified in seconds.
-A value of 0 means show until dismissed (not recommended for regular notificatons).
+A value of 0 means show until dismissed (not recommended for regular notifications).
 
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
@@ -1736,7 +1735,7 @@ Please note that the desktop environment you use may override this timeout, in w
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
-                                <property name="tooltip-text" translatable="yes">Select whether to use sound "bell" (short notification sound) to announe a new notification from Timekpr-nExT.
+                                <property name="tooltip-text" translatable="yes">Select whether to use sound "bell" (short notification sound) to announce a new notification from Timekpr-nExT.
 
 This works only for enabled notifications.
 

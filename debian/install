@@ -92,10 +92,10 @@ server/user/playtime.py usr/lib/python3/dist-packages/timekpr/server/user/
 server/user/__init__.py usr/lib/python3/dist-packages/timekpr/server/user/
 server/user/userdata.py usr/lib/python3/dist-packages/timekpr/server/user/
 
-# translations
-resource/locale/cs/LC_MESSAGES/timekpr.mo usr/share/locale/cs/LC_MESSAGES/
-resource/locale/de/LC_MESSAGES/timekpr.mo usr/share/locale/de/LC_MESSAGES/
-resource/locale/fr/LC_MESSAGES/timekpr.mo usr/share/locale/fr/LC_MESSAGES/
-resource/locale/hu/LC_MESSAGES/timekpr.mo usr/share/locale/hu/LC_MESSAGES/
-resource/locale/it/LC_MESSAGES/timekpr.mo usr/share/locale/it/LC_MESSAGES/
+# translations (only the ones that are ready will be included)
+#resource/locale/cs/LC_MESSAGES/timekpr.mo usr/share/locale/cs/LC_MESSAGES/
+#resource/locale/de/LC_MESSAGES/timekpr.mo usr/share/locale/de/LC_MESSAGES/
+#resource/locale/fr/LC_MESSAGES/timekpr.mo usr/share/locale/fr/LC_MESSAGES/
+#resource/locale/hu/LC_MESSAGES/timekpr.mo usr/share/locale/hu/LC_MESSAGES/
+#resource/locale/it/LC_MESSAGES/timekpr.mo usr/share/locale/it/LC_MESSAGES/
 resource/locale/lv/LC_MESSAGES/timekpr.mo usr/share/locale/lv/LC_MESSAGES/

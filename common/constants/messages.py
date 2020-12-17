@@ -107,9 +107,9 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_NONE"] = {"s": _("User's \"%%s\" weekly allowance is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID"] = {"s": _("User's \"%%s\" weekly allowance is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_WEEKLYALLOWANCE_INVALID_SET"] = {"s": _("User's \"%%s\" weekly allowance is not correct and cannot be set")}
-    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime enablement flag is not passed")}
-    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime enablement flag is not correct")}
-    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime enablement flag is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime enable flag is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime enable flag is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_ENABLE_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime enable flag is not correct and cannot be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime override flag is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime override flag is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime override flag is not correct and cannot be set")}
@@ -130,13 +130,13 @@ def initMessages():
     # TRANSLATORS: this message must be 80 symbols long at max
     _messages["TK_MSG_CONFIG_LOADER_ERROR_GENERIC"] = {"s": _("Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT log files")}
     # TRANSLATORS: this message must be 80 symbols long at max
-    _messages["TK_MSG_CONFIG_LOADER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting confguration. Please inspect Timekpr-nExT log files")}
+    _messages["TK_MSG_CONFIG_LOADER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting configuration. Please inspect Timekpr-nExT log files")}
     # TRANSLATORS: this message must be 80 symbols long at max
-    _messages["TK_MSG_CONFIG_LOADER_USER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user confguration. Please inspect Timekpr-nExT log files")}
+    _messages["TK_MSG_CONFIG_LOADER_USER_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user configuration. Please inspect Timekpr-nExT log files")}
     # TRANSLATORS: this message must be 80 symbols long at max
     _messages["TK_MSG_CONFIG_LOADER_USERLIST_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files")}
     # TRANSLATORS: this message must be 80 symbols long at max
-    _messages["TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating confguration. Please inspect Timekpr-nExT log files")}
+    _messages["TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating configuration. Please inspect Timekpr-nExT log files")}
     # TRANSLATORS: this message must be 80 symbols long at max
     _messages["TK_MSG_CONFIG_LOADER_SAVECONTROL_UNEXPECTED_ERROR"] = {"s": _("Unexpected ERROR updating control. Please inspect Timekpr-nExT log files")}
     _messages["TK_MSG_CONFIG_LOADER_USERCONFIG_NOTFOUND"] = {"s": _("User \"%%s\" configuration is not found")}
@@ -165,8 +165,8 @@ def initMessages():
     _messages["TK_MSG_STATUS_USER_LIMIT_CONFIGURATION_SAVED"] = {"s": _("User time limits have been saved")}
     _messages["TK_MSG_STATUS_USER_PT_LIMIT_CONFIGURATION_SAVED"] = {"s": _("User PlayTime limits have been saved")}
     _messages["TK_MSG_STATUS_USER_ADDOPTS_CONFIGURATION_SAVED"] = {"s": _("User additional options have been saved")}
-    _messages["TK_MSG_STATUS_PT_ENABLEMENT_PROCESSED"] = {"s": _("PlayTime enablement fot the user has been processed")}
-    _messages["TK_MSG_STATUS_PT_OVERRIDE_PROCESSED"] = {"s": _("PlayTime override for the user has been processed")}
+    _messages["TK_MSG_STATUS_PT_ENABLEMENT_PROCESSED"] = {"s": _("Enable PlayTime for the user has been processed")}
+    _messages["TK_MSG_STATUS_PT_OVERRIDE_PROCESSED"] = {"s": _("PlayTime override flag for the user has been processed")}
     _messages["TK_MSG_STATUS_PT_ALLOWEDDAYS_PROCESSED"] = {"s": _("PlayTime allowed days for user have been processed")}
     _messages["TK_MSG_STATUS_PT_TIMELIMITS_PROCESSED"] = {"s": _("PlayTime day limits for user have been processed")}
     _messages["TK_MSG_STATUS_PT_ACTIVITIES_PROCESSED"] = {"s": _("PlayTime activities for user have been processed")}
@@ -191,7 +191,7 @@ def initMessages():
     _messages["TK_MSG_CONSOLE_USAGE_NOTICE_HOURS"] = {"s": _("hours are numbered according to ISO 8601 (i.e. 24h clock, format: 0-23)")}
 
     _messages["TK_MSG_CONSOLE_USERS_TOTAL"] = {"s": __("%(n)s user in total:", "%(n)s users in total:")[0], "p": __("%(n)s user in total:", "%(n)s users in total:")[1]}
-    _messages["TK_MSG_CONSOLE_CONFIG_FOR"] = {"s": _("Config for %s:")}
+    _messages["TK_MSG_CONSOLE_CONFIG_FOR"] = {"s": _("Configuration for user %s:")}
 
     # ## this defines messages for use in menus ##
     _messages["TK_MSG_MENU_TIME_LEFT"] = {"s": _("Time left...")}
@@ -234,14 +234,14 @@ def initMessages():
     _messages["TK_MSG_NOTIFICATION_CONFIGURATION_CHANGED"] = {"s": _("Time limit configuration has changed, please note new configuration!")}
     _messages["TK_MSG_NOTIFICATION_CANNOT_CONNECT"] = {"s": _("There is a problem connecting to Timekpr-nExT daemon (%%s)!")}
     _messages["TK_MSG_NOTIFICATION_CANNOT_COMMUNICATE"] = {"s": _("There is a problem communicating to Timekpr-nExT (%%s)!")}
-    _messages["TK_MSG_NOTIFICATION_CANNOT_INIT_ICON"] = {"s": _("Icon inititalization error (%%s)!")}
+    _messages["TK_MSG_NOTIFICATION_CANNOT_INIT_ICON"] = {"s": _("Icon initialization error (%%s)!")}
     # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1T"] = {"s": _("Your time is up, you will be forcibly logged out in")}
-    # TRANSLATORS: this is a part of message "Your time is up, your computer will be forcily shutdown in %s seconds", please translate accordingly
-    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1D"] = {"s": _("Your time is up, your computer will be forcily shutdown in")}
+    # TRANSLATORS: this is a part of message "Your time is up, your computer will be forcibly shutdown in %s seconds", please translate accordingly
+    _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1D"] = {"s": _("Your time is up, your computer will be forcibly shutdown in")}
     # TRANSLATORS: this is a part of message "Your time is up, your session will be forcibly locked in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1L"] = {"s": _("Your time is up, your session will be forcibly locked in")}
-    # TRANSLATORS: this is a part of message ", Your computer will be forcily suspended in %s seconds", please translate accordingly
+    # TRANSLATORS: this is a part of message ", Your computer will be forcibly suspended in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_1S"] = {"s": _("Your time is up, your computer will be forcibly suspended in")}
     # TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
     _messages["TK_MSG_NOTIFICATION_TIME_IS_UP_2"] = {"s": __("%(n)s second", "%(n)s seconds")[0], "p": __("%(n)s second", "%(n)s seconds")[1]}

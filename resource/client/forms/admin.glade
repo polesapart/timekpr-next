@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.1 -->
+<!-- Generated with glade 3.38.2 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
@@ -113,7 +113,7 @@
       <column type="guint"/>
       <!-- column-name toSeconds -->
       <column type="guint"/>
-      <!-- column-name rowColor -->
+      <!-- column-name rowColour -->
       <column type="gchararray"/>
       <!-- column-name isRowInvalid -->
       <column type="gboolean"/>
@@ -433,7 +433,6 @@
                 <property name="margin-left">10</property>
                 <property name="margin-right">10</property>
                 <property name="label" translatable="yes">This is the configuration app for Timekpr-nExT. It allows you to set time limits for your individual users as well as general Timekpr-nExT options.
-
 To use this application, you either have to execute it as superuser or have to be part of the timekpr group.
 Please note that the "Timekpr-nExT Configuration" is available in superuser (administrator) mode only!
 
@@ -1601,7 +1600,7 @@ An interval can start or end or contain a specific hour, but not more than once.
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="receives-default">True</property>
-                                                    <property name="tooltip-text" translatable="yes">Create a new time interval that will be availabe to the user.
+                                                    <property name="tooltip-text" translatable="yes">Create a new time interval that will be available to the user.
 
 After creating the interval, please edit its start and end times directly in interval list.</property>
                                                     <property name="image">TimekprUserConfDaySettingsSetDaysIntervalsAddButtonImage</property>
@@ -1746,7 +1745,7 @@ After creating the interval, please edit its start and end times directly in int
                                                 <property name="receives-default">True</property>
                                                 <property name="tooltip-text" translatable="yes">Verify configured time intervals. This is a mandatory step to ensure that intervals are correct.
 
-Intervals which have problems will be highligted.</property>
+Intervals which have problems will be highlighted.</property>
                                                 <property name="image">TimekprUserConfDaySettingsSetDaysIntervalsVerifyButtonImage</property>
                                                 <signal name="clicked" handler="verifyHourIntervals" swapped="no"/>
                                               </object>
@@ -1976,7 +1975,7 @@ Intervals which have problems will be highligted.</property>
                                             <property name="can-focus">True</property>
                                             <property name="tooltip-text" translatable="yes">Weekly and monthly limits for the user.
 
-These limits are applied to user togther with the rest of limit configuration.</property>
+These limits are applied to user together with the rest of limit configuration.</property>
                                             <property name="model">TimekprUserConfWkMonLimitsLS</property>
                                             <property name="search-column">0</property>
                                             <child internal-child="selection">
@@ -2121,7 +2120,7 @@ These limits are applied to user togther with the rest of limit configuration.</
                                         <property name="can-focus">False</property>
                                         <property name="tooltip-text" translatable="yes">Enable PlayTime override for selected user.
 
-This setting overrides time accounting in a way that time is acounted only when at least one of the applications on the PlayTime activity list are running!
+This setting overrides time accounting in a way that time is accounted only when at least one of the applications on the PlayTime activity list are running!
 
 This affects only time accounting, intervals are still fully enforced!
 
@@ -2155,7 +2154,7 @@ If no processes are running, time is accounted as idle thus effectively it's fre
                                         <property name="receives-default">False</property>
                                         <property name="tooltip-text" translatable="yes">Enable PlayTime override for selected user.
 
-This setting overrides time accounting in a way that time is acounted only when at least one of the applications on the PlayTime activity list are running!
+This setting overrides time accounting in a way that time is accounted only when at least one of the applications on the PlayTime activity list are running!
 
 This affects only time accounting, intervals are still fully enforced!
 
@@ -2785,7 +2784,7 @@ When woken up when there is still no time left, computer screen will be locked a
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">False</property>
-                                        <property name="tooltip-text" translatable="yes">When time ends, computer will be suspended (put to sleep) and will be woken up at start of next availabe time interval for the user.
+                                        <property name="tooltip-text" translatable="yes">When time ends, computer will be suspended (put to sleep) and will be woken up at start of next available time interval for the user.
 
 This option is not a restriction and is more suited for self control purposes.
 
@@ -3112,7 +3111,7 @@ To improve performance and still have great accuracy, Timekpr-nExT accounts time
                               <object class="GtkLabel" id="TimekprConfigurationTerminationTimeLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">Number of seconds left for user before encorcing a configured restriction / lockout to his sessions.
+                                <property name="tooltip-text" translatable="yes">Number of seconds left for user before enforcing a configured restriction / lockout to his sessions.
 
 After this is reached and user is still active, the user's sessions will be handled according to specified restriction / lockout, and almost nothing can be done to prevent it.</property>
                                 <property name="halign">end</property>
@@ -3147,7 +3146,7 @@ To improve performance and still have great accuracy, Timekpr-nExT accounts time
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can-focus">True</property>
-                                <property name="tooltip-text" translatable="yes">Number of seconds left for user before encorcing a configured restriction / lockout to his sessions.
+                                <property name="tooltip-text" translatable="yes">Number of seconds left for user before enforcing a configured restriction / lockout to his sessions.
 
 After this is reached and user is still active, the user's sessions will be handled according to specified restriction / lockout, and almost nothing can be done to prevent it.</property>
                                 <property name="width-chars">2</property>
@@ -3683,7 +3682,7 @@ This is a PlayTime master switch, if it's turned off, it's turned off for everyo
                 </child>
                 <child>
                   <object class="GtkButton" id="TimekprConfigurationApplyBT">
-                    <property name="label" translatable="yes">Apply Timekpr-nExT setings</property>
+                    <property name="label" translatable="yes">Apply Timekpr-nExT settings</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can-focus">True</property>
