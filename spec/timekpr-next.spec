@@ -2,7 +2,7 @@
 
 Name:             timekpr-next
 Version:          0.5.0
-Release:          3.0%{?dist}
+Release:          4.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -101,11 +101,11 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/48x48/apps/*
 %{_datadir}/icons/hicolor/64x64/apps/*
 %{_datadir}/icons/hicolor/scalable/apps/*
-%{_datadir}/locale/cs/LC_MESSAGES/*
-%{_datadir}/locale/de/LC_MESSAGES/*
-%{_datadir}/locale/fr/LC_MESSAGES/*
-%{_datadir}/locale/hu/LC_MESSAGES/*
-%{_datadir}/locale/it/LC_MESSAGES/*
+#%{_datadir}/locale/cs/LC_MESSAGES/*
+#%{_datadir}/locale/de/LC_MESSAGES/*
+#%{_datadir}/locale/fr/LC_MESSAGES/*
+#%{_datadir}/locale/hu/LC_MESSAGES/*
+#%{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
 %{_datadir}/metainfo/*
 %{_datadir}/polkit-1/actions/*
@@ -119,6 +119,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Thu Dec 17 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-4.0
+- Updated spec file for version 0.5.0, release 4
 * Tue Dec 1 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-3.0
 - Updated spec file for version 0.5.0, release 3
 * Wed Nov 18 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-2.0
