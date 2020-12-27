@@ -1,3 +1,9 @@
+timekpr-next (0.5.0-5ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * added Italian translations
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 27 Dec 2020 18:30:28 +0200
+
 timekpr-next (0.5.0-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * translation template update, spelling fixes and Latvian translations
