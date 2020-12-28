@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2020-12-17 08:14+0200\n"
+"POT-Creation-Date: 2020-12-28 09:42+0200\n"
 "PO-Revision-Date: 2019-03-28 09:50+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs <edzis@inbox.lv>\n"
@@ -35,7 +35,8 @@ msgstr ""
 msgid "==> set allowed days for the user, example"
 msgstr ""
 
-#: common/constants/messages.py:35
+#. TRANSLATORS: please DO NOT translate the keyword "ALL"
+#: common/constants/messages.py:36
 msgid ""
 "==> set allowed hours for the specified day, or \"ALL\" for every day, "
 "optionally specify start and end minutes in brackets like this [x-y], "
@@ -43,834 +44,836 @@ msgid ""
 "(free time for user), example"
 msgstr ""
 
-#: common/constants/messages.py:36
+#: common/constants/messages.py:37
 msgid ""
 "==> set time limits for all allowed days, the number of values must not "
 "exceed the allowed days for the user, example"
 msgstr ""
 
-#: common/constants/messages.py:37
+#: common/constants/messages.py:38
 msgid "==> set time limit per week, example"
 msgstr ""
 
-#: common/constants/messages.py:38
+#: common/constants/messages.py:39
 msgid "==> set time limit per month, example"
 msgstr ""
 
-#: common/constants/messages.py:39
+#: common/constants/messages.py:40
 msgid "==> set whether to track inactive user sessions, example"
 msgstr ""
 
-#: common/constants/messages.py:40
+#: common/constants/messages.py:41
 msgid "==> set whether to hide tray icon and prevent notifications, example"
 msgstr ""
 
-#: common/constants/messages.py:41
+#. TRANSLATORS: please DO NOT translate the keywords: "lock", "suspend", "suspendwake", "terminate", "shutdown"
+#: common/constants/messages.py:43
 msgid ""
-"==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", "
-"\"terminate\", \"shutdown\"), examples"
+"==> set restriction / lockout type (\"lock\" - lock session, \"suspend\" - "
+"suspend the computer, \"suspendwake\" - suspend and wake up, \"terminate\" - "
+"terminate sessions, \"shutdown\" - shutdown the computer), examples"
 msgstr ""
 
-#: common/constants/messages.py:42
+#: common/constants/messages.py:44
 msgid ""
 "==> set time left for the user at the current moment of time: \"+\" (add "
 "time), \"-\" (subtract time), \"=\" (set exact time available), example (add "
 "one hour)"
 msgstr ""
 
-#: common/constants/messages.py:43
+#: common/constants/messages.py:45
 msgid "==> set whether PlayTime is enabled for the user, example"
 msgstr ""
 
-#: common/constants/messages.py:44
+#: common/constants/messages.py:46
 msgid ""
 "==> set whether PlayTime must be accounted instead of normal activity, "
 "example"
 msgstr ""
 
-#: common/constants/messages.py:45
+#: common/constants/messages.py:47
 msgid "==> set allowed days for PlayTime activities, example"
 msgstr ""
 
-#: common/constants/messages.py:46
+#: common/constants/messages.py:48
 msgid ""
 "==> set PlayTime limits for all allowed days, the number of values must not "
 "exceed the allowed PlayTime allowed days for the user, example"
 msgstr ""
 
-#: common/constants/messages.py:47
+#: common/constants/messages.py:49
 msgid ""
 "==> set PlayTime activity process masks, for which the time is accounted, "
 "example"
 msgstr ""
 
-#: common/constants/messages.py:48
+#: common/constants/messages.py:50
 msgid ""
 "==> set PlayTime left for the user at the current moment of time: \"+\" (add "
 "time), \"-\" (subtract time), \"=\" (set exact time available), example (add "
 "one hour)"
 msgstr ""
 
-#: common/constants/messages.py:51
+#: common/constants/messages.py:53
 msgid "Control sessions types are not passed"
 msgstr ""
 
-#: common/constants/messages.py:52
+#: common/constants/messages.py:54
 msgid "Control sessions types list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:53
+#: common/constants/messages.py:55
 msgid "Control sessions types list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:54
+#: common/constants/messages.py:56
 msgid "Excluded session types are not passed"
 msgstr ""
 
-#: common/constants/messages.py:55
+#: common/constants/messages.py:57
 msgid "Excluded session types list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:56
+#: common/constants/messages.py:58
 msgid "Excluded session types list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:57
+#: common/constants/messages.py:59
 msgid "Excluded user list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:58
+#: common/constants/messages.py:60
 msgid "Excluded user list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:59
+#: common/constants/messages.py:61
 msgid "Excluded user list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:60
+#: common/constants/messages.py:62
 msgid "Final warning time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:61
+#: common/constants/messages.py:63
 #, python-format
 msgid "Final warning time \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:62
+#: common/constants/messages.py:64
 #, python-format
 msgid "Final warning time \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:63
+#: common/constants/messages.py:65
 msgid "Final notification time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:64
+#: common/constants/messages.py:66
 #, python-format
 msgid "Final notification time \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:65
+#: common/constants/messages.py:67
 #, python-format
 msgid "Final notification time \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:66
+#: common/constants/messages.py:68
 msgid "Termination time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:67
+#: common/constants/messages.py:69
 #, python-format
 msgid "Termination time \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:68
+#: common/constants/messages.py:70
 #, python-format
 msgid "Termination time \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:69
+#: common/constants/messages.py:71
 msgid "Track inactive is not passed"
 msgstr ""
 
-#: common/constants/messages.py:70
+#: common/constants/messages.py:72
 #, python-format
 msgid "Track inactive \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:71
+#: common/constants/messages.py:73
 #, python-format
 msgid "Track inactive \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:72
+#: common/constants/messages.py:74
 msgid "Log level is not passed"
 msgstr ""
 
-#: common/constants/messages.py:73
+#: common/constants/messages.py:75
 #, python-format
 msgid "Log level \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:74
+#: common/constants/messages.py:76
 #, python-format
 msgid "Log level \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:75
+#: common/constants/messages.py:77
 msgid "Poll time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:76
+#: common/constants/messages.py:78
 #, python-format
 msgid "Poll time \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:77
+#: common/constants/messages.py:79
 #, python-format
 msgid "Poll time \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:78
+#: common/constants/messages.py:80
 msgid "Save time is not passed"
 msgstr ""
 
-#: common/constants/messages.py:79
+#: common/constants/messages.py:81
 #, python-format
 msgid "Save time \"%%s\" is not correct"
 msgstr ""
 
-#: common/constants/messages.py:80
+#: common/constants/messages.py:82
 #, python-format
 msgid "Save time \"%%s\" is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:83
+#: common/constants/messages.py:85
 #, python-format
 msgid "User's \"%%s\" day number must be present"
 msgstr ""
 
-#: common/constants/messages.py:84
+#: common/constants/messages.py:86
 #, python-format
 msgid "User's \"%%s\" day number must be between 1 and 7"
 msgstr ""
 
-#: common/constants/messages.py:85
+#: common/constants/messages.py:87
 #, python-format
 msgid "User's \"%%s\" allowed hours are not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:86
+#: common/constants/messages.py:88
 #, python-format
 msgid "User's \"%%s\" day list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:87
+#: common/constants/messages.py:89
 #, python-format
 msgid "User's \"%%s\" day list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:88
+#: common/constants/messages.py:90
 #, python-format
 msgid "User's \"%%s\" day list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:89
+#: common/constants/messages.py:91
 #, python-format
 msgid "User's \"%%s\" day limits list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:90
+#: common/constants/messages.py:92
 #, python-format
 msgid "User's \"%%s\" day limits list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:91
+#: common/constants/messages.py:93
 #, python-format
 msgid "User's \"%%s\" day limits list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:92
+#: common/constants/messages.py:94
 #, python-format
 msgid "User's \"%%s\" time operation can be one of these: - + ="
 msgstr ""
 
-#: common/constants/messages.py:93
+#: common/constants/messages.py:95
 #, python-format
 msgid "User's \"%%s\" time limit is not correct"
 msgstr ""
 
-#: common/constants/messages.py:94
+#: common/constants/messages.py:96
 #, python-format
 msgid "User's \"%%s\" time limit is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:95
+#: common/constants/messages.py:97
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not passed"
 msgstr ""
 
-#: common/constants/messages.py:96
+#: common/constants/messages.py:98
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not correct"
 msgstr ""
 
-#: common/constants/messages.py:97
+#: common/constants/messages.py:99
 #, python-format
 msgid "User's \"%%s\" monthly allowance is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:98
+#: common/constants/messages.py:100
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not passed"
 msgstr ""
 
-#: common/constants/messages.py:99
+#: common/constants/messages.py:101
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct"
 msgstr ""
 
-#: common/constants/messages.py:100
+#: common/constants/messages.py:102
 #, python-format
 msgid "User's \"%%s\" track inactive flag is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:101
+#: common/constants/messages.py:103
 #, python-format
 msgid "User's \"%%s\" hide tray icon flag is not passed"
 msgstr ""
 
-#: common/constants/messages.py:102
+#: common/constants/messages.py:104
 #, python-format
 msgid "User's \"%%s\" hide tray icon flag is not correct"
 msgstr ""
 
-#: common/constants/messages.py:103
+#: common/constants/messages.py:105
 #, python-format
 msgid "User's \"%%s\" hide tray icon flag is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:104
+#: common/constants/messages.py:106
 #, python-format
 msgid "User's \"%%s\" restriction / lockout type is not passed"
 msgstr ""
 
-#: common/constants/messages.py:105
+#: common/constants/messages.py:107
 #, python-format
 msgid "User's \"%%s\" restriction / lockout type is not correct"
 msgstr ""
 
-#: common/constants/messages.py:106
+#: common/constants/messages.py:108
 #, python-format
 msgid ""
 "User's \"%%s\" restriction / lockout type is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:107
+#: common/constants/messages.py:109
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not passed"
 msgstr ""
 
-#: common/constants/messages.py:108
+#: common/constants/messages.py:110
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct"
 msgstr ""
 
-#: common/constants/messages.py:109
+#: common/constants/messages.py:111
 #, python-format
 msgid "User's \"%%s\" weekly allowance is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:110
+#: common/constants/messages.py:112
 #, python-format
 msgid "User's \"%%s\" PlayTime enable flag is not passed"
 msgstr ""
 
-#: common/constants/messages.py:111
+#: common/constants/messages.py:113
 #, python-format
 msgid "User's \"%%s\" PlayTime enable flag is not correct"
 msgstr ""
 
-#: common/constants/messages.py:112
+#: common/constants/messages.py:114
 #, python-format
 msgid "User's \"%%s\" PlayTime enable flag is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:113
+#: common/constants/messages.py:115
 #, python-format
 msgid "User's \"%%s\" PlayTime override flag is not passed"
 msgstr ""
 
-#: common/constants/messages.py:114
+#: common/constants/messages.py:116
 #, python-format
 msgid "User's \"%%s\" PlayTime override flag is not correct"
 msgstr ""
 
-#: common/constants/messages.py:115
+#: common/constants/messages.py:117
 #, python-format
 msgid "User's \"%%s\" PlayTime override flag is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:116
+#: common/constants/messages.py:118
 #, python-format
 msgid "User's \"%%s\" PlayTime day list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:117
+#: common/constants/messages.py:119
 #, python-format
 msgid "User's \"%%s\" PlayTime day list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:118
+#: common/constants/messages.py:120
 #, python-format
 msgid "User's \"%%s\" PlayTime day list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:119 common/constants/messages.py:122
+#: common/constants/messages.py:121 common/constants/messages.py:124
 #, python-format
 msgid "User's \"%%s\" PlayTime day limits list is not passed"
 msgstr ""
 
-#: common/constants/messages.py:120 common/constants/messages.py:123
+#: common/constants/messages.py:122 common/constants/messages.py:125
 #, python-format
 msgid "User's \"%%s\" PlayTime day limits list is not correct"
 msgstr ""
 
-#: common/constants/messages.py:121 common/constants/messages.py:124
+#: common/constants/messages.py:123 common/constants/messages.py:126
 #, python-format
 msgid ""
 "User's \"%%s\" PlayTime day limits list is not correct and cannot be set"
 msgstr ""
 
-#: common/constants/messages.py:125
+#: common/constants/messages.py:127
 #, python-format
 msgid "User's \"%%s\" PlayTime operation can be one of these: - + ="
 msgstr ""
 
-#: common/constants/messages.py:126
+#: common/constants/messages.py:128
 #, python-format
 msgid "User's \"%%s\" set PlayTime limit is not correct"
 msgstr ""
 
-#: common/constants/messages.py:127
+#: common/constants/messages.py:129
 #, python-format
 msgid "User's \"%%s\" PlayTime time limit is not correct and cannot be set"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:131
+#: common/constants/messages.py:133
 msgid ""
 "Unexpected ERROR while loading configuration. Please inspect Timekpr-nExT "
 "log files"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:133
+#: common/constants/messages.py:135
 msgid ""
 "Unexpected ERROR getting configuration. Please inspect Timekpr-nExT log files"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:135
+#: common/constants/messages.py:137
 msgid ""
 "Unexpected ERROR getting user configuration. Please inspect Timekpr-nExT log "
 "files"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:137
+#: common/constants/messages.py:139
 msgid ""
 "Unexpected ERROR getting user list. Please inspect Timekpr-nExT log files"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:139
+#: common/constants/messages.py:141
 msgid ""
 "Unexpected ERROR updating configuration. Please inspect Timekpr-nExT log "
 "files"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:141
+#: common/constants/messages.py:143
 msgid ""
 "Unexpected ERROR updating control. Please inspect Timekpr-nExT log files"
 msgstr ""
 
-#: common/constants/messages.py:142
+#: common/constants/messages.py:144
 #, python-format
 msgid "User \"%%s\" configuration is not found"
 msgstr ""
 
-#: common/constants/messages.py:143
+#: common/constants/messages.py:145
 #, python-format
 msgid "User \"%%s\" control file is not found"
 msgstr ""
 
-#: common/constants/messages.py:144
+#: common/constants/messages.py:146
 #, python-format
 msgid "User \"%%s\" is not found"
 msgstr ""
 
-#: common/constants/messages.py:147
+#: common/constants/messages.py:149
 msgid "Connected"
 msgstr ""
 
-#: common/constants/messages.py:148
+#: common/constants/messages.py:150
 msgid "Connecting..."
 msgstr ""
 
-#: common/constants/messages.py:149
+#: common/constants/messages.py:151
 msgid "Failed to connect"
 msgstr ""
 
 #. TRANSLATORS: this message must be 80 symbols long at max
-#: common/constants/messages.py:151
+#: common/constants/messages.py:153
 msgid ""
 "Please reopen the application if you are superuser and Timekpr-nExT is "
 "running"
 msgstr ""
 
-#: common/constants/messages.py:152
+#: common/constants/messages.py:154
 msgid "Started"
 msgstr ""
 
-#: common/constants/messages.py:153
+#: common/constants/messages.py:155
 msgid "User configuration retrieved"
 msgstr ""
 
-#: common/constants/messages.py:154
+#: common/constants/messages.py:156
 msgid "Configuration retrieved"
 msgstr ""
 
-#: common/constants/messages.py:155
+#: common/constants/messages.py:157
 msgid "Track inactive for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:156
+#: common/constants/messages.py:158
 msgid "Hide tray icon for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:157
+#: common/constants/messages.py:159
 msgid "Restriction / lockout type for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:158
+#: common/constants/messages.py:160
 msgid "Additional time for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:159
+#: common/constants/messages.py:161
 msgid "Additional PlayTime for user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:160
+#: common/constants/messages.py:162
 msgid "Weekly and monthly limits for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:161
+#: common/constants/messages.py:163
 msgid "Allowed days for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:162
+#: common/constants/messages.py:164
 msgid "Day time limits for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:163
+#: common/constants/messages.py:165
 msgid "Allowed hours for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:164
+#: common/constants/messages.py:166
 msgid "Timekpr-nExT configuration has been saved"
 msgstr ""
 
-#: common/constants/messages.py:165
+#: common/constants/messages.py:167
 msgid "User time limits have been saved"
 msgstr ""
 
-#: common/constants/messages.py:166
+#: common/constants/messages.py:168
 msgid "User PlayTime limits have been saved"
 msgstr ""
 
-#: common/constants/messages.py:167
+#: common/constants/messages.py:169
 msgid "User additional options have been saved"
 msgstr ""
 
-#: common/constants/messages.py:168
+#: common/constants/messages.py:170
 msgid "Enable PlayTime for the user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:169
+#: common/constants/messages.py:171
 msgid "PlayTime override flag for the user has been processed"
 msgstr ""
 
-#: common/constants/messages.py:170
+#: common/constants/messages.py:172
 msgid "PlayTime allowed days for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:171
+#: common/constants/messages.py:173
 msgid "PlayTime day limits for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:172
+#: common/constants/messages.py:174
 msgid "PlayTime activities for user have been processed"
 msgstr ""
 
-#: common/constants/messages.py:173
+#: common/constants/messages.py:175
 msgid "Please select a day to set the limits"
 msgstr ""
 
-#: common/constants/messages.py:174
+#: common/constants/messages.py:176
 msgid "That interval overlaps with an existing one"
 msgstr ""
 
-#: common/constants/messages.py:175
+#: common/constants/messages.py:177
 msgid "That interval's start conflicts with an existing one"
 msgstr ""
 
-#: common/constants/messages.py:176
+#: common/constants/messages.py:178
 msgid "That interval's end conflicts with an existing one"
 msgstr ""
 
-#: common/constants/messages.py:177
+#: common/constants/messages.py:179
 msgid "That interval's start or end duplicates an existing one"
 msgstr ""
 
-#: common/constants/messages.py:178
+#: common/constants/messages.py:180
 msgid "Interval start cannot be the same as end"
 msgstr ""
 
-#: common/constants/messages.py:179
+#: common/constants/messages.py:181
 msgid "Interval's start cannot be later than end"
 msgstr ""
 
-#: common/constants/messages.py:180
+#: common/constants/messages.py:182
 msgid "Please select an hour interval to remove"
 msgstr ""
 
-#: common/constants/messages.py:181
+#: common/constants/messages.py:183
 msgid "Interval removed"
 msgstr ""
 
-#: common/constants/messages.py:182
+#: common/constants/messages.py:184
 msgid "Timekpr-nExT interface is not yet ready"
 msgstr ""
 
-#: common/constants/messages.py:185
+#: common/constants/messages.py:187
 msgid ""
 "WARNING: Timekpr-nExT administration utility was asked to run in GUI mode, "
 "but no displays are available, thus running in CLI..."
 msgstr ""
 
-#: common/constants/messages.py:186
+#: common/constants/messages.py:188
 msgid "The command is incorrect:"
 msgstr ""
 
-#: common/constants/messages.py:187
+#: common/constants/messages.py:189
 msgid "The usage of Timekpr-nExT admin client is as follows:"
 msgstr ""
 
-#: common/constants/messages.py:188
+#: common/constants/messages.py:190
 msgid "---=== NOTICE ===---"
 msgstr ""
 
-#: common/constants/messages.py:189
+#: common/constants/messages.py:191
 msgid "numeric time values are in seconds"
 msgstr ""
 
-#: common/constants/messages.py:190
+#: common/constants/messages.py:192
 msgid ""
 "weekdays are numbered according to ISO 8601 (i.e. Monday is the first day, "
 "format: 1-7)"
 msgstr ""
 
-#: common/constants/messages.py:191
+#: common/constants/messages.py:193
 msgid "hours are numbered according to ISO 8601 (i.e. 24h clock, format: 0-23)"
 msgstr ""
 
-#: common/constants/messages.py:193
+#: common/constants/messages.py:195
 #, python-format
 msgid "%(n)s user in total:"
 msgid_plural "%(n)s users in total:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:194
+#: common/constants/messages.py:196
 #, python-format
 msgid "Configuration for user %s:"
 msgstr ""
 
-#: common/constants/messages.py:197
+#: common/constants/messages.py:199
 msgid "Time left..."
 msgstr ""
 
-#: common/constants/messages.py:198
+#: common/constants/messages.py:200
 msgid "Limits & Configuration"
 msgstr ""
 
-#: common/constants/messages.py:199
+#: common/constants/messages.py:201
 msgid "About"
 msgstr ""
 
-#: common/constants/messages.py:202 resource/client/forms/about.glade:19
+#: common/constants/messages.py:204 resource/client/forms/about.glade:19
 msgid "Keep control of computer usage"
 msgstr ""
 
-#: common/constants/messages.py:203
+#: common/constants/messages.py:205
 msgid "Day"
 msgstr ""
 
-#: common/constants/messages.py:204
+#: common/constants/messages.py:206
 msgid "Enabled"
 msgstr ""
 
-#: common/constants/messages.py:205 common/constants/messages.py:211
+#: common/constants/messages.py:207 common/constants/messages.py:213
 msgid "Limit"
 msgstr ""
 
-#: common/constants/messages.py:206
+#: common/constants/messages.py:208
 msgid "From"
 msgstr ""
 
-#: common/constants/messages.py:207
+#: common/constants/messages.py:209
 msgid "from..."
 msgstr ""
 
-#: common/constants/messages.py:208
+#: common/constants/messages.py:210
 msgid "To"
 msgstr ""
 
-#: common/constants/messages.py:209
+#: common/constants/messages.py:211
 msgid "to..."
 msgstr ""
 
-#: common/constants/messages.py:210
+#: common/constants/messages.py:212
 msgid "Period"
 msgstr ""
 
-#: common/constants/messages.py:212
+#: common/constants/messages.py:214
 msgid "Weekly"
 msgstr ""
 
-#: common/constants/messages.py:213
+#: common/constants/messages.py:215
 msgid "Monthly"
 msgstr ""
 
-#: common/constants/messages.py:214 common/constants/messages.py:216
+#: common/constants/messages.py:216 common/constants/messages.py:218
 msgid "Session type"
 msgstr ""
 
-#: common/constants/messages.py:215 common/constants/messages.py:217
+#: common/constants/messages.py:217 common/constants/messages.py:219
 msgid "session type..."
 msgstr ""
 
-#: common/constants/messages.py:218
+#: common/constants/messages.py:220
 msgid "Username"
 msgstr ""
 
-#: common/constants/messages.py:219
+#: common/constants/messages.py:221
 msgid "username..."
 msgstr ""
 
-#: common/constants/messages.py:220
+#: common/constants/messages.py:222
 msgid "Process mask"
 msgstr ""
 
-#: common/constants/messages.py:221
+#: common/constants/messages.py:223
 msgid "executable mask..."
 msgstr ""
 
-#: common/constants/messages.py:222
+#: common/constants/messages.py:224
 msgid "Process description"
 msgstr ""
 
-#: common/constants/messages.py:223
+#: common/constants/messages.py:225
 msgid "process description..."
 msgstr ""
 
-#: common/constants/messages.py:224
+#: common/constants/messages.py:226
 msgid "Time"
 msgstr ""
 
-#: common/constants/messages.py:225
+#: common/constants/messages.py:227
 msgid "time..."
 msgstr ""
 
-#: common/constants/messages.py:226
+#: common/constants/messages.py:228
 msgid "Importance"
 msgstr ""
 
-#: common/constants/messages.py:227
+#: common/constants/messages.py:229
 msgid "importance..."
 msgstr ""
 
-#: common/constants/messages.py:230
+#: common/constants/messages.py:232
 msgid "Timekpr-nExT notification"
 msgstr ""
 
-#: common/constants/messages.py:231
+#: common/constants/messages.py:233
 msgid "Timekpr-nExT PlayTime notification"
 msgstr ""
 
-#: common/constants/messages.py:232
+#: common/constants/messages.py:234
 msgid "Your time is not limited today"
 msgstr ""
 
-#: common/constants/messages.py:233
+#: common/constants/messages.py:235
 msgid "Time allowance has changed, please note new time left!"
 msgstr ""
 
-#: common/constants/messages.py:234
+#: common/constants/messages.py:236
 msgid "Time limit configuration has changed, please note new configuration!"
 msgstr ""
 
-#: common/constants/messages.py:235
+#: common/constants/messages.py:237
 #, python-format
 msgid "There is a problem connecting to Timekpr-nExT daemon (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:236
+#: common/constants/messages.py:238
 #, python-format
 msgid "There is a problem communicating to Timekpr-nExT (%%s)!"
 msgstr ""
 
-#: common/constants/messages.py:237
+#: common/constants/messages.py:239
 #, python-format
 msgid "Icon initialization error (%%s)!"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:239
+#: common/constants/messages.py:241
 msgid "Your time is up, you will be forcibly logged out in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, your computer will be forcibly shutdown in %s seconds", please translate accordingly
-#: common/constants/messages.py:241
+#: common/constants/messages.py:243
 msgid "Your time is up, your computer will be forcibly shutdown in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, your session will be forcibly locked in %s seconds", please translate accordingly
-#: common/constants/messages.py:243
+#: common/constants/messages.py:245
 msgid "Your time is up, your session will be forcibly locked in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message ", Your computer will be forcibly suspended in %s seconds", please translate accordingly
-#: common/constants/messages.py:245
+#: common/constants/messages.py:247
 msgid "Your time is up, your computer will be forcibly suspended in"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "Your time is up, you will be forcibly logged out in %s seconds", please translate accordingly
-#: common/constants/messages.py:247
+#: common/constants/messages.py:249
 #, python-format
 msgid "%(n)s second"
 msgid_plural "%(n)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:248
+#: common/constants/messages.py:250
 msgid "Internal connection error, please check log files"
 msgstr ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:250
+#: common/constants/messages.py:252
 #, python-format
 msgid "You have %(n)s hour"
 msgid_plural "You have %(n)s hours"
@@ -878,7 +881,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
-#: common/constants/messages.py:252
+#: common/constants/messages.py:254
 #, python-format
 msgid "%(n)s minute"
 msgid_plural "%(n)s minutes"
@@ -887,46 +890,46 @@ msgstr[1] ""
 
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) left" please translate accordingly
 #. TRANSLATORS: this is a part of message "You have %i hour(s), %i minute(s) and %i second(s) of PlayTime left" please translate accordingly
-#: common/constants/messages.py:254 common/constants/messages.py:256
+#: common/constants/messages.py:256 common/constants/messages.py:258
 #, python-format
 msgid "%(n)s second left"
 msgid_plural "%(n)s seconds left"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:256
+#: common/constants/messages.py:258
 #, python-format
 msgid "%(n)s second of PlayTime left"
 msgid_plural "%(n)s seconds of PlayTime left"
 msgstr[0] ""
 msgstr[1] ""
 
-#: common/constants/messages.py:257
+#: common/constants/messages.py:259
 #, python-format
 msgid ""
 "Feature \"%%s\", which is used to detect idle time, cannot be enabled!\n"
 "Idle / inactive time might not be accounted when screen is locked!"
 msgstr ""
 
-#: common/constants/messages.py:260
+#: common/constants/messages.py:262
 #, python-format
 msgid "UNEXPECTED ERROR: %%s"
 msgstr ""
 
-#: common/constants/messages.py:261
+#: common/constants/messages.py:263
 #, python-format
 msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
 msgstr ""
 
-#: common/constants/messages.py:262
+#: common/constants/messages.py:264
 msgid "Command FAILED: access denied"
 msgstr ""
 
-#: common/constants/messages.py:263
+#: common/constants/messages.py:265
 msgid "Command FAILED: communication was not accepted"
 msgstr ""
 
-#: common/constants/messages.py:264
+#: common/constants/messages.py:266
 msgid "n/a"
 msgstr ""
 
@@ -981,7 +984,7 @@ msgid "Timekpr-nExT administration"
 msgstr ""
 
 #: resource/client/forms/admin.glade:403 resource/client/forms/admin.glade:409
-#: resource/client/forms/client.glade:262
+#: resource/client/forms/client.glade:261
 msgid "Icon, isn't it?"
 msgstr ""
 
@@ -1005,7 +1008,7 @@ msgstr ""
 msgid "Users related configuration"
 msgstr ""
 
-#: resource/client/forms/admin.glade:476 resource/client/forms/client.glade:299
+#: resource/client/forms/admin.glade:476 resource/client/forms/client.glade:298
 msgid "Username:"
 msgstr ""
 
@@ -1038,16 +1041,16 @@ msgstr ""
 #: resource/client/forms/admin.glade:626 resource/client/forms/admin.glade:657
 #: resource/client/forms/admin.glade:688 resource/client/forms/admin.glade:732
 #: resource/client/forms/admin.glade:763 resource/client/forms/admin.glade:794
-#: resource/client/forms/client.glade:410
-#: resource/client/forms/client.glade:424
-#: resource/client/forms/client.glade:453
-#: resource/client/forms/client.glade:495
-#: resource/client/forms/client.glade:721
-#: resource/client/forms/client.glade:779
-#: resource/client/forms/client.glade:850
-#: resource/client/forms/client.glade:878
-#: resource/client/forms/client.glade:978
-#: resource/client/forms/client.glade:1004
+#: resource/client/forms/client.glade:409
+#: resource/client/forms/client.glade:423
+#: resource/client/forms/client.glade:452
+#: resource/client/forms/client.glade:494
+#: resource/client/forms/client.glade:720
+#: resource/client/forms/client.glade:778
+#: resource/client/forms/client.glade:849
+#: resource/client/forms/client.glade:877
+#: resource/client/forms/client.glade:977
+#: resource/client/forms/client.glade:1003
 msgid "Format: <days : hours : minutes : seconds>"
 msgstr ""
 
@@ -1081,7 +1084,7 @@ msgstr ""
 msgid "Time spent this week (saved stated, not real-time)"
 msgstr ""
 
-#: resource/client/forms/admin.glade:749 resource/client/forms/client.glade:710
+#: resource/client/forms/admin.glade:749 resource/client/forms/client.glade:709
 msgid "Time spent (week):"
 msgstr ""
 
@@ -1089,7 +1092,7 @@ msgstr ""
 msgid "Time spent this month (saved stated, not real-time)"
 msgstr ""
 
-#: resource/client/forms/admin.glade:779 resource/client/forms/client.glade:737
+#: resource/client/forms/admin.glade:779 resource/client/forms/client.glade:736
 msgid "Time spent (month):"
 msgstr ""
 
@@ -1397,7 +1400,7 @@ msgid "This lets you configure PlayTime limits."
 msgstr ""
 
 #: resource/client/forms/admin.glade:2203
-#: resource/client/forms/client.glade:1208
+#: resource/client/forms/client.glade:1207
 msgid "PlayTime limits"
 msgstr ""
 
@@ -1845,66 +1848,66 @@ msgstr ""
 msgid "Status of Timekpr-nExT client"
 msgstr ""
 
-#: resource/client/forms/client.glade:197
+#: resource/client/forms/client.glade:196
 msgid "Save all changes"
 msgstr ""
 
-#: resource/client/forms/client.glade:214
+#: resource/client/forms/client.glade:213
 msgid "Close the window"
 msgstr ""
 
-#: resource/client/forms/client.glade:298
-#: resource/client/forms/client.glade:315
+#: resource/client/forms/client.glade:297
+#: resource/client/forms/client.glade:314
 msgid "Current effective username"
 msgstr ""
 
-#: resource/client/forms/client.glade:372
+#: resource/client/forms/client.glade:371
 msgid "Current statistics"
 msgstr ""
 
-#: resource/client/forms/client.glade:397
+#: resource/client/forms/client.glade:396
 msgid "Time spent this session or after Timekpr-nExT has been restarted"
 msgstr ""
 
-#: resource/client/forms/client.glade:399
+#: resource/client/forms/client.glade:398
 msgid "Time spent (session):"
 msgstr ""
 
-#: resource/client/forms/client.glade:440
+#: resource/client/forms/client.glade:439
 msgid "Time inactive this session or after Timekpr-nExT has been restarted"
 msgstr ""
 
-#: resource/client/forms/client.glade:442
+#: resource/client/forms/client.glade:441
 msgid "Time inactive:"
 msgstr ""
 
-#: resource/client/forms/client.glade:466
+#: resource/client/forms/client.glade:465
 msgid "Continuous time left to you. May span more than the current day."
 msgstr ""
 
-#: resource/client/forms/client.glade:468
+#: resource/client/forms/client.glade:467
 msgid "Continuous time left:"
 msgstr ""
 
-#: resource/client/forms/client.glade:482
+#: resource/client/forms/client.glade:481
 msgid "Total time available left today in a row, up to the end of the day"
 msgstr ""
 
-#: resource/client/forms/client.glade:484
-#: resource/client/forms/client.glade:967
+#: resource/client/forms/client.glade:483
+#: resource/client/forms/client.glade:966
 msgid "Time left today:"
 msgstr ""
 
-#: resource/client/forms/client.glade:541
+#: resource/client/forms/client.glade:540
 msgid "These are the days and limits that are available to you"
 msgstr ""
 
-#: resource/client/forms/client.glade:566
-#: resource/client/forms/client.glade:1126
+#: resource/client/forms/client.glade:565
+#: resource/client/forms/client.glade:1125
 msgid "Days & Limits"
 msgstr ""
 
-#: resource/client/forms/client.glade:602
+#: resource/client/forms/client.glade:601
 msgid ""
 "This shows the time intervals that are available for use.\n"
 "\n"
@@ -1912,27 +1915,27 @@ msgid ""
 "accounted towards the daily limit, it will be accounted as idle instead."
 msgstr ""
 
-#: resource/client/forms/client.glade:627
+#: resource/client/forms/client.glade:626
 msgid "Intervals"
 msgstr ""
 
-#: resource/client/forms/client.glade:656
+#: resource/client/forms/client.glade:655
 msgid "Daily limits"
 msgstr ""
 
-#: resource/client/forms/client.glade:684
+#: resource/client/forms/client.glade:683
 msgid "Additional statistics"
 msgstr ""
 
-#: resource/client/forms/client.glade:708
+#: resource/client/forms/client.glade:707
 msgid "Time spent this week"
 msgstr ""
 
-#: resource/client/forms/client.glade:735
+#: resource/client/forms/client.glade:734
 msgid "Time spent this month"
 msgstr ""
 
-#: resource/client/forms/client.glade:748
+#: resource/client/forms/client.glade:747
 msgid ""
 "Select whether inactive session time is counted.\n"
 "\n"
@@ -1941,56 +1944,56 @@ msgid ""
 "This varies among desktop environments."
 msgstr ""
 
-#: resource/client/forms/client.glade:753
+#: resource/client/forms/client.glade:752
 msgid "Track inactive:"
 msgstr ""
 
-#: resource/client/forms/client.glade:766
+#: resource/client/forms/client.glade:765
 msgid ""
 "Select whether inactive session time is counted. If this is unchecked, time "
 "spent in console (not terminal emulator) login sessions and while the screen "
 "is locked is NOT taken into account. This varies among desktop environments."
 msgstr ""
 
-#: resource/client/forms/client.glade:813
-#: resource/client/forms/client.glade:911
+#: resource/client/forms/client.glade:812
+#: resource/client/forms/client.glade:910
 msgid "Additional limits"
 msgstr ""
 
-#: resource/client/forms/client.glade:837
+#: resource/client/forms/client.glade:836
 msgid "Time limit for this week available to you"
 msgstr ""
 
-#: resource/client/forms/client.glade:839
+#: resource/client/forms/client.glade:838
 msgid "Time limit (week):"
 msgstr ""
 
-#: resource/client/forms/client.glade:865
+#: resource/client/forms/client.glade:864
 msgid "Time limit for this month available to you"
 msgstr ""
 
-#: resource/client/forms/client.glade:867
+#: resource/client/forms/client.glade:866
 msgid "Time limit (month):"
 msgstr ""
 
-#: resource/client/forms/client.glade:941
+#: resource/client/forms/client.glade:940
 msgid "Current PlayTime statistics"
 msgstr ""
 
-#: resource/client/forms/client.glade:965
+#: resource/client/forms/client.glade:964
 msgid "Total PlayTime available left today"
 msgstr ""
 
-#: resource/client/forms/client.glade:991
+#: resource/client/forms/client.glade:990
 msgid "Total PlayTime spent today"
 msgstr ""
 
-#: resource/client/forms/client.glade:993
+#: resource/client/forms/client.glade:992
 msgid "Time spent today:"
 msgstr ""
 
-#: resource/client/forms/client.glade:1020
-#: resource/client/forms/client.glade:1035
+#: resource/client/forms/client.glade:1019
+#: resource/client/forms/client.glade:1034
 msgid ""
 "This option overrides the default time accounting.\n"
 "\n"
@@ -1998,35 +2001,35 @@ msgid ""
 "application list\" are running, the rest of the time is considered idle."
 msgstr ""
 
-#: resource/client/forms/client.glade:1039
+#: resource/client/forms/client.glade:1038
 msgid "Time limit override:"
 msgstr ""
 
-#: resource/client/forms/client.glade:1050
-#: resource/client/forms/client.glade:1063
+#: resource/client/forms/client.glade:1049
+#: resource/client/forms/client.glade:1062
 msgid "Number of currently active PlayTime activities"
 msgstr ""
 
-#: resource/client/forms/client.glade:1052
+#: resource/client/forms/client.glade:1051
 msgid "Running activities:"
 msgstr ""
 
-#: resource/client/forms/client.glade:1103
+#: resource/client/forms/client.glade:1102
 msgid ""
 "These are days and limits that available to you as part of PlayTime activity "
 "restrictions"
 msgstr ""
 
-#: resource/client/forms/client.glade:1160
+#: resource/client/forms/client.glade:1159
 msgid ""
 "This shows activities / applications which are part of PlayTime restrictions"
 msgstr ""
 
-#: resource/client/forms/client.glade:1183
+#: resource/client/forms/client.glade:1182
 msgid "Activity / application list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1247
+#: resource/client/forms/client.glade:1246
 msgid ""
 "Configuration for personalized notifications about available time.\n"
 "\n"
@@ -2048,19 +2051,19 @@ msgid ""
 "Environment in use"
 msgstr ""
 
-#: resource/client/forms/client.glade:1279
+#: resource/client/forms/client.glade:1278
 msgid "Notification configuration"
 msgstr ""
 
-#: resource/client/forms/client.glade:1299
+#: resource/client/forms/client.glade:1298
 msgid "Add new notification threshold to the list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1314
+#: resource/client/forms/client.glade:1313
 msgid "Remove notification threshold from the list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1363
+#: resource/client/forms/client.glade:1362
 msgid ""
 "Configuration for personalized notifications about available PlayTime.\n"
 "\n"
@@ -2079,27 +2082,27 @@ msgid ""
 "Environment in use"
 msgstr ""
 
-#: resource/client/forms/client.glade:1395
+#: resource/client/forms/client.glade:1394
 msgid "PlayTime notification configuration"
 msgstr ""
 
-#: resource/client/forms/client.glade:1415
+#: resource/client/forms/client.glade:1414
 msgid "Add new PlayTime notification threshold to the list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1430
+#: resource/client/forms/client.glade:1429
 msgid "Remove PlayTime notification threshold from the list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1489
+#: resource/client/forms/client.glade:1488
 msgid "Notifications"
 msgstr ""
 
-#: resource/client/forms/client.glade:1510
+#: resource/client/forms/client.glade:1509
 msgid "Use speech notifications"
 msgstr ""
 
-#: resource/client/forms/client.glade:1514
+#: resource/client/forms/client.glade:1513
 msgid ""
 "Select whether to use speech notifications, if available.\n"
 "\n"
@@ -2107,44 +2110,44 @@ msgid ""
 "\"python3-espeak\"."
 msgstr ""
 
-#: resource/client/forms/client.glade:1534
-#: resource/client/forms/client.glade:1556
+#: resource/client/forms/client.glade:1533
+#: resource/client/forms/client.glade:1555
 msgid ""
 "This sets the logging level.\n"
 "\n"
 "Please do not change this unless you know what you're doing."
 msgstr ""
 
-#: resource/client/forms/client.glade:1560
+#: resource/client/forms/client.glade:1559
 msgid "Logging level"
 msgstr ""
 
-#: resource/client/forms/client.glade:1576
+#: resource/client/forms/client.glade:1575
 msgid "Show limit changes"
 msgstr ""
 
-#: resource/client/forms/client.glade:1580
+#: resource/client/forms/client.glade:1579
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
 msgstr ""
 
-#: resource/client/forms/client.glade:1592
+#: resource/client/forms/client.glade:1591
 msgid "Show all notifications"
 msgstr ""
 
-#: resource/client/forms/client.glade:1596
+#: resource/client/forms/client.glade:1595
 msgid ""
 "Specify whether to show all notifications.\n"
 "\n"
 "If unchecked, then only important ones are shown."
 msgstr ""
 
-#: resource/client/forms/client.glade:1610
+#: resource/client/forms/client.glade:1609
 msgid "Show seconds in notification area"
 msgstr ""
 
-#: resource/client/forms/client.glade:1614
+#: resource/client/forms/client.glade:1613
 msgid ""
 "Specify whether to show seconds in notification area.\n"
 "\n"
@@ -2152,8 +2155,8 @@ msgid ""
 "notification icons."
 msgstr ""
 
-#: resource/client/forms/client.glade:1634
-#: resource/client/forms/client.glade:1658
+#: resource/client/forms/client.glade:1633
+#: resource/client/forms/client.glade:1657
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
 "time left and configuration changes.\n"
@@ -2166,12 +2169,12 @@ msgid ""
 "in which case this setting will not have any effect on notification."
 msgstr ""
 
-#: resource/client/forms/client.glade:1665
+#: resource/client/forms/client.glade:1664
 msgid "Notification timeout (sec)"
 msgstr ""
 
-#: resource/client/forms/client.glade:1687
-#: resource/client/forms/client.glade:1712
+#: resource/client/forms/client.glade:1686
+#: resource/client/forms/client.glade:1711
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
 "about time left (when the icon turns red).\n"
@@ -2183,15 +2186,15 @@ msgid ""
 "in which case this setting will not have any effect on notification."
 msgstr ""
 
-#: resource/client/forms/client.glade:1719
+#: resource/client/forms/client.glade:1718
 msgid "Critical notification timeout (sec)"
 msgstr ""
 
-#: resource/client/forms/client.glade:1735
+#: resource/client/forms/client.glade:1734
 msgid "Use sound \"bell\" for notifications"
 msgstr ""
 
-#: resource/client/forms/client.glade:1739
+#: resource/client/forms/client.glade:1738
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
 "a new notification from Timekpr-nExT.\n"
@@ -2202,6 +2205,6 @@ msgid ""
 "notification support."
 msgstr ""
 
-#: resource/client/forms/client.glade:1762
+#: resource/client/forms/client.glade:1761
 msgid "Configuration"
 msgstr ""
