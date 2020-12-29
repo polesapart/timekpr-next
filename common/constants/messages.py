@@ -32,13 +32,15 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_USERLIST"] = {"s": _("==> get saved user list from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("==> get user configuration and time information from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"] = {"s": _("==> set allowed days for the user, example")}
+    # TRANSLATORS: please DO NOT translate the keyword "ALL"
     _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours for the specified day, or \"ALL\" for every day, optionally specify start and end minutes in brackets like this [x-y], additionally specify ! in front of hour if it doesn't have to be accounted (free time for user), example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"] = {"s": _("==> set time limits for all allowed days, the number of values must not exceed the allowed days for the user, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"] = {"s": _("==> set time limit per week, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"] = {"s": _("==> set time limit per month, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"] = {"s": _("==> set whether to track inactive user sessions, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"] = {"s": _("==> set whether to hide tray icon and prevent notifications, example")}
-    _messages["TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"] = {"s": _("==> set restriction / lockout type (\"lock\", \"suspend\", \"suspendwake\", \"terminate\", \"shutdown\"), examples")}
+    # TRANSLATORS: please DO NOT translate the keywords: "lock", "suspend", "suspendwake", "terminate", "shutdown"
+    _messages["TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"] = {"s": _("==> set restriction / lockout type (\"lock\" - lock session, \"suspend\" - suspend the computer, \"suspendwake\" - suspend and wake up, \"terminate\" - terminate sessions, \"shutdown\" - shutdown the computer), examples")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"] = {"s": _("==> set whether PlayTime is enabled for the user, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"] = {"s": _("==> set whether PlayTime must be accounted instead of normal activity, example")}

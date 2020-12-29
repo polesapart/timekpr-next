@@ -1,6 +1,14 @@
+timekpr-next-beta (0.5.0-6ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * added clarifications to the template on some keywords not to be translated
+    fixed LV and IT translations with keywords
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 28 Dec 2020 09:50:42 +0200
+
 timekpr-next-beta (0.5.0-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added Italian translations
+  * added clarifications on some keywords not to be translated
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 27 Dec 2020 18:30:28 +0200
 
