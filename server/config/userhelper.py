@@ -9,6 +9,7 @@ import fileinput
 import re
 import os
 import pwd
+import re
 from glob import glob
 
 # timekpr imports
@@ -171,7 +172,7 @@ class timekprUserStore(object):
             # exclude standard sample file
             if "timekpr.USER.conf" not in rUserConfigFile:
                 # first get filename and then from filename extract username part (as per cons.TK_USER_CONFIG_FILE)
-                user = os.path.splitext(os.path.splitext(os.path.basename(rUserConfigFile))[0])[1].lstrip(".")
+                user = re.sub(cons.TK_USER_CONFIG_FILE.replace(".%s.", r"\.(.*)\."), r"\1", os.path.basename(rUserConfigFile))
                 # whether user is valid in config file
                 userNameValidated = False
                 # try to read the first line with username

@@ -1,3 +1,26 @@
+timekpr-next (0.5.0-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * fix a bug when administration application tries to get user information
+    from server even when no user has been selected
+  * added clarifications to the template on some keywords not to be translated
+    fixed LV and IT translations with keywords
+  * enable Italian translations
+  * added Italian translations
+  * added clarifications on some keywords not to be translated
+  * translation template update, spelling fixes and Latvian translations
+  * replaced re.escape with simple replace due to it's different behavior in different versions
+    this fixes user list retrieval in Ubuntu 18.04 (python 3.6.9)
+  * fixed a bug when user names will not show up in administration application if username contains a . (dot)
+  * introduced PlayTime and PlayTime override modes
+    this basically allows a supervisor to account and control specific processes in the system for their subordinates
+    supervisor has to configure which processes are accounted by entering a process executable names / masks
+  * introducing "freeride" time periods
+  * some GUI improvements in client app
+  * total rewrite of administration app to improve usability
+  * introducing user configurable notifications
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 29 Dec 2020 17:51:19 +0200
+
 timekpr-next (0.4.4-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust previously built workaround for switching to login manager screen
@@ -323,12 +346,6 @@ timekpr-next (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
   * added Italian and German translations
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 8 Apr 2019 8:25:17 +0300
-
-timekpr-next (0.2.1~ppa1~ubuntu1) UNRELEASED; urgency=medium
-
-  * added Italian and German translation
-
- -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 8 Apr 2019 12:07:25 +0300
 
 timekpr-next (0.2.0~ppa1~ubuntu1) UNRELEASED; urgency=medium
 

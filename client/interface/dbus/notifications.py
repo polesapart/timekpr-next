@@ -215,7 +215,7 @@ class timekprNotifications(object):
         # retry?
         doRetry = False
         # all variants
-        for rConn in [self.CL_CONN_TK, self.CL_CONN_NOTIF, self.CL_CONN_SCR]:
+        for rConn in (self.CL_CONN_TK, self.CL_CONN_NOTIF, self.CL_CONN_SCR):
             # if either of this fails, we keep trying to connect
             if self._dbusConnections[rConn][self.CL_IF] is None:
                 # max retries
@@ -279,7 +279,7 @@ class timekprNotifications(object):
             msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_NOT_LIMITED")
         elif pMsgCode == cons.TK_MSG_CODE_TIMELEFT:
             # msg
-            msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_1", timeLeftHours), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_2", pTimeLeft.minute), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_3", pTimeLeft.second)))
+            msgStr = " ".join((msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_1", timeLeftHours), msg.getTranslation("TK_MSG_NOTIFICATION_TIME_LEFT_2", pTimeLeft.minute), msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_LEFT_3" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TIME_LEFT_3", pTimeLeft.second)))
         elif pMsgCode == cons.TK_MSG_CODE_TIMECRITICAL:
             # depending on type
             if pMsgType == cons.TK_CTRL_RES_L:
@@ -359,7 +359,7 @@ class timekprNotifications(object):
             # notify through dbus
             try:
                 # call dbus method
-                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
+                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_TITLE" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
             except Exception as dbusEx:
                 # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None

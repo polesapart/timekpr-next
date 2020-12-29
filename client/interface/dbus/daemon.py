@@ -135,14 +135,14 @@ class timekprClient(object):
             self._timeLeftSignal = self._timekprBus.add_signal_receiver(
                  path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLeft
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
+                ,dbus_interface   = cons.TK_DBUS_USER_LIMITS_INTERFACE
                 ,signal_name      = "timeLeft")
 
             # connect to signal
             self._timeLimitsSignal = self._timekprBus.add_signal_receiver(
                  path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
                 ,handler_function = self.receiveTimeLimits
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
+                ,dbus_interface   = cons.TK_DBUS_USER_LIMITS_INTERFACE
                 ,signal_name      = "timeLimits")
 
             # connect to signal
@@ -235,6 +235,8 @@ class timekprClient(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i, %i" % (pPriority, timeLeft, isTimeNotLimited))
         # process show / hide icon
         self.processShowClientIcon(pTimeInformation)
+        # process PlayTime notifications as well
+        self._timekprClientIndicator.processPlayTimeNotifications(pTimeInformation)
         # process time left
         self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=timeLeft), isTimeNotLimited)
         # renew limits in GUI

@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.4.3
-Release:          1.0%{?dist}
+Version:          0.5.0
+Release:          7.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -101,10 +101,10 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/48x48/apps/*
 %{_datadir}/icons/hicolor/64x64/apps/*
 %{_datadir}/icons/hicolor/scalable/apps/*
-%{_datadir}/locale/cs/LC_MESSAGES/*
-%{_datadir}/locale/de/LC_MESSAGES/*
-%{_datadir}/locale/fr/LC_MESSAGES/*
-%{_datadir}/locale/hu/LC_MESSAGES/*
+#%{_datadir}/locale/cs/LC_MESSAGES/*
+#%{_datadir}/locale/de/LC_MESSAGES/*
+#%{_datadir}/locale/fr/LC_MESSAGES/*
+#%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
 %{_datadir}/metainfo/*
@@ -119,11 +119,23 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Tue Dec 29 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-7.0
+- Updated spec file for version 0.5.0, release 7 (STABLE)
+* Thu Dec 17 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-4.0
+- Updated spec file for version 0.5.0, release 4 (BETA)
+* Tue Dec 1 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-3.0
+- Updated spec file for version 0.5.0, release 3 (BETA)
+* Wed Nov 18 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-2.0
+- Updated spec file for version 0.5.0, release 2 (BETA)
+* Sun Nov 1 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-1.0
+- Updated spec file for version 0.5.0 (BETA)
+* Sat Oct 31 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.4-1.0
+- Updated spec file for version 0.4.4 (STABLE)
 * Tue Sep 8 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.3-1.0
-- Updated spec file for version 0.4.3
+- Updated spec file for version 0.4.3 (STABLE)
 * Tue Aug 18 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.2-1.0
-- Updated spec file for version 0.4.2
+- Updated spec file for version 0.4.2 (STABLE)
 * Wed Jul 15 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.1-1.0
-- Updated spec file for version 0.4.1
+- Updated spec file for version 0.4.1 (STABLE)
 * Fri Jul 10 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.4.0-1.0
-- Initial version of the spec file
+- Initial version of the spec file (STABLE)
