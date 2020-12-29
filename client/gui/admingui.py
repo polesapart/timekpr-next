@@ -897,7 +897,7 @@ class timekprAdminGUI(object):
         userName = self.getSelectedUserName() if pUserName is None else pUserName
 
         # if nothing is passed, nothing is done
-        if userName != "":
+        if userName is not None and userName != "":
             # init
             userConfig = {}
 

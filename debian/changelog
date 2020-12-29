@@ -1,7 +1,15 @@
+timekpr-next-beta (0.5.0-7ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * fix a bug when administration application tries to get user information
+    from server even when no user has been selected
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 29 Dec 2020 17:51:19 +0200
+
 timekpr-next-beta (0.5.0-6ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * added clarifications to the template on some keywords not to be translated
     fixed LV and IT translations with keywords
+  * enable Italian translations
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 28 Dec 2020 09:50:42 +0200
 
