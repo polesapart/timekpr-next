@@ -1,3 +1,16 @@
+timekpr-next (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * adjust README to fix some MD parsing nuances on gitlab
+  * adjust Debian installation suggestions in README (fixes #1910457)
+  * start using ayatana appindicators because regular ones seem to be deprecated (fixes #1910461)
+    adjust for openSUSE too (Fedora does not seem to be using ayatana appindicators yet)
+  * add gnome-shell-extension-appindicator to suggestions list
+  * fix project description to match README
+
+  ! this is a WIP entry for now !
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 07 Jan 2021 22:07:25 +0200
+
 timekpr-next (0.5.0-7ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * fix a bug when administration application tries to get user information

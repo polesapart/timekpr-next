@@ -18,16 +18,24 @@ from timekpr.common.constants import messages as msg
 
 # indicator stuff
 try:
-    # try to load appindicator
-    gi.require_version("AppIndicator3", "0.1")
-    from gi.repository import AppIndicator3 as AppIndicator
+    # try to load ayatanaappindicator (fully compatible with appindicator, I hope it stays that way)
+    gi.require_version("AyatanaAppIndicator3", "0.1")
+    from gi.repository import AyatanaAppIndicator3 as AppIndicator
 
-    # if successful, mar it so
+    # if successful, mark it so
     _USE_INDICATOR = True
 except (ImportError, ValueError):
-    # no indictor
-    _USE_INDICATOR = False
-    pass
+    try:
+        # try to load appindicator
+        gi.require_version("AppIndicator3", "0.1")
+        from gi.repository import AppIndicator3 as AppIndicator
+
+        # if successful, mark it so
+        _USE_INDICATOR = True
+    except (ImportError, ValueError):
+        # no indictor
+        _USE_INDICATOR = False
+        pass
 
 
 class timekprIndicator(timekprNotificationArea):
