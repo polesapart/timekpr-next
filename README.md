@@ -8,6 +8,7 @@ even for yourself.
 The application is targeted at parents or supervisors to optimize / limit time spent at computer as they see fits their situation.
 
 </br>
+
 ## Overview
 
 Timekpr-nExT is designed to keep control of computer usage, which implies forcibly terminating user sessions and / or other types of 
@@ -17,14 +18,17 @@ Please be responsible and inform your users that their time is accounted and the
 notifications can be configured to warn them. In fact, notifications are mostly in their own hands :)
 
 </br>
+
 Supervisor, when setting up limitations, please read the description of options and explore application before you enforce some option on user. Combination of 
 options will give very tailored experience, but remember - Timekpr-nExT is a restrictive application.
 
 </br>
+
 _**Note**: information in this README is updated along with ```beta``` releases, if you do not find a particular option in ```stable``` series, please wait 
 until it's released or use ```beta```._
 
 </br>
+
 ## Navigation guide
 
 **This README** is useful, but quite large, so I have prepared a guide for You.
@@ -53,12 +57,14 @@ until it's released or use ```beta```._
   - disclaimer is [here](#disclaimer) and information about questions, suggestions and bugs is [here](#bugs)
 
 </br>
+
 <a name="applications"></a>
 ## Applications overview
 
 Timekpr-nExT has two user facing applications which governs its behaviour.
 
 </br>
+
 #### Timekpr-nExT Client indicator icon
 
 An application and indicator icon which takes care of showing the time, limits and notifications to the user.
@@ -68,6 +74,7 @@ An application and indicator icon which takes care of showing the time, limits a
 _Informational "padlock" icon in they system notification area which is what user is automatically seeing when logged in._
 
 </br>
+
 #### Timekpr-nExT Client application
 
 Client application itself is activated by clicking on the icon and choosing menu "Limits & configuration", it contains more detailed information and 
@@ -78,6 +85,7 @@ some useful configuration options.
 _Application shows detailed information about limits as well as allows to configure certain aspects of functionality._
 
 </br>
+
 #### Timekpr-nExT Administration application
 
 An administration application for supervisors or parents to configure time limits for any user in the system as well as configure technical aspects of 
@@ -88,6 +96,7 @@ Timekpr-nExT.
 _Application has multiple configuration options organized in tabs to tailor experience as desired._
 
 </br>
+
 #### Core of the Timekpr-nExT
 
 The invisible part of the Timekpr-nExT is the background service, sometimes referred as daemon, not demon :), which takes care of monitoring the system 
@@ -97,6 +106,7 @@ restrictions and limits.
 There is no nice picture for it, but mark my word, it's there working for you ;)
 
 </br>
+
 <a name="detaileddescription"></a>
 ## Description of functionality
 
@@ -106,6 +116,7 @@ This section describes what and how Timekpr-nExT does its thing rather than desc
 over to any configuration option and read its description, it usually helps to understand it better.
 
 </br>
+
 ### Overall features
 
 Timekpr-nExT tries to be as precise as possible and as much nice to user as restrictive software can be.
@@ -121,6 +132,7 @@ Time is not accounted, obviously, when computer is put to sleep too.
 The rest is up to supervisor to decide. Read on to have complete understanding of all functionality Timekpr-nExT offers.
 
 </br>
+
 ### Administration application
 
 Administration application is used to configure time limits and restrictions for users as well as technical options for Timekpr-nExT itself.
@@ -140,10 +152,12 @@ username for administration, if it differs from currently logged in one and do N
 ```timekpr``` group will need to log out and in for this to work.
 
 </br>
+
 _**Please note**: certain configuration options are not accessible when running in password-less mode, they're not related to user 
 configuration and should be used very seldom in very special cases, however running in superuser mode grants all access to all options._
 
 </br>
+
 ### User configuration
 
 To configure limits and restrictions for user, it has to be selected from the user list. User list is retrieved from your system and initial 
@@ -153,6 +167,7 @@ _**Please note**: when opening administration application no user is pre-selecte
 user to configure and avoid unintentional misconfiguration._
 
 </br>
+
 #### Tab "Info & today"
 
 As the title implies, this section shows information about how much time user has spent and how much time he has left.
@@ -168,6 +183,7 @@ Keep in mind that adding more time will not override allowed time periods and ge
 Pro tip: use tool-tips to find more information.
 
 </br>
+
 There's a special time value called "Continuous time available" which means exactly that - a time which is available to use continuously depending on time 
 allowance and allowed time period setup, however it's not counted for more than this and the next days together.
 
@@ -175,6 +191,7 @@ Continuous time may span this and next days, which means that user will be able 
 ends at 24:00 and next days time period starts at 00:00.
 
 </br>
+
 #### Tab "Limit configuration"
 
 This tab allows you to configure time limitations for users. Combine options to have the setup tailored to your view of user's order of the day.
@@ -242,6 +259,7 @@ These limits work together with daily limits and hour intervals, user's time is 
 By default whole week and month is allowed, which is the common use case, one does not have to modify these values when daily limits are in use.
 
 </br>
+
 <a name="playtimeconfiguration"></a>
 #### PlayTime configuration
 
@@ -274,6 +292,7 @@ master switch to enable PlayTime accounting in the system, otherwise it will not
 By default, PlayTime is not enabled.
 
 </br>
+
 There's a special "override" mode for PlayTime already mentioned above.
 
 There is a big difference from standard restrictive mode. In this mode PlayTime allowance and limits are disabled and user's time spent at computer is only 
@@ -307,6 +326,7 @@ copies and even user itself can do it! Yes, games in Lutris or Steam and so on. 
 has to determine that.
 
 </br>
+
 So here's a generic guide how to determine processes or their masks which can be used in activity configuration.
 
 At first, especially if you have not seen terminal, this may look scary, but you always can use graphical tools to achieve this. KDEs and Gnomes "System 
@@ -326,6 +346,7 @@ You can enter the description of activity too, it will be shown to user instead 
 to the user.
 
 </br>
+
 **Please note** that process masks can accept RegExp (not glob!) expressions, except symbols [], but keep in mind that this is an expert option!
 
 Please do verify that your RegExp is correct and it actually works, misusing them may end up killing unwanted user processes or may not match anything at all!
@@ -340,6 +361,7 @@ particular user are monitored, accounted and terminated.
 In addition to that PlayTime logic works only when there are users that have PlayTime enabled and there are at least some activities configured.
 
 </br>
+
 #### Tab "Additional options"
 
 As the name suggests this section has additional per user configuration options.
@@ -352,6 +374,7 @@ you
 enable this to unrestricted user, he will not even notice Timekpr-nExT is there :)
 
 </br>
+
 Restriction & lockout type governs what type of action will be executed when time for the user will run out.
 
 _**Note**: please be careful if choosing non-default option, think ahead and figure out whether other options are suited for your use case!_
@@ -407,12 +430,14 @@ shortly. Simple as that :)
 Option is more suited for self control rather than restrict computer usage.
 
 </br>
+
 ### Timekpr-nExT configuration
 
 This tab allows a supervisor to configure certain technical aspects how Timekpr-nExT behaves. These options usually doesn't have to be changed as they are 
 tuned to their optimal values.
 
 </br>
+
 #### Timekpr-nExT control options
 
 This section contains various knobs to finetune time accounting and enforce limits.
@@ -472,6 +497,7 @@ except usernames.
 Please note that log files are handled by ```logrotate``` and are compressed, so I wouldn't worry about space usage at all.
 
 </br>
+
 #### Tracked sessions
 
 There are multiple session types on Linux systems. By default Timekpr-nExT tracks graphical sessions that are running on "x11" (xorg), "wayland" and "mir".
@@ -483,6 +509,7 @@ Please keep in mind that there are no more session types than these and the ones
 know what you are doing.
 
 </br>
+
 #### Excluded sessions
 
 By default Timekpr-nExT does not track sessions from "tty" (console logins that are accessible by pressing Ctrl+Alt+F[1-7]) and "unspecified" which are the 
@@ -491,6 +518,7 @@ rest. Please do not modify this unless you know what you are doing.
 In case you really need to track console sessions too, please remove "tty" from this list and add it to the tracked sessions list.
 
 </br>
+
 #### Excluded users
 
 This section allows supervisor to exclude certain **system** users from accounting. This section is meant to exclude users that do create sessions, but are not 
@@ -499,12 +527,14 @@ used to log in directly, e.g. login managers.
 Please do not enter normal users here as that will not work and cause errors when client will try to obtain information from daemon!
 
 </br>
+
 #### Additional options
 
 Currently there's just one option which controls master switch for PlayTime functionality. I has to be turned on to enable PlayTime globally, if it's switched 
 off, none of the users will have their activities accounted regardless of individual PlayTime setting!
 
 </br>
+
 ### Client application
 
 Timekpr-nExT client application provides time metrics and configuration possibilities to user. Since the user is the one who actually face the restrictions, 
@@ -515,6 +545,7 @@ User can use tool-tips / hints to get more information on every value of the app
 Please look at the [information representation differences](#desktopenvironmentdifferences) which may affect the way application looks to user.
 
 </br>
+
 #### Daily limits
 
 Daily limits shows daily time allowance, time period restrictions and time spent / left set by supervisor. Most important metrics are continuous time left and 
@@ -523,11 +554,13 @@ time periods when user can use the computer.
 If time period has "∞" sign besides it, the time for this period will not be counted towards the user's limit, i.e. free time for the user.
 
 </br>
+
 #### Additional limits
 
 Additional limits show weekly and monthly limits set by supervisor as well as time spent so far during this week and month.
 
 </br>
+
 #### PlayTime limits
 
 This tab shows time allowance and activity list for PlayTime. Description of PlayTime can be found in [PlayTime administration part](#playtimeconfiguration) of 
@@ -538,6 +571,7 @@ Tab shows active PlayTime activity count too as well as description of activitie
 Please note that this tab is not available to user if supervisor has not enabled PlayTime for the user.
 
 </br>
+
 <a name="userconfigurablenotifications"></a>
 #### Notifications
 
@@ -550,6 +584,7 @@ shown to user if supervisor has not enabled PlayTime for the user.
 More information can be found by viewing tool-tips of the configuration table.
 
 </br>
+
 #### Configuration
 
 This tab allows user to configure additional options to tailor Timekpr-nExT to his needs.
@@ -565,6 +600,7 @@ _**Please note** that there seems to be a [bug](#quirkssound) in sound notificat
 
 <a name="typicalusecase"></a>
 </br>
+
 ## Typical use case
 
 Let's imagine a situation that Liane had to limit computer time for Cartman because he uses computer way too much to talk to Kyle and Stan _(but not Kenny, 
@@ -601,6 +637,7 @@ Timekpr-nExT comes handy, Liane opens Timekpr-nExT Administration application ma
 * press "Apply daily limits" and restrictions are set
 
 </br>
+
 By this she achieves flexibility of:
 
 * allowing 6 hours of computer time to be used from 7:30 to 21:00 from Monday to Friday
@@ -612,9 +649,11 @@ By this she achieves flexibility of:
 * Cartman can not use his computer before outside of defined time periods and over the specified time allowance
 
 </br>
+
 Typical setup is rather simple and easy, there are (of course) more to it, please read on [Detailed information](#detaileddescription), if You're interested.
 
 </br>
+
 <a name="installation"></a>
 ## Installation / removal
 
@@ -630,6 +669,7 @@ and You're set.
 _Note: it's highly advised to log in and out after installation of new version._
 
 </br>
+
 Timekpr-nExT is available in:
 
 * my PPA (Personal Package Archive) for Ubuntu and compatible distributions
@@ -639,6 +679,7 @@ Timekpr-nExT is available in:
 * packages for Fedora 32+ and openSUSE Leap 15.2+ are provided as is, link below
 
 </br>
+
 #### Stable
 
 | Distribution | Stable install | Stable remove |
@@ -660,11 +701,21 @@ _**Note**: special thanks goes to SanskritFritz from ArchLinux community who was
 packages too._
 
 </br>
+
 #### Debian
 Until recently there was no easy way of using Timekpr-nExT in Debian, but thanks to Sim (smntov) and Anthony Fok (foka), Timekpr-nExT is / will be available in 
-Debian as native installation via Software Center.
+Debian as native installation.
+
+The preferred method of installing Timekpr-nExT in Debian is the same as in Ubuntu:
+
+| Stable install | Stable remove | Beta |
+| :--- | :--- | :--- |
+| ```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` | Not available |
+
+Of course, you can use any graphical software installer that comes with Debian too, like "KDE Discover" or "GNOME Software".
 
 </br>
+
 ## Compatibility
 I'm developing Timekpr-nExT to be compatible with most Desktop Environments, I have somewhere around 20 VMs where I test bigger changes, but I can not and will 
 not test everything in the open.
@@ -677,6 +728,7 @@ Please read [nuances](#quirks) section for more information.
 If You have an issue with Timekpr-nExT, please read [this](#bugs) and file a bug.
 
 </br>
+
 <a name="desktopenvironmentdifferences"></a>
 ## Information representation differences
 
@@ -714,16 +766,19 @@ There's a possible future issue that can surface when Gnome3 will remove [status
 functionality. When the time comes if at all, I'll try to figure out what to do about it.
 
 </br>
+
 ## Short and very technical overview
 
 **Warning**: this section is **very technical** and has no information that regular users of Timekpr-nExT would (possibly) want to know.
 
 </br>
+
 Timekpr-nExT is built with technologies which heavily use DBUS for it's interaction with the system. Not only it uses interfaces provided by various solutions, 
 it exposes own interfaces to DBUS too.
 It allows Timekpr-nExT to be integrated into any client application or control panel which supports DBUS interactions.
 
 </br>
+
 ### Interfaces used
 The main interface used is systemd's [login1](https://www.freedesktop.org/wiki/Software/systemd/logind/) session management interface, without it Timekpr-nExT 
 will not work.
@@ -737,12 +792,14 @@ In case FreeDesktop screensaver interfaces are not available, it tries to use
 Timekpr-nExT makes connections to DBUS objects, they are cached and during execution, it mostly just calls.
 
 </br>
+
 <a name="additionalconfigpossibilities"></a>
 ### Additional configuration possibilities
 
 In addition to graphical applications, Timekpr-nExT can be configured using tools available in CLI (Command Line Interface) and config files (by hand).
 
 </br>
+
 #### CLI mode
 
 Timekpr-nExT Administration application can be run in terminal to obtain information on users and configure limits at the same functional level as in 
@@ -753,6 +810,7 @@ Timekpr-nExT CLI by printing usage notes and examples. Timekpr-nExT Administrati
 configuration is effective immediately.
 
 </br>
+
 #### Configuration by files
 
 It's possible to edit configuration files directly to achieve the same as with tools provided by Timekpr-nExT. In this case configuration will be read and 
@@ -765,6 +823,7 @@ if not being careful. You have been warned :)
 config file with defaults for damaged options.
 
 </br>
+
 **Configuration files (be careful editing them)**
 
 | The purpose of the file | File locations |
@@ -775,6 +834,7 @@ config file with defaults for damaged options.
 | Client configuration file | ```$HOME/.config/timekpr/timekpr.conf``` |
 
 </br>
+
 <a name="quirks"></a>
 ### Quirks
 
@@ -867,10 +927,12 @@ at all
   * _this is used for idle time accounting_
 
 </br>
+
 So, there are inconsistencies and at times it was quite tricky / required workarounds to get the solution to be compatible with most popular Desktop 
 Environments at the same functionality level.
 
 </br>
+
 <a name="support"></a>
 ## How You can help
 
@@ -883,10 +945,12 @@ As a matter of fact, I'm starting to look for a replacement of my year 2001 Chic
 gaming too, like Dygma Raise. I will be happy for any help getting it ;)
 
 </br>
+
 <a name="translate"></a>
 Alternatively, You can help to translate Timekpr-nExT in Your language [here](https://translations.launchpad.net/timekpr-next) too.
 
 </br>
+
 <a name="disclaimer"></a>
 ## Disclaimer
 
@@ -907,6 +971,7 @@ So, if this application is sufficient for your needs, good, consider saying [tha
 Timekpr-nExT consider saying [thanks](#support) afterwards.
 
 </br>
+
 <a name="bugs"></a>
 ## Suggestions and bugs
 
@@ -927,5 +992,6 @@ If you don't want to register a user in LP, you can send bug reports via e-mail 
 I'll do my best to address them as my free time allows.
 
 </br>
+
 Thanks for choosing Timekpr-nExT!
 
