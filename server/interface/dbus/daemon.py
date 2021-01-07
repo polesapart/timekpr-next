@@ -5,6 +5,7 @@ Created on Aug 28, 2018
 """
 
 # import section
+import os
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
 import dbus.service
@@ -139,13 +140,15 @@ class timekprDaemon(dbus.service.Object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR working on users ===---")
 
             # perf
-            execLen += (datetime.now() - dts)
+            lavg = os.getloadavg()
+            perf = datetime.now() - dts
+            execLen += perf
 
             log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users ---")
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "--- performance: %s ---" % str(execLen/execCnt))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "--- perf, curr: %s, avg: %s, loadavg: %s, %s, %s ---" % (str(perf), str(execLen/execCnt), lavg[0], lavg[1], lavg[2]))
 
             # take a polling pause (try to do that exactly every 3 secs)
-            time.sleep(self._timekprConfig.getTimekprPollTime() - min(round((datetime.now()-dts).total_seconds(), 4), 1.5))
+            time.sleep(self._timekprConfig.getTimekprPollTime() - min(round(perf.total_seconds(), 4), 1.5))
 
         log.log(cons.TK_LOG_LEVEL_INFO, "worker shut down")
 

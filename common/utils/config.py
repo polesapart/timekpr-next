@@ -134,6 +134,11 @@ def _readAndNormalizeValue(pConfigFileParserFn, pSection, pParam, pDefaultValue,
     return result, value
 
 
+def _cleanupValue(pValue):
+    """Clean up value (basically remove stuff from begining and end)"""
+    return(pValue.strip().strip(";") if pValue is not None else None)
+
+
 class timekprConfig(object):
     """Main configuration class for the server"""
 
@@ -215,12 +220,15 @@ class timekprConfig(object):
         # read
         param = "TIMEKPR_SESSION_TYPES_CTRL"
         resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SESSION_TYPES_CTRL, pCheckValue=None, pOverallSuccess=resultValue)
+        self._timekprConfig[param] = _cleanupValue(self._timekprConfig[param])
         # read
         param = "TIMEKPR_SESSION_TYPES_EXCL"
         resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SESSION_TYPES_EXCL, pCheckValue=None, pOverallSuccess=resultValue)
+        self._timekprConfig[param] = _cleanupValue(self._timekprConfig[param])
         # read
         param = "TIMEKPR_USERS_EXCL"
         resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_USERS_EXCL, pCheckValue=None, pOverallSuccess=resultValue)
+        self._timekprConfig[param] = _cleanupValue(self._timekprConfig[param])
 
         # directory section (! in case directories are not correct, they are not overwritten with defaults !)
         section = "DIRECTORIES"
@@ -648,9 +656,11 @@ class timekprUserConfig(object):
             # read
             param = "ALLOWED_WEEKDAYS"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            self._timekprUserConfig[param] = _cleanupValue(self._timekprUserConfig[param])
             # read
             param = "LIMITS_PER_WEEKDAYS"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_LIMITS_PER_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            self._timekprUserConfig[param] = _cleanupValue(self._timekprUserConfig[param])
             # read
             param = "LIMIT_PER_WEEK"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getint, section, param, pDefaultValue=cons.TK_LIMIT_PER_WEEK, pCheckValue=None, pOverallSuccess=resultValue)
@@ -669,6 +679,7 @@ class timekprUserConfig(object):
             # read
             param = "WAKEUP_HOUR_INTERVAL"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue="0;23", pCheckValue=None, pOverallSuccess=resultValue)
+            self._timekprUserConfig[param] = _cleanupValue(self._timekprUserConfig[param])
 
             # user PlayTime config section
             section = "%s.%s" % (self._userName, "PLAYTIME")
@@ -681,9 +692,11 @@ class timekprUserConfig(object):
             # read
             param = "PLAYTIME_ALLOWED_WEEKDAYS"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_PLAYTIME_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            self._timekprUserConfig[param] = _cleanupValue(self._timekprUserConfig[param])
             # read
             param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_PLAYTIME_LIMITS_PER_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
+            self._timekprUserConfig[param] = _cleanupValue(self._timekprUserConfig[param])
             # read activities
             self._timekprUserConfig["PLAYTIME_ACTIVITIES"] = []
             appCfgKeys = [rParam[0] for rParam in self._timekprUserConfigParser.items(section) if "PLAYTIME_ACTIVITY_" in rParam[0]] if self._timekprUserConfigParser.has_section(section) else []
@@ -752,7 +765,7 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_ALLOWED_WEEKDAYS)
         # set up param
         param = "LIMITS_PER_WEEKDAYS"
-        self._timekprUserConfigParser.set(section, "# this defines allowed time in seconds per week day a user can use the computer (number of values must match number if values for ALLOWED_WEEKDAYS)")
+        self._timekprUserConfigParser.set(section, "# this defines allowed time in seconds per week day a user can use the computer (number of values must match the number of values for option ALLOWED_WEEKDAYS)")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_LIMITS_PER_WEEKDAYS)
         # set up param
         param = "LIMIT_PER_WEEK"
@@ -799,7 +812,7 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_PLAYTIME_ALLOWED_WEEKDAYS)
         # set up param
         param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
-        self._timekprUserConfigParser.set(section, "# how much PlayTime is allowed per allowed days (number of values must match number if values for PLAYTIME_ALLOWED_WEEKDAYS)")
+        self._timekprUserConfigParser.set(section, "# how much PlayTime is allowed per allowed days (number of values must match the number of values for option PLAYTIME_ALLOWED_WEEKDAYS)")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_PLAYTIME_LIMITS_PER_WEEKDAYS)
         # set up param
         self._timekprUserConfigParser.set(section, "# this defines which activities / processes are monitored, pattern: PLAYTIME_ACTIVITY_NNN = PROCESS_MASK[DESCRIPTION],")
@@ -1204,6 +1217,7 @@ class timekprUserControl(object):
         # add new user section
         section = self._userName
         self._timekprUserControlParser.add_section(section)
+        self._timekprUserControlParser.set(section, "#### NOTE: all number values are stored in seconds")
         # set up param
         param = "TIME_SPENT_BALANCE"
         self._timekprUserControlParser.set(section, "# total time balance spent for this day")
@@ -1464,9 +1478,11 @@ class timekprClientConfig(object):
         # read
         param = "NOTIFICATION_LEVELS"
         resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.get, section, param, pDefaultValue=cons.TK_NOTIFICATION_LEVELS, pCheckValue=None, pOverallSuccess=resultValue)
+        self._timekprClientConfig[param] = _cleanupValue(self._timekprClientConfig[param])
         # read
         param = "PLAYTIME_NOTIFICATION_LEVELS"
         resultValue, self._timekprClientConfig[param] = _readAndNormalizeValue(self._timekprClientConfigParser.get, section, param, pDefaultValue=cons.TK_PT_NOTIFICATION_LEVELS, pCheckValue=None, pOverallSuccess=resultValue)
+        self._timekprClientConfig[param] = _cleanupValue(self._timekprClientConfig[param])
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:

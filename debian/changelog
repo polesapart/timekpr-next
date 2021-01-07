@@ -6,6 +6,12 @@ timekpr-next (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
     adjust for openSUSE too (Fedora does not seem to be using ayatana appindicators yet)
   * add gnome-shell-extension-appindicator to suggestions list
   * fix project description to match README
+  * technical improvements
+    added ":" as allowed separator for minute intervals
+    improve user error workarounds when loading config
+    added explanatory comment for values in control file
+    print out uname when timekpr starts
+    log more information about timekpr perf and computer load avg
 
   ! this is a WIP entry for now !
 
