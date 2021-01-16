@@ -37,7 +37,7 @@ until it's released or use ```beta```._
 
   - a short description of [applications](#applications) with [typical use case](#typicalusecase)
 
-  - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime controls](#playtimeconfiguration), 
+  - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime functionality](#playtimeconfiguration), 
   [user configurable notifications](#userconfigurablenotifications), ["freeride" time periods](#freerideintervals)
 
   - to better understand functionality click on [description of functionality](#detaileddescription)
@@ -266,8 +266,7 @@ By default whole week and month is allowed, which is the common use case, one do
 PlayTime is screen time limiting mode for applications / processes in the system, which in context of PlayTime, are called "activities".
 
 PlayTime extends time limit configuration and accounting by greater control over how long certain applications can run. In other words, this functionality 
-works 
-as a process monitor of sorts.
+works as a process monitor of sorts.
 
 PlayTime allows users to use certain applications for the configured period of time. If time allowance is all used, applications are terminated. 
 Running them again will result in termination.
@@ -286,8 +285,8 @@ _**Please note** that PlayTime will still account user's PlayTime even in time p
 
 This section provides controls for PlayTime enablement and so called PlayTime override mode.
 
-PlayTime has to be enabled for every user separately and if it's not enabled, obviously, PlayTime will not work for this user. Be sure to enable PlayTime 
-master switch to enable PlayTime accounting in the system, otherwise it will not work even if it's enabled for the user.
+PlayTime has to be enabled for every user separately and if it's not enabled, obviously, PlayTime will not work for this user. Be sure to enable 
+[PlayTime master switch](#playtimemasterswitch) to enable PlayTime accounting in the system, otherwise it will not work even if it's enabled for the user.
 
 By default, PlayTime is not enabled.
 
@@ -528,9 +527,10 @@ Please do not enter normal users here as that will not work and cause errors whe
 
 </br>
 
+<a name="playtimemasterswitch"></a>
 #### Additional options
 
-Currently there's just one option which controls master switch for PlayTime functionality. I has to be turned on to enable PlayTime globally, if it's switched 
+Currently there's just one option which controls **master switch for PlayTime** functionality. I has to be turned on to enable PlayTime globally, if it's switched 
 off, none of the users will have their activities accounted regardless of individual PlayTime setting!
 
 </br>
@@ -703,8 +703,8 @@ packages too._
 </br>
 
 #### Debian
-Until recently there was no easy way of using Timekpr-nExT in Debian, but thanks to Sim (smntov) and Anthony Fok (foka), Timekpr-nExT is / will be available in 
-Debian as native installation.
+Until recently there was no easy way of using Timekpr-nExT in Debian, but thanks to Sim (smntov) and Anthony Fok (foka), Timekpr-nExT is available in Debian as native 
+installation.
 
 The preferred method of installing Timekpr-nExT in Debian is the same as in Ubuntu:
 
@@ -712,7 +712,13 @@ The preferred method of installing Timekpr-nExT in Debian is the same as in Ubun
 | :--- | :--- | :--- |
 | ```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` | Not available |
 
+**Note**: it might be possible to use a package made for ["sid"](https://packages.debian.org/sid/timekpr-next) in other versions of Debian, if dependencies are 
+satisfied. For example, a package for "sid" (unstable) works in "buster" (10.7) just fine.
+
+</br>
 Of course, you can use any graphical software installer that comes with Debian too, like "KDE Discover" or "GNOME Software".
+
+**Note**: for Debian please use a package created for Debian.
 
 </br>
 
@@ -994,4 +1000,3 @@ I'll do my best to address them as my free time allows.
 </br>
 
 Thanks for choosing Timekpr-nExT!
-
