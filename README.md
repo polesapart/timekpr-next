@@ -832,7 +832,7 @@ config file with defaults for damaged options.
 
 **Configuration files (be careful editing them)**
 
-| The purpose of the file | File locations |
+| The purpose of the file | File location |
 | --: | :-- |
 | Timekpr-nExT main configuration file | ```/etc/timekpr/timekpr.conf``` |
 | User configuration files (one per user) | ```/var/lib/timekpr/config/timekpr.*.conf``` |
@@ -840,6 +840,34 @@ config file with defaults for damaged options.
 | Client configuration file | ```$HOME/.config/timekpr/timekpr.conf``` |
 
 </br>
+
+### Log files
+
+Log files are the files where Timekpr-nExT writes it's messages about execution, including a performance counters. Files are not meant to be inspected by users 
+on regular basis, **there's nothing interesting nor understandable for non technical users**.
+
+However it's possible to look at them to find technical details about state of Timekpr-nExT or investigate the problematic behaviour and errors. These are the 
+files I'll be asking in case something does not work as expected.
+
+By default Timekpr-nExT writes a sufficiently detailed log file for me to understand the problem area quite well, but that means that there are a lot of 
+messages in log files. There's nothing sensitive except usernames, if this is a concern, please obfuscate them before sending the files to me or attaching them 
+to bug reports.
+
+_**Note**: if the log file size is the concern, it's possible to decrease log level in Timekpr-nExT administration application to save some, however when the 
+issue arises, most likely I'll need it to be set to level 2 (the default)._
+
+</br>
+
+**Log files**
+
+| Logging area | File location |
+| --: | :-- |
+| Daemon log file | ```/var/log/timekpr.log``` |
+| Client application log files | ```/tmp/timekprc.*.log``` |
+| Administration application log files | ```/tmp/timekpra.*.log``` |
+
+</br>
+
 
 <a name="quirks"></a>
 ### Quirks
