@@ -1036,6 +1036,9 @@ If it's checked, the time is accounted only when activities in "Activity / appli
 If it's checked, the time is accounted only when activities in "Activity / application list" are running, the rest of the time is considered idle.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time limit override:</property>
+                                        <property name="justify">right</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -1276,6 +1279,8 @@ Critical - a red icon and critical notification will be shown, this notification
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">Notification configuration</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1392,6 +1397,8 @@ Critical - a red icon and critical notification will be shown, this notification
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">PlayTime notification configuration</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
