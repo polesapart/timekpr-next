@@ -80,6 +80,9 @@ def initMessages():
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_NONE"] = {"s": _("Save time is not passed")}
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID"] = {"s": _("Save time \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_SAVETIME_INVALID_SET"] = {"s": _("Save time \"%%s\" is not correct and cannot be set")}
+    _messages["TK_MSG_ADMIN_CHK_PLAYTIMEENABLED_NONE"] = {"s": _("PlayTime flag is not passed")}
+    _messages["TK_MSG_ADMIN_CHK_PLAYTIMEENABLED_INVALID"] = {"s": _("PlayTime flag \"%%s\" is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_PLAYTIMEENABLED_INVALID_SET"] = {"s": _("PlayTime flag \"%%s\" is not correct and cannot be set")}
 
     # ## this defines messages for use in user configuration validation ##
     _messages["TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_NONE"] = {"s": _("User's \"%%s\" day number must be present")}
