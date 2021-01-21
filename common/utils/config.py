@@ -753,7 +753,8 @@ class timekprUserConfig(object):
         # add new user section
         section = self._userName
         self._timekprUserConfigParser.add_section(section)
-        self._timekprUserConfigParser.set(section, "# this defines which hours are allowed (remove or add hours to limit access), configure limits for start/end minutes for hour in brackets, example: 22[00-15]")
+        self._timekprUserConfigParser.set(section, "# this defines which hours are allowed (remove or add hours to limit access), configure limits for start/end minutes for hour in brackets,")
+        self._timekprUserConfigParser.set(section, "#   optionally enter ! in front of hour to mark it non-accountable, example: !22[00-15]")
         # set up param
         param = "ALLOWED_HOURS"
         # set hours for all days
@@ -873,16 +874,16 @@ class timekprUserConfig(object):
         values[param] = self._timekprUserConfig[param]
 
         # PlayTime config
-        # wakeup hour interval
+        # PlayTime enabled
         param = "PLAYTIME_ENABLED"
         values[param] = str(self._timekprUserConfig[param])
-        # wakeup hour interval
+        # PlayTime override enabled
         param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
         values[param] = str(self._timekprUserConfig[param])
-        # wakeup hour interval
+        # PlayTime allowed weekdays
         param = "PLAYTIME_ALLOWED_WEEKDAYS"
         values[param] = self._timekprUserConfig[param]
-        # wakeup hour interval
+        # PlayTime limits per weekdays
         param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
         values[param] = str(self._timekprUserConfig[param])
         # PlayTime activities
