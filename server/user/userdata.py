@@ -85,28 +85,28 @@ class timekprUser(object):
             # per day values
             # -- see the loop below initial assignment --
             # additional limits
-            cons.TK_CTRL_LIMITW : None  # this is limit per week
-            ,cons.TK_CTRL_LIMITM : None  # this is limit per month
+            cons.TK_CTRL_LIMITW : None,  # this is limit per week
+            cons.TK_CTRL_LIMITM : None,  # this is limit per month
             # global time acconting values
-            ,cons.TK_CTRL_LEFT   : 0 # this is how much time left is countinously
-            ,cons.TK_CTRL_LEFTW  : 0  # this is left per week
-            ,cons.TK_CTRL_LEFTM  : 0  # this is left per month
-            ,cons.TK_CTRL_SPENTD : 0  # this is spent per day
-            ,cons.TK_CTRL_SPENTW : 0  # this is spent per week
-            ,cons.TK_CTRL_SPENTM : 0  # this is spent per month
+            cons.TK_CTRL_LEFT   : 0, # this is how much time left is countinously
+            cons.TK_CTRL_LEFTW  : 0,  # this is left per week
+            cons.TK_CTRL_LEFTM  : 0,  # this is left per month
+            cons.TK_CTRL_SPENTD : 0,  # this is spent per day
+            cons.TK_CTRL_SPENTW : 0,  # this is spent per week
+            cons.TK_CTRL_SPENTM : 0,  # this is spent per month
             # checking values
-            ,cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0)  # this is last checked time
-            ,cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0)  # this is last save time (physical save will be less often as check)
-            ,cons.TK_CTRL_LMOD   : datetime.now().replace(microsecond=0)  # this is last control save time
-            ,cons.TK_CTRL_LCMOD  : datetime.now().replace(microsecond=0)  # this is last config save time
+            cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0),  # this is last checked time
+            cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0),  # this is last save time (physical save will be less often as check)
+            cons.TK_CTRL_LMOD   : datetime.now().replace(microsecond=0),  # this is last control save time
+            cons.TK_CTRL_LCMOD  : datetime.now().replace(microsecond=0),  # this is last config save time
             # user values
-            ,cons.TK_CTRL_UID    : None  # user id (not used, but still saved)
-            ,cons.TK_CTRL_UNAME  : ""  # user name, this is the one we need
-            ,cons.TK_CTRL_UPATH  : ""  # this is for DBUS communication purposes
+            cons.TK_CTRL_UID    : None,  # user id (not used, but still saved)
+            cons.TK_CTRL_UNAME  : "",  # user name, this is the one we need
+            cons.TK_CTRL_UPATH  : "",  # this is for DBUS communication purposes
             # user session values (comes directly from user session)
-            ,cons.TK_CTRL_SCR_N  : False  # actual value
-            ,cons.TK_CTRL_SCR_K  : None  # verification key value
-            ,cons.TK_CTRL_SCR_R  : 0  # retry count for verification
+            cons.TK_CTRL_SCR_N  : False,  # actual value
+            cons.TK_CTRL_SCR_K  : None,  # verification key value
+            cons.TK_CTRL_SCR_R  : 0  # retry count for verification
         }
 
         # fill up every day and hour

@@ -324,24 +324,24 @@ TK_ADMIN_COMMANDS = {
 }
 # define user admin commands
 TK_USER_ADMIN_COMMANDS = {
-     "--help"                     : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP"), "timekpra --help")
-    ,"--userlist"                 : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST"), "timekpra --userlist")
-    ,"--userinfo"                 : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG"), "timekpra --userinfo 'testuser'")
-    ,"--setalloweddays"           : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"), "timekpra --setalloweddays 'testuser' '1;2;3;4;5'")
-    ,"--setallowedhours"          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"), "timekpra --setallowedhours 'testuser' 'ALL' '7;8;9;10;11[00-30];!14;!15;17;18;19;20[00-45]'")
-    ,"--settimelimits"            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"), "timekpra --settimelimits 'testuser' '7200;7200;7200;7200;10800'")
-    ,"--settimelimitweek"         : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"), "timekpra --settimelimitweek 'testuser' '50000'")
-    ,"--settimelimitmonth"        : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"), "timekpra --settimelimitmonth 'testuser' '200000'")
-    ,"--settrackinactive"         : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"), "timekpra --settrackinactive 'testuser' 'false'")
-    ,"--sethidetrayicon"          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"), "timekpra --sethidetrayicon 'testuser' 'false'")
-    ,"--setlockouttype"           : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"), "timekpra --setlockouttype 'testuser' 'terminate'\n    timekpra --setlockouttype 'testuser' 'suspendwake;7;18'")
-    ,"--settimeleft"              : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"), "timekpra --settimeleft 'testuser' '+' 3600")
-    ,"--setplaytimeenabled"       : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"), "timekpra --setplaytimeenabled 'testuser' 'false'")
-    ,"--setplaytimelimitoverride" : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"), "timekpra --setplaytimelimitoverride 'testuser' 'false'")
-    ,"--setplaytimealloweddays"   : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEALLOWEDDAYS"), "timekpra --setplaytimealloweddays 'testuser' '1;2;3;4;5'")
-    ,"--setplaytimelimits"        : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITS"), "timekpra --setplaytimelimits 'testuser' '1800;1800;1800;1800;3600'")
-    ,"--setplaytimeactivities"    : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEACTIVITIES"), "timekpra --setplaytimeactivities 'testuser' 'DOOMEternalx64vk.exe[Doom Eternal];csgo_linux[CS: GO];firefox[Firefox browser]'")
-    ,"--setplaytimeleft"          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELEFT"), "timekpra --setplaytimeleft 'testuser' '+' 3600")
+    "--help"                                : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP"), "timekpra --help"),
+    "--userlist"                            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST"), "timekpra --userlist"),
+    "--userinfo"                            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG"), "timekpra --userinfo 'testuser'"),
+    "--setalloweddays"                      : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"), "timekpra --setalloweddays 'testuser' '1;2;3;4;5'"),
+    "--setallowedhours"                     : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"), "timekpra --setallowedhours 'testuser' 'ALL' '7;8;9;10;11[00-30];!14;!15;17;18;19;20[00-45]'"),
+    "--settimelimits"                       : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"), "timekpra --settimelimits 'testuser' '7200;7200;7200;7200;10800'"),
+    "--settimelimitweek"                    : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITWK"), "timekpra --settimelimitweek 'testuser' '50000'"),
+    "--settimelimitmonth"                   : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITMON"), "timekpra --settimelimitmonth 'testuser' '200000'"),
+    "--settrackinactive"                    : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTRACKINACTIVE"), "timekpra --settrackinactive 'testuser' 'false'"),
+    "--sethidetrayicon"                     : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETHIDETRAYICON"), "timekpra --sethidetrayicon 'testuser' 'false'"),
+    "--setlockouttype"                      : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETLOCKOUTTYPE"), "timekpra --setlockouttype 'testuser' 'terminate'\n    timekpra --setlockouttype 'testuser' 'suspendwake;7;18'"),
+    "--settimeleft"                         : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"), "timekpra --settimeleft 'testuser' '+' 3600"),
+    "--setplaytimeenabled"                  : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"), "timekpra --setplaytimeenabled 'testuser' 'false'"),
+    "--setplaytimelimitoverride"            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"), "timekpra --setplaytimelimitoverride 'testuser' 'false'"),
+    "--setplaytimealloweddays"              : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEALLOWEDDAYS"), "timekpra --setplaytimealloweddays 'testuser' '1;2;3;4;5'"),
+    "--setplaytimelimits"                   : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITS"), "timekpra --setplaytimelimits 'testuser' '1800;1800;1800;1800;3600'"),
+    "--setplaytimeactivities"               : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEACTIVITIES"), "timekpra --setplaytimeactivities 'testuser' 'DOOMEternalx64vk.exe[Doom Eternal];csgo_linux[CS: GO];firefox[Firefox browser]'"),
+    "--setplaytimeleft"                     : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELEFT"), "timekpra --setplaytimeleft 'testuser' '+' 3600")
 }
 
 

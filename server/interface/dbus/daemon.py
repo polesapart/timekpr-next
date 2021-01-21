@@ -209,13 +209,13 @@ class timekprDaemon(dbus.service.Object):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: we have a new user \"%s\"" % (rUserName))
                 # add user
                 self._timekprUserList[rUserName] = timekprUser(
-                     self._logging
-                    ,self._timekprBusName
-                    ,userDict[cons.TK_CTRL_UID]
-                    ,userDict[cons.TK_CTRL_UNAME]
-                    ,userDict[cons.TK_CTRL_UPATH]
-                    ,self._timekprConfig
-                    ,self._timekprPlayTimeConfig
+                    self._logging,
+                    self._timekprBusName,
+                    userDict[cons.TK_CTRL_UID],
+                    userDict[cons.TK_CTRL_UNAME],
+                    userDict[cons.TK_CTRL_UPATH],
+                    self._timekprConfig,
+                    self._timekprPlayTimeConfig
                 )
 
                 # init variables for user

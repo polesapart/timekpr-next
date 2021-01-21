@@ -126,59 +126,59 @@ class timekprClient(object):
 
             # connect to signal
             self._sessionAttributeVerificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.reveiveSessionAttributeVerificationRequest
-                ,dbus_interface   = cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE
-                ,signal_name      = "sessionAttributeVerification")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.reveiveSessionAttributeVerificationRequest,
+                dbus_interface   = cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE,
+                signal_name      = "sessionAttributeVerification")
 
             # connect to signal
             self._timeLeftSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeLeft
-                ,dbus_interface   = cons.TK_DBUS_USER_LIMITS_INTERFACE
-                ,signal_name      = "timeLeft")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeLeft,
+                dbus_interface   = cons.TK_DBUS_USER_LIMITS_INTERFACE,
+                signal_name      = "timeLeft")
 
             # connect to signal
             self._timeLimitsSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeLimits
-                ,dbus_interface   = cons.TK_DBUS_USER_LIMITS_INTERFACE
-                ,signal_name      = "timeLimits")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeLimits,
+                dbus_interface   = cons.TK_DBUS_USER_LIMITS_INTERFACE,
+                signal_name      = "timeLimits")
 
             # connect to signal
             self._timeLeftNotificatonSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeLeftNotification
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
-                ,signal_name      = "timeLeftNotification")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeLeftNotification,
+                dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE,
+                signal_name      = "timeLeftNotification")
 
             # connect to signal
             self._timeCriticalNotificatonSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeCriticalNotification
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
-                ,signal_name      = "timeCriticalNotification")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeCriticalNotification,
+                dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE,
+                signal_name      = "timeCriticalNotification")
 
             # connect to signal
             self._timeNoLimitNotificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeNoLimitNotification
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
-                ,signal_name      = "timeNoLimitNotification")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeNoLimitNotification,
+                dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE,
+                signal_name      = "timeNoLimitNotification")
 
             # connect to signal
             self._timeLeftChangedNotificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeLeftChangedNotification
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
-                ,signal_name      = "timeLeftChangedNotification")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeLeftChangedNotification,
+                dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE,
+                signal_name      = "timeLeftChangedNotification")
 
             # connect to signal
             self._timeConfigurationChangedNotificationSignal = self._timekprBus.add_signal_receiver(
-                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS
-                ,handler_function = self.receiveTimeConfigurationChangedNotification
-                ,dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE
-                ,signal_name      = "timeConfigurationChangedNotification")
+                path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
+                handler_function = self.receiveTimeConfigurationChangedNotification,
+                dbus_interface   = cons.TK_DBUS_USER_NOTIF_INTERFACE,
+                signal_name      = "timeConfigurationChangedNotification")
 
             # measurement logging
             log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - connecting signals \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
