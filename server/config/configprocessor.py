@@ -68,7 +68,7 @@ class timekprUserConfigurationProcessor(object):
     def calculateAdjustedDatesForUserControl(self, pCheckDate):
         """Calculate and save proper dates in control file, in case they wastly differ from what as saved"""
         # control date components changed
-        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserSavedDateComponentChanges(pCheckDate)
+        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(pCheckDate)
 
         # set defaults in case day changed
         if dayChanged:

@@ -359,7 +359,7 @@ class timekprUser(object):
         # spent this hour
         spentHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
         # control date components changed
-        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserSavedDateComponentChanges(self._effectiveDatetime)
+        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime)
 
         # if day has changed adjust balance
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance()
@@ -387,14 +387,8 @@ class timekprUser(object):
         """Adjust time spent (and save it)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentActual")
 
-        # calendar
-        isoCalendar = datetime.date(self._timekprUserData[cons.TK_CTRL_LCHECK]).isocalendar()
-        # get last checked DOW
-        lastCheckDOW = str(isoCalendar[2])
-        # get last checked WEEK
-        lastCheckWeek = isoCalendar[1]
-        # get last checked MONTH
-        lastCheckMonth = self._timekprUserData[cons.TK_CTRL_LCHECK].month
+        # check if dates have changed
+        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime, self._timekprUserData[cons.TK_CTRL_LCHECK])
         # get time spent
         timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
 
@@ -463,7 +457,7 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
 
         # if there is a day change, we need to adjust time for this day and day after
-        if lastCheckDOW != self._currentDOW:
+        if dayChanged:
             # only if this is not the end of the day (this should not happen)
             if self._currentHOD != 23:
                 # clean up hours for this day
@@ -475,22 +469,32 @@ class timekprUser(object):
 
             # reset spent for this hour
             self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent
-            # set spent as not initialized for today, so new limits will apply properly
+            # reset balance for this day
             self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] = timeSpent
-            # time spent for this day
+            # reset time spent for this day
             self._timekprUserData[cons.TK_CTRL_SPENTD] = timeSpent
 
+            # reset PlayTime balance for this day
+            self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD] = timeSpent if userActivePT else 0
+            # reset PlayTime spent for this day
+            self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] = timeSpent if userActivePT else 0
+
+            log.log(cons.TK_LOG_LEVEL_INFO, "day change, user: %s, tbal: %i, tsp: %i, ptbal: %i, ptsp: %i" % (self.getUserName(), timeSpent, timeSpent, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]))
+
             # check if week changed
-            if lastCheckWeek != datetime.date(self._effectiveDatetime).isocalendar()[1]:
+            if weekChanged:
                 # set spent for week as not initialized for this week, so new limits will apply properly
                 self._timekprUserData[cons.TK_CTRL_SPENTW] = timeSpent
+                log.log(cons.TK_LOG_LEVEL_INFO, "week change, user: %s, twk: %i" % (self.getUserName(), timeSpent))
+
             # check if month changed
-            if lastCheckMonth != self._effectiveDatetime.month:
+            if monthChanged:
                 # set spent for month as not initialized for this month, so new limits will apply properly
                 self._timekprUserData[cons.TK_CTRL_SPENTM] = timeSpent
+                log.log(cons.TK_LOG_LEVEL_INFO, "month change, user: %s, tmon: %i" % (self.getUserName(), timeSpent))
 
         # check if we need to save progress
-        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprConfig.getTimekprSaveTime() or lastCheckDOW != self._currentDOW:
+        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprConfig.getTimekprSaveTime() or dayChanged:
             # save
             self.saveSpent()
 

@@ -1293,16 +1293,18 @@ class timekprUserControl(object):
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
-    def getUserSavedDateComponentChanges(self, pCheckDate):
-        """Determine whether days / weeks / months changed since last change date in file"""
-        # year changed
-        yearChanged = (self.getUserLastChecked().date().year != pCheckDate.date().year)
+    def getUserDateComponentChanges(self, pCheckDate, pValidationDate=None):
+        """Determine whether days / weeks / months changed since last change date in file or other date"""
+        # date to validate against
+        validationDate = pValidationDate.date() if pValidationDate is not None else self.getUserLastChecked().date()
+        checkDate = pCheckDate.date()
+        # ## validations ##
         # month changed
-        monthChanged = (yearChanged or self.getUserLastChecked().date().month != pCheckDate.date().month)
+        monthChanged = (checkDate.year != validationDate.year or checkDate.month != validationDate.month)
         # week changed
-        weekChanged = (monthChanged or self.getUserLastChecked().date().isocalendar()[1] != pCheckDate.date().isocalendar()[1])
+        weekChanged = (monthChanged or checkDate.isocalendar()[1] != validationDate.isocalendar()[1])
         # day changed
-        dayChanged = (weekChanged or self.getUserLastChecked().date() != pCheckDate.date())
+        dayChanged = (weekChanged or checkDate != validationDate)
 
         # result (day / week / month)
         return dayChanged, weekChanged, monthChanged
