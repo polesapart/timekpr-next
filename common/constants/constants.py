@@ -94,6 +94,8 @@ TK_LOCALIZATION_DIR_DEV = "../resource/locale"
 
 # retry cnt for various actions
 TK_MAX_RETRIES = 5
+# max symbols to search for pattern in cmdline for PlayTime
+TK_MAX_CMD_SRCH = 512
 
 # ## dbus ##
 # common
@@ -202,6 +204,7 @@ TK_CTRL_PTCNT = "PTCNT"    # PlayTime counters
 TK_CTRL_PTSPD = "PTSPD"    # time spent for PlayTime
 TK_CTRL_PTLPD = "PTLPD"    # time left for PlayTime
 TK_CTRL_PTTLO = "PTTLO"    # PlayTime limit override
+TK_CTRL_PTAUH = "PTAUH"    # PlayTime allowed during unaccounted intervals
 TK_CTRL_PTLMT = "PTLMT"    # time limits for each day for PlayTime
 TK_CTRL_PTLST = "PTLST"    # process list for PlayTime
 TK_CTRL_PTLSTC = "PTLSTC"  # process list count for PlayTime
@@ -338,6 +341,7 @@ TK_USER_ADMIN_COMMANDS = {
     "--settimeleft"                         : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"), "timekpra --settimeleft 'testuser' '+' 3600"),
     "--setplaytimeenabled"                  : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"), "timekpra --setplaytimeenabled 'testuser' 'false'"),
     "--setplaytimelimitoverride"            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"), "timekpra --setplaytimelimitoverride 'testuser' 'false'"),
+    "--setplaytimeunaccountedintervalsflag" : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEUNACCOUNTEDINTARVALSFLAG"), "timekpra --setplaytimeunaccountedintervalsflag 'testuser' 'false'"),
     "--setplaytimealloweddays"              : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEALLOWEDDAYS"), "timekpra --setplaytimealloweddays 'testuser' '1;2;3;4;5'"),
     "--setplaytimelimits"                   : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITS"), "timekpra --setplaytimelimits 'testuser' '1800;1800;1800;1800;3600'"),
     "--setplaytimeactivities"               : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEACTIVITIES"), "timekpra --setplaytimeactivities 'testuser' 'DOOMEternalx64vk.exe[Doom Eternal];csgo_linux[CS: GO];firefox[Firefox browser]'"),

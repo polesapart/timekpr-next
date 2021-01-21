@@ -233,6 +233,15 @@ class timekprAdminClient(object):
             else:
                 # set days
                 self.processSetPlayTimeLimitOverride(args[paramIdx+1], args[paramIdx+2])
+        # this sets playtime allowed during unaccounted intervals for user
+        elif adminCmd == "--setplaytimeunaccountedintervalsflag":
+            # check param len
+            if paramLen != paramIdx + 3:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # set days
+                self.processSetPlayTimeUnaccountedIntervalsEnabled(args[paramIdx+1], args[paramIdx+2])
         # this sets allowed days for PlayTime for the user
         elif adminCmd == "--setplaytimealloweddays":
             # check param len
@@ -344,7 +353,7 @@ class timekprAdminClient(object):
                         # empty
                         hrs = "%s%s" % (uacc, hr) if hrs == "" else "%s;%s%s" % (hrs, uacc, hr)
                 log.consoleOut("%s: %s" % (rUserKey, hrs))
-            elif rUserKey in ("TRACK_INACTIVE", "HIDE_TRAY_INACTIVE", "PLAYTIME_ENABLED", "PLAYTIME_LIMIT_OVERRIDE_ENABLED"):
+            elif rUserKey in ("TRACK_INACTIVE", "HIDE_TRAY_INACTIVE", "PLAYTIME_ENABLED", "PLAYTIME_LIMIT_OVERRIDE_ENABLED", "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"):
                 log.consoleOut("%s: %s" % (rUserKey, bool(rUserConfig)))
             elif rUserKey in ("PLAYTIME_ACTIVITIES"):
                 # result
@@ -635,6 +644,30 @@ class timekprAdminClient(object):
         if result == 0:
             # invoke
             result, message = self._timekprAdminConnector.setPlayTimeLimitOverride(pUserName, isPlayTimeLimitOverride)
+
+        # process
+        if result != 0:
+            # log error
+            log.consoleOut(message)
+
+    def processSetPlayTimeUnaccountedIntervalsEnabled(self, pUserName, pPlayTimeUnaccountedIntervalsEnabled):
+        """Process PlayTime allowed during unaccounted intervals flag"""
+        # defaults
+        isPlayTimeUnaccountedIntervalsEnabled = None
+        result = 0
+
+        # check
+        if pPlayTimeUnaccountedIntervalsEnabled not in ("true", "True", "TRUE", "false", "False", "FALSE"):
+            # fail
+            result = -1
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
+        else:
+            isPlayTimeUnaccountedIntervalsEnabled = True if pPlayTimeUnaccountedIntervalsEnabled in ("true", "True", "TRUE") else False
+
+        # preprocess successful
+        if result == 0:
+            # invoke
+            result, message = self._timekprAdminConnector.setPlayTimeUnaccountedIntervalsEnabled(pUserName, isPlayTimeUnaccountedIntervalsEnabled)
 
         # process
         if result != 0:

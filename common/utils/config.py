@@ -254,6 +254,9 @@ class timekprConfig(object):
         # read
         param = "TIMEKPR_PLAYTIME_ENABLED"
         resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
+        # read
+        param = "TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED"
+        resultValue, self._timekprConfig[param] = _readAndNormalizeValue(self._timekprConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
 
         # if we could not read some values, save what we could + defaults
         if not resultValue:
@@ -366,6 +369,10 @@ class timekprConfig(object):
         param = "TIMEKPR_PLAYTIME_ENABLED"
         self._timekprConfigParser.set(section, "# whether PlayTime is enabled globally")
         self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
+        # set up param
+        param = "TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED"
+        self._timekprConfigParser.set(section, "# whether PlayTime activity monitor will use process command line, including arguments, for monitoring processes (by default only uses the process name)")
+        self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
 
         # save the file
         with open(self._configFile, "w") as fp:
@@ -414,6 +421,9 @@ class timekprConfig(object):
         values[param] = str(self._timekprConfig[param])
         # whether PlayTime is enabled
         param = "TIMEKPR_PLAYTIME_ENABLED"
+        values[param] = str(self._timekprConfig[param])
+        # whether PlayTime enhanced activity monitor is enabled
+        param = "TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED"
         values[param] = str(self._timekprConfig[param])
         # ## pass placeholders for directories ##
         # config dir
@@ -546,6 +556,13 @@ class timekprConfig(object):
         # result
         return self._timekprConfig[param]
 
+    def getTimekprPlayTimeEnhancedActivityMonitorEnabled(self):
+        """Return whether we have PlayTime enhanced activity monitor is enabled"""
+        # param
+        param = "TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED"
+        # result
+        return self._timekprConfig[param]
+
     def getTimekprLastModified(self):
         """Get last file modification time"""
         # result
@@ -601,6 +618,10 @@ class timekprConfig(object):
     def setTimekprPlayTimeEnabled(self, pPlayTimeEnabled):
         """Set PlayTime enable flag"""
         self._timekprConfig["TIMEKPR_PLAYTIME_ENABLED"] = bool(pPlayTimeEnabled)
+
+    def setTimekprPlayTimeEnhancedActivityMonitorEnabled(self, pPlayTimeAdvancedSearchEnabled):
+        """Set PlayTime enable flag"""
+        self._timekprConfig["TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED"] = bool(pPlayTimeAdvancedSearchEnabled)
 
 
 class timekprUserConfig(object):
@@ -688,6 +709,9 @@ class timekprUserConfig(object):
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
+            # read
+            param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "PLAYTIME_ALLOWED_WEEKDAYS"
@@ -808,6 +832,10 @@ class timekprUserConfig(object):
         self._timekprUserConfigParser.set(section, "#   in this case explicit PlayTime limits are ignored")
         self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
         # set up param
+        param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
+        self._timekprUserConfigParser.set(section, "# whether PlayTime activities are allowed during unaccounted time intervals")
+        self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
+        # set up param
         param = "PLAYTIME_ALLOWED_WEEKDAYS"
         self._timekprUserConfigParser.set(section, "# specify on which days PlayTime is enabled")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_PLAYTIME_ALLOWED_WEEKDAYS)
@@ -879,6 +907,9 @@ class timekprUserConfig(object):
         values[param] = str(self._timekprUserConfig[param])
         # PlayTime override enabled
         param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+        values[param] = str(self._timekprUserConfig[param])
+        # PlayTime allowed during unaccounted intervals
+        param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
         values[param] = str(self._timekprUserConfig[param])
         # PlayTime allowed weekdays
         param = "PLAYTIME_ALLOWED_WEEKDAYS"
@@ -999,6 +1030,13 @@ class timekprUserConfig(object):
         # result
         return self._timekprUserConfig[param]
 
+    def getUserPlayTimeUnaccountedIntervalsEnabled(self):
+        """Return whether PlayTime activities are allowed during unaccounted intervals"""
+        # param
+        param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
+        # result
+        return self._timekprUserConfig[param]
+
     def getUserPlayTimeAllowedWeekdays(self):
         """Get allowed week days for PlayTime"""
         # param
@@ -1098,6 +1136,11 @@ class timekprUserConfig(object):
         """Set PlayTime override to the normal time accounting"""
         # result
         self._timekprUserConfig["PLAYTIME_LIMIT_OVERRIDE_ENABLED"] = pPlayTimeOverrideEnabled
+
+    def setUserPlayTimeUnaccountedIntervalsEnabled(self, pPlayTimeUnaccountedIntervalsEnabled):
+        """Set whether PlayTime activities are allowed during unaccounted intervals"""
+        # result
+        self._timekprUserConfig["PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"] = pPlayTimeUnaccountedIntervalsEnabled
 
     def setUserPlayTimeAllowedWeekdays(self, pPlayTimeAllowedWeekdays):
         """Set allowed week days for PlayTime"""

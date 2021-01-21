@@ -44,6 +44,7 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_SETTIMELEFT"] = {"s": _("==> set time left for the user at the current moment of time: \"+\" (add time), \"-\" (subtract time), \"=\" (set exact time available), example (add one hour)")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEENABLED"] = {"s": _("==> set whether PlayTime is enabled for the user, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITOVERRIDE"] = {"s": _("==> set whether PlayTime must be accounted instead of normal activity, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEUNACCOUNTEDINTARVALSFLAG"] = {"s": _("==> set whether PlayTime activities are allowed during unaccounted (\"∞\") intervals, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEALLOWEDDAYS"] = {"s": _("==> set allowed days for PlayTime activities, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMELIMITS"] = {"s": _("==> set PlayTime limits for all allowed days, the number of values must not exceed the allowed PlayTime allowed days for the user, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETPLAYTIMEACTIVITIES"] = {"s": _("==> set PlayTime activity process masks, for which the time is accounted, example")}
@@ -83,6 +84,9 @@ def initMessages():
     _messages["TK_MSG_ADMIN_CHK_PLAYTIMEENABLED_NONE"] = {"s": _("PlayTime flag is not passed")}
     _messages["TK_MSG_ADMIN_CHK_PLAYTIMEENABLED_INVALID"] = {"s": _("PlayTime flag \"%%s\" is not correct")}
     _messages["TK_MSG_ADMIN_CHK_PLAYTIMEENABLED_INVALID_SET"] = {"s": _("PlayTime flag \"%%s\" is not correct and cannot be set")}
+    _messages["TK_MSG_ADMIN_CHK_PLAYTIME_ENH_ACT_MON_ENABLED_NONE"] = {"s": _("PlayTime enhanced activity monitor flag is not passed")}
+    _messages["TK_MSG_ADMIN_CHK_PLAYTIME_ENH_ACT_MON_ENABLED_INVALID"] = {"s": _("PlayTime enhanced activity monitor flag \"%%s\" is not correct")}
+    _messages["TK_MSG_ADMIN_CHK_PLAYTIME_ENH_ACT_MON_ENABLED_INVALID_SET"] = {"s": _("PlayTime enhanced activity monitor flag \"%%s\" is not correct and cannot be set")}
 
     # ## this defines messages for use in user configuration validation ##
     _messages["TK_MSG_USER_ADMIN_CHK_ALLOWEDHOURS_DAY_NONE"] = {"s": _("User's \"%%s\" day number must be present")}
@@ -118,6 +122,9 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime override flag is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime override flag is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_OVERRIDE_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime override flag is not correct and cannot be set")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_UNACC_INT_FLAG_NONE"] = {"s": _("User's \"%%s\" PlayTime allowed during unaccounted intervals flag is not passed")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_UNACC_INT_FLAG_INVALID"] = {"s": _("User's \"%%s\" PlayTime allowed during unaccounted intervals flag is not correct")}
+    _messages["TK_MSG_USER_ADMIN_CHK_PT_UNACC_INT_FLAG_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime allowed during unaccounted intervals flag is not correct and cannot be set")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIST_NONE"] = {"s": _("User's \"%%s\" PlayTime day list is not passed")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIST_INVALID"] = {"s": _("User's \"%%s\" PlayTime day list is not correct")}
     _messages["TK_MSG_USER_ADMIN_CHK_PT_DAYLIST_INVALID_SET"] = {"s": _("User's \"%%s\" PlayTime day list is not correct and cannot be set")}
@@ -172,6 +179,7 @@ def initMessages():
     _messages["TK_MSG_STATUS_USER_ADDOPTS_CONFIGURATION_SAVED"] = {"s": _("User additional options have been saved")}
     _messages["TK_MSG_STATUS_PT_ENABLEMENT_PROCESSED"] = {"s": _("Enable PlayTime for the user has been processed")}
     _messages["TK_MSG_STATUS_PT_OVERRIDE_PROCESSED"] = {"s": _("PlayTime override flag for the user has been processed")}
+    _messages["TK_MSG_STATUS_PT_ALLOWED_UNLIMITED_INTERVALS_PROCESSED"] = {"s": _("PlayTime allowed during unaccounted intervals flag for the user has been processed")}
     _messages["TK_MSG_STATUS_PT_ALLOWEDDAYS_PROCESSED"] = {"s": _("PlayTime allowed days for user have been processed")}
     _messages["TK_MSG_STATUS_PT_TIMELIMITS_PROCESSED"] = {"s": _("PlayTime day limits for user have been processed")}
     _messages["TK_MSG_STATUS_PT_ACTIVITIES_PROCESSED"] = {"s": _("PlayTime activities for user have been processed")}

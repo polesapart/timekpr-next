@@ -43,6 +43,7 @@ class timekprGUI(object):
         self._timeLeftContinous = None
         self._timeTrackInactive = True
         self._timeTimeLimitOverridePT = False
+        self._timeUnaccountedIntervalsFlagPT = False
         self._timeSpentPT = None
         self._timeLeftPT = None
         self._timePTActivityCntStr = "0"
@@ -386,6 +387,7 @@ class timekprGUI(object):
             self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_LEFT])
             self._timeTrackInactive = True if pTimeInformation[cons.TK_CTRL_TRACK] else False
             self._timeTimeLimitOverridePT = bool(pTimeInformation[cons.TK_CTRL_PTTLO]) if cons.TK_CTRL_PTTLO in pTimeInformation else False
+            self._timeUnaccountedIntervalsFlagPT = bool(pTimeInformation[cons.TK_CTRL_PTAUH]) if cons.TK_CTRL_PTAUH in pTimeInformation else False
             self._timeSpentPT = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_PTSPD]) if cons.TK_CTRL_PTSPD in pTimeInformation else None
             self._timeLeftPT = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_PTLPD]) if cons.TK_CTRL_PTLPD in pTimeInformation else None
             self._timePTActivityCntStr = str(pTimeInformation[cons.TK_CTRL_PTLSTC] if cons.TK_CTRL_PTLSTC in pTimeInformation else 0)
@@ -409,6 +411,7 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoContTimeLefeLB").set_text(timeLeftTotalStr)
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTrackInactiveCB").set_active(self._timeTrackInactive)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoTimeLimitOverrideLB").set_active(self._timeTimeLimitOverridePT)
+        self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoUnaccountedIntervalsFlagLB").set_active(self._timeUnaccountedIntervalsFlagPT)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoTimeSpentTodayLB").set_text(timeSpentPTStr)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoTimeLeftTodayLB").set_text(timeLeftPTStr)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoActivityCountLB").set_text(self._timePTActivityCntStr)
@@ -461,6 +464,10 @@ class timekprGUI(object):
             elif rKey == cons.TK_CTRL_PTTLO:
                 # if enabled
                 self._timeTimeLimitOverridePT = True if bool(self._limitConfig[rKey][rKey]) else False
+            # check for allowed during unaccounted intervals
+            elif rKey == cons.TK_CTRL_PTAUH:
+                # if enabled
+                self._timeUnaccountedIntervalsFlagPT = True if bool(self._limitConfig[rKey][rKey]) else False
             # for the days limits
             elif rKey in ("1", "2", "3", "4", "5", "6", "7"):
                 # get time limit string

@@ -2093,7 +2093,7 @@ These limits are applied to user together with the rest of limit configuration.<
                                   </packing>
                                 </child>
                                 <child>
-                                  <!-- n-columns=2 n-rows=2 -->
+                                  <!-- n-columns=2 n-rows=3 -->
                                   <object class="GtkGrid" id="TimekprUserPlayTimeGenGrid">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -2108,6 +2108,9 @@ These limits are applied to user together with the rest of limit configuration.<
                                         <property name="tooltip-text" translatable="yes">Enable PlayTime for selected user</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Enable PlayTime:</property>
+                                        <property name="justify">right</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -2127,6 +2130,9 @@ This affects only time accounting, intervals are still fully enforced!
 If no processes are running, time is accounted as idle thus effectively it's free time for user!</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Enable PlayTime override:</property>
+                                        <property name="justify">right</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -2165,6 +2171,44 @@ If no processes are running, time is accounted as idle thus effectively it's fre
                                       <packing>
                                         <property name="left-attach">1</property>
                                         <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="TimekprUserPlayTimeUnaccountedIntervalsEnabledLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="tooltip-text" translatable="yes">Allow PlayTime activities during unaccounted ("∞") time intervals for selected user.
+
+This setting allows the user to use applications configured in his PlayTime activity list during time intervals which are marked as unaccounted ("∞").
+
+If this setting is enabled, the use of activities will not be accounted towards PlayTime limits, otherwise applications in PlayTime activity list will be terminated as soon as they are started during unaccounted ("∞") hours.</property>
+                                        <property name="halign">end</property>
+                                        <property name="label" translatable="yes">Allowed during "∞" intervals:</property>
+                                        <property name="justify">right</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="TimekprUserPlayTimeUnaccountedIntervalsEnabledCB">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="tooltip-text" translatable="yes">Allow PlayTime activities during unaccounted ("∞") time intervals for selected user.
+
+This setting allows the user to use applications configured in his PlayTime activity list during time intervals which are marked as unaccounted ("∞").
+
+If this setting is enabled, the use of activities will not be accounted towards PlayTime limits, otherwise applications in PlayTime activity list will be terminated as soon as they are started during unaccounted ("∞") hours.</property>
+                                        <property name="draw-indicator">True</property>
+                                        <signal name="toggled" handler="userPlayTimeUnaccountedIntervalsEnabledChanged" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -2587,7 +2631,10 @@ NOTE: RegExp is an expert setting!</property>
 If this is unchecked, time spent in console (not terminal emulator) login sessions and while the screen is locked is NOT taken into account. This varies among desktop environments.</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Track inactive sessions:</property>
+                                    <property name="justify">right</property>
+                                    <property name="wrap">True</property>
                                     <property name="ellipsize">end</property>
+                                    <property name="max-width-chars">35</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -2624,7 +2671,10 @@ If this is unchecked, time spent in console (not terminal emulator) login sessio
 Please note that unchecking this will disable showing all information and notifications to the user!</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Hide icon and notifications:</property>
+                                    <property name="justify">right</property>
+                                    <property name="wrap">True</property>
                                     <property name="ellipsize">end</property>
+                                    <property name="max-width-chars">35</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -2696,7 +2746,10 @@ Please note that unchecking this will disable showing all information and notifi
 NOTE: please be very careful, think ahead and read every options description when changing this setting from default value!</property>
                                     <property name="halign">end</property>
                                     <property name="label" translatable="yes">Restriction / lockout type:</property>
+                                    <property name="justify">right</property>
+                                    <property name="wrap">True</property>
                                     <property name="ellipsize">end</property>
+                                    <property name="max-width-chars">35</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -3618,7 +3671,7 @@ Please specify actual usernames, not real names here. For example, "jsmith", not
                           </packing>
                         </child>
                         <child>
-                          <!-- n-columns=2 n-rows=1 -->
+                          <!-- n-columns=2 n-rows=2 -->
                           <object class="GtkGrid" id="TimekprAdditionalOptionsMainGrid">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
@@ -3637,6 +3690,9 @@ Please specify actual usernames, not real names here. For example, "jsmith", not
 This is a PlayTime master switch, if it's turned off, it's turned off for everyone regardless of individual settings!</property>
                                 <property name="halign">end</property>
                                 <property name="label" translatable="yes">PlayTime enabled:</property>
+                                <property name="justify">right</property>
+                                <property name="wrap">True</property>
+                                <property name="max-width-chars">20</property>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -3657,6 +3713,42 @@ This is a PlayTime master switch, if it's turned off, it's turned off for everyo
                               <packing>
                                 <property name="left-attach">1</property>
                                 <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="TimekprPlayTimeEnhancedActivityMonitorLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">This setting controls whether PlayTime activity monitor will use process command line, including arguments, for monitoring processes (by default only uses the process name).
+
+When this setting is enabled Timekpr-nExT will perform a match against full command line up to 512 characters enabling enhanced process monitoring capabilities.
+
+Please be careful and double check your RegExp patterns in each individual user's PlayTime activity masks!</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">Enhanced activity monitor:</property>
+                                <property name="justify">right</property>
+                                <property name="wrap">True</property>
+                                <property name="max-width-chars">20</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="TimekprPlayTimeEnhancedActivityMonitorCB">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="tooltip-text" translatable="yes">This setting controls whether PlayTime functionality is enabled.
+
+This is a PlayTime master switch, if it's turned off, it's turned off for everyone regardless of individual settings!</property>
+                                <property name="draw-indicator">True</property>
+                                <signal name="toggled" handler="configControlSwitchesChanged" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">1</property>
                               </packing>
                             </child>
                           </object>

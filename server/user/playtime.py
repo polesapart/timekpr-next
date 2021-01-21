@@ -26,6 +26,7 @@ class timekprPlayTimeConfig(object):
     _MPIDS = "M"  # used to identify processes that match patterns
     _FLTS = "F"   # used to identify filters for processes for particular user
     _UID = "u"    # used to identify user id (child struct)
+    _EXE = "e"    # used to identify executable for process
     _CMD = "c"    # used to identify command line for process
     _TERM = "k"   # used to identify terminate attempts before killing
     _QCP = "Q"    # used to identify how many times we need to verify process has changed euid / cmdline (def: 2)
@@ -34,8 +35,15 @@ class timekprPlayTimeConfig(object):
     # value constants
     _QCP_V = 2
     _QCT_V = 5
+    # file locations for inspecting process and its cmdline
+    # status
+    _STATUS = "/proc/%s/status"
+    # exe
+    _EXECUTABLE ="/proc/%s/exe"
+    # cmdline
+    _CMDLINE = "/proc/%s/cmdline"
 
-    def __init__(self, pLog):
+    def __init__(self, pLog, pTimekprConfig):
         """Initialize all stuff for PlayTime"""
         # init logging firstly
         log.setLogging(pLog)
@@ -47,6 +55,8 @@ class timekprPlayTimeConfig(object):
         #   U - contains users, which in turn contains reference to P
         #   TIM - last update date for processes
         self._cachedPids = {self._PIDS: {}, self._USRS: {}, self._TIM: None}
+        # global server config
+        self._timekprConfig = pTimekprConfig
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekprUserPlayTime")
 
@@ -56,16 +66,23 @@ class timekprPlayTimeConfig(object):
         matchedPids = []
         # loop through user processes
         for rPid in pPids:
+            # executable
+            exe = self._cachedPids[self._PIDS][rPid][self._EXE]
             # command line
             cmdLine = self._cachedPids[self._PIDS][rPid][self._CMD]
-            # try searching only if cmdline is specified
-            if cmdLine is not None:
+            # try searching only if exe is specified
+            if exe is not None:
                 # match
                 for rFlt in pFlts:
+                    # pid matched
+                    isMatched = rFlt.search(exe) is not None
+                    isMatched = isMatched or (self._timekprConfig.getTimekprPlayTimeEnhancedActivityMonitorEnabled() and cmdLine is not None and rFlt.search(cmdLine) is not None)
                     # try to check if matches
-                    if rFlt.search(cmdLine) is not None:
+                    if isMatched:
                         # match
                         matchedPids.append(rPid)
+                        # log
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "PT match, uid: %s, exe: %s, cmdl: %s ..." % (pUid, exe, cmdLine[:128]))
                         # first filter is enough
                         break
         # result
@@ -134,10 +151,11 @@ class timekprPlayTimeConfig(object):
         # ## alternative solutions for determining owner / process ##
         useAltNr = 3
         # list all in /proc
-        procIds = [rPid for rPid in os.listdir('/proc') if rPid.isdecimal()]
+        procIds = [rPid for rPid in os.listdir("/proc") if rPid.isdecimal()]
         # loop through processes
         for procId in procIds:
             # def
+            exe = None
             cmdLine = None
             userId = None
             qcChk = False
@@ -146,7 +164,7 @@ class timekprPlayTimeConfig(object):
             # matched
             if procId in self._cachedPids[self._PIDS]:
                 # determine whether this process passed QC validation
-                if self._cachedPids[self._PIDS][procId][self._QCP] > 0 and self._cachedPids[self._PIDS][procId][self._CMD] is not None:
+                if self._cachedPids[self._PIDS][procId][self._QCP] > 0 and self._cachedPids[self._PIDS][procId][self._EXE] is not None:
                     # stat
                     qcpids += 1
                     # decrease check times
@@ -175,7 +193,7 @@ class timekprPlayTimeConfig(object):
                 # using status (correct euid)
                 if useAltNr == 1:
                     # obj
-                    obj = "/proc/%s/status" % (procId)
+                    obj = self._STATUS % (procId)
                     # found the process, now try to determine whether this belongs to our user
                     with open(obj, mode="r") as usrFD:
                         # read status lines
@@ -191,13 +209,13 @@ class timekprPlayTimeConfig(object):
                 # using commandline (filter through params too)
                 elif useAltNr == 2:
                     # obj
-                    obj = "/proc/%s/cmdline" % (procId)
+                    obj = self._CMDLINE % (procId)
                     # check the owner (since we are interested in processes, that usually do not change euid, this is not only enough, it's even faster than checing euid)
                     userId = str(os.stat(obj).st_uid)
                 # using symlinks (faster)
                 else:
                     # obj
-                    obj = "/proc/%s/exe" % (procId)
+                    obj = self._EXECUTABLE % (procId)
                     # check the owner (since we are interested in processes, that usually do not change euid, this is not only enough, it's even faster than checing euid)
                     userId = str(os.lstat(obj).st_uid)
 
@@ -215,15 +233,24 @@ class timekprPlayTimeConfig(object):
                     # ## alternative
                     if useAltNr == 3:
                         # read link destination (this is the final destination)
-                        cmdLine = os.readlink(obj)
+                        exe = os.readlink(obj)
+                    # ## alternative
                     else:
+                        # try reading executable for process
+                        with open(obj, mode="r") as cmdFd:
+                            # split this
+                            exe = cmdFd.read().split("\x00")[0]
+                    # we have to inspect full cmdline (the first TK_MAX_CMD_SRCH (def: 512) symbols to be precise)
+                    if self._timekprConfig.getTimekprPlayTimeEnhancedActivityMonitorEnabled():
+                        # obj
+                        obj = self._CMDLINE % (procId)
                         # try reading cmdline for process
                         with open(obj, mode="r") as cmdFd:
                             # split this
-                            cmdLine = cmdFd.read().split('\x00')[0]
+                            cmdLine = cmdFd.read().replace("\x00", " ")[:cons.TK_MAX_CMD_SRCH]
                 except Exception:
                     # it's not possible to get executable, but we still cache the process
-                    cmdLine = None
+                    exe = None
                     # stat
                     lcmpids += 1
             # try next on any exception
@@ -236,16 +263,17 @@ class timekprPlayTimeConfig(object):
             # if we ar not running QC check, we cache it, else we make verifications
             if not qcChk:
                 # cache it
-                self._cachedPids[self._PIDS][procId] = {self._UID: userId, self._CMD: cmdLine, self._QCP: (self._QCP_V if cmdLine is not None else 0), self._QCT: (self._QCT_V if cmdLine is not None else 0), self._TERM: 0, self._TIM: self._cachedPids[self._TIM]}
+                self._cachedPids[self._PIDS][procId] = {self._UID: userId, self._EXE: exe, self._CMD: cmdLine, self._QCP: (self._QCP_V if exe is not None else 0), self._QCT: (self._QCT_V if exe is not None else 0), self._TERM: 0, self._TIM: self._cachedPids[self._TIM]}
                 # stats
                 apids += 1
             else:
                 # check if process changed uid / cmdline
-                if self._cachedPids[self._PIDS][procId][self._UID] != userId or self._cachedPids[self._PIDS][procId][self._CMD] != cmdLine:
+                if self._cachedPids[self._PIDS][procId][self._UID] != userId or self._cachedPids[self._PIDS][procId][self._EXE] != exe:
                     # log
-                    log.log(cons.TK_LOG_LEVEL_DEBUG, "WARNING: uid/cmdline changes, uid: %s -> %s, cmdline: \"%s\" -> \"%s\"" % (self._cachedPids[self._PIDS][procId][self._UID], userId, self._cachedPids[self._PIDS][procId][self._CMD], cmdLine))
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "WARNING: uid/executable changes, uid: %s -> %s, executable: \"%s\" -> \"%s\"" % (self._cachedPids[self._PIDS][procId][self._UID], userId, self._cachedPids[self._PIDS][procId][self._EXE], exe))
                     # adjust new values
                     self._cachedPids[self._PIDS][procId][self._UID] = userId
+                    self._cachedPids[self._PIDS][procId][self._EXE] = exe
                     self._cachedPids[self._PIDS][procId][self._CMD] = cmdLine
                     # if process has changed, we do not verify it anymore
                     self._cachedPids[self._PIDS][procId][self._QCP] = 0
@@ -392,7 +420,7 @@ class timekprPlayTimeConfig(object):
         # if we have user
         if pUid in self._cachedPids[self._USRS]:
             # logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "killing %i \"%s\" PT processes" % (len(self._cachedPids[self._USRS][pUid][self._MPIDS]), pUid))
+            log.log(cons.TK_LOG_LEVEL_INFO, "killing %i PT processes for uid \"%s\" " % (len(self._cachedPids[self._USRS][pUid][self._MPIDS]), pUid))
             # terminate / kill all user PT processes
             for rPid in self._cachedPids[self._USRS][pUid][self._MPIDS]:
                 # increase terminate attempts
@@ -404,13 +432,13 @@ class timekprPlayTimeConfig(object):
 
     def getCachedProcesses(self):
         """Get all cached processes"""
-        proc = [[rPid, self._cachedPids[self._PIDS][rPid][self._CMD]] for rPid in self._cachedPids[self._PIDS]]
+        proc = [[rPid, self._cachedPids[self._PIDS][rPid][self._EXE], self._cachedPids[self._PIDS][rPid][self._CMD]] for rPid in self._cachedPids[self._PIDS]]
         return proc
 
     def getCachedUserProcesses(self, pUserId):
         """Get processes, that are cached for user"""
         if pUserId in self._cachedPids[self._USRS]:
-            proc = [[rPid, self._cachedPids[self._PIDS][rPid][self._CMD]] for rPid in self._cachedPids[self._USRS][pUserId][self._PIDS]]
+            proc = [[rPid, self._cachedPids[self._PIDS][rPid][self._EXE], self._cachedPids[self._PIDS][rPid][self._CMD]] for rPid in self._cachedPids[self._USRS][pUserId][self._PIDS]]
         else:
             proc = []
         return proc
@@ -418,13 +446,13 @@ class timekprPlayTimeConfig(object):
     def getMatchedUserProcesses(self, pUserId):
         """Get processes, that are cached for user and matches at least one filter"""
         if pUserId in self._cachedPids[self._USRS]:
-            proc = [[rPid, self._cachedPids[self._PIDS][rPid][self._CMD]] for rPid in self._cachedPids[self._USRS][pUserId][self._MPIDS]]
+            proc = [[rPid, self._cachedPids[self._PIDS][rPid][self._EXE], self._cachedPids[self._PIDS][rPid][self._CMD]] for rPid in self._cachedPids[self._USRS][pUserId][self._MPIDS]]
         else:
             proc = []
         return proc
 
     def getMatchedUserProcessCnt(self, pUserId):
-        """Get processes, that are cached for user and matches at least one filter"""
+        """Get process count, that are cached for user and matches at least one filter"""
         if pUserId in self._cachedPids[self._USRS]:
             procCnt = len(self._cachedPids[self._USRS][pUserId][self._MPIDS])
         else:

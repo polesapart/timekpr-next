@@ -441,6 +441,30 @@ class timekprAdminConnector(object):
         # result
         return result, message
 
+    def setPlayTimeUnaccountedIntervalsEnabled(self, pUserName, pPlayTimeUnaccountedIntervalsEnabled):
+        """Set PlayTime allowed during unaccounted intervals flag for user"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprUserAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprUserAdminDbusInterface.setPlayTimeUnaccountedIntervalsEnabled(pUserName, pPlayTimeUnaccountedIntervalsEnabled)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
     def setPlayTimeAllowedDays(self, pUserName, pPlayTimeAllowedDays):
         """Set allowed days for PlayTime for user"""
         # initial values
@@ -818,6 +842,30 @@ class timekprAdminConnector(object):
             try:
                 # call dbus method
                 result, message = self._timekprAdminDbusInterface.setTimekprPlayTimeEnabled(pPlayTimeEnabled)
+            except Exception as ex:
+                # exception
+                result, message = self.formatException(str(ex))
+
+                # we cannot send notif through dbus, we need to reschedule connecton
+                self.initTimekprConnection(False, True)
+
+        # result
+        return result, message
+
+    def setTimekprPlayTimeEnhancedActivityMonitorEnabled(self, pPlayTimeEnabled):
+        """Set up global PlayTime enhanced activity monitor enable switch"""
+        # initial values
+        result, message = self.initReturnCodes(pInit=True, pCall=False)
+
+        # if we have end-point
+        if self._timekprAdminDbusInterface is not None:
+            # defaults
+            result, message = self.initReturnCodes(pInit=False, pCall=True)
+
+            # notify through dbus
+            try:
+                # call dbus method
+                result, message = self._timekprAdminDbusInterface.setTimekprPlayTimeEnhancedActivityMonitorEnabled(pPlayTimeEnabled)
             except Exception as ex:
                 # exception
                 result, message = self.formatException(str(ex))

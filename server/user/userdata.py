@@ -541,11 +541,6 @@ class timekprUser(object):
         # unaccounted hour
         timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
 
-        # time spent balance for PlayTime
-        timeLimitOverridePT = self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
-        timeSpentDayPT = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]
-        timeLeftPT = max(0, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD])
-
         # debug
         log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
@@ -563,9 +558,11 @@ class timekprUser(object):
         timeValues[cons.TK_CTRL_TNL] = (1 if self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] >= cons.TK_LIMIT_PER_DAY and timeAvailableIntervals >= cons.TK_LIMIT_PER_DAY else 0)
         # PlayTime (only if enabled)
         if self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled():
-            timeValues[cons.TK_CTRL_PTTLO] = timeLimitOverridePT
-            timeValues[cons.TK_CTRL_PTSPD] = timeSpentDayPT
-            timeValues[cons.TK_CTRL_PTLPD] = timeLeftPT
+            # time and config for PlayTime
+            timeValues[cons.TK_CTRL_PTTLO] = self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
+            timeValues[cons.TK_CTRL_PTAUH] = self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled()
+            timeValues[cons.TK_CTRL_PTSPD] = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]
+            timeValues[cons.TK_CTRL_PTLPD] = max(0, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD])
             timeValues[cons.TK_CTRL_PTLSTC] = self.getPlayTimeActiveActivityCnt()
 
         # process notifications, if needed
@@ -728,6 +725,8 @@ class timekprUser(object):
         timeLimits[cons.TK_CTRL_PTTLE] = (1 if self._timekprUserConfig.getUserPlayTimeEnabled() else 0)
         # add override as well (exception in limits case)
         timeLimits[cons.TK_CTRL_PTTLO] = (1 if self._timekprUserConfig.getUserPlayTimeOverrideEnabled() else 0)
+        # add allowed during unaccounted intervals as well (exception in limits case)
+        timeLimits[cons.TK_CTRL_PTAUH] = (1 if self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled() else 0)
 
         # debug
         if log.isDebug():
@@ -841,6 +840,14 @@ class timekprUser(object):
     def getPlayTimeActiveActivityCnt(self):
         """This returns count of active activities"""
         return self._timekprUserData[cons.TK_CTRL_PTCNT][cons.TK_CTRL_PTLSTC]
+
+    def verifyPlayTimeActive(self):
+        """This returns count of active activities"""
+        return self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName(), True)
+
+    def getUserPlayTimeUnaccountedIntervalsEnabled(self):
+        """Return whether PlayTime activities are allowed during unlimited hours"""
+        return self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled()
 
     def processFinalWarning(self, pFinalNotificationType, pSecondsLeft):
         """Process emergency message about killing"""

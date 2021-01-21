@@ -95,7 +95,7 @@ class timekprDaemon(dbus.service.Object):
             self._timekprLoginManager = None
 
         # PT config
-        self._timekprPlayTimeConfig = timekprPlayTimeConfig(self._logging)
+        self._timekprPlayTimeConfig = timekprPlayTimeConfig(self._logging, self._timekprConfig)
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish init daemon data")
 
     def finishTimekpr(self, signal=None, frame=None):
@@ -253,13 +253,20 @@ class timekprDaemon(dbus.service.Object):
             # process actual user session variable validation
             self._timekprUserList[rUserName].revalidateUserSessionAttributes()
 
+            # get stats for user
+            timeLeftArray = self._timekprUserList[rUserName].getTimeLeft()
+            timeLeftToday = timeLeftArray[0]
+            timeLeftInARow = timeLeftArray[1]
+            timeHourUnaccounted = timeLeftArray[6]
+
             # PlayTime left validation
             if self._timekprConfig.getTimekprPlayTimeEnabled():
                 # get time left for PLayTime
                 timePT = self._timekprUserList[rUserName].getPlayTimeLeft()
-                timePT = 0 if timePT is None else timePT
+                # if do not have any time (meaning not enabled or in override mode), we use almost ultimate answer
+                timePT = 0.0042 if timePT is None else timePT
                 # if there is no time left
-                if timePT < 0:
+                if timePT < 0.0042 or (timePT > 0.0042 and timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled() and self._timekprUserList[rUserName].verifyPlayTimeActive()):
                     # killing processes
                     self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
                 # active count
@@ -267,12 +274,6 @@ class timekprDaemon(dbus.service.Object):
             else:
                 # reset process count (in case PT was disable in-flight)
                 self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(0)
-
-            # get stats for user
-            timeLeftArray = self._timekprUserList[rUserName].getTimeLeft()
-            timeLeftToday = timeLeftArray[0]
-            timeLeftInARow = timeLeftArray[1]
-            timeHourUnaccounted = timeLeftArray[6]
 
             # logging
             log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), hr uacc: %s, time left: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
@@ -934,6 +935,36 @@ class timekprDaemon(dbus.service.Object):
         # result
         return result, message
 
+    @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="sb", out_signature="is")
+    def setPlayTimeUnaccountedIntervalsEnabled(self, pUserName, pPlayTimeUnaccountedIntervalsEnabled):
+        """Set whether PlayTime activities are allowed during unaccounted intervals for the user"""
+        """PlayTime allowed during unaccounted intervals enablement flag
+            true - PlayTime allowed during unaccounted intervals is enabled
+            false - PlayTime allowed during unaccounted intervals is disabled"""
+        try:
+            # check the user and it's configuration
+            userConfigProcessor = timekprUserConfigurationProcessor(self._logging, pUserName, self._timekprConfig)
+
+            # load config
+            result, message = userConfigProcessor.checkAndSetPlayTimeUnaccountedIntervalsEnabled(True if bool(pPlayTimeUnaccountedIntervalsEnabled) else False)
+
+            # check if we have this user
+            if pUserName in self._timekprUserList:
+                # inform the user immediately
+                self._timekprUserList[pUserName].adjustLimitsFromConfig(False)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
+
+        # result
+        return result, message
+
     @dbus.service.method(cons.TK_DBUS_USER_ADMIN_INTERFACE, in_signature="sas", out_signature="is")
     def setPlayTimeAllowedDays(self, pUserName, pPlayTimeAllowedDays):
         """Set up allowed PlayTime days for the user"""
@@ -1357,6 +1388,31 @@ class timekprDaemon(dbus.service.Object):
 
             # set in memory as well
             self._timekprConfig.setTimekprPlayTimeEnabled(pPlayTimeEnabled)
+        except Exception as unexpectedException:
+            # set up logging
+            log.setLogging(self._logging)
+            # logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
+
+            # result
+            result = -1
+            message = msg.getTranslation("TK_MSG_CONFIG_LOADER_SAVECONFIG_UNEXPECTED_ERROR")
+
+        # result
+        return result, message
+
+    @dbus.service.method(cons.TK_DBUS_ADMIN_INTERFACE, in_signature="b", out_signature="is")
+    def setTimekprPlayTimeEnhancedActivityMonitorEnabled(self, pPlayTimeAdvancedSearchEnabled):
+        """Set whether PlayTime is enabled globally"""
+        try:
+            # check the configuration
+            mainConfigurationProcessor = timekprConfigurationProcessor(self._logging)
+
+            # check and set config
+            result, message = mainConfigurationProcessor.checkAndSetTimekprPlayTimeEnhancedActivityMonitorEnabled(pPlayTimeAdvancedSearchEnabled)
+
+            # set in memory as well
+            self._timekprConfig.setTimekprPlayTimeEnhancedActivityMonitorEnabled(pPlayTimeAdvancedSearchEnabled)
         except Exception as unexpectedException:
             # set up logging
             log.setLogging(self._logging)
