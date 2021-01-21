@@ -136,7 +136,7 @@
     <property name="destroy-with-parent">True</property>
     <property name="icon-name">timekpr-client</property>
     <property name="type-hint">normal</property>
-    <signal name="close" handler="closePropertiesSignal" swapped="no"/>
+    <signal name="destroy" handler="preventDestroyingDialogSignal" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="timekprConfigDialogArea">
         <property name="can-focus">False</property>

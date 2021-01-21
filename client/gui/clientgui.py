@@ -647,11 +647,15 @@ class timekprGUI(object):
         # close
         self._timekprConfigDialog.hide()
 
+    def preventDestroyingDialogSignal(self, evt, bs):
+        """Prevent destroying the dialog"""
+        return False
+
     # --------------- helper methods --------------- #
 
     def isPlayTimeAccountingInfoEnabled(self):
         """Whether PlayTime controls are enabled"""
-        return self._timekprConfigDialogBuilder.get_object("timekprConfigNotebook").get_nth_page(self._timekprPTPageNr).get_visible()
+        return bool(self._limitConfig[cons.TK_CTRL_PTTLE][cons.TK_CTRL_PTTLE] if cons.TK_CTRL_PTTLE in self._limitConfig else False)
 
     def setPlayTimeAccountingInfoEnabled(self, pState):
         """Whether PlayTime controls are enabled"""
