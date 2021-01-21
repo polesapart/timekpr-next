@@ -365,7 +365,7 @@ class timekprConfig(object):
         # set up param
         param = "TIMEKPR_PLAYTIME_ENABLED"
         self._timekprConfigParser.set(section, "# whether PlayTime is enabled globally")
-        self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_TRACK_INACTIVE))
+        self._timekprConfigParser.set(section, "%s" % (param), str(self._timekprConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
 
         # save the file
         with open(self._configFile, "w") as fp:
