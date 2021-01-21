@@ -576,7 +576,7 @@ class timekprUser(object):
         # return calculated
         return timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay, timeUnaccountedHour
 
-    def getTimeLeftPT(self):
+    def getPlayTimeLeft(self):
         """Return whether time is over for PlayTime"""
         # by default time left is constant, that is processes will not be killed
         result = None
@@ -587,7 +587,7 @@ class timekprUser(object):
                 # report actual (to be able to determine whether processes need to be killed)
                 result = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "getTimeLeftPT for %s: %s" % (self.getUserName(), str(result)))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "getPlayTimeLeft for %s: %s" % (self.getUserName(), str(result)))
         # result
         return result
 

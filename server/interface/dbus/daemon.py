@@ -256,7 +256,7 @@ class timekprDaemon(dbus.service.Object):
             # PlayTime left validation
             if self._timekprConfig.getTimekprPlayTimeEnabled():
                 # get time left for PLayTime
-                timePT = self._timekprUserList[rUserName].getTimeLeftPT()
+                timePT = self._timekprUserList[rUserName].getPlayTimeLeft()
                 timePT = 0 if timePT is None else timePT
                 # if there is no time left
                 if timePT < 0:
@@ -471,7 +471,7 @@ class timekprDaemon(dbus.service.Object):
             # time left in a row
             pUserConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
             # PlayTime
-            playTime = pTimekprUser.getTimeLeftPT()
+            playTime = pTimekprUser.getPlayTimeLeft()
             playTime = playTime if playTime is not None else 0
             # PlayTime left today (for display we cap to max possible time user has left today)
             pUserConfigurationStore["ACTUAL_PLAYTIME_LEFT_DAY"] = min(int(playTime), pUserConfigurationStore["ACTUAL_TIME_LEFT_DAY"])
