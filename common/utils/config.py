@@ -685,10 +685,10 @@ class timekprUserConfig(object):
             section = "%s.%s" % (self._userName, "PLAYTIME")
             # read
             param = "PLAYTIME_ENABLED"
-            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
-            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_TRACK_INACTIVE, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "PLAYTIME_ALLOWED_WEEKDAYS"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_PLAYTIME_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
