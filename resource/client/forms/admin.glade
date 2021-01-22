@@ -2181,7 +2181,7 @@ If no processes are running, time is accounted as idle thus effectively it's fre
 
 This setting allows the user to use applications configured in his PlayTime activity list during time intervals which are marked as unaccounted ("∞").
 
-If this setting is enabled, the use of activities will not be accounted towards PlayTime limits, otherwise applications in PlayTime activity list will be terminated as soon as they are started during unaccounted ("∞") hours.</property>
+If this setting is enabled, the use of activities will not be accounted towards PlayTime limits, otherwise applications in PlayTime activity list will be terminated as soon as they are started during unaccounted ("∞") time intervals.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Allowed during "∞" intervals:</property>
                                         <property name="justify">right</property>
@@ -2202,7 +2202,7 @@ If this setting is enabled, the use of activities will not be accounted towards 
 
 This setting allows the user to use applications configured in his PlayTime activity list during time intervals which are marked as unaccounted ("∞").
 
-If this setting is enabled, the use of activities will not be accounted towards PlayTime limits, otherwise applications in PlayTime activity list will be terminated as soon as they are started during unaccounted ("∞") hours.</property>
+If this setting is enabled, the use of activities will not be accounted towards PlayTime limits, otherwise applications in PlayTime activity list will be terminated as soon as they are started during unaccounted ("∞") time intervals.</property>
                                         <property name="draw-indicator">True</property>
                                         <signal name="toggled" handler="userPlayTimeUnaccountedIntervalsEnabledChanged" swapped="no"/>
                                       </object>
