@@ -312,6 +312,7 @@ class timekprAdminGUI(object):
             "TimekprUserConfTodaySettingsHideTrayIconCB",
             "TimekprUserPlayTimeEnableCB",
             "TimekprUserPlayTimeOverrideEnableCB",
+            "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB",
             # spin buttons for adjustments
             "TimekprUserConfTodaySettingsSetMinSB",
             "TimekprUserConfTodaySettingsSetHrSB",
@@ -338,6 +339,7 @@ class timekprAdminGUI(object):
             "TimekprConfigurationApplyBT",
             # check boxes
             "TimekprPlayTimeEnableGlobalCB",
+            "TimekprPlayTimeEnhancedActivityMonitorCB",
             # spin buttons for adjustments
             "TimekprConfigurationLoglevelSB",
             "TimekprConfigurationWarningTimeSB",
@@ -377,6 +379,7 @@ class timekprAdminGUI(object):
         # ## set up PlayTime variables ##
         self._tkSavedCfg["playTimeEnabled"] = False
         self._tkSavedCfg["playTimeOverrideEnabled"] = False
+        self._tkSavedCfg["playTimeUnaccountedIntervalsEnabled"] = False
         self._tkSavedCfg["playTimeLimitDays"] = []
         self._tkSavedCfg["playTimeLimitDaysLimits"] = []
         self._tkSavedCfg["playTimeActivities"] = []
@@ -392,6 +395,7 @@ class timekprAdminGUI(object):
         self._tkSavedCfg["timekprExcludedSessions"] = []
         self._tkSavedCfg["timekprExcludedUsers"] = []
         self._tkSavedCfg["timekprPlayTimeEnabled"] = False
+        self._tkSavedCfg["timekprPlayTimeEnhancedActivityMonitorEnabled"] = False
 
     def clearAdminForm(self):
         """Clear and default everything to default values"""
@@ -451,7 +455,7 @@ class timekprAdminGUI(object):
         # clear activities and add one placeholder
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesLS").clear()
         # CB not checked
-        for rCtrl in ("TimekprUserPlayTimeEnableCB", "TimekprUserPlayTimeOverrideEnableCB"):
+        for rCtrl in ("TimekprUserPlayTimeEnableCB", "TimekprUserPlayTimeOverrideEnableCB", "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB"):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
 
     # --------------- DEV test methods --------------- #
@@ -871,6 +875,9 @@ class timekprAdminGUI(object):
                 elif rKey == "TIMEKPR_PLAYTIME_ENABLED":
                     # PlayTime enabled
                     self._tkSavedCfg["timekprPlayTimeEnabled"] = bool(rValue)
+                elif rKey == "TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED":
+                    # PlayTime enhanced activity monitor enabled
+                    self._tkSavedCfg["timekprPlayTimeEnhancedActivityMonitorEnabled"] = bool(rValue)
 
             # apply config
             self.applyTimekprConfig()
@@ -1031,6 +1038,9 @@ class timekprAdminGUI(object):
                         elif rKey == "PLAYTIME_LIMIT_OVERRIDE_ENABLED":
                             # PlayTime override enabled
                             self._tkSavedCfg["playTimeOverrideEnabled"] = bool(rValue)
+                        elif rKey == "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED":
+                            # PlayTime allowed during unaccounted intervals
+                            self._tkSavedCfg["playTimeUnaccountedIntervalsEnabled"] = bool(rValue)
                         elif rKey == "PLAYTIME_ALLOWED_WEEKDAYS":
                             # empty the values
                             self._tkSavedCfg["playTimeLimitDays"] = []
@@ -1146,9 +1156,13 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersTreeView").set_cursor(0)
             self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersTreeView").scroll_to_cell(0)
 
-        # ## PlayTime global enabled switch ##
+        # ## PlayTime ##
+        # global enabled switch
         self._timekprAdminFormBuilder.get_object("TimekprPlayTimeEnableGlobalCB").set_active(self._tkSavedCfg["timekprPlayTimeEnabled"])
         self._timekprAdminFormBuilder.get_object("TimekprPlayTimeEnableGlobalCB").set_sensitive(True)
+        # global enhanced activity monitor
+        self._timekprAdminFormBuilder.get_object("TimekprPlayTimeEnhancedActivityMonitorCB").set_active(self._tkSavedCfg["timekprPlayTimeEnhancedActivityMonitorEnabled"])
+        self._timekprAdminFormBuilder.get_object("TimekprPlayTimeEnhancedActivityMonitorCB").set_sensitive(True)
 
         # enable / disable controls
         self.toggleTimekprConfigControls(True)
@@ -1224,12 +1238,15 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_selection().emit("changed")
 
         # ## PlayTime config ##
-        # PlayTime and PlayTime override enablement
-        for rCtrl in ("TimekprUserPlayTimeEnableCB", "TimekprUserPlayTimeOverrideEnableCB"):
+        # PlayTime and PlayTime options enablement
+        for rCtrl in (("TimekprUserPlayTimeEnableCB", "playTimeEnabled"),
+            ("TimekprUserPlayTimeOverrideEnableCB", "playTimeOverrideEnabled"),
+            ("TimekprUserPlayTimeUnaccountedIntervalsEnabledCB", "playTimeUnaccountedIntervalsEnabled")
+        ):
             # set value
-            self._timekprAdminFormBuilder.get_object(rCtrl).set_active(self._tkSavedCfg["playTimeEnabled"] if rCtrl == "TimekprUserPlayTimeEnableCB" else self._tkSavedCfg["playTimeOverrideEnabled"])
+            self._timekprAdminFormBuilder.get_object(rCtrl[0]).set_active(self._tkSavedCfg[rCtrl[1]])
             # enable field & set button
-            self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
+            self._timekprAdminFormBuilder.get_object(rCtrl[0]).set_sensitive(True)
 
         # ## PlayTime limits per allowed days ###
         # loop through all days
@@ -1360,6 +1377,11 @@ class timekprAdminGUI(object):
         value = self._timekprAdminFormBuilder.get_object(control).get_active()
         changeControl[control] = {"st": value != self._tkSavedCfg["timekprPlayTimeEnabled"], "val": value}
 
+        # ## global PlayTime switch ##
+        control = "TimekprPlayTimeEnhancedActivityMonitorCB"
+        value = self._timekprAdminFormBuilder.get_object(control).get_active()
+        changeControl[control] = {"st": value != self._tkSavedCfg["timekprPlayTimeEnhancedActivityMonitorEnabled"], "val": value}
+
         # if at least one is changed
         enable = False
         if pApplyControls:
@@ -1450,6 +1472,11 @@ class timekprAdminGUI(object):
         control = "TimekprUserPlayTimeOverrideEnableCB"
         value = self._timekprAdminFormBuilder.get_object(control).get_active()
         changeControl[control] = {"st": value != self._tkSavedCfg["playTimeOverrideEnabled"], "val": value}
+
+        # ## PlayTime allowed during unaccounted intervals ##
+        control = "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB"
+        value = self._timekprAdminFormBuilder.get_object(control).get_active()
+        changeControl[control] = {"st": value != self._tkSavedCfg["playTimeUnaccountedIntervalsEnabled"], "val": value}
 
         # get stores (for use later)
         limitSt = self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsLS")
@@ -1627,7 +1654,7 @@ class timekprAdminGUI(object):
                     if result == 0:
                         # set internal state
                         self._tkSavedCfg["timekprExcludedUsers"] = rVal["val"].copy()
-                # ## final warning time ##
+                # ## PlayTime enabled ##
                 elif rKey == "TimekprPlayTimeEnableGlobalCB":
                     # call server
                     result, message = self._timekprAdminConnector.setTimekprPlayTimeEnabled(rVal["val"])
@@ -1635,6 +1662,14 @@ class timekprAdminGUI(object):
                     if result == 0:
                         # set internal state
                         self._tkSavedCfg["timekprPlayTimeEnabled"] = rVal["val"]
+                # ## PlayTime enhanced activity monitor ##
+                elif rKey == "TimekprPlayTimeEnhancedActivityMonitorCB":
+                    # call server
+                    result, message = self._timekprAdminConnector.setTimekprPlayTimeEnhancedActivityMonitorEnabled(rVal["val"])
+                    # successful call
+                    if result == 0:
+                        # set internal state
+                        self._tkSavedCfg["timekprPlayTimeEnhancedActivityMonitorEnabled"] = rVal["val"]
 
                 # if all ok
                 if result != 0:
@@ -1848,6 +1883,18 @@ class timekprAdminGUI(object):
                         self._tkSavedCfg["playTimeOverrideEnabled"] = rVal["val"]
                         # print success message
                         self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_PT_OVERRIDE_PROCESSED"))
+                # ## PlayTime allowed during unaccounted intervals ##
+                elif rKey == "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB":
+                    # call server
+                    result, message = self._timekprAdminConnector.setPlayTimeUnaccountedIntervalsEnabled(userName, rVal["val"])
+                    # successful call
+                    if result == 0:
+                        # cnt
+                        changeCnt += 1
+                        # set internal state
+                        self._tkSavedCfg["playTimeUnaccountedIntervalsEnabled"] = rVal["val"]
+                        # print success message
+                        self.setTimekprStatus(False, msg.getTranslation("TK_MSG_STATUS_PT_ALLOWED_UNLIMITED_INTERVALS_PROCESSED"))
                 # ## PlayTime day config ##
                 elif rKey == "TimekprUserPlayTimeLimitsLSD":
                     # call server
@@ -2378,6 +2425,10 @@ class timekprAdminGUI(object):
 
     def userPlayTimeOverrideEnabledChanged(self, evt):
         """PlayTime override enablement changed"""
+        self.calculateUserPlayTimeConfigControlAvailability()
+
+    def userPlayTimeUnaccountedIntervalsEnabledChanged(self, evt):
+        """PlayTime allowed during unaccounted intervals enablement changed"""
         self.calculateUserPlayTimeConfigControlAvailability()
 
     def playTimeLimitsIncreaseClicked(self, evt):

@@ -76,9 +76,9 @@ class timekprIndicator(timekprNotificationArea):
         # build up menu actiongroups
         timekprActionGroup = Gtk.ActionGroup("timekprActions")
         timekprActionGroup.add_actions([
-             ("TimeLeft", Gtk.STOCK_INFO, msg.getTranslation("TK_MSG_MENU_TIME_LEFT"), None, None, super().invokeTimekprTimeLeft)
-            ,("Limits & configuration", Gtk.STOCK_PROPERTIES, msg.getTranslation("TK_MSG_MENU_CONFIGURATION"), None, None, super().invokeTimekprUserProperties)
-            ,("About", Gtk.STOCK_ABOUT, msg.getTranslation("TK_MSG_MENU_ABOUT"), None, None, super().invokeTimekprAbout)
+            ("TimeLeft", Gtk.STOCK_INFO, msg.getTranslation("TK_MSG_MENU_TIME_LEFT"), None, None, super().invokeTimekprTimeLeft),
+            ("Limits & configuration", Gtk.STOCK_PROPERTIES, msg.getTranslation("TK_MSG_MENU_CONFIGURATION"), None, None, super().invokeTimekprUserProperties),
+            ("About", Gtk.STOCK_ABOUT, msg.getTranslation("TK_MSG_MENU_ABOUT"), None, None, super().invokeTimekprAbout)
         ])
 
         # build up menu

@@ -136,7 +136,7 @@
     <property name="destroy-with-parent">True</property>
     <property name="icon-name">timekpr-client</property>
     <property name="type-hint">normal</property>
-    <signal name="close" handler="closePropertiesSignal" swapped="no"/>
+    <signal name="destroy" handler="preventDestroyingDialogSignal" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="timekprConfigDialogArea">
         <property name="can-focus">False</property>
@@ -949,7 +949,7 @@ This varies among desktop environments.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <!-- n-columns=2 n-rows=4 -->
+                                  <!-- n-columns=2 n-rows=5 -->
                                   <object class="GtkGrid" id="timekprPTLimitInfoGrid">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -967,7 +967,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
-                                        <property name="top-attach">2</property>
+                                        <property name="top-attach">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -980,7 +980,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
-                                        <property name="top-attach">2</property>
+                                        <property name="top-attach">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -993,7 +993,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
-                                        <property name="top-attach">1</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1007,7 +1007,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
-                                        <property name="top-attach">1</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1036,6 +1036,9 @@ If it's checked, the time is accounted only when activities in "Activity / appli
 If it's checked, the time is accounted only when activities in "Activity / application list" are running, the rest of the time is considered idle.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time limit override:</property>
+                                        <property name="justify">right</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -1052,7 +1055,7 @@ If it's checked, the time is accounted only when activities in "Activity / appli
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
-                                        <property name="top-attach">3</property>
+                                        <property name="top-attach">4</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1065,7 +1068,42 @@ If it's checked, the time is accounted only when activities in "Activity / appli
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
-                                        <property name="top-attach">3</property>
+                                        <property name="top-attach">4</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprPTLimitInfoUnaccountedIntervalsFlagLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="tooltip-text" translatable="yes">Allow activities during unaccounted ("∞") time intervals.
+
+This setting allows to use applications listed in "Activity / application list" during time intervals which are marked as unaccounted ("∞"), if the setting is not enabled, none of activities are allowed to run!</property>
+                                        <property name="halign">end</property>
+                                        <property name="label" translatable="yes">Allowed during "∞":</property>
+                                        <property name="justify">right</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="timekprPTLimitInfoUnaccountedIntervalsFlagLB">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="tooltip-text" translatable="yes">Allow activities during unaccounted ("∞") time intervals.
+
+This setting allows to use applications listed in "Activity / application list" during time intervals which are marked as unaccounted ("∞"), if the setting is not enabled, none of activities are allowed to run!</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw-indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">1</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -1276,6 +1314,8 @@ Critical - a red icon and critical notification will be shown, this notification
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">Notification configuration</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1392,6 +1432,8 @@ Critical - a red icon and critical notification will be shown, this notification
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">PlayTime notification configuration</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>

@@ -17,7 +17,7 @@ Rules-Requires-Root: no
 
 Package: timekpr-next-beta
 Architecture: any
-Depends: gir1.2-appindicator3-0.1,
+Depends: gir1.2-ayatanaappindicator3-0.1 | gir1.2-appindicator3-0.1,
          gir1.2-gtk-3.0,
          libgtk-3-0 (>= 3.4),
          lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1 | polkit-1-auth-agent,
@@ -30,6 +30,7 @@ Depends: gir1.2-appindicator3-0.1,
          ${misc:Depends},
          ${python3:Depends}
 Suggests: espeak,
+          gnome-shell-extension-appindicator,
           python3-espeak
 Conflicts: timekpr-next
 Provides: timekpr
@@ -37,13 +38,12 @@ Replaces: timekpr,
           timekpr-beta,
           timekpr-next
 Description: Keep control of computer usage
- Timekpr-nExT is a program that tracks and controls the computer usage
- of your user accounts. You can limit their daily usage based on a
- timed access duration and configure periods of day when they can or
- cannot log in.
+ Timekpr-nExT is a fresh, simple and easy-to-use time managing software
+ that helps optimizing time spent at computer for Your subordinates,
+ children or even for Yourself.
  .
- This may be used for parental control to limit the amount of screen time
- a child spends in front of the computer.
+ The software is targeted at parents or supervisors to optimize / limit
+ time spent at computer as they see fit.
  .
  Please report any bugs to Timekpr-nExT’s bug tracker on Launchpad at:
  https://bugs.launchpad.net/timekpr-next

@@ -1,3 +1,29 @@
+timekpr-next-beta (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * adjust README to fix MD parsing nuances on gitlab
+  * add gnome-shell-extension-appindicator to suggestions list
+  * fix project description to match the README
+  * technical improvements
+    added ":" as allowed separator for minute intervals (undocumented feature)
+    improve a workaround in config loader routines for cases when user makes a mistake while manually editing the config files
+    added explanatory comment for values in control files
+    print out uname when timekpr starts to better understand the environment the timekpr is running in
+    log more information about timekpr performance and computer load average
+    log information about day / week / month change
+  * registered bug fixes
+    adjust Debian installation suggestions in README (fixes #1910457)
+    start using ayatana appindicators because regular ones seem to be deprecated (fixes #1910461)
+      adjust for openSUSE too (Fedora does not seem to be using ayatana appindicators yet)
+  * unregistered bug fixes
+    fixes to client application when <Escape> is pressed instead of close window which leads to empty timekpr windows
+    fixes to PlayTime daily limit reset when the day has changed
+  * new features
+    introduce an option to prevent PlayTime activities to be started during unaccountable ("∞") intervals
+    introduce an option to monitor PlayTime activities (processes) using first 512 characters of command line
+      by default only process name is used for activity detection
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 22 Jan 2021 00:25:58 +0200
+
 timekpr-next-beta (0.5.0-7ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * fix a bug when administration application tries to get user information
