@@ -712,7 +712,7 @@ class timekprUserConfig(object):
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
-            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=cons.TK_PLAYTIME_ENABLED, pCheckValue=None, pOverallSuccess=resultValue)
+            resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=(not cons.TK_PLAYTIME_ENABLED), pCheckValue=None, pOverallSuccess=resultValue)
             # read
             param = "PLAYTIME_ALLOWED_WEEKDAYS"
             resultValue, self._timekprUserConfig[param] = _readAndNormalizeValue(self._timekprUserConfigParser.get, section, param, pDefaultValue=cons.TK_PLAYTIME_ALLOWED_WEEKDAYS, pCheckValue=None, pOverallSuccess=resultValue)
@@ -834,7 +834,7 @@ class timekprUserConfig(object):
         # set up param
         param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
         self._timekprUserConfigParser.set(section, "# whether PlayTime activities are allowed during unaccounted time intervals")
-        self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(cons.TK_PLAYTIME_ENABLED))
+        self._timekprUserConfigParser.set(section, "%s" % (param), str(self._timekprUserConfig[param]) if pReuseValues else str(not cons.TK_PLAYTIME_ENABLED))
         # set up param
         param = "PLAYTIME_ALLOWED_WEEKDAYS"
         self._timekprUserConfigParser.set(section, "# specify on which days PlayTime is enabled")
