@@ -266,7 +266,7 @@ class timekprDaemon(dbus.service.Object):
                 # if do not have any time (meaning not enabled or in override mode), we use almost ultimate answer
                 timePT = 0.0042 if timePT is None else timePT
                 # if there is no time left
-                if timePT < 0.0042 or (timePT > 0.0042 and timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled() and self._timekprUserList[rUserName].verifyPlayTimeActive()):
+                if timePT < 0.0042 or (timePT >= 0.0042 and timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled() and self._timekprUserList[rUserName].verifyPlayTimeActive()):
                     # killing processes
                     self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
                 # active count
