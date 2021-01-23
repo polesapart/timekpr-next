@@ -2,7 +2,7 @@
 
 Name:             timekpr-next
 Version:          0.5.1
-Release:          1.0%{?dist}
+Release:          0.1%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -92,7 +92,7 @@ update-desktop-database &> /dev/null || :
 # specific purpose files
 %defattr(-,root,root,-)
 %doc debian/changelog debian/copyright
-%config /etc/timekpr/timekpr.conf
+%config(noreplace) /etc/timekpr/timekpr.conf
 
 # package files
 %{_bindir}/*
@@ -119,9 +119,9 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
-* Fri Jan 22 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-1.0
-- Updated spec file for version 0.5.1, release 8 (BETA)
-* Thu Jan 7 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-8.0
+* Fri Jan 22 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.1
+- Updated spec file for version 0.5.1, release 0.1 (BETA)
+* Thu Jan 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-8.0
 - Updated spec file for version 0.5.0, release 8 (STABLE)
 * Tue Dec 29 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-7.0
 - Updated spec file for version 0.5.0, release 7 (STABLE)
