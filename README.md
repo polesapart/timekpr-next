@@ -37,10 +37,10 @@ until it's released or use ```beta```._
 
   - a short description of [applications](#applications) with [typical use case](#typicalusecase)
 
+  - to better understand functionality click on [description of functionality](#detaileddescription) and particularly [client application](#clientapplication) and [administration application](#administrationapplication)
+
   - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime functionality](#playtimeconfiguration), 
   [user configurable notifications](#userconfigurablenotifications), ["freeride" time periods](#freerideintervals)
-
-  - to better understand functionality click on [description of functionality](#detaileddescription)
 
   - to get information about CLI (console) use / file configuration possibilities [additional configuration possibilities](#additionalconfigpossibilities)
 
@@ -133,6 +133,7 @@ The rest is up to supervisor to decide. Read on to have complete understanding o
 
 </br>
 
+<a name="administrationapplication"></a>
 ### Administration application
 
 Administration application is used to configure time limits and restrictions for users as well as technical options for Timekpr-nExT itself.
@@ -297,8 +298,21 @@ There's a special "override" mode for PlayTime already mentioned above.
 There is a big difference from standard restrictive mode. In this mode PlayTime allowance and limits are disabled and user's time spent at computer is only 
 accounted when applications configured as activities are used. That means that unless user uses computer for configured activities, it's free time for him.
 
-_**Please note** that if "override" mode is enabled and user uses PlayTime in time periods which are marked as free ("∞") in standard time configuration, it's 
-a free time for him too!_
+</br>
+
+Option "Allowed during "∞" intervals" controls whether PlayTime activities are allowed to run during unaccounted time intervals which are marked as "∞". 
+If this option is disabled, user will not be able to run any of the configured activities.
+
+However, if this option is enabled, user can use any of the activities configured for him even in unaccounted, i.e. "free", time intervals.
+
+As an example, this option can come handy, if time intervals marked as "∞" are used to attend mandatory education classes and supervisor 
+does not want to allow a subordinate to run any of the configured activities during unaccounted time intervals. Just do not enable the option and you are set.
+
+</br>
+
+_**Please note** that if "override" mode is enabled and user uses PlayTime in time periods which are marked as free ("∞") in standard time configuration, 
+the time is not accounted towards PlayTime limit, i.e. it's free time for him. The exception is the option "Allowed during "∞" intervals", if it's disabled, 
+activities is not allowed even in "override" mode!_
 
 ---------------------------------------
 
@@ -332,8 +346,9 @@ At first, especially if you have not seen terminal, this may look scary, but you
 monitor" does this pretty well, look for process name or command or commandline columns, they are your best friends in this.
 You can always ask your favourite web search engine or community how to determine process executable name.
 
-Since process mask for PlayTime activity is basically a name of executable (case sensitive!), a simple ```top -c -d 1``` in terminal usually will do 
-the trick to find one. Games, when running, usually use most resources compared to anything else, so they will be on top.
+Since process mask for PlayTime activity is basically a name of executable or full command line in case ["Enhanced activity monitor"](#playtimeenhancedactivitymonitor) 
+is enabled (case sensitive!), a simple ```top -c -d 1``` in terminal usually will do the trick to find one. 
+Games, when running, usually use most resources compared to anything else, so they will be on top.
 
 Watch for COMMAND column. If the process looks very much like activity you want to limit, take actual executable name, without path, and fill it in the process 
 mask field. Here's the example for Discord Canary, in the process list I see ```/opt/discord-canary/DiscordCanary --type=renderer ...```, only 
@@ -350,12 +365,11 @@ to the user.
 
 Please do verify that your RegExp is correct and it actually works, misusing them may end up killing unwanted user processes or may not match anything at all!
 
-If RegExp is not correct, it will be used as literal strings. For example, ```wine*``` is **not** a correct RegExp, ```wine.*``` is. Failing to specify this 
-correctly will end up searching processes which are literary "wine*", which obviously does not exist usually.
+If RegExp is not correct, it will be used as literal strings. For example, ```*wine*``` is **not** a correct RegExp, ```.*wine.*``` is. Failing to specify this 
+correctly will end up searching processes which are literary ```*wine*```, which obviously does not exist usually.
 
 It's worth mentioning that PlayTime employs a smart caching algorithms and tries to get the process list in a very efficient way. Only processes that are run 
-as 
-particular user are monitored, accounted and terminated.
+as particular user are monitored, accounted and terminated.
 
 In addition to that PlayTime logic works only when there are users that have PlayTime enabled and there are at least some activities configured.
 
@@ -530,11 +544,29 @@ Please do not enter normal users here as that will not work and cause errors whe
 <a name="playtimemasterswitch"></a>
 #### Additional options
 
-Currently there's just one option which controls **master switch for PlayTime** functionality. I has to be turned on to enable PlayTime globally, if it's switched 
-off, none of the users will have their activities accounted regardless of individual PlayTime setting!
+Currently there are couple of options, all related to PlayTime.
 
 </br>
 
+##### PlayTime enabled
+"PlayTime enabled" controls **master switch for PlayTime** functionality. 
+I has to be turned on to enable PlayTime globally, if it's switched off, none of the users will have their activities accounted regardless of individual 
+PlayTime setting!
+
+</br>
+
+<a name="playtimeenhancedactivitymonitor"></a>
+##### Enhanced activity monitor
+"Enhanced activity monitor" option controls whether PlayTime functionality will use first 512 characters of full process commandline, including process arguments, 
+to match proccesses against registered activity / process masks for users. 
+
+This allows a supervisor to use advanced RegExp patterns to find not just a process name, but a great deal of arguments too. This option may be useful for 
+situatuations when there are processes running interpreted language, such as python or java. The most common gaming example is Minecraft, which is a java 
+application started from jar file, a process mask for it would be ```.*java.*minecraft.*```.
+
+</br>
+
+<a name="clientapplication"></a>
 ### Client application
 
 Timekpr-nExT client application provides time metrics and configuration possibilities to user. Since the user is the one who actually face the restrictions, 
