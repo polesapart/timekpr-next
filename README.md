@@ -885,8 +885,9 @@ By default Timekpr-nExT writes a sufficiently detailed log file for me to unders
 messages in log files. There's nothing sensitive except usernames, if this is a concern, please obfuscate them before sending the files to me or attaching them 
 to bug reports.
 
-_**Note**: if the log file size is the concern, it's possible to decrease log level in Timekpr-nExT administration application to save some, however when the 
-issue arises, most likely I'll need it to be set to level 2 (the default)._
+_**Note**: if the log file size is the concern, it's possible to decrease log level in Timekpr-nExT administration application to save some space, however when 
+the issue arises, most likely I'll need it to be set to level 2 (the default). Please restart Timekpr-nExT daemon ```sudo systemctl restart timekpr``` or reboot 
+the computer for logging level changes to take effect._
 
 </br>
 
