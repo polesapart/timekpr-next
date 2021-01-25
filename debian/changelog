@@ -1,4 +1,4 @@
-timekpr-next-beta (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.5.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab
   * add gnome-shell-extension-appindicator to suggestions list
@@ -10,6 +10,7 @@ timekpr-next-beta (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
     print out uname when timekpr starts to better understand the environment the timekpr is running in
     log more information about timekpr performance and computer load average
     log information about day / week / month change
+    added elapsed time information output on lowest log level
   * registered bug fixes
     adjust Debian installation suggestions in README (fixes #1910457)
     start using ayatana appindicators because regular ones seem to be deprecated (fixes #1910461)
