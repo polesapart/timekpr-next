@@ -288,18 +288,32 @@ class timekprPlayTimeConfig(object):
 
             # we have user (or process changed and we have to update processes / matches)
             if (userId is not None and not qcChk) or processChanged:
-                # manage pids for users
-                self._cachedPids[self._USRS][userId][self._PIDS].add(procId)
-                # verify whether this cmdline matches any of the filters user set up
-                for rFlt in self._cachedPids[self._USRS][userId][self._FLTS]:
-                    # matched pids
-                    matchedPids = self._getMatchedProcessesByFilter(userId, self._cachedPids[self._USRS][userId][self._FLTS][rFlt], set([procId]))
-                    # match and add to user matched pids
-                    for rPid in matchedPids:
-                        # add to user pids
-                        self._cachedPids[self._USRS][userId][self._MPIDS].add(rPid)
-                        # stats
-                        ampids += 1
+                # handle case when uid becomes None from existing
+                if userId is None and self._cachedPids[self._PIDS][procId][self._UID] is not None:
+                    # restore exsiting user id for removal
+                    userId = self._cachedPids[self._PIDS][procId][self._UID]
+                    # remove from user pids
+                    if procId in self._cachedPids[self._USRS][userId][self._PIDS]:
+                        # remove
+                        self._cachedPids[self._USRS][userId][self._PIDS].remove(procId)
+                    # remove from matched pids
+                    if procId in self._cachedPids[self._USRS][userId][self._MPIDS]:
+                        # remove
+                        self._cachedPids[self._USRS][userId][self._MPIDS].remove(procId)
+                # only if user is specified
+                elif userId is not None:
+                    # manage pids for users
+                    self._cachedPids[self._USRS][userId][self._PIDS].add(procId)
+                    # verify whether this cmdline matches any of the filters user set up
+                    for rFlt in self._cachedPids[self._USRS][userId][self._FLTS]:
+                        # matched pids
+                        matchedPids = self._getMatchedProcessesByFilter(userId, self._cachedPids[self._USRS][userId][self._FLTS][rFlt], set([procId]))
+                        # match and add to user matched pids
+                        for rPid in matchedPids:
+                            # add to user pids
+                            self._cachedPids[self._USRS][userId][self._MPIDS].add(rPid)
+                            # stats
+                            ampids += 1
 
         # take care of removing the disapeared pids
         pids = [rPid for rPid in self._cachedPids[self._PIDS] if self._cachedPids[self._TIM] != self._cachedPids[self._PIDS][rPid][self._TIM]]
