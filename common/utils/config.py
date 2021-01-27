@@ -235,19 +235,19 @@ class timekprConfig(object):
         # read
         param = "TIMEKPR_CONFIG_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_CONFIG_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
         # read
         param = "TIMEKPR_WORK_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_WORK_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_WORK_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
         # read
         param = "TIMEKPR_SHARED_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
         # read
         param = "TIMEKPR_LOGFILE_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_LOGFILE_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
 
         # global PlayTime config section
         section = "PLAYTIME"
@@ -526,28 +526,28 @@ class timekprConfig(object):
         # param
         param = "TIMEKPR_CONFIG_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprWorkDir(self):
         """Get working dir"""
         # param
         param = "TIMEKPR_WORK_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_WORK_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprSharedDir(self):
         """Get shared dir"""
         # param
         param = "TIMEKPR_SHARED_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprLogfileDir(self):
         """Get log file dir"""
         # param
         param = "TIMEKPR_LOGFILE_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprPlayTimeEnabled(self):
         """Return whether we have PlayTime enabled"""
@@ -748,8 +748,6 @@ class timekprUserConfig(object):
 
             # clear parser
             self._timekprUserConfigParser.clear()
-            # load minimal main config for PlayTime checks
-            self.loadMinimalMainConfig()
 
         # clear parser
         self._timekprUserConfigParser.clear()
@@ -933,24 +931,6 @@ class timekprUserConfig(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving new user configuration")
 
-    def loadMinimalMainConfig(self):
-        """Load main configuration file to get master PlayTime switch value"""
-        # defaults
-        # directory section
-        section = "PLAYTIME"
-        # read
-        param = "TIMEKPR_PLAYTIME_ENABLED"
-
-        # main config
-        configMainFile = os.path.join(os.getcwd() if cons.TK_DEV_ACTIVE else "", (cons.TK_MAIN_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else cons.TK_MAIN_CONFIG_DIR), cons.TK_MAIN_CONFIG_FILE)
-        # try to load config file
-        result = _loadAndPrepareConfigFile(self._timekprUserConfigParser, configMainFile, True)
-        # get overall result for PT
-        value = False if not result else _readAndNormalizeValue(self._timekprUserConfigParser.getboolean, section, param, pDefaultValue=False, pCheckValue=None, pOverallSuccess=True)[1]
-
-        # finalize directory
-        self._timekprUserConfig[param] = value
-
     def getUserAllowedHours(self, pDay):
         """Get allowed hours"""
         # this is the dict for hour config
@@ -1021,7 +1001,7 @@ class timekprUserConfig(object):
         # param
         param = "PLAYTIME_ENABLED"
         # check whether user has this enabled in config
-        return (self._timekprUserConfig[param] if self._timekprUserConfig["TIMEKPR_PLAYTIME_ENABLED"] else False)
+        return self._timekprUserConfig[param]
 
     def getUserPlayTimeOverrideEnabled(self):
         """Return whether we have PlayTime overrides the normal time accounting"""

@@ -258,25 +258,29 @@ class timekprDaemon(dbus.service.Object):
             timeLeftToday = timeLeftArray[0]
             timeLeftInARow = timeLeftArray[1]
             timeHourUnaccounted = timeLeftArray[6]
+            timePTActivityCnt = 0
 
             # PlayTime left validation
             if self._timekprConfig.getTimekprPlayTimeEnabled():
                 # get time left for PLayTime
-                timePT = self._timekprUserList[rUserName].getPlayTimeLeft()
-                # if do not have any time (meaning not enabled or in override mode), we use almost ultimate answer
-                timePT = 0.0042 if timePT is None else timePT
-                # if there is no time left
-                if timePT < 0.0042 or (timePT >= 0.0042 and timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled() and self._timekprUserList[rUserName].verifyPlayTimeActive()):
-                    # killing processes
-                    self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
-                # active count
-                self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(self._timekprPlayTimeConfig.getMatchedUserProcessCnt(self._timekprUserList[rUserName].getUserId()))
-            else:
-                # reset process count (in case PT was disable in-flight)
-                self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(0)
+                timeLeftPT, isPTEnabled, isPTAccounted = self._timekprUserList[rUserName].getPlayTimeLeft()
+                # enabled for user
+                if isPTEnabled:
+                    # check is PT active
+                    if self._timekprUserList[rUserName].verifyPlayTimeActive():
+                        # if there is no time left (compare to almost ultimate answer)
+                        # or hour is unaccounted and PT is not allowed in those hours
+                        if (isPTAccounted and timeLeftPT < 0.0042) or (timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled()):
+                            # killing processes
+                            self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
+                        else:
+                            # active count
+                            timePTActivityCnt = self._timekprPlayTimeConfig.getMatchedUserProcessCnt(self._timekprUserList[rUserName].getUserId())
+            # set process count (in case PT was disable in-flight or it has changed)
+            self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(timePTActivityCnt)
 
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), hr uacc: %s, time left: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), hr uacc: %s, tleft: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
 
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:
@@ -472,10 +476,10 @@ class timekprDaemon(dbus.service.Object):
             # time left in a row
             pUserConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
             # PlayTime
-            playTime = pTimekprUser.getPlayTimeLeft()
-            playTime = playTime if playTime is not None else 0
+            playTimeLeft, playTimeEnabled, playTimeAccounted = pTimekprUser.getPlayTimeLeft()
+            playTimeLeft = max(playTimeLeft, 0) if playTimeEnabled and playTimeAccounted else 0
             # PlayTime left today (for display we cap to max possible time user has left today)
-            pUserConfigurationStore["ACTUAL_PLAYTIME_LEFT_DAY"] = min(int(playTime), pUserConfigurationStore["ACTUAL_TIME_LEFT_DAY"])
+            pUserConfigurationStore["ACTUAL_PLAYTIME_LEFT_DAY"] = min(int(playTimeLeft), pUserConfigurationStore["ACTUAL_TIME_LEFT_DAY"])
             # active PlayTime activity count
             pUserConfigurationStore["ACTUAL_ACTIVE_PLAYTIME_ACTIVITY_COUNT"] = pTimekprUser.getPlayTimeActiveActivityCnt()
 

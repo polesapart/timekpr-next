@@ -399,8 +399,8 @@ class timekprUser(object):
             # effectively spent is 0 (we ignore +/- 3 seconds here)
             timeSpent = 0
         else:
-            # get time spent for this hour (if hour passed in between checks and it's not the first hour, we need to properly adjust this hour)
-            if timeSpent > self._secondsInHour and self._currentHOD != 0:
+            # get time spent for this hour (if hour passed in between checks and it's not the first hour and hour is accounted, we need to properly adjust this hour)
+            if timeSpent > self._secondsInHour and self._currentHOD != 0 and not self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]:
                 # adjust previous hour
                 self._timekprUserData[self._currentDOW][str(self._currentHOD-1)][cons.TK_CTRL_SPENTH] += timeSpent - self._secondsInHour
 
@@ -447,7 +447,7 @@ class timekprUser(object):
             # count PlayTime if enabled
             if userActivePT:
                 # if this hour is unlimited, we count this only for spent, not for balance (i.e. it will not count towards limit)
-                if not (self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC] and self._timekprUserConfig.getUserPlayTimeOverrideEnabled()):
+                if not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
                     # adjust PlayTime balance this day
                     self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD] += timeSpent
                 # adjust PlayTime spent this day
@@ -542,7 +542,7 @@ class timekprUser(object):
         timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
 
         # debug
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "get time for \"%s\", tlt: %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # set up values
         timeValues = {}
@@ -576,17 +576,16 @@ class timekprUser(object):
     def getPlayTimeLeft(self):
         """Return whether time is over for PlayTime"""
         # by default time left is constant, that is processes will not be killed
-        result = None
-        # if there is no limits
-        if self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled() and not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
-            # we need to report actual time left when there is time left or there is no time left and user has PT processes active
-            if self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD] >= 0 or (self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD] < 0 and self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName(), True)):
-                # report actual (to be able to determine whether processes need to be killed)
-                result = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
+        timeLeftPT = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
+        isPTEnabled = isPTAccounted = self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled()
+        # there is no need to check further if PT is disabled
+        if isPTEnabled:
+            # get real value for accounted
+            isPTAccounted = not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "getPlayTimeLeft for %s: %s" % (self.getUserName(), str(result)))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
         # result
-        return result
+        return timeLeftPT, isPTEnabled, isPTAccounted
 
     def saveSpent(self):
         """Save the time spent by the user"""
@@ -782,7 +781,7 @@ class timekprUser(object):
             # revalidate only if active (that influences time accounting)
             if self._timekprUserData[cons.TK_CTRL_SCR_N]:
                 # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "send re-validation request to user \"%s\"" % (self._timekprUserData[cons.TK_CTRL_UNAME]))
+                log.log(cons.TK_LOG_LEVEL_INFO, "send re-validation request to user \"%s\"" % (self.getUserName()))
                 # send verification request
                 self.processUserSessionAttributes(cons.TK_CTRL_SCR_N, "", None)
 
