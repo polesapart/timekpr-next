@@ -447,7 +447,7 @@ class timekprUser(object):
             # count PlayTime if enabled
             if userActivePT:
                 # if this hour is unlimited, we count this only for spent, not for balance (i.e. it will not count towards limit)
-                if not (self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC] and self._timekprUserConfig.getUserPlayTimeOverrideEnabled()):
+                if not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
                     # adjust PlayTime balance this day
                     self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD] += timeSpent
                 # adjust PlayTime spent this day
