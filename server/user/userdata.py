@@ -576,17 +576,15 @@ class timekprUser(object):
     def getPlayTimeLeft(self):
         """Return whether time is over for PlayTime"""
         # by default time left is constant, that is processes will not be killed
-        result = None
-        # if there is no limits
-        if self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled() and not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
-            # we need to report actual time left when there is time left or there is no time left and user has PT processes active
-            if self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD] >= 0 or (self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD] < 0 and self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName(), True)):
-                # report actual (to be able to determine whether processes need to be killed)
-                result = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
+        timeLeftPT = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
+        isPTEnabled = self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled()
+        isPTAccounted = isPTEnabled and not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
+        # log only if PT is enabled
+        if isPTEnabled:
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "getPlayTimeLeft for %s: %s" % (self.getUserName(), str(result)))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
         # result
-        return result
+        return timeLeftPT, isPTEnabled, isPTAccounted
 
     def saveSpent(self):
         """Save the time spent by the user"""
