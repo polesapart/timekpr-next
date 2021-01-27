@@ -276,7 +276,7 @@ class timekprDaemon(dbus.service.Object):
                 self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(0)
 
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), hr uacc: %s, time left: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), hr uacc: %s, tleft: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
 
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:

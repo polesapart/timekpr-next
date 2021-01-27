@@ -542,7 +542,7 @@ class timekprUser(object):
         timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
 
         # debug
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "user: %s, timeLeftToday: %s, timeLeftInARow: %s, timeSpentThisBoot: %s, timeInactiveThisBoot: %s" % (self._timekprUserData[cons.TK_CTRL_UNAME], timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "get time for \"%s\", tlt: %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # set up values
         timeValues = {}
@@ -782,7 +782,7 @@ class timekprUser(object):
             # revalidate only if active (that influences time accounting)
             if self._timekprUserData[cons.TK_CTRL_SCR_N]:
                 # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "send re-validation request to user \"%s\"" % (self._timekprUserData[cons.TK_CTRL_UNAME]))
+                log.log(cons.TK_LOG_LEVEL_INFO, "send re-validation request to user \"%s\"" % (self.getUserName()))
                 # send verification request
                 self.processUserSessionAttributes(cons.TK_CTRL_SCR_N, "", None)
 

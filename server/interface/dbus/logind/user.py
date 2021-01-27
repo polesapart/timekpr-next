@@ -49,7 +49,7 @@ class timekprUserManager(object):
 
     def cacheUserSessionList(self):
         """Determine user sessions and cache session objects for further reference."""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== start cacheUserSessionList for \"%s\" ===---" % (self._userName))
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "---=== start cacheUserSessionList for \"%s\" ===---" % (self._userName))
         # dbus performance measurement
         misc.measureTimeElapsed(pStart=True)
         # get all user sessions
@@ -109,7 +109,7 @@ class timekprUserManager(object):
             log.log(cons.TK_LOG_LEVEL_DEBUG, "removing session: %s" % (userSession))
             self._timekprUserSessions.pop(userSession)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "---=== finish cacheUserSessionList for \"%s\" ===---" % (self._userName))
 
     def isUserActive(self, pTimekprConfig, pTimekprUserConfig, pIsScreenLocked):
         """Check if user is active."""
