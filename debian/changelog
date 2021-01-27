@@ -18,6 +18,7 @@ timekpr-next (0.5.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
   * unregistered bug fixes
     fixes to client application when <Escape> is pressed instead of close window which leads to empty timekpr windows
     fixes to PlayTime daily limit reset when the day has changed
+    fix for PlayTime disabled -> enabled did not work right away when user is already logged in
   * new features
     introduce an option to prevent PlayTime activities to be started during unaccountable ("∞") intervals
     introduce an option to monitor PlayTime activities (processes) using first 512 characters of command line
