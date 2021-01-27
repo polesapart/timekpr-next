@@ -691,14 +691,16 @@ class timekprUserConfigurationProcessor(object):
                 setLimit = 0
 
                 try:
+                    # get actual time limit for this day
+                    timeLimit = self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1]
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
-                        setLimit = min(max(max(self._timekprUserControl.getUserTimeSpentBalance(), 0) - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(min(self._timekprUserControl.getUserTimeSpentBalance(), timeLimit) - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "-":
-                        setLimit = min(max(max(self._timekprUserControl.getUserTimeSpentBalance(), 0) + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(min(self._timekprUserControl.getUserTimeSpentBalance(), timeLimit) + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "=":
-                        setLimit = min(max(self._timekprUserConfig.getUserLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(timeLimit - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
 
                     # set up config for day
                     self._timekprUserControl.setUserTimeSpentBalance(setLimit)
@@ -1047,14 +1049,16 @@ class timekprUserConfigurationProcessor(object):
                 setLimit = 0
 
                 try:
+                    # get actual time limit for this day
+                    playTimeLimit = self._timekprUserConfig.getUserPlayTimeLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1]
                     # decode time left (operations are actually technicall reversed, + for ppl is please add more time and minus is subtract,
                     #   but actually it's reverse, because we are dealing with time spent not time left)
                     if pOperation == "+":
-                        setLimit = min(max(max(self._timekprUserControl.getUserPlayTimeSpentBalance(), 0) - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(min(self._timekprUserControl.getUserPlayTimeSpentBalance(), playTimeLimit) - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "-":
-                        setLimit = min(max(max(self._timekprUserControl.getUserPlayTimeSpentBalance(), 0) + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(min(self._timekprUserControl.getUserPlayTimeSpentBalance(), playTimeLimit) + pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
                     elif pOperation == "=":
-                        setLimit = min(max(self._timekprUserConfig.getUserPlayTimeLimitsPerWeekdays()[datetime.date(datetime.now()).isoweekday()-1] - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
+                        setLimit = min(max(playTimeLimit - pTimeLeft, -cons.TK_LIMIT_PER_DAY), cons.TK_LIMIT_PER_DAY)
 
                     # set up config for day
                     self._timekprUserControl.setUserPlayTimeSpentBalance(setLimit)
