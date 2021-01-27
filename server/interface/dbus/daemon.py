@@ -273,8 +273,9 @@ class timekprDaemon(dbus.service.Object):
                         if (isPTAccounted and timeLeftPT < 0.0042) or (timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled()):
                             # killing processes
                             self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
-                    # active count
-                    timePTActivityCnt = self._timekprPlayTimeConfig.getMatchedUserProcessCnt(self._timekprUserList[rUserName].getUserId())
+                        else:
+                            # active count
+                            timePTActivityCnt = self._timekprPlayTimeConfig.getMatchedUserProcessCnt(self._timekprUserList[rUserName].getUserId())
             # set process count (in case PT was disable in-flight or it has changed)
             self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(timePTActivityCnt)
 

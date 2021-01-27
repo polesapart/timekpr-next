@@ -577,10 +577,11 @@ class timekprUser(object):
         """Return whether time is over for PlayTime"""
         # by default time left is constant, that is processes will not be killed
         timeLeftPT = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
-        isPTEnabled = self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled()
-        isPTAccounted = isPTEnabled and not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
-        # log only if PT is enabled
+        isPTEnabled = isPTAccounted = self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled()
+        # there is no need to check further if PT is disabled
         if isPTEnabled:
+            # get real value for accounted
+            isPTAccounted = not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             # logging
             log.log(cons.TK_LOG_LEVEL_DEBUG, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
         # result
