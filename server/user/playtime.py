@@ -82,7 +82,7 @@ class timekprPlayTimeConfig(object):
                         # match
                         matchedPids.append(rPid)
                         # log
-                        log.log(cons.TK_LOG_LEVEL_DEBUG, "PT match, uid: %s, exe: %s, cmdl: %s ..." % (pUid, exe, cmdLine[:128]))
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "PT match, uid: %s, exe: %s, cmdl: %s" % (pUid, exe, "n/a" if cmdLine is None else cmdLine[:128]))
                         # first filter is enough
                         break
         # result
