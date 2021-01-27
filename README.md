@@ -278,7 +278,7 @@ apply, except "override" mode, which will be explained in the options section.
 This mode was designed for games, hence the name, but a supervisor can define any application to be monitored, for example Web browsers.
 
 _**Please note** that PlayTime will still account user's PlayTime even in time periods which are marked as free ("∞") in standard time configuration! Except 
-"override" mode, that is :)_
+in "override" mode, that is :)_
 
 ---------------------------------------
 
@@ -301,21 +301,15 @@ accounted when applications configured as activities are used. That means that u
 </br>
 
 Option "Allowed during "∞" intervals" controls whether PlayTime activities are allowed to run during unaccounted time intervals which are marked as "∞". 
-If this option is disabled, user will not be able to run any of the configured activities.
+If this option is disabled, user will not be able to run any of the configured activities regardless of whether "override" mode is enabled or not!
 
-However, if this option is enabled, user can use any of the activities configured for him even in unaccounted, i.e. "free", time intervals.
+However, if this option is enabled, user can use any of the activities configured for him even in unaccounted time intervals. In this case PlayTime will be 
+accounted as usual, unless "override" mode is enabled at the same time.
 
-As an example, this option can come handy, if time intervals marked as "∞" are used to attend mandatory education classes and supervisor 
-does not want to allow a subordinate to run any of the configured activities during unaccounted time intervals. Just do not enable the option and you are set.
+As an example, this option can come handy, if time intervals marked as "∞" are used to attend mandatory education classes and supervisor does not want to 
+allow a subordinate to run any of the configured activities during unaccounted time intervals. Just do not enable the option and you are set.
 
-</br>
-
-_**Notes**_
-
-  * _if "override" mode is enabled and user uses PlayTime in time periods which are marked as free ("∞") in standard time configuration, 
-the time is not accounted towards PlayTime limit, i.e. it's free time for him._
-
-  * _if the option "Allowed during "∞" intervals" is not enabled, activities are not allowed even in "override" mode!_
+By default the option is enabled.
 
 ---------------------------------------
 
