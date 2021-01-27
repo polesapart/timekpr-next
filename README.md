@@ -310,9 +310,12 @@ does not want to allow a subordinate to run any of the configured activities dur
 
 </br>
 
-_**Please note** that if "override" mode is enabled and user uses PlayTime in time periods which are marked as free ("∞") in standard time configuration, 
-the time is not accounted towards PlayTime limit, i.e. it's free time for him. The exception is the option "Allowed during "∞" intervals", if it's disabled, 
-activities is not allowed even in "override" mode!_
+_**Notes**_
+
+  * _if "override" mode is enabled and user uses PlayTime in time periods which are marked as free ("∞") in standard time configuration, 
+the time is not accounted towards PlayTime limit, i.e. it's free time for him._
+
+  * _if the option "Allowed during "∞" intervals" is not enabled, activities are not allowed even in "override" mode!_
 
 ---------------------------------------
 
@@ -563,6 +566,8 @@ to match proccesses against registered activity / process masks for users.
 This allows a supervisor to use advanced RegExp patterns to find not just a process name, but a great deal of arguments too. This option may be useful for 
 situatuations when there are processes running interpreted language, such as python or java. The most common gaming example is Minecraft, which is a java 
 application started from jar file, a process mask for it would be ```.*java.*minecraft.*```.
+
+_**Note**: after changing this option, enhanced monitoring is applied to newly started processes only!_
 
 </br>
 
