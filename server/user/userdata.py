@@ -399,8 +399,8 @@ class timekprUser(object):
             # effectively spent is 0 (we ignore +/- 3 seconds here)
             timeSpent = 0
         else:
-            # get time spent for this hour (if hour passed in between checks and it's not the first hour, we need to properly adjust this hour)
-            if timeSpent > self._secondsInHour and self._currentHOD != 0:
+            # get time spent for this hour (if hour passed in between checks and it's not the first hour and hour is accounted, we need to properly adjust this hour)
+            if timeSpent > self._secondsInHour and self._currentHOD != 0 and not self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]:
                 # adjust previous hour
                 self._timekprUserData[self._currentDOW][str(self._currentHOD-1)][cons.TK_CTRL_SPENTH] += timeSpent - self._secondsInHour
 
