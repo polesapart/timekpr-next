@@ -235,19 +235,19 @@ class timekprConfig(object):
         # read
         param = "TIMEKPR_CONFIG_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_CONFIG_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
         # read
         param = "TIMEKPR_WORK_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_WORK_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_WORK_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
         # read
         param = "TIMEKPR_SHARED_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_SHARED_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
         # read
         param = "TIMEKPR_LOGFILE_DIR"
         result, value = _readAndNormalizeValue(self._timekprConfigParser.get, section, param, pDefaultValue=cons.TK_LOGFILE_DIR, pCheckValue=None, pOverallSuccess=result)
-        self._timekprConfig[param] = os.path.join(self._configDirPrefix, (cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else value))
+        self._timekprConfig[param] = os.path.join(self._configDirPrefix, value)
 
         # global PlayTime config section
         section = "PLAYTIME"
@@ -526,28 +526,28 @@ class timekprConfig(object):
         # param
         param = "TIMEKPR_CONFIG_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_CONFIG_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprWorkDir(self):
         """Get working dir"""
         # param
         param = "TIMEKPR_WORK_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_WORK_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprSharedDir(self):
         """Get shared dir"""
         # param
         param = "TIMEKPR_SHARED_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_SHARED_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprLogfileDir(self):
         """Get log file dir"""
         # param
         param = "TIMEKPR_LOGFILE_DIR"
         # result
-        return self._timekprConfig[param]
+        return cons.TK_LOGFILE_DIR_DEV if cons.TK_DEV_ACTIVE else self._timekprConfig[param]
 
     def getTimekprPlayTimeEnabled(self):
         """Return whether we have PlayTime enabled"""
