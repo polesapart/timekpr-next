@@ -1,4 +1,4 @@
-timekpr-next (0.5.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.1-3ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab
   * add gnome-shell-extension-appindicator to suggestions list
@@ -19,12 +19,16 @@ timekpr-next (0.5.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
     fixes to client application when <Escape> is pressed instead of close window which leads to empty timekpr windows
     fixes to PlayTime daily limit reset when the day has changed
     fix for PlayTime disabled -> enabled did not work right away when user is already logged in
+    fix for user time accounting which added couple of seconds to time spent when using unaccountable intervals
+    fix time accounting for PlayTime in override mode and unaccounted time intervals
+    fix process handling when process does not have a normal user id that process monitor is interested in and it changed executable
+      or process changed user id from one we were interested in to one we are not
   * new features
     introduce an option to prevent PlayTime activities to be started during unaccountable ("∞") intervals
     introduce an option to monitor PlayTime activities (processes) using first 512 characters of command line
       by default only process name is used for activity detection
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 22 Jan 2021 00:25:58 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 27 Jan 2021 00:25:58 +0200
 
 timekpr-next (0.5.0-7ubuntu1~ppa1) UNRELEASED; urgency=medium
 
