@@ -103,7 +103,7 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/scalable/apps/*
 #%{_datadir}/locale/cs/LC_MESSAGES/*
 #%{_datadir}/locale/de/LC_MESSAGES/*
-#%{_datadir}/locale/fr/LC_MESSAGES/*
+%{_datadir}/locale/fr/LC_MESSAGES/*
 #%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
