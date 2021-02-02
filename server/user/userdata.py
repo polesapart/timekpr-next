@@ -543,7 +543,7 @@ class timekprUser(object):
         timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
 
         # debug
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "get time for \"%s\", tltd %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
+        log.log(cons.TK_LOG_LEVEL_INFO, "get time for \"%s\", tltd %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # set up values
         timeValues = {}
@@ -584,7 +584,7 @@ class timekprUser(object):
             # get real value for accounted
             isPTAccounted = not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
         # result
         return timeLeftPT, isPTEnabled, isPTAccounted
 
