@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
+from timekpr.common.log import log
 from timekpr.common.constants import messages as msg
 
 # constant
@@ -648,6 +649,8 @@ class timekprGUI(object):
         self._timekprClientConfig.saveClientConfig()
         # disable apply for now
         self._timekprConfigDialogBuilder.get_object("timekprSaveBT").set_sensitive(False)
+        # enable as well
+        log.setLogLevel(self._timekprClientConfig.getClientLogLevel())
 
     def closePropertiesSignal(self, evt):
         """Close the config form"""

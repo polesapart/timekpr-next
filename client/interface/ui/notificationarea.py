@@ -18,10 +18,8 @@ from timekpr.client.gui.clientgui import timekprGUI
 class timekprNotificationArea(object):
     """Support appindicator or other means of showing icon on the screen (this class is a parent for classes like indicator or staticon)"""
 
-    def __init__(self, pLog, pUserName, pUserNameFull, pTimekprClientConfig):
+    def __init__(self, pUserName, pUserNameFull, pTimekprClientConfig):
         """Init all required stuff for indicator"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr indicator")
 
@@ -44,7 +42,7 @@ class timekprNotificationArea(object):
         self._timeNotLimited = 0
 
         # init notificaction stuff
-        self._timekprNotifications = timekprNotifications(pLog, self._userName, self._timekprClientConfig)
+        self._timekprNotifications = timekprNotifications(self._userName, self._timekprClientConfig)
 
         # dbus
         self._timekprBus = None

@@ -95,16 +95,10 @@ class timekprUserStore(object):
                     # save ()
                     users[rUser.pw_name] = [rUser.pw_uid, userFName]
 
-        # set up tmp logging
-        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
-        # set up logging
-        log.setLogging(logging)
         # get user config
-        timekprConfigManager = timekprConfig(pLog=logging)
+        timekprConfigManager = timekprConfig()
         # load user config
         timekprConfigManager.loadMainConfiguration()
-        # set up logging
-        logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
 
         # go through our users
         for rUser in users:
@@ -115,16 +109,16 @@ class timekprUserStore(object):
             if not os.path.isfile(file):
                 log.log(cons.TK_LOG_LEVEL_INFO, "setting up user \"%s\" with id %i" % (rUser, users[rUser][0]))
                 # user config
-                timekprUserConfig(logging, timekprConfigManager.getTimekprConfigDir(), rUser).initUserConfiguration()
+                timekprUserConfig(timekprConfigManager.getTimekprConfigDir(), rUser).initUserConfiguration()
                 # user control
-                timekprUserControl(logging, timekprConfigManager.getTimekprWorkDir(), rUser).initUserControl()
+                timekprUserControl(timekprConfigManager.getTimekprWorkDir(), rUser).initUserControl()
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finishing setting up users")
 
         # user list
         return users
 
-    def getSavedUserList(self, pLog=None, pConfigDir=None):
+    def getSavedUserList(self, pConfigDir=None):
         """
             Get user list, this will get user list from config files present in the system:
               no config - no user
@@ -139,26 +133,15 @@ class timekprUserStore(object):
 
         # in case we don't have a dir yet
         if pConfigDir is None:
-            # set up tmp logging
-            logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
-            # set up logging
-            log.setLogging(logging)
             # get user config
-            timekprConfigManager = timekprConfig(pLog=logging)
+            timekprConfigManager = timekprConfig()
             # load user config
             timekprConfigManager.loadMainConfiguration()
-            # set up logging
-            logging = {cons.TK_LOG_L: timekprConfigManager.getTimekprLogLevel(), cons.TK_LOG_D: timekprConfigManager.getTimekprLogfileDir(), cons.TK_LOG_W: cons.TK_LOG_OWNER_SRV, cons.TK_LOG_U: ""}
             # config dir
             configDir = timekprConfigManager.getTimekprConfigDir()
         else:
             # use passed value
             configDir = pConfigDir
-            # log
-            logging = pLog
-
-        # set up logging
-        log.setLogging(logging)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "listing user config files")
 

@@ -16,6 +16,7 @@ import re
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
+from timekpr.common.log import log
 from timekpr.client.interface.dbus.administration import timekprAdminConnector
 from timekpr.common.constants import messages as msg
 
@@ -77,10 +78,18 @@ class timekprAdminGUI(object):
         # this seems to be needed
         self.dummyPageChanger()
 
+        # periodic log flusher
+        GLib.timeout_add_seconds(cons.TK_POLLTIME, self.autoFlushLogFile)
+
         # start main loop
         self._mainLoop.run()
 
     # --------------- initialization / helper methods --------------- #
+
+    def autoFlushLogFile(self):
+        """Periodically save file"""
+        log.autoFlushLogFile()
+        return True
 
     def dummyPageChanger(self):
         """Switch tabs back and forth"""
@@ -2835,3 +2844,5 @@ class timekprAdminGUI(object):
         """Close the config form"""
         # close
         self._mainLoop.quit()
+        # flush log
+        log.flushLogFile()

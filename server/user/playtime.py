@@ -43,10 +43,8 @@ class timekprPlayTimeConfig(object):
     # cmdline
     _CMDLINE = "/proc/%s/cmdline"
 
-    def __init__(self, pLog, pTimekprConfig):
+    def __init__(self, pTimekprConfig):
         """Initialize all stuff for PlayTime"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekprUserPlayTime")
 

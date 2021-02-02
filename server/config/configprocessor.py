@@ -19,10 +19,9 @@ import dbus
 class timekprUserConfigurationProcessor(object):
     """Validate and update configuration data for timekpr user"""
 
-    def __init__(self, pLog, pUserName, pTimekprConfig):
+    def __init__(self, pUserName, pTimekprConfig):
         """Initialize all stuff for user"""
         # set up initial variables
-        self._logging = pLog
         self._configDir = pTimekprConfig.getTimekprConfigDir()
         self._workDir = pTimekprConfig.getTimekprWorkDir()
         self._userName = pUserName
@@ -36,7 +35,7 @@ class timekprUserConfigurationProcessor(object):
         message = ""
 
         # user config
-        self._timekprUserConfig = timekprUserConfig(self._logging, self._configDir, self._userName)
+        self._timekprUserConfig = timekprUserConfig(self._configDir, self._userName)
 
         # result
         if not self._timekprUserConfig.loadConfiguration(True):
@@ -54,7 +53,7 @@ class timekprUserConfigurationProcessor(object):
         message = ""
 
         # user config
-        self._timekprUserControl = timekprUserControl(self._logging, self._workDir, self._userName)
+        self._timekprUserControl = timekprUserControl(self._workDir, self._userName)
 
         # result
         if not self._timekprUserControl.loadControl(True):
@@ -1079,12 +1078,10 @@ class timekprUserConfigurationProcessor(object):
 class timekprConfigurationProcessor(object):
     """Validate and update configuration data for timekpr server"""
 
-    def __init__(self, pLog):
+    def __init__(self):
         """Initialize all stuff for user"""
-        # set up initial variables
-        self._logging = pLog
         # configuration init
-        self._timekprConfig = timekprConfig(pLog=self._logging)
+        self._timekprConfig = timekprConfig()
 
     def loadTimekprConfiguration(self):
         """Load timekpr config"""

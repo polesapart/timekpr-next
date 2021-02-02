@@ -1,4 +1,4 @@
-timekpr-next (0.5.1-3ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.1-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab
   * add gnome-shell-extension-appindicator to suggestions list
@@ -11,6 +11,7 @@ timekpr-next (0.5.1-3ubuntu1~ppa1) UNRELEASED; urgency=medium
     log more information about timekpr performance and computer load average
     log information about day / week / month change
     added elapsed time information output on lowest log level
+    rewritten logging routines and implemented buffered log save
   * registered bug fixes
     adjust Debian installation suggestions in README (fixes #1910457)
     start using ayatana appindicators because regular ones seem to be deprecated (fixes #1910461)
@@ -27,6 +28,7 @@ timekpr-next (0.5.1-3ubuntu1~ppa1) UNRELEASED; urgency=medium
     introduce an option to prevent PlayTime activities to be started during unaccountable ("∞") intervals
     introduce an option to monitor PlayTime activities (processes) using first 512 characters of command line
       by default only process name is used for activity detection
+    logging level changes are applied immediately
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 27 Jan 2021 00:25:58 +0200
 

@@ -22,10 +22,8 @@ from timekpr.common.utils.config import timekprUserControl
 class timekprUser(object):
     """Contains all the data for timekpr user"""
 
-    def __init__(self, pLog, pBusName, pUserId, pUserName, pUserPath, pTimekprConfig, pPlayTimeConfig):
+    def __init__(self, pBusName, pUserId, pUserName, pUserPath, pTimekprConfig, pPlayTimeConfig):
         """Initialize all stuff for user"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekprUser")
 
@@ -46,13 +44,13 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_SCR_K] = None  # verification key
 
         # save the bus
-        self._timekprUserManager = timekprUserManager(pLog, self._timekprUserData[cons.TK_CTRL_UNAME], self._timekprUserData[cons.TK_CTRL_UPATH])
+        self._timekprUserManager = timekprUserManager(self._timekprUserData[cons.TK_CTRL_UNAME], self._timekprUserData[cons.TK_CTRL_UPATH])
         # user config
-        self._timekprUserConfig = timekprUserConfig(pLog, self._timekprConfig.getTimekprConfigDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
+        self._timekprUserConfig = timekprUserConfig(self._timekprConfig.getTimekprConfigDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
         # user control
-        self._timekprUserControl = timekprUserControl(pLog, self._timekprConfig.getTimekprWorkDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
+        self._timekprUserControl = timekprUserControl(self._timekprConfig.getTimekprWorkDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
         # user notification
-        self._timekprUserNotification = timekprNotificationManager(pLog, pBusName, self._timekprUserData[cons.TK_CTRL_UNAME], pTimekprConfig)
+        self._timekprUserNotification = timekprNotificationManager(pBusName, self._timekprUserData[cons.TK_CTRL_UNAME], pTimekprConfig)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekprUser")
 
@@ -197,7 +195,7 @@ class timekprUser(object):
                     secondsToAddHour = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
 
                     # debug
-                    if log.isDebug():
+                    if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
                         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "currentDOW: %s, currentHOD: %s, secondsLeftHour: %s, currentMOH: %s, currentSOM: %s, secondsLeftHourLimit: %s, secondsToAddHour: %s, secondsLeft: %s" % (str(i), str(j), secondsLeftHour, self._currentMOH, self._effectiveDatetime.second, secondsLeftHourLimit, secondsToAddHour, secondsLeft))
                 # hour is disabled
                 else:
@@ -205,7 +203,7 @@ class timekprUser(object):
                     contTime = False
 
                 # debug
-                if log.isDebug():
+                if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
                     log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, leftD: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, timesLeft[cons.TK_CTRL_LEFTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
 
                 # adjust left continously
@@ -231,7 +229,7 @@ class timekprUser(object):
                     break
 
         # debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "leftInRow: %s, leftDay: %s, lefDay+1: %s" % (self._timekprUserData[cons.TK_CTRL_LEFT], self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD], self._timekprUserData[self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]][cons.TK_CTRL_LEFTD]))
 
     def adjustLimitsFromConfig(self, pSilent=True):
@@ -318,7 +316,7 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LCMOD] = self._timekprUserConfig.getUserLastModified()
 
         # debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "adjustLimitsFromConfig structure: %s" % (str(self._timekprUserData)))
 
         # get time limits and send them out if needed
@@ -625,7 +623,7 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
 
         # if debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "save spent structure: %s" % (str(self._timekprUserData[self._currentDOW])))
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saveSpent")
@@ -731,7 +729,7 @@ class timekprUser(object):
         timeLimits[cons.TK_CTRL_PTAUH] = (1 if self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled() else 0)
 
         # debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "TL: %s" % (str(timeLimits)))
 
         # process notifications, if needed

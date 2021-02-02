@@ -122,14 +122,12 @@ def checkAndSetRunning(pAppName):
     return isAlreadyRunning
 
 
-def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
+def killLeftoverUserProcesses(pUserName, pSessionTypes):
     """Kill leftover processes for user"""
     # if psutil is not available, do nothing
     global _PSUTIL
     if not _PSUTIL:
         return
-    # set logging
-    log.setLogging(pLog)
 
     # determine which sessions we are going to kill (either graphical or tty)
     # this is somewhat interesting as for processes we cannot exactly tell whether it's graphical or not, but we check terminal sessions,

@@ -504,7 +504,9 @@ information in case you file a bug, level 2 is the standard level, it usually wr
 If everything is working fine for you, set the level to 1, otherwise leave it at default value. Be assured that log files doesn't contain anything sensitive 
 except usernames.
 
-Please note that log files are handled by ```logrotate``` and are compressed, so I wouldn't worry about space usage at all.
+Log level changes are effective immediately.
+
+**Please note** that log files are handled by ```logrotate``` and are compressed, so I wouldn't worry about space usage on a standard computer.
 
 </br>
 
@@ -884,9 +886,10 @@ By default Timekpr-nExT writes a sufficiently detailed log file for me to unders
 messages in log files. There's nothing sensitive except usernames, if this is a concern, please obfuscate them before sending the files to me or attaching them 
 to bug reports.
 
+Since the version ```0.5.1```, log level changes are effective immediately and there is no need to restart Timekpr-nExT or reboot the computer.
+
 _**Note**: if the log file size is the concern, it's possible to decrease log level in Timekpr-nExT administration application to save some space, however when 
-the issue arises, most likely I'll need it to be set to level 2 (the default). Please restart Timekpr-nExT daemon ```sudo systemctl restart timekpr``` or reboot 
-the computer for logging level changes to take effect._
+the issue arises, most likely I'll need it to be set to level 2 (the default)._
 
 </br>
 
