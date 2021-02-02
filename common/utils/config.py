@@ -142,11 +142,8 @@ def _cleanupValue(pValue):
 class timekprConfig(object):
     """Main configuration class for the server"""
 
-    def __init__(self, pLog=None):
+    def __init__(self):
         """Initialize stuff"""
-        if pLog is not None:
-            log.setLogging(pLog)
-
         log.log(cons.TK_LOG_LEVEL_INFO, "initializing configuration manager")
 
         # config
@@ -627,10 +624,8 @@ class timekprConfig(object):
 class timekprUserConfig(object):
     """Class will contain and provide config related functionality"""
 
-    def __init__(self, pLog, pDirectory, pUserName):
+    def __init__(self, pDirectory, pUserName):
         """Initialize config"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "init user (%s) configuration manager" % (pUserName))
 
@@ -1147,10 +1142,8 @@ class timekprUserConfig(object):
 class timekprUserControl(object):
     """Class will provide time spent file management functionality"""
 
-    def __init__(self, pLog, pDirectory, pUserName):
+    def __init__(self, pDirectory, pUserName):
         """Initialize config"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "init user (%s) control" % (pUserName))
 
@@ -1417,13 +1410,8 @@ class timekprClientConfig(object):
         # get home
         self._userHome = os.path.expanduser("~")
 
-        # set up logging
-        logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: getpass.getuser()}
-        # set up logging
-        log.setLogging(logging)
-
         # set up log file name
-        self._timekprClientConfig["TIMEKPR_LOGFILE_DIR"] = logging[cons.TK_LOG_D]
+        self._timekprClientConfig["TIMEKPR_LOGFILE_DIR"] = cons.TK_LOG_TEMP_DIR
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start initializing client configuration manager")
 

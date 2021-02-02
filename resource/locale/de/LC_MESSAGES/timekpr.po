@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-22 17:51+0200\n"
-"PO-Revision-Date: 2021-01-23 01:40+0200\n"
+"POT-Creation-Date: 2021-02-02 22:29+0200\n"
+"PO-Revision-Date: 2021-02-02 22:32+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Ulle <punkt.punkt@o2online.de>\n"
 "Language: de\n"
@@ -2726,11 +2726,7 @@ msgstr "Überwachten Sitzungs-Typ von der Liste entfernen"
 msgid "Notifications"
 msgstr "Alle Benachrichtigungen anzeigen"
 
-#: resource/client/forms/client.glade:1551
-msgid "Use speech notifications"
-msgstr "Sprach-Hinweise verwenden"
-
-#: resource/client/forms/client.glade:1555
+#: resource/client/forms/client.glade:1554
 #, fuzzy
 #| msgid ""
 #| "Select whether to use speech notifications, if available. You may be able "
@@ -2746,8 +2742,12 @@ msgstr ""
 "verfügbar). Für Verfügbarkeit muss das Paket \"python3-espeak\" installiert "
 "sein."
 
-#: resource/client/forms/client.glade:1575
-#: resource/client/forms/client.glade:1597
+#: resource/client/forms/client.glade:1564
+msgid "Use speech notifications"
+msgstr "Sprach-Hinweise verwenden"
+
+#: resource/client/forms/client.glade:1583
+#: resource/client/forms/client.glade:1605
 #, fuzzy
 #| msgid ""
 #| "This sets the logging level. Please do not change this unless you know "
@@ -2760,15 +2760,11 @@ msgstr ""
 "Stufen für die Ausführlichkeit des Logs (Bitten nicht ändern außer Sie "
 "wissen genau was sie damit verändern)"
 
-#: resource/client/forms/client.glade:1601
+#: resource/client/forms/client.glade:1609
 msgid "Logging level"
 msgstr "Log-Ausführlichkeit"
 
-#: resource/client/forms/client.glade:1617
-msgid "Show limit changes"
-msgstr "Limit-Änderungen anzeigen"
-
-#: resource/client/forms/client.glade:1621
+#: resource/client/forms/client.glade:1631
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
@@ -2776,11 +2772,11 @@ msgstr ""
 "Sollen Änderungen an Limits oder der erlaubten Nutzungszeiten angezeigt "
 "werden"
 
-#: resource/client/forms/client.glade:1633
-msgid "Show all notifications"
-msgstr "Alle Benachrichtigungen anzeigen"
+#: resource/client/forms/client.glade:1639
+msgid "Show limit changes"
+msgstr "Limit-Änderungen anzeigen"
 
-#: resource/client/forms/client.glade:1637
+#: resource/client/forms/client.glade:1655
 #, fuzzy
 #| msgid ""
 #| "Specify whether to show all notifications. If unchecked, then only "
@@ -2793,11 +2789,11 @@ msgstr ""
 "Sollen alle Benachrichtigungen angezeigt werden? Es werden sonst nur die "
 "wichtigsten gezeigt"
 
-#: resource/client/forms/client.glade:1651
-msgid "Show seconds in notification area"
-msgstr "Benachrichtigungen enthalten Sekunden"
+#: resource/client/forms/client.glade:1665
+msgid "Show all notifications"
+msgstr "Alle Benachrichtigungen anzeigen"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1681
 #, fuzzy
 #| msgid ""
 #| "Specify whether to show seconds in notification area. Some desktop "
@@ -2812,8 +2808,12 @@ msgstr ""
 "Desktopumgebungen, bspw. KDE5, haben keine Unterstützung für Text bei "
 "Benachrichtigungs-Icons)"
 
-#: resource/client/forms/client.glade:1675
-#: resource/client/forms/client.glade:1699
+#: resource/client/forms/client.glade:1691
+msgid "Show seconds in notification area"
+msgstr "Benachrichtigungen enthalten Sekunden"
+
+#: resource/client/forms/client.glade:1710
+#: resource/client/forms/client.glade:1734
 #, fuzzy
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
@@ -2835,12 +2835,12 @@ msgstr ""
 "überschreiben kann. Dies bedeutet, dass diese Einstellung keine Auswirkungen "
 "auf die Benachrichtigung hat."
 
-#: resource/client/forms/client.glade:1706
+#: resource/client/forms/client.glade:1741
 msgid "Notification timeout (sec)"
 msgstr "Benachrichtigungs-Timeout (Sek.)"
 
-#: resource/client/forms/client.glade:1728
-#: resource/client/forms/client.glade:1753
+#: resource/client/forms/client.glade:1766
+#: resource/client/forms/client.glade:1791
 #, fuzzy
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
@@ -2861,15 +2861,11 @@ msgstr ""
 "überschreiben kann. Dies bedeutet, dass diese Einstellung keine Auswirkungen "
 "auf die Benachrichtigung hat."
 
-#: resource/client/forms/client.glade:1760
+#: resource/client/forms/client.glade:1798
 msgid "Critical notification timeout (sec)"
 msgstr "Zeitlimit für kritische Benachrichtigung (Sek.)"
 
-#: resource/client/forms/client.glade:1776
-msgid "Use sound \"bell\" for notifications"
-msgstr "Sound \"Piepton\" für Benachrichtigungen"
-
-#: resource/client/forms/client.glade:1780
+#: resource/client/forms/client.glade:1820
 #, fuzzy
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
@@ -2886,7 +2882,11 @@ msgstr ""
 "Wenn die Einstellung nicht bearbeitet werden kann, wird in Ihrer Umgebung "
 "keine Unterstützung für Soundbenachrichtigungen angekündigt."
 
-#: resource/client/forms/client.glade:1803
+#: resource/client/forms/client.glade:1832
+msgid "Use sound \"bell\" for notifications"
+msgstr "Sound \"Piepton\" für Benachrichtigungen"
+
+#: resource/client/forms/client.glade:1852
 msgid "Configuration"
 msgstr "Konfiguration"
 

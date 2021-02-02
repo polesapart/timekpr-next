@@ -42,6 +42,8 @@ TK_LOG_OWNER_SRV = 0
 TK_LOG_OWNER_CLIENT = 1
 TK_LOG_OWNER_ADMIN = 2
 TK_LOG_OWNER_ADMIN_SU = 3
+# default event count for log file flush
+TK_LOG_AUTO_FLUSH_EVT_CNT = 42
 
 # client config and default values
 TK_CL_NOTIF_MAX = 30

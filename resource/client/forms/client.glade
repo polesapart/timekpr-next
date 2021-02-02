@@ -1036,7 +1036,7 @@ If it's checked, the time is accounted only when activities in "Activity / appli
 If it's checked, the time is accounted only when activities in "Activity / application list" are running, the rest of the time is considered idle.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time limit override:</property>
-                                        <property name="justify">right</property>
+                                        <property name="justify">fill</property>
                                         <property name="wrap">True</property>
                                         <property name="max-width-chars">25</property>
                                       </object>
@@ -1080,7 +1080,7 @@ If it's checked, the time is accounted only when activities in "Activity / appli
 This setting allows to use applications listed in "Activity / application list" during time intervals which are marked as unaccounted ("∞"), if the setting is not enabled, none of activities are allowed to run!</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Allowed during "∞":</property>
-                                        <property name="justify">right</property>
+                                        <property name="justify">fill</property>
                                         <property name="wrap">True</property>
                                         <property name="max-width-chars">25</property>
                                       </object>
@@ -1548,7 +1548,6 @@ Critical - a red icon and critical notification will be shown, this notification
                             <property name="column-spacing">20</property>
                             <child>
                               <object class="GtkCheckButton" id="timekprUseSpeechNotifCB">
-                                <property name="label" translatable="yes">Use speech notifications</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1558,6 +1557,15 @@ You may be able to make speech notifications available by installing package "py
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprUseSpeechNotifCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Use speech notifications</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1599,6 +1607,9 @@ Please do not change this unless you know what you're doing.</property>
 Please do not change this unless you know what you're doing.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Logging level</property>
+                                    <property name="justify">fill</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">30</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1614,7 +1625,6 @@ Please do not change this unless you know what you're doing.</property>
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprLimitChangeNotifCB">
-                                <property name="label" translatable="yes">Show limit changes</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1622,6 +1632,15 @@ Please do not change this unless you know what you're doing.</property>
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprLimitChangeNotifCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Show limit changes</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1630,7 +1649,6 @@ Please do not change this unless you know what you're doing.</property>
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprShowAllNotifCB">
-                                <property name="label" translatable="yes">Show all notifications</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1640,6 +1658,15 @@ If unchecked, then only important ones are shown.</property>
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprShowAllNotifCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Show all notifications</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1648,7 +1675,6 @@ If unchecked, then only important ones are shown.</property>
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprShowSecondsCB">
-                                <property name="label" translatable="yes">Show seconds in notification area</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1658,6 +1684,15 @@ Some desktop environments, like KDE5, do not support text besides notification i
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprShowSecondsCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Show seconds in notification area</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1704,6 +1739,9 @@ A value of 0 means show until dismissed (not recommended for regular notificatio
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Notification timeout (sec)</property>
+                                    <property name="justify">fill</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">30</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1758,6 +1796,9 @@ A value of 0 means show until dismissed.
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Critical notification timeout (sec)</property>
+                                    <property name="justify">fill</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">30</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1773,7 +1814,6 @@ Please note that the desktop environment you use may override this timeout, in w
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprUseNotificationSoundCB">
-                                <property name="label" translatable="yes">Use sound "bell" for notifications</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1785,6 +1825,15 @@ If this setting is not editable, your environment does not advertise sound notif
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprUseNotificationSoundCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Use sound "bell" for notifications</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">45</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>

@@ -38,6 +38,14 @@ class timekprAdminClient(object):
         lastParam = args[len(args)-1]
         timekprForceCLI = False
 
+        # configuration init
+        _timekprConfig = timekprConfig()
+        # load config
+        _timekprConfig.loadMainConfiguration()
+
+        # init logging
+        log.setLogging(_timekprConfig.getTimekprLogLevel(), cons.TK_LOG_TEMP_DIR, (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN), getpass.getuser())
+
         # check for script
         if ("/timekpra" in lastParam or "timekpra.py" in lastParam):
             # whether we have X running or wayland?
@@ -47,18 +55,8 @@ class timekprAdminClient(object):
 
             # if we are required to run graphical thing
             if (timekprX11Available or timekprWaylandAvailable or timekprMirAvailable):
-                # save logging for later use in classes down tree
-                self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_DEBUG, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN), cons.TK_LOG_U: getpass.getuser()}
-                # logging init
-                log.setLogging(self._logging)
-
-                # configuration init
-                _timekprConfig = timekprConfig(pLog=self._logging)
-                # load config
-                _timekprConfig.loadMainConfiguration()
                 # resource dir
                 _resourcePathGUI = os.path.join(_timekprConfig.getTimekprSharedDir(), "client/forms")
-
                 # use GUI
                 from timekpr.client.gui.admingui import timekprAdminGUI
                 # load GUI and process from there
@@ -82,6 +80,7 @@ class timekprAdminClient(object):
                 # use CLI
                 # validate possible parameters and their values, when fine - execute them as well
                 self.checkAndExecuteAdminCommands(*args)
+                log.flushLogFile()
 
     # --------------- parameter validation methods --------------- #
 
@@ -353,7 +352,7 @@ class timekprAdminClient(object):
                         # empty
                         hrs = "%s%s" % (uacc, hr) if hrs == "" else "%s;%s%s" % (hrs, uacc, hr)
                 log.consoleOut("%s: %s" % (rUserKey, hrs))
-            elif rUserKey in ("TRACK_INACTIVE", "HIDE_TRAY_INACTIVE", "PLAYTIME_ENABLED", "PLAYTIME_LIMIT_OVERRIDE_ENABLED", "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"):
+            elif rUserKey in ("TRACK_INACTIVE", "HIDE_TRAY_ICON", "PLAYTIME_ENABLED", "PLAYTIME_LIMIT_OVERRIDE_ENABLED", "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"):
                 log.consoleOut("%s: %s" % (rUserKey, bool(rUserConfig)))
             elif rUserKey in ("PLAYTIME_ACTIVITIES"):
                 # result

@@ -33,11 +33,6 @@ class timekprClient(object):
         self._userName, self._userNameFull = misc.getNormalizedUserNames(pUID=os.getuid())
         self._userNameDBUS = self._userName.replace(".", "").replace("-", "")
 
-        # log
-        self._logging = {cons.TK_LOG_L: cons.TK_LOG_LEVEL_INFO, cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
-        # set up logging
-        log.setLogging(self._logging)
-
         # get our bus
         self._timekprBus = (dbus.SessionBus() if (cons.TK_DEV_ACTIVE and cons.TK_DEV_BUS == "ses") else dbus.SystemBus())
 
@@ -48,22 +43,21 @@ class timekprClient(object):
         self._timekprClientConfig = timekprClientConfig()
         self._timekprClientConfig.loadClientConfiguration()
 
-        # save logging for later use in classes down tree
-        self._logging = {cons.TK_LOG_L: self._timekprClientConfig.getClientLogLevel(), cons.TK_LOG_D: cons.TK_LOG_TEMP_DIR, cons.TK_LOG_W: cons.TK_LOG_OWNER_CLIENT, cons.TK_LOG_U: self._userName}
-        # set up logging
-        log.setLogging(self._logging)
+        # init logging
+        log.setLogging(self._timekprClientConfig.getClientLogLevel(), cons.TK_LOG_TEMP_DIR, cons.TK_LOG_OWNER_CLIENT, self._userName)
+
 
     def startTimekprClient(self):
         """Start up timekpr (choose appropriate gui and start this up)"""
         log.log(cons.TK_LOG_LEVEL_INFO, "starting up timekpr client")
 
         # check if appind is supported
-        self._timekprClientIndicator = appind_timekprIndicator(self._logging, self._userName, self._userNameFull, self._timekprClientConfig)
+        self._timekprClientIndicator = appind_timekprIndicator(self._userName, self._userNameFull, self._timekprClientConfig)
 
         # if not supported fall back to statico
         if not self._timekprClientIndicator.isSupported():
             # check if appind is supported
-            self._timekprClientIndicator = statico_timekprIndicator(self._logging, self._userName, self._userNameFull, self._timekprClientConfig)
+            self._timekprClientIndicator = statico_timekprIndicator(self._userName, self._userNameFull, self._timekprClientConfig)
 
         # this will check whether we have an icon, if not, the rest goes through timekprClient anyway
         if self._timekprClientIndicator.isSupported():
@@ -79,14 +73,24 @@ class timekprClient(object):
         # init startup notification at default interval
         GLib.timeout_add_seconds(cons.TK_POLLTIME, self.requestInitialTimeValues)
 
+        # periodic log flusher
+        GLib.timeout_add_seconds(cons.TK_POLLTIME, self.autoFlushLogFile)
+
         # start main loop
         self._mainLoop.run()
+
+    def autoFlushLogFile(self):
+        """Periodically save file"""
+        log.autoFlushLogFile()
+        return True
 
     def finishTimekpr(self, signal=None, frame=None):
         """Exit timekpr gracefully"""
         log.log(cons.TK_LOG_LEVEL_INFO, "Finishing up")
         # exit main loop
         self._mainLoop.quit()
+        log.log(cons.TK_LOG_LEVEL_INFO, "Finished")
+        log.flushLogFile()
 
     def requestInitialTimeValues(self):
         """Request initial config from server"""

@@ -23,17 +23,15 @@ _USE_STATUSICON = True
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pUserName, pUserNameFull, pTimekprClientConfig):
+    def __init__(self, pUserName, pUserNameFull, pTimekprClientConfig):
         """Init all required stuff for indicator"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprSystrayIcon")
 
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pUserName, pUserNameFull, pTimekprClientConfig)
+            super().__init__(pUserName, pUserNameFull, pTimekprClientConfig)
 
             # this is our icon
             self._tray = None

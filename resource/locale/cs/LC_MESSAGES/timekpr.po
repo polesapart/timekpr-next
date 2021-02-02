@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: Ludek NOVAK <ludek.novak@gmail.com>\n"
-"POT-Creation-Date: 2021-01-22 17:51+0200\n"
-"PO-Revision-Date: 2021-01-23 01:39+0200\n"
+"POT-Creation-Date: 2021-02-02 22:29+0200\n"
+"PO-Revision-Date: 2021-02-02 22:32+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -2688,11 +2688,7 @@ msgstr "Odebrat sledovaný typ relace ze seznamu"
 msgid "Notifications"
 msgstr "Zobrazit všechna oznámení"
 
-#: resource/client/forms/client.glade:1551
-msgid "Use speech notifications"
-msgstr "Použít hlasová oznámení"
-
-#: resource/client/forms/client.glade:1555
+#: resource/client/forms/client.glade:1554
 #, fuzzy
 #| msgid ""
 #| "Select whether to use speech notifications, if available. You may be able "
@@ -2708,8 +2704,12 @@ msgstr ""
 "volba šedá). Pokud potřebujete použít hlasová oznámení, nainstalujte prosím "
 "balíček \"python3-espeak\"."
 
-#: resource/client/forms/client.glade:1575
-#: resource/client/forms/client.glade:1597
+#: resource/client/forms/client.glade:1564
+msgid "Use speech notifications"
+msgstr "Použít hlasová oznámení"
+
+#: resource/client/forms/client.glade:1583
+#: resource/client/forms/client.glade:1605
 #, fuzzy
 #| msgid ""
 #| "This sets the logging level. Please do not change this unless you know "
@@ -2722,15 +2722,11 @@ msgstr ""
 "Zde nastavíte úroveň protokolování (prosím pokud nevíte co děláte, neměňte "
 "nastavení)"
 
-#: resource/client/forms/client.glade:1601
+#: resource/client/forms/client.glade:1609
 msgid "Logging level"
 msgstr "Úroveň protokolování"
 
-#: resource/client/forms/client.glade:1617
-msgid "Show limit changes"
-msgstr "Zobrazit změny limitu"
-
-#: resource/client/forms/client.glade:1621
+#: resource/client/forms/client.glade:1631
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
@@ -2738,11 +2734,11 @@ msgstr ""
 "Určete, zda se mají zobrazit oznámení, když se změní konfigurace limitů nebo "
 "povolení"
 
-#: resource/client/forms/client.glade:1633
-msgid "Show all notifications"
-msgstr "Zobrazit všechna oznámení"
+#: resource/client/forms/client.glade:1639
+msgid "Show limit changes"
+msgstr "Zobrazit změny limitu"
 
-#: resource/client/forms/client.glade:1637
+#: resource/client/forms/client.glade:1655
 #, fuzzy
 #| msgid ""
 #| "Specify whether to show all notifications. If unchecked, then only "
@@ -2755,11 +2751,11 @@ msgstr ""
 "Určete, zda se mají zobrazit všechna oznámení. Pokud není zaškrtnuto, "
 "zobrazí se pouze důležité"
 
-#: resource/client/forms/client.glade:1651
-msgid "Show seconds in notification area"
-msgstr "Zobrazit sekundy v oznamovací oblasti"
+#: resource/client/forms/client.glade:1665
+msgid "Show all notifications"
+msgstr "Zobrazit všechna oznámení"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1681
 #, fuzzy
 #| msgid ""
 #| "Specify whether to show seconds in notification area. Some desktop "
@@ -2773,8 +2769,12 @@ msgstr ""
 "Určete, zda se mají zobrazovat sekundy v oznamovací oblasti (některé DE, "
 "například KDE5, nepodporují text kromě oznamovacích ikon)"
 
-#: resource/client/forms/client.glade:1675
-#: resource/client/forms/client.glade:1699
+#: resource/client/forms/client.glade:1691
+msgid "Show seconds in notification area"
+msgstr "Zobrazit sekundy v oznamovací oblasti"
+
+#: resource/client/forms/client.glade:1710
+#: resource/client/forms/client.glade:1734
 #, fuzzy
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
@@ -2794,12 +2794,12 @@ msgstr ""
 "Upozorňujeme, že prostředí, které používáte, může přepsat časový limit, což "
 "znamená, že toto nastavení nebude mít žádný vliv na oznámení."
 
-#: resource/client/forms/client.glade:1706
+#: resource/client/forms/client.glade:1741
 msgid "Notification timeout (sec)"
 msgstr "Časový limit oznámení (s)"
 
-#: resource/client/forms/client.glade:1728
-#: resource/client/forms/client.glade:1753
+#: resource/client/forms/client.glade:1766
+#: resource/client/forms/client.glade:1791
 #, fuzzy
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
@@ -2818,15 +2818,11 @@ msgstr ""
 "Upozorňujeme, že prostředí, které používáte, může přepsat časový limit, což "
 "znamená, že toto nastavení nebude mít žádný vliv na oznámení."
 
-#: resource/client/forms/client.glade:1760
+#: resource/client/forms/client.glade:1798
 msgid "Critical notification timeout (sec)"
 msgstr "Časový limit kritického oznámení (s)"
 
-#: resource/client/forms/client.glade:1776
-msgid "Use sound \"bell\" for notifications"
-msgstr "K upozornění použijte zvukový signál"
-
-#: resource/client/forms/client.glade:1780
+#: resource/client/forms/client.glade:1820
 #, fuzzy
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
@@ -2843,7 +2839,11 @@ msgstr ""
 "Pokud nastavení nelze upravovat, vaše prostředí neinvertuje podporu "
 "zvukového upozornění."
 
-#: resource/client/forms/client.glade:1803
+#: resource/client/forms/client.glade:1832
+msgid "Use sound \"bell\" for notifications"
+msgstr "K upozornění použijte zvukový signál"
+
+#: resource/client/forms/client.glade:1852
 msgid "Configuration"
 msgstr "Nastavení"
 

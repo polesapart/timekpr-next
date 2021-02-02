@@ -18,12 +18,8 @@ from timekpr.common.utils import misc
 class timekprUserLoginManager(object):
     """Class enables the connection with login1"""
 
-    def __init__(self, pLog):
+    def __init__(self):
         """Initialize all stuff for login1"""
-        # init logging firstly
-        self._logging = pLog
-        log.setLogging(self._logging)
-
         log.log(cons.TK_LOG_LEVEL_INFO, "start timekpr login1 manager")
 
         # variables
@@ -117,7 +113,7 @@ class timekprUserLoginManager(object):
             loggedInUsers[str(rUser[1])] = {cons.TK_CTRL_UID: str(int(rUser[0])), cons.TK_CTRL_UNAME: str(rUser[1]), cons.TK_CTRL_UPATH: str(rUser[2])}
 
         # in case debug
-        if not pSilent and log.isDebug():
+        if not pSilent and log.isDebugEnabled():
             # get all properties
             for key, value in loggedInUsers.items():
                 # optimize logging
@@ -336,7 +332,7 @@ class timekprUserLoginManager(object):
             # dispatch a killer for leftovers
             log.log(cons.TK_LOG_LEVEL_INFO, "dipatching a killer for leftover processes after %i seconds" % (tmo))
             # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
-            GLib.timeout_add_seconds(tmo, misc.killLeftoverUserProcesses, self._logging, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
+            GLib.timeout_add_seconds(tmo, misc.killLeftoverUserProcesses, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")
 

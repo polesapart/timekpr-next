@@ -22,10 +22,8 @@ from timekpr.common.utils.config import timekprUserControl
 class timekprUser(object):
     """Contains all the data for timekpr user"""
 
-    def __init__(self, pLog, pBusName, pUserId, pUserName, pUserPath, pTimekprConfig, pPlayTimeConfig):
+    def __init__(self, pBusName, pUserId, pUserName, pUserPath, pTimekprConfig, pPlayTimeConfig):
         """Initialize all stuff for user"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekprUser")
 
@@ -46,13 +44,13 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_SCR_K] = None  # verification key
 
         # save the bus
-        self._timekprUserManager = timekprUserManager(pLog, self._timekprUserData[cons.TK_CTRL_UNAME], self._timekprUserData[cons.TK_CTRL_UPATH])
+        self._timekprUserManager = timekprUserManager(self._timekprUserData[cons.TK_CTRL_UNAME], self._timekprUserData[cons.TK_CTRL_UPATH])
         # user config
-        self._timekprUserConfig = timekprUserConfig(pLog, self._timekprConfig.getTimekprConfigDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
+        self._timekprUserConfig = timekprUserConfig(self._timekprConfig.getTimekprConfigDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
         # user control
-        self._timekprUserControl = timekprUserControl(pLog, self._timekprConfig.getTimekprWorkDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
+        self._timekprUserControl = timekprUserControl(self._timekprConfig.getTimekprWorkDir(), self._timekprUserData[cons.TK_CTRL_UNAME])
         # user notification
-        self._timekprUserNotification = timekprNotificationManager(pLog, pBusName, self._timekprUserData[cons.TK_CTRL_UNAME], pTimekprConfig)
+        self._timekprUserNotification = timekprNotificationManager(pBusName, self._timekprUserData[cons.TK_CTRL_UNAME], pTimekprConfig)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish init timekprUser")
 
@@ -197,7 +195,7 @@ class timekprUser(object):
                     secondsToAddHour = max(min(secondsLeftHour, secondsLeftHourLimit, secondsLeft), 0)
 
                     # debug
-                    if log.isDebug():
+                    if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
                         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "currentDOW: %s, currentHOD: %s, secondsLeftHour: %s, currentMOH: %s, currentSOM: %s, secondsLeftHourLimit: %s, secondsToAddHour: %s, secondsLeft: %s" % (str(i), str(j), secondsLeftHour, self._currentMOH, self._effectiveDatetime.second, secondsLeftHourLimit, secondsToAddHour, secondsLeft))
                 # hour is disabled
                 else:
@@ -205,7 +203,7 @@ class timekprUser(object):
                     contTime = False
 
                 # debug
-                if log.isDebug():
+                if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
                     log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "day: %s, hour: %s, enabled: %s, addToHour: %s, contTime: %s, leftD: %s, leftWk: %s, leftMon: %s" % (i, str(j), self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT], secondsToAddHour, contTime, timesLeft[cons.TK_CTRL_LEFTD], self._timekprUserData[cons.TK_CTRL_LEFTW], self._timekprUserData[cons.TK_CTRL_LEFTM]))
 
                 # adjust left continously
@@ -231,7 +229,7 @@ class timekprUser(object):
                     break
 
         # debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "leftInRow: %s, leftDay: %s, lefDay+1: %s" % (self._timekprUserData[cons.TK_CTRL_LEFT], self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD], self._timekprUserData[self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]][cons.TK_CTRL_LEFTD]))
 
     def adjustLimitsFromConfig(self, pSilent=True):
@@ -318,7 +316,7 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LCMOD] = self._timekprUserConfig.getUserLastModified()
 
         # debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "adjustLimitsFromConfig structure: %s" % (str(self._timekprUserData)))
 
         # get time limits and send them out if needed
@@ -387,25 +385,32 @@ class timekprUser(object):
         """Adjust time spent (and save it)"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentActual")
 
+        def _adjustTimeSpentValues(pDay, pHOD, pSecs, pActive):
+            """Adjust time spent values"""
+            # if hour is not accounted, we do not account main time
+            if not pActive or self._timekprUserData[pDay][pHOD][cons.TK_CTRL_UACC]:
+                # track sleep time
+                self._timekprUserData[pDay][pHOD][cons.TK_CTRL_SLEEP] += pSecs
+            else:
+                # adjust time spent hour
+                self._timekprUserData[pDay][pHOD][cons.TK_CTRL_SPENTH] += pSecs
+                # adjust time spent day balance
+                self._timekprUserData[pDay][cons.TK_CTRL_TSPBALD] += pSecs
+                # adjust time spent day
+                self._timekprUserData[cons.TK_CTRL_SPENTD] += pSecs
+                # adjust time spent week
+                self._timekprUserData[cons.TK_CTRL_SPENTW] += pSecs
+                # adjust time spent month
+                self._timekprUserData[cons.TK_CTRL_SPENTM] += pSecs
+
         # check if dates have changed
         dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime, self._timekprUserData[cons.TK_CTRL_LCHECK])
+        # currentHOD in str
+        currentHODStr = str(self._currentHOD)
         # get time spent
         timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
-
-        # if time spent is very much higher than the default polling time, computer might went to sleep?
-        if timeSpent >= cons.TK_POLLTIME * 15:
-            # sleeping time is added to inactive time (there is a question whether that's OK, disabled currently)
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: sleeping for %s" % (timeSpent))
-            # effectively spent is 0 (we ignore +/- 3 seconds here)
-            timeSpent = 0
-        else:
-            # get time spent for this hour (if hour passed in between checks and it's not the first hour and hour is accounted, we need to properly adjust this hour)
-            if timeSpent > self._secondsInHour and self._currentHOD != 0 and not self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]:
-                # adjust previous hour
-                self._timekprUserData[self._currentDOW][str(self._currentHOD-1)][cons.TK_CTRL_SPENTH] += timeSpent - self._secondsInHour
-
-            # adjust time spent for this hour
-            timeSpent = min(timeSpent, self._secondsInHour)
+        # adjust last time checked
+        self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
 
         # determine if active
         userActiveActual, userScreenLocked = self._timekprUserManager.isUserActive(pTimekprConfig, self._timekprUserConfig, self._timekprUserData[cons.TK_CTRL_SCR_N])
@@ -422,39 +427,35 @@ class timekprUser(object):
                 # override
                 userActiveEffective = userActivePT
 
-        # how long user has been sleeping
-        if not userActiveEffective:
-            # track sleep time
-            self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SLEEP] += timeSpent
-        # adjust time spent only if user is active
-        elif userActiveEffective:
-            # if hour is not accounted, we do not account main time
-            if self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]:
-                # track sleep time
-                self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SLEEP] += timeSpent
-            else:
-                # adjust time spent this hour
-                self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] += timeSpent
-                # adjust time spent balance this day
-                self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] += timeSpent
-                # adjust time spent this day
-                self._timekprUserData[cons.TK_CTRL_SPENTD] += timeSpent
-                # adjust time spent this week
-                self._timekprUserData[cons.TK_CTRL_SPENTW] += timeSpent
-                # adjust time spent this month
-                self._timekprUserData[cons.TK_CTRL_SPENTM] += timeSpent
+        # if time spent is very much higher than the default polling time, computer might went to sleep?
+        if timeSpent >= cons.TK_POLLTIME * 15:
+            # sleeping time is added to inactive time (there is a question whether that's OK, disabled currently)
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "INFO: timekpr sleeping for %s" % (timeSpent))
+            # effectively spent is 0 (we ignore +/- 3 seconds here)
+            timeSpent = 0
+        else:
+            # set time spent for previous hour (this may be triggered only when day changes)
+            if timeSpent > self._secondsInHour:
+                # adjust time values (either inactive or actual time)
+                _adjustTimeSpentValues(self._timekprUserData[self._currentDOW][cons.TK_CTRL_PDAY] if dayChanged else self._currentDOW,
+                    "23" if self._currentHOD == 0 else currentHODStr,
+                    timeSpent - self._secondsInHour,
+                    userActiveEffective)
 
-            # count PlayTime if enabled
-            if userActivePT:
-                # if this hour is unlimited, we count this only for spent, not for balance (i.e. it will not count towards limit)
-                if not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
-                    # adjust PlayTime balance this day
-                    self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD] += timeSpent
-                # adjust PlayTime spent this day
-                self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] += timeSpent
+            # adjust time spent for this hour
+            timeSpent = min(timeSpent, self._secondsInHour)
 
-        # adjust last time checked
-        self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
+        # adjust time values (either sleep or inactive or actual time)
+        _adjustTimeSpentValues(self._currentDOW, currentHODStr, timeSpent, userActiveEffective)
+
+        # count PlayTime if enabled
+        if userActiveEffective and userActivePT:
+            # if this hour is unlimited, we count this only for spent, not for balance (i.e. it will not count towards limit)
+            if not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
+                # adjust PlayTime balance this day
+                self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD] += timeSpent
+            # adjust PlayTime spent this day
+            self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] += timeSpent
 
         # if there is a day change, we need to adjust time for this day and day after
         if dayChanged:
@@ -468,7 +469,7 @@ class timekprUser(object):
                     self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SLEEP] = 0
 
             # reset spent for this hour
-            self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH] = timeSpent
+            self._timekprUserData[self._currentDOW][currentHODStr][cons.TK_CTRL_SPENTH] = timeSpent
             # reset balance for this day
             self._timekprUserData[self._currentDOW][cons.TK_CTRL_TSPBALD] = timeSpent
             # reset time spent for this day
@@ -542,7 +543,7 @@ class timekprUser(object):
         timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
 
         # debug
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "get time for \"%s\", tlt: %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
+        log.log(cons.TK_LOG_LEVEL_INFO, "get time for \"%s\", tltd %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
         # set up values
         timeValues = {}
@@ -583,7 +584,7 @@ class timekprUser(object):
             # get real value for accounted
             isPTAccounted = not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
+            log.log(cons.TK_LOG_LEVEL_INFO, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
         # result
         return timeLeftPT, isPTEnabled, isPTAccounted
 
@@ -622,7 +623,7 @@ class timekprUser(object):
         self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
 
         # if debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "save spent structure: %s" % (str(self._timekprUserData[self._currentDOW])))
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saveSpent")
@@ -728,7 +729,7 @@ class timekprUser(object):
         timeLimits[cons.TK_CTRL_PTAUH] = (1 if self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled() else 0)
 
         # debug
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "TL: %s" % (str(timeLimits)))
 
         # process notifications, if needed

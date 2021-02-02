@@ -18,10 +18,8 @@ class timekprNotificationManager(dbus.service.Object):
 
     # --------------- initialization / control methods --------------- #
 
-    def __init__(self, pLog, pBusName, pUserName, pTimekprConfig):
+    def __init__(self, pBusName, pUserName, pTimekprConfig):
         """Initialize notification manager"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start init notifications")
 
@@ -176,7 +174,7 @@ class timekprNotificationManager(dbus.service.Object):
                     # add intervals
                     timeLimits[rKey][cons.TK_CTRL_INT].append(dbus.Array([rLimit[0], rLimit[1], rLimit[2]], signature="i"))
 
-        if log.isDebug():
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
             log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "TLDB: %s" % (str(timeLimits)))
 
         # process

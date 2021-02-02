@@ -8,7 +8,7 @@ Created on Aug 28, 2018
 class timekprUserLoginManager(object):
     """Class enables the connection with ConsoleKit"""
 
-    def __init__(self, pLog):
+    def __init__(self):
         """Initialize all stuff for consolekit"""
         # NOT IMPLEMENTED
         raise NotImplementedError("ConsoleKit support is not implemented")

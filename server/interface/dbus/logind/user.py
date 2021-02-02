@@ -16,10 +16,8 @@ from timekpr.common.utils import misc
 class timekprUserManager(object):
     """A connection with login1 and other DBUS servers."""
 
-    def __init__(self, pLog, pUserName, pUserPathOnBus):
+    def __init__(self, pUserName, pUserPathOnBus):
         """Initialize manager."""
-        # init logging firstly
-        log.setLogging(pLog)
 
         # save the bus and user
         self._timekprBus = dbus.SystemBus()

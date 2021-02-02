@@ -24,11 +24,8 @@ DBusGMainLoop(set_as_default=True)
 class timekprNotifications(object):
     """Main class for supporting indicator notifications, connect to request methods for timekpr and connections to other DBUS modules"""
 
-    def __init__(self, pLog, pUserName, pTimekprClientConfig):
+    def __init__(self, pUserName, pTimekprClientConfig):
         """Initialize notifications"""
-        # init logging firstly
-        log.setLogging(pLog)
-
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr notifications")
 
         # uname
