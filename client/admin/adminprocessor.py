@@ -352,7 +352,7 @@ class timekprAdminClient(object):
                         # empty
                         hrs = "%s%s" % (uacc, hr) if hrs == "" else "%s;%s%s" % (hrs, uacc, hr)
                 log.consoleOut("%s: %s" % (rUserKey, hrs))
-            elif rUserKey in ("TRACK_INACTIVE", "HIDE_TRAY_INACTIVE", "PLAYTIME_ENABLED", "PLAYTIME_LIMIT_OVERRIDE_ENABLED", "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"):
+            elif rUserKey in ("TRACK_INACTIVE", "HIDE_TRAY_ICON", "PLAYTIME_ENABLED", "PLAYTIME_LIMIT_OVERRIDE_ENABLED", "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"):
                 log.consoleOut("%s: %s" % (rUserKey, bool(rUserConfig)))
             elif rUserKey in ("PLAYTIME_ACTIVITIES"):
                 # result
