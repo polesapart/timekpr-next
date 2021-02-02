@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-22 17:51+0200\n"
-"PO-Revision-Date: 2021-02-01 19:47+0200\n"
+"POT-Creation-Date: 2021-02-02 22:29+0200\n"
+"PO-Revision-Date: 2021-02-02 22:33+0200\n"
 "Last-Translator: albano <albano_battistella@hotmail.com>\n"
 "Language-Team: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language: it_IT\n"
@@ -2659,11 +2659,7 @@ msgstr "Rimuovi la soglia di notifica del Tempo di Gioco dall'elenco"
 msgid "Notifications"
 msgstr "Notifiche"
 
-#: resource/client/forms/client.glade:1551
-msgid "Use speech notifications"
-msgstr "Usa le notifiche vocali"
-
-#: resource/client/forms/client.glade:1555
+#: resource/client/forms/client.glade:1554
 msgid ""
 "Select whether to use speech notifications, if available.\n"
 "\n"
@@ -2675,8 +2671,12 @@ msgstr ""
 "Potresti essere in grado di rendere disponibili le notifiche vocali "
 "installando il pacchetto \"python3-espeak\"."
 
-#: resource/client/forms/client.glade:1575
-#: resource/client/forms/client.glade:1597
+#: resource/client/forms/client.glade:1564
+msgid "Use speech notifications"
+msgstr "Usa le notifiche vocali"
+
+#: resource/client/forms/client.glade:1583
+#: resource/client/forms/client.glade:1605
 msgid ""
 "This sets the logging level.\n"
 "\n"
@@ -2686,15 +2686,11 @@ msgstr ""
 "\n"
 "Per favore non cambiarlo a meno che tu non sappia cosa stai facendo."
 
-#: resource/client/forms/client.glade:1601
+#: resource/client/forms/client.glade:1609
 msgid "Logging level"
 msgstr "Livello di registrazione"
 
-#: resource/client/forms/client.glade:1617
-msgid "Show limit changes"
-msgstr "Mostra le modifiche ai limiti"
-
-#: resource/client/forms/client.glade:1621
+#: resource/client/forms/client.glade:1631
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
@@ -2702,11 +2698,11 @@ msgstr ""
 "Se mostrare la notifica quando si modificano le configurazioni limite o la "
 "tolleranza"
 
-#: resource/client/forms/client.glade:1633
-msgid "Show all notifications"
-msgstr "Mostra tutte le notifiche"
+#: resource/client/forms/client.glade:1639
+msgid "Show limit changes"
+msgstr "Mostra le modifiche ai limiti"
 
-#: resource/client/forms/client.glade:1637
+#: resource/client/forms/client.glade:1655
 msgid ""
 "Specify whether to show all notifications.\n"
 "\n"
@@ -2716,11 +2712,11 @@ msgstr ""
 "\n"
 "Se deselezionato, vengono mostrati solo quelli importanti."
 
-#: resource/client/forms/client.glade:1651
-msgid "Show seconds in notification area"
-msgstr "Mostra i secondi nell'area di notifica"
+#: resource/client/forms/client.glade:1665
+msgid "Show all notifications"
+msgstr "Mostra tutte le notifiche"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1681
 msgid ""
 "Specify whether to show seconds in notification area.\n"
 "\n"
@@ -2732,8 +2728,12 @@ msgstr ""
 "Alcuni ambienti desktop, come KDE5, non supportano il testo oltre alle icone "
 "di notifica."
 
-#: resource/client/forms/client.glade:1675
-#: resource/client/forms/client.glade:1699
+#: resource/client/forms/client.glade:1691
+msgid "Show seconds in notification area"
+msgstr "Mostra i secondi nell'area di notifica"
+
+#: resource/client/forms/client.glade:1710
+#: resource/client/forms/client.glade:1734
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
 "time left and configuration changes.\n"
@@ -2756,12 +2756,12 @@ msgstr ""
 "timeout, nel qual caso questa impostazione non avrà alcun effetto sulla "
 "notifica."
 
-#: resource/client/forms/client.glade:1706
+#: resource/client/forms/client.glade:1741
 msgid "Notification timeout (sec)"
 msgstr "Timeout notifica (sec)"
 
-#: resource/client/forms/client.glade:1728
-#: resource/client/forms/client.glade:1753
+#: resource/client/forms/client.glade:1766
+#: resource/client/forms/client.glade:1791
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
 "about time left (when the icon turns red).\n"
@@ -2782,15 +2782,11 @@ msgstr ""
 "timeout, nel qual caso questa impostazione non avrà alcun effetto sulla "
 "notifica."
 
-#: resource/client/forms/client.glade:1760
+#: resource/client/forms/client.glade:1798
 msgid "Critical notification timeout (sec)"
 msgstr "Timeout di notifica critico (sec)"
 
-#: resource/client/forms/client.glade:1776
-msgid "Use sound \"bell\" for notifications"
-msgstr "Usa il suono \"beep\" per le notifiche"
-
-#: resource/client/forms/client.glade:1780
+#: resource/client/forms/client.glade:1820
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
 "a new notification from Timekpr-nExT.\n"
@@ -2808,7 +2804,11 @@ msgstr ""
 "Se questa impostazione non è modificabile, l'ambiente che usi non è in grado "
 "di supportare per le notifiche sonore."
 
-#: resource/client/forms/client.glade:1803
+#: resource/client/forms/client.glade:1832
+msgid "Use sound \"bell\" for notifications"
+msgstr "Usa il suono \"beep\" per le notifiche"
+
+#: resource/client/forms/client.glade:1852
 msgid "Configuration"
 msgstr "Configurazione"
 

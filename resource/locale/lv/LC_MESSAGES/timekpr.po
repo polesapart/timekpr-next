@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
-"POT-Creation-Date: 2021-01-22 17:51+0200\n"
-"PO-Revision-Date: 2021-01-23 01:36+0200\n"
+"POT-Creation-Date: 2021-02-02 22:29+0200\n"
+"PO-Revision-Date: 2021-02-02 22:33+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs\n"
 "Language: lv_LV\n"
@@ -2605,11 +2605,7 @@ msgstr "Dzēst PlayTime notifikāciju no saraksta"
 msgid "Notifications"
 msgstr "Paziņojumi"
 
-#: resource/client/forms/client.glade:1551
-msgid "Use speech notifications"
-msgstr "Pielietot balss paziņojumus"
-
-#: resource/client/forms/client.glade:1555
+#: resource/client/forms/client.glade:1554
 msgid ""
 "Select whether to use speech notifications, if available.\n"
 "\n"
@@ -2622,8 +2618,12 @@ msgstr ""
 "Ja vēlaties izmantot balss notifikācijas, lūdzu instalēt \"python3-espeak\" "
 "pakotni."
 
-#: resource/client/forms/client.glade:1575
-#: resource/client/forms/client.glade:1597
+#: resource/client/forms/client.glade:1564
+msgid "Use speech notifications"
+msgstr "Pielietot balss paziņojumus"
+
+#: resource/client/forms/client.glade:1583
+#: resource/client/forms/client.glade:1605
 msgid ""
 "This sets the logging level.\n"
 "\n"
@@ -2633,25 +2633,21 @@ msgstr ""
 "\n"
 "Lūdzu mainīt tikai tad, ja esat pārliecināts un zinošs, ko tas nozīmē."
 
-#: resource/client/forms/client.glade:1601
+#: resource/client/forms/client.glade:1609
 msgid "Logging level"
 msgstr "Tehniskā žurnāla līmenis"
 
-#: resource/client/forms/client.glade:1617
-msgid "Show limit changes"
-msgstr "Paziņot par izmaiņām ierobežojumos"
-
-#: resource/client/forms/client.glade:1621
+#: resource/client/forms/client.glade:1631
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
 msgstr "Nosaka vai rādīt paziņojumu gadījumā, ja ierobežojumi tikuši mainīti"
 
-#: resource/client/forms/client.glade:1633
-msgid "Show all notifications"
-msgstr "Rādīt visus paziņojumus"
+#: resource/client/forms/client.glade:1639
+msgid "Show limit changes"
+msgstr "Paziņot par izmaiņām ierobežojumos"
 
-#: resource/client/forms/client.glade:1637
+#: resource/client/forms/client.glade:1655
 msgid ""
 "Specify whether to show all notifications.\n"
 "\n"
@@ -2661,11 +2657,11 @@ msgstr ""
 "\n"
 "Ja opcija atspējota, rādīti tiek tikai īpaši svarīgi paziņojumi."
 
-#: resource/client/forms/client.glade:1651
-msgid "Show seconds in notification area"
-msgstr "Rādīt sekundes"
+#: resource/client/forms/client.glade:1665
+msgid "Show all notifications"
+msgstr "Rādīt visus paziņojumus"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1681
 msgid ""
 "Specify whether to show seconds in notification area.\n"
 "\n"
@@ -2676,8 +2672,12 @@ msgstr ""
 "\n"
 "Dažas no grafiskajām vidēm, piemēram KDE5, neatbalsta šādu opciju."
 
-#: resource/client/forms/client.glade:1675
-#: resource/client/forms/client.glade:1699
+#: resource/client/forms/client.glade:1691
+msgid "Show seconds in notification area"
+msgstr "Rādīt sekundes"
+
+#: resource/client/forms/client.glade:1710
+#: resource/client/forms/client.glade:1734
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
 "time left and configuration changes.\n"
@@ -2700,12 +2700,12 @@ msgstr ""
 "Lūdzu ņemt vērā, ka jūsu lietotā vide var pārtvert šo opciju, kas nozīmē, ka "
 "šai opcija nebūs nekāda ietekme uz paziņojumiem."
 
-#: resource/client/forms/client.glade:1706
+#: resource/client/forms/client.glade:1741
 msgid "Notification timeout (sec)"
 msgstr "Pārējo paziņojumu ilgums (sek)"
 
-#: resource/client/forms/client.glade:1728
-#: resource/client/forms/client.glade:1753
+#: resource/client/forms/client.glade:1766
+#: resource/client/forms/client.glade:1791
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
 "about time left (when the icon turns red).\n"
@@ -2726,15 +2726,11 @@ msgstr ""
 "Lūdzu ņemt vērā, ka jūsu lietotā vide var pārtvert šo opciju, kas nozīmē, ka "
 "šai opcija nebūs nekāda ietekme uz paziņojumiem."
 
-#: resource/client/forms/client.glade:1760
+#: resource/client/forms/client.glade:1798
 msgid "Critical notification timeout (sec)"
 msgstr "Kritisko paziņojumu ilgums (sek)"
 
-#: resource/client/forms/client.glade:1776
-msgid "Use sound \"bell\" for notifications"
-msgstr "Lieto īsu skaņas signālu paziņojumos"
-
-#: resource/client/forms/client.glade:1780
+#: resource/client/forms/client.glade:1820
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
 "a new notification from Timekpr-nExT.\n"
@@ -2752,7 +2748,11 @@ msgstr ""
 "Ja šī opcija nav rediģējama, tas nozīmē, ka jūsu lietotā vide nepiedāvā šādu "
 "iespēju."
 
-#: resource/client/forms/client.glade:1803
+#: resource/client/forms/client.glade:1832
+msgid "Use sound \"bell\" for notifications"
+msgstr "Lieto īsu skaņas signālu paziņojumos"
+
+#: resource/client/forms/client.glade:1852
 msgid "Configuration"
 msgstr "Konfigurācija"
 

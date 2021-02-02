@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2021-01-22 17:51+0200\n"
-"PO-Revision-Date: 2021-02-01 19:46+0200\n"
+"POT-Creation-Date: 2021-02-02 22:29+0200\n"
+"PO-Revision-Date: 2021-02-02 22:35+0200\n"
 "Last-Translator: JP Lord <Unknown>\n"
 "Language-Team: French (Canada) <fr_CA@li.org>\n"
 "Language: fr\n"
@@ -101,15 +101,14 @@ msgstr ""
 
 #: common/constants/messages.py:45
 msgid "==> set whether PlayTime is enabled for the user, example"
-msgstr ""
-"==> activer/désactiver l'option Temps_libre pour l'utilisateur, exemple"
+msgstr "==> activer/désactiver l'option TempsLibre pour l'utilisateur, exemple"
 
 #: common/constants/messages.py:46
 msgid ""
 "==> set whether PlayTime must be accounted instead of normal activity, "
 "example"
 msgstr ""
-"==> choisir si Temps_libre doit être utilisé au lieu de l'activité normale, "
+"==> choisir si TempsLibre doit être utilisé au lieu de l'activité normale, "
 "exemple"
 
 #: common/constants/messages.py:47
@@ -117,19 +116,19 @@ msgid ""
 "==> set whether PlayTime activities are allowed during unaccounted (\"∞\") "
 "intervals, example"
 msgstr ""
-"==> choisir si Temps_libre est permis durant les intervalles non "
+"==> choisir si TempsLibre est permis durant les intervalles non "
 "comptabilisés, exemple"
 
 #: common/constants/messages.py:48
 msgid "==> set allowed days for PlayTime activities, example"
-msgstr "==> régler les jours permis pour les activités Temps_libre, exemple"
+msgstr "==> régler les jours permis pour les activités TempsLibre, exemple"
 
 #: common/constants/messages.py:49
 msgid ""
 "==> set PlayTime limits for all allowed days, the number of values must not "
 "exceed the allowed PlayTime allowed days for the user, example"
 msgstr ""
-"==> régler les limites de Temps_libre pour les jours choisis. Le nombre de "
+"==> régler les limites de TempsLibre pour les jours choisis. Le nombre de "
 "valeurs ne doit pas excéder le nombre de jours de \"Temps libre\" permis "
 "pour l'utilisateur, exemple"
 
@@ -138,7 +137,7 @@ msgid ""
 "==> set PlayTime activity process masks, for which the time is accounted, "
 "example"
 msgstr ""
-"==> régler les masques des processus pour lesquels le Temps_libre est "
+"==> régler les masques des processus pour lesquels le TempsLibre est "
 "considéré, exemple"
 
 #: common/constants/messages.py:51
@@ -147,7 +146,7 @@ msgid ""
 "time), \"-\" (subtract time), \"=\" (set exact time available), example (add "
 "one hour)"
 msgstr ""
-"==> régler le Temps_libre restant : \"+\" pour ajouter du temps, \"-\" pour "
+"==> régler le TempsLibre restant : \"+\" pour ajouter du temps, \"-\" pour "
 "réduire le temps, \"=\" pour régler le temps exact, exemple (ajouter une "
 "heure)"
 
@@ -294,26 +293,26 @@ msgstr "Le temps d'enregistrement \"%%s\" est incorrect et ne peut être réglé
 
 #: common/constants/messages.py:84
 msgid "PlayTime flag is not passed"
-msgstr "L'option Temps_libre n'est pas expirée"
+msgstr "L'option TempsLibre n'est pas expirée"
 
 #: common/constants/messages.py:85
 #, python-format
 msgid "PlayTime flag \"%%s\" is not correct"
-msgstr "L'option Temps_libre \"%%s\" est incorrecte"
+msgstr "L'option TempsLibre \"%%s\" est incorrecte"
 
 #: common/constants/messages.py:86
 #, python-format
 msgid "PlayTime flag \"%%s\" is not correct and cannot be set"
-msgstr "L'option Temps_libre \"%%s\" est incorrecte et ne peut être utilisée"
+msgstr "L'option TempsLibre \"%%s\" est incorrecte et ne peut être utilisée"
 
 #: common/constants/messages.py:87
 msgid "PlayTime enhanced activity monitor flag is not passed"
-msgstr "Le suivi amélioré de l'option Temps_libre n'est pas expirée"
+msgstr "Le suivi amélioré de l'option TempsLibre n'est pas expirée"
 
 #: common/constants/messages.py:88
 #, python-format
 msgid "PlayTime enhanced activity monitor flag \"%%s\" is not correct"
-msgstr "Le suivi amélioré de l'option Temps_libre \"%%s\" est incorrect"
+msgstr "Le suivi amélioré de l'option TempsLibre \"%%s\" est incorrect"
 
 #: common/constants/messages.py:89
 #, python-format
@@ -321,7 +320,7 @@ msgid ""
 "PlayTime enhanced activity monitor flag \"%%s\" is not correct and cannot be "
 "set"
 msgstr ""
-"Le suivi amélioré de l'option Temps_libre \"%%s\" est incorrect et ne peut "
+"Le suivi amélioré de l'option TempsLibre \"%%s\" est incorrect et ne peut "
 "être utilisé"
 
 #: common/constants/messages.py:92
@@ -491,37 +490,37 @@ msgstr ""
 #: common/constants/messages.py:119
 #, python-format
 msgid "User's \"%%s\" PlayTime enable flag is not passed"
-msgstr "Temps_libre pour l'utilisateur \"%%s\" n'est pas expiré"
+msgstr "TempsLibre pour l'utilisateur \"%%s\" n'est pas expiré"
 
 #: common/constants/messages.py:120
 #, python-format
 msgid "User's \"%%s\" PlayTime enable flag is not correct"
-msgstr "L'activation de Temps_libre pour l'utilisateur \"%%s\" est incorrecte"
+msgstr "L'activation de TempsLibre pour l'utilisateur \"%%s\" est incorrecte"
 
 #: common/constants/messages.py:121
 #, python-format
 msgid "User's \"%%s\" PlayTime enable flag is not correct and cannot be set"
 msgstr ""
-"L'activation de Temps_libre pour l'utilisateur \"%%s\" est incorrecte et ne "
+"L'activation de TempsLibre pour l'utilisateur \"%%s\" est incorrecte et ne "
 "peut être utilisée"
 
 #: common/constants/messages.py:122
 #, python-format
 msgid "User's \"%%s\" PlayTime override flag is not passed"
 msgstr ""
-"Le contournement du Temps_libre pour l'utilisateur \"%%s\" n'est pas expiré"
+"Le contournement du TempsLibre pour l'utilisateur \"%%s\" n'est pas expiré"
 
 #: common/constants/messages.py:123
 #, python-format
 msgid "User's \"%%s\" PlayTime override flag is not correct"
 msgstr ""
-"Le contournement du Temps_libre pour l'utilisateur \"%%s\" est incorrect"
+"Le contournement du TempsLibre pour l'utilisateur \"%%s\" est incorrect"
 
 #: common/constants/messages.py:124
 #, python-format
 msgid "User's \"%%s\" PlayTime override flag is not correct and cannot be set"
 msgstr ""
-"Le contournement du Temps_libre pour l'utilisateur \"%%s\" est incorrect et "
+"Le contournement du TempsLibre pour l'utilisateur \"%%s\" est incorrect et "
 "ne peut être utilisé"
 
 #: common/constants/messages.py:125
@@ -530,7 +529,7 @@ msgid ""
 "User's \"%%s\" PlayTime allowed during unaccounted intervals flag is not "
 "passed"
 msgstr ""
-"Le Temps_libre durant les intervalles non comptabilisés pour l'utilisateur "
+"Le TempsLibre durant les intervalles non comptabilisés pour l'utilisateur "
 "\"%%s\" n'est pas expiré"
 
 #: common/constants/messages.py:126
@@ -539,7 +538,7 @@ msgid ""
 "User's \"%%s\" PlayTime allowed during unaccounted intervals flag is not "
 "correct"
 msgstr ""
-"La permission de Temps_libre durant les intervalles non comptabilisés pour "
+"La permission de TempsLibre durant les intervalles non comptabilisés pour "
 "l'utilisateur \"%%s\" est incorrect"
 
 #: common/constants/messages.py:127
@@ -548,69 +547,67 @@ msgid ""
 "User's \"%%s\" PlayTime allowed during unaccounted intervals flag is not "
 "correct and cannot be set"
 msgstr ""
-"La permission de Temps_libre durant les intervalles non comptabilisés pour "
+"La permission de TempsLibre durant les intervalles non comptabilisés pour "
 "l'utilisateur \"%%s\" est incorrect et ne peux être utilisée"
 
 #: common/constants/messages.py:128
 #, python-format
 msgid "User's \"%%s\" PlayTime day list is not passed"
 msgstr ""
-"La liste des jours de Temps_libre pour l'utilisateur \"%%s\" n'est pas "
-"expirée"
+"La liste des jours de TempsLibre pour l'utilisateur \"%%s\" n'est pas expirée"
 
 #: common/constants/messages.py:129
 #, python-format
 msgid "User's \"%%s\" PlayTime day list is not correct"
 msgstr ""
-"La liste des jours de Temps_libre pour l'utilisateur \"%%s\" est incorrecte"
+"La liste des jours de TempsLibre pour l'utilisateur \"%%s\" est incorrecte"
 
 #: common/constants/messages.py:130
 #, python-format
 msgid "User's \"%%s\" PlayTime day list is not correct and cannot be set"
 msgstr ""
-"La liste des jours de Temps_libre pour l'utilisateur \"%%s\" est incorrecte "
+"La liste des jours de TempsLibre pour l'utilisateur \"%%s\" est incorrecte "
 "et ne peut être utilisée"
 
 #: common/constants/messages.py:131 common/constants/messages.py:134
 #, python-format
 msgid "User's \"%%s\" PlayTime day limits list is not passed"
 msgstr ""
-"La limite quotidienne de Temps_libre pour l'utilisateur \"%%s\" n'est pas "
+"La limite quotidienne de TempsLibre pour l'utilisateur \"%%s\" n'est pas "
 "expirée"
 
 #: common/constants/messages.py:132 common/constants/messages.py:135
 #, python-format
 msgid "User's \"%%s\" PlayTime day limits list is not correct"
 msgstr ""
-"La limite quotidienne de Temps_libre pour l'utilisateur \"%%s\" est "
-"incorrecte"
+"La limite quotidienne de TempsLibre pour l'utilisateur \"%%s\" est incorrecte"
 
 #: common/constants/messages.py:133 common/constants/messages.py:136
 #, python-format
 msgid ""
 "User's \"%%s\" PlayTime day limits list is not correct and cannot be set"
 msgstr ""
-"La limite quotidienne de Temps_libre pour l'utilisateur \"%%s\" est "
+"La limite quotidienne de TempsLibre pour l'utilisateur \"%%s\" est "
 "incorrecte et ne peut être utilisée"
 
 #: common/constants/messages.py:137
 #, python-format
 msgid "User's \"%%s\" PlayTime operation can be one of these: - + ="
 msgstr ""
-"Les opérations sur le Temps_libre de l'utilisateur \"%%s\" peuvent être \"+"
+"Les opérations sur le TempsLibre de l'utilisateur \"%%s\" peuvent être \"+"
 "\", \"-\" ou \"=\""
 
 #: common/constants/messages.py:138
 #, python-format
 msgid "User's \"%%s\" set PlayTime limit is not correct"
-msgstr "La limite de Temps_libre pour l'utilisateur \"%%s\" est incorrecte"
+msgstr "La limite de TempsLibre pour l'utilisateur \"%%s\" est incorrecte"
 
 #: common/constants/messages.py:139
 #, python-format
 msgid "User's \"%%s\" PlayTime time limit is not correct and cannot be set"
 msgstr ""
-"La limite de Temps_libre pour l'utilisateur \"%%s\" est incorrecte et ne "
-"peut être utilisée"
+"La limite de TempsLibre pour l'utilisateur \"%%s\" est incorrecte et ne peut "
+"être utilisée"
 
 #. TRANSLATORS: this message must be 80 symbols long at max
 #: common/constants/messages.py:143
@@ -721,7 +718,7 @@ msgstr "Le temps supplémentaire pour l'utilisateur a été traité"
 
 #: common/constants/messages.py:171
 msgid "Additional PlayTime for user has been processed"
-msgstr "Le Temps_libre supplémentaire pour l'utilisateur a été traité"
+msgstr "Le TempsLibre supplémentaire pour l'utilisateur a été traité"
 
 #: common/constants/messages.py:172
 msgid "Weekly and monthly limits for user have been processed"
@@ -750,7 +747,7 @@ msgstr "Les limites pour l'utilisateur sont enregistrées"
 
 #: common/constants/messages.py:178
 msgid "User PlayTime limits have been saved"
-msgstr "Les limites de Temps_libre pour l'utilisateur sont enregistrées"
+msgstr "Les limites de TempsLibre pour l'utilisateur sont enregistrées"
 
 #: common/constants/messages.py:179
 msgid "User additional options have been saved"
@@ -758,30 +755,30 @@ msgstr "Les options supplémentaires pour l'utilisateur sont enregistrées"
 
 #: common/constants/messages.py:180
 msgid "Enable PlayTime for the user has been processed"
-msgstr "Temps_libre pour l'utilisateur est activé"
+msgstr "TempsLibre pour l'utilisateur est activé"
 
 #: common/constants/messages.py:181
 msgid "PlayTime override flag for the user has been processed"
-msgstr "Le contournement du Temps_libre pour l'utilisateur a été traité"
+msgstr "Le contournement du TempsLibre pour l'utilisateur a été traité"
 
 #: common/constants/messages.py:182
 msgid ""
 "PlayTime allowed during unaccounted intervals flag for the user has been "
 "processed"
 msgstr ""
-"Le Temps_libre permis pendant les intervalles non comptabilisés a été traité"
+"Le TempsLibre permis pendant les intervalles non comptabilisés a été traité"
 
 #: common/constants/messages.py:183
 msgid "PlayTime allowed days for user have been processed"
-msgstr "Les jours de Temps_libre permis pour l'utilisateur ont été traités"
+msgstr "Les jours de TempsLibre permis pour l'utilisateur ont été traités"
 
 #: common/constants/messages.py:184
 msgid "PlayTime day limits for user have been processed"
-msgstr "Les limites quotidiennes de Temps_libre ont été traitées"
+msgstr "Les limites quotidiennes de TempsLibre ont été traitées"
 
 #: common/constants/messages.py:185
 msgid "PlayTime activities for user have been processed"
-msgstr "Les activités de Temps_libre pour l'utilisateur ont été traitées"
+msgstr "Les activités de TempsLibre pour l'utilisateur ont été traitées"
 
 #: common/constants/messages.py:186
 msgid "Please select a day to set the limits"
@@ -985,7 +982,7 @@ msgstr "Message de Timekpr-nExT"
 
 #: common/constants/messages.py:244
 msgid "Timekpr-nExT PlayTime notification"
-msgstr "Avertissement de Temps_libre de Timekpr-nExT"
+msgstr "Avertissement de TempsLibre de Timekpr-nExT"
 
 #: common/constants/messages.py:245
 msgid "Your time is not limited today"
@@ -1082,8 +1079,8 @@ msgstr[1] "%(n)s secondes à votre session"
 #, python-format
 msgid "%(n)s second of PlayTime left"
 msgid_plural "%(n)s seconds of PlayTime left"
-msgstr[0] "%(n)s seconde de Temps_libre restante"
-msgstr[1] "%(n)s secondes de Temps_libre restantes"
+msgstr[0] "%(n)s seconde de TempsLibre restante"
+msgstr[1] "%(n)s secondes de TempsLibre restantes"
 
 #: common/constants/messages.py:270
 #, python-format
@@ -1331,12 +1328,12 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:901
 msgid "PlayTime"
-msgstr "Temps_libre"
+msgstr "TempsLibre"
 
 #: resource/client/forms/admin.glade:905
 msgid "Choose this to adjust user's PlayTime allowance for today"
 msgstr ""
-"Choisissez ceci pour ajuster l'allocation de Temps_libre de l'utilisateur "
+"Choisissez ceci pour ajuster l'allocation de TempsLibre de l'utilisateur "
 "pour aujourd'hui"
 
 #: resource/client/forms/admin.glade:934
@@ -1369,18 +1366,18 @@ msgstr "Régler la limite de temps exacte"
 
 #: resource/client/forms/admin.glade:1101
 msgid "Information about PlayTime"
-msgstr "Information sur Temps_libre"
+msgstr "Information sur TempsLibre"
 
 #: resource/client/forms/admin.glade:1134
 msgid ""
 "Actual PlayTime available today (realtime, available when user is logged in)"
 msgstr ""
-"Temps_libre disponible aujourd'hui (véritable, disponible à l'ouverture de "
-"la session)"
+"TempsLibre disponible aujourd'hui (véritable, disponible à l'ouverture de la "
+"session)"
 
 #: resource/client/forms/admin.glade:1136
 msgid "PlayTime left (actual):"
-msgstr "Temps_libre restant :"
+msgstr "TempsLibre restant :"
 
 #: resource/client/forms/admin.glade:1150
 #: resource/client/forms/admin.glade:1181
@@ -1390,19 +1387,19 @@ msgstr "Format : <heures : minutes : secondes>"
 
 #: resource/client/forms/admin.glade:1165
 msgid "PlayTime available today (saved stated, not real-time)"
-msgstr "Temps_libre disponible aujourd'hui (enregistré, peut différer)"
+msgstr "TempsLibre disponible aujourd'hui (enregistré, peut différer)"
 
 #: resource/client/forms/admin.glade:1167
 msgid "PlayTime left (today):"
-msgstr "Temps_libre restant (aujourd'hui) :"
+msgstr "TempsLibre restant (aujourd'hui) :"
 
 #: resource/client/forms/admin.glade:1196
 #: resource/client/forms/admin.glade:1212
 msgid ""
 "Active PlayTime activity count (realtime, available when user is logged in)"
 msgstr ""
-"Compteur d'activité en Temps_libre (véritable, disponible à l'ouverture de "
-"la session)"
+"Compteur d'activité en TempsLibre (véritable, disponible à l'ouverture de la "
+"session)"
 
 #: resource/client/forms/admin.glade:1198
 msgid "Running activities (actual):"
@@ -1410,11 +1407,11 @@ msgstr "Activités en cours (véritable) :"
 
 #: resource/client/forms/admin.glade:1253
 msgid "PlayTime spent today (saved stated, not real-time)"
-msgstr "Temps_libre utilisé aujourd'hui (enregistré, peut différer)"
+msgstr "TempsLibre utilisé aujourd'hui (enregistré, peut différer)"
 
 #: resource/client/forms/admin.glade:1255
 msgid "PlayTime spent (today):"
-msgstr "Temps_libre utilisé (aujourd'hui) :"
+msgstr "TempsLibre utilisé (aujourd'hui) :"
 
 #: resource/client/forms/admin.glade:1306
 msgid ""
@@ -1636,20 +1633,20 @@ msgstr "Configuration de la limite"
 
 #: resource/client/forms/admin.glade:2064
 msgid "Settings for PlayTime activities"
-msgstr "Réglages des activités Temps_libre"
+msgstr "Réglages des activités TempsLibre"
 
 #: resource/client/forms/admin.glade:2084
 msgid "PlayTime options"
-msgstr "Options du Temps_libre"
+msgstr "Options du TempsLibre"
 
 #: resource/client/forms/admin.glade:2108
 #: resource/client/forms/admin.glade:2147
 msgid "Enable PlayTime for selected user"
-msgstr "Activer Temps_libre pour l'utilisateur sélectionné"
+msgstr "Activer TempsLibre pour l'utilisateur sélectionné"
 
 #: resource/client/forms/admin.glade:2110
 msgid "Enable PlayTime:"
-msgstr "Activer Temps_libre"
+msgstr "Activer TempsLibre"
 
 #: resource/client/forms/admin.glade:2124
 #: resource/client/forms/admin.glade:2161
@@ -1665,11 +1662,11 @@ msgid ""
 "If no processes are running, time is accounted as idle thus effectively it's "
 "free time for user!"
 msgstr ""
-"Activer le contournement du Temps_libre pour l'utilisateur sélectionné.\n"
+"Activer le contournement du TempsLibre pour l'utilisateur sélectionné.\n"
 "\n"
 "Ce réglage a préséance sur la comptabilisation du temps de sorte que le "
 "temps est comptabilisé seulement lorsqu'une application sur la liste des "
-"activités Temps_libre est activée!\n"
+"activités TempsLibre est activée!\n"
 "\n"
 "Ce réglage influence seulement la comptabilisation du temps.  Les "
 "intervalles de temps sont toujours considérés.\n"
@@ -1679,7 +1676,7 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:2132
 msgid "Enable PlayTime override:"
-msgstr "Activer le contournement du Temps_libre:"
+msgstr "Activer le contournement du TempsLibre:"
 
 #: resource/client/forms/admin.glade:2180
 #: resource/client/forms/admin.glade:2201
@@ -1696,17 +1693,17 @@ msgid ""
 "will be terminated as soon as they are started during unaccounted (\"∞\") "
 "time intervals."
 msgstr ""
-"Permettre les activités Temps_libre pendant les intervalles de temps non "
+"Permettre les activités TempsLibre pendant les intervalles de temps non "
 "comptabilisés (\"∞\") pour l'utilisateur sélectionné.\n"
 "\n"
 "Ce réglage permet à l'utilisateur d'utiliser les applications configurées "
-"dans la liste des activités Temps_libre pendant les intervalles de temps "
+"dans la liste des activités TempsLibre pendant les intervalles de temps "
 "indiqués comme non comptabilisés (\"∞\").\n"
 "\n"
 "Si ce réglage est activé, les activités utilisées ne seront pas "
-"comptabilisées dans la limite du Temps_libre, sinon les applications dans la "
-"liste des activités Temps_libre seront fermées aussitôt qu'elles sont "
-"lancées pendant les intervalles non comptabilisés (\"∞\")."
+"comptabilisées dans la limite du TempsLibre, sinon les applications dans la "
+"liste des activités TempsLibre seront fermées aussitôt qu'elles sont lancées "
+"pendant les intervalles non comptabilisés (\"∞\")."
 
 #: resource/client/forms/admin.glade:2186
 msgid "Allowed during \"∞\" intervals:"
@@ -1714,12 +1711,12 @@ msgstr "Permises pendant les intervalles (\"∞\") :"
 
 #: resource/client/forms/admin.glade:2245
 msgid "This lets you configure PlayTime limits."
-msgstr "Vous permet de configurer les limites du Temps_libre"
+msgstr "Vous permet de configurer les limites du TempsLibre"
 
 #: resource/client/forms/admin.glade:2247
 #: resource/client/forms/client.glade:1245
 msgid "PlayTime limits"
-msgstr "Limites du Temps_libre"
+msgstr "Limites du TempsLibre"
 
 #: resource/client/forms/admin.glade:2305
 msgid ""
@@ -1728,7 +1725,7 @@ msgid ""
 "\n"
 "Please note, that you may select more than one day for the adjustment!"
 msgstr ""
-"Augmenter l'allocation quotidienne de Temps_libre par l'unité de temps "
+"Augmenter l'allocation quotidienne de TempsLibre par l'unité de temps "
 "sélectionnée (heures ou minutes) pour les jours sélectionnés.\n"
 "\n"
 "Notez que vous pouvez sélectionner plus d'un jour!"
@@ -1740,7 +1737,7 @@ msgid ""
 "\n"
 "Please note, that you may select more than one day for the adjustment!"
 msgstr ""
-"Réduire l'allocation quotidienne de Temps_libre par l'unité de temps "
+"Réduire l'allocation quotidienne de TempsLibre par l'unité de temps "
 "sélectionnée (heures ou minutes) pour les jours sélectionnés.\n"
 "\n"
 "Notez que vous pouvez sélectionner plus d'un jour!"
@@ -1753,15 +1750,15 @@ msgid ""
 "Please enable / disable days for the user and set time allowance for "
 "PlayTime activities."
 msgstr ""
-"Listes des jours de la semaine an informations supplémentaires du "
-"Temps_libre du jour.\n"
+"Listes des jours de la semaine an informations supplémentaires du TempsLibre "
+"du jour.\n"
 "\n"
 "Veuillez activer / désactiver les jours pour l'utilisateur et  régler "
-"l'allocation de temps pour les activités Temps_libre."
+"l'allocation de temps pour les activités TempsLibre."
 
 #: resource/client/forms/admin.glade:2423
 msgid "PlayTime activities"
-msgstr "Activités Temps_libre"
+msgstr "Activités TempsLibre"
 
 #: resource/client/forms/admin.glade:2445
 msgid ""
@@ -1770,14 +1767,14 @@ msgid ""
 "Please specify activity mask and user friendly description in the activity "
 "list directly."
 msgstr ""
-"Ajouter une nouvelle activité Temps_libre.\n"
+"Ajouter une nouvelle activité TempsLibre.\n"
 "\n"
 "Veuillez spécifier le masque d'activité et une description conviviale "
 "directement dans la liste des activités."
 
 #: resource/client/forms/admin.glade:2462
 msgid "Remove selected entry from PlayTime activities."
-msgstr "Retirer l'item sélectionné de la liste des activités Temps_libre."
+msgstr "Retirer l'item sélectionné de la liste des activités TempsLibre."
 
 #: resource/client/forms/admin.glade:2506
 msgid ""
@@ -1802,16 +1799,15 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:2546
 msgid "Apply PlayTime configuration"
-msgstr "Appliquer la configuration du Temps_libre"
+msgstr "Appliquer la configuration du TempsLibre"
 
 #: resource/client/forms/admin.glade:2550
 msgid "Apply PlayTime limits and configuration changes on this page"
-msgstr ""
-"Appliquer les limites et la configuration du Temps_libre sur cette page"
+msgstr "Appliquer les limites et la configuration du TempsLibre sur cette page"
 
 #: resource/client/forms/admin.glade:2569
 msgid "PlayTime configuration"
-msgstr "Configuration du Temps_libre"
+msgstr "Configuration du TempsLibre"
 
 #: resource/client/forms/admin.glade:2594
 msgid "Additional configuration options"
@@ -2240,15 +2236,15 @@ msgid ""
 "This is a PlayTime master switch, if it's turned off, it's turned off for "
 "everyone regardless of individual settings!"
 msgstr ""
-"Ce réglage contrôle si la fonction Temps_libre est activée ou non.\n"
+"Ce réglage contrôle si la fonction TempsLibre est activée ou non.\n"
 "\n"
-"Ce réglage est le commutateur principal de la fonction Temps_libre.  S'il "
-"est désactivé, Temps_libre sera désactivé pour tous les utilisateurs peu "
-"importe leurs configurations individuelles."
+"Ce réglage est le commutateur principal de la fonction TempsLibre.  S'il est "
+"désactivé, TempsLibre sera désactivé pour tous les utilisateurs peu importe "
+"leurs configurations individuelles."
 
 #: resource/client/forms/admin.glade:3692
 msgid "PlayTime enabled:"
-msgstr "Temps_libre activé :"
+msgstr "TempsLibre activé :"
 
 #: resource/client/forms/admin.glade:3722
 msgid ""
@@ -2271,7 +2267,7 @@ msgstr ""
 "commande jusqu'à 512 caractères pour mieux cibler les processus.\n"
 "\n"
 "Soyez prudent et vérifiez deux fois les expression RegExp pour chacun des "
-"masques des utilisateurs de Temps_libre."
+"masques des utilisateurs de TempsLibre."
 
 #: resource/client/forms/admin.glade:3728
 msgid "Enhanced activity monitor:"
@@ -2474,15 +2470,15 @@ msgstr "Limite de temps (mois) :"
 
 #: resource/client/forms/client.glade:940
 msgid "Current PlayTime statistics"
-msgstr "Statistiques de Temps_libre"
+msgstr "Statistiques de TempsLibre"
 
 #: resource/client/forms/client.glade:964
 msgid "Total PlayTime available left today"
-msgstr "Durée de Temps_libre disponible aujourd'hui"
+msgstr "Durée de TempsLibre disponible aujourd'hui"
 
 #: resource/client/forms/client.glade:990
 msgid "Total PlayTime spent today"
-msgstr "Durée de Temps_libre utilisée aujourd'hui"
+msgstr "Durée de TempsLibre utilisée aujourd'hui"
 
 #: resource/client/forms/client.glade:992
 msgid "Time spent today:"
@@ -2509,7 +2505,7 @@ msgstr "Contournement de la limite de temps :"
 #: resource/client/forms/client.glade:1052
 #: resource/client/forms/client.glade:1065
 msgid "Number of currently active PlayTime activities"
-msgstr "Nombre d'acvitiés Temps_libre en cours"
+msgstr "Nombre d'acvitiés TempsLibre en cours"
 
 #: resource/client/forms/client.glade:1054
 msgid "Running activities:"
@@ -2540,14 +2536,14 @@ msgid ""
 "restrictions"
 msgstr ""
 "Voici les jours et les limites disponibles pour la restriction des activités "
-"Temps_libre"
+"TempsLibre"
 
 #: resource/client/forms/client.glade:1197
 msgid ""
 "This shows activities / applications which are part of PlayTime restrictions"
 msgstr ""
 "Affiche les activités / applications qui font partie des restrictions du "
-"Temps_libre"
+"TempsLibre"
 
 #: resource/client/forms/client.glade:1220
 msgid "Activity / application list"
@@ -2619,11 +2615,11 @@ msgid ""
 "until dismissed, however this behaviour highly depends on Desktop "
 "Environment in use"
 msgstr ""
-"Réglage des avertissements (temps restant) du Temps_libre personnalisés.\n"
+"Réglage des avertissements (temps restant) du TempsLibre personnalisés.\n"
 "\n"
 "Veuillez configurer ces réglages selon vos préférences.\n"
 "\n"
-"Le point de réglage \"Temps\" indique le Temps_libre restant au moment de "
+"Le point de réglage \"Temps\" indique le TempsLibre restant au moment de "
 "l'affichage de l'avertissement.  Le point \"Importance\" gère les propriétés "
 "suivantes de l'avertissement:\n"
 "\n"
@@ -2637,25 +2633,21 @@ msgstr ""
 
 #: resource/client/forms/client.glade:1434
 msgid "PlayTime notification configuration"
-msgstr "Réglage des avertissements du Temps_libre"
+msgstr "Réglage des avertissements du TempsLibre"
 
 #: resource/client/forms/client.glade:1456
 msgid "Add new PlayTime notification threshold to the list"
-msgstr "Ajouter un niveau d'avertissement du Temps_libre à la liste"
+msgstr "Ajouter un niveau d'avertissement du TempsLibre à la liste"
 
 #: resource/client/forms/client.glade:1471
 msgid "Remove PlayTime notification threshold from the list"
-msgstr "Retirer un niveau d'avertissement du Temps_libre de la liste"
+msgstr "Retirer un niveau d'avertissement du TempsLibre de la liste"
 
 #: resource/client/forms/client.glade:1530
 msgid "Notifications"
 msgstr "Avertissements"
 
-#: resource/client/forms/client.glade:1551
-msgid "Use speech notifications"
-msgstr "Utiliser des avertissements vocaux"
-
-#: resource/client/forms/client.glade:1555
+#: resource/client/forms/client.glade:1554
 msgid ""
 "Select whether to use speech notifications, if available.\n"
 "\n"
@@ -2667,8 +2659,12 @@ msgstr ""
 "Il peut être possible d'activer les avertissements vocaux disponibles en "
 "installant le paquet \"python3-espeak\"."
 
-#: resource/client/forms/client.glade:1575
-#: resource/client/forms/client.glade:1597
+#: resource/client/forms/client.glade:1564
+msgid "Use speech notifications"
+msgstr "Utiliser des avertissements vocaux"
+
+#: resource/client/forms/client.glade:1583
+#: resource/client/forms/client.glade:1605
 msgid ""
 "This sets the logging level.\n"
 "\n"
@@ -2678,26 +2674,22 @@ msgstr ""
 "\n"
 "Veuillez ne pas modifier ce paramètre à moins de savoir ce que vous faites."
 
-#: resource/client/forms/client.glade:1601
+#: resource/client/forms/client.glade:1609
 msgid "Logging level"
 msgstr "Niveau du journal"
 
-#: resource/client/forms/client.glade:1617
-msgid "Show limit changes"
-msgstr "Afficher les changements de limite"
-
-#: resource/client/forms/client.glade:1621
+#: resource/client/forms/client.glade:1631
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
 msgstr ""
 "Activation des avertissements quand les limites ou les allocations changent"
 
-#: resource/client/forms/client.glade:1633
-msgid "Show all notifications"
-msgstr "Afficher tous les avertissements"
+#: resource/client/forms/client.glade:1639
+msgid "Show limit changes"
+msgstr "Afficher les changements de limite"
 
-#: resource/client/forms/client.glade:1637
+#: resource/client/forms/client.glade:1655
 msgid ""
 "Specify whether to show all notifications.\n"
 "\n"
@@ -2708,11 +2700,11 @@ msgstr ""
 "Si ce réglage n'est pas coché, seuls les avertissements importants seront "
 "affichés."
 
-#: resource/client/forms/client.glade:1651
-msgid "Show seconds in notification area"
-msgstr "Afficher les secondes dans la zone d'avertissement"
+#: resource/client/forms/client.glade:1665
+msgid "Show all notifications"
+msgstr "Afficher tous les avertissements"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1681
 msgid ""
 "Specify whether to show seconds in notification area.\n"
 "\n"
@@ -2724,8 +2716,12 @@ msgstr ""
 "Des environnements de bureau (KDE par exemple) ne supportent pas le texte "
 "sur les icônes d'avertissement."
 
-#: resource/client/forms/client.glade:1675
-#: resource/client/forms/client.glade:1699
+#: resource/client/forms/client.glade:1691
+msgid "Show seconds in notification area"
+msgstr "Afficher les secondes dans la zone d'avertissement"
+
+#: resource/client/forms/client.glade:1710
+#: resource/client/forms/client.glade:1734
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
 "time left and configuration changes.\n"
@@ -2748,12 +2744,12 @@ msgstr ""
 "Notez que l'environnement du bureau peut contourner ce délai.  Dans ce cas, "
 "ce réglage n'a aucun effet."
 
-#: resource/client/forms/client.glade:1706
+#: resource/client/forms/client.glade:1741
 msgid "Notification timeout (sec)"
 msgstr "Délai de notification (sec)"
 
-#: resource/client/forms/client.glade:1728
-#: resource/client/forms/client.glade:1753
+#: resource/client/forms/client.glade:1766
+#: resource/client/forms/client.glade:1791
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
 "about time left (when the icon turns red).\n"
@@ -2774,15 +2770,11 @@ msgstr ""
 "Notez que l'environnement du bureau peut contourner ce délai.  Dans ce cas, "
 "ce réglage n'a aucun effet."
 
-#: resource/client/forms/client.glade:1760
+#: resource/client/forms/client.glade:1798
 msgid "Critical notification timeout (sec)"
 msgstr "Délai d'expiration des notifications critiques (s)"
 
-#: resource/client/forms/client.glade:1776
-msgid "Use sound \"bell\" for notifications"
-msgstr "Utiliser un \"bip\" sonore pour les notifications"
-
-#: resource/client/forms/client.glade:1780
+#: resource/client/forms/client.glade:1820
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
 "a new notification from Timekpr-nExT.\n"
@@ -2800,7 +2792,11 @@ msgstr ""
 "Si vous ne pouvez modifier ce réglage, c'est que votre environnement de "
 "bureau ne supporte pas l'utilisation du son dans les avertissements."
 
-#: resource/client/forms/client.glade:1803
+#: resource/client/forms/client.glade:1832
+msgid "Use sound \"bell\" for notifications"
+msgstr "Utiliser un \"bip\" sonore pour les notifications"
+
+#: resource/client/forms/client.glade:1852
 msgid "Configuration"
 msgstr "Réglages"
 
