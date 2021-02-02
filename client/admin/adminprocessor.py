@@ -44,7 +44,7 @@ class timekprAdminClient(object):
         _timekprConfig.loadMainConfiguration()
 
         # init logging
-        log.setLogging(_timekprConfig.getTimekprLogLevel(), _timekprConfig.getTimekprLogfileDir(), (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN), getpass.getuser())
+        log.setLogging(_timekprConfig.getTimekprLogLevel(), cons.TK_LOG_TEMP_DIR, (cons.TK_LOG_OWNER_ADMIN_SU if geteuid() == 0 else cons.TK_LOG_OWNER_ADMIN), getpass.getuser())
 
         # check for script
         if ("/timekpra" in lastParam or "timekpra.py" in lastParam):
