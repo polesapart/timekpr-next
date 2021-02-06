@@ -1,7 +1,15 @@
 [Desktop Entry]
 Version=1.0
 Name=(SU) Timekpr-nExT Control Panel (superuser mode)
+Name[de]=(SU) Timekpr-nExT-Systemsteuerung (Superuser-Modus)
+Name[lv]=(SU) Timekpr-nExT vadības panelis (administratora režīms)
+Name[it]=(SU) Pannello di controllo Timekpr-nExT (modalità superutente)
+Name[fr]=(SU) Panneau de configuration Timekpr-nExT (mode superutilisateur)
 Comment=Keep control of computer usage
+Comment[de]=Kontrolle der Computernutzung
+Comment[lv]=Uzturēt kontroli pār datora lietošanu
+Comment[it]=Mantieni il controllo sull'utilizzo del computer
+Comment[fr]=Gardez le contrôle de l'utilisation de l'ordinateur
 Keywords=timekpr;time;
 Exec=pkexec /usr/bin/timekpra
 Icon=timekpr
