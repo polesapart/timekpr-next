@@ -1,4 +1,4 @@
-timekpr-next-beta (0.5.1-4ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.5.1-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab
   * add gnome-shell-extension-appindicator to suggestions list

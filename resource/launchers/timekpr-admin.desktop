@@ -1,8 +1,15 @@
 [Desktop Entry]
 Version=1.0
 Name=Timekpr-nExT Control Panel
+Name[de]=Timekpr-nExT-Systemsteuerung
+Name[fr]=Panneau de configuration Timekpr-nExT
+Name[it]=Pannello di controllo Timekpr-nExT
+Name[lv]=Timekpr-nExT vadības panelis
 Comment=Keep control of computer usage
-Keywords=timekpr;time;
+Comment[de]=Kontrolle der Computernutzung
+Comment[fr]=Gardez le contrôle de l'utilisation de l'ordinateur
+Comment[it]=Mantieni il controllo sull'utilizzo del computer
+Comment[lv]=Uzturēt kontroli pār datora lietošanu
 Exec=/usr/bin/timekpra
 Icon=timekpr
 Terminal=false
