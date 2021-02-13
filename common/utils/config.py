@@ -1033,7 +1033,7 @@ class timekprUserConfig(object):
         # result
         return self._timekprUserConfig[param]
 
-    def getUserLastModified(self):
+    def getUserConfigLastModified(self):
         """Get last file modification time for user"""
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
@@ -1360,7 +1360,7 @@ class timekprUserControl(object):
         # result
         return self._timekprUserControl["PLAYTIME_SPENT_DAY"]
 
-    def getUserLastModified(self):
+    def getUserControlLastModified(self):
         """Get last file modification time for user"""
         # result
         return datetime.fromtimestamp(os.path.getmtime(self._configFile))
@@ -1676,11 +1676,13 @@ class timekprClientConfig(object):
         """Whether config has changed"""
         # defaults
         result = False
+        clientLastModified = self.getClientLastModified()
 
         # yes, is it changed?
-        if self._clientConfigModTime != self.getClientLastModified():
+        if self._clientConfigModTime != clientLastModified:
+            log.log(cons.TK_LOG_LEVEL_INFO, "client config changed, prev/now: %s / %s" % (self._clientConfigModTime.strftime(cons.TK_LOG_DATETIME_FORMAT), clientLastModified.strftime(cons.TK_LOG_DATETIME_FORMAT)))
             # changed
-            self._clientConfigModTime = self.getClientLastModified()
+            self._clientConfigModTime = clientLastModified
             # load config
             self.loadClientConfiguration()
             # changed

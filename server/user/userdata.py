@@ -313,7 +313,7 @@ class timekprUser(object):
             self._timekprPlayTimeConfig.processPlayTimeFilters(self._timekprUserData[cons.TK_CTRL_UID], self._timekprUserConfig.getUserPlayTimeActivities())
 
         # set up last config mod time
-        self._timekprUserData[cons.TK_CTRL_LCMOD] = self._timekprUserConfig.getUserLastModified()
+        self._timekprUserData[cons.TK_CTRL_LCMOD] = self._timekprUserConfig.getUserConfigLastModified()
 
         # debug
         if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
@@ -372,7 +372,7 @@ class timekprUser(object):
         # account PlayTime as well
         self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_TSPBALD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] = _getPlayTimeBalanceSpent()
         # update last file mod time
-        self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
+        self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserControlLastModified()
 
         # inform user about change
         if not pSilent:
@@ -593,17 +593,20 @@ class timekprUser(object):
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start saveSpent")
 
         # initial config loaded
-        timekprConfigLoaded = False
+        userConfigLastModified = self._timekprUserConfig.getUserConfigLastModified()
+        userControlLastModified = self._timekprUserControl.getUserControlLastModified()
 
         # check whether we need to reload file (if externally modified)
-        if self._timekprUserData[cons.TK_CTRL_LCMOD] != self._timekprUserConfig.getUserLastModified():
+        if self._timekprUserData[cons.TK_CTRL_LCMOD] != userConfigLastModified:
+            log.log(cons.TK_LOG_LEVEL_INFO, "user \"%s\" config changed, prev/now: %s / %s" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_LCMOD].strftime(cons.TK_LOG_DATETIME_FORMAT), userConfigLastModified.strftime(cons.TK_LOG_DATETIME_FORMAT)))
             # load config
             self.adjustLimitsFromConfig(pSilent=False)
-            # config loaded, we need to adjust time spent as well
-            timekprConfigLoaded = True
 
         # check whether we need to reload file (if externally modified)
-        if self._timekprUserData[cons.TK_CTRL_LMOD] != self._timekprUserControl.getUserLastModified() or timekprConfigLoaded:
+        if self._timekprUserData[cons.TK_CTRL_LMOD] != userControlLastModified or self._timekprUserData[cons.TK_CTRL_LCMOD] != userConfigLastModified:
+            # log the change
+            if self._timekprUserData[cons.TK_CTRL_LMOD] != userControlLastModified:
+                log.log(cons.TK_LOG_LEVEL_INFO, "user \"%s\" control changed, prev/now: %s / %s" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_LMOD].strftime(cons.TK_LOG_DATETIME_FORMAT), userControlLastModified.strftime(cons.TK_LOG_DATETIME_FORMAT)))
             # load config
             self.adjustTimeSpentFromControl(pSilent=False)
 
@@ -620,7 +623,7 @@ class timekprUser(object):
         self._timekprUserControl.setUserPlayTimeSpentDay(self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD])
         self._timekprUserControl.saveControl()
         # renew last modified
-        self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserLastModified()
+        self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserControlLastModified()
 
         # if debug
         if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
