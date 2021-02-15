@@ -130,8 +130,7 @@ class timekprUserManager(object):
         #    screenlocker status from user DBUS session
 
         # init active sessions
-        userActive = False
-        userScreenLocked = False
+        userActive = userScreenLocked = False
         sessionLockedState = "False"
 
         # if user locked the computer
