@@ -327,28 +327,44 @@ class timekprUser(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustLimitsFromConfig")
 
-    def adjustTimeSpentFromControl(self, pSilent=True):
+    def adjustTimeSpentFromControl(self, pSilent=True, pPreserveSpent=False):
         """Adjust limits as per loaded configuration"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start adjustTimeSpentFromControl")
 
-        def _getPlayTimeBalanceSpent():
+        def _getPlayTimeBalanceSpent(pTimeSpentBeforeReload):
             """Get PlayTime spent balance"""
             # def
-            bal = 0
-            spent = 0
+            bal = spent = 0
             # in case day changed
             if dayChanged:
+                # get PT status
+                isPTEna, isPTAcc, isPTAct = self._isPlayTimeEnabledAccountedActive(pSilent=True, pCheckActive=True)
                 # if PlayTime is enabled and active, we need to account spent for those seconds (if not active, it will be left as 0)
-                if self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled() and self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName()):
-                    # seconds in hour
-                    bal = spentHour
+                if isPTEna and isPTAct:
+                    # seconds in hour for spent
                     spent = spentHour
+                    # balance is accounted only when not in override
+                    if isPTAcc:
+                        bal = spentHour
             else:
                 # just get the balance
                 bal = self._timekprUserControl.getUserPlayTimeSpentBalance()
-                spent = self._timekprUserControl.getUserPlayTimeSpentDay()
+                spent = self._timekprUserControl.getUserPlayTimeSpentDay() + pTimeSpentBeforeReload
+                # balance is adjusted if PT is accounted (not in override mode)
+                if self._isPlayTimeEnabledAccountedActive(pSilent=True)[1]:
+                    bal += pTimeSpentBeforeReload
             # result
             return bal, spent
+
+        # in case we force reload the file, we need to account the time which was spent before reload too
+        if pPreserveSpent:
+            # get time spent which was calculated
+            timeSpentBeforeReload = max(self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD] - self._timekprUserControl.getUserTimeSpentBalance(), 0)
+            # check whether we need to change PT as well
+            timeSpentBeforeReloadPT = max(self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] - self._timekprUserControl.getUserPlayTimeSpentDay(), 0)
+        else:
+            # no additional time
+            timeSpentBeforeReload = timeSpentBeforeReloadPT = 0
 
         # read from config
         self._timekprUserControl.loadControl()
@@ -358,17 +374,17 @@ class timekprUser(object):
         dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime)
 
         # if day has changed adjust balance
-        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance()
+        self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance() + timeSpentBeforeReload
         # if day has changed
-        self._timekprUserData[cons.TK_CTRL_SPENTD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentDay()
+        self._timekprUserData[cons.TK_CTRL_SPENTD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentDay() + timeSpentBeforeReload
         # if week changed changed
-        self._timekprUserData[cons.TK_CTRL_SPENTW] = spentHour if weekChanged else self._timekprUserControl.getUserTimeSpentWeek()
+        self._timekprUserData[cons.TK_CTRL_SPENTW] = spentHour if weekChanged else self._timekprUserControl.getUserTimeSpentWeek() + timeSpentBeforeReload
         # if month changed
-        self._timekprUserData[cons.TK_CTRL_SPENTM] = spentHour if monthChanged else self._timekprUserControl.getUserTimeSpentMonth()
+        self._timekprUserData[cons.TK_CTRL_SPENTM] = spentHour if monthChanged else self._timekprUserControl.getUserTimeSpentMonth() + timeSpentBeforeReload
         # import that into runtime config (if last check day is the same as current)
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_LEFTD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] - self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD]
         # account PlayTime as well
-        self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTBD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] = _getPlayTimeBalanceSpent()
+        self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTBD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] = _getPlayTimeBalanceSpent(timeSpentBeforeReloadPT)
         # update last file mod time
         self._timekprUserData[cons.TK_CTRL_LMOD] = self._timekprUserControl.getUserControlLastModified()
 
@@ -378,6 +394,21 @@ class timekprUser(object):
             self._timekprUserNotification.timeLeftChangedNotification(cons.TK_PRIO_IMPORTANT_INFO)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish adjustTimeSpentFromControl")
+
+    def _isPlayTimeEnabledAccountedActive(self, pSilent=False, pCheckActive=False):
+        """Return whether PlayTime is enabled, accounted and used at the moment"""
+        # def
+        isPTActive = False
+        # account PlayTime as well (it makes sense to check PT activity only if user is active in the system)
+        isPTEnabled = self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled()
+        # whether override mode is enabled
+        isPTAccounted = not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
+        # check whether active too
+        if pCheckActive and isPTEnabled:
+            # PT active
+            isPTActive = self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName(), pSilent)
+        # result
+        return isPTEnabled, isPTAccounted, isPTActive
 
     def adjustTimeSpentActual(self, pTimekprConfig):
         """Adjust time spent (and save it)"""
@@ -417,13 +448,17 @@ class timekprUser(object):
         userActivePT = False
 
         # account PlayTime as well (it makes sense to check PT activity only if user is active in the system)
-        if userActiveEffective and self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled():
-            # PT active
-            userActivePT = self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName())
-            # if override is enabled, then active is determined differently
-            if self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
-                # override
-                userActiveEffective = userActivePT
+        if userActiveEffective:
+            # PT status
+            isPTEna, isPTAcc, isPTAct = self._isPlayTimeEnabledAccountedActive(pCheckActive=True)
+            # enabled, check actul activity
+            if isPTEna:
+                # PT active
+                userActivePT = isPTAct
+                # if override is enabled, then active is determined differently
+                if not isPTAcc:
+                    # override
+                    userActiveEffective = userActivePT
 
         # if time spent is very much higher than the default polling time, computer might went to sleep?
         if timeSpent >= cons.TK_POLLTIME * 15:
@@ -552,7 +587,7 @@ class timekprUser(object):
         timeValues[cons.TK_CTRL_LIMITD] = self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD]
         timeValues[cons.TK_CTRL_TNL] = (1 if self._timekprUserData[self._currentDOW][cons.TK_CTRL_LIMITD] >= cons.TK_LIMIT_PER_DAY and timeAvailableIntervals >= cons.TK_LIMIT_PER_DAY else 0)
         # PlayTime (only if enabled)
-        if self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled():
+        if self._isPlayTimeEnabledAccountedActive(pSilent=True)[0]:
             # time and config for PlayTime
             timeValues[cons.TK_CTRL_PTTLO] = self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             timeValues[cons.TK_CTRL_PTAUH] = self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled()
@@ -568,19 +603,18 @@ class timekprUser(object):
         # return calculated
         return timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession, timeSpentBalance, timeSpentDay, timeUnaccountedHour
 
-    def getPlayTimeLeft(self):
+    def getPlayTimeLeft(self, pCheckActive=True):
         """Return whether time is over for PlayTime"""
         # by default time left is constant, that is processes will not be killed
         timeLeftPT = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]
-        isPTEnabled = isPTAccounted = self._timekprConfig.getTimekprPlayTimeEnabled() and self._timekprUserConfig.getUserPlayTimeEnabled()
-        # there is no need to check further if PT is disabled
+        # get PT status
+        isPTEnabled, isPTAccounted, isPTActive = self._isPlayTimeEnabledAccountedActive(pCheckActive=pCheckActive)
+        # if PT is enabled, log the information
         if isPTEnabled:
-            # get real value for accounted
-            isPTAccounted = not self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "get PlayTime for \"%s\", ena: %s, acc: %s, tim: %s" % (self.getUserName(), isPTEnabled, isPTAccounted, str(timeLeftPT)))
         # result
-        return timeLeftPT, isPTEnabled, isPTAccounted
+        return timeLeftPT, isPTEnabled, isPTAccounted, isPTActive
 
     def saveSpent(self):
         """Save the time spent by the user"""
@@ -602,7 +636,7 @@ class timekprUser(object):
             if self._timekprUserData[cons.TK_CTRL_LMOD] != userControlLastModified:
                 log.log(cons.TK_LOG_LEVEL_INFO, "user \"%s\" control changed, prev/now: %s / %s" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_LMOD].strftime(cons.TK_LOG_DATETIME_FORMAT), userControlLastModified.strftime(cons.TK_LOG_DATETIME_FORMAT)))
             # load config
-            self.adjustTimeSpentFromControl(pSilent=False)
+            self.adjustTimeSpentFromControl(pSilent=False, pPreserveSpent=True)
 
         # adjust save time as well
         self._timekprUserData[cons.TK_CTRL_LSAVE] = self._effectiveDatetime
@@ -832,10 +866,6 @@ class timekprUser(object):
     def getPlayTimeActiveActivityCnt(self):
         """This returns count of active activities"""
         return self._timekprUserData[cons.TK_CTRL_PTCNT][cons.TK_CTRL_PTLSTC]
-
-    def verifyPlayTimeActive(self):
-        """This returns count of active activities"""
-        return self._timekprPlayTimeConfig.verifyPlayTimeActive(self.getUserId(), self.getUserName(), True)
 
     def getUserPlayTimeUnaccountedIntervalsEnabled(self):
         """Return whether PlayTime activities are allowed during unlimited hours"""
