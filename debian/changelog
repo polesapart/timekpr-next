@@ -1,4 +1,4 @@
-timekpr-next (0.5.1-5ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.1-6ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab
   * add gnome-shell-extension-appindicator to suggestions list
@@ -12,6 +12,8 @@ timekpr-next (0.5.1-5ubuntu1~ppa1) UNRELEASED; urgency=medium
     log information about day / week / month change
     added elapsed time information output on lowest log level
     rewritten logging routines and implemented buffered log save
+    time spent is accounted and saved even when file has been modified externally (this should help with proper time accounting
+      (2x+) if user is logged in from multiple machines when commonly shared directory is used)
   * registered bug fixes
     adjust Debian installation suggestions in README (fixes #1910457)
     start using ayatana appindicators because regular ones seem to be deprecated (fixes #1910461)
@@ -30,7 +32,7 @@ timekpr-next (0.5.1-5ubuntu1~ppa1) UNRELEASED; urgency=medium
       by default only process name is used for activity detection
     logging level changes are applied immediately
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 27 Jan 2021 00:25:58 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 16 Feb 2021 00:25:44 +0200
 
 timekpr-next (0.5.0-7ubuntu1~ppa1) UNRELEASED; urgency=medium
 
