@@ -563,7 +563,7 @@ class timekprUser(object):
             timeValues[cons.TK_CTRL_PTTLO] = self._timekprUserConfig.getUserPlayTimeOverrideEnabled()
             timeValues[cons.TK_CTRL_PTAUH] = self._timekprUserConfig.getUserPlayTimeUnaccountedIntervalsEnabled()
             timeValues[cons.TK_CTRL_PTSPD] = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]
-            timeValues[cons.TK_CTRL_PTLPD] = max(0, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD])
+            timeValues[cons.TK_CTRL_PTLPD] = min(max(0, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]), timeValues[cons.TK_CTRL_LEFTD])
             timeValues[cons.TK_CTRL_PTLSTC] = self.getPlayTimeActiveActivityCnt()
 
         # process notifications, if needed
