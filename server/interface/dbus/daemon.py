@@ -264,19 +264,17 @@ class timekprDaemon(dbus.service.Object):
             # PlayTime left validation
             if self._timekprConfig.getTimekprPlayTimeEnabled():
                 # get time left for PLayTime
-                timeLeftPT, isPTEnabled, isPTAccounted = self._timekprUserList[rUserName].getPlayTimeLeft()
-                # enabled for user
-                if isPTEnabled:
-                    # check is PT active
-                    if self._timekprUserList[rUserName].verifyPlayTimeActive():
-                        # if there is no time left (compare to almost ultimate answer)
-                        # or hour is unaccounted and PT is not allowed in those hours
-                        if (isPTAccounted and timeLeftPT < 0.0042) or (timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled()):
-                            # killing processes
-                            self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
-                        else:
-                            # active count
-                            timePTActivityCnt = self._timekprPlayTimeConfig.getMatchedUserProcessCnt(self._timekprUserList[rUserName].getUserId())
+                timeLeftPT, isPTEnabled, isPTAccounted, isPTActive = self._timekprUserList[rUserName].getPlayTimeLeft()
+                # enabled and active for user
+                if isPTEnabled and isPTActive:
+                    # if there is no time left (compare to almost ultimate answer)
+                    # or hour is unaccounted and PT is not allowed in those hours
+                    if (isPTAccounted and timeLeftPT < 0.0042) or (timeHourUnaccounted and not self._timekprUserList[rUserName].getUserPlayTimeUnaccountedIntervalsEnabled()):
+                        # killing processes
+                        self._timekprPlayTimeConfig.killPlayTimeProcesses(self._timekprUserList[rUserName].getUserId())
+                    else:
+                        # active count
+                        timePTActivityCnt = self._timekprPlayTimeConfig.getMatchedUserProcessCnt(self._timekprUserList[rUserName].getUserId())
             # set process count (in case PT was disable in-flight or it has changed)
             self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(timePTActivityCnt)
 
@@ -477,7 +475,7 @@ class timekprDaemon(dbus.service.Object):
             # time left in a row
             pUserConfigurationStore["ACTUAL_TIME_LEFT_CONTINUOUS"] = int(timeLeftInARow)
             # PlayTime
-            playTimeLeft, playTimeEnabled, playTimeAccounted = pTimekprUser.getPlayTimeLeft()
+            playTimeLeft, playTimeEnabled, playTimeAccounted, _unused = pTimekprUser.getPlayTimeLeft(pCheckActive=False)
             playTimeLeft = max(playTimeLeft, 0) if playTimeEnabled and playTimeAccounted else 0
             # PlayTime left today (for display we cap to max possible time user has left today)
             pUserConfigurationStore["ACTUAL_PLAYTIME_LEFT_DAY"] = min(int(playTimeLeft), pUserConfigurationStore["ACTUAL_TIME_LEFT_DAY"])
@@ -844,7 +842,7 @@ class timekprDaemon(dbus.service.Object):
             # check if we have this user
             if pUserName in self._timekprUserList:
                 # inform the user immediately
-                self._timekprUserList[pUserName].adjustTimeSpentFromControl(False)
+                self._timekprUserList[pUserName].adjustTimeSpentFromControl(pSilent=False, pPreserveSpent=(pOperation != "="))
         except Exception as unexpectedException:
             # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
@@ -1039,7 +1037,7 @@ class timekprDaemon(dbus.service.Object):
             # check if we have this user
             if pUserName in self._timekprUserList:
                 # inform the user immediately
-                self._timekprUserList[pUserName].adjustTimeSpentFromControl(False)
+                self._timekprUserList[pUserName].adjustTimeSpentFromControl(pSilent=False, pPreserveSpent=(pOperation != "="))
         except Exception as unexpectedException:
             # logging
             log.log(cons.TK_LOG_LEVEL_INFO, "Unexpected ERROR (%s): %s" % (misc.whoami(), str(unexpectedException)))
