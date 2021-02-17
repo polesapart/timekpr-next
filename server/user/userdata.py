@@ -595,6 +595,9 @@ class timekprUser(object):
             timeValues[cons.TK_CTRL_PTLPD] = min(max(0, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]), timeValues[cons.TK_CTRL_LEFTD])
             timeValues[cons.TK_CTRL_PTLSTC] = self.getPlayTimeActiveActivityCnt()
 
+        # pass uacc too, so notifications can be prevented when hour is unaccounted
+        timeValues[cons.TK_CTRL_UACC] = timeUnaccountedHour
+
         # process notifications, if needed
         self._timekprUserNotification.processTimeLeft(pForceNotifications, timeValues)
 

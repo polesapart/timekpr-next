@@ -42,7 +42,7 @@ def _output(pText):
     if cons.TK_DEV_ACTIVE:
         print(logText)
     # log only if enough calls are passed to log
-    if _LOG_PEND_EVT_CNT >= cons.TK_LOG_AUTO_FLUSH_EVT_CNT and _LOG_FILE is not None:
+    if _LOG_PEND_EVT_CNT >= cons.TK_LOG_AUTO_FLUSH_EVT_CNT:
         # write buffers to log file
         flushLogFile()
 
@@ -102,6 +102,7 @@ def autoFlushLogFile():
     global _LOG_PEND_FLUSH_CNT
     # reset flush
     _LOG_PEND_FLUSH_CNT += 1
+
     # when the time has come, just flush the log file
     if _LOG_PEND_FLUSH_CNT >= cons.TK_POLLTIME:
         # flush the log

@@ -123,10 +123,9 @@ class timekprDaemon(dbus.service.Object):
         execCnt = 0
         # we execute tasks until not asked to stop
         while not self._finishExecution:
-            log.log(cons.TK_LOG_LEVEL_INFO, "--- start working on users ---")
             # perf
-            execCnt += 1
             dts = datetime.now()
+            log.log(cons.TK_LOG_LEVEL_INFO, "--- start working on users ---")
 
             # do the actual work
             try:
@@ -136,19 +135,20 @@ class timekprDaemon(dbus.service.Object):
                 log.log(cons.TK_LOG_LEVEL_INFO, traceback.format_exc())
                 log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR working on users ===---")
 
+            # periodically flush the file
+            log.autoFlushLogFile()
+
             # perf
             lavg = os.getloadavg()
             perf = datetime.now() - dts
+            execCnt += 1
             execLen += perf
 
             log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users (ela: %s) ---" % (str(perf)))
             log.log(cons.TK_LOG_LEVEL_DEBUG, "--- perf: avg ela: %s, loadavg: %s, %s, %s ---" % (str(execLen/execCnt), lavg[0], lavg[1], lavg[2]))
 
-            # periodically flush the file
-            log.autoFlushLogFile()
-
-            # take a polling pause (try to do that exactly every 3 secs)
-            time.sleep(self._timekprConfig.getTimekprPollTime() - min(round(perf.total_seconds(), 4), 1.5))
+            # take a polling pause (try to do that exactly every 3 secs), 1.0042 is there to compensate time drift deviation for 0.42%
+            time.sleep(self._timekprConfig.getTimekprPollTime() - min(perf.total_seconds() * 1.0042, self._timekprConfig.getTimekprPollTime() / 2))
 
         log.log(cons.TK_LOG_LEVEL_INFO, "worker shut down")
         # finish logging
@@ -279,7 +279,7 @@ class timekprDaemon(dbus.service.Object):
             self._timekprUserList[rUserName].setPlayTimeActiveActivityCnt(timePTActivityCnt)
 
             # logging
-            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), hr uacc: %s, tleft: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "user \"%s\", active: %s/%s/%s (act/eff/lck), huacc: %s, tleft: %i" % (rUserName, str(userActiveActual), str(userActiveEffective), str(userScreenLocked), str(timeHourUnaccounted), timeLeftInARow))
 
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:
