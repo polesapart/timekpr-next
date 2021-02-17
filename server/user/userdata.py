@@ -569,8 +569,8 @@ class timekprUser(object):
         # time spent for week
         timeSpentMonth = self._timekprUserData[cons.TK_CTRL_SPENTM]
         # unaccounted hour
-        timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
-
+        isCurrentTimeBetweenInterval = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SMIN] <= self._currentMOH <= self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_EMIN]
+        timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC] if isCurrentTimeBetweenInterval else False
         # debug
         log.log(cons.TK_LOG_LEVEL_INFO, "get time for \"%s\", tltd %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
