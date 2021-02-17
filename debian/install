@@ -27,6 +27,7 @@ resource/icons/timekpr-logo.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-limited-green.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-limited-red.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-limited-yellow.svg usr/share/timekpr/icons/
+resource/icons/timekpr-padlock-limited-uacc.svg usr/share/timekpr/icons/
 resource/icons/timekpr-padlock-unlimited-green.svg usr/share/timekpr/icons/
 resource/icons/timekpr.svg usr/share/icons/hicolor/scalable/apps/
 

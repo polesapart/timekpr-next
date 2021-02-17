@@ -31,7 +31,7 @@ class timekprNotificationArea(object):
         # set username
         self._userName = pUserName
         # initialize priority
-        self._lastUsedPriority = ""
+        self._lastUsedPriority = self._lastUsedServerPriority = ""
         # priority level
         self._lastUsedPriorityLvl = -1
         # PlayTime priority level
@@ -103,8 +103,8 @@ class timekprNotificationArea(object):
         timekprIcon = None
         timeLeftStr = None
 
-        # if time has changed
-        if self._timeLeftTotal != pTimeLeft or pTimeLeft is None:
+        # execute time and icon changes + notifications only when there are changes
+        if self._timeLeftTotal != pTimeLeft or pTimeLeft is None or self._lastUsedServerPriority != pPriority:
             # if there is no time left set yet, show --
             if pTimeLeft is None:
                 # determine hours and minutes
@@ -126,7 +126,8 @@ class timekprNotificationArea(object):
                     timeLeftStr += ((":" + str(self._timeLeftTotal.second).rjust(2, "0")) if self._timekprClientConfig.getClientShowSeconds() else "")
 
                     # get user configured level and priority
-                    prio, finLvl = self._determinePriority("Time", pPriority, (pTimeLeft - cons.TK_DATETIME_START).total_seconds())
+                    prio, finLvl = (pPriority, -1) if pPriority == cons.TK_PRIO_UACC else self._determinePriority("Time", pPriority, (pTimeLeft - cons.TK_DATETIME_START).total_seconds())
+
                     # if level actually changed
                     if self._lastUsedPriorityLvl != finLvl:
                         # do not notify if this is the first invocation, because initial limits are already asked from server
@@ -139,10 +140,15 @@ class timekprNotificationArea(object):
 
                 # now, if priority changes, set up icon as well
                 if self._lastUsedPriority != prio:
+                    # log
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "changing icon for level, old: %s, new: %s" % (self._lastUsedPriority, prio))
                     # set up last used prio
                     self._lastUsedPriority = prio
                     # get status icon
-                    timekprIcon = os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF[cons.getNotificationPrioriy(prio)][cons.TK_ICON_STAT])
+                    timekprIcon = os.path.join(self._timekprClientConfig.getTimekprSharedDir(), "icons", cons.TK_PRIO_CONF[cons.getNotificationPrioriy(self._lastUsedPriority)][cons.TK_ICON_STAT])
+
+            # adjust server priority: server sends all time left messages with low priority, except when there is no time left, then priority is critical
+            self._lastUsedServerPriority = pPriority
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish formatTimeLeft")
 

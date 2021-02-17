@@ -569,8 +569,8 @@ class timekprUser(object):
         # time spent for week
         timeSpentMonth = self._timekprUserData[cons.TK_CTRL_SPENTM]
         # unaccounted hour
-        timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC]
-
+        isCurrentTimeBetweenInterval = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SMIN] <= self._currentMOH <= self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_EMIN]
+        timeUnaccountedHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_UACC] if isCurrentTimeBetweenInterval else False
         # debug
         log.log(cons.TK_LOG_LEVEL_INFO, "get time for \"%s\", tltd %s, tlrow: %s, tspbt: %s, tidbt: %s" % (self.getUserName(), timeLeftToday, timeLeftInARow, timeSpentThisSession, timeInactiveThisSession))
 
@@ -594,6 +594,9 @@ class timekprUser(object):
             timeValues[cons.TK_CTRL_PTSPD] = self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]
             timeValues[cons.TK_CTRL_PTLPD] = min(max(0, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_LEFTD]), timeValues[cons.TK_CTRL_LEFTD])
             timeValues[cons.TK_CTRL_PTLSTC] = self.getPlayTimeActiveActivityCnt()
+
+        # pass uacc too, so notifications can be prevented when hour is unaccounted
+        timeValues[cons.TK_CTRL_UACC] = timeUnaccountedHour
 
         # process notifications, if needed
         self._timekprUserNotification.processTimeLeft(pForceNotifications, timeValues)

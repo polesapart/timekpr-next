@@ -119,8 +119,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
-* Tue Feb 16 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.6
-- Updated spec file for version 0.5.1, release 0.6 (BETA)
+* Wed Feb 17 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.7
+- Updated spec file for version 0.5.1, release 0.7 (BETA)
 * Thu Jan 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-8.0
 - Updated spec file for version 0.5.0, release 8 (STABLE)
 * Tue Dec 29 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-7.0

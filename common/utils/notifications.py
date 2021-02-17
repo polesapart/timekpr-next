@@ -117,11 +117,14 @@ class timekprNotificationManager(dbus.service.Object):
             timeLeft[cons.TK_CTRL_PTLPD] = int(pTimeValues[cons.TK_CTRL_PTLPD])
             timeLeft[cons.TK_CTRL_PTLSTC] = int(pTimeValues[cons.TK_CTRL_PTLSTC])
 
+        # save calculated urgency (calculated may get overridden by uacc)
+        notifUrgency = cons.TK_PRIO_UACC if pTimeValues[cons.TK_CTRL_UACC] else self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY]
+
         # inform clients about time left in any case
-        self.timeLeft(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], timeLeft)
+        self.timeLeft(notifUrgency, timeLeft)
 
         # if notification levels changed (and it was not the first iteration)
-        if (pForce) or (self._notificationLvl != self._prevNotificationLvl) or ((effectiveDatetime - self._lastNotified).total_seconds() >= self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_INTERVAL]()):
+        if (pForce) or (self._notificationLvl != self._prevNotificationLvl) or ((effectiveDatetime - self._lastNotified).total_seconds() >= self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_INTERVAL]() and not pTimeValues[cons.TK_CTRL_UACC]):
             # set up last notified
             self._lastNotified = effectiveDatetime
 
@@ -133,9 +136,9 @@ class timekprNotificationManager(dbus.service.Object):
                     self.timeNoLimitNotification(cons.TK_PRIO_LOW)
             else:
                 # limit
-                self.timeLeftNotification(self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], max(pTimeValues[cons.TK_CTRL_LEFT], 0), max(pTimeValues[cons.TK_CTRL_LEFTD], 0), pTimeValues[cons.TK_CTRL_LIMITD])
+                self.timeLeftNotification(notifUrgency, max(pTimeValues[cons.TK_CTRL_LEFT], 0), max(pTimeValues[cons.TK_CTRL_LEFTD], 0), pTimeValues[cons.TK_CTRL_LIMITD])
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "time left, tlrow: %i, tleftd: %i, tlimd: %i, notification lvl: %s, priority: %s, force: %s" % (pTimeValues[cons.TK_CTRL_LEFT], pTimeValues[cons.TK_CTRL_LEFTD], pTimeValues[cons.TK_CTRL_LIMITD], self._notificationLvl, self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_URGENCY], str(pForce)))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "time left, tlrow: %i, tleftd: %i, tlimd: %i, notification lvl: %s, priority: %s, force: %s" % (pTimeValues[cons.TK_CTRL_LEFT], pTimeValues[cons.TK_CTRL_LEFTD], pTimeValues[cons.TK_CTRL_LIMITD], self._notificationLvl, notifUrgency, str(pForce)))
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish processTimeLeft")
 
     def processTimeLimits(self, pTimeLimits):
