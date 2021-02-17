@@ -288,7 +288,12 @@ class timekprDaemon(dbus.service.Object):
                     log.log(cons.TK_LOG_LEVEL_INFO, "SAVING user \"%s\" from ending his sessions / shutdown" % (rUserName))
                     # remove from death list
                     self._timekprUserRestrictionList.pop(rUserName)
-                # if restricted time has passed, we need to lift the restriction
+                # if restricted time has passed for hard restrictions, we need to lift the restriction
+                elif (timeLeftInARow > self._timekprConfig.getTimekprTerminationTime() or timeHourUnaccounted) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
+                    log.log(cons.TK_LOG_LEVEL_INFO, "RELEASING terminate / shutdown from user \"%s\"" % (rUserName))
+                    # remove from restriction list
+                    self._timekprUserRestrictionList.pop(rUserName)
+                # if restricted time has passed for soft restrictions, we need to lift the restriction
                 elif (timeLeftInARow > self._timekprConfig.getTimekprTerminationTime() or timeHourUnaccounted) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W):
                     log.log(cons.TK_LOG_LEVEL_INFO, "RELEASING lock / suspend from user \"%s\"" % (rUserName))
                     # remove from restriction list
