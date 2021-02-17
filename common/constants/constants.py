@@ -291,9 +291,10 @@ TK_PRIO_WARNING = "warning"
 TK_PRIO_IMPORTANT = "important"
 TK_PRIO_CRITICAL = "critical"
 TK_PRIO_IMPORTANT_INFO = "important_info"
+TK_PRIO_UACC = "unaccounted"
 # notification levels mapping from / to codes
-TK_PRIO_LVL_MAP = {"3": TK_PRIO_LOW, "2": TK_PRIO_WARNING, "1": TK_PRIO_IMPORTANT, "0": TK_PRIO_CRITICAL,
-    TK_PRIO_LOW: "3", TK_PRIO_WARNING: "2", TK_PRIO_IMPORTANT: "1", TK_PRIO_CRITICAL: "0"}
+TK_PRIO_LVL_MAP = {"4": TK_PRIO_UACC, "3": TK_PRIO_LOW, "2": TK_PRIO_WARNING, "1": TK_PRIO_IMPORTANT, "0": TK_PRIO_CRITICAL,
+    TK_PRIO_UACC: "4", TK_PRIO_LOW: "3", TK_PRIO_WARNING: "2", TK_PRIO_IMPORTANT: "1", TK_PRIO_CRITICAL: "0"}
 
 # config
 TK_PRIO_CONF = {}
@@ -306,6 +307,7 @@ TK_PRIO_CONF[TK_PRIO_WARNING] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.s
 TK_PRIO_CONF[TK_PRIO_IMPORTANT] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_CRITICAL] = {TK_ICON_STAT: "timekpr-padlock-limited-red.svg", TK_ICON_NOTIF: "dialog-error", TK_DBUS_PRIO: dbus.Byte(2, variant_level=1)}
 TK_PRIO_CONF[TK_PRIO_IMPORTANT_INFO] = {TK_ICON_STAT: "timekpr-padlock-limited-yellow.svg", TK_ICON_NOTIF: "dialog-information", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
+TK_PRIO_CONF[TK_PRIO_UACC] = {TK_ICON_STAT: "timekpr-padlock-limited-uacc.svg", TK_ICON_NOTIF: "dialog-warning", TK_DBUS_PRIO: dbus.Byte(1, variant_level=1)}
 
 # ## timekpr notification config ##
 # init python gettext
