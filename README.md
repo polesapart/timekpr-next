@@ -228,9 +228,10 @@ The configuration itself is simple too. To create an interval, press create butt
 inside the table.
 
 <a name="freerideintervals"></a>
-There's a special setting for time interval indicated as "∞". Basically this setting means that time spent in this time period will not be accounted 
-towards user's daily allowance, i.e. it's free time for him. In addition to that, this allows the user to use computer even if he has no time left all. This 
-setting can be useful in case user has a special arrangement, such as online courses at specific times, so he does not spend his personal limit on them.
+There's a special setting for time interval indicated as "∞" (unaccounted time intervals). Basically this setting means that time spent in this time period 
+will not be accounted towards user's daily allowance, i.e. it's free time for him. In addition to that, this allows the user to use computer even if he has 
+no time left all. This setting can be useful in case user has a special arrangement, such as online courses at specific times, so he does not spend his 
+personal limit on them.
 
 Please keep in mind that intervals themselves **cannot** overlap in any way, however it's possible to have intervals ending and starting continuously, for 
 example, intervals 7:00-13:00 and 13:00-14:30 can coexist, but don't be surprised when adjacent intervals are merged into one.
@@ -584,7 +585,11 @@ Please look at the [information representation differences](#desktopenvironmentd
 Daily limits shows daily time allowance, time period restrictions and time spent / left set by supervisor. Most important metrics are continuous time left and 
 time periods when user can use the computer.
 
-If time period has "∞" sign besides it, the time for this period will not be counted towards the user's limit, i.e. free time for the user.
+Timekpr-nExT will change icon color depending on how much time is left for user, however this configuration is in user's own [hands](#userconfigurablenotifications).
+
+If time period has "∞" sign besides it, the time for this period will not be counted towards the user's limit, i.e. free time for the user. Additionally, 
+when user has unaccounted time intervals and that time has come, icon color will change from whatever color it was to gray indicating that this time is not 
+accounted in any way. When unaccounted time interval ends, the color of the icon will change according to user notification configuration.
 
 </br>
 
@@ -719,7 +724,7 @@ Timekpr-nExT is available in:
 | :--- | :--- | :--- |
 | Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next``` | ```sudo pacman -Rdd timekpr-next``` |
-| Fedora and openSUSE | [manual installation](https://launchpad.net/timekpr-next/+announcement/27532) | [manual uninstallation](https://launchpad.net/timekpr-next/+announcement/27532) |
+| Fedora and openSUSE | [manual installation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README and packages)_| [manual uninstallation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README)_ |
 
 #### Beta
 
