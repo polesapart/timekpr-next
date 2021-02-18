@@ -1,5 +1,40 @@
-BUILD instructions (please open terminal and install this in one go not leaving the terminal (unless You know what to do))!
+INSTALLATION INSTRUCTIONS
+-------------------------
+    Fedora / openSUSE:
+        Use whichever GUI your distribution has or:
+            sudo rpm -Uhv <downloaded package>
 
+    VERSIONING
+    ----------
+        Release less than 1.0 is BETA, 1.0+ is STABLE, example:
+              BETA (release 0.6): timekpr-next-0.5.1-0.6.fc32.x86_64
+            STABLE (release 7.0): timekpr-next-0.5.0-7.0.fc32.x86_64
+
+    NOTES
+    -----
+        If You are using G3 with Gnome Shell, please DO NOT forget to install this (otherwise icon will be hidden)!
+
+        Fedora:
+            sudo dnf install gnome-shell-extension-appindicator
+
+        openSUSE:
+            install "KStatusNotifierItem/AppIndicator Support" extension manually from https://extensions.gnome.org/
+
+        Enable extensions if needed (for Fedora install Gnome Tweaks application and enable said extension)
+        Let the user log out and in to see the timekpr-nExT in action.
+-------------------------
+
+REMOVAL instructions
+--------------------
+    Fedora:
+        sudo dnf remove timekpr-next
+
+    openSUSE:
+        sudo zypper remove timekpr-next
+-------------------------
+
+BUILD instructions (please open terminal and install this in one go not leaving the terminal (unless You know what to do))!
+---------------------------------------------------------------------------------------------------------------------------
     # set version
     Fedora / openSUSE:
         export TNVER="0.5.1"
@@ -40,12 +75,4 @@ BUILD instructions (please open terminal and install this in one go not leaving 
     # and then install new one or use --force at the end of the command
     Fedora / openSUSE:
         sudo rpm -Uhv $HOME/rpmbuild/RPMS/$(arch)/timekpr-next-${TNVER}-${TNREL}*.x86_64.rpm
-
-    # if You are using G3, please DO NOT forget to install this (otherwise icon will be hidden)
-    Fedora:
-        sudo dnf install gnome-shell-extension-appindicator
-    openSUSE:
-        install "KStatusNotifierItem/AppIndicator Support" extension manually from https://extensions.gnome.org/
-
-    # enable extensions if needed (for Fedora install Gnome Tweaks application and enable said extension)
-    # let the user log out and in to see the timekpr-nExT in action
+---------------------------------------------------------------------------------------------------------------------------
