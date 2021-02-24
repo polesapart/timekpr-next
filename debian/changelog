@@ -1,4 +1,4 @@
-timekpr-next (0.5.1-7ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.1-8ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab
   * add gnome-shell-extension-appindicator to suggestions list
@@ -36,6 +36,7 @@ timekpr-next (0.5.1-7ubuntu1~ppa1) UNRELEASED; urgency=medium
       by default only process name is used for activity detection
     logging level changes are applied immediately
     gray icon for unaccounted hours, which help to distinguish the interval, especially when there is no time left (was: red icon)
+    add possibility to edit single daily, daily PlayTime and weekly/monthly limits by editing value directly
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 17 Feb 2021 23:33:23 +0200
 
