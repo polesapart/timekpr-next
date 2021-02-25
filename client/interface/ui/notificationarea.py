@@ -181,12 +181,13 @@ class timekprNotificationArea(object):
         """Notify user (a wrapper call)"""
         # prio
         prio = pPriority
+        timeLeft = cons.TK_DATETIME_START if pTimeLeft is None else pTimeLeft
         # for time left, we need to determine final priority accoriding to user defined priority (if not defined, that will come from server)
         if pMsgCode == cons.TK_MSG_CODE_TIMELEFT:
             # get user configured level and priority
-            prio, finLvl = self._determinePriority("Time", pPriority, (pTimeLeft - cons.TK_DATETIME_START).total_seconds())
+            prio, finLvl = self._determinePriority("Time", pPriority, (timeLeft - cons.TK_DATETIME_START).total_seconds())
         #  notify user
-        self._timekprNotifications.notifyUser(pMsgCode, pMsgType, prio, pTimeLeft, pAdditionalMessage)
+        self._timekprNotifications.notifyUser(pMsgCode, pMsgType, prio, timeLeft, pAdditionalMessage)
 
     def setStatus(self, pStatus):
         """Change status of timekpr"""

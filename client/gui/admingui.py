@@ -24,9 +24,10 @@ from timekpr.common.constants import messages as msg
 _NO_TIME_LABEL_SHORT = "--:--"
 _NO_TIME_LABEL = "--:--:--"
 _NO_TIME_LIMIT_LABEL = "--:--:--:--"
-_HOUR_REGEXP = re.compile("^([0-9]{1,2})$")
-_HOUR_MIN_REGEXP = re.compile("^([0-9]{1,2}):([0-9]{1,2})$")
-
+_HOUR_REGEXP = re.compile("^([0-9]{1,2}).*$")
+_HOUR_MIN_REGEXP = re.compile("^([0-9]{1,2}):([0-9]{1,2}).*$")
+_DAY_HOUR_MIN_REGEXP = re.compile("^([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}).*$")
+_DAY_HOUR_MIN_SEC_REGEXP = re.compile("^([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}).*$")
 
 class timekprAdminGUI(object):
     """Main class for supporting timekpr forms"""
@@ -190,7 +191,10 @@ class timekprAdminGUI(object):
         col.set_min_width(35)
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").append_column(col)
         # limit
-        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_LIMIT_LABEL"), Gtk.CellRendererText(), text=4)
+        rend = Gtk.CellRendererText()
+        rend.set_property("editable", True)
+        rend.connect("edited", self.userLimitsDailyLimitsEdited)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_LIMIT_LABEL"), rend, text=4)
         col.set_min_width(60)
         self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").append_column(col)
         # final col
@@ -240,8 +244,11 @@ class timekprAdminGUI(object):
         col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_WK_MON_LABEL"), Gtk.CellRendererText(), text=1)
         col.set_min_width(90)
         self._timekprAdminFormBuilder.get_object("TimekprUserConfWkMonLimitsTreeView").append_column(col)
-        # to hour
-        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_WK_MON_LIMIT_LABEL"), Gtk.CellRendererText(), text=3)
+        # weekly/monthly limit
+        rend = Gtk.CellRendererText()
+        rend.set_property("editable", True)
+        rend.connect("edited", self.userLimitsWeeklyLimitsEdited)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_WK_MON_LIMIT_LABEL"), rend, text=3)
         col.set_min_width(95)
         self._timekprAdminFormBuilder.get_object("TimekprUserConfWkMonLimitsTreeView").append_column(col)
         # final col
@@ -267,7 +274,10 @@ class timekprAdminGUI(object):
         col.set_min_width(35)
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsTreeView").append_column(col)
         # limit
-        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_LIMIT_LABEL"), Gtk.CellRendererText(), text=4)
+        rend = Gtk.CellRendererText()
+        rend.set_property("editable", True)
+        rend.connect("edited", self.userLimitsDailyPlayTimeLimitsEdited)
+        col = Gtk.TreeViewColumn(msg.getTranslation("TK_MSG_DAY_LIST_LIMIT_LABEL"), rend, text=4)
         col.set_min_width(60)
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsTreeView").append_column(col)
         # final col
@@ -2210,18 +2220,10 @@ class timekprAdminGUI(object):
         # value before
         secsBefore = intervalSt[path][4 if pIsFrom else 5]
         # def
-        secs = None
-        # verify values
-        if _HOUR_REGEXP.match(text):
-            # calculate seconds
-            secs = min(int(_HOUR_REGEXP.sub(r"\1", text)) * cons.TK_LIMIT_PER_HOUR, cons.TK_LIMIT_PER_DAY)
-        elif _HOUR_MIN_REGEXP.match(text):
-            # calculate seconds
-            secs = min(int(_HOUR_MIN_REGEXP.sub(r"\1", text)) * cons.TK_LIMIT_PER_HOUR + int(_HOUR_MIN_REGEXP.sub(r"\2", text)) * cons.TK_LIMIT_PER_MINUTE, cons.TK_LIMIT_PER_DAY)
-
+        secs = self.verifyAndCalcLimit(text, "h")
         # if we could calculate seconds (i.e. entered text is correct)
         if secs is not None:
-            # if values before and after does not change, we do nothing
+            # if values before and after does not change (or initial 0), we do nothing
             if secsBefore != secs or secsBefore == secs == 0:
                 # format secs
                 text = self.formatTimeStr(secs)
@@ -2232,6 +2234,49 @@ class timekprAdminGUI(object):
                 intervalSt[path][0] = -1
                 # calculate control availability
                 self.calculateUserConfigControlAvailability()
+
+    def verifyAndSetWeeklyLimits(self, path, text):
+        """Verify and set weekly values"""
+        pass
+        # store
+        limitsSt = self._timekprAdminFormBuilder.get_object("TimekprUserConfWkMonLimitsLS")
+        # value before
+        secsBefore = limitsSt[path][2]
+        # def
+        secs = self.verifyAndCalcLimit(text, "w" if limitsSt[path][0] == "WK" else "m")
+        # if we could calculate seconds (i.e. entered text is correct)
+        if secs is not None:
+            # if values before and after does not change, we do nothing
+            if secsBefore != secs:
+                # format secs
+                text = self.formatTimeStr(secs, pFormatSecs=True, pFormatDays=True)
+                # set values
+                limitsSt[path][3] = text
+                limitsSt[path][2] = secs
+                # calculate control availability
+                self.calculateUserConfigControlAvailability()
+
+    def verifyAndSetDayLimits(self, path, text, pIsPlayTime=False):
+        """Verify and set daily values"""
+        pass
+        # store
+        limitsSt = self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsLS" if pIsPlayTime else "TimekprWeekDaysLS")
+        controlFnc = self.calculateUserPlayTimeConfigControlAvailability if pIsPlayTime else self.calculateUserConfigControlAvailability
+        # value before
+        secsBefore = limitsSt[path][3]
+        # def
+        secs = self.verifyAndCalcLimit(text, "d")
+        # if we could calculate seconds (i.e. entered text is correct)
+        if secs is not None:
+            # if values before and after does not change, we do nothing
+            if secsBefore != secs:
+                # format secs
+                text = self.formatTimeStr(secs, pFormatSecs=True)
+                # set values
+                limitsSt[path][4] = text
+                limitsSt[path][3] = secs
+                # calculate control availability
+                controlFnc()
 
     def areHoursVerified(self):
         """Return whether all hours have been verified"""
@@ -2248,6 +2293,42 @@ class timekprAdminGUI(object):
                 break
         # result
         return result
+
+    def verifyAndCalcLimit(self, pLimitStr, pLimitType):
+        """Parse user entered limit"""
+        # add limits
+        def _addLimit(pSecs, pAddSecs):
+            # add limits
+            return pAddSecs if pSecs is None else pSecs + pAddSecs
+        # def
+        secs = None
+        # determine interval type and calculate seconds according to it
+        try:
+            # days to weeks/month
+            if pLimitType in ("w", "m") and _DAY_HOUR_MIN_SEC_REGEXP.match(pLimitStr):
+                # calculate seconds
+                secs = min(_addLimit(secs, int(_DAY_HOUR_MIN_SEC_REGEXP.sub(r"\4", pLimitStr))), cons.TK_LIMIT_PER_MINUTE)
+            # days to weeks/month
+            if pLimitType in ("w", "m", "d") and _DAY_HOUR_MIN_REGEXP.match(pLimitStr):
+                # calculate minutes
+                secs = min(_addLimit(secs, int(_DAY_HOUR_MIN_REGEXP.sub(r"\3", pLimitStr)) * (cons.TK_LIMIT_PER_MINUTE if pLimitType != "d" else 1)), cons.TK_LIMIT_PER_HOUR if pLimitType != "d" else cons.TK_LIMIT_PER_MINUTE)
+            # hours/minutes or days/hours
+            if _HOUR_MIN_REGEXP.match(pLimitStr):
+                # calculate seconds
+                secs = min(_addLimit(secs, int(_HOUR_MIN_REGEXP.sub(r"\2", pLimitStr)) * (cons.TK_LIMIT_PER_MINUTE if pLimitType in ("h", "d") else cons.TK_LIMIT_PER_HOUR)), cons.TK_LIMIT_PER_HOUR if pLimitType in ("h", "d") else cons.TK_LIMIT_PER_DAY)
+            # hours / days
+            if _HOUR_REGEXP.match(pLimitStr):
+                # calculate seconds
+                secs = min(_addLimit(secs, int(_HOUR_REGEXP.sub(r"\1", pLimitStr)) * (cons.TK_LIMIT_PER_HOUR if pLimitType in ("h", "d") else cons.TK_LIMIT_PER_DAY)), cons.TK_LIMIT_PER_DAY if pLimitType in ("h", "d") else cons.TK_LIMIT_PER_MONTH)
+            # no error
+            if secs is not None:
+                # normalize total seconds
+                secs = min(secs, cons.TK_LIMIT_PER_MONTH if pLimitType == "m" else cons.TK_LIMIT_PER_WEEK if pLimitType == "w" else cons.TK_LIMIT_PER_DAY)
+        except:
+            # we do not care about any errors
+            secs = None
+        # return seconds
+        return secs
 
     # --------------- limit configuration GTK signal methods --------------- #
 
@@ -2344,6 +2425,18 @@ class timekprAdminGUI(object):
     def userLimitsHourToEdited(self, widget, path, text):
         """Set internal representation of in-place edited value"""
         self.verifyAndSetHourInterval(path, text, pIsFrom=False)
+
+    def userLimitsWeeklyLimitsEdited(self, widget, path, text):
+        """Set internal representation of in-place edited value"""
+        self.verifyAndSetWeeklyLimits(path, text)
+
+    def userLimitsDailyLimitsEdited(self, widget, path, text):
+        """Set internal representation of in-place edited value"""
+        self.verifyAndSetDayLimits(path, text)
+
+    def userLimitsDailyPlayTimeLimitsEdited(self, widget, path, text):
+        """Set internal representation of in-place edited value"""
+        self.verifyAndSetDayLimits(path, text, pIsPlayTime=True)
 
     def userLimitsHourUnaccountableToggled(self, widget, path):
         """Set internal representation of in-place edited value"""

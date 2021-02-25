@@ -396,6 +396,8 @@
                                         <property name="tooltip-text" translatable="yes">Time spent this session or after Timekpr-nExT has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time spent (session):</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -439,6 +441,8 @@
                                         <property name="tooltip-text" translatable="yes">Time inactive this session or after Timekpr-nExT has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time inactive:</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -465,6 +469,8 @@
                                         <property name="tooltip-text" translatable="yes">Continuous time left to you. May span more than the current day.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Continuous time left:</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
                                         </attributes>
@@ -481,6 +487,8 @@
                                         <property name="tooltip-text" translatable="yes">Total time available left today in a row, up to the end of the day</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time left today:</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -532,7 +540,7 @@
                                         <property name="hexpand">True</property>
                                         <property name="vexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">155</property>
+                                        <property name="min-content-width">170</property>
                                         <child>
                                           <object class="GtkTreeView" id="timekprAllowedDaysDaysTreeview">
                                             <property name="visible">True</property>
@@ -1038,7 +1046,7 @@ If it's checked, the time is accounted only when activities in "Activity / appli
                                         <property name="label" translatable="yes">Time limit override:</property>
                                         <property name="justify">fill</property>
                                         <property name="wrap">True</property>
-                                        <property name="max-width-chars">25</property>
+                                        <property name="max-width-chars">20</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -1132,7 +1140,7 @@ This setting allows to use applications listed in "Activity / application list" 
                                     <property name="hexpand">True</property>
                                     <property name="vexpand">True</property>
                                     <property name="shadow-type">in</property>
-                                    <property name="min-content-width">155</property>
+                                    <property name="min-content-width">170</property>
                                     <child>
                                       <object class="GtkTreeView" id="timekprPTAllowedDaysLimitsDaysTreeview">
                                         <property name="visible">True</property>

@@ -215,6 +215,10 @@ This section presents configuration for every week day. Namely one can select on
 Days have to be enabled / disabled for every day separately, but limits can be adjusted for multiple days at once. Just select multiple days, select what you 
 would like to adjust - hours or minutes and press "+" or "-" button. Simple as that :)
 
+Another way of editing a single day limit is to to click on the limit inside the table and edit it by hand. This way one can edit seconds too, not that I 
+recommend it, but the possibility is there. When defining a limit one can use shortcuts, namely - entering 7 will result in 07:00:00 (hours:minutes:seconds), 
+entering 7:1:15 will result in 07:01:15.
+
 By default every day is enabled and user have all the time available.
 
 ---------------------------------------
@@ -225,7 +229,8 @@ Hour intervals define time periods when user can use the computer. These can be 
 multiple days at once, just select multiple days and configure time periods.
 
 The configuration itself is simple too. To create an interval, press create button and specify start and end of the time period by clicking on created interval 
-inside the table.
+inside the table. 
+When defining the intervals one can use shortcuts, namely - entering 7 will result in 07:00 (hour:minute), entering 7:15 will result in 07:15.
 
 <a name="freerideintervals"></a>
 There's a special setting for time interval indicated as "∞" (unaccounted time intervals). Basically this setting means that time spent in this time period 
@@ -245,16 +250,18 @@ are allowed.
 After entering intervals, one have to press "verify" button for application to know that one, you know, did not made a typo :) If intervals are ok, one can 
 apply the configuration. When time periods are misconfigured, both conflicting intervals will be highlighted.
 
-When defining the intervals one can use shortcuts, namely - entering 7 will result in 07:00, entering 7:15 will result in 07:15.
-
 By default whole day is available.
 
 ---------------------------------------
 
 ##### Weekly and monthly limits
 
-This section allows to adjust weekly and monthly time allowances. Just select a period and a time unit day, hour or minute and press "+" or "-" buttons to 
+This section allows to adjust weekly and monthly time allowances. Just select a period and a time unit of day, hour or minute and press "+" or "-" buttons to 
 adjust the limits.
+
+Another way of editing a limit is to to click on the limit inside the table and edit it by hand. This way one can edit seconds too, not that I 
+recommend it, but the possibility is there. When defining a limit one can use shortcuts, namely - entering 7 will result in 06:00:00:00 
+(days:hours:minutes:seconds), entering 6:10:5:11 will result in 06:10:05:11.
 
 These limits work together with daily limits and hour intervals, user's time is the least of the limits.
 
