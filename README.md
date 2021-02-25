@@ -851,14 +851,18 @@ In addition to graphical applications, Timekpr-nExT can be configured using tool
 
 </br>
 
-#### CLI mode
+#### CLI (Command Line Interface) mode
 
 Timekpr-nExT Administration application can be run in terminal to obtain information on users and configure limits at the same functional level as in 
 graphical mode. Please note that at this time CLI interface is available for user configuration only.
 
-For CLI usage, please open your terminal emulator of choice (i.e. Gnome Terminal / Konsole / XTerm) and type ```timekpra --help```, it will introduce you to 
-Timekpr-nExT CLI by printing usage notes and examples. Timekpr-nExT Administration application in both modes apply configuration in real-time, i.e. 
-configuration is effective immediately.
+For CLI usage, please open your terminal emulator of choice (i.e. Gnome Terminal / Konsole / XTerm) and type ```sudo timekpra --help```, it will introduce you to 
+Timekpr-nExT CLI by printing usage notes and examples.
+
+**Please note** that CLI usage follows the same security principles as graphical application - either you have to be in the ```timekpr``` group, execute it 
+as ```root``` or use ```sudo``` to access its functionality even in CLI mode.
+
+Timekpr-nExT Administration application in both modes apply configuration in real-time, i.e. configuration is effective immediately.
 
 </br>
 
