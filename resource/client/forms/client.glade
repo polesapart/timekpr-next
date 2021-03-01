@@ -136,7 +136,7 @@
     <property name="destroy-with-parent">True</property>
     <property name="icon-name">timekpr-client</property>
     <property name="type-hint">normal</property>
-    <signal name="close" handler="closePropertiesSignal" swapped="no"/>
+    <signal name="destroy" handler="preventDestroyingDialogSignal" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="timekprConfigDialogArea">
         <property name="can-focus">False</property>
@@ -396,6 +396,8 @@
                                         <property name="tooltip-text" translatable="yes">Time spent this session or after Timekpr-nExT has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time spent (session):</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -439,6 +441,8 @@
                                         <property name="tooltip-text" translatable="yes">Time inactive this session or after Timekpr-nExT has been restarted</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time inactive:</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -465,6 +469,8 @@
                                         <property name="tooltip-text" translatable="yes">Continuous time left to you. May span more than the current day.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Continuous time left:</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
                                         </attributes>
@@ -481,6 +487,8 @@
                                         <property name="tooltip-text" translatable="yes">Total time available left today in a row, up to the end of the day</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time left today:</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -532,7 +540,7 @@
                                         <property name="hexpand">True</property>
                                         <property name="vexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">155</property>
+                                        <property name="min-content-width">170</property>
                                         <child>
                                           <object class="GtkTreeView" id="timekprAllowedDaysDaysTreeview">
                                             <property name="visible">True</property>
@@ -949,7 +957,7 @@ This varies among desktop environments.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <!-- n-columns=2 n-rows=4 -->
+                                  <!-- n-columns=2 n-rows=5 -->
                                   <object class="GtkGrid" id="timekprPTLimitInfoGrid">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -967,7 +975,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
-                                        <property name="top-attach">2</property>
+                                        <property name="top-attach">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -980,7 +988,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
-                                        <property name="top-attach">2</property>
+                                        <property name="top-attach">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -993,7 +1001,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
-                                        <property name="top-attach">1</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1007,7 +1015,7 @@ This varies among desktop environments.</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
-                                        <property name="top-attach">1</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1036,6 +1044,9 @@ If it's checked, the time is accounted only when activities in "Activity / appli
 If it's checked, the time is accounted only when activities in "Activity / application list" are running, the rest of the time is considered idle.</property>
                                         <property name="halign">end</property>
                                         <property name="label" translatable="yes">Time limit override:</property>
+                                        <property name="justify">fill</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">20</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
@@ -1052,7 +1063,7 @@ If it's checked, the time is accounted only when activities in "Activity / appli
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
-                                        <property name="top-attach">3</property>
+                                        <property name="top-attach">4</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1065,7 +1076,42 @@ If it's checked, the time is accounted only when activities in "Activity / appli
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
-                                        <property name="top-attach">3</property>
+                                        <property name="top-attach">4</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="timekprPTLimitInfoUnaccountedIntervalsFlagLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="tooltip-text" translatable="yes">Allow activities during unaccounted ("∞") time intervals.
+
+This setting allows to use applications listed in "Activity / application list" during time intervals which are marked as unaccounted ("∞"), if the setting is not enabled, none of activities are allowed to run!</property>
+                                        <property name="halign">end</property>
+                                        <property name="label" translatable="yes">Allowed during "∞":</property>
+                                        <property name="justify">fill</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="timekprPTLimitInfoUnaccountedIntervalsFlagLB">
+                                        <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="tooltip-text" translatable="yes">Allow activities during unaccounted ("∞") time intervals.
+
+This setting allows to use applications listed in "Activity / application list" during time intervals which are marked as unaccounted ("∞"), if the setting is not enabled, none of activities are allowed to run!</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw-indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">1</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -1094,7 +1140,7 @@ If it's checked, the time is accounted only when activities in "Activity / appli
                                     <property name="hexpand">True</property>
                                     <property name="vexpand">True</property>
                                     <property name="shadow-type">in</property>
-                                    <property name="min-content-width">155</property>
+                                    <property name="min-content-width">170</property>
                                     <child>
                                       <object class="GtkTreeView" id="timekprPTAllowedDaysLimitsDaysTreeview">
                                         <property name="visible">True</property>
@@ -1276,6 +1322,8 @@ Critical - a red icon and critical notification will be shown, this notification
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">Notification configuration</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">25</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1392,6 +1440,8 @@ Critical - a red icon and critical notification will be shown, this notification
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">PlayTime notification configuration</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max-width-chars">30</property>
                                         <attributes>
                                           <attribute name="style" value="italic"/>
                                         </attributes>
@@ -1506,7 +1556,6 @@ Critical - a red icon and critical notification will be shown, this notification
                             <property name="column-spacing">20</property>
                             <child>
                               <object class="GtkCheckButton" id="timekprUseSpeechNotifCB">
-                                <property name="label" translatable="yes">Use speech notifications</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1516,6 +1565,15 @@ You may be able to make speech notifications available by installing package "py
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprUseSpeechNotifCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Use speech notifications</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1557,6 +1615,9 @@ Please do not change this unless you know what you're doing.</property>
 Please do not change this unless you know what you're doing.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Logging level</property>
+                                    <property name="justify">fill</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">30</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1572,7 +1633,6 @@ Please do not change this unless you know what you're doing.</property>
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprLimitChangeNotifCB">
-                                <property name="label" translatable="yes">Show limit changes</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1580,6 +1640,15 @@ Please do not change this unless you know what you're doing.</property>
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprLimitChangeNotifCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Show limit changes</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1588,7 +1657,6 @@ Please do not change this unless you know what you're doing.</property>
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprShowAllNotifCB">
-                                <property name="label" translatable="yes">Show all notifications</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1598,6 +1666,15 @@ If unchecked, then only important ones are shown.</property>
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprShowAllNotifCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Show all notifications</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1606,7 +1683,6 @@ If unchecked, then only important ones are shown.</property>
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprShowSecondsCB">
-                                <property name="label" translatable="yes">Show seconds in notification area</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1616,6 +1692,15 @@ Some desktop environments, like KDE5, do not support text besides notification i
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprShowSecondsCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Show seconds in notification area</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">35</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -1662,6 +1747,9 @@ A value of 0 means show until dismissed (not recommended for regular notificatio
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Notification timeout (sec)</property>
+                                    <property name="justify">fill</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">30</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1716,6 +1804,9 @@ A value of 0 means show until dismissed.
 Please note that the desktop environment you use may override this timeout, in which case this setting will not have any effect on notification.</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Critical notification timeout (sec)</property>
+                                    <property name="justify">fill</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">30</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1731,7 +1822,6 @@ Please note that the desktop environment you use may override this timeout, in w
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="timekprUseNotificationSoundCB">
-                                <property name="label" translatable="yes">Use sound "bell" for notifications</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
@@ -1743,6 +1833,15 @@ If this setting is not editable, your environment does not advertise sound notif
                                 <property name="xalign">0</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="clientConfigChangedSignal" swapped="no"/>
+                                <child>
+                                  <object class="GtkLabel" id="timekprUseNotificationSoundCBLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Use sound "bell" for notifications</property>
+                                    <property name="wrap">True</property>
+                                    <property name="max-width-chars">45</property>
+                                  </object>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>

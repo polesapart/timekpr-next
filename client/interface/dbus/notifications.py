@@ -24,11 +24,8 @@ DBusGMainLoop(set_as_default=True)
 class timekprNotifications(object):
     """Main class for supporting indicator notifications, connect to request methods for timekpr and connections to other DBUS modules"""
 
-    def __init__(self, pLog, pUserName, pTimekprClientConfig):
+    def __init__(self, pUserName, pTimekprClientConfig):
         """Initialize notifications"""
-        # init logging firstly
-        log.setLogging(pLog)
-
         log.log(cons.TK_LOG_LEVEL_INFO, "start init timekpr notifications")
 
         # uname
@@ -182,10 +179,10 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s (%s) interface" % (self.CL_CONN_SCR, iNames[chosenIdx]))
                 # add a connection to signal
                 self._dbusConnections[self.CL_CONN_SCR][self.CL_SI] = self._userSessionBus.add_signal_receiver(
-                     path             = iPaths[chosenIdx]
-                    ,handler_function = self.receiveScreenSaverActivityChange
-                    ,dbus_interface   = iNames[chosenIdx]
-                    ,signal_name      = "ActiveChanged")
+                    path             = iPaths[chosenIdx],
+                    handler_function = self.receiveScreenSaverActivityChange,
+                    dbus_interface   = iNames[chosenIdx],
+                    signal_name      = "ActiveChanged")
 
         # only if screensaver is not ok
         if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is None and self._dbusConnections[self.CL_CONN_TK][self.CL_CNT] > 0 and not self._dbusConnections[self.CL_CONN_TK][self.CL_DEL] > 0:
@@ -477,10 +474,10 @@ class timekprNotifications(object):
             try:
                 # call dbus method
                 result, message = self._dbusConnections[self.CL_CONN_TK][self.CL_IFA].processUserSessionAttributes(
-                    self._userName
-                    ,dbus.String(pWhat if pWhat is not None else "")
-                    ,dbus.String(pKey if pKey is not None else "")
-                    ,dbus.String(pValue if pValue is not None else ""))
+                    self._userName,
+                    dbus.String(pWhat if pWhat is not None else ""),
+                    dbus.String(pKey if pKey is not None else ""),
+                    dbus.String(pValue if pValue is not None else ""))
 
                 # check call result
                 if result != 0:

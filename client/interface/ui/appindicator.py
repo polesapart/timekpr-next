@@ -18,32 +18,38 @@ from timekpr.common.constants import messages as msg
 
 # indicator stuff
 try:
-    # try to load appindicator
-    gi.require_version("AppIndicator3", "0.1")
-    from gi.repository import AppIndicator3 as AppIndicator
+    # try to load ayatanaappindicator (fully compatible with appindicator, I hope it stays that way)
+    gi.require_version("AyatanaAppIndicator3", "0.1")
+    from gi.repository import AyatanaAppIndicator3 as AppIndicator
 
-    # if successful, mar it so
+    # if successful, mark it so
     _USE_INDICATOR = True
 except (ImportError, ValueError):
-    # no indictor
-    _USE_INDICATOR = False
-    pass
+    try:
+        # try to load appindicator
+        gi.require_version("AppIndicator3", "0.1")
+        from gi.repository import AppIndicator3 as AppIndicator
+
+        # if successful, mark it so
+        _USE_INDICATOR = True
+    except (ImportError, ValueError):
+        # no indictor
+        _USE_INDICATOR = False
+        pass
 
 
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pUserName, pUserNameFull, pTimekprClientConfig):
+    def __init__(self, pUserName, pUserNameFull, pTimekprClientConfig):
         """Init all required stuff for indicator"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprIndicator")
 
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pUserName, pUserNameFull, pTimekprClientConfig)
+            super().__init__(pUserName, pUserNameFull, pTimekprClientConfig)
 
             # this is our icon
             self._indicator = None

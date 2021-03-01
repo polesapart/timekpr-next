@@ -1,3 +1,45 @@
+timekpr-next (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * adjust README to fix MD parsing nuances on gitlab
+  * add gnome-shell-extension-appindicator to suggestions list
+  * fix project description to match the README
+  * technical improvements
+    added ":" as allowed separator for minute intervals (undocumented feature)
+    improve a workaround in config loader routines for cases when user makes a mistake while manually editing the config files
+    added explanatory comment for values in control files
+    print out uname when timekpr starts to better understand the environment the timekpr is running in
+    log more information about timekpr performance and computer load average
+    log information about day / week / month change
+    added elapsed time information output on lowest log level
+    rewritten logging routines and implemented buffered log save
+    time spent is accounted and saved even when file has been modified externally (this should help with proper time accounting
+      (2x+) if user is logged in from multiple machines when commonly shared directory is used)
+  * registered bug fixes
+    adjust Debian installation suggestions in README (fixes #1910457)
+    start using ayatana appindicators because regular ones seem to be deprecated (fixes #1910461)
+      adjust for openSUSE too (Fedora does not seem to be using ayatana appindicators yet)
+  * unregistered bug fixes
+    fixes to client application when <Escape> is pressed instead of close window which leads to empty timekpr windows
+    fixes to PlayTime daily limit reset when the day has changed
+    fix for PlayTime disabled -> enabled did not work right away when user is already logged in
+    fix for user time accounting which added couple of seconds to time spent when using unaccountable intervals
+    fix time accounting for PlayTime in override mode and unaccounted time intervals
+    fix process handling when process does not have a normal user id that process monitor is interested in and it changed executable
+      or process changed user id from one we were interested in to one we are not
+    fix timekpr behaviour when user was able to use computer prior the starting minutes of unaccounted hour interval
+      now user will be dealt according to defined rules instead of using the computer when he is not allowed to
+    lift the terminate / shutdown restriction when termination sequence has been initialized, but admin gives more time prior to
+      terminate or shutdown
+  * new features
+    introduce an option to prevent PlayTime activities to be started during unaccountable ("∞") intervals
+    introduce an option to monitor PlayTime activities (processes) using first 512 characters of command line
+      by default only process name is used for activity detection
+    logging level changes are applied immediately
+    gray icon for unaccounted hours, which help to distinguish the interval, especially when there is no time left (was: red icon)
+    add possibility to edit single daily, daily PlayTime and weekly/monthly limits by editing value directly
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 1 Mar 2021 21:49:33 +0200
+
 timekpr-next (0.5.0-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * fix a bug when administration application tries to get user information

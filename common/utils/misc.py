@@ -122,14 +122,12 @@ def checkAndSetRunning(pAppName):
     return isAlreadyRunning
 
 
-def killLeftoverUserProcesses(pLog, pUserName, pSessionTypes):
+def killLeftoverUserProcesses(pUserName, pSessionTypes):
     """Kill leftover processes for user"""
     # if psutil is not available, do nothing
     global _PSUTIL
     if not _PSUTIL:
         return
-    # set logging
-    log.setLogging(pLog)
 
     # determine which sessions we are going to kill (either graphical or tty)
     # this is somewhat interesting as for processes we cannot exactly tell whether it's graphical or not, but we check terminal sessions,
@@ -187,43 +185,52 @@ def findHourStartEndMinutes(pStr):
     eMin = None
     uacc = None
 
-    # is hour unaccounted
-    uacc = True if pStr[0] == "!" else False
+    # get len beforehand
+    ln = len(pStr) if pStr is not None else 0
 
-    # get hour
-    if len(pStr) <= 3:
-        # hour, start, end
-        hour = pStr[1:] if uacc else pStr
-        sMin = 0
-        eMin = 60
-    else:
-        # find minutes
-        beg = 1 if uacc else 0
-        st = pStr.find("[")
-        sep = pStr.find("-")
-        en = pStr.find("]")
-        # in case user config is broken, we cannot determine stuff
-        if st < 0 or en < 0 or sep < 0 or not st < sep < en:
-            # nothing
-            pass
-        else:
+    # it makes sense to calc stuff only when there is a hour defined
+    if ln > 0:
+        # is hour unaccounted
+        uacc = True if pStr[0] == "!" else False
+        # in case of unlimited hour actual len is smaller
+        ln = ln - 1 if uacc else ln
+        # get hour (ex: 1 or 11)
+        if 1 <= ln <= 2:
             # hour, start, end
-            try:
-                # determine hour and minutes (and check for errors as well)
-                hour = int(pStr[beg:st])
-                sMin = int(pStr[st+1:sep])
-                eMin = int(pStr[sep+1:en])
-                # checks for errors (and raise one if there is an error)
-                hour = hour if 0 <= hour <= 23 else 1/0
-                sMin = sMin if 0 <= sMin <= 60 else 1/0
-                eMin = eMin if 0 <= eMin <= 60 else 1/0
-                eMin = eMin if sMin < eMin else 1/0
-            except (ValueError, ZeroDivisionError):
+            hour = pStr[1:] if uacc else pStr
+            sMin = 0
+            eMin = 60
+        # get hours and minutes (ex: 1[1:1] or 11[11:22])
+        elif 6 <= ln <= 9:
+            # find minutes
+            beg = 1 if uacc else 0
+            st = pStr.find("[")
+            sep = pStr.find("-")
+            # failover to : (currently undocumented)
+            sep = sep if not sep < 0 else pStr.find(":")
+            en = pStr.find("]")
+            # in case user config is broken, we cannot determine stuff
+            if st < 0 or en < 0 or sep < 0 or not st < sep < en:
+                # nothing
+                pass
+            else:
                 # hour, start, end
-                hour = None
-                sMin = None
-                eMin = None
-                uacc = None
+                try:
+                    # determine hour and minutes (and check for errors as well)
+                    hour = int(pStr[beg:st])
+                    sMin = int(pStr[st+1:sep])
+                    eMin = int(pStr[sep+1:en])
+                    # checks for errors (and raise one if there is an error)
+                    hour = hour if 0 <= hour <= 23 else 1/0
+                    sMin = sMin if 0 <= sMin <= 60 else 1/0
+                    eMin = eMin if 0 <= eMin <= 60 else 1/0
+                    eMin = eMin if sMin < eMin else 1/0
+                except (ValueError, ZeroDivisionError):
+                    # hour, start, end
+                    hour = None
+                    sMin = None
+                    eMin = None
+                    uacc = None
 
     # return
     return hour, sMin, eMin, uacc

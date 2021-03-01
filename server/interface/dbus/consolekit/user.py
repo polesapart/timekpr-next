@@ -7,7 +7,7 @@ Created on Aug 28, 2018
 # connection with ck
 class timekprUserManager(object):
     # init
-    def __init__(self, pLog, pUserName, pUserPathOnBus):
+    def __init__(self, pUserName, pUserPathOnBus):
         """Initialize manager for ConsoleKit."""
         # NOT IMPLEMENTED
         raise NotImplementedError("ConsoleKit support is not implemented")

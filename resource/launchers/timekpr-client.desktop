@@ -1,8 +1,17 @@
 [Desktop Entry]
+Version=1.0
 Name=Timekpr-nExT Client
-Comment=Timekpr-nExT Client application
-Icon=timekpr-client
+Name[de]=Timekpr-nExT-Client
+Name[fr]=Client Timekpr-nExT
+Name[it]=Client Timekpr-nExT
+Name[lv]=Timekpr-nExT klients
+Comment=Keep control of computer usage
+Comment[de]=Kontrolle der Computernutzung
+Comment[fr]=Gardez le contrôle de l'utilisation de l'ordinateur
+Comment[it]=Mantieni il controllo sull'utilizzo del computer
+Comment[lv]=Uzturēt kontroli pār datora lietošanu
 Exec=/usr/bin/timekprc
+Icon=timekpr-client
 Terminal=false
 Type=Application
 Categories=

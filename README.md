@@ -8,6 +8,7 @@ even for yourself.
 The application is targeted at parents or supervisors to optimize / limit time spent at computer as they see fits their situation.
 
 </br>
+
 ## Overview
 
 Timekpr-nExT is designed to keep control of computer usage, which implies forcibly terminating user sessions and / or other types of 
@@ -17,14 +18,17 @@ Please be responsible and inform your users that their time is accounted and the
 notifications can be configured to warn them. In fact, notifications are mostly in their own hands :)
 
 </br>
+
 Supervisor, when setting up limitations, please read the description of options and explore application before you enforce some option on user. Combination of 
 options will give very tailored experience, but remember - Timekpr-nExT is a restrictive application.
 
 </br>
+
 _**Note**: information in this README is updated along with ```beta``` releases, if you do not find a particular option in ```stable``` series, please wait 
 until it's released or use ```beta```._
 
 </br>
+
 ## Navigation guide
 
 **This README** is useful, but quite large, so I have prepared a guide for You.
@@ -33,10 +37,10 @@ until it's released or use ```beta```._
 
   - a short description of [applications](#applications) with [typical use case](#typicalusecase)
 
-  - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime controls](#playtimeconfiguration), 
-  [user configurable notifications](#userconfigurablenotifications), ["freeride" time periods](#freerideintervals)
+  - to better understand functionality click on [description of functionality](#detaileddescription) and particularly [client application](#clientapplication) and [administration application](#administrationapplication)
 
-  - to better understand functionality click on [description of functionality](#detaileddescription)
+  - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime functionality](#playtimeconfiguration), 
+  [user configurable notifications](#userconfigurablenotifications), ["freeride" time periods](#freerideintervals)
 
   - to get information about CLI (console) use / file configuration possibilities [additional configuration possibilities](#additionalconfigpossibilities)
 
@@ -53,12 +57,14 @@ until it's released or use ```beta```._
   - disclaimer is [here](#disclaimer) and information about questions, suggestions and bugs is [here](#bugs)
 
 </br>
+
 <a name="applications"></a>
 ## Applications overview
 
 Timekpr-nExT has two user facing applications which governs its behaviour.
 
 </br>
+
 #### Timekpr-nExT Client indicator icon
 
 An application and indicator icon which takes care of showing the time, limits and notifications to the user.
@@ -68,6 +74,7 @@ An application and indicator icon which takes care of showing the time, limits a
 _Informational "padlock" icon in they system notification area which is what user is automatically seeing when logged in._
 
 </br>
+
 #### Timekpr-nExT Client application
 
 Client application itself is activated by clicking on the icon and choosing menu "Limits & configuration", it contains more detailed information and 
@@ -78,6 +85,7 @@ some useful configuration options.
 _Application shows detailed information about limits as well as allows to configure certain aspects of functionality._
 
 </br>
+
 #### Timekpr-nExT Administration application
 
 An administration application for supervisors or parents to configure time limits for any user in the system as well as configure technical aspects of 
@@ -88,6 +96,7 @@ Timekpr-nExT.
 _Application has multiple configuration options organized in tabs to tailor experience as desired._
 
 </br>
+
 #### Core of the Timekpr-nExT
 
 The invisible part of the Timekpr-nExT is the background service, sometimes referred as daemon, not demon :), which takes care of monitoring the system 
@@ -97,6 +106,7 @@ restrictions and limits.
 There is no nice picture for it, but mark my word, it's there working for you ;)
 
 </br>
+
 <a name="detaileddescription"></a>
 ## Description of functionality
 
@@ -106,6 +116,7 @@ This section describes what and how Timekpr-nExT does its thing rather than desc
 over to any configuration option and read its description, it usually helps to understand it better.
 
 </br>
+
 ### Overall features
 
 Timekpr-nExT tries to be as precise as possible and as much nice to user as restrictive software can be.
@@ -121,6 +132,8 @@ Time is not accounted, obviously, when computer is put to sleep too.
 The rest is up to supervisor to decide. Read on to have complete understanding of all functionality Timekpr-nExT offers.
 
 </br>
+
+<a name="administrationapplication"></a>
 ### Administration application
 
 Administration application is used to configure time limits and restrictions for users as well as technical options for Timekpr-nExT itself.
@@ -140,10 +153,12 @@ username for administration, if it differs from currently logged in one and do N
 ```timekpr``` group will need to log out and in for this to work.
 
 </br>
+
 _**Please note**: certain configuration options are not accessible when running in password-less mode, they're not related to user 
 configuration and should be used very seldom in very special cases, however running in superuser mode grants all access to all options._
 
 </br>
+
 ### User configuration
 
 To configure limits and restrictions for user, it has to be selected from the user list. User list is retrieved from your system and initial 
@@ -153,6 +168,7 @@ _**Please note**: when opening administration application no user is pre-selecte
 user to configure and avoid unintentional misconfiguration._
 
 </br>
+
 #### Tab "Info & today"
 
 As the title implies, this section shows information about how much time user has spent and how much time he has left.
@@ -168,6 +184,7 @@ Keep in mind that adding more time will not override allowed time periods and ge
 Pro tip: use tool-tips to find more information.
 
 </br>
+
 There's a special time value called "Continuous time available" which means exactly that - a time which is available to use continuously depending on time 
 allowance and allowed time period setup, however it's not counted for more than this and the next days together.
 
@@ -175,6 +192,7 @@ Continuous time may span this and next days, which means that user will be able 
 ends at 24:00 and next days time period starts at 00:00.
 
 </br>
+
 #### Tab "Limit configuration"
 
 This tab allows you to configure time limitations for users. Combine options to have the setup tailored to your view of user's order of the day.
@@ -197,6 +215,10 @@ This section presents configuration for every week day. Namely one can select on
 Days have to be enabled / disabled for every day separately, but limits can be adjusted for multiple days at once. Just select multiple days, select what you 
 would like to adjust - hours or minutes and press "+" or "-" button. Simple as that :)
 
+Another way of editing a single day limit is to to click on the limit inside the table and edit it by hand. This way one can edit seconds too, not that I 
+recommend it, but the possibility is there. When defining a limit one can use shortcuts, namely - entering 7 will result in 07:00:00 (hours:minutes:seconds), 
+entering 7:1:15 will result in 07:01:15.
+
 By default every day is enabled and user have all the time available.
 
 ---------------------------------------
@@ -207,12 +229,14 @@ Hour intervals define time periods when user can use the computer. These can be 
 multiple days at once, just select multiple days and configure time periods.
 
 The configuration itself is simple too. To create an interval, press create button and specify start and end of the time period by clicking on created interval 
-inside the table.
+inside the table. 
+When defining the intervals one can use shortcuts, namely - entering 7 will result in 07:00 (hour:minute), entering 7:15 will result in 07:15.
 
 <a name="freerideintervals"></a>
-There's a special setting for time interval indicated as "∞". Basically this setting means that time spent in this time period will not be accounted 
-towards user's daily allowance, i.e. it's free time for him. In addition to that, this allows the user to use computer even if he has no time left all. This 
-setting can be useful in case user has a special arrangement, such as online courses at specific times, so he does not spend his personal limit on them.
+There's a special setting for time interval indicated as "∞" (unaccounted time intervals). Basically this setting means that time spent in this time period 
+will not be accounted towards user's daily allowance, i.e. it's free time for him. In addition to that, this allows the user to use computer even if he has 
+no time left all. This setting can be useful in case user has a special arrangement, such as online courses at specific times, so he does not spend his 
+personal limit on them.
 
 Please keep in mind that intervals themselves **cannot** overlap in any way, however it's possible to have intervals ending and starting continuously, for 
 example, intervals 7:00-13:00 and 13:00-14:30 can coexist, but don't be surprised when adjacent intervals are merged into one.
@@ -226,30 +250,32 @@ are allowed.
 After entering intervals, one have to press "verify" button for application to know that one, you know, did not made a typo :) If intervals are ok, one can 
 apply the configuration. When time periods are misconfigured, both conflicting intervals will be highlighted.
 
-When defining the intervals one can use shortcuts, namely - entering 7 will result in 07:00, entering 7:15 will result in 07:15.
-
 By default whole day is available.
 
 ---------------------------------------
 
 ##### Weekly and monthly limits
 
-This section allows to adjust weekly and monthly time allowances. Just select a period and a time unit day, hour or minute and press "+" or "-" buttons to 
+This section allows to adjust weekly and monthly time allowances. Just select a period and a time unit of day, hour or minute and press "+" or "-" buttons to 
 adjust the limits.
+
+Another way of editing a limit is to to click on the limit inside the table and edit it by hand. This way one can edit seconds too, not that I 
+recommend it, but the possibility is there. When defining a limit one can use shortcuts, namely - entering 7 will result in 06:00:00:00 
+(days:hours:minutes:seconds), entering 6:10:5:11 will result in 06:10:05:11.
 
 These limits work together with daily limits and hour intervals, user's time is the least of the limits.
 
 By default whole week and month is allowed, which is the common use case, one does not have to modify these values when daily limits are in use.
 
 </br>
+
 <a name="playtimeconfiguration"></a>
 #### PlayTime configuration
 
 PlayTime is screen time limiting mode for applications / processes in the system, which in context of PlayTime, are called "activities".
 
 PlayTime extends time limit configuration and accounting by greater control over how long certain applications can run. In other words, this functionality 
-works 
-as a process monitor of sorts.
+works as a process monitor of sorts.
 
 PlayTime allows users to use certain applications for the configured period of time. If time allowance is all used, applications are terminated. 
 Running them again will result in termination.
@@ -260,7 +286,7 @@ apply, except "override" mode, which will be explained in the options section.
 This mode was designed for games, hence the name, but a supervisor can define any application to be monitored, for example Web browsers.
 
 _**Please note** that PlayTime will still account user's PlayTime even in time periods which are marked as free ("∞") in standard time configuration! Except 
-"override" mode, that is :)_
+in "override" mode, that is :)_
 
 ---------------------------------------
 
@@ -268,19 +294,30 @@ _**Please note** that PlayTime will still account user's PlayTime even in time p
 
 This section provides controls for PlayTime enablement and so called PlayTime override mode.
 
-PlayTime has to be enabled for every user separately and if it's not enabled, obviously, PlayTime will not work for this user. Be sure to enable PlayTime 
-master switch to enable PlayTime accounting in the system, otherwise it will not work even if it's enabled for the user.
+PlayTime has to be enabled for every user separately and if it's not enabled, obviously, PlayTime will not work for this user. Be sure to enable 
+[PlayTime master switch](#playtimemasterswitch) to enable PlayTime accounting in the system, otherwise it will not work even if it's enabled for the user.
 
 By default, PlayTime is not enabled.
 
 </br>
+
 There's a special "override" mode for PlayTime already mentioned above.
 
 There is a big difference from standard restrictive mode. In this mode PlayTime allowance and limits are disabled and user's time spent at computer is only 
 accounted when applications configured as activities are used. That means that unless user uses computer for configured activities, it's free time for him.
 
-_**Please note** that if "override" mode is enabled and user uses PlayTime in time periods which are marked as free ("∞") in standard time configuration, it's 
-a free time for him too!_
+</br>
+
+Option "Allowed during "∞" intervals" controls whether PlayTime activities are allowed to run during unaccounted time intervals which are marked as "∞". 
+If this option is disabled, user will not be able to run any of the configured activities regardless of whether "override" mode is enabled or not!
+
+However, if this option is enabled, user can use any of the activities configured for him even in unaccounted time intervals. In this case PlayTime will be 
+accounted as usual, unless "override" mode is enabled at the same time.
+
+As an example, this option can come handy, if time intervals marked as "∞" are used to attend mandatory education classes and supervisor does not want to 
+allow a subordinate to run any of the configured activities during unaccounted time intervals. Just do not enable the option and you are set.
+
+By default the option is enabled.
 
 ---------------------------------------
 
@@ -307,14 +344,16 @@ copies and even user itself can do it! Yes, games in Lutris or Steam and so on. 
 has to determine that.
 
 </br>
+
 So here's a generic guide how to determine processes or their masks which can be used in activity configuration.
 
 At first, especially if you have not seen terminal, this may look scary, but you always can use graphical tools to achieve this. KDEs and Gnomes "System 
 monitor" does this pretty well, look for process name or command or commandline columns, they are your best friends in this.
 You can always ask your favourite web search engine or community how to determine process executable name.
 
-Since process mask for PlayTime activity is basically a name of executable (case sensitive!), a simple ```top -c -d 1``` in terminal usually will do 
-the trick to find one. Games, when running, usually use most resources compared to anything else, so they will be on top.
+Since process mask for PlayTime activity is basically a name of executable or full command line in case ["Enhanced activity monitor"](#playtimeenhancedactivitymonitor) 
+is enabled (case sensitive!), a simple ```top -c -d 1``` in terminal usually will do the trick to find one. 
+Games, when running, usually use most resources compared to anything else, so they will be on top.
 
 Watch for COMMAND column. If the process looks very much like activity you want to limit, take actual executable name, without path, and fill it in the process 
 mask field. Here's the example for Discord Canary, in the process list I see ```/opt/discord-canary/DiscordCanary --type=renderer ...```, only 
@@ -326,20 +365,21 @@ You can enter the description of activity too, it will be shown to user instead 
 to the user.
 
 </br>
+
 **Please note** that process masks can accept RegExp (not glob!) expressions, except symbols [], but keep in mind that this is an expert option!
 
 Please do verify that your RegExp is correct and it actually works, misusing them may end up killing unwanted user processes or may not match anything at all!
 
-If RegExp is not correct, it will be used as literal strings. For example, ```wine*``` is **not** a correct RegExp, ```wine.*``` is. Failing to specify this 
-correctly will end up searching processes which are literary "wine*", which obviously does not exist usually.
+If RegExp is not correct, it will be used as literal strings. For example, ```*wine*``` is **not** a correct RegExp, ```.*wine.*``` is. Failing to specify this 
+correctly will end up searching processes which are literary ```*wine*```, which obviously does not exist usually.
 
 It's worth mentioning that PlayTime employs a smart caching algorithms and tries to get the process list in a very efficient way. Only processes that are run 
-as 
-particular user are monitored, accounted and terminated.
+as particular user are monitored, accounted and terminated.
 
 In addition to that PlayTime logic works only when there are users that have PlayTime enabled and there are at least some activities configured.
 
 </br>
+
 #### Tab "Additional options"
 
 As the name suggests this section has additional per user configuration options.
@@ -352,6 +392,7 @@ you
 enable this to unrestricted user, he will not even notice Timekpr-nExT is there :)
 
 </br>
+
 Restriction & lockout type governs what type of action will be executed when time for the user will run out.
 
 _**Note**: please be careful if choosing non-default option, think ahead and figure out whether other options are suited for your use case!_
@@ -407,12 +448,14 @@ shortly. Simple as that :)
 Option is more suited for self control rather than restrict computer usage.
 
 </br>
+
 ### Timekpr-nExT configuration
 
 This tab allows a supervisor to configure certain technical aspects how Timekpr-nExT behaves. These options usually doesn't have to be changed as they are 
 tuned to their optimal values.
 
 </br>
+
 #### Timekpr-nExT control options
 
 This section contains various knobs to finetune time accounting and enforce limits.
@@ -469,9 +512,12 @@ information in case you file a bug, level 2 is the standard level, it usually wr
 If everything is working fine for you, set the level to 1, otherwise leave it at default value. Be assured that log files doesn't contain anything sensitive 
 except usernames.
 
-Please note that log files are handled by ```logrotate``` and are compressed, so I wouldn't worry about space usage at all.
+Log level changes are effective immediately.
+
+**Please note** that log files are handled by ```logrotate``` and are compressed, so I wouldn't worry about space usage on a standard computer.
 
 </br>
+
 #### Tracked sessions
 
 There are multiple session types on Linux systems. By default Timekpr-nExT tracks graphical sessions that are running on "x11" (xorg), "wayland" and "mir".
@@ -483,6 +529,7 @@ Please keep in mind that there are no more session types than these and the ones
 know what you are doing.
 
 </br>
+
 #### Excluded sessions
 
 By default Timekpr-nExT does not track sessions from "tty" (console logins that are accessible by pressing Ctrl+Alt+F[1-7]) and "unspecified" which are the 
@@ -491,6 +538,7 @@ rest. Please do not modify this unless you know what you are doing.
 In case you really need to track console sessions too, please remove "tty" from this list and add it to the tracked sessions list.
 
 </br>
+
 #### Excluded users
 
 This section allows supervisor to exclude certain **system** users from accounting. This section is meant to exclude users that do create sessions, but are not 
@@ -499,12 +547,35 @@ used to log in directly, e.g. login managers.
 Please do not enter normal users here as that will not work and cause errors when client will try to obtain information from daemon!
 
 </br>
+
+<a name="playtimemasterswitch"></a>
 #### Additional options
 
-Currently there's just one option which controls master switch for PlayTime functionality. I has to be turned on to enable PlayTime globally, if it's switched 
-off, none of the users will have their activities accounted regardless of individual PlayTime setting!
+Currently there are couple of options, all related to PlayTime.
 
 </br>
+
+##### PlayTime enabled
+"PlayTime enabled" controls **master switch for PlayTime** functionality. 
+I has to be turned on to enable PlayTime globally, if it's switched off, none of the users will have their activities accounted regardless of individual 
+PlayTime setting!
+
+</br>
+
+<a name="playtimeenhancedactivitymonitor"></a>
+##### Enhanced activity monitor
+"Enhanced activity monitor" option controls whether PlayTime functionality will use first 512 characters of full process commandline, including process arguments, 
+to match proccesses against registered activity / process masks for users. 
+
+This allows a supervisor to use advanced RegExp patterns to find not just a process name, but a great deal of arguments too. This option may be useful for 
+situatuations when there are processes running interpreted language, such as python or java. The most common gaming example is Minecraft, which is a java 
+application started from jar file, a process mask for it would be ```.*java.*minecraft.*```.
+
+_**Note**: after changing this option, enhanced monitoring is applied to newly started processes only!_
+
+</br>
+
+<a name="clientapplication"></a>
 ### Client application
 
 Timekpr-nExT client application provides time metrics and configuration possibilities to user. Since the user is the one who actually face the restrictions, 
@@ -515,19 +586,26 @@ User can use tool-tips / hints to get more information on every value of the app
 Please look at the [information representation differences](#desktopenvironmentdifferences) which may affect the way application looks to user.
 
 </br>
+
 #### Daily limits
 
 Daily limits shows daily time allowance, time period restrictions and time spent / left set by supervisor. Most important metrics are continuous time left and 
 time periods when user can use the computer.
 
-If time period has "∞" sign besides it, the time for this period will not be counted towards the user's limit, i.e. free time for the user.
+Timekpr-nExT will change icon color depending on how much time is left for user, however this configuration is in user's own [hands](#userconfigurablenotifications).
+
+If time period has "∞" sign besides it, the time for this period will not be counted towards the user's limit, i.e. free time for the user. Additionally, 
+when user has unaccounted time intervals and that time has come, icon color will change from whatever color it was to gray indicating that this time is not 
+accounted in any way. When unaccounted time interval ends, the color of the icon will change according to user notification configuration.
 
 </br>
+
 #### Additional limits
 
 Additional limits show weekly and monthly limits set by supervisor as well as time spent so far during this week and month.
 
 </br>
+
 #### PlayTime limits
 
 This tab shows time allowance and activity list for PlayTime. Description of PlayTime can be found in [PlayTime administration part](#playtimeconfiguration) of 
@@ -538,6 +616,7 @@ Tab shows active PlayTime activity count too as well as description of activitie
 Please note that this tab is not available to user if supervisor has not enabled PlayTime for the user.
 
 </br>
+
 <a name="userconfigurablenotifications"></a>
 #### Notifications
 
@@ -550,6 +629,7 @@ shown to user if supervisor has not enabled PlayTime for the user.
 More information can be found by viewing tool-tips of the configuration table.
 
 </br>
+
 #### Configuration
 
 This tab allows user to configure additional options to tailor Timekpr-nExT to his needs.
@@ -565,6 +645,7 @@ _**Please note** that there seems to be a [bug](#quirkssound) in sound notificat
 
 <a name="typicalusecase"></a>
 </br>
+
 ## Typical use case
 
 Let's imagine a situation that Liane had to limit computer time for Cartman because he uses computer way too much to talk to Kyle and Stan _(but not Kenny, 
@@ -601,6 +682,7 @@ Timekpr-nExT comes handy, Liane opens Timekpr-nExT Administration application ma
 * press "Apply daily limits" and restrictions are set
 
 </br>
+
 By this she achieves flexibility of:
 
 * allowing 6 hours of computer time to be used from 7:30 to 21:00 from Monday to Friday
@@ -612,9 +694,11 @@ By this she achieves flexibility of:
 * Cartman can not use his computer before outside of defined time periods and over the specified time allowance
 
 </br>
+
 Typical setup is rather simple and easy, there are (of course) more to it, please read on [Detailed information](#detaileddescription), if You're interested.
 
 </br>
+
 <a name="installation"></a>
 ## Installation / removal
 
@@ -630,6 +714,7 @@ and You're set.
 _Note: it's highly advised to log in and out after installation of new version._
 
 </br>
+
 Timekpr-nExT is available in:
 
 * my PPA (Personal Package Archive) for Ubuntu and compatible distributions
@@ -639,13 +724,14 @@ Timekpr-nExT is available in:
 * packages for Fedora 32+ and openSUSE Leap 15.2+ are provided as is, link below
 
 </br>
+
 #### Stable
 
 | Distribution | Stable install | Stable remove |
 | :--- | :--- | :--- |
 | Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next``` | ```sudo pacman -Rdd timekpr-next``` |
-| Fedora and openSUSE | [manual installation](https://launchpad.net/timekpr-next/+announcement/27532) | [manual uninstallation](https://launchpad.net/timekpr-next/+announcement/27532) |
+| Fedora and openSUSE | [manual installation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README and packages)_| [manual uninstallation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README)_ |
 
 #### Beta
 
@@ -660,11 +746,27 @@ _**Note**: special thanks goes to SanskritFritz from ArchLinux community who was
 packages too._
 
 </br>
+
 #### Debian
-Until recently there was no easy way of using Timekpr-nExT in Debian, but thanks to Sim (smntov) and Anthony Fok (foka), Timekpr-nExT is / will be available in 
-Debian as native installation via Software Center.
+Until recently there was no easy way of using Timekpr-nExT in Debian, but thanks to Sim (smntov) and Anthony Fok (foka), Timekpr-nExT is available in Debian as native 
+installation.
+
+The preferred method of installing Timekpr-nExT in Debian is the same as in Ubuntu:
+
+| Stable install | Stable remove | Beta |
+| :--- | :--- | :--- |
+| ```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` | Not available |
+
+**Note**: it might be possible to use a package made for ["sid"](https://packages.debian.org/sid/timekpr-next) in other versions of Debian, if dependencies are 
+satisfied. For example, a package for "sid" (unstable) works in "buster" (10.7) just fine.
 
 </br>
+Of course, you can use any graphical software installer that comes with Debian too, like "KDE Discover" or "GNOME Software".
+
+**Note**: for Debian please use a package created for Debian.
+
+</br>
+
 ## Compatibility
 I'm developing Timekpr-nExT to be compatible with most Desktop Environments, I have somewhere around 20 VMs where I test bigger changes, but I can not and will 
 not test everything in the open.
@@ -677,6 +779,7 @@ Please read [nuances](#quirks) section for more information.
 If You have an issue with Timekpr-nExT, please read [this](#bugs) and file a bug.
 
 </br>
+
 <a name="desktopenvironmentdifferences"></a>
 ## Information representation differences
 
@@ -714,16 +817,19 @@ There's a possible future issue that can surface when Gnome3 will remove [status
 functionality. When the time comes if at all, I'll try to figure out what to do about it.
 
 </br>
+
 ## Short and very technical overview
 
 **Warning**: this section is **very technical** and has no information that regular users of Timekpr-nExT would (possibly) want to know.
 
 </br>
+
 Timekpr-nExT is built with technologies which heavily use DBUS for it's interaction with the system. Not only it uses interfaces provided by various solutions, 
 it exposes own interfaces to DBUS too.
 It allows Timekpr-nExT to be integrated into any client application or control panel which supports DBUS interactions.
 
 </br>
+
 ### Interfaces used
 The main interface used is systemd's [login1](https://www.freedesktop.org/wiki/Software/systemd/logind/) session management interface, without it Timekpr-nExT 
 will not work.
@@ -737,22 +843,29 @@ In case FreeDesktop screensaver interfaces are not available, it tries to use
 Timekpr-nExT makes connections to DBUS objects, they are cached and during execution, it mostly just calls.
 
 </br>
+
 <a name="additionalconfigpossibilities"></a>
 ### Additional configuration possibilities
 
 In addition to graphical applications, Timekpr-nExT can be configured using tools available in CLI (Command Line Interface) and config files (by hand).
 
 </br>
-#### CLI mode
+
+#### CLI (Command Line Interface) mode
 
 Timekpr-nExT Administration application can be run in terminal to obtain information on users and configure limits at the same functional level as in 
 graphical mode. Please note that at this time CLI interface is available for user configuration only.
 
-For CLI usage, please open your terminal emulator of choice (i.e. Gnome Terminal / Konsole / XTerm) and type ```timekpra --help```, it will introduce you to 
-Timekpr-nExT CLI by printing usage notes and examples. Timekpr-nExT Administration application in both modes apply configuration in real-time, i.e. 
-configuration is effective immediately.
+For CLI usage, please open your terminal emulator of choice (i.e. Gnome Terminal / Konsole / XTerm) and type ```sudo timekpra --help```, it will introduce you to 
+Timekpr-nExT CLI by printing usage notes and examples.
+
+**Please note** that CLI usage follows the same security principles as graphical application - either you have to be in the ```timekpr``` group, execute it 
+as ```root``` or use ```sudo``` to access its functionality even in CLI mode.
+
+Timekpr-nExT Administration application in both modes apply configuration in real-time, i.e. configuration is effective immediately.
 
 </br>
+
 #### Configuration by files
 
 It's possible to edit configuration files directly to achieve the same as with tools provided by Timekpr-nExT. In this case configuration will be read and 
@@ -765,9 +878,10 @@ if not being careful. You have been warned :)
 config file with defaults for damaged options.
 
 </br>
+
 **Configuration files (be careful editing them)**
 
-| The purpose of the file | File locations |
+| The purpose of the file | File location |
 | --: | :-- |
 | Timekpr-nExT main configuration file | ```/etc/timekpr/timekpr.conf``` |
 | User configuration files (one per user) | ```/var/lib/timekpr/config/timekpr.*.conf``` |
@@ -775,6 +889,37 @@ config file with defaults for damaged options.
 | Client configuration file | ```$HOME/.config/timekpr/timekpr.conf``` |
 
 </br>
+
+### Log files
+
+Log files are the files where Timekpr-nExT writes it's messages about execution, including a performance counters. Files are not meant to be inspected by users 
+on regular basis, **there's nothing interesting nor understandable for non technical users**.
+
+However it's possible to look at them to find technical details about state of Timekpr-nExT or investigate the problematic behaviour and errors. These are the 
+files I'll be asking in case something does not work as expected.
+
+By default Timekpr-nExT writes a sufficiently detailed log file for me to understand the problem area quite well, but that means that there are a lot of 
+messages in log files. There's nothing sensitive except usernames, if this is a concern, please obfuscate them before sending the files to me or attaching them 
+to bug reports.
+
+Since the version ```0.5.1```, log level changes are effective immediately and there is no need to restart Timekpr-nExT or reboot the computer.
+
+_**Note**: if the log file size is the concern, it's possible to decrease log level in Timekpr-nExT administration application to save some space, however when 
+the issue arises, most likely I'll need it to be set to level 2 (the default)._
+
+</br>
+
+**Log files**
+
+| Logging area | File location |
+| --: | :-- |
+| Daemon log file | ```/var/log/timekpr.log``` |
+| Client application log files | ```/tmp/timekprc.*.log``` |
+| Administration application log files | ```/tmp/timekpra.*.log``` |
+
+</br>
+
+
 <a name="quirks"></a>
 ### Quirks
 
@@ -867,10 +1012,12 @@ at all
   * _this is used for idle time accounting_
 
 </br>
+
 So, there are inconsistencies and at times it was quite tricky / required workarounds to get the solution to be compatible with most popular Desktop 
 Environments at the same functionality level.
 
 </br>
+
 <a name="support"></a>
 ## How You can help
 
@@ -883,10 +1030,12 @@ As a matter of fact, I'm starting to look for a replacement of my year 2001 Chic
 gaming too, like Dygma Raise. I will be happy for any help getting it ;)
 
 </br>
+
 <a name="translate"></a>
 Alternatively, You can help to translate Timekpr-nExT in Your language [here](https://translations.launchpad.net/timekpr-next) too.
 
 </br>
+
 <a name="disclaimer"></a>
 ## Disclaimer
 
@@ -907,6 +1056,7 @@ So, if this application is sufficient for your needs, good, consider saying [tha
 Timekpr-nExT consider saying [thanks](#support) afterwards.
 
 </br>
+
 <a name="bugs"></a>
 ## Suggestions and bugs
 
@@ -927,5 +1077,5 @@ If you don't want to register a user in LP, you can send bug reports via e-mail 
 I'll do my best to address them as my free time allows.
 
 </br>
-Thanks for choosing Timekpr-nExT!
 
+Thanks for choosing Timekpr-nExT!

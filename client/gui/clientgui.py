@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
+from timekpr.common.log import log
 from timekpr.common.constants import messages as msg
 
 # constant
@@ -43,6 +44,7 @@ class timekprGUI(object):
         self._timeLeftContinous = None
         self._timeTrackInactive = True
         self._timeTimeLimitOverridePT = False
+        self._timeUnaccountedIntervalsFlagPT = False
         self._timeSpentPT = None
         self._timeLeftPT = None
         self._timePTActivityCntStr = "0"
@@ -73,10 +75,10 @@ class timekprGUI(object):
 
         # this sets up columns for days config
         col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=1)
-        col.set_min_width(110)
+        col.set_min_width(100)
         self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").append_column(col)
         col = Gtk.TreeViewColumn("Limit", Gtk.CellRendererText(), text=2)
-        col.set_min_width(35)
+        col.set_min_width(60)
         self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").append_column(col)
 
         # this sets up columns for interval list
@@ -91,10 +93,10 @@ class timekprGUI(object):
         # PlayTime
         # this sets up columns for limits list
         col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=1)
-        col.set_min_width(110)
+        col.set_min_width(100)
         self._timekprConfigDialogBuilder.get_object("timekprPTAllowedDaysLimitsDaysTreeview").append_column(col)
         col = Gtk.TreeViewColumn("Limit", Gtk.CellRendererText(), text=2)
-        col.set_min_width(35)
+        col.set_min_width(60)
         self._timekprConfigDialogBuilder.get_object("timekprPTAllowedDaysLimitsDaysTreeview").append_column(col)
         # this sets up columns for process list
         col = Gtk.TreeViewColumn("Day", Gtk.CellRendererText(), text=0)
@@ -210,7 +212,7 @@ class timekprGUI(object):
                 # we can not allow duplicates
                 if not len(dupl) > 0:
                     # format secs
-                    textStr = self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=secs), True)
+                    textStr = self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=secs), "s")
                     # set values
                     timelSt[path][0] = secs
                     timelSt[path][1] = textStr
@@ -316,19 +318,29 @@ class timekprGUI(object):
 
     # --------------- helper methods --------------- #
 
-    def formatTimeStr(self, pTime, pShort=False):
+    def formatTimeStr(self, pTime, pFormatType="f"):
         """Format time for output on form"""
+        # f - full, s - short, t - time
+        # final result
+        timeStr = None
         if pTime is None:
-            return _NO_TIME_LIMIT_LABEL if not pShort else _NO_TIME_LABEL_SHORT
+            timeStr = _NO_TIME_LABEL_SHORT if pFormatType == "s" else _NO_TIME_LABEL if pFormatType == "t" else _NO_TIME_LIMIT_LABEL
         else:
             # calculate days
             days = (pTime - cons.TK_DATETIME_START).days
             # calculate hours and mins
-            hrMin = "%s:%s" % (str(24 if pShort and days >= 1 else pTime.hour).rjust(2, "0"), str(pTime.minute).rjust(2, "0"))
+            hrMin = "%s:%s" % (("24" if pFormatType != "f" and days >= 1 else str(pTime.hour)).rjust(2, "0"), str(pTime.minute).rjust(2, "0"))
             # calculate secs
             secs = str(pTime.second).rjust(2, "0")
             # final composition
-            return "%s:%s:%s" % (str(days).rjust(2, "0"), hrMin, secs) if not pShort else hrMin
+            # for limit time (h:m:s)
+            if pFormatType == "t":
+                timeStr = "%s:%s" % (hrMin, secs)
+            # for full time (d:h:m:s)
+            else:
+                timeStr = "%s:%s:%s" % (str(days).rjust(2, "0"), hrMin, secs) if pFormatType != "s" else hrMin
+        # return
+        return timeStr
 
     def renewUserConfiguration(self):
         """Update configuration options"""
@@ -358,7 +370,7 @@ class timekprGUI(object):
         for rPrio in self._timekprClientConfig.getClientNotificationLevels():
             # append intervals
             val = [(rVal[0], rVal[1]) for rVal in prioConfSt if rVal[0] == cons.TK_PRIO_LVL_MAP[rPrio[1]]]
-            prioSt.append([rPrio[0], self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=rPrio[0]), True), val[0][0], val[0][1]])
+            prioSt.append([rPrio[0], self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=rPrio[0]), "s"), val[0][0], val[0][1]])
         # sort configd
         self.sortNotificationConfig("Time")
         # load PlayTime notification priorities
@@ -367,7 +379,7 @@ class timekprGUI(object):
         for rPrio in self._timekprClientConfig.getClientPlayTimeNotificationLevels():
             # append intervals
             val = [(rVal[0], rVal[1]) for rVal in prioConfSt if rVal[0] == cons.TK_PRIO_LVL_MAP[rPrio[1]]]
-            prioSt.append([rPrio[0], self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=rPrio[0]), True), val[0][0], val[0][1]])
+            prioSt.append([rPrio[0], self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=rPrio[0]), "s"), val[0][0], val[0][1]])
         # sort config
         self.sortNotificationConfig("PlayTime")
         # verify controls too
@@ -386,6 +398,7 @@ class timekprGUI(object):
             self._timeLeftContinous = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_LEFT])
             self._timeTrackInactive = True if pTimeInformation[cons.TK_CTRL_TRACK] else False
             self._timeTimeLimitOverridePT = bool(pTimeInformation[cons.TK_CTRL_PTTLO]) if cons.TK_CTRL_PTTLO in pTimeInformation else False
+            self._timeUnaccountedIntervalsFlagPT = bool(pTimeInformation[cons.TK_CTRL_PTAUH]) if cons.TK_CTRL_PTAUH in pTimeInformation else False
             self._timeSpentPT = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_PTSPD]) if cons.TK_CTRL_PTSPD in pTimeInformation else None
             self._timeLeftPT = cons.TK_DATETIME_START + timedelta(seconds=pTimeInformation[cons.TK_CTRL_PTLPD]) if cons.TK_CTRL_PTLPD in pTimeInformation else None
             self._timePTActivityCntStr = str(pTimeInformation[cons.TK_CTRL_PTLSTC] if cons.TK_CTRL_PTLSTC in pTimeInformation else 0)
@@ -409,6 +422,7 @@ class timekprGUI(object):
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoContTimeLefeLB").set_text(timeLeftTotalStr)
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTrackInactiveCB").set_active(self._timeTrackInactive)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoTimeLimitOverrideLB").set_active(self._timeTimeLimitOverridePT)
+        self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoUnaccountedIntervalsFlagLB").set_active(self._timeUnaccountedIntervalsFlagPT)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoTimeSpentTodayLB").set_text(timeSpentPTStr)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoTimeLeftTodayLB").set_text(timeLeftPTStr)
         self._timekprConfigDialogBuilder.get_object("timekprPTLimitInfoActivityCountLB").set_text(self._timePTActivityCntStr)
@@ -461,10 +475,14 @@ class timekprGUI(object):
             elif rKey == cons.TK_CTRL_PTTLO:
                 # if enabled
                 self._timeTimeLimitOverridePT = True if bool(self._limitConfig[rKey][rKey]) else False
+            # check for allowed during unaccounted intervals
+            elif rKey == cons.TK_CTRL_PTAUH:
+                # if enabled
+                self._timeUnaccountedIntervalsFlagPT = True if bool(self._limitConfig[rKey][rKey]) else False
             # for the days limits
             elif rKey in ("1", "2", "3", "4", "5", "6", "7"):
                 # get time limit string
-                timeLimitStr = self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMITD]) if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None else None, True)
+                timeLimitStr = self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=self._limitConfig[rKey][cons.TK_CTRL_LIMITD]) if self._limitConfig[rKey][cons.TK_CTRL_LIMITD] is not None else None, "t")
                 # add limit to the list
                 self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysLS").append([rKey, (cons.TK_DATETIME_START + timedelta(days=int(rKey)-1)).strftime("%A"), "%s" % (timeLimitStr)])
 
@@ -489,7 +507,7 @@ class timekprGUI(object):
                         # count
                         dayIdx += 1
                         # if override enabled, we do not show limits because that's not meaningful
-                        timeLimitStr = self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=rDay[1]) if not self._timeTimeLimitOverridePT else None, True)
+                        timeLimitStr = self.formatTimeStr(cons.TK_DATETIME_START + timedelta(seconds=rDay[1]) if not self._timeTimeLimitOverridePT else None, "t")
                         # add to the list
                         self._timekprConfigDialogBuilder.get_object("timekprPTAllowedDaysLimitsDaysLS").append([rDay[0], (cons.TK_DATETIME_START + timedelta(days=int(rDay[0])-1)).strftime("%A"), "%s" % (timeLimitStr)])
                         # if alllowed list has current day
@@ -576,7 +594,6 @@ class timekprGUI(object):
         """Refresh intervals when days change"""
         # refresh the child
         (tm, ti) = self._timekprConfigDialogBuilder.get_object("timekprAllowedDaysDaysTreeview").get_selection().get_selected()
-
         # only if there is smth selected
         if ti is not None:
             # get current seconds
@@ -641,11 +658,17 @@ class timekprGUI(object):
         self._timekprClientConfig.saveClientConfig()
         # disable apply for now
         self._timekprConfigDialogBuilder.get_object("timekprSaveBT").set_sensitive(False)
+        # enable as well
+        log.setLogLevel(self._timekprClientConfig.getClientLogLevel())
 
     def closePropertiesSignal(self, evt):
         """Close the config form"""
         # close
         self._timekprConfigDialog.hide()
+
+    def preventDestroyingDialogSignal(self, evt, bs):
+        """Prevent destroying the dialog"""
+        return False
 
     # --------------- helper methods --------------- #
 

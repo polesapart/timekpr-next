@@ -23,17 +23,15 @@ _USE_STATUSICON = True
 class timekprIndicator(timekprNotificationArea):
     """Support appindicator"""
 
-    def __init__(self, pLog, pUserName, pUserNameFull, pTimekprClientConfig):
+    def __init__(self, pUserName, pUserNameFull, pTimekprClientConfig):
         """Init all required stuff for indicator"""
-        # init logging firstly
-        log.setLogging(pLog)
 
         log.log(cons.TK_LOG_LEVEL_INFO, "start initTimekprSystrayIcon")
 
         # only if this is supported
         if self.isSupported():
             # init parent as well
-            super().__init__(pLog, pUserName, pUserNameFull, pTimekprClientConfig)
+            super().__init__(pUserName, pUserNameFull, pTimekprClientConfig)
 
             # this is our icon
             self._tray = None
@@ -76,9 +74,9 @@ class timekprIndicator(timekprNotificationArea):
         # build up menu actiongroups
         timekprActionGroup = Gtk.ActionGroup("timekprActions")
         timekprActionGroup.add_actions([
-             ("TimeLeft", Gtk.STOCK_INFO, msg.getTranslation("TK_MSG_MENU_TIME_LEFT"), None, None, super().invokeTimekprTimeLeft)
-            ,("Limits & configuration", Gtk.STOCK_PROPERTIES, msg.getTranslation("TK_MSG_MENU_CONFIGURATION"), None, None, super().invokeTimekprUserProperties)
-            ,("About", Gtk.STOCK_ABOUT, msg.getTranslation("TK_MSG_MENU_ABOUT"), None, None, super().invokeTimekprAbout)
+            ("TimeLeft", Gtk.STOCK_INFO, msg.getTranslation("TK_MSG_MENU_TIME_LEFT"), None, None, super().invokeTimekprTimeLeft),
+            ("Limits & configuration", Gtk.STOCK_PROPERTIES, msg.getTranslation("TK_MSG_MENU_CONFIGURATION"), None, None, super().invokeTimekprUserProperties),
+            ("About", Gtk.STOCK_ABOUT, msg.getTranslation("TK_MSG_MENU_ABOUT"), None, None, super().invokeTimekprAbout)
         ])
 
         # build up menu
