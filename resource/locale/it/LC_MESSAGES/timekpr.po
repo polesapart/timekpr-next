@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-02 22:29+0200\n"
-"PO-Revision-Date: 2021-02-02 22:33+0200\n"
+"POT-Creation-Date: 2021-03-01 22:11+0200\n"
+"PO-Revision-Date: 2021-03-01 22:18+0200\n"
 "Last-Translator: albano <albano_battistella@hotmail.com>\n"
 "Language-Team: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language: it_IT\n"
@@ -888,7 +888,7 @@ msgstr "Limiti e configurazione"
 msgid "About"
 msgstr "Informazioni su"
 
-#: common/constants/messages.py:215 resource/client/forms/about.glade:19
+#: common/constants/messages.py:215 resource/client/forms/about.glade:17
 msgid "Keep control of computer usage"
 msgstr "Mantieni il controllo del computer in uso"
 
@@ -1124,21 +1124,15 @@ msgid "About Timekpr-nExT"
 msgstr "Informazioni su Timekpr-nExT"
 
 #: resource/client/forms/about.glade:16
-msgid ""
-"Copyright (c) 2018-2020 Eduards Bezverhijs\n"
-"Main test (ex): Rinalds Dobelis\n"
-"Beta test: SanskritFritz"
-msgstr ""
-"Copyright (c) 2018-2020 Eduards Bezverhijs\n"
-"Main test (ex): Rinalds Dobelis\n"
-"Beta test: SanskritFritz"
+msgid "Copyright (c) 2018-2021 Eduards Bezverhijs"
+msgstr "Copyright (c) 2018-2021 Eduards Bezverhijs"
 
-#: resource/client/forms/about.glade:21
+#: resource/client/forms/about.glade:19
 msgid "Timekpr-nExT"
 msgstr "Timekpr-nExT"
 
 #. Please enter GPL3 licence text in your language
-#: resource/client/forms/about.glade:22
+#: resource/client/forms/about.glade:20
 msgctxt "timekpr-next"
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
@@ -1170,7 +1164,7 @@ msgstr ""
 "In Debian, vedere file / usr/share/common-licenses/GPL-3"
 
 #. Please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-#: resource/client/forms/about.glade:28
+#: resource/client/forms/about.glade:26
 msgid ""
 "Eduards Bezverhijs <edzis@inbox.lv>\n"
 "(Translations fine-tuning by JP Lord <jplord@gmail.com>)\n"
@@ -1258,16 +1252,16 @@ msgstr "Tempo rimasto (effettivo):"
 #: resource/client/forms/admin.glade:626 resource/client/forms/admin.glade:657
 #: resource/client/forms/admin.glade:688 resource/client/forms/admin.glade:732
 #: resource/client/forms/admin.glade:763 resource/client/forms/admin.glade:794
-#: resource/client/forms/client.glade:409
-#: resource/client/forms/client.glade:423
-#: resource/client/forms/client.glade:452
-#: resource/client/forms/client.glade:494
-#: resource/client/forms/client.glade:720
-#: resource/client/forms/client.glade:778
-#: resource/client/forms/client.glade:849
-#: resource/client/forms/client.glade:877
-#: resource/client/forms/client.glade:977
-#: resource/client/forms/client.glade:1003
+#: resource/client/forms/client.glade:411
+#: resource/client/forms/client.glade:425
+#: resource/client/forms/client.glade:456
+#: resource/client/forms/client.glade:502
+#: resource/client/forms/client.glade:728
+#: resource/client/forms/client.glade:786
+#: resource/client/forms/client.glade:857
+#: resource/client/forms/client.glade:885
+#: resource/client/forms/client.glade:985
+#: resource/client/forms/client.glade:1011
 msgid "Format: <days : hours : minutes : seconds>"
 msgstr "Formato: <giorni: ore: minuti: secondi>"
 
@@ -1304,7 +1298,7 @@ msgid "Time spent this week (saved stated, not real-time)"
 msgstr ""
 "Tempo trascorso per questa settimana (salvato dichiarato, non in tempo reale)"
 
-#: resource/client/forms/admin.glade:749 resource/client/forms/client.glade:709
+#: resource/client/forms/admin.glade:749 resource/client/forms/client.glade:717
 msgid "Time spent (week):"
 msgstr "Tempo trascorso (settimana):"
 
@@ -1312,7 +1306,7 @@ msgstr "Tempo trascorso (settimana):"
 msgid "Time spent this month (saved stated, not real-time)"
 msgstr "Tempo trascorso questo mese (salvato dichiarato, non in tempo reale)"
 
-#: resource/client/forms/admin.glade:779 resource/client/forms/client.glade:736
+#: resource/client/forms/admin.glade:779 resource/client/forms/client.glade:744
 msgid "Time spent (month):"
 msgstr "Tempo trascorso (mese):"
 
@@ -1713,7 +1707,7 @@ msgid "This lets you configure PlayTime limits."
 msgstr "Ciò ti consente di configurare i limiti di Gioco."
 
 #: resource/client/forms/admin.glade:2247
-#: resource/client/forms/client.glade:1245
+#: resource/client/forms/client.glade:1253
 msgid "PlayTime limits"
 msgstr "Limiti di Tempo di Gioco"
 
@@ -2353,43 +2347,43 @@ msgstr ""
 msgid "Time spent (session):"
 msgstr "Tempo trascorso (sessione):"
 
-#: resource/client/forms/client.glade:439
+#: resource/client/forms/client.glade:441
 msgid "Time inactive this session or after Timekpr-nExT has been restarted"
 msgstr ""
 "Tempo inattivo in questa sessione o dopo che Timekpr-nExT è stato riavviato"
 
-#: resource/client/forms/client.glade:441
+#: resource/client/forms/client.glade:443
 msgid "Time inactive:"
 msgstr "Tempo inattivo:"
 
-#: resource/client/forms/client.glade:465
+#: resource/client/forms/client.glade:469
 msgid "Continuous time left to you. May span more than the current day."
 msgstr "Tempo continuo lasciato a te. Può estendersi più del giorno corrente."
 
-#: resource/client/forms/client.glade:467
+#: resource/client/forms/client.glade:471
 msgid "Continuous time left:"
 msgstr "Tempo residuo rimanente:"
 
-#: resource/client/forms/client.glade:481
+#: resource/client/forms/client.glade:487
 msgid "Total time available left today in a row, up to the end of the day"
 msgstr ""
 "Tempo totale disponibile rimasto in una riga, fino alla fine della giornata"
 
-#: resource/client/forms/client.glade:483
-#: resource/client/forms/client.glade:966
+#: resource/client/forms/client.glade:489
+#: resource/client/forms/client.glade:974
 msgid "Time left today:"
 msgstr "Tempo rimasto oggi:"
 
-#: resource/client/forms/client.glade:540
+#: resource/client/forms/client.glade:548
 msgid "These are the days and limits that are available to you"
 msgstr "Questi sono giorni e limiti che sono a tua disposizione"
 
-#: resource/client/forms/client.glade:565
-#: resource/client/forms/client.glade:1163
+#: resource/client/forms/client.glade:573
+#: resource/client/forms/client.glade:1171
 msgid "Days & Limits"
 msgstr "Giorni e limiti"
 
-#: resource/client/forms/client.glade:601
+#: resource/client/forms/client.glade:609
 msgid ""
 "This shows the time intervals that are available for use.\n"
 "\n"
@@ -2402,27 +2396,27 @@ msgstr ""
 "verrà conteggiato nel limite giornaliero, ma sarà invece considerato "
 "inattivo."
 
-#: resource/client/forms/client.glade:626
+#: resource/client/forms/client.glade:634
 msgid "Intervals"
 msgstr "Intervalli"
 
-#: resource/client/forms/client.glade:655
+#: resource/client/forms/client.glade:663
 msgid "Daily limits"
 msgstr "Limiti giornalieri"
 
-#: resource/client/forms/client.glade:683
+#: resource/client/forms/client.glade:691
 msgid "Additional statistics"
 msgstr "Statistiche aggiuntive"
 
-#: resource/client/forms/client.glade:707
+#: resource/client/forms/client.glade:715
 msgid "Time spent this week"
 msgstr "Tempo trascorso per questa settimana"
 
-#: resource/client/forms/client.glade:734
+#: resource/client/forms/client.glade:742
 msgid "Time spent this month"
 msgstr "Tempo trascorso per questo mese"
 
-#: resource/client/forms/client.glade:747
+#: resource/client/forms/client.glade:755
 msgid ""
 "Select whether inactive session time is counted.\n"
 "\n"
@@ -2437,11 +2431,11 @@ msgstr ""
 "è bloccato NON viene preso in considerazione.\n"
 "Questo varia a seconda degli ambienti desktop."
 
-#: resource/client/forms/client.glade:752
+#: resource/client/forms/client.glade:760
 msgid "Track inactive:"
 msgstr "Traccia inattiva:"
 
-#: resource/client/forms/client.glade:765
+#: resource/client/forms/client.glade:773
 msgid ""
 "Select whether inactive session time is counted. If this is unchecked, time "
 "spent in console (not terminal emulator) login sessions and while the screen "
@@ -2452,45 +2446,45 @@ msgstr ""
 "schermo è bloccato, NON viene preso in considerazione (varia molto da DE a "
 "DE)"
 
-#: resource/client/forms/client.glade:812
-#: resource/client/forms/client.glade:910
+#: resource/client/forms/client.glade:820
+#: resource/client/forms/client.glade:918
 msgid "Additional limits"
 msgstr "Limiti aggiuntivi"
 
-#: resource/client/forms/client.glade:836
+#: resource/client/forms/client.glade:844
 msgid "Time limit for this week available to you"
 msgstr "Limite di tempo per settimana disponibile per te"
 
-#: resource/client/forms/client.glade:838
+#: resource/client/forms/client.glade:846
 msgid "Time limit (week):"
 msgstr "Limite di tempo (settimana):"
 
-#: resource/client/forms/client.glade:864
+#: resource/client/forms/client.glade:872
 msgid "Time limit for this month available to you"
 msgstr "Limite di tempo per il mese a tua disposizione"
 
-#: resource/client/forms/client.glade:866
+#: resource/client/forms/client.glade:874
 msgid "Time limit (month):"
 msgstr "Limite di tempo (mese):"
 
-#: resource/client/forms/client.glade:940
+#: resource/client/forms/client.glade:948
 msgid "Current PlayTime statistics"
 msgstr "Statistiche di Gioco correnti"
 
-#: resource/client/forms/client.glade:964
+#: resource/client/forms/client.glade:972
 msgid "Total PlayTime available left today"
 msgstr "Tempo di Gioco totale rimasto oggi"
 
-#: resource/client/forms/client.glade:990
+#: resource/client/forms/client.glade:998
 msgid "Total PlayTime spent today"
 msgstr "Tempo di gioco totale speso oggi"
 
-#: resource/client/forms/client.glade:992
+#: resource/client/forms/client.glade:1000
 msgid "Time spent today:"
 msgstr "Tempo trascorso oggi:"
 
-#: resource/client/forms/client.glade:1019
-#: resource/client/forms/client.glade:1034
+#: resource/client/forms/client.glade:1027
+#: resource/client/forms/client.glade:1042
 msgid ""
 "This option overrides the default time accounting.\n"
 "\n"
@@ -2503,21 +2497,21 @@ msgstr ""
 "\"Elenco attività / applicazioni\" sono in esecuzione, il resto del tempo è "
 "considerato inattivo."
 
-#: resource/client/forms/client.glade:1038
+#: resource/client/forms/client.glade:1046
 msgid "Time limit override:"
 msgstr "Limite di tempo oltrepassato:"
 
-#: resource/client/forms/client.glade:1052
-#: resource/client/forms/client.glade:1065
+#: resource/client/forms/client.glade:1060
+#: resource/client/forms/client.glade:1073
 msgid "Number of currently active PlayTime activities"
 msgstr "Numero di attività di Gioco attualmente attive"
 
-#: resource/client/forms/client.glade:1054
+#: resource/client/forms/client.glade:1062
 msgid "Running activities:"
 msgstr "Attività in corso:"
 
-#: resource/client/forms/client.glade:1078
-#: resource/client/forms/client.glade:1098
+#: resource/client/forms/client.glade:1086
+#: resource/client/forms/client.glade:1106
 msgid ""
 "Allow activities during unaccounted (\"∞\") time intervals.\n"
 "\n"
@@ -2532,11 +2526,11 @@ msgstr ""
 "contrassegnati come non contabilizzati (\"∞\"), se l'impostazione non è "
 "abilitata, nessuna delle attività può essere eseguita!"
 
-#: resource/client/forms/client.glade:1082
+#: resource/client/forms/client.glade:1090
 msgid "Allowed during \"∞\":"
 msgstr "Consentito durante \"∞\":"
 
-#: resource/client/forms/client.glade:1140
+#: resource/client/forms/client.glade:1148
 msgid ""
 "These are days and limits that available to you as part of PlayTime activity "
 "restrictions"
@@ -2544,18 +2538,18 @@ msgstr ""
 "Questi sono i giorni e i limiti a tua disposizione come parte delle "
 "limitazioni delle attività di Gioco"
 
-#: resource/client/forms/client.glade:1197
+#: resource/client/forms/client.glade:1205
 msgid ""
 "This shows activities / applications which are part of PlayTime restrictions"
 msgstr ""
 "Questo mostra le attività / applicazioni che fanno parte delle restrizioni "
 "del Tempo di Gioco"
 
-#: resource/client/forms/client.glade:1220
+#: resource/client/forms/client.glade:1228
 msgid "Activity / application list"
 msgstr "Elenco attività / applicazioni"
 
-#: resource/client/forms/client.glade:1284
+#: resource/client/forms/client.glade:1292
 msgid ""
 "Configuration for personalized notifications about available time.\n"
 "\n"
@@ -2596,19 +2590,19 @@ msgstr ""
 "aperta fino a quando non viene chiusa, tuttavia questo comportamento dipende "
 "fortemente dall'ambiente desktop in uso"
 
-#: resource/client/forms/client.glade:1316
+#: resource/client/forms/client.glade:1324
 msgid "Notification configuration"
 msgstr "Configurazione notifiche"
 
-#: resource/client/forms/client.glade:1338
+#: resource/client/forms/client.glade:1346
 msgid "Add new notification threshold to the list"
 msgstr "Aggiungi una nuova soglia di notifica all'elenco"
 
-#: resource/client/forms/client.glade:1353
+#: resource/client/forms/client.glade:1361
 msgid "Remove notification threshold from the list"
 msgstr "Rimuovi la soglia di notifica dall'elenco"
 
-#: resource/client/forms/client.glade:1402
+#: resource/client/forms/client.glade:1410
 msgid ""
 "Configuration for personalized notifications about available PlayTime.\n"
 "\n"
@@ -2643,23 +2637,23 @@ msgstr ""
 "aperta fino a quando non viene chiusa, tuttavia questo comportamento dipende "
 "fortemente dall'ambiente desktop in uso"
 
-#: resource/client/forms/client.glade:1434
+#: resource/client/forms/client.glade:1442
 msgid "PlayTime notification configuration"
 msgstr "Configurazione delle notifiche del Tempo di Gioco"
 
-#: resource/client/forms/client.glade:1456
+#: resource/client/forms/client.glade:1464
 msgid "Add new PlayTime notification threshold to the list"
 msgstr "Aggiungi una nuova soglia di notifica del Tempo di Gioco all'elenco"
 
-#: resource/client/forms/client.glade:1471
+#: resource/client/forms/client.glade:1479
 msgid "Remove PlayTime notification threshold from the list"
 msgstr "Rimuovi la soglia di notifica del Tempo di Gioco dall'elenco"
 
-#: resource/client/forms/client.glade:1530
+#: resource/client/forms/client.glade:1538
 msgid "Notifications"
 msgstr "Notifiche"
 
-#: resource/client/forms/client.glade:1554
+#: resource/client/forms/client.glade:1562
 msgid ""
 "Select whether to use speech notifications, if available.\n"
 "\n"
@@ -2671,12 +2665,12 @@ msgstr ""
 "Potresti essere in grado di rendere disponibili le notifiche vocali "
 "installando il pacchetto \"python3-espeak\"."
 
-#: resource/client/forms/client.glade:1564
+#: resource/client/forms/client.glade:1572
 msgid "Use speech notifications"
 msgstr "Usa le notifiche vocali"
 
-#: resource/client/forms/client.glade:1583
-#: resource/client/forms/client.glade:1605
+#: resource/client/forms/client.glade:1591
+#: resource/client/forms/client.glade:1613
 msgid ""
 "This sets the logging level.\n"
 "\n"
@@ -2686,11 +2680,11 @@ msgstr ""
 "\n"
 "Per favore non cambiarlo a meno che tu non sappia cosa stai facendo."
 
-#: resource/client/forms/client.glade:1609
+#: resource/client/forms/client.glade:1617
 msgid "Logging level"
 msgstr "Livello di registrazione"
 
-#: resource/client/forms/client.glade:1631
+#: resource/client/forms/client.glade:1639
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
@@ -2698,11 +2692,11 @@ msgstr ""
 "Se mostrare la notifica quando si modificano le configurazioni limite o la "
 "tolleranza"
 
-#: resource/client/forms/client.glade:1639
+#: resource/client/forms/client.glade:1647
 msgid "Show limit changes"
 msgstr "Mostra le modifiche ai limiti"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1663
 msgid ""
 "Specify whether to show all notifications.\n"
 "\n"
@@ -2712,11 +2706,11 @@ msgstr ""
 "\n"
 "Se deselezionato, vengono mostrati solo quelli importanti."
 
-#: resource/client/forms/client.glade:1665
+#: resource/client/forms/client.glade:1673
 msgid "Show all notifications"
 msgstr "Mostra tutte le notifiche"
 
-#: resource/client/forms/client.glade:1681
+#: resource/client/forms/client.glade:1689
 msgid ""
 "Specify whether to show seconds in notification area.\n"
 "\n"
@@ -2728,12 +2722,12 @@ msgstr ""
 "Alcuni ambienti desktop, come KDE5, non supportano il testo oltre alle icone "
 "di notifica."
 
-#: resource/client/forms/client.glade:1691
+#: resource/client/forms/client.glade:1699
 msgid "Show seconds in notification area"
 msgstr "Mostra i secondi nell'area di notifica"
 
-#: resource/client/forms/client.glade:1710
-#: resource/client/forms/client.glade:1734
+#: resource/client/forms/client.glade:1718
+#: resource/client/forms/client.glade:1742
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
 "time left and configuration changes.\n"
@@ -2756,12 +2750,12 @@ msgstr ""
 "timeout, nel qual caso questa impostazione non avrà alcun effetto sulla "
 "notifica."
 
-#: resource/client/forms/client.glade:1741
+#: resource/client/forms/client.glade:1749
 msgid "Notification timeout (sec)"
 msgstr "Timeout notifica (sec)"
 
-#: resource/client/forms/client.glade:1766
-#: resource/client/forms/client.glade:1791
+#: resource/client/forms/client.glade:1774
+#: resource/client/forms/client.glade:1799
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
 "about time left (when the icon turns red).\n"
@@ -2782,11 +2776,11 @@ msgstr ""
 "timeout, nel qual caso questa impostazione non avrà alcun effetto sulla "
 "notifica."
 
-#: resource/client/forms/client.glade:1798
+#: resource/client/forms/client.glade:1806
 msgid "Critical notification timeout (sec)"
 msgstr "Timeout di notifica critico (sec)"
 
-#: resource/client/forms/client.glade:1820
+#: resource/client/forms/client.glade:1828
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
 "a new notification from Timekpr-nExT.\n"
@@ -2804,13 +2798,22 @@ msgstr ""
 "Se questa impostazione non è modificabile, l'ambiente che usi non è in grado "
 "di supportare per le notifiche sonore."
 
-#: resource/client/forms/client.glade:1832
+#: resource/client/forms/client.glade:1840
 msgid "Use sound \"bell\" for notifications"
 msgstr "Usa il suono \"beep\" per le notifiche"
 
-#: resource/client/forms/client.glade:1852
+#: resource/client/forms/client.glade:1860
 msgid "Configuration"
 msgstr "Configurazione"
+
+#~ msgid ""
+#~ "Copyright (c) 2018-2020 Eduards Bezverhijs\n"
+#~ "Main test (ex): Rinalds Dobelis\n"
+#~ "Beta test: SanskritFritz"
+#~ msgstr ""
+#~ "Copyright (c) 2018-2020 Eduards Bezverhijs\n"
+#~ "Main test (ex): Rinalds Dobelis\n"
+#~ "Beta test: SanskritFritz"
 
 #~ msgid ""
 #~ "==> set time left for the user at current moment, example (add one hour)"

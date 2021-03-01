@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: Ludek NOVAK <ludek.novak@gmail.com>\n"
-"POT-Creation-Date: 2021-02-02 22:29+0200\n"
-"PO-Revision-Date: 2021-02-02 22:32+0200\n"
+"POT-Creation-Date: 2021-03-01 22:11+0200\n"
+"PO-Revision-Date: 2021-03-01 22:14+0200\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -920,7 +920,7 @@ msgstr "Limity a nastavení"
 msgid "About"
 msgstr "O aplikaci"
 
-#: common/constants/messages.py:215 resource/client/forms/about.glade:19
+#: common/constants/messages.py:215 resource/client/forms/about.glade:17
 msgid "Keep control of computer usage"
 msgstr "Mějte kontrolu nad používáním počítače"
 
@@ -1165,26 +1165,15 @@ msgid "About Timekpr-nExT"
 msgstr "O aplikaci Timekpr-nExT"
 
 #: resource/client/forms/about.glade:16
-#, fuzzy
-#| msgid ""
-#| "Copyright (c) 2018-2020 Eduards Bezverhijs\n"
-#| "Super tester: Rinalds Dobelis\n"
-#| "Beta tester: SanskritFritz"
-msgid ""
-"Copyright (c) 2018-2020 Eduards Bezverhijs\n"
-"Main test (ex): Rinalds Dobelis\n"
-"Beta test: SanskritFritz"
+msgid "Copyright (c) 2018-2021 Eduards Bezverhijs"
 msgstr ""
-"Copyright (c) 2018-2020 Eduards Bezverhijs\n"
-"Super tester: Rinalds Dobelis\n"
-"Beta tester: SanskritFritz"
 
-#: resource/client/forms/about.glade:21
+#: resource/client/forms/about.glade:19
 msgid "Timekpr-nExT"
 msgstr "Timekpr-nExT"
 
 #. Please enter GPL3 licence text in your language
-#: resource/client/forms/about.glade:22
+#: resource/client/forms/about.glade:20
 msgctxt "timekpr-next"
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
@@ -1215,7 +1204,7 @@ msgstr ""
 "share/common-license/GPL-3"
 
 #. Please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-#: resource/client/forms/about.glade:28
+#: resource/client/forms/about.glade:26
 msgid ""
 "Eduards Bezverhijs <edzis@inbox.lv>\n"
 "(Translations fine-tuning by JP Lord <jplord@gmail.com>)\n"
@@ -1313,16 +1302,16 @@ msgstr "Zbývající čas (skutečný):"
 #: resource/client/forms/admin.glade:626 resource/client/forms/admin.glade:657
 #: resource/client/forms/admin.glade:688 resource/client/forms/admin.glade:732
 #: resource/client/forms/admin.glade:763 resource/client/forms/admin.glade:794
-#: resource/client/forms/client.glade:409
-#: resource/client/forms/client.glade:423
-#: resource/client/forms/client.glade:452
-#: resource/client/forms/client.glade:494
-#: resource/client/forms/client.glade:720
-#: resource/client/forms/client.glade:778
-#: resource/client/forms/client.glade:849
-#: resource/client/forms/client.glade:877
-#: resource/client/forms/client.glade:977
-#: resource/client/forms/client.glade:1003
+#: resource/client/forms/client.glade:411
+#: resource/client/forms/client.glade:425
+#: resource/client/forms/client.glade:456
+#: resource/client/forms/client.glade:502
+#: resource/client/forms/client.glade:728
+#: resource/client/forms/client.glade:786
+#: resource/client/forms/client.glade:857
+#: resource/client/forms/client.glade:885
+#: resource/client/forms/client.glade:985
+#: resource/client/forms/client.glade:1011
 msgid "Format: <days : hours : minutes : seconds>"
 msgstr "Formát: <dny : hodiny : minuty : sekundy>"
 
@@ -1359,7 +1348,7 @@ msgstr "Čas využitý dnes:"
 msgid "Time spent this week (saved stated, not real-time)"
 msgstr "Čas svyužitý tento týden (uložený, nikoliv reálný čas)"
 
-#: resource/client/forms/admin.glade:749 resource/client/forms/client.glade:709
+#: resource/client/forms/admin.glade:749 resource/client/forms/client.glade:717
 msgid "Time spent (week):"
 msgstr "Čas využitý za týden:"
 
@@ -1367,7 +1356,7 @@ msgstr "Čas využitý za týden:"
 msgid "Time spent this month (saved stated, not real-time)"
 msgstr "Čas využitý tento měsíc (uložený, nikoliv reálný čas)"
 
-#: resource/client/forms/admin.glade:779 resource/client/forms/client.glade:736
+#: resource/client/forms/admin.glade:779 resource/client/forms/client.glade:744
 msgid "Time spent (month):"
 msgstr "Čas využitý za měsíc:"
 
@@ -1773,7 +1762,7 @@ msgid "This lets you configure PlayTime limits."
 msgstr "Zde můžete upravit časové limity pro dnešní den"
 
 #: resource/client/forms/admin.glade:2247
-#: resource/client/forms/client.glade:1245
+#: resource/client/forms/client.glade:1253
 #, fuzzy
 #| msgid "Daily limits"
 msgid "PlayTime limits"
@@ -2414,42 +2403,42 @@ msgstr "Čas využitý touto relací nebo od restartování Timekpr-nExT"
 msgid "Time spent (session):"
 msgstr "Čas využitý relací:"
 
-#: resource/client/forms/client.glade:439
+#: resource/client/forms/client.glade:441
 msgid "Time inactive this session or after Timekpr-nExT has been restarted"
 msgstr "Čas neaktivní využitý touto relací nebo od restartování Timekpr-nExT"
 
-#: resource/client/forms/client.glade:441
+#: resource/client/forms/client.glade:443
 msgid "Time inactive:"
 msgstr "Neaktivní čas:"
 
-#: resource/client/forms/client.glade:465
+#: resource/client/forms/client.glade:469
 #, fuzzy
 msgid "Continuous time left to you. May span more than the current day."
 msgstr "Zbývající nepřetržitý čas, jeho délka může být delší než aktuální den."
 
-#: resource/client/forms/client.glade:467
+#: resource/client/forms/client.glade:471
 msgid "Continuous time left:"
 msgstr "Zbývající nepřetržitý čas:"
 
-#: resource/client/forms/client.glade:481
+#: resource/client/forms/client.glade:487
 msgid "Total time available left today in a row, up to the end of the day"
 msgstr "Celkový dnešní čas, který je k dispozici do konce dne"
 
-#: resource/client/forms/client.glade:483
-#: resource/client/forms/client.glade:966
+#: resource/client/forms/client.glade:489
+#: resource/client/forms/client.glade:974
 msgid "Time left today:"
 msgstr "Čas zbývající dnes:"
 
-#: resource/client/forms/client.glade:540
+#: resource/client/forms/client.glade:548
 msgid "These are the days and limits that are available to you"
 msgstr "Toto jsou limity jednotlivých dnů, které máte k dispozici"
 
-#: resource/client/forms/client.glade:565
-#: resource/client/forms/client.glade:1163
+#: resource/client/forms/client.glade:573
+#: resource/client/forms/client.glade:1171
 msgid "Days & Limits"
 msgstr "Limity dnů"
 
-#: resource/client/forms/client.glade:601
+#: resource/client/forms/client.glade:609
 msgid ""
 "This shows the time intervals that are available for use.\n"
 "\n"
@@ -2457,27 +2446,27 @@ msgid ""
 "accounted towards the daily limit, it will be accounted as idle instead."
 msgstr ""
 
-#: resource/client/forms/client.glade:626
+#: resource/client/forms/client.glade:634
 msgid "Intervals"
 msgstr "Intervaly"
 
-#: resource/client/forms/client.glade:655
+#: resource/client/forms/client.glade:663
 msgid "Daily limits"
 msgstr "Denní limity"
 
-#: resource/client/forms/client.glade:683
+#: resource/client/forms/client.glade:691
 msgid "Additional statistics"
 msgstr "Další statistiky"
 
-#: resource/client/forms/client.glade:707
+#: resource/client/forms/client.glade:715
 msgid "Time spent this week"
 msgstr "Čas využitý v tomto týdnu"
 
-#: resource/client/forms/client.glade:734
+#: resource/client/forms/client.glade:742
 msgid "Time spent this month"
 msgstr "Čas využitý v tomto měsíci"
 
-#: resource/client/forms/client.glade:747
+#: resource/client/forms/client.glade:755
 #, fuzzy
 #| msgid ""
 #| "Select whether inactive session time is counted. If this is unchecked, "
@@ -2495,11 +2484,11 @@ msgstr ""
 "zaškrtnuto, NEBUDE brána v úvahu doba použití v konzoli (nikoli v terminálu) "
 "a při uzamčené obrazovce (toto se velmi liší DE od DE)"
 
-#: resource/client/forms/client.glade:752
+#: resource/client/forms/client.glade:760
 msgid "Track inactive:"
 msgstr "Sledovat neaktivní:"
 
-#: resource/client/forms/client.glade:765
+#: resource/client/forms/client.glade:773
 msgid ""
 "Select whether inactive session time is counted. If this is unchecked, time "
 "spent in console (not terminal emulator) login sessions and while the screen "
@@ -2509,51 +2498,51 @@ msgstr ""
 "zaškrtnuto, NEBUDE brána v úvahu doba použití v konzoli (nikoli v terminálu) "
 "a při uzamčené obrazovce (toto se velmi liší DE od DE)"
 
-#: resource/client/forms/client.glade:812
-#: resource/client/forms/client.glade:910
+#: resource/client/forms/client.glade:820
+#: resource/client/forms/client.glade:918
 msgid "Additional limits"
 msgstr "Ostatní limity"
 
-#: resource/client/forms/client.glade:836
+#: resource/client/forms/client.glade:844
 msgid "Time limit for this week available to you"
 msgstr "Týdenní časový limit, který máte k dispozici"
 
-#: resource/client/forms/client.glade:838
+#: resource/client/forms/client.glade:846
 msgid "Time limit (week):"
 msgstr "Časový limit za týden:"
 
-#: resource/client/forms/client.glade:864
+#: resource/client/forms/client.glade:872
 msgid "Time limit for this month available to you"
 msgstr "Měsíční časový limit. který máte k dispozici"
 
-#: resource/client/forms/client.glade:866
+#: resource/client/forms/client.glade:874
 msgid "Time limit (month):"
 msgstr "Časový limit za měsíc:"
 
-#: resource/client/forms/client.glade:940
+#: resource/client/forms/client.glade:948
 #, fuzzy
 #| msgid "Current statistics"
 msgid "Current PlayTime statistics"
 msgstr "Aktuální statistiky"
 
-#: resource/client/forms/client.glade:964
+#: resource/client/forms/client.glade:972
 msgid "Total PlayTime available left today"
 msgstr ""
 
-#: resource/client/forms/client.glade:990
+#: resource/client/forms/client.glade:998
 #, fuzzy
 #| msgid "Time spent (today):"
 msgid "Total PlayTime spent today"
 msgstr "Čas využitý dnes:"
 
-#: resource/client/forms/client.glade:992
+#: resource/client/forms/client.glade:1000
 #, fuzzy
 #| msgid "Time spent (today):"
 msgid "Time spent today:"
 msgstr "Čas využitý dnes:"
 
-#: resource/client/forms/client.glade:1019
-#: resource/client/forms/client.glade:1034
+#: resource/client/forms/client.glade:1027
+#: resource/client/forms/client.glade:1042
 msgid ""
 "This option overrides the default time accounting.\n"
 "\n"
@@ -2561,23 +2550,23 @@ msgid ""
 "application list\" are running, the rest of the time is considered idle."
 msgstr ""
 
-#: resource/client/forms/client.glade:1038
+#: resource/client/forms/client.glade:1046
 #, fuzzy
 #| msgid "Time limit (week):"
 msgid "Time limit override:"
 msgstr "Časový limit za týden:"
 
-#: resource/client/forms/client.glade:1052
-#: resource/client/forms/client.glade:1065
+#: resource/client/forms/client.glade:1060
+#: resource/client/forms/client.glade:1073
 msgid "Number of currently active PlayTime activities"
 msgstr ""
 
-#: resource/client/forms/client.glade:1054
+#: resource/client/forms/client.glade:1062
 msgid "Running activities:"
 msgstr ""
 
-#: resource/client/forms/client.glade:1078
-#: resource/client/forms/client.glade:1098
+#: resource/client/forms/client.glade:1086
+#: resource/client/forms/client.glade:1106
 msgid ""
 "Allow activities during unaccounted (\"∞\") time intervals.\n"
 "\n"
@@ -2586,11 +2575,11 @@ msgid ""
 "setting is not enabled, none of activities are allowed to run!"
 msgstr ""
 
-#: resource/client/forms/client.glade:1082
+#: resource/client/forms/client.glade:1090
 msgid "Allowed during \"∞\":"
 msgstr ""
 
-#: resource/client/forms/client.glade:1140
+#: resource/client/forms/client.glade:1148
 #, fuzzy
 #| msgid "These are days and limits that available to You"
 msgid ""
@@ -2598,16 +2587,16 @@ msgid ""
 "restrictions"
 msgstr "Toto jsou limity jednotlivých dnů, které máte k dispozici"
 
-#: resource/client/forms/client.glade:1197
+#: resource/client/forms/client.glade:1205
 msgid ""
 "This shows activities / applications which are part of PlayTime restrictions"
 msgstr ""
 
-#: resource/client/forms/client.glade:1220
+#: resource/client/forms/client.glade:1228
 msgid "Activity / application list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1284
+#: resource/client/forms/client.glade:1292
 msgid ""
 "Configuration for personalized notifications about available time.\n"
 "\n"
@@ -2629,25 +2618,25 @@ msgid ""
 "Environment in use"
 msgstr ""
 
-#: resource/client/forms/client.glade:1316
+#: resource/client/forms/client.glade:1324
 #, fuzzy
 #| msgid "Additional configuration"
 msgid "Notification configuration"
 msgstr "Další konfigurace"
 
-#: resource/client/forms/client.glade:1338
+#: resource/client/forms/client.glade:1346
 #, fuzzy
 #| msgid "Add tracked session type to the list"
 msgid "Add new notification threshold to the list"
 msgstr "Přidat sledovaný typ relace do seznamu"
 
-#: resource/client/forms/client.glade:1353
+#: resource/client/forms/client.glade:1361
 #, fuzzy
 #| msgid "Remove tracked session type from the list"
 msgid "Remove notification threshold from the list"
 msgstr "Odebrat sledovaný typ relace ze seznamu"
 
-#: resource/client/forms/client.glade:1402
+#: resource/client/forms/client.glade:1410
 msgid ""
 "Configuration for personalized notifications about available PlayTime.\n"
 "\n"
@@ -2666,29 +2655,29 @@ msgid ""
 "Environment in use"
 msgstr ""
 
-#: resource/client/forms/client.glade:1434
+#: resource/client/forms/client.glade:1442
 #, fuzzy
 #| msgid "Timekpr-nExT Administration Configuration"
 msgid "PlayTime notification configuration"
 msgstr "Nastavení programu Timekpr-nExT"
 
-#: resource/client/forms/client.glade:1456
+#: resource/client/forms/client.glade:1464
 msgid "Add new PlayTime notification threshold to the list"
 msgstr ""
 
-#: resource/client/forms/client.glade:1471
+#: resource/client/forms/client.glade:1479
 #, fuzzy
 #| msgid "Remove tracked session type from the list"
 msgid "Remove PlayTime notification threshold from the list"
 msgstr "Odebrat sledovaný typ relace ze seznamu"
 
-#: resource/client/forms/client.glade:1530
+#: resource/client/forms/client.glade:1538
 #, fuzzy
 #| msgid "Show all notifications"
 msgid "Notifications"
 msgstr "Zobrazit všechna oznámení"
 
-#: resource/client/forms/client.glade:1554
+#: resource/client/forms/client.glade:1562
 #, fuzzy
 #| msgid ""
 #| "Select whether to use speech notifications, if available. You may be able "
@@ -2704,12 +2693,12 @@ msgstr ""
 "volba šedá). Pokud potřebujete použít hlasová oznámení, nainstalujte prosím "
 "balíček \"python3-espeak\"."
 
-#: resource/client/forms/client.glade:1564
+#: resource/client/forms/client.glade:1572
 msgid "Use speech notifications"
 msgstr "Použít hlasová oznámení"
 
-#: resource/client/forms/client.glade:1583
-#: resource/client/forms/client.glade:1605
+#: resource/client/forms/client.glade:1591
+#: resource/client/forms/client.glade:1613
 #, fuzzy
 #| msgid ""
 #| "This sets the logging level. Please do not change this unless you know "
@@ -2722,11 +2711,11 @@ msgstr ""
 "Zde nastavíte úroveň protokolování (prosím pokud nevíte co děláte, neměňte "
 "nastavení)"
 
-#: resource/client/forms/client.glade:1609
+#: resource/client/forms/client.glade:1617
 msgid "Logging level"
 msgstr "Úroveň protokolování"
 
-#: resource/client/forms/client.glade:1631
+#: resource/client/forms/client.glade:1639
 msgid ""
 "Specify whether to show a notification when limit configurations or "
 "allowance changes"
@@ -2734,11 +2723,11 @@ msgstr ""
 "Určete, zda se mají zobrazit oznámení, když se změní konfigurace limitů nebo "
 "povolení"
 
-#: resource/client/forms/client.glade:1639
+#: resource/client/forms/client.glade:1647
 msgid "Show limit changes"
 msgstr "Zobrazit změny limitu"
 
-#: resource/client/forms/client.glade:1655
+#: resource/client/forms/client.glade:1663
 #, fuzzy
 #| msgid ""
 #| "Specify whether to show all notifications. If unchecked, then only "
@@ -2751,11 +2740,11 @@ msgstr ""
 "Určete, zda se mají zobrazit všechna oznámení. Pokud není zaškrtnuto, "
 "zobrazí se pouze důležité"
 
-#: resource/client/forms/client.glade:1665
+#: resource/client/forms/client.glade:1673
 msgid "Show all notifications"
 msgstr "Zobrazit všechna oznámení"
 
-#: resource/client/forms/client.glade:1681
+#: resource/client/forms/client.glade:1689
 #, fuzzy
 #| msgid ""
 #| "Specify whether to show seconds in notification area. Some desktop "
@@ -2769,12 +2758,12 @@ msgstr ""
 "Určete, zda se mají zobrazovat sekundy v oznamovací oblasti (některé DE, "
 "například KDE5, nepodporují text kromě oznamovacích ikon)"
 
-#: resource/client/forms/client.glade:1691
+#: resource/client/forms/client.glade:1699
 msgid "Show seconds in notification area"
 msgstr "Zobrazit sekundy v oznamovací oblasti"
 
-#: resource/client/forms/client.glade:1710
-#: resource/client/forms/client.glade:1734
+#: resource/client/forms/client.glade:1718
+#: resource/client/forms/client.glade:1742
 #, fuzzy
 msgid ""
 "This sets how long a notification is shown for regular notifications about "
@@ -2794,12 +2783,12 @@ msgstr ""
 "Upozorňujeme, že prostředí, které používáte, může přepsat časový limit, což "
 "znamená, že toto nastavení nebude mít žádný vliv na oznámení."
 
-#: resource/client/forms/client.glade:1741
+#: resource/client/forms/client.glade:1749
 msgid "Notification timeout (sec)"
 msgstr "Časový limit oznámení (s)"
 
-#: resource/client/forms/client.glade:1766
-#: resource/client/forms/client.glade:1791
+#: resource/client/forms/client.glade:1774
+#: resource/client/forms/client.glade:1799
 #, fuzzy
 msgid ""
 "This sets how long a notification is shown for \"Critical\" notifications "
@@ -2818,11 +2807,11 @@ msgstr ""
 "Upozorňujeme, že prostředí, které používáte, může přepsat časový limit, což "
 "znamená, že toto nastavení nebude mít žádný vliv na oznámení."
 
-#: resource/client/forms/client.glade:1798
+#: resource/client/forms/client.glade:1806
 msgid "Critical notification timeout (sec)"
 msgstr "Časový limit kritického oznámení (s)"
 
-#: resource/client/forms/client.glade:1820
+#: resource/client/forms/client.glade:1828
 #, fuzzy
 msgid ""
 "Select whether to use sound \"bell\" (short notification sound) to announce "
@@ -2839,13 +2828,27 @@ msgstr ""
 "Pokud nastavení nelze upravovat, vaše prostředí neinvertuje podporu "
 "zvukového upozornění."
 
-#: resource/client/forms/client.glade:1832
+#: resource/client/forms/client.glade:1840
 msgid "Use sound \"bell\" for notifications"
 msgstr "K upozornění použijte zvukový signál"
 
-#: resource/client/forms/client.glade:1852
+#: resource/client/forms/client.glade:1860
 msgid "Configuration"
 msgstr "Nastavení"
+
+#, fuzzy
+#~| msgid ""
+#~| "Copyright (c) 2018-2020 Eduards Bezverhijs\n"
+#~| "Super tester: Rinalds Dobelis\n"
+#~| "Beta tester: SanskritFritz"
+#~ msgid ""
+#~ "Copyright (c) 2018-2020 Eduards Bezverhijs\n"
+#~ "Main test (ex): Rinalds Dobelis\n"
+#~ "Beta test: SanskritFritz"
+#~ msgstr ""
+#~ "Copyright (c) 2018-2020 Eduards Bezverhijs\n"
+#~ "Super tester: Rinalds Dobelis\n"
+#~ "Beta tester: SanskritFritz"
 
 #~ msgid "00:00:00:00"
 #~ msgstr "00:00:00:00"
