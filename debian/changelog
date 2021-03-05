@@ -1,3 +1,13 @@
+timekpr-next (0.5.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * quick fix for PlayTime notifications
+    revert the cap in daemon for sending PlayTime left to clients
+    admin app will always show actual PlayTime left
+    client app will receive actual PlayTime left, but it will show
+      minimum of PlayTime or standard time left for that particular day to user (child, subordinate)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 5 Mar 2021 11:48:25 +0200
+
 timekpr-next (0.5.1-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * adjust README to fix MD parsing nuances on gitlab

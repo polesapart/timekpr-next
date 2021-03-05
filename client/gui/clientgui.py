@@ -411,7 +411,7 @@ class timekprGUI(object):
         timeLeftTodayStr = self.formatTimeStr(self._timeLeftToday)
         timeLeftTotalStr = self.formatTimeStr(self._timeLeftContinous)
         timeSpentPTStr = self.formatTimeStr(self._timeSpentPT)
-        timeLeftPTStr = self.formatTimeStr(self._timeLeftPT) if not self._timeTimeLimitOverridePT else _NO_TIME_LABEL
+        timeLeftPTStr = self.formatTimeStr(self._timeLeftPT if self._timeLeftPT is None else min(self._timeLeftPT, self._timeLeftToday)) if not self._timeTimeLimitOverridePT else _NO_TIME_LABEL
 
         # sets up stuff
         self._timekprConfigDialogBuilder.get_object("timekprLimitInfoTimeSpeneLB").set_text(timeSpentStr)

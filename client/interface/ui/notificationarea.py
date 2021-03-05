@@ -172,7 +172,7 @@ class timekprNotificationArea(object):
                 # if icon is hidden, do not show any notifications
                 if self.getTrayIconEnabled():
                     # notify user
-                    self._timekprNotifications.notifyUser(cons.TK_MSG_CODE_TIMELEFT, "PlayTime", prio, cons.TK_DATETIME_START + timedelta(seconds=pTimeLimits[cons.TK_CTRL_PTLPD]), None)
+                    self._timekprNotifications.notifyUser(cons.TK_MSG_CODE_TIMELEFT, "PlayTime", prio, cons.TK_DATETIME_START + timedelta(seconds=min(pTimeLimits[cons.TK_CTRL_PTLPD], pTimeLimits[cons.TK_CTRL_LEFTD])), None)
         elif isPTInfoEnabled:
             # disbale info
             self._timekprGUI.setPlayTimeAccountingInfoEnabled(False)
