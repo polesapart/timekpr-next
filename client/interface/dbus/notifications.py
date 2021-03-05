@@ -356,7 +356,7 @@ class timekprNotifications(object):
             # notify through dbus
             try:
                 # call dbus method
-                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_TITLE" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
+                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId if pMsgType != "PlayTime" else 0, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_TITLE" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
             except Exception as dbusEx:
                 # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
@@ -365,8 +365,9 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
 
-            # save notification ID (to replace it)
-            self._lastNotifId = notifId
+            # save notification ID (only if message is not about PlayTime, otherwise it may dismiss standard time or vice versa)
+            if pMsgType != "PlayTime":
+                self._lastNotifId = notifId
 
             # user wants to hear things
             if self._timekprClientConfig.getIsNotificationSpeechSupported() and self._timekprClientConfig.getClientUseSpeechNotifications():

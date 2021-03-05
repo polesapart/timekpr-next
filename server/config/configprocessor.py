@@ -239,8 +239,8 @@ class timekprUserConfigurationProcessor(object):
                     userConfigurationStore["TIME_SPENT_MONTH"] = self._timekprUserControl.getUserTimeSpentMonth()
                     # time available today
                     userConfigurationStore["TIME_LEFT_DAY"] = self.calculateTimeAvailableFromSavedConfiguration()
-                    # PlayTime left (cap to min of either total time left or PT left, as user will not be able to use computer anyway)
-                    userConfigurationStore["PLAYTIME_LEFT_DAY"] = min(self.calculatePlayTimeAvailableFromSavedConfiguration(), userConfigurationStore["TIME_LEFT_DAY"])
+                    # PlayTime left
+                    userConfigurationStore["PLAYTIME_LEFT_DAY"] = self.calculatePlayTimeAvailableFromSavedConfiguration()
                     # PlayTime spent
                     userConfigurationStore["PLAYTIME_SPENT_DAY"] = self._timekprUserControl.getUserPlayTimeSpentDay()
 
