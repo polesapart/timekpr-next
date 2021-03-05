@@ -6,7 +6,7 @@ timekpr-next (0.5.1-9ubuntu1~ppa1) UNRELEASED; urgency=medium
     client app will receive actual PlayTime left, but it will show
       minimum of PlayTime or standard time left for that particular day to user (child, subordinate)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Fir, 5 Mar 2021 11:48:25 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 5 Mar 2021 11:48:25 +0200
 
 timekpr-next (0.5.1-8ubuntu1~ppa1) UNRELEASED; urgency=medium
 
