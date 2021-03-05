@@ -482,8 +482,8 @@ class timekprDaemon(dbus.service.Object):
             # PlayTime
             playTimeLeft, playTimeEnabled, playTimeAccounted, _unused = pTimekprUser.getPlayTimeLeft(pCheckActive=False)
             playTimeLeft = max(playTimeLeft, 0) if playTimeEnabled and playTimeAccounted else 0
-            # PlayTime left today (for display we cap to max possible time user has left today)
-            pUserConfigurationStore["ACTUAL_PLAYTIME_LEFT_DAY"] = min(int(playTimeLeft), pUserConfigurationStore["ACTUAL_TIME_LEFT_DAY"])
+            # PlayTime left today
+            pUserConfigurationStore["ACTUAL_PLAYTIME_LEFT_DAY"] = playTimeLeft
             # active PlayTime activity count
             pUserConfigurationStore["ACTUAL_ACTIVE_PLAYTIME_ACTIVITY_COUNT"] = pTimekprUser.getPlayTimeActiveActivityCnt()
 
