@@ -156,6 +156,7 @@ class timekprPlayTimeConfig(object):
             exe = None
             cmdLine = None
             userId = None
+            prevUserId = None
             qcChk = False
             processChanged = False
 
@@ -269,6 +270,8 @@ class timekprPlayTimeConfig(object):
                 if self._cachedPids[self._PIDS][procId][self._UID] != userId or self._cachedPids[self._PIDS][procId][self._EXE] != exe:
                     # log
                     log.log(cons.TK_LOG_LEVEL_DEBUG, "WARNING: uid/executable changes, uid: %s -> %s, executable: \"%s\" -> \"%s\"" % (self._cachedPids[self._PIDS][procId][self._UID], userId, self._cachedPids[self._PIDS][procId][self._EXE], exe))
+                    # save previous user id
+                    prevUserId = self._cachedPids[self._PIDS][procId][self._UID]
                     # adjust new values
                     self._cachedPids[self._PIDS][procId][self._UID] = userId
                     self._cachedPids[self._PIDS][procId][self._EXE] = exe
@@ -287,19 +290,17 @@ class timekprPlayTimeConfig(object):
             # we have user (or process changed and we have to update processes / matches)
             if (userId is not None and not qcChk) or processChanged:
                 # handle case when uid becomes None from existing
-                if userId is None and self._cachedPids[self._PIDS][procId][self._UID] is not None:
-                    # restore exsiting user id for removal
-                    userId = self._cachedPids[self._PIDS][procId][self._UID]
+                if userId != prevUserId and prevUserId is not None:
                     # remove from user pids
-                    if procId in self._cachedPids[self._USRS][userId][self._PIDS]:
+                    if procId in self._cachedPids[self._USRS][prevUserId][self._PIDS]:
                         # remove
-                        self._cachedPids[self._USRS][userId][self._PIDS].remove(procId)
+                        self._cachedPids[self._USRS][prevUserId][self._PIDS].remove(procId)
                     # remove from matched pids
-                    if procId in self._cachedPids[self._USRS][userId][self._MPIDS]:
+                    if procId in self._cachedPids[self._USRS][prevUserId][self._MPIDS]:
                         # remove
-                        self._cachedPids[self._USRS][userId][self._MPIDS].remove(procId)
+                        self._cachedPids[self._USRS][prevUserId][self._MPIDS].remove(procId)
                 # only if user is specified
-                elif userId is not None:
+                if userId is not None:
                     # manage pids for users
                     self._cachedPids[self._USRS][userId][self._PIDS].add(procId)
                     # verify whether this cmdline matches any of the filters user set up
