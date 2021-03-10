@@ -366,12 +366,16 @@ to the user.
 
 </br>
 
-**Please note** that process masks can accept RegExp (not glob!) expressions, except symbols [], but keep in mind that this is an expert option!
+**Please note** that process masks can accept RegExp (not glob!) expressions, albeit with some restrictions, but keep in mind that this is an expert option! 
 
 Please do verify that your RegExp is correct and it actually works, misusing them may end up killing unwanted user processes or may not match anything at all!
 
 If RegExp is not correct, it will be used as literal strings. For example, ```*wine*``` is **not** a correct RegExp, ```.*wine.*``` is. Failing to specify this 
 correctly will end up searching processes which are literary ```*wine*```, which obviously does not exist usually.
+
+Please note that RegExp will not work with one of these symbols ```[]``` and one should not use one of these ```^$``` either. 
+Consider your RegExp will always match the whole executable name or executable name and parameters in case "Enhanced process monitor" is enabled. 
+The simple example is if one entered a process mask ```.*wine.*``` it will basically be converted to ```^.*wine.*$``` and ```/.*wine.*$``` internally.
 
 It's worth mentioning that PlayTime employs a smart caching algorithms and tries to get the process list in a very efficient way. Only processes that are run 
 as particular user are monitored, accounted and terminated.
