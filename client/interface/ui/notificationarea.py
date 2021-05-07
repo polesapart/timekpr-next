@@ -38,6 +38,8 @@ class timekprNotificationArea(object):
         self._lastUsedPTPriorityLvl = -1
         # initialize time left
         self._timeLeftTotal = None
+        # initialize PlayTime left
+        self._playTimeLeftTotal = None
         # initialize time limit
         self._timeNotLimited = 0
 
@@ -94,7 +96,7 @@ class timekprNotificationArea(object):
         # final priority
         return finalPrio, finalLimitSecs
 
-    def formatTimeLeft(self, pPriority, pTimeLeft, pTimeNotLimited):
+    def formatTimeLeft(self, pPriority, pTimeLeft, pTimeNotLimited, pPlayTimeLeft=None):
         """Set time left in the indicator"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start formatTimeLeft")
 
@@ -102,9 +104,20 @@ class timekprNotificationArea(object):
         prio = pPriority
         timekprIcon = None
         timeLeftStr = None
+        isTimeChanged = self._timeLeftTotal != pTimeLeft
+        isPlayTimeChanged = self._playTimeLeftTotal != pPlayTimeLeft
+
+        # determine hours and minutes for PlayTime (if there is such time)
+        if (isTimeChanged or isPlayTimeChanged) and pPlayTimeLeft is not None and pTimeLeft is not None:
+            # get the smallest one
+            timeLeftPT = min(pPlayTimeLeft, pTimeLeft)
+            # determine hours and minutes
+            timeLeftStrPT = str((timeLeftPT - cons.TK_DATETIME_START).days * 24 + timeLeftPT.hour).rjust(2, "0")
+            timeLeftStrPT += ":" + str(timeLeftPT.minute).rjust(2, "0")
+            timeLeftStrPT += ((":" + str(timeLeftPT.second).rjust(2, "0")) if self._timekprClientConfig.getClientShowSeconds() else "")
 
         # execute time and icon changes + notifications only when there are changes
-        if self._timeLeftTotal != pTimeLeft or pTimeLeft is None or self._lastUsedServerPriority != pPriority:
+        if isTimeChanged or isPlayTimeChanged or pTimeLeft is None or self._lastUsedServerPriority != pPriority:
             # if there is no time left set yet, show --
             if pTimeLeft is None:
                 # determine hours and minutes
@@ -112,6 +125,7 @@ class timekprNotificationArea(object):
             else:
                 # update time
                 self._timeLeftTotal = pTimeLeft
+                self._playTimeLeftTotal = pPlayTimeLeft
                 self._timeNotLimited = pTimeNotLimited
 
                 # unlimited has special icon and text (if it's not anymore, these will change)
@@ -125,21 +139,28 @@ class timekprNotificationArea(object):
                     timeLeftStr += ":" + str(self._timeLeftTotal.minute).rjust(2, "0")
                     timeLeftStr += ((":" + str(self._timeLeftTotal.second).rjust(2, "0")) if self._timekprClientConfig.getClientShowSeconds() else "")
 
-                    # get user configured level and priority
-                    prio, finLvl = (pPriority, -1) if pPriority == cons.TK_PRIO_UACC else self._determinePriority("Time", pPriority, (pTimeLeft - cons.TK_DATETIME_START).total_seconds())
+                    # notifications and icons only when time has changed
+                    if isTimeChanged:
+                        # get user configured level and priority
+                        prio, finLvl = (pPriority, -1) if pPriority == cons.TK_PRIO_UACC else self._determinePriority("Time", pPriority, (pTimeLeft - cons.TK_DATETIME_START).total_seconds())
 
-                    # if level actually changed
-                    if self._lastUsedPriorityLvl != finLvl:
-                        # do not notify if this is the first invocation, because initial limits are already asked from server
-                        # do not notify user in case icon is hidden and no notifications should be shown
-                        if self._lastUsedPriorityLvl > 0 and self.getTrayIconEnabled():
-                            # emit notification
-                            self.notifyUser(cons.TK_MSG_CODE_TIMELEFT, None, prio, pTimeLeft, None)
-                        # level this up
-                        self._lastUsedPriorityLvl = finLvl
+                        # if level actually changed
+                        if self._lastUsedPriorityLvl != finLvl:
+                            # do not notify if this is the first invocation, because initial limits are already asked from server
+                            # do not notify user in case icon is hidden and no notifications should be shown
+                            if self._lastUsedPriorityLvl > 0 and self.getTrayIconEnabled():
+                                # emit notification
+                                self.notifyUser(cons.TK_MSG_CODE_TIMELEFT, None, prio, pTimeLeft, None)
+                            # level this up
+                            self._lastUsedPriorityLvl = finLvl
+
+                # determine hours and minutes for PlayTime (if there is such time)
+                if pPlayTimeLeft is not None:
+                    # format final time string
+                    timeLeftStr = "%s / %s" % (timeLeftStr, timeLeftStrPT)
 
                 # now, if priority changes, set up icon as well
-                if self._lastUsedPriority != prio:
+                if isTimeChanged and self._lastUsedPriority != prio:
                     # log
                     log.log(cons.TK_LOG_LEVEL_DEBUG, "changing icon for level, old: %s, new: %s" % (self._lastUsedPriority, prio))
                     # set up last used prio

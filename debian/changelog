@@ -1,3 +1,15 @@
+timekpr-next-beta (0.5.2-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * features
+    PlayTime left is now shown besides the icon / on label
+  * bug fixes
+      fix #1927771 (the issue was improper configuration when limit count was less then allowed day count)
+      additinally allow setting empty day / limit lists for regular time and PlayTime
+      fix error handling with empty lists
+      properly check allowed day numbers according to allowed values (1-7)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 7 May 2021 23:35:18 +0300
+
 timekpr-next-beta (0.5.1-10ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * quick fix for PlayTime notifications
