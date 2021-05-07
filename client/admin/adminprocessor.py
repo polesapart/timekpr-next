@@ -433,8 +433,10 @@ class timekprAdminClient(object):
 
         # day limists
         try:
-            # try to parse parameters
-            dayLimits = list(map(int, pDayLimits.split(";")))
+            # allow empty limits too
+            if str(pDayLimits) != "":
+                # try to parse parameters
+                dayLimits = list(map(int, pDayLimits.split(";")))
         except Exception as ex:
             # fail
             result = -1
@@ -691,7 +693,7 @@ class timekprAdminClient(object):
         # preprocess successful
         if result == 0:
             # invoke
-            result, message = self._timekprAdminConnector.setPlayTimeAllowedDaysForDays(pUserName, dayMap)
+            result, message = self._timekprAdminConnector.setPlayTimeAllowedDays(pUserName, dayMap)
 
         # process
         if result != 0:
@@ -706,8 +708,10 @@ class timekprAdminClient(object):
 
         # day limists
         try:
-            # try to parse parameters
-            dayLimits = list(map(int, pPlayTimeDayLimits.split(";")))
+            # allow empty limits too
+            if pPlayTimeDayLimits != "":
+                # try to parse parameters
+                dayLimits = list(map(int, pPlayTimeDayLimits.split(";")))
         except Exception as ex:
             # fail
             result = -1

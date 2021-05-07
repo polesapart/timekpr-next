@@ -576,6 +576,22 @@ class timekprAdminGUI(object):
             statusBar.remove_all(contextId)
             statusBar.push(contextId, pStatus[:80])
 
+    def normalizeAllowedDaysAndLimits(self):
+        """Method will normalize aloowed days and limits, in case user sets them differently"""
+        # get the least of size
+        limitLen = min(len(self._tkSavedCfg["timeLimitDays"]), len(self._tkSavedCfg["timeLimitDaysLimits"]))
+        # remove excess elements
+        for rElem in ("timeLimitDays", "timeLimitDaysLimits"):
+            for i in range(limitLen, len(self._tkSavedCfg[rElem])):
+                self._tkSavedCfg[rElem].pop()
+
+        # get the least of size
+        limitLen = min(len(self._tkSavedCfg["playTimeLimitDays"]), len(self._tkSavedCfg["playTimeLimitDaysLimits"]))
+        # remove excess elements
+        for rElem in ("playTimeLimitDays", "playTimeLimitDaysLimits"):
+            for i in range(limitLen, len(self._tkSavedCfg[rElem])):
+                self._tkSavedCfg[rElem].pop()
+
     # --------------- format helper methods --------------- #
 
     def formatTimeStr(self, pTotalSeconds, pFormatSecs=False, pFormatDays=False):
@@ -1081,6 +1097,10 @@ class timekprAdminGUI(object):
                             for rDay in range(0, len(rValue)):
                                 # add the value
                                 self._tkSavedCfg["playTimeActivities"].append([rValue[rDay][0], rValue[rDay][1]])
+
+                # clean up limits if full refresh requested
+                if pInfoLvl == cons.TK_CL_INF_FULL:
+                    self.normalizeAllowedDaysAndLimits()
 
                 # if PT override is enabled, we do not show time information for PT
                 if self._tkSavedCfg["playTimeOverrideEnabled"]:
