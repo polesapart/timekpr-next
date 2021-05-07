@@ -235,6 +235,7 @@ class timekprClient(object):
         """Receive the signal and process the data to user"""
         # check which options are available
         timeLeft = (pTimeInformation[cons.TK_CTRL_LEFT] if cons.TK_CTRL_LEFT in pTimeInformation else 0)
+        playTimeLeft = (pTimeInformation[cons.TK_CTRL_PTLPD] if cons.TK_CTRL_PTLSTC in pTimeInformation and cons.TK_CTRL_PTLPD in pTimeInformation and cons.TK_CTRL_PTTLO in pTimeInformation else None)
         isTimeNotLimited = (pTimeInformation[cons.TK_CTRL_TNL] if cons.TK_CTRL_TNL in pTimeInformation else 0)
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i, %i" % (pPriority, timeLeft, isTimeNotLimited))
         # process show / hide icon
@@ -242,7 +243,7 @@ class timekprClient(object):
         # process PlayTime notifications as well
         self._timekprClientIndicator.processPlayTimeNotifications(pTimeInformation)
         # process time left
-        self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=timeLeft), isTimeNotLimited)
+        self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=timeLeft), isTimeNotLimited, cons.TK_DATETIME_START + timedelta(seconds=playTimeLeft) if playTimeLeft is not None else playTimeLeft)
         # renew limits in GUI
         self._timekprClientIndicator.renewUserLimits(pTimeInformation)
 
