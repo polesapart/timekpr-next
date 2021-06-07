@@ -1,4 +1,4 @@
-timekpr-next-beta (0.5.2-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.5.2-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * features
     PlayTime left is now shown besides the icon / on label
@@ -7,8 +7,9 @@ timekpr-next-beta (0.5.2-1ubuntu1~ppa1) UNRELEASED; urgency=medium
       additinally allow setting empty day / limit lists for regular time and PlayTime
       fix error handling with empty lists
       properly check allowed day numbers according to allowed values (1-7)
+  * address the situation when session type can change during the session in logind (https://github.com/systemd/systemd/pull/14925)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 7 May 2021 23:35:18 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 7 Jun 2021 10:03:17 +0300
 
 timekpr-next-beta (0.5.1-10ubuntu1~ppa1) UNRELEASED; urgency=medium
 
