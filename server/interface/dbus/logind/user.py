@@ -170,10 +170,14 @@ class timekprUserManager(object):
 
                 # check if active
                 if sessionState == "active" and sessionIdleState == "False" and sessionLockedState == "False":
+                    # validate against session types we specifically do not track
+                    if sessionType in pTimekprConfig.getTimekprSessionsExcl():
+                        # session is on the list of session types we specifically do not track
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but session type \"%s\" is excluded from tracking (thus effectively inactive)" % (rSessionId, sessionType))
                     # validate against session types we manage
-                    if sessionType not in pTimekprConfig.getTimekprSessionsCtrl():
+                    elif sessionType not in pTimekprConfig.getTimekprSessionsCtrl():
                         # session is not on the list of session types we track
-                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but excluded (thus effectively inactive)" % (rSessionId))
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but session type \"%s\" is not on tracked type list (thus effectively inactive)" % (rSessionId, sessionType))
                     else:
                         # session is on the list of session types we track and session is active
                         userActive = True
@@ -196,7 +200,7 @@ class timekprUserManager(object):
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s inactive" % (rSessionId))
                 else:
                     # session is not on the list of session types we track
-                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s not tracked" % (rSessionId))
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is inactive and not tracked" % (rSessionId))
 
         # screen lock state
         userScreenLocked = (pIsScreenLocked or sessionLockedState == "True")
