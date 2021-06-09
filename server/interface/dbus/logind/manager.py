@@ -297,8 +297,8 @@ class timekprUserLoginManager(object):
 
         # go through all user sessions
         for rUserSession in userSessionList:
-            # if excludeTTY and sessionType not in ("unspecified", "tty"):
-            if rUserSession["type"] in pTimekprConfig.getTimekprSessionsCtrl():
+            # if we support this session type and it is not specifically excluded, only then we kill it
+            if rUserSession["type"] in pTimekprConfig.getTimekprSessionsCtrl() and rUserSession["type"] not in pTimekprConfig.getTimekprSessionsExcl():
                 log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 0.1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
                 # killing time
                 if cons.TK_DEV_ACTIVE:
@@ -332,7 +332,7 @@ class timekprUserLoginManager(object):
             # dispatch a killer for leftovers
             log.log(cons.TK_LOG_LEVEL_INFO, "dipatching a killer for leftover processes after %i seconds" % (tmo))
             # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
-            GLib.timeout_add_seconds(tmo, misc.killLeftoverUserProcesses, pUserName, pTimekprConfig.getTimekprSessionsCtrl())
+            GLib.timeout_add_seconds(tmo, misc.killLeftoverUserProcesses, pUserName, pTimekprConfig)
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")
 

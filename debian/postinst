@@ -69,6 +69,13 @@ which gtk-update-icon-cache > /dev/null 2>&1
 # utility exists, update cache
 if [ $? -eq 0 ];
 then
+    # determine whether cache exists and choose particular args for that
+    if [ -f /usr/share/icons/hicolor/icon-theme.cache ];
+    then
+        ICOARGS="-fv"
+    else
+        ICOARGS="-f"
+    fi
     echo "Update icon cache"
-    touch --no-create /usr/share/icons/hicolor && gtk-update-icon-cache -fv /usr/share/icons/hicolor
+    touch --no-create /usr/share/icons/hicolor && gtk-update-icon-cache ${ICOARGS} /usr/share/icons/hicolor
 fi
