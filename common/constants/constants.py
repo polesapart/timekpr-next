@@ -36,7 +36,7 @@ TK_LOG_D = "dir"
 TK_LOG_W = "who"
 TK_LOG_U = "user"
 TK_LOG_TEMP_DIR = "/tmp"
-TK_LOG_PID_EXT = ".pid"
+TK_LOG_PID_EXT = "pid"
 # logging clients
 TK_LOG_OWNER_SRV = 0
 TK_LOG_OWNER_CLIENT = 1

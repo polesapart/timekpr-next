@@ -124,6 +124,7 @@ class timekprDaemon(dbus.service.Object):
         # we execute tasks until not asked to stop
         while not self._finishExecution:
             # perf
+            dtsm = time.time()
             dts = datetime.now()
             log.log(cons.TK_LOG_LEVEL_INFO, "--- start working on users ---")
 
@@ -146,9 +147,8 @@ class timekprDaemon(dbus.service.Object):
 
             log.log(cons.TK_LOG_LEVEL_INFO, "--- end working on users (ela: %s) ---" % (str(perf)))
             log.log(cons.TK_LOG_LEVEL_DEBUG, "--- perf: avg ela: %s, loadavg: %s, %s, %s ---" % (str(execLen/execCnt), lavg[0], lavg[1], lavg[2]))
-
-            # take a polling pause (try to do that exactly every 3 secs), 1.0042 is there to compensate time drift deviation for 0.42%
-            time.sleep(self._timekprConfig.getTimekprPollTime() - min(perf.total_seconds() * 1.0042, self._timekprConfig.getTimekprPollTime() / 2))
+            # take a polling pause (try to do that exactly every 3 secs)
+            time.sleep(self._timekprConfig.getTimekprPollTime() - min(time.time() - dtsm, self._timekprConfig.getTimekprPollTime() / 2))
 
         log.log(cons.TK_LOG_LEVEL_INFO, "worker shut down")
         # finish logging

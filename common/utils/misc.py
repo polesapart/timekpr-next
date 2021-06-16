@@ -79,10 +79,10 @@ def measureTimeElapsed(pStart=False, pStop=False, pResult=False):
     return _RESULT
 
 
-def checkAndSetRunning(pAppName):
+def checkAndSetRunning(pAppName, pUserName=""):
     """Check whether application is already running"""
-    # set up pidfile
-    pidFile = os.path.join(cons.TK_LOG_TEMP_DIR, pAppName + cons.TK_LOG_PID_EXT)
+    # set up pidfile name
+    pidFile = os.path.join(cons.TK_LOG_TEMP_DIR, "%s.%s" % ((pAppName if pUserName == "" else "%s.%s" % (pAppName, pUserName)), cons.TK_LOG_PID_EXT))
     processPid = "0"
     processCmd = ""
     isAlreadyRunning = False
@@ -112,7 +112,7 @@ def checkAndSetRunning(pAppName):
         # we are running
         isAlreadyRunning = True
         # print this to console as well
-        print("Timekpr-nExT \"%s\" is already running" % (pAppName))
+        print("Timekpr-nExT \"%s\" is already running for user \"%s\"" % (pAppName, pUserName if pUserName != "" else "ŗoot"))
     else:
         # set our pid
         with open(pidFile, "w") as pidfile:

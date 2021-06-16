@@ -61,6 +61,8 @@ class timekprAdminClient(object):
                 from timekpr.client.gui.admingui import timekprAdminGUI
                 # load GUI and process from there
                 self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser())
+                # start GUI
+                self._adminGUI.startAdminGUI()
             # nor X nor wayland are available
             else:
                 # print to console
@@ -81,6 +83,14 @@ class timekprAdminClient(object):
                 # validate possible parameters and their values, when fine - execute them as well
                 self.checkAndExecuteAdminCommands(*args)
                 log.flushLogFile()
+
+    # --------------- initialization / helper methods --------------- #
+
+    def finishTimekpr(self, signal=None, frame=None):
+        """Exit timekpr admin GUI gracefully"""
+        if self._adminGUI is not None:
+            # finish main thread on GUI`
+            self._adminGUI.finishTimekpr(signal, frame)
 
     # --------------- parameter validation methods --------------- #
 

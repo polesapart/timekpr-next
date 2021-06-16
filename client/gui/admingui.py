@@ -69,23 +69,30 @@ class timekprAdminGUI(object):
 
         # initialize internal stuff
         GLib.timeout_add_seconds(0.1, self.initTimekprAdmin)
+        # periodic log flusher
+        GLib.timeout_add_seconds(cons.TK_POLLTIME, self.autoFlushLogFile)
 
         # loop
         self._mainLoop = GLib.MainLoop()
 
+    # --------------- initialization / helper methods --------------- #
+
+    def startAdminGUI(self):
+        """Start up main loop"""
         # show up all
         self._timekprAdminForm.show()
-
         # this seems to be needed
         self.dummyPageChanger()
-
-        # periodic log flusher
-        GLib.timeout_add_seconds(cons.TK_POLLTIME, self.autoFlushLogFile)
-
         # start main loop
         self._mainLoop.run()
 
-    # --------------- initialization / helper methods --------------- #
+    def finishTimekpr(self, signal=None, frame=None):
+        """Exit timekpr gracefully"""
+        log.log(cons.TK_LOG_LEVEL_INFO, "Finishing up")
+        # exit main loop
+        self._mainLoop.quit()
+        log.log(cons.TK_LOG_LEVEL_INFO, "Finished")
+        log.flushLogFile()
 
     def autoFlushLogFile(self):
         """Periodically save file"""
