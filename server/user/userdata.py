@@ -478,54 +478,55 @@ class timekprUser(object):
             # adjust time spent for this hour
             timeSpent = min(timeSpent, self._secondsInHour)
 
+        # if there is a day change, we need to adjust time for this day and day after
+        if dayChanged:
+            ### handle day change
+            for rDay in (self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]):
+                # clean up hours for this day
+                for rHour in range(0, 23+1):
+                    # reset spent for hour
+                    self._timekprUserData[rDay][str(rHour)][cons.TK_CTRL_SPENTH] = 0
+                    # reset sleeping
+                    self._timekprUserData[rDay][str(rHour)][cons.TK_CTRL_SLEEP] = 0
+                # reset balance for day
+                self._timekprUserData[rDay][cons.TK_CTRL_SPENTBD] = 0
+                # reset time spent for this day
+                self._timekprUserData[cons.TK_CTRL_SPENTD] = 0
+
+                # reset PlayTime balance for this day
+                self._timekprUserData[cons.TK_CTRL_PTCNT][rDay][cons.TK_CTRL_SPENTBD] = 0
+                # reset PlayTime spent for this day
+                self._timekprUserData[cons.TK_CTRL_PTCNT][rDay][cons.TK_CTRL_SPENTD] = 0
+
+            ### handle week change
+            if weekChanged:
+                # set spent for week as not initialized for this week, so new limits will apply properly
+                self._timekprUserData[cons.TK_CTRL_SPENTW] = 0
+            ### handle month change
+            if monthChanged:
+                # set spent for month as not initialized for this month, so new limits will apply properly
+                self._timekprUserData[cons.TK_CTRL_SPENTM] = 0
+
         # adjust time values (either sleep or inactive or actual time)
         _adjustTimeSpentValues(self._currentDOW, currentHODStr, timeSpent, userActiveEffective)
 
         # count PlayTime if enabled
         if userActiveEffective and userActivePT:
-            # if this hour is unlimited, we count this only for spent, not for balance (i.e. it will not count towards limit)
+            # when override is enabled, only balance for regular time is accounted, PT balance is not
+            # if override is not enabled, we count this only for spent, not for balance (i.e. it will not count towards limit)
             if not self._timekprUserConfig.getUserPlayTimeOverrideEnabled():
                 # adjust PlayTime balance this day
                 self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTBD] += timeSpent
             # adjust PlayTime spent this day
             self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] += timeSpent
 
-        # if there is a day change, we need to adjust time for this day and day after
+        # logging section
         if dayChanged:
-            # only if this is not the end of the day (this should not happen)
-            if self._currentHOD != 23:
-                # clean up hours for this day
-                for j in range(self._currentHOD, 23+1):
-                    # reset spent for this hour
-                    self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SPENTH] = 0
-                    # reset sleeping
-                    self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SLEEP] = 0
-
-            # reset spent for this hour
-            self._timekprUserData[self._currentDOW][currentHODStr][cons.TK_CTRL_SPENTH] = timeSpent
-            # reset balance for this day
-            self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD] = timeSpent
-            # reset time spent for this day
-            self._timekprUserData[cons.TK_CTRL_SPENTD] = timeSpent
-
-            # reset PlayTime balance for this day
-            self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTBD] = timeSpent if userActivePT else 0
-            # reset PlayTime spent for this day
-            self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD] = timeSpent if userActivePT else 0
-
-            log.log(cons.TK_LOG_LEVEL_INFO, "day change, user: %s, tbal: %i, tsp: %i, ptbal: %i, ptsp: %i" % (self.getUserName(), timeSpent, timeSpent, self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTBD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]))
-
-            # check if week changed
+            log.log(cons.TK_LOG_LEVEL_INFO, "day change, user: %s, tbal: %i, tsp: %i, ptbal: %i, ptsp: %i" % (self.getUserName(), self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD], self._timekprUserData[cons.TK_CTRL_SPENTD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTBD], self._timekprUserData[cons.TK_CTRL_PTCNT][self._currentDOW][cons.TK_CTRL_SPENTD]))
             if weekChanged:
-                # set spent for week as not initialized for this week, so new limits will apply properly
-                self._timekprUserData[cons.TK_CTRL_SPENTW] = timeSpent
-                log.log(cons.TK_LOG_LEVEL_INFO, "week change, user: %s, twk: %i" % (self.getUserName(), timeSpent))
-
-            # check if month changed
+                log.log(cons.TK_LOG_LEVEL_INFO, "week change, user: %s, twk: %i" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_SPENTW]))
             if monthChanged:
-                # set spent for month as not initialized for this month, so new limits will apply properly
-                self._timekprUserData[cons.TK_CTRL_SPENTM] = timeSpent
-                log.log(cons.TK_LOG_LEVEL_INFO, "month change, user: %s, tmon: %i" % (self.getUserName(), timeSpent))
+                log.log(cons.TK_LOG_LEVEL_INFO, "month change, user: %s, tmon: %i" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_SPENTM]))
 
         # check if we need to save progress
         if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprConfig.getTimekprSaveTime() or dayChanged:
