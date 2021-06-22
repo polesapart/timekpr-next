@@ -1,4 +1,4 @@
-timekpr-next-beta (0.5.2-4ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.5.2-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * features
     PlayTime left is now shown besides the icon / on label
@@ -18,8 +18,9 @@ timekpr-next-beta (0.5.2-4ubuntu1~ppa1) UNRELEASED; urgency=medium
       on day change, reset not only this day spent and sleep times, but for next day too
       tiny improvement on sleep time precision
       make admin application to exit gracefully when it was opened from terminal and ctrl+c was pressed (SIGINT)
+      less logging in standard debug mode / remove duplicate logging for PT
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 16 Jun 2021 21:02:20 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 22 Jun 2021 16:50:34 +0300
 
 timekpr-next-beta (0.5.1-10ubuntu1~ppa1) UNRELEASED; urgency=medium
 

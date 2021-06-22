@@ -101,7 +101,7 @@ class timekprUserLoginManager(object):
 
     def getUserList(self, pSilent=False):
         """Go through a list of logged in users"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start getUserList") if not pSilent else True
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start getUserList") if not pSilent else True
 
         # get user list
         wasConnectionLost, loggedInUsersDBUS = self._listUsers()
@@ -123,7 +123,7 @@ class timekprUserLoginManager(object):
                     uNameLog = "%s, %s: %s" % (uNameLog, keyx, valuex)
                 log.log(cons.TK_LOG_LEVEL_DEBUG, uNameLog)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish getUserList") if not pSilent else True
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "finish getUserList") if not pSilent else True
 
         # passing back user tuples
         return wasConnectionLost, loggedInUsers
@@ -285,7 +285,7 @@ class timekprUserLoginManager(object):
 
     def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
         """Terminate user sessions"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start terminateUserSessions")
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start terminateUserSessions")
         log.log(cons.TK_LOG_LEVEL_DEBUG, "inspecting \"%s\" userpath \"%s\" sessions" % (pUserName, pUserPath))
 
         # get user session list
@@ -334,7 +334,7 @@ class timekprUserLoginManager(object):
             # schedule leftover processes to be killed (it's rather sophisticated killing and checks whether we need to kill gui or terminal processes)
             GLib.timeout_add_seconds(tmo, misc.killLeftoverUserProcesses, pUserName, pTimekprConfig)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish terminateUserSessions")
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "finish terminateUserSessions")
 
     def suspendComputer(self, pUserName):
         """Suspend computer"""

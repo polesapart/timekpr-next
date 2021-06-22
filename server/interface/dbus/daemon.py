@@ -173,7 +173,7 @@ class timekprDaemon(dbus.service.Object):
 
     def checkUsers(self):
         """Entry point for user management logic"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start checkUsers")
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start checkUsers")
 
         # get user list
         wasConnectionLost, userList = self._timekprLoginManager.getUserList()
@@ -331,7 +331,7 @@ class timekprDaemon(dbus.service.Object):
                     # process users
                     GLib.timeout_add_seconds(1, self._restrictUsers)
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish checkUsers")
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "finish checkUsers")
 
     def _restrictUsers(self):
         """Terminate user sessions"""
