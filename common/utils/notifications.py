@@ -78,7 +78,7 @@ class timekprNotificationManager(dbus.service.Object):
 
     def processTimeLeft(self, pForce, pTimeValues):
         """Process notifications and send signals if needed"""
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "start processTimeLeft")
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start processTimeLeft")
 
         # save old level
         self._prevNotificationLvl = self._notificationLvl
@@ -139,7 +139,7 @@ class timekprNotificationManager(dbus.service.Object):
                 self.timeLeftNotification(notifUrgency, max(pTimeValues[cons.TK_CTRL_LEFT], 0), max(pTimeValues[cons.TK_CTRL_LEFTD], 0), pTimeValues[cons.TK_CTRL_LIMITD])
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "time left, tlrow: %i, tleftd: %i, tlimd: %i, notification lvl: %s, priority: %s, force: %s" % (pTimeValues[cons.TK_CTRL_LEFT], pTimeValues[cons.TK_CTRL_LEFTD], pTimeValues[cons.TK_CTRL_LIMITD], self._notificationLvl, notifUrgency, str(pForce)))
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "finish processTimeLeft")
+        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "finish processTimeLeft")
 
     def processTimeLimits(self, pTimeLimits):
         """Enable sending out the limits config"""
