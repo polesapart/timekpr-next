@@ -102,6 +102,15 @@ class timekprUserConfigurationProcessor(object):
         allowedWeekDayLimits = self._timekprUserConfig.getUserLimitsPerWeekdays()
         # time now
         dtn = datetime.now().replace(microsecond=0)
+        #### normalize days
+        # get max of days / limits
+        limitLen = min(len(allowedWeekDays), len(allowedWeekDayLimits))
+        # remove excess elements
+        for i in range(limitLen, len(allowedWeekDays)):
+            allowedWeekDays.pop()
+        # remove excess elements
+        for i in range(limitLen, len(allowedWeekDayLimits)):
+            allowedWeekDayLimits.pop()
 
         # calc
         availableSeconds = 0
@@ -139,6 +148,15 @@ class timekprUserConfigurationProcessor(object):
             availableSeconds = 0
             # limits per week days
             allowedWeekDayLimits = self._timekprUserConfig.getUserPlayTimeLimitsPerWeekdays()
+            #### normalize days
+            # get max of days / limits
+            limitLen = min(len(allowedWeekDays), len(allowedWeekDayLimits))
+            # remove excess elements
+            for i in range(limitLen, len(allowedWeekDays)):
+                allowedWeekDays.pop()
+            # remove excess elements
+            for i in range(limitLen, len(allowedWeekDayLimits)):
+                allowedWeekDayLimits.pop()
             # calculate available seconds from todays limit
             if currDay in allowedWeekDays:
                 availableSeconds = allowedWeekDayLimits[allowedWeekDays.index(currDay)]
@@ -271,11 +289,15 @@ class timekprUserConfigurationProcessor(object):
             # parse config
             try:
                 for rDay in pDayList:
-                    # try to convert day
-                    tmp = int(rDay)
-                    # only if day is in proper interval
-                    if 0 < tmp < 8:
-                        days.append(tmp)
+                    # empty
+                    if str(rDay) != "":
+                        # try to convert day
+                        tmp = int(rDay)
+                        # only if day is in proper interval
+                        if rDay not in cons.TK_ALLOWED_WEEKDAYS:
+                            tmp = 1/0
+                        else:
+                            days.append(tmp)
             except Exception:
                 # result
                 result = -1
@@ -402,8 +424,10 @@ class timekprUserConfigurationProcessor(object):
             # parse config
             try:
                 for rLimit in pDayLimits:
-                    # try to convert seconds in day and normalize seconds in proper interval
-                    limits.append(max(min(int(rLimit), cons.TK_LIMIT_PER_DAY), 0))
+                    # empty
+                    if str(rLimit) != "":
+                        # try to convert seconds in day and normalize seconds in proper interval
+                        limits.append(max(min(int(rLimit), cons.TK_LIMIT_PER_DAY), 0))
             except Exception:
                 # result
                 result = -1
@@ -880,11 +904,15 @@ class timekprUserConfigurationProcessor(object):
             # parse config
             try:
                 for rDay in pPlayTimeAllowedDays:
-                    # try to convert day
-                    tmp = int(rDay)
-                    # only if day is in proper interval
-                    if 0 < tmp < 8:
-                        days.append(tmp)
+                    # empty
+                    if str(rDay) != "":
+                        # try to convert day
+                        tmp = int(rDay)
+                        # only if day is in proper interval
+                        if rDay not in cons.TK_ALLOWED_WEEKDAYS:
+                            tmp = 1/0
+                        else:
+                            days.append(tmp)
             except Exception:
                 # result
                 result = -1
@@ -932,8 +960,10 @@ class timekprUserConfigurationProcessor(object):
             # parse config
             try:
                 for rLimit in pPlayTimeLimits:
-                    # try to convert seconds in day and normalize seconds in proper interval
-                    limits.append(max(min(int(rLimit), cons.TK_LIMIT_PER_DAY), 0))
+                    # empty
+                    if str(rLimit) != "":
+                        # try to convert seconds in day and normalize seconds in proper interval
+                        limits.append(max(min(int(rLimit), cons.TK_LIMIT_PER_DAY), 0))
             except Exception:
                 # result
                 result = -1

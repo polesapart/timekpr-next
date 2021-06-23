@@ -1,8 +1,8 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.5.1
-Release:          2.0%{?dist}
+Version:          0.5.2
+Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -119,8 +119,22 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Wed Jun 23 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-1.0
+- Updated spec file for version 0.5.2, release 1.0 (STABLE)
+* Tue Jun 22 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.5
+- Updated spec file for version 0.5.2, release 0.5 (BETA)
+* Wed Jun 16 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.4
+- Updated spec file for version 0.5.2, release 0.4 (BETA)
+* Wed Jun 9 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.3
+- Updated spec file for version 0.5.2, release 0.3 (BETA)
+* Mon Jun 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.2
+- Updated spec file for version 0.5.2, release 0.2 (BETA)
+* Fri May 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.1
+- Updated spec file for version 0.5.2, release 0.1 (BETA)
 * Fri Mar 5 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-2.0
 - Updated spec file for version 0.5.1, release 2.0 (STABLE)
+* Fri Mar 5 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.10
+- Updated spec file for version 0.5.1, release 0.10 (BETA)
 * Wed Feb 17 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.8
 - Updated spec file for version 0.5.1, release 0.8 (BETA)
 * Thu Jan 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-8.0

@@ -1,3 +1,27 @@
+timekpr-next (0.5.2-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * features
+    PlayTime left is now shown besides the icon / on label
+  * bug fixes
+      fix #1927771 (the issue was improper configuration when limit count was less then allowed day count)
+      additionally allow setting empty day / limit lists for regular time and PlayTime
+      fix error handling with empty lists
+      properly check allowed day numbers according to allowed values (1-7)
+      a small fix for time leak (couple of seconds) on day change
+  * technical improvements
+      address the situation when session type can change during the session in logind (https://github.com/systemd/systemd/pull/14925)
+      improved session accounting for situations when session type is in tracked list at the same time as in excluded, exclusion takes precedence
+      improved session logging to determine why the time for session is or is not accounted
+      improved session remaining process killer to include processes that use pseudo-terminals as well as recording a summary of killing results
+      prevent an installation error when blindly recreating GTK icon cache even if it is not present, in these cases just create it
+      properly check whether an instance of timekpr applications is actually running
+      on day change, reset not only this day spent and sleep times, but for next day too
+      tiny improvement on sleep time precision
+      make admin application to exit gracefully when it was opened from terminal and ctrl+c was pressed (SIGINT)
+      less logging in standard debug mode / remove duplicate logging for PT
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 23 Jun 2021 12:34:38 +0300
+
 timekpr-next (0.5.1-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * quick fix for PlayTime notifications

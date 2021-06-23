@@ -93,7 +93,6 @@ class timekprUserManager(object):
                 self._timekprUserSessions[sessionId] = {cons.TK_CTRL_DBUS_SESS_OBJ: sessionObject, cons.TK_CTRL_DBUS_SESS_IF: sessionInterface, cons.TK_CTRL_DBUS_SESS_PROP_IF: sessionPropertiesInterface, cons.TK_CTRL_DBUS_SESS_PROP: {}}
 
                 # add static properties
-                self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["Type"] = str(sessionPropertiesInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
                 self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["VTNr"] = str(int(sessionPropertiesInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
                 self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["Seat"] = str(sessionPropertiesInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Seat")[0])
             else:
@@ -145,9 +144,9 @@ class timekprUserManager(object):
                 sessionLockedState = "False"
 
                 # get needed static properties
-                sessionType = self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP]["Type"]
                 sessionVTNr = self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP]["VTNr"]
                 # get needed properties
+                sessionType = str(self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
                 sessionState = str(self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
                 sessionIdleState = str(bool(self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "IdleHint")))
                 # get locked state, only if it's available
@@ -171,10 +170,14 @@ class timekprUserManager(object):
 
                 # check if active
                 if sessionState == "active" and sessionIdleState == "False" and sessionLockedState == "False":
+                    # validate against session types we specifically do not track
+                    if sessionType in pTimekprConfig.getTimekprSessionsExcl():
+                        # session is on the list of session types we specifically do not track
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but session type \"%s\" is excluded from tracking (thus effectively inactive)" % (rSessionId, sessionType))
                     # validate against session types we manage
-                    if sessionType not in pTimekprConfig.getTimekprSessionsCtrl():
+                    elif sessionType not in pTimekprConfig.getTimekprSessionsCtrl():
                         # session is not on the list of session types we track
-                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but excluded (thus effectively inactive)" % (rSessionId))
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is active, but session type \"%s\" is not on tracked type list (thus effectively inactive)" % (rSessionId, sessionType))
                     else:
                         # session is on the list of session types we track and session is active
                         userActive = True
@@ -197,7 +200,7 @@ class timekprUserManager(object):
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s inactive" % (rSessionId))
                 else:
                     # session is not on the list of session types we track
-                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s not tracked" % (rSessionId))
+                    log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is inactive and not tracked" % (rSessionId))
 
         # screen lock state
         userScreenLocked = (pIsScreenLocked or sessionLockedState == "True")
@@ -210,8 +213,8 @@ class timekprUserManager(object):
     def lockUserSessions(self):
         """Ask login manager to lock user sessions"""
         # go through all user sessions
-        for sessionId in self._timekprUserSessions:
+        for rSessionId in self._timekprUserSessions:
             # we lock only GUI sessions
-            if self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_PROP]["Type"] in cons.TK_SESSION_TYPES_CTRL:
+            if str(self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP_IF].Get(cons.TK_DBUS_SESSION_OBJECT, "Type")) in cons.TK_SESSION_TYPES_CTRL:
                 # lock session
-                self._timekprUserSessions[sessionId][cons.TK_CTRL_DBUS_SESS_IF].Lock()
+                self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_IF].Lock()

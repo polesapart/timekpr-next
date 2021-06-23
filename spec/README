@@ -37,8 +37,8 @@ BUILD instructions (please open terminal and install this in one go not leaving 
 ---------------------------------------------------------------------------------------------------------------------------
     # set version
     Fedora / openSUSE:
-        export TNVER="0.5.1"
-        export TNREL="2.0"
+        export TNVER="0.5.2"
+        export TNREL="1.0"
 
     # install build tools
     Fedora:

@@ -61,6 +61,8 @@ class timekprAdminClient(object):
                 from timekpr.client.gui.admingui import timekprAdminGUI
                 # load GUI and process from there
                 self._adminGUI = timekprAdminGUI(cons.TK_VERSION, _resourcePathGUI, getpass.getuser())
+                # start GUI
+                self._adminGUI.startAdminGUI()
             # nor X nor wayland are available
             else:
                 # print to console
@@ -81,6 +83,14 @@ class timekprAdminClient(object):
                 # validate possible parameters and their values, when fine - execute them as well
                 self.checkAndExecuteAdminCommands(*args)
                 log.flushLogFile()
+
+    # --------------- initialization / helper methods --------------- #
+
+    def finishTimekpr(self, signal=None, frame=None):
+        """Exit timekpr admin GUI gracefully"""
+        if self._adminGUI is not None:
+            # finish main thread on GUI`
+            self._adminGUI.finishTimekpr(signal, frame)
 
     # --------------- parameter validation methods --------------- #
 
@@ -433,8 +443,10 @@ class timekprAdminClient(object):
 
         # day limists
         try:
-            # try to parse parameters
-            dayLimits = list(map(int, pDayLimits.split(";")))
+            # allow empty limits too
+            if str(pDayLimits) != "":
+                # try to parse parameters
+                dayLimits = list(map(int, pDayLimits.split(";")))
         except Exception as ex:
             # fail
             result = -1
@@ -691,7 +703,7 @@ class timekprAdminClient(object):
         # preprocess successful
         if result == 0:
             # invoke
-            result, message = self._timekprAdminConnector.setPlayTimeAllowedDaysForDays(pUserName, dayMap)
+            result, message = self._timekprAdminConnector.setPlayTimeAllowedDays(pUserName, dayMap)
 
         # process
         if result != 0:
@@ -706,8 +718,10 @@ class timekprAdminClient(object):
 
         # day limists
         try:
-            # try to parse parameters
-            dayLimits = list(map(int, pPlayTimeDayLimits.split(";")))
+            # allow empty limits too
+            if pPlayTimeDayLimits != "":
+                # try to parse parameters
+                dayLimits = list(map(int, pPlayTimeDayLimits.split(";")))
         except Exception as ex:
             # fail
             result = -1

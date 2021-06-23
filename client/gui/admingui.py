@@ -69,23 +69,30 @@ class timekprAdminGUI(object):
 
         # initialize internal stuff
         GLib.timeout_add_seconds(0.1, self.initTimekprAdmin)
+        # periodic log flusher
+        GLib.timeout_add_seconds(cons.TK_POLLTIME, self.autoFlushLogFile)
 
         # loop
         self._mainLoop = GLib.MainLoop()
 
+    # --------------- initialization / helper methods --------------- #
+
+    def startAdminGUI(self):
+        """Start up main loop"""
         # show up all
         self._timekprAdminForm.show()
-
         # this seems to be needed
         self.dummyPageChanger()
-
-        # periodic log flusher
-        GLib.timeout_add_seconds(cons.TK_POLLTIME, self.autoFlushLogFile)
-
         # start main loop
         self._mainLoop.run()
 
-    # --------------- initialization / helper methods --------------- #
+    def finishTimekpr(self, signal=None, frame=None):
+        """Exit timekpr gracefully"""
+        log.log(cons.TK_LOG_LEVEL_INFO, "Finishing up")
+        # exit main loop
+        self._mainLoop.quit()
+        log.log(cons.TK_LOG_LEVEL_INFO, "Finished")
+        log.flushLogFile()
 
     def autoFlushLogFile(self):
         """Periodically save file"""
@@ -575,6 +582,22 @@ class timekprAdminGUI(object):
             # pop existing message and add new one
             statusBar.remove_all(contextId)
             statusBar.push(contextId, pStatus[:80])
+
+    def normalizeAllowedDaysAndLimits(self):
+        """Method will normalize aloowed days and limits, in case user sets them differently"""
+        # get the least of size
+        limitLen = min(len(self._tkSavedCfg["timeLimitDays"]), len(self._tkSavedCfg["timeLimitDaysLimits"]))
+        # remove excess elements
+        for rElem in ("timeLimitDays", "timeLimitDaysLimits"):
+            for i in range(limitLen, len(self._tkSavedCfg[rElem])):
+                self._tkSavedCfg[rElem].pop()
+
+        # get the least of size
+        limitLen = min(len(self._tkSavedCfg["playTimeLimitDays"]), len(self._tkSavedCfg["playTimeLimitDaysLimits"]))
+        # remove excess elements
+        for rElem in ("playTimeLimitDays", "playTimeLimitDaysLimits"):
+            for i in range(limitLen, len(self._tkSavedCfg[rElem])):
+                self._tkSavedCfg[rElem].pop()
 
     # --------------- format helper methods --------------- #
 
@@ -1081,6 +1104,10 @@ class timekprAdminGUI(object):
                             for rDay in range(0, len(rValue)):
                                 # add the value
                                 self._tkSavedCfg["playTimeActivities"].append([rValue[rDay][0], rValue[rDay][1]])
+
+                # clean up limits if full refresh requested
+                if pInfoLvl == cons.TK_CL_INF_FULL:
+                    self.normalizeAllowedDaysAndLimits()
 
                 # if PT override is enabled, we do not show time information for PT
                 if self._tkSavedCfg["playTimeOverrideEnabled"]:

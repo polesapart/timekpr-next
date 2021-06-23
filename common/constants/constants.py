@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.5.1"
+TK_VERSION = "0.5.2"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DEV_SUPPORT_PAGE = "https://tinyurl.com/yc9x85v2"
@@ -36,7 +36,7 @@ TK_LOG_D = "dir"
 TK_LOG_W = "who"
 TK_LOG_U = "user"
 TK_LOG_TEMP_DIR = "/tmp"
-TK_LOG_PID_EXT = ".pid"
+TK_LOG_PID_EXT = "pid"
 # logging clients
 TK_LOG_OWNER_SRV = 0
 TK_LOG_OWNER_CLIENT = 1
