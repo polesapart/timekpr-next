@@ -65,11 +65,11 @@ class timekprUser(object):
         # get HOD
         self._currentMOH = self._effectiveDatetime.minute
         # get seconds left in day
-        self._secondsLeftDay = ((datetime(self._effectiveDatetime.year, self._effectiveDatetime.month, self._effectiveDatetime.day) + timedelta(days=1)) - self._effectiveDatetime).total_seconds()
+        self._secondsLeftDay = int(((datetime(self._effectiveDatetime.year, self._effectiveDatetime.month, self._effectiveDatetime.day) + timedelta(days=1)) - self._effectiveDatetime).total_seconds())
         # get seconds left in hour
-        self._secondsLeftHour = ((self._effectiveDatetime + timedelta(hours=1)).replace(microsecond=0, second=0, minute=0) - self._effectiveDatetime).total_seconds()
+        self._secondsLeftHour = int(((self._effectiveDatetime + timedelta(hours=1)).replace(microsecond=0, second=0, minute=0) - self._effectiveDatetime).total_seconds())
         # how many seconds are in this hour
-        self._secondsInHour = (self._effectiveDatetime - self._effectiveDatetime.replace(microsecond=0, second=0, minute=0)).total_seconds()
+        self._secondsInHour = int((self._effectiveDatetime - self._effectiveDatetime.replace(microsecond=0, second=0, minute=0)).total_seconds())
 
     def _initUserLimits(self):
         """Initialize default limits for the user"""
@@ -437,7 +437,7 @@ class timekprUser(object):
         # currentHOD in str
         currentHODStr = str(self._currentHOD)
         # get time spent
-        timeSpent = (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()
+        timeSpent = int((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds())
         # adjust last time checked
         self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
 
@@ -599,6 +599,10 @@ class timekprUser(object):
         # pass uacc too, so notifications can be prevented when hour is unaccounted
         timeValues[cons.TK_CTRL_UACC] = timeUnaccountedHour
 
+        # if debug
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
+            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "force: %i, timeValues structure: %s" % (pForceNotifications, timeValues))
+
         # process notifications, if needed
         self._timekprUserNotification.processTimeLeft(pForceNotifications, timeValues)
 
@@ -707,9 +711,9 @@ class timekprUser(object):
                         # set start hour only if it has not beed set up, that is to start the interval
                         if startHour is None:
                             # start
-                            startHour = ((cons.TK_DATETIME_START + timedelta(hours=rHour, minutes=self._timekprUserData[rDay][hourStr][cons.TK_CTRL_SMIN])) - cons.TK_DATETIME_START).total_seconds()
+                            startHour = int(((cons.TK_DATETIME_START + timedelta(hours=rHour, minutes=self._timekprUserData[rDay][hourStr][cons.TK_CTRL_SMIN])) - cons.TK_DATETIME_START).total_seconds())
                         # end
-                        endHour = ((cons.TK_DATETIME_START + timedelta(hours=rHour, minutes=self._timekprUserData[rDay][hourStr][cons.TK_CTRL_EMIN])) - cons.TK_DATETIME_START).total_seconds()
+                        endHour = int(((cons.TK_DATETIME_START + timedelta(hours=rHour, minutes=self._timekprUserData[rDay][hourStr][cons.TK_CTRL_EMIN])) - cons.TK_DATETIME_START).total_seconds())
 
                     # interval ends if hour is not allowed or this is the end of the day
                     if (not self._timekprUserData[rDay][hourStr][cons.TK_CTRL_ACT] and startHour is not None) or self._timekprUserData[rDay][hourStr][cons.TK_CTRL_EMIN] != 60:

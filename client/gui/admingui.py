@@ -584,7 +584,7 @@ class timekprAdminGUI(object):
             statusBar.push(contextId, pStatus[:80])
 
     def normalizeAllowedDaysAndLimits(self):
-        """Method will normalize aloowed days and limits, in case user sets them differently"""
+        """Method will normalize allowed days and limits, in case user sets them differently"""
         # get the least of size
         limitLen = min(len(self._tkSavedCfg["timeLimitDays"]), len(self._tkSavedCfg["timeLimitDaysLimits"]))
         # remove excess elements
@@ -665,7 +665,7 @@ class timekprAdminGUI(object):
 
                 # define end hour
                 endDate = cons.TK_DATETIME_START + timedelta(hours=rHour, minutes=self._tkSavedCfg["timeLimitDaysHoursActual"][str(pDay)][hourStr][cons.TK_CTRL_EMIN])
-                endSeconds = (endDate - cons.TK_DATETIME_START).total_seconds()
+                endSeconds = int((endDate - cons.TK_DATETIME_START).total_seconds())
                 endTimeStr = self.formatTimeStr(endSeconds)
 
                 # if current interval changes (process end of interval) or this is it, no more hours
@@ -2374,7 +2374,7 @@ class timekprAdminGUI(object):
         # get current seconds
         dt = datetime.now().replace(microsecond=0)
         dtd = str(datetime.date(dt).isoweekday())
-        dts = (dt - datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)).total_seconds()
+        dts = int((dt - datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)).total_seconds())
         selIdx = 0
 
         # only if there is smth selected

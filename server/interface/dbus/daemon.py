@@ -337,8 +337,17 @@ class timekprDaemon(dbus.service.Object):
         """Terminate user sessions"""
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start user killer")
 
+        # final warn
+        def _processFinalWarning(pUserName, pFinalNotificationType, pSecondsLeft):
+            # process final warning with error catch (so it won't interfere with ending the sessions)
+            try:
+                self._timekprUserList[pUserName].processFinalWarning(pFinalNotificationType, pSecondsLeft)
+            except Exception:
+                log.log(cons.TK_LOG_LEVEL_INFO, "ERROR sending notification while terminating users:\n%s" % (traceback.format_exc()))
+
         # loop through users to be killed
         for rUserName in self._timekprUserRestrictionList:
+            log.log(cons.TK_LOG_LEVEL_INFO, "RESTRICTIONS, usr: \"%s\", cntd: %i, del: %i, dea: %i" % (rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA]))
             # ## check which restriction is needed ##
             # we are going to TERMINATE user sessions
             if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
@@ -348,7 +357,7 @@ class timekprDaemon(dbus.service.Object):
                     # send messages only when certain time is left
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= self._timekprConfig.getTimekprFinalWarningTime():
                         # final warning
-                        self._timekprUserList[rUserName].processFinalWarning(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])
+                        _processFinalWarning(rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])
                     # time to die
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= 0:
                         # set restriction for repetitive kill
@@ -386,7 +395,7 @@ class timekprDaemon(dbus.service.Object):
                         # send messages only when certain time is left
                         if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= self._timekprConfig.getTimekprFinalWarningTime():
                             # final warning
-                            self._timekprUserList[rUserName].processFinalWarning(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])
+                            _processFinalWarning(rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])
                         # time to lock
                         if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= 0:
                             # set restriction for repetitive lock
@@ -414,7 +423,7 @@ class timekprDaemon(dbus.service.Object):
                         # send messages only when certain time is left
                         if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= self._timekprConfig.getTimekprFinalWarningTime():
                             # final warning
-                            self._timekprUserList[rUserName].processFinalWarning(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])
+                            _processFinalWarning(rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])
                     # time to suspend
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= 0:
                         # check if we have a delay before initiating actions
@@ -442,14 +451,18 @@ class timekprDaemon(dbus.service.Object):
                             self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = cons.TK_CTRL_LCDEL
                             # if delay is still in place, just lock the screen
                             self._timekprUserList[rUserName].lockUserSessions()
+            else:
+                log.log(cons.TK_LOG_LEVEL_INFO, "WARN: unsupported restriction type \"%s\"" % (self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY]))
 
             # decrease time for restrictions
             self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] = max(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] - 1, 0)
 
+        log.log(cons.TK_LOG_LEVEL_INFO, "RESTRICTIONS, completed with: %s" % (str(len(self._timekprUserRestrictionList) > 0)))
+
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "finish user killer")
 
         # return whether to keep trying to enforce restrictions
-        return len(self._timekprUserRestrictionList) > 0
+        return (len(self._timekprUserRestrictionList) > 0)
 
     # --------------- helper methods --------------- #
 
