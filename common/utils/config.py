@@ -119,8 +119,8 @@ def _readAndNormalizeValue(pConfigFileParserFn, pSection, pParam, pDefaultValue,
         # read value from parser
         value = pConfigFileParserFn(pSection, pParam)
         # check min / max if we have numbers
-        if pCheckValue is not None and type(pDefaultValue).__name__ in ("int"):
-            value = min(max(value, -pCheckValue), pCheckValue)
+        if pCheckValue is not None and type(pDefaultValue).__name__ in ("int", "float"):
+            value = int(min(max(value, -pCheckValue), pCheckValue))
         # validate date format properly
         elif type(pDefaultValue).__name__ in ("date", "datetime"):
             value = datetime.strptime(value, cons.TK_DATETIME_FORMAT)
