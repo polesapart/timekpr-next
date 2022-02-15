@@ -1,3 +1,12 @@
+timekpr-next (0.5.3-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * bug fixes
+      fix DBUS time notification signal and intermittent user session restriction enforcement issues due to this error:
+        "TypeError: 'float' object cannot be interpreted as an integer"
+      this seems to happen on very recent python versions
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 15 Feb 2022 21:34:45 +0200
+
 timekpr-next (0.5.2-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * features
