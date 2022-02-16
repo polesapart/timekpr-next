@@ -7,6 +7,17 @@ Created on Aug 28, 2018
 # imports
 import os
 import sys
+import dbus
+# distro detection
+try:
+    # try to load distro module
+    import distro
+    # if successful, mark it so
+    _DISTRO_AVAILABLE = True
+except (ImportError, ValueError):
+    # if successful, mark it so
+    _DISTRO_AVAILABLE = False
+
 # set up our python path
 if "/usr/lib/python3/dist-packages" not in sys.path:
     sys.path.append("/usr/lib/python3/dist-packages")
@@ -33,6 +44,12 @@ if __name__ == "__main__":
     # get uname
     uname = os.uname()
     log.log(cons.TK_LOG_LEVEL_INFO, "running on: %s, %s, %s, %s" % (uname[0], uname[2], uname[3], uname[4]))
+    # distro
+    if _DISTRO_AVAILABLE:
+        log.log(cons.TK_LOG_LEVEL_INFO, "distribution: %s, %s, %s" % (distro.id(), distro.name(), distro.version()))
+    log.log(cons.TK_LOG_LEVEL_INFO, "using python: %s" % (sys.version))
+    log.log(cons.TK_LOG_LEVEL_INFO, "dbus python: %s" % (dbus.__version__))
+    log.log(cons.TK_LOG_LEVEL_INFO, "---")
 
     # get daemon class
     _timekprDaemon = timekprDaemon()
