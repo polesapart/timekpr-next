@@ -599,7 +599,7 @@ class timekprGUI(object):
             # get current seconds
             dt = datetime.now().replace(microsecond=0)
             dtd = str(datetime.date(dt).isoweekday())
-            dts = (dt - datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)).total_seconds()
+            dts = int((dt - datetime.now().replace(microsecond=0, second=0, minute=0, hour=0)).total_seconds())
             idx = 0
             selIdx = 0
             # clear out existing intervals
