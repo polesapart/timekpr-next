@@ -1,13 +1,15 @@
-timekpr-next-beta (0.5.3-2ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.5.3-3ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * bug fixes
       fix DBUS time notification signal and intermittent user session restriction enforcement issues due to this error:
         "TypeError: 'float' object cannot be interpreted as an integer"
       this seems to happen on very recent python versions
+  * translations
+      German translations, thanks to Robert E.
   * misc
       add logging for linux distribution identification and core components (python version, dbus-python version)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Web, 16 Feb 2022 10:59:33 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 21 Feb 2022 22:50:53 +0200
 
 timekpr-next-beta (0.5.2-5ubuntu1~ppa1) UNRELEASED; urgency=medium
 
