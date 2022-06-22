@@ -117,7 +117,7 @@ class timekprUserManager(object):
         userState = str(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "State"))
         userIdleState = str(bool(self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "IdleHint")))
 
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "user stats, state: %s, idleState: %s" % (userState, userIdleState))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "user stats, ul1st: %s, ul1idlhnt: %s, uscrlck: %s" % (userState, userIdleState, str(pIsScreenLocked)))
 
         # cache sessions
         self.cacheUserSessionList()
@@ -166,7 +166,7 @@ class timekprUserManager(object):
 
                 # measurement logging
                 log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (rSessionId, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "got session - type: %s, VTNr: %s, state: %s, idle: %s, locked: %s" % (sessionType, sessionVTNr, sessionState, sessionIdleState, sessionLockedState))
+                log.log(cons.TK_LOG_LEVEL_DEBUG, "session stats, styp: %s, sVTNr: %s, sl1St: %s, sl1idlst: %s, sl1lckst: %s" % (sessionType, sessionVTNr, sessionState, sessionIdleState, sessionLockedState))
 
                 # check if active
                 if sessionState == "active" and sessionIdleState == "False" and sessionLockedState == "False":
