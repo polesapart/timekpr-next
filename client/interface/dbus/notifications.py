@@ -9,6 +9,7 @@ import dbus
 import os
 from gi.repository import GLib
 from dbus.mainloop.glib import DBusGMainLoop
+from datetime import datetime
 
 # timekpr imports
 from timekpr.common.constants import constants as cons
@@ -32,8 +33,11 @@ class timekprNotifications(object):
         self._userName = pUserName
         self._timekprClientConfig = pTimekprClientConfig
 
-        # critical notification (to replace itself)
+        # notification (to replace itself in case they are incoming fast)
         self._lastNotifId = 0
+        self._lastNotifDT = datetime.now()
+        self._lastPTNotifId = 0
+        self._lastPTNotifDT = datetime.now()
 
         # session bus
         self._userSessionBus = dbus.SessionBus()
@@ -308,13 +312,10 @@ class timekprNotifications(object):
             # msg
             msgStr = msg.getTranslation("TK_MSG_NOTIFICATION_SCR_FEATURE_NOT_AVAILABLE") % (pAdditionalMessage)
 
-        # save notification ID
-        notifId = self._lastNotifId
-
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish prepareNotification")
 
         # pass this back
-        return notifId, timekprIcon, msgStr, timekprPrio
+        return timekprIcon, msgStr, timekprPrio
 
     def notifyUser(self, pMsgCode, pMsgType, pPriority, pTimeLeft=None, pAdditionalMessage=None):
         """Notify the user."""
@@ -326,7 +327,7 @@ class timekprNotifications(object):
         # can we notify user
         if self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] is not None:
             # prepare notification
-            notifId, timekprIcon, msgStr, timekprPrio = self._prepareNotification(pMsgCode, pMsgType, pPriority, pTimeLeft, pAdditionalMessage)
+            timekprIcon, msgStr, timekprPrio = self._prepareNotification(pMsgCode, pMsgType, pPriority, pTimeLeft, pAdditionalMessage)
 
             # defaults
             hints = {"urgency": timekprPrio}
@@ -347,16 +348,33 @@ class timekprNotifications(object):
                     # add sound hint
                     hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_WARN
 
+            # calculate last time notification is shown (if this is too recent - replace, otherwise add new notification)
+            if pMsgType == "PlayTime" and self._lastPTNotifId != 0 and (datetime.now() - self._lastPTNotifDT).total_seconds() >= notificationTimeout:
+                self._lastPTNotifId = 0
+            elif pMsgType != "PlayTime" and self._lastNotifId != 0 and (datetime.now() - self._lastNotifDT).total_seconds() >= notificationTimeout:
+                self._lastNotifId = 0
+
             # calculate notification values
             notificationTimeout = min(cons.TK_CL_NOTIF_MAX, max(0, notificationTimeout)) * 1000
 
             # notification value of 0 means "forever"
             actions = ["Dismiss", "Dismiss"] if notificationTimeout == 0 else []
 
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "preshow: %s, %s, %i" % (msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_TITLE" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TITLE"), msgStr, notificationTimeout))
+
             # notify through dbus
             try:
                 # call dbus method
-                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify("Timekpr", notifId if pMsgType != "PlayTime" else 0, timekprIcon, msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_TITLE" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TITLE"), msgStr, actions, hints, notificationTimeout)
+                notifId = self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF].Notify(
+                    "Timekpr"
+                    ,self._lastNotifId if pMsgType != "PlayTime" else self._lastPTNotifId
+                    ,timekprIcon
+                    ,msg.getTranslation("TK_MSG_NOTIFICATION_PLAYTIME_TITLE" if pMsgType == "PlayTime" else "TK_MSG_NOTIFICATION_TITLE")
+                    ,msgStr
+                    ,actions
+                    ,hints
+                    ,notificationTimeout
+                )
             except Exception as dbusEx:
                 # we cannot send notif through dbus
                 self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
@@ -366,8 +384,12 @@ class timekprNotifications(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
 
             # save notification ID (only if message is not about PlayTime, otherwise it may dismiss standard time or vice versa)
-            if pMsgType != "PlayTime":
+            if pMsgType == "PlayTime":
+                self._lastPTNotifId = notifId
+                self._lastPTNotifDT = datetime.now()
+            else:
                 self._lastNotifId = notifId
+                self._lastNotifDT = datetime.now()
 
             # user wants to hear things
             if self._timekprClientConfig.getIsNotificationSpeechSupported() and self._timekprClientConfig.getClientUseSpeechNotifications():

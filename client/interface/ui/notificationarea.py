@@ -186,6 +186,9 @@ class timekprNotificationArea(object):
                 self._timekprGUI.setPlayTimeAccountingInfoEnabled(True)
             # get user configured level and priority
             prio, finLvl = self._determinePriority("PlayTime", cons.TK_PRIO_LOW, pTimeLimits[cons.TK_CTRL_PTLPD])
+
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "process PT notif, prio: %s, prevLVL: %i, lvl: %i, icoena: %s" % (prio, self._lastUsedPTPriorityLvl, finLvl, self.getTrayIconEnabled()))
+
             # if any priority is effective, determine whether we need to inform user
             if finLvl > 0 and self._lastUsedPTPriorityLvl != finLvl:
                 # adjust level too
@@ -195,7 +198,8 @@ class timekprNotificationArea(object):
                     # notify user
                     self._timekprNotifications.notifyUser(cons.TK_MSG_CODE_TIMELEFT, "PlayTime", prio, cons.TK_DATETIME_START + timedelta(seconds=min(pTimeLimits[cons.TK_CTRL_PTLPD], pTimeLimits[cons.TK_CTRL_LEFTD])), None)
         elif isPTInfoEnabled:
-            # disbale info
+            # disable info (if it was enabled)
+            log.log(cons.TK_LOG_LEVEL_DEBUG, "disable PT info tab")
             self._timekprGUI.setPlayTimeAccountingInfoEnabled(False)
 
     def notifyUser(self, pMsgCode, pMsgType, pPriority, pTimeLeft=None, pAdditionalMessage=None):
