@@ -1,11 +1,12 @@
-timekpr-next (0.5.4-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.4-1ubuntu2~ppa1) UNRELEASED; urgency=medium
 
   * translations
       Belorussian translations, thanks to Aliaxandr
   * misc
       minor logging changes
+      regular and PT notifications now are separate and follow the same logic (+logging)
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Web, 15 Jun 2022 08:11:53 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 3 Sep 2022 23:28:11 +0300
 
 timekpr-next (0.5.3-3ubuntu1~ppa1) UNRELEASED; urgency=medium
 
