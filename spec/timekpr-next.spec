@@ -101,8 +101,9 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/48x48/apps/*
 %{_datadir}/icons/hicolor/64x64/apps/*
 %{_datadir}/icons/hicolor/scalable/apps/*
+%{_datadir}/locale/be/LC_MESSAGES/*
 #%{_datadir}/locale/cs/LC_MESSAGES/*
-#%{_datadir}/locale/de/LC_MESSAGES/*
+%{_datadir}/locale/de/LC_MESSAGES/*
 %{_datadir}/locale/fr/LC_MESSAGES/*
 #%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
@@ -119,6 +120,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Wed Sep 5 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.2
+- Updated spec file for version 0.5.4, release 0.2 (BETA)
 * Wed Jun 15 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.1
 - Updated spec file for version 0.5.4, release 0.1 (BETA)
 * Wed Feb 16 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.3-0.2
