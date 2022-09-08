@@ -194,9 +194,7 @@ class timekprClient(object):
 
         except Exception as dbusEx:
             # logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
-            log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-            log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
+            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR (DBUS): \"%s\" in \"%s.%s\"" % (str(dbusEx), __name__, self.connectTimekprSignalsDBUS.__name__))
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to timekpr dbus, trying again...")
 
             # did not connect (set connection to None) and schedule for reconnect at default interval
@@ -237,7 +235,7 @@ class timekprClient(object):
         timeLeft = (pTimeInformation[cons.TK_CTRL_LEFT] if cons.TK_CTRL_LEFT in pTimeInformation else 0)
         playTimeLeft = (pTimeInformation[cons.TK_CTRL_PTLPD] if cons.TK_CTRL_PTLSTC in pTimeInformation and cons.TK_CTRL_PTLPD in pTimeInformation and cons.TK_CTRL_PTTLO in pTimeInformation else None)
         isTimeNotLimited = (pTimeInformation[cons.TK_CTRL_TNL] if cons.TK_CTRL_TNL in pTimeInformation else 0)
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft, prio: %s, tl: %i, ptl: %i, nolim: %i" % (pPriority, timeLeft, playTimeLeft, isTimeNotLimited))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft, prio: %s, tl: %i, ptl: %s, nolim: %i" % (pPriority, timeLeft, str(playTimeLeft), isTimeNotLimited))
         # process show / hide icon
         self.processShowClientIcon(pTimeInformation)
         # process time left
