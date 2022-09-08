@@ -132,9 +132,9 @@ class timekprDaemon(dbus.service.Object):
             try:
                 self.checkUsers()
             except Exception:
-                log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR working on users ===---")
+                log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR in \"executeTimekprWorker\" working on users ===---")
                 log.log(cons.TK_LOG_LEVEL_INFO, traceback.format_exc())
-                log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR working on users ===---")
+                log.log(cons.TK_LOG_LEVEL_INFO, "---=== ERROR in \"executeTimekprWorker\" working on users ===---")
 
             # periodically flush the file
             log.autoFlushLogFile()
