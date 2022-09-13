@@ -37,24 +37,39 @@ until it's released or use ```beta```._
 
   - a short description of [applications](#applications) with [typical use case](#typicalusecase)
 
-  - to better understand functionality click on [description of functionality](#detaileddescription) and particularly [client application](#clientapplication) and [administration application](#administrationapplication)
+  - to better understand functionality click on [description of functionality](#detaileddescription)
 
-  - latest prominent features introduced are [suspend/lock/shutdown](#restrictionlockouttypes), [PlayTime functionality](#playtimeconfiguration), 
-  [user configurable notifications](#userconfigurablenotifications), ["freeride" time periods](#freerideintervals)
+    - description for user's application [client application](#clientapplication)
 
-  - to get information about CLI (console) use / file configuration possibilities [additional configuration possibilities](#additionalconfigpossibilities)
+    - description of supervisor's application [administration application](#administrationapplication)
 
-* Support the project:
+  - latest prominent features introduced are:
+
+    - alternative restriction types [suspend / lock / shutdown](#restrictionlockouttypes)
+
+    - a way to limit applications / games from being used [PlayTime functionality](#playtimeconfiguration)
+
+    - user can configure the notifications [user configurable notifications](#userconfigurablenotifications)
+
+    - type of time interval where time is not accounted towards user's limit ["freeride" time periods](#freerideintervals)
+
+  - there are CLI (console) use / file configuration possibilities [additional configuration possibilities](#additionalconfigpossibilities)
+
+
+* **Installation guide**:
+
+  - installation / removal [instructions](#installation) for most popular Linux systems
+
+
+* **Support the project**:
 
   - support by **[donating](#support)** or translating it to your [language](#translate)
 
-* Installation guide:
-
-  - installation / removal [instructions](#installation) for most popular Linux systems
 
 * Disclaimer, questions, suggestions and bugs:
 
   - disclaimer is [here](#disclaimer) and information about questions, suggestions and bugs is [here](#bugs)
+
 
 </br>
 
@@ -665,6 +680,8 @@ Timekpr-nExT comes handy, Liane opens Timekpr-nExT Administration application ma
 
 * select Monday:
 
+  - set time limit to 6 hours
+
   - add interval from 7:30 - 15:00
 
   - add interval from 15:00 - 17:00, check the "∞" checkbox
@@ -679,9 +696,9 @@ Timekpr-nExT comes handy, Liane opens Timekpr-nExT Administration application ma
 
 * select last two days - holidays:
 
-  - add interval from 9:00 - 22:30
-
   - set time limit to 8 hours
+
+  - add interval from 9:00 - 22:30
 
 * press "Apply daily limits" and restrictions are set
 
@@ -692,6 +709,7 @@ By this she achieves flexibility of:
 * allowing 6 hours of computer time to be used from 7:30 to 21:00 from Monday to Friday
 
   - allowing the use of computer from 15:00 - 17:00 without the need of spending his limit on mandatory anger management classes
+
 
 * allowing 8 hours of computer time from 9:00 - 22:30 during holidays
 
@@ -1086,7 +1104,7 @@ who knows, they may see a light of the day.
 
 </br>
 
-As for bugs: please describe your issues as precisely as possible including a steps to fully reproduce the issue, if applicable, describe your setup too, i.e. 
+**As for bugs**: please describe your issues as precisely as possible including a steps to fully reproduce the issue, if applicable, describe your setup too, i.e. 
 which distribution, version of OS, Desktop Environment are you using, be prepared to send me config and log files (they do not contain anything sensitive, 
 except usernames).
 
