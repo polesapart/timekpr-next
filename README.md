@@ -31,7 +31,7 @@ until it's released or use ```beta```._
 
 ## Navigation guide
 
-**This README** is useful, but quite large, so I have prepared a guide for You.
+**This README** is useful, but quite large, so I have prepared a guide for you.
 
 * About functionality:
 
@@ -699,7 +699,7 @@ By this she achieves flexibility of:
 
 </br>
 
-Typical setup is rather simple and easy, there are (of course) more to it, please read on [Detailed information](#detaileddescription), if You're interested.
+Typical setup is rather simple and easy, there are (of course) more to it, please read on [Detailed information](#detaileddescription), if you're interested.
 
 </br>
 
@@ -713,7 +713,7 @@ version
 are larger.
 
 The installation instructions are easy as well (I know that one can do that in GUI, but terminal is just simply faster :-)), just paste these lines in terminal 
-and You're set.
+and you're set.
 
 _Note: it's highly advised to log in and out after installation of new version._
 
@@ -725,7 +725,9 @@ Timekpr-nExT is available in:
 
 * Timekpr-nExT is available in AUR (ArchLinux User Repository) for ArchLinux and Manjaro
 
-* packages for Fedora 32+ and openSUSE Leap 15.2+ are provided as is, link below
+* packages for Fedora are available in johanh's copr repository
+
+* packages for manual installation for Fedora 32+ and openSUSE Leap 15.2+ are provided as is
 
 </br>
 
@@ -735,7 +737,8 @@ Timekpr-nExT is available in:
 | :--- | :--- | :--- |
 | Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next``` | ```sudo apt-get remove --purge timekpr-next``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next``` | ```sudo pacman -Rdd timekpr-next``` |
-| Fedora and openSUSE | [manual installation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README and packages)_| [manual uninstallation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README)_ |
+| Fedora | [copr repo](https://copr.fedorainfracloud.org/coprs/johanh/timekpr-next/) _(preferred)_</br>**or**</br>[manual installation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9) _(README and packages)_| [copr repo](https://copr.fedorainfracloud.org/coprs/johanh/timekpr-next/) _(preferred)_</br>**or**</br>[manual uninstallation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9) _(README)_ |
+| openSUSE | [manual installation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README and packages)_| [manual uninstallation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README)_ |
 
 #### Beta
 
@@ -743,11 +746,15 @@ Timekpr-nExT is available in:
 | :-- | :--: | --: |
 | Ubuntu & co (via PPA) | ```sudo add-apt-repository ppa:mjasnik/ppa```</br>```sudo apt-get update```</br>```sudo apt-get install timekpr-next-beta``` | ```sudo apt-get remove --purge timekpr-next-beta``` |
 | ArchLinux & Manjaro (via AUR) | ```yay -S timekpr-next-git``` | ```sudo pacman -Rdd timekpr-next-git``` |
+| Fedora and openSUSE | [manual installation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README and packages)_| [manual uninstallation](https://drive.google.com/drive/folders/1iN1wcPctGhd_OISqzWZ5DigFMVvgSGq9)</br>_(README)_ |
 
-_**Note**: for ArchLinux and Manjaro, please choose Your favourite AUR helper, if that differs from mine._
+
+_**Note**: for ArchLinux and Manjaro, please choose your favourite AUR helper, if that differs from mine._
 
 _**Note**: special thanks goes to SanskritFritz from ArchLinux community who was not only one of the first beta testers and active users, but he maintains said 
 packages too._
+
+_**Note**: thanks goes to johanh from Fedora community who provided a copr repo for Fedora._
 
 </br>
 
@@ -780,7 +787,7 @@ Recently I started testing in Fedora and openSUSE too.
 
 Please read [nuances](#quirks) section for more information.
 
-If You have an issue with Timekpr-nExT, please read [this](#bugs) and file a bug.
+If you have an issue with Timekpr-nExT, please read [this](#bugs) and file a bug.
 
 </br>
 
@@ -937,8 +944,8 @@ be roughly the same.
 Roughly it was ;-) Most of the time, everything worked perfectly, but for certain functionality every Desktop Environment has it's own quirks, maybe not using 
 all bits or maybe it's just buggy implementation.
 
-This section will contain these oddities / differences in implementations as far as Timekpr-nExT development is concerned. If You find odd why things happen or 
-not happen the way You expect, maybe here's an answer ;-)
+This section will contain these oddities / differences in implementations as far as Timekpr-nExT development is concerned. If you find odd why things happen or 
+not happen the way you expect, maybe here's an answer ;-)
 
 ---------------------------------------
 
@@ -987,33 +994,39 @@ compatible with the FreeDesktop / Gnome standards.
 * when user closes / opens laptops lid multiple times, ```org.freedesktop.login1``` sometimes reports session as inactive despite a user is happily using the 
 computer
 
-  * _by default Timekpr-nExT does not account time for inactive sessions, so it's free time for them unless "inactive session tracking" is turned on_
+  * _side effect: by default Timekpr-nExT does not account time for inactive sessions, so it's free time for them unless "inactive session tracking" is turned on_
+
 
 * some Desktop Environments have ```org.freedesktop.ScreenSaver``` exported to DBUS, but it's not fully functional, i.e. ```GetActive``` always reports _"not 
 active"_ or there's an error about method not implemeted
 
-  * _this is used for idle time accounting_
+  * _side effect: since this is used for idle time accounting, timekpr might not be able detect that user locked the computer and will count time towards user's time limit_
+
 
 * when asking systemd ```org.freedesktop.login1.Manager``` to terminate a single active user session, certain Desktop Environments does not automatically 
 switch to login screen
 
-  * _a surprise for unaware user (he is left with black screen and blinking cursor in the corner)_
+  * _side effect: he is left with black screen and blinking cursor in the corner, ctrl+f1 to fix_
+
 
 * after ```org.freedesktop.login1.Manager``` ```TerminateSession``` is called for inactive session and that session is terminated, some Desktop Environments 
 switch to login screen even different session for different user is in foreground / active, but the rest of Desktop Environments _"don't blink an eye about 
 background session termination"_
 
-  * _a surprise for unaware user_
+  * _side effect: _user is brought to login screen even he did not ask for it, switch to own session or login back to fix this (apps are not terminated)_
+
 
 * some Desktop Environments consider user session to be inactive by setting property ```IdleHint``` in ```org.freedesktop.login1``` session when screen is 
 locked, some do the same but only when screen turns off and some do not that all
 
-  * _this is used for idle time accounting_
+  * _side effect: since this is used for idle time accounting, timekpr might not be able detect that user session is idle and will count time towards user's time limit_
+
 
 * systemd ```LockedHint``` is set and used by some Desktop Environments, for some Desktop Environments it's set only when screen is off and some do not use it 
 at all
 
-  * _this is used for idle time accounting_
+  * _side effect: since this is used for idle time accounting, timekpr might not be able detect that user locked the computer and will count time towards user's time limit_
+
 
 </br>
 
@@ -1023,10 +1036,10 @@ Environments at the same functionality level.
 </br>
 
 <a name="support"></a>
-## How You can help
+## How you can help
 
-Quite a lot of time and effort went into making this a reality, so if You appreciate my work, would like to say thanks for making Timekpr-nExT or just want to 
-contribute, please do so via PayPal (you do not need to have PP account) or BITCOIN:
+Quite a lot of time and effort went into making this a reality, so if you appreciate my work, would like to say thanks for making Timekpr-nExT or just want to 
+contribute, please do so via PayPal (you do not need to have PayPal account) or BITCOIN:
 
 * The PayPal donations URL (shortened): https://tinyurl.com/yc9x85v2 .
 
@@ -1034,13 +1047,8 @@ contribute, please do so via PayPal (you do not need to have PP account) or BITC
 
 </br>
 
-As a matter of fact, I'm starting to look for a replacement of my year 2001 Chicony keyboard with more programming / ergo oriented one which can be used in 
-gaming too, like Dygma Raise. I will be happy for any help getting it ;)
-
-</br>
-
 <a name="translate"></a>
-Alternatively, You can help to translate Timekpr-nExT in Your language [here](https://translations.launchpad.net/timekpr-next) too.
+Alternatively, you can help to translate Timekpr-nExT in your language [here](https://translations.launchpad.net/timekpr-next) too.
 
 </br>
 
@@ -1076,8 +1084,10 @@ _**Please prefix** a title of the bug with ```BETA``` if the bug was found in be
 Alternatively suggestions can be sent to me via e-mail ```edzis"replace this with at symbol"inbox"place a dot here"lv```, I'll evaluate their usefulness and 
 who knows, they may see a light of the day.
 
-As for bugs: please describe Your issues as precisely as possible including a steps to fully reproduce the issue, if applicable, describe Your setup too, i.e. 
-which distribution, version of OS, Desktop Environment are You using, be prepared to send me config and log files (they do not contain anything sensitive, 
+</br>
+
+As for bugs: please describe your issues as precisely as possible including a steps to fully reproduce the issue, if applicable, describe your setup too, i.e. 
+which distribution, version of OS, Desktop Environment are you using, be prepared to send me config and log files (they do not contain anything sensitive, 
 except usernames).
 
 If you don't want to register a user in LP, you can send bug reports via e-mail too, but it's NOT the best way to handle them!
