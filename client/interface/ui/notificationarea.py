@@ -33,9 +33,9 @@ class timekprNotificationArea(object):
         # initialize priority
         self._lastUsedPriority = self._lastUsedServerPriority = ""
         # priority level
-        self._lastUsedPriorityLvl = -1
+        self._lastUsedPriorityLvl = -99
         # PlayTime priority level
-        self._lastUsedPTPriorityLvl = -1
+        self._lastUsedPTPriorityLvl = -99
         # initialize time left
         self._timeLeftTotal = None
         # initialize PlayTime left
@@ -186,11 +186,10 @@ class timekprNotificationArea(object):
                 self._timekprGUI.setPlayTimeAccountingInfoEnabled(True)
             # get user configured level and priority
             prio, finLvl = self._determinePriority("PlayTime", cons.TK_PRIO_LOW, pTimeLimits[cons.TK_CTRL_PTLPD])
-
+            # log
             log.log(cons.TK_LOG_LEVEL_DEBUG, "process PT notif, prio: %s, prevLVL: %i, lvl: %i, icoena: %s" % (prio, self._lastUsedPTPriorityLvl, finLvl, self.getTrayIconEnabled()))
-
             # if any priority is effective, determine whether we need to inform user
-            if finLvl > 0 and self._lastUsedPTPriorityLvl != finLvl:
+            if (finLvl > 0 or self._lastUsedPTPriorityLvl < -1) and self._lastUsedPTPriorityLvl != finLvl and self.isTimekprConnected():
                 # adjust level too
                 self._lastUsedPTPriorityLvl = finLvl
                 # if icon is hidden, do not show any notifications
