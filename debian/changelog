@@ -1,3 +1,15 @@
+timekpr-next (0.5.4-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * translations
+      Belorussian translations, thanks to Aliaxandr
+      enabled German translations
+  * misc
+      logging changes (more refined and enough verbose)
+      regular and PT notifications now are separate and follow the same logic (+logging)
+      added logging callback to know when the notification is closed
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 7 Oct 2022 07:39:11 +0300
+
 timekpr-next (0.5.3-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * bug fixes

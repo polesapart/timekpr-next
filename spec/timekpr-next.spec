@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.5.3
+Version:          0.5.4
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -101,8 +101,9 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/48x48/apps/*
 %{_datadir}/icons/hicolor/64x64/apps/*
 %{_datadir}/icons/hicolor/scalable/apps/*
+%{_datadir}/locale/be/LC_MESSAGES/*
 #%{_datadir}/locale/cs/LC_MESSAGES/*
-#%{_datadir}/locale/de/LC_MESSAGES/*
+%{_datadir}/locale/de/LC_MESSAGES/*
 %{_datadir}/locale/fr/LC_MESSAGES/*
 #%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
@@ -119,8 +120,16 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
-* Mon Feb 21 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.3-1.0
-- Updated spec file for version 0.5.3, release 1.0 (STABLE)
+* Wed Oct 7 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-1.0
+- Updated spec file for version 0.5.4, release 1.0 (STABLE)
+* Wed Sep 14 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.4
+- Updated spec file for version 0.5.4, release 0.4 (BETA)
+* Thu Sep 8 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.3
+- Updated spec file for version 0.5.4, release 0.3 (BETA)
+* Wed Sep 5 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.2
+- Updated spec file for version 0.5.4, release 0.2 (BETA)
+* Wed Jun 15 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.1
+- Updated spec file for version 0.5.4, release 0.1 (BETA)
 * Wed Feb 16 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.3-0.2
 - Updated spec file for version 0.5.3, release 0.2 (BETA)
 * Tue Feb 15 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.3-0.1

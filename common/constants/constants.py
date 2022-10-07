@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.5.3"
+TK_VERSION = "0.5.4"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DEV_SUPPORT_PAGE = "https://tinyurl.com/yc9x85v2"
@@ -46,7 +46,7 @@ TK_LOG_OWNER_ADMIN_SU = 3
 TK_LOG_AUTO_FLUSH_EVT_CNT = 42
 
 # client config and default values
-TK_CL_NOTIF_MAX = 30
+TK_CL_NOTIF_MAX = 60
 TK_CL_NOTIF_TMO = 3
 TK_CL_NOTIF_CRIT_TMO = 10
 TK_CL_NOTIF_SND_FILE_WARN = "/usr/share/sounds/freedesktop/stereo/dialog-information.oga"

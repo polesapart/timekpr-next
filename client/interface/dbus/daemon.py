@@ -131,7 +131,7 @@ class timekprClient(object):
             # connect to signal
             self._sessionAttributeVerificationSignal = self._timekprBus.add_signal_receiver(
                 path             = cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS,
-                handler_function = self.reveiveSessionAttributeVerificationRequest,
+                handler_function = self.receiveSessionAttributeVerificationRequest,
                 dbus_interface   = cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE,
                 signal_name      = "sessionAttributeVerification")
 
@@ -194,9 +194,7 @@ class timekprClient(object):
 
         except Exception as dbusEx:
             # logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
-            log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-            log.log(cons.TK_LOG_LEVEL_INFO, "--=== ERROR sending message through dbus ===---")
+            log.log(cons.TK_LOG_LEVEL_INFO, "ERROR (DBUS): \"%s\" in \"%s.%s\"" % (str(dbusEx), __name__, self.connectTimekprSignalsDBUS.__name__))
             log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: failed to connect to timekpr dbus, trying again...")
 
             # did not connect (set connection to None) and schedule for reconnect at default interval
@@ -212,7 +210,7 @@ class timekprClient(object):
 
     # --------------- admininstration / verification methods (from dbus) --------------- #
 
-    def reveiveSessionAttributeVerificationRequest(self, pWhat, pKey):
+    def receiveSessionAttributeVerificationRequest(self, pWhat, pKey):
         """Receive the signal and process the data"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "receive verification request: %s, %s" % (pWhat, "key"))
         # resend stuff to server
@@ -237,15 +235,15 @@ class timekprClient(object):
         timeLeft = (pTimeInformation[cons.TK_CTRL_LEFT] if cons.TK_CTRL_LEFT in pTimeInformation else 0)
         playTimeLeft = (pTimeInformation[cons.TK_CTRL_PTLPD] if cons.TK_CTRL_PTLSTC in pTimeInformation and cons.TK_CTRL_PTLPD in pTimeInformation and cons.TK_CTRL_PTTLO in pTimeInformation else None)
         isTimeNotLimited = (pTimeInformation[cons.TK_CTRL_TNL] if cons.TK_CTRL_TNL in pTimeInformation else 0)
-        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft: %s, %i, %i" % (pPriority, timeLeft, isTimeNotLimited))
+        log.log(cons.TK_LOG_LEVEL_DEBUG, "receive timeleft, prio: %s, tl: %i, ptl: %s, nolim: %i" % (pPriority, timeLeft, str(playTimeLeft), isTimeNotLimited))
         # process show / hide icon
         self.processShowClientIcon(pTimeInformation)
-        # process PlayTime notifications as well
-        self._timekprClientIndicator.processPlayTimeNotifications(pTimeInformation)
         # process time left
         self._timekprClientIndicator.setTimeLeft(pPriority, cons.TK_DATETIME_START + timedelta(seconds=timeLeft), isTimeNotLimited, cons.TK_DATETIME_START + timedelta(seconds=playTimeLeft) if playTimeLeft is not None else playTimeLeft)
         # renew limits in GUI
         self._timekprClientIndicator.renewUserLimits(pTimeInformation)
+        # process PlayTime notifications as well
+        self._timekprClientIndicator.processPlayTimeNotifications(pTimeInformation)
 
     def receiveTimeLimits(self, pPriority, pTimeLimits):
         """Receive the signal and process the data to user"""
