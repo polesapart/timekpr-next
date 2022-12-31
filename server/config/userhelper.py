@@ -38,9 +38,23 @@ with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
 
 def verifyNormalUserID(pUserId):
     """Return min user id"""
+    # vars
     global _limitsConfig
-    # to test in VMs default user (it may have UID of 999, -1 from limit), this should work fine for any other case
-    return((_limitsConfig["UID_MIN"]-1 <= int(pUserId) <= _limitsConfig["UID_MAX"]))
+    isUIDOK = False
+    # to test in VMs default user (it may have UID of 999, -1 from limit)
+    if not isUIDOK:
+        isUIDOK = (int(pUserId) == _limitsConfig["UID_MIN"]-1)
+    # check normal users
+    if not isUIDOK:
+        isUIDOK = (_limitsConfig["UID_MIN"] <= int(pUserId) <= _limitsConfig["UID_MAX"])
+    # check systemd-homed normal users
+    if not isUIDOK:
+        isUIDOK = (cons.TK_SYSTEMD_HOMED_UID_MIN <= int(pUserId) <= cons.TK_SYSTEMD_HOMED_UID_MAX)
+    # check systemd-homed dynamic users
+    if not isUIDOK:
+        isUIDOK = (cons.TK_SYSTEMD_HOMED_DYN_UID_MIN <= int(pUserId) <= cons.TK_SYSTEMD_HOMED_DYN_UID_MAX)
+    # fin
+    return(isUIDOK)
 
 
 def getTimekprLoginManagers():
