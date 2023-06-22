@@ -2,7 +2,7 @@
 
 Name:             timekpr-next
 Version:          0.5.5
-Release:          0.1%{?dist}
+Release:          0.2%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -103,6 +103,7 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/scalable/apps/*
 %{_datadir}/locale/be/LC_MESSAGES/*
 #%{_datadir}/locale/cs/LC_MESSAGES/*
+%{_datadir}/locale/es/LC_MESSAGES/*
 %{_datadir}/locale/de/LC_MESSAGES/*
 %{_datadir}/locale/fr/LC_MESSAGES/*
 #%{_datadir}/locale/hu/LC_MESSAGES/*
@@ -120,6 +121,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Thu Jun 22 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.2
+- Updated spec file for version 0.5.5, release 0.2 (BETA)
 * Sat Dec 31 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.1
 - Updated spec file for version 0.5.5, release 0.1 (BETA)
 * Wed Sep 14 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.4
