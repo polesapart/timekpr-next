@@ -1,8 +1,9 @@
-timekpr-next (0.5.5-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.5-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * add initial support for systemd-homed users and systemd-homed dynamic users
+  * Spanish translations, thanks to Ivan L.
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 31 Dec 2022 14:41:35 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 22 Jun 2023 07:35:15 +0300
 
 timekpr-next (0.5.4-4ubuntu3~ppa1) UNRELEASED; urgency=medium
 
