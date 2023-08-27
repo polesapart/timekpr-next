@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-03-01 22:11+0200\n"
-"PO-Revision-Date: 2023-06-22 07:43+0300\n"
+"PO-Revision-Date: 2023-08-27 14:08+0300\n"
 "Last-Translator: Ivan Ledesma <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Launchpad-Export-Date: 2023-06-22 04:28+0000\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Launchpad-Export-Date: 2023-08-27 11:00+0000\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: common/constants/messages.py:31
 msgid "==> print help, example"
@@ -281,7 +281,7 @@ msgstr "No se ha superado la hora de guardado"
 #: common/constants/messages.py:82
 #, python-format
 msgid "Save time \"%%s\" is not correct"
-msgstr "Save time \"%%s\" is not correct"
+msgstr "Guardar tiempo \"%%s\" no es correcto"
 
 #: common/constants/messages.py:83
 #, python-format
@@ -309,7 +309,8 @@ msgstr "No se pasa la bandera del monitor de actividad mejorada de PlayTime"
 #: common/constants/messages.py:88
 #, python-format
 msgid "PlayTime enhanced activity monitor flag \"%%s\" is not correct"
-msgstr "PlayTime enhanced activity monitor flag \"%%s\" no es correcto"
+msgstr ""
+"Bandera mejorada del monitor de actividad PlayTime \"%%s\" no es correcto"
 
 #: common/constants/messages.py:89
 #, python-format
@@ -1096,7 +1097,8 @@ msgstr "ERROR INESPERADO: %%s"
 #, python-format
 msgid "PARAMETER PARSE ERROR (please check parameter validity): %%s"
 msgstr ""
-"PARAMETER PARSE ERROR (por favor, compruebe la validez del parámetro): %%s"
+"Error de analisis de parametros (por favor, compruebe la validez del "
+"parámetro): %%s"
 
 #: common/constants/messages.py:275
 msgid "Command FAILED: access denied"
@@ -1161,8 +1163,8 @@ msgid ""
 "(English fine-tuning by Phil Hudson <phil.hudson@iname.com>)"
 msgstr ""
 "Eduards Bezverhijs <edzis@inbox.lv>\n"
-"(Traducción revisada por JP Lord <jplord@gmail.com>)\n"
-"(Ajuste en inglés por Phil Hudson <phil.hudson@iname.com>)"
+"(Traducción revisada por Ivan Ledesma <ivanarielledesma@gmail.com>)\n"
+"(Ajuste en Español por Ivan Ledesma <ivanarielledesma@gmail.com>)"
 
 #: resource/client/forms/admin.glade:155
 msgid "Remove excluded session type"
@@ -1792,7 +1794,7 @@ msgstr ""
 
 #: resource/client/forms/admin.glade:2569
 msgid "PlayTime configuration"
-msgstr "PlayTime configuration"
+msgstr "PlayTime configuracion"
 
 #: resource/client/forms/admin.glade:2594
 msgid "Additional configuration options"
@@ -2151,7 +2153,7 @@ msgstr "Añadir a la lista el tipo de sesión rastreada"
 
 #: resource/client/forms/admin.glade:3379
 msgid "Remove tracked session type from the list"
-msgstr "Remove tracked session type from the list"
+msgstr "Eliminar de la lista el tipo de sesión rastreada"
 
 #: resource/client/forms/admin.glade:3408
 msgid ""
@@ -2377,10 +2379,11 @@ msgid ""
 "Option \"∞\" indicates that time spent during this interval will not be "
 "accounted towards the daily limit, it will be accounted as idle instead."
 msgstr ""
-"This shows the time intervals that are available for use.\n"
+"Esto muestra el tiempo de los intervalos disponibles para su uso\n"
 "\n"
-"Option \"∞\" indicates that time spent during this interval will not be "
-"accounted towards the daily limit, it will be accounted as idle instead."
+"La opción \"∞\" indica que el tiempo empleado durante este intervalo no se "
+"tendrá en cuenta para el límite diario, sino que se contabilizará como "
+"inactivo."
 
 #: resource/client/forms/client.glade:634
 msgid "Intervals"
@@ -2443,7 +2446,7 @@ msgstr "Plazo disponible para esta semana"
 
 #: resource/client/forms/client.glade:846
 msgid "Time limit (week):"
-msgstr "Plazo disponible para esta semana"
+msgstr "Plazo disponible para esta semana:"
 
 #: resource/client/forms/client.glade:872
 msgid "Time limit for this month available to you"
@@ -2451,7 +2454,7 @@ msgstr "Plazo disponible para este mes"
 
 #: resource/client/forms/client.glade:874
 msgid "Time limit (month):"
-msgstr "Plazo limite para este mes"
+msgstr "Plazo limite para este mes:"
 
 #: resource/client/forms/client.glade:948
 msgid "Current PlayTime statistics"
@@ -2530,7 +2533,7 @@ msgid ""
 "This shows activities / applications which are part of PlayTime restrictions"
 msgstr ""
 "Muestra las actividades / aplicaciones que forman parte de las restricciones "
-"de PlayTime."
+"de PlayTime"
 
 #: resource/client/forms/client.glade:1228
 msgid "Activity / application list"

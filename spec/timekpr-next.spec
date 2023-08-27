@@ -20,7 +20,7 @@ BuildRequires:    ( sed )
 BuildRequires:    ( grep )
 
 Requires:         ( gtk3 >= 3.4 )
-Requires:         ( polkit )
+Requires:         ( polkit or pkexec)
 Requires:         ( python3 )
 Requires:         ( python3-dbus or python3-dbus-python )
 Requires:         ( python3-gobject )
@@ -121,6 +121,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Thu Aug 27 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.3
+- Updated spec file for version 0.5.5, release 0.3 (BETA)
 * Thu Jun 22 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.2
 - Updated spec file for version 0.5.5, release 0.2 (BETA)
 * Sat Dec 31 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.1
