@@ -58,7 +58,7 @@ TK_CL_INF_RT = "R"
 # ## files and locations ##
 # users and login configuration
 TK_USERS_FILE = "/etc/passwd"
-TK_USER_LIMITS_FILE = "/etc/login.defs"
+TK_USER_LIMITS_FILE = [ "/etc/login.defs", "/usr/etc/login.defs" ]
 # backup extension
 TK_BACK_EXT = ".prev"
 # log files

@@ -24,16 +24,27 @@ from timekpr.common.utils.misc import getNormalizedUserNames
 _limitsConfig = {}
 _loginManagers = [result.strip(None) for result in cons.TK_USERS_LOGIN_MANAGERS.split(";")]
 
-# load limits
-with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
-    # read line and do manipulations
-    for rLine in rLimitsFile:
-        # get min/max uids
-        if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
-            # find our config
-            x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
-            # save min/max uuids
-            _limitsConfig[x[0][0]] = int(x[0][1])
+# defaults
+_limitsConfig["UID_MIN"] = 1000
+_limitsConfig["UID_MAX"] = 60000
+
+
+# some distros are "different", login.defs may be in different dir, config reflects multiple dirs to check for the file
+for rFile in cons.TK_USER_LIMITS_FILE:
+    # check if file exists
+    if os.path.isfile(rFile):
+        # load limits
+        with fileinput.input(rFile) as rLimitsFile:
+            # read line and do manipulations
+            for rLine in rLimitsFile:
+                # get min/max uids
+                if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
+                    # find our config
+                    x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
+                    # save min/max uuids
+                    _limitsConfig[x[0][0]] = int(x[0][1])
+            # fin
+            break
 
 
 def verifyNormalUserID(pUserId):
