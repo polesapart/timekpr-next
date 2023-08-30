@@ -62,7 +62,7 @@ BUILD instructions (please open terminal and install this in one go not leaving 
     # install build dependencies
     Fedora:
         sudo dnf builddep timekpr-next.spec
-        sudo dnf install libappindicator-gtk3 python3-psutil
+        sudo dnf install libindicator-gtk3 libappindicator-gtk3 python3-psutil gettext
     openSUSE:
         sudo zypper install python3 desktop-file-utils appstream-glib systemd sed grep gtk3 python3-dbus-python python3-gobject python3-psutil libayatana-indicator3-7 gettext typelib-1_0-Gtk-3_0 typelib-1_0-AyatanaAppIndicator3-0_1
 
