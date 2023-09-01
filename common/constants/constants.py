@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.5.4"
+TK_VERSION = "0.5.5"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DEV_SUPPORT_PAGE = "https://tinyurl.com/yc9x85v2"
@@ -58,7 +58,7 @@ TK_CL_INF_RT = "R"
 # ## files and locations ##
 # users and login configuration
 TK_USERS_FILE = "/etc/passwd"
-TK_USER_LIMITS_FILE = "/etc/login.defs"
+TK_USER_LIMITS_FILE = [ "/etc/login.defs", "/usr/etc/login.defs" ]
 # backup extension
 TK_BACK_EXT = ".prev"
 # log files
@@ -107,6 +107,12 @@ TK_DBUS_PROPERTIES_INTERFACE = "org.freedesktop.DBus.Properties"
 TK_DBUS_L1_OBJECT = "org.freedesktop.login1"
 TK_DBUS_L1_PATH = "/org/freedesktop/login1"
 TK_DBUS_L1_MANAGER_INTERFACE = "org.freedesktop.login1.Manager"
+
+# systemd-homed
+TK_SYSTEMD_HOMED_UID_MIN = 60001  # UIDs for home directories managed by systemd-homed (min)
+TK_SYSTEMD_HOMED_UID_MAX = 60513  # UIDs for home directories managed by systemd-homed (max)
+TK_SYSTEMD_HOMED_DYN_UID_MIN = 61184  # UIDs for dynamic users (min)
+TK_SYSTEMD_HOMED_DYN_UID_MAX = 65519  # UIDs for dynamic users (max)
 
 # ck
 TK_DBUS_CK_OBJECT = "org.freedesktop.ConsoleKit"

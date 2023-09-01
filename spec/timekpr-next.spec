@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.5.4
+Version:          0.5.5
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -20,7 +20,7 @@ BuildRequires:    ( sed )
 BuildRequires:    ( grep )
 
 Requires:         ( gtk3 >= 3.4 )
-Requires:         ( polkit )
+Requires:         ( polkit or pkexec)
 Requires:         ( python3 )
 Requires:         ( python3-dbus or python3-dbus-python )
 Requires:         ( python3-gobject )
@@ -102,10 +102,11 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/64x64/apps/*
 %{_datadir}/icons/hicolor/scalable/apps/*
 %{_datadir}/locale/be/LC_MESSAGES/*
-#%{_datadir}/locale/cs/LC_MESSAGES/*
+#%%{_datadir}/locale/cs/LC_MESSAGES/*
+%{_datadir}/locale/es/LC_MESSAGES/*
 %{_datadir}/locale/de/LC_MESSAGES/*
 %{_datadir}/locale/fr/LC_MESSAGES/*
-#%{_datadir}/locale/hu/LC_MESSAGES/*
+#%%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
 %{_datadir}/metainfo/*
@@ -120,13 +121,23 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Fri Sep 1 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-1.0
+- Updated spec file for version 0.5.5, release 1.0 (STABLE)
+* Wed Aug 30 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.4
+- Updated spec file for version 0.5.5, release 0.4 (BETA)
+* Sun Aug 27 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.3
+- Updated spec file for version 0.5.5, release 0.3 (BETA)
+* Thu Jun 22 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.2
+- Updated spec file for version 0.5.5, release 0.2 (BETA)
+* Sat Dec 31 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.1
+- Updated spec file for version 0.5.5, release 0.1 (BETA)
 * Wed Oct 7 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-1.0
 - Updated spec file for version 0.5.4, release 1.0 (STABLE)
 * Wed Sep 14 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.4
 - Updated spec file for version 0.5.4, release 0.4 (BETA)
 * Thu Sep 8 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.3
 - Updated spec file for version 0.5.4, release 0.3 (BETA)
-* Wed Sep 5 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.2
+* Mon Sep 5 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.2
 - Updated spec file for version 0.5.4, release 0.2 (BETA)
 * Wed Jun 15 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.1
 - Updated spec file for version 0.5.4, release 0.1 (BETA)

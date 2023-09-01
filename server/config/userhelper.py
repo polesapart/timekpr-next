@@ -24,23 +24,48 @@ from timekpr.common.utils.misc import getNormalizedUserNames
 _limitsConfig = {}
 _loginManagers = [result.strip(None) for result in cons.TK_USERS_LOGIN_MANAGERS.split(";")]
 
-# load limits
-with fileinput.input(cons.TK_USER_LIMITS_FILE) as rLimitsFile:
-    # read line and do manipulations
-    for rLine in rLimitsFile:
-        # get min/max uids
-        if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
-            # find our config
-            x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
-            # save min/max uuids
-            _limitsConfig[x[0][0]] = int(x[0][1])
+# defaults
+_limitsConfig["UID_MIN"] = 1000
+_limitsConfig["UID_MAX"] = 60000
+
+
+# some distros are "different", login.defs may be in different dir, config reflects multiple dirs to check for the file
+for rFile in cons.TK_USER_LIMITS_FILE:
+    # check if file exists
+    if os.path.isfile(rFile):
+        # load limits
+        with fileinput.input(rFile) as rLimitsFile:
+            # read line and do manipulations
+            for rLine in rLimitsFile:
+                # get min/max uids
+                if re.match("^UID_M(IN|AX)[ \t]+[0-9]+$", rLine):
+                    # find our config
+                    x = re.findall(r"^([A-Z_]+)[ \t]+([0-9]+).*$", rLine)
+                    # save min/max uuids
+                    _limitsConfig[x[0][0]] = int(x[0][1])
+            # fin
+            break
 
 
 def verifyNormalUserID(pUserId):
     """Return min user id"""
+    # vars
     global _limitsConfig
-    # to test in VMs default user (it may have UID of 999, -1 from limit), this should work fine for any other case
-    return((_limitsConfig["UID_MIN"]-1 <= int(pUserId) <= _limitsConfig["UID_MAX"]))
+    isUIDOK = False
+    # to test in VMs default user (it may have UID of 999, -1 from limit)
+    if not isUIDOK:
+        isUIDOK = (int(pUserId) == _limitsConfig["UID_MIN"]-1)
+    # check normal users
+    if not isUIDOK:
+        isUIDOK = (_limitsConfig["UID_MIN"] <= int(pUserId) <= _limitsConfig["UID_MAX"])
+    # check systemd-homed normal users
+    if not isUIDOK:
+        isUIDOK = (cons.TK_SYSTEMD_HOMED_UID_MIN <= int(pUserId) <= cons.TK_SYSTEMD_HOMED_UID_MAX)
+    # check systemd-homed dynamic users
+    if not isUIDOK:
+        isUIDOK = (cons.TK_SYSTEMD_HOMED_DYN_UID_MIN <= int(pUserId) <= cons.TK_SYSTEMD_HOMED_DYN_UID_MAX)
+    # fin
+    return(isUIDOK)
 
 
 def getTimekprLoginManagers():

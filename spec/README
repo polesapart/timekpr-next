@@ -12,7 +12,7 @@ INSTALLATION INSTRUCTIONS
 
     NOTES
     -----
-        If You are using G3 with Gnome Shell, please DO NOT forget to install this (otherwise icon will be hidden)!
+        If You are using Gnome3 with Gnome Shell, please DO NOT forget to install this (otherwise icon will be hidden)!
 
         Fedora:
             sudo dnf install gnome-shell-extension-appindicator
@@ -37,7 +37,7 @@ BUILD instructions (please open terminal and install this in one go not leaving 
 ---------------------------------------------------------------------------------------------------------------------------
     # set version
     Fedora / openSUSE:
-        export TNVER="0.5.4"
+        export TNVER="0.5.5"
         export TNREL="1.0"
 
     # install build tools
@@ -62,7 +62,7 @@ BUILD instructions (please open terminal and install this in one go not leaving 
     # install build dependencies
     Fedora:
         sudo dnf builddep timekpr-next.spec
-        sudo dnf install libappindicator-gtk3 python3-psutil
+        sudo dnf install libindicator-gtk3 libappindicator-gtk3 python3-psutil gettext
     openSUSE:
         sudo zypper install python3 desktop-file-utils appstream-glib systemd sed grep gtk3 python3-dbus-python python3-gobject python3-psutil libayatana-indicator3-7 gettext typelib-1_0-Gtk-3_0 typelib-1_0-AyatanaAppIndicator3-0_1
 
