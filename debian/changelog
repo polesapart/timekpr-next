@@ -1,3 +1,21 @@
+timekpr-next-beta (0.5.6-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+
+  * remove UUID upper boundary check (fixes #2046222)
+      any user whose ID is greater than UUID_MIN is considered controllable by timekpr
+      this helps with systemd-homed, remote LDAP logins etc, where UID is arbitrary high
+  * color "apply" buttons and tab pages in red
+      to warn users that there are pending changes to apply
+  * added keyboard navigation focus order to list type of elements (where there are ediable columns)
+      swapped day limit and enabled columns due to weird GTK behaviour when toggle can not be activated using keyboard as first editable item in list
+  * disable search boxes on list elements as they pop up using keyboard navigation
+      they are not needed and just confuse users
+  * fix "verify" button enablement
+      it was enabled even when user clicks in and out of "from" field and it contained 0 hour
+  * made lists a little wider for adwaita theme not to show horizontal scrollbar
+  * fix row positioning "Gtk-CRITICAL" when there is no rows in the list
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 30 Aug 2023 15:10:13 +0300
+
 timekpr-next-beta (0.5.5-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * add initial support for systemd-homed users and systemd-homed dynamic users
