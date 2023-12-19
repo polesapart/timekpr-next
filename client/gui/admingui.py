@@ -314,6 +314,16 @@ class timekprAdminGUI(object):
             # fill in the intervals
             self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsLS").append([str(rDay), (cons.TK_DATETIME_START + timedelta(days=rDay-1)).strftime("%A"), False, 0, _NO_TIME_LABEL])
 
+        # color the buttons for ppl to see them better
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsSetDaysIntervalsVerifyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetAddBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetSubractBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetSetBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsApplyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+        self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red'))
+
     # --------------- GUI control methods --------------- #
 
     def initInternalConfiguration(self):
@@ -1440,6 +1450,8 @@ class timekprAdminGUI(object):
                     break
             # enabled or not
             self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").set_sensitive(enable)
+            # tab color
+            self._timekprAdminFormBuilder.get_object("TimekprConfigurationTabLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").get_sensitive() else None)
 
         # return
         return changeControl
@@ -1450,6 +1462,8 @@ class timekprAdminGUI(object):
         enabled = (self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetHrSB").get_value_as_int() != 0 or self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetMinSB").get_value_as_int() != 0)
         for rCtrl in ("TimekprUserConfTodaySettingsSetAddBT", "TimekprUserConfTodaySettingsSetSubractBT", "TimekprUserConfTodaySettingsSetSetBT"):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(enabled)
+        # tab color
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfTodayLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetAddBT").get_sensitive() else None)
 
     def calculateUserConfigControlAvailability(self, pApplyControls=True):
         """Calculate user config control availability"""
@@ -1501,6 +1515,8 @@ class timekprAdminGUI(object):
 
         # enable / disable verify
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsSetDaysIntervalsVerifyBT").set_sensitive(not areIntervalsVerified)
+        # tab color
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDailyLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").get_sensitive() or self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsSetDaysIntervalsVerifyBT").get_sensitive() else None)
 
         # return
         return changeControl
@@ -1564,6 +1580,8 @@ class timekprAdminGUI(object):
                     break
             # enabled or not
             self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").set_sensitive(enable)
+            # tab color
+            self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").get_sensitive() else None)
 
         # return
         return changeControl
@@ -1608,6 +1626,8 @@ class timekprAdminGUI(object):
                     break
             # enabled or not
             self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsApplyBT").set_sensitive(enable)
+            # tab color
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsApplyBT").get_sensitive() else None)
 
         # return
         return changeControl
@@ -2178,6 +2198,8 @@ class timekprAdminGUI(object):
         """Apply configuration changes"""
         # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").set_sensitive(False)
+        # tab color
+        self._timekprAdminFormBuilder.get_object("TimekprConfigurationTabLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprConfigurationApplyBT").get_sensitive() else None)
         # process setting
         self.applyTimekprConfigurationChanges()
 
@@ -2250,8 +2272,8 @@ class timekprAdminGUI(object):
         secs = self.verifyAndCalcLimit(text, "h")
         # if we could calculate seconds (i.e. entered text is correct)
         if secs is not None:
-            # if values before and after does not change (or initial 0), we do nothing
-            if secsBefore != secs or secsBefore == secs == 0:
+            # if values before and after does not change (or initial ""), we do nothing
+            if secsBefore != secs or (intervalSt[path][0] == -1 and intervalSt[path][1 if pIsFrom else 2] == ""):
                 # format secs
                 text = self.formatTimeStr(secs)
                 # set values
@@ -2314,7 +2336,7 @@ class timekprAdminGUI(object):
         # loop through all
         for rInt in intervalSt:
             # check whether it has been verified (id = -1 means not verified)
-            if rInt[0] < 0 and not (rInt[4] == 0 == rInt[5]):
+            if rInt[0] < 0 and not (rInt[4] == 0 and rInt[4] == rInt[5]):
                 # not verified
                 result = False
                 break
@@ -2653,6 +2675,8 @@ class timekprAdminGUI(object):
         """Apply PlayTime configuration changes"""
         # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").set_sensitive(False)
+        # tab color
+        self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").get_sensitive() else None)
         # process setting
         self.applyUserPlayTimeConfigurationChanges()
 
@@ -2682,6 +2706,8 @@ class timekprAdminGUI(object):
         """Apply additional configuration changes"""
         # disable button so it cannot be triggered again
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").set_sensitive(False)
+        # tab color
+        self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse('red') if self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").get_sensitive() else None)
         # process setting
         self.applyUserAdditionalConfigurationChanges()
 
