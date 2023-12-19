@@ -108,12 +108,6 @@ TK_DBUS_L1_OBJECT = "org.freedesktop.login1"
 TK_DBUS_L1_PATH = "/org/freedesktop/login1"
 TK_DBUS_L1_MANAGER_INTERFACE = "org.freedesktop.login1.Manager"
 
-# systemd-homed
-TK_SYSTEMD_HOMED_UID_MIN = 60001  # UIDs for home directories managed by systemd-homed (min)
-TK_SYSTEMD_HOMED_UID_MAX = 60513  # UIDs for home directories managed by systemd-homed (max)
-TK_SYSTEMD_HOMED_DYN_UID_MIN = 61184  # UIDs for dynamic users (min)
-TK_SYSTEMD_HOMED_DYN_UID_MAX = 65519  # UIDs for dynamic users (max)
-
 # ck
 TK_DBUS_CK_OBJECT = "org.freedesktop.ConsoleKit"
 TK_DBUS_CK_PATH = "/org/freedesktop/ConsoleKit"

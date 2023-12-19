@@ -57,13 +57,7 @@ def verifyNormalUserID(pUserId):
         isUIDOK = (int(pUserId) == _limitsConfig["UID_MIN"]-1)
     # check normal users
     if not isUIDOK:
-        isUIDOK = (_limitsConfig["UID_MIN"] <= int(pUserId) <= _limitsConfig["UID_MAX"])
-    # check systemd-homed normal users
-    if not isUIDOK:
-        isUIDOK = (cons.TK_SYSTEMD_HOMED_UID_MIN <= int(pUserId) <= cons.TK_SYSTEMD_HOMED_UID_MAX)
-    # check systemd-homed dynamic users
-    if not isUIDOK:
-        isUIDOK = (cons.TK_SYSTEMD_HOMED_DYN_UID_MIN <= int(pUserId) <= cons.TK_SYSTEMD_HOMED_DYN_UID_MAX)
+        isUIDOK = (_limitsConfig["UID_MIN"] <= int(pUserId))
     # fin
     return(isUIDOK)
 
