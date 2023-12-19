@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddExcludedSessionsImage">
@@ -1475,6 +1475,7 @@ Please note, that you may select more than one day for the adjustment!</property
 
 Please enable / disable days for the user.</property>
                                             <property name="model">TimekprWeekDaysLS</property>
+                                            <property name="enable-search">False</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
                                                 <property name="mode">multiple</property>
@@ -1557,6 +1558,7 @@ An interval can start or end or contain a specific hour, but not more than once.
 
 </property>
                                                 <property name="model">TimekprHourIntervalsLS</property>
+                                                <property name="enable-search">False</property>
                                                 <property name="search-column">0</property>
                                                 <child internal-child="selection">
                                                   <object class="GtkTreeSelection"/>
@@ -1977,6 +1979,7 @@ Intervals which have problems will be highlighted.</property>
 
 These limits are applied to user together with the rest of limit configuration.</property>
                                             <property name="model">TimekprUserConfWkMonLimitsLS</property>
+                                            <property name="enable-search">False</property>
                                             <property name="search-column">0</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprUserConfWkMonLimitsTreeViewSelection"/>
@@ -2375,6 +2378,7 @@ Please note, that you may select more than one day for the adjustment!</property
 
 Please enable / disable days for the user and set time allowance for PlayTime activities.</property>
                                             <property name="model">TimekprUserPlayTimeLimitsLS</property>
+                                            <property name="enable-search">False</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprUserPlayTimeLimitsTreeViewSelection">
                                                 <property name="mode">multiple</property>
@@ -2509,6 +2513,7 @@ It's possible to specify RegExp masks for processes too, but please be very care
 
 NOTE: RegExp is an expert setting!</property>
                                             <property name="model">TimekprUserPlayTimeProcessesLS</property>
+                                            <property name="enable-search">False</property>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprUserPlayTimeProcessesTreeViewSelection"/>
                                             </child>
@@ -3410,6 +3415,7 @@ NOTE: the rest of the notification times are configurable per user by user in cl
 Please, do not change or experiment with this unless you actually (not wishfully) know what you are doing.</property>
                                         <property name="vexpand">True</property>
                                         <property name="model">TimekprTrackingSessionsLS</property>
+                                        <property name="enable-search">False</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprTrackingSessionsTreeViewSelection"/>
                                         </child>
@@ -3511,6 +3517,7 @@ Please, do not change or experiment with this unless you actually (not wishfully
 Please, do not change or experiment with this unless you actually (not wishfully) know what you are doing.</property>
                                         <property name="vexpand">True</property>
                                         <property name="model">TimekprExcludedSessionsLS</property>
+                                        <property name="enable-search">False</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedSessionsTreeViewSelection"/>
                                         </child>
@@ -3612,6 +3619,7 @@ Please, do not change or experiment with this unless you actually (not wishfully
 Please specify actual usernames, not real names here. For example, "jsmith", not "John Smith".</property>
                                         <property name="vexpand">True</property>
                                         <property name="model">TimekprExcludedUsersLS</property>
+                                        <property name="enable-search">False</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprExcludedUsersTreeViewSelection"/>
                                         </child>

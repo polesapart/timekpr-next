@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface domain="timekpr">
   <requires lib="gtk+" version="3.4"/>
   <object class="GtkImage" id="TimekprAddTrackedSessionsImage">
@@ -1300,6 +1300,7 @@ Warning - a yellow icon and an informational notification will be shown
 Severe - a red icon and important notification will be shown
 Critical - a red icon and critical notification will be shown, this notification usually is shown over all open applications and stays open until dismissed, however this behaviour highly depends on Desktop Environment in use</property>
                                         <property name="model">TimekprUserNotificationConfigLS</property>
+                                        <property name="enable-search">False</property>
                                         <property name="search-column">0</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprUserNotificationConfigTreeSelection"/>
@@ -1418,6 +1419,7 @@ Warning - a yellow icon and an informational notification will be shown
 Severe - a red icon and important notification will be shown
 Critical - a red icon and critical notification will be shown, this notification usually is shown over all open applications and stays open until dismissed, however this behaviour highly depends on Desktop Environment in use</property>
                                         <property name="model">TimekprUserPlayTimeNotificationConfigLS</property>
+                                        <property name="enable-search">False</property>
                                         <property name="search-column">0</property>
                                         <child internal-child="selection">
                                           <object class="GtkTreeSelection" id="TimekprUserPlayTimeNotificationConfigTreeSelection"/>
