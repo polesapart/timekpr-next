@@ -1465,7 +1465,7 @@ Please note, that you may select more than one day for the adjustment!</property
                                         <property name="hexpand">True</property>
                                         <property name="vexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">265</property>
+                                        <property name="min-content-width">275</property>
                                         <property name="min-content-height">105</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
@@ -1476,6 +1476,7 @@ Please note, that you may select more than one day for the adjustment!</property
 Please enable / disable days for the user.</property>
                                             <property name="model">TimekprWeekDaysLS</property>
                                             <property name="enable-search">False</property>
+                                            <signal name="key-press-event" handler="navigateTreeView" swapped="no"/>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprWeekDaysTreeViewSelection">
                                                 <property name="mode">multiple</property>
@@ -1542,7 +1543,7 @@ Please enable / disable days for the user.</property>
                                             <property name="hexpand">True</property>
                                             <property name="vexpand">True</property>
                                             <property name="shadow-type">in</property>
-                                            <property name="min-content-width">175</property>
+                                            <property name="min-content-width">185</property>
                                             <property name="min-content-height">105</property>
                                             <child>
                                               <object class="GtkTreeView" id="TimekprHourIntervalsTreeView">
@@ -1560,6 +1561,7 @@ An interval can start or end or contain a specific hour, but not more than once.
                                                 <property name="model">TimekprHourIntervalsLS</property>
                                                 <property name="enable-search">False</property>
                                                 <property name="search-column">0</property>
+                                                <signal name="key-press-event" handler="navigateTreeView" swapped="no"/>
                                                 <child internal-child="selection">
                                                   <object class="GtkTreeSelection"/>
                                                 </child>
@@ -1969,7 +1971,7 @@ Intervals which have problems will be highlighted.</property>
                                         <property name="can-focus">True</property>
                                         <property name="hexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">210</property>
+                                        <property name="min-content-width">220</property>
                                         <property name="min-content-height">75</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprUserConfWkMonLimitsTreeView">
@@ -1981,6 +1983,7 @@ These limits are applied to user together with the rest of limit configuration.<
                                             <property name="model">TimekprUserConfWkMonLimitsLS</property>
                                             <property name="enable-search">False</property>
                                             <property name="search-column">0</property>
+                                            <signal name="key-press-event" handler="navigateTreeView" swapped="no"/>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprUserConfWkMonLimitsTreeViewSelection"/>
                                             </child>
@@ -2368,7 +2371,7 @@ Please note, that you may select more than one day for the adjustment!</property
                                         <property name="hexpand">True</property>
                                         <property name="vexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">265</property>
+                                        <property name="min-content-width">275</property>
                                         <property name="min-content-height">115</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprUserPlayTimeLimitsTreeView">
@@ -2379,6 +2382,7 @@ Please note, that you may select more than one day for the adjustment!</property
 Please enable / disable days for the user and set time allowance for PlayTime activities.</property>
                                             <property name="model">TimekprUserPlayTimeLimitsLS</property>
                                             <property name="enable-search">False</property>
+                                            <signal name="key-press-event" handler="navigateTreeView" swapped="no"/>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprUserPlayTimeLimitsTreeViewSelection">
                                                 <property name="mode">multiple</property>
@@ -2514,6 +2518,7 @@ It's possible to specify RegExp masks for processes too, but please be very care
 NOTE: RegExp is an expert setting!</property>
                                             <property name="model">TimekprUserPlayTimeProcessesLS</property>
                                             <property name="enable-search">False</property>
+                                            <signal name="key-press-event" handler="navigateTreeView" swapped="no"/>
                                             <child internal-child="selection">
                                               <object class="GtkTreeSelection" id="TimekprUserPlayTimeProcessesTreeViewSelection"/>
                                             </child>
