@@ -1,8 +1,10 @@
-timekpr-next (0.5.6-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.6-2ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * remove UUID upper boundary check (fixes #2046222)
       any user whose ID is greater than UUID_MIN is considered controllable by timekpr
       this helps with systemd-homed, remote LDAP logins etc, where UID is arbitrary high
+  * fix a long standding bug when weekly limits are reset together with monthly limits
+      this occurs only when new month starts in the middle of the week
   * color "apply" buttons and tab pages in red
       to warn users that there are pending changes to apply
   * added keyboard navigation focus order to list type of elements (where there are ediable columns)
@@ -14,7 +16,7 @@ timekpr-next (0.5.6-1ubuntu1~ppa1) UNRELEASED; urgency=medium
   * made lists a little wider for adwaita theme not to show horizontal scrollbar
   * fix row positioning "Gtk-CRITICAL" when there is no rows in the list
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 30 Aug 2023 15:10:13 +0300
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 08 Feb 2024 09:43:16 +0200
 
 timekpr-next (0.5.5-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
