@@ -24,17 +24,18 @@ class timekprUserManager(object):
         self._userName = pUserName
 
         # dbus performance measurement
-        misc.measureTimeElapsed(pStart=True)
-
+        misc.measureDBUSTimeElapsed(pStart=True)
         # get dbus object
         self._login1UserObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, pUserPathOnBus)
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_L1_OBJECT)
 
+        # dbus performance measurement
+        misc.measureDBUSTimeElapsed(pStart=True)
         # get dbus interface for properties
         self._login1UserInterface = dbus.Interface(self._login1UserObject, cons.TK_DBUS_PROPERTIES_INTERFACE)
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_PROPERTIES_INTERFACE)
 
         # user sessions & additional DBUS objects
         self._timekprUserSessions = {}
@@ -49,11 +50,11 @@ class timekprUserManager(object):
         """Determine user sessions and cache session objects for further reference."""
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "---=== start cacheUserSessionList for \"%s\" ===---" % (self._userName))
         # dbus performance measurement
-        misc.measureTimeElapsed(pStart=True)
+        misc.measureDBUSTimeElapsed(pStart=True)
         # get all user sessions
         userSessions = self._login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "Sessions")
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting sessions for \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_USER_OBJECT)
 
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "got %i sessions: %s, start loop" % (len(userSessions), str(userSessions)))
 
@@ -72,22 +73,25 @@ class timekprUserManager(object):
             if sessionId not in self._timekprUserSessions:
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "adding session: %s, %s" % (sessionId, sessionPath))
                 # dbus performance measurement
-                misc.measureTimeElapsed(pStart=True)
-
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # get object and interface to save it
                 sessionObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, sessionPath)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_L1_OBJECT)
 
+                # dbus performance measurement
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # get object and interface to save it
                 sessionPropertiesInterface = dbus.Interface(sessionObject, cons.TK_DBUS_PROPERTIES_INTERFACE)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_PROPERTIES_INTERFACE)
 
+                # dbus performance measurement
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # get dbus interface for Session
                 sessionInterface = dbus.Interface(sessionObject, cons.TK_DBUS_SESSION_OBJECT)
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_SESSION_OBJECT)
 
                 # cache sessions
                 self._timekprUserSessions[sessionId] = {cons.TK_CTRL_DBUS_SESS_OBJ: sessionObject, cons.TK_CTRL_DBUS_SESS_IF: sessionInterface, cons.TK_CTRL_DBUS_SESS_PROP_IF: sessionPropertiesInterface, cons.TK_CTRL_DBUS_SESS_PROP: {}}
@@ -139,10 +143,11 @@ class timekprUserManager(object):
         else:
             # go through all user sessions
             for rSessionId in self._timekprUserSessions:
-                # dbus performance measurement
-                misc.measureTimeElapsed(pStart=True)
+                # not locked
                 sessionLockedState = "False"
 
+                # dbus performance measurement
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # get needed static properties
                 sessionVTNr = self._timekprUserSessions[rSessionId][cons.TK_CTRL_DBUS_SESS_PROP]["VTNr"]
                 # get needed properties
@@ -163,9 +168,10 @@ class timekprUserManager(object):
                         # locked state not used
                         self._sessionLockedStateAvailable = False
                         log.log(cons.TK_LOG_LEVEL_INFO, "INFO: session locked state is NOT available, will rely on client screensaver state (if it works)")
-
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - property get for session \"%s\" took too long (%is)" % (rSessionId, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=rSessionId)
+
+                # logging
                 log.log(cons.TK_LOG_LEVEL_DEBUG, "session stats, styp: %s, sVTNr: %s, sl1St: %s, sl1idlst: %s, sl1lckst: %s" % (sessionType, sessionVTNr, sessionState, sessionIdleState, sessionLockedState))
 
                 # check if active

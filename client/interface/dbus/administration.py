@@ -50,12 +50,11 @@ class timekprAdminConnector(object):
         if self._timekprObject is None:
             try:
                 # dbus performance measurement
-                misc.measureTimeElapsed(pStart=True)
-
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # timekpr connection stuff
                 self._timekprObject = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH)
                 # measurement logging
-                log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pPrintToConsole=True, pDbusIFName=cons.TK_DBUS_BUS_NAME)
             except Exception:
                 self._timekprObject = None
                 # logging
@@ -64,10 +63,12 @@ class timekprAdminConnector(object):
             # only if notifications are ok
         if self._timekprObject is not None and self._timekprUserAdminDbusInterface is None:
             try:
+                # dbus performance measurement
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # getting interface
                 self._timekprUserAdminDbusInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_USER_ADMIN_INTERFACE)
                 # measurement logging
-                log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_ADMIN_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pPrintToConsole=True, pDbusIFName=cons.TK_DBUS_USER_ADMIN_INTERFACE)
             except Exception:
                 self._timekprUserAdminDbusInterface = None
                 # logging
@@ -76,10 +77,12 @@ class timekprAdminConnector(object):
             # only if notifications are ok
         if self._timekprObject is not None and self._timekprAdminDbusInterface is None:
             try:
+                # dbus performance measurement
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # getting interface
                 self._timekprAdminDbusInterface = dbus.Interface(self._timekprObject, cons.TK_DBUS_ADMIN_INTERFACE)
                 # measurement logging
-                log.consoleOut("FYI: PERFORMANCE (DBUS), acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_ADMIN_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pPrintToConsole=True, pDbusIFName=cons.TK_DBUS_ADMIN_INTERFACE)
             except Exception:
                 self._timekprAdminDbusInterface = None
                 # logging

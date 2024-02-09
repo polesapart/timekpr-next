@@ -99,11 +99,12 @@ class timekprNotifications(object):
                 # go through all possible interfaces
                 try:
                     # dbus performance measurement
-                    misc.measureTimeElapsed(pStart=True)
+                    misc.measureDBUSTimeElapsed(pStart=True)
                     # getting interface
                     self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = dbus.Interface(self._userSessionBus.get_object(iNames[idx], iPaths[idx]), iNames[idx])
                     # measurement logging
-                    log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (iNames[idx], misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                    misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=iNames[idx])
+
                     # first sucess is enough
                     log.log(cons.TK_LOG_LEVEL_DEBUG, "CONNECTED to DBUS %s interface" % (self.CL_CONN_NOTIF))
                     # log
@@ -127,9 +128,7 @@ class timekprNotifications(object):
                 except Exception as dbusEx:
                     self._dbusConnections[self.CL_CONN_NOTIF][self.CL_IF] = None
                     # logging
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection (\"%s.%s\", %s, %s) ===---" % (__name__, self.initClientConnections.__name__, self.CL_CONN_NOTIF, iNames[idx]))
-                    log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING ===---")
+                    log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: initiating dbus connection (\"%s.%s\", %s, %s), error: %s" % (__name__, self.initClientConnections.__name__, self.CL_CONN_NOTIF, iNames[idx], str(dbusEx)))
 
         # only if screensaver is not ok
         if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is None and self._dbusConnections[self.CL_CONN_SCR][self.CL_CNT] > 0 and not self._dbusConnections[self.CL_CONN_SCR][self.CL_DEL] > 0:
@@ -174,7 +173,7 @@ class timekprNotifications(object):
                 # go through all possible interfaces
                 try:
                     # dbus performance measurement
-                    misc.measureTimeElapsed(pStart=True)
+                    misc.measureDBUSTimeElapsed(pStart=True)
                     # getting interface
                     self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] = dbus.Interface(self._userSessionBus.get_object(iNames[idx], iPaths[idx]), iNames[idx])
                     # log
@@ -182,7 +181,7 @@ class timekprNotifications(object):
                     # verification (Gnome has not implemented freedesktop methods, we need to verify this actually works)
                     self._dbusConnections[self.CL_CONN_SCR][self.CL_IF].GetActive()
                     # measurement logging
-                    log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (iNames[idx], misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                    misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=iNames[idx])
                     # first sucess is enough
                     chosenIdx = idx
                     # finish
@@ -190,9 +189,7 @@ class timekprNotifications(object):
                 except Exception as dbusEx:
                     self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] = None
                     # logging
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection (\"%s.%s\", %s, %s) ===---" % (__name__, self.initClientConnections.__name__, self.CL_CONN_SCR, iNames[idx]))
-                    log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                    log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING ===---")
+                    log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: initiating dbus connection (\"%s.%s\", %s, %s), error: %s" % (__name__, self.initClientConnections.__name__, self.CL_CONN_SCR, iNames[idx], str(dbusEx)))
 
             # connection successful
             if self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] is not None:
@@ -211,7 +208,7 @@ class timekprNotifications(object):
         if self._dbusConnections[self.CL_CONN_TK][self.CL_IF] is None and self._dbusConnections[self.CL_CONN_TK][self.CL_CNT] > 0 and not self._dbusConnections[self.CL_CONN_TK][self.CL_DEL] > 0:
             try:
                 # dbus performance measurement
-                misc.measureTimeElapsed(pStart=True)
+                misc.measureDBUSTimeElapsed(pStart=True)
                 # getting interface
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = dbus.Interface(self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_SERVER_PATH), cons.TK_DBUS_USER_LIMITS_INTERFACE)
                 # log
@@ -225,15 +222,13 @@ class timekprNotifications(object):
                 # log
                 log.log(cons.TK_LOG_LEVEL_INFO, "INFO: connected to timekpr session attributes service through \"%s\"" % (cons.TK_DBUS_USER_SESSION_ATTRIBUTE_INTERFACE))
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_LIMITS_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_USER_LIMITS_INTERFACE)
             except Exception as dbusEx:
                 # reset
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IF] = None
                 self._dbusConnections[self.CL_CONN_TK][self.CL_IFA] = None
                 # logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING initiating dbus connection (\"%s.%s\", %s, %s) ===---" % (__name__, self.initClientConnections.__name__, self.CL_CONN_TK, cons.TK_DBUS_BUS_NAME))
-                log.log(cons.TK_LOG_LEVEL_INFO, str(dbusEx))
-                log.log(cons.TK_LOG_LEVEL_INFO, "--=== WARNING ===---")
+                log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: initiating dbus connection (\"%s.%s\", %s, %s), error: %s" % (__name__, self.initClientConnections.__name__, self.CL_CONN_TK, cons.TK_DBUS_BUS_NAME, str(dbusEx)))
 
         # retry?
         doRetry = False

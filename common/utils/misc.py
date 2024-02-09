@@ -71,12 +71,31 @@ def measureTimeElapsed(pStart=False, pStop=False, pResult=False):
         _START_TIME = datetime.now()
     # set up end
     if pStop:
+        # calc seconds and finish stuff
         _END_TIME = datetime.now()
         _RESULT = (_END_TIME - _START_TIME).total_seconds()
         _START_TIME = _END_TIME
 
     # return
     return _RESULT
+
+
+def measureDBUSTimeElapsed(pStart=False, pStop=False, pPrintToConsole=False, pDbusIFName=""):
+    """Calculate the time difference in the simplest manner"""
+    # run
+    result = measureTimeElapsed(pStart, pStop)
+    # in case we measure dbus performance issues, just print them
+    if pStop and result >= cons.TK_DBUS_ANSWER_TIME:
+        # measurement logging
+        if pPrintToConsole:
+            # measurement logging
+            log.consoleOut("WARNING: PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (pDbusIFName, result))
+        else:
+            # measurement logging
+            log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (pDbusIFName, result))
+
+    # return
+    return result
 
 
 def checkAndSetRunning(pAppName, pUserName=""):
