@@ -60,7 +60,7 @@ class timekprNotifications(object):
         self._dbusConnections = {
             self.CL_CONN_TK: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 999, self.CL_DEL: 0},
             self.CL_CONN_NOTIF: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 99, self.CL_DEL: 0},
-            self.CL_CONN_SCR: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 5, self.CL_DEL: 1}
+            self.CL_CONN_SCR: {self.CL_IF: None, self.CL_IFA: None, self.CL_SI: None, self.CL_CNT: 5, self.CL_DEL: 2}
         }
 
         # WORKAROUNDS section start
@@ -136,35 +136,61 @@ class timekprNotifications(object):
             iNames = []
             iPaths = []
             chosenIdx = None
+            currentDE = None
+            isGnomeScrUsed = False
+            isFDScrUsed = False
 
             # THIS WHOLE SECTION IS WORKAROUNDS FOR MULTIPLE VARIETIES OF SCREENSAVER IMPLEMENTATIONS - START
-            # they must be compatible to freedekstop standard, e.g. have corect naming and at least GetActive method
+            # they must be compatible to freedekstop standard, e.g. have corect naming and at least GetActive method as well as ActiveChanged signal
 
             # get current DE
-            currentDE = os.getenv("XDG_CURRENT_DESKTOP", "N/A").upper()
+            currentDE = os.getenv("XDG_CURRENT_DESKTOP", "N/A")
             # log
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: current desktop environment \"%s\"" % (currentDE))
+            # transform
+            currentDE = currentDE.lower().replace("x-", "")
 
             # workarounds per desktop
             for rIdx in range(0, len(cons.TK_SCR_XDGCD_OVERRIDE)):
                 # check desktops
                 if cons.TK_SCR_XDGCD_OVERRIDE[rIdx][0] in currentDE:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: using %s screensaver dbus interface as a workaround" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1]))
+                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: using \"%s\" screensaver dbus interface as a workaround" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1]))
                     # use gnome stuff
                     iNames.extend(["org.%s.ScreenSaver" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1])])
                     iPaths.extend(["/org/%s/ScreenSaver" % (cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1])])
+                    # check if gnome screensaver is used (can it be used as failover?)
+                    isGnomeScrUsed = ((cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1] == "gnome") if not isGnomeScrUsed else isGnomeScrUsed)
+                    # check if freedesktop screensaver is used (can it be used as failover?)
+                    isFDScrUsed = ((cons.TK_SCR_XDGCD_OVERRIDE[rIdx][1] == "freedesktop") if not isFDScrUsed else isFDScrUsed)
                     # first match is enough
                     break
 
-            # add default section with the actual standard
-            iNames.extend(["org.freedesktop.ScreenSaver"])
-            iPaths.extend(["/org/freedesktop/ScreenSaver"])
+            # in case overrides were found, do not try anything else
+            if len(iNames) < 1:
+                # try parsing DE to get the most accurate DE name (there are desktop names, like, KDE, X-Cinnamon, XFCE and ubuntu:GNOME, ...)
+                if ":" in currentDE:
+                    # get desktop so we check for second option after ":"
+                    currentDE = currentDE.split(":")[1]
 
-            # if only freedesktop is in the list, try one more fallback to gnome
-            if len(iNames) < 2:
-                # add default section
-                iNames.extend(["org.gnome.ScreenSaver"])
-                iPaths.extend(["/org/gnome/ScreenSaver"])
+                # add to the list
+                if currentDE is not None and currentDE != "":
+                    log.log(cons.TK_LOG_LEVEL_INFO, "INFO: trying to use \"%s\" as screensaver dbus object" % (currentDE))
+                    # add
+                    iNames.extend(["org.%s.ScreenSaver" % (currentDE)])
+                    iPaths.extend(["/org/%s/ScreenSaver" % (currentDE)])
+                    # check if gnome screensaver is used (can it be used as failover?)
+                    isGnomeScrUsed = ((currentDE == "gnome") if not isGnomeScrUsed else isGnomeScrUsed)
+
+                # add gnome (most popular)
+                if not isGnomeScrUsed:
+                    # add default section
+                    iNames.extend(["org.gnome.ScreenSaver"])
+                    iPaths.extend(["/org/gnome/ScreenSaver"])
+                # add freedesktop (almost no one uses this, except KDE and maybe some other, the rest return "method not implemented" error)
+                if not isFDScrUsed:
+                    # add default section with the actual standard
+                    iNames.extend(["org.freedesktop.ScreenSaver"])
+                    iPaths.extend(["/org/freedesktop/ScreenSaver"])
 
             # THIS WHOLE SECTION IS WORKAROUNDS FOR MULTIPLE VARIETIES OF SCREENSAVER IMPLEMENTATIONS - END
 
@@ -187,6 +213,7 @@ class timekprNotifications(object):
                     # finish
                     break
                 except Exception as dbusEx:
+                    del self._dbusConnections[self.CL_CONN_SCR][self.CL_IF]
                     self._dbusConnections[self.CL_CONN_SCR][self.CL_IF] = None
                     # logging
                     log.log(cons.TK_LOG_LEVEL_INFO, "WARNING: initiating dbus connection (\"%s.%s\", %s, %s), error: %s" % (__name__, self.initClientConnections.__name__, self.CL_CONN_SCR, iNames[idx], str(dbusEx)))
