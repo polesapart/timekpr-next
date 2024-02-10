@@ -123,7 +123,7 @@ class timekprClient(object):
 
         try:
             # dbus performance measurement
-            misc.measureTimeElapsed(pStart=True)
+            misc.measureDBUSTimeElapsed(pStart=True)
 
             # get dbus object
             self._notificationFromDBUS = self._timekprBus.get_object(cons.TK_DBUS_BUS_NAME, cons.TK_DBUS_USER_NOTIF_PATH_PREFIX + self._userNameDBUS)
@@ -185,7 +185,7 @@ class timekprClient(object):
                 signal_name      = "timeConfigurationChangedNotification")
 
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - connecting signals \"%s\" took too long (%is)" % (cons.TK_DBUS_BUS_NAME, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_BUS_NAME)
 
             # set status
             self._timekprClientIndicator.setStatus(msg.getTranslation("TK_MSG_STATUS_CONNECTED"))

@@ -48,18 +48,20 @@ class timekprUserLoginManager(object):
         try:
             log.log(cons.TK_LOG_LEVEL_DEBUG, "getting login1 object on DBUS")
             # dbus performance measurement
-            misc.measureTimeElapsed(pStart=True)
-
+            misc.measureDBUSTimeElapsed(pStart=True)
             # try to get real connection to our objects and interface
             self._login1Object = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, cons.TK_DBUS_L1_PATH)
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_L1_OBJECT)
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "getting login1 interface on DBUS")
 
+            # dbus performance measurement
+            misc.measureDBUSTimeElapsed(pStart=True)
+            # interface
             self._login1ManagerInterface = dbus.Interface(self._login1Object, cons.TK_DBUS_L1_MANAGER_INTERFACE)
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_L1_MANAGER_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_L1_MANAGER_INTERFACE)
 
             log.log(cons.TK_LOG_LEVEL_DEBUG, "got interface, login1 successfully set up")
 
@@ -133,46 +135,54 @@ class timekprUserLoginManager(object):
         # prepare return list
         userSessions = []
 
-        misc.measureTimeElapsed(pStart=True)
+        # dbus performance measurement
+        misc.measureDBUSTimeElapsed(pStart=True)
         # get dbus object
         login1UserObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, pUserPath)
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (pUserPath, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.pUserPath)
+
+        # dbus performance measurement
+        misc.measureDBUSTimeElapsed(pStart=True)
         # get dbus interface for properties
         login1UserInterface = dbus.Interface(login1UserObject, cons.TK_DBUS_PROPERTIES_INTERFACE)
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_PROPERTIES_INTERFACE)
 
         # dbus performance measurement
-        misc.measureTimeElapsed(pStart=True)
+        misc.measureDBUSTimeElapsed(pStart=True)
         # get all user sessions
         login1UserSessions = login1UserInterface.Get(cons.TK_DBUS_USER_OBJECT, "Sessions")
         # measurement logging
-        log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting sessions for \"%s\" took too long (%is)" % (cons.TK_DBUS_USER_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_USER_OBJECT)
 
         # go through all user sessions
         for rUserSession in login1UserSessions:
             # dbus performance measurement
-            misc.measureTimeElapsed(pStart=True)
-
+            misc.measureDBUSTimeElapsed(pStart=True)
             # get dbus object
             login1SessionObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, str(rUserSession[1]))
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (str(rUserSession[1]), misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=str(rUserSession[1]))
 
+            # dbus performance measurement
+            misc.measureDBUSTimeElapsed(pStart=True)
             # get dbus interface for properties
             login1SessionInterface = dbus.Interface(login1SessionObject, cons.TK_DBUS_PROPERTIES_INTERFACE)
             # measurement logging
-            log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - acquiring \"%s\" took too long (%is)" % (cons.TK_DBUS_PROPERTIES_INTERFACE, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+            misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_PROPERTIES_INTERFACE)
 
             # get all user session properties
             try:
+                # dbus performance measurement
+                misc.measureDBUSTimeElapsed(pStart=True)
+                # properties
                 sessionType = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Type"))
                 sessionVTNr = str(int(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "VTNr")))
                 sessionSeat = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "Seat")[0])
                 sessionState = str(login1SessionInterface.Get(cons.TK_DBUS_SESSION_OBJECT, "State"))
                 # measurement logging
-                log.log(cons.TK_LOG_LEVEL_INFO, "PERFORMANCE (DBUS) - getting \"%s\" took too long (%is)" % (cons.TK_DBUS_SESSION_OBJECT, misc.measureTimeElapsed(pResult=True))) if misc.measureTimeElapsed(pStop=True) >= cons.TK_DBUS_ANSWER_TIME else True
+                misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_SESSION_OBJECT)
 
                 # add user session to return list
                 userSessions.append({"session": rUserSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
