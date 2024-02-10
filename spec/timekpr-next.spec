@@ -2,7 +2,7 @@
 
 Name:             timekpr-next
 Version:          0.5.6
-Release:          0.2%{?dist}
+Release:          0.3%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
 License:          GPLv3
@@ -121,6 +121,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Sat Feb 10 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.3
+- Updated spec file for version 0.5.6, release 0.3 (BETA)
 * Thu Feb 8 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.2
 - Updated spec file for version 0.5.6, release 0.2 (BETA)
 * Wed Aug 30 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.1

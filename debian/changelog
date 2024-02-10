@@ -1,4 +1,4 @@
-timekpr-next (0.5.6-2ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.6-3ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * remove UUID upper boundary check (fixes #2046222)
       any user whose ID is greater than UUID_MIN is considered controllable by timekpr
@@ -16,6 +16,7 @@ timekpr-next (0.5.6-2ubuntu1~ppa1) UNRELEASED; urgency=medium
   * made lists a little wider for adwaita theme not to show horizontal scrollbar
   * fix row positioning "Gtk-CRITICAL" when there is no rows in the list
   * minor dbus performance measurement optimization
+  * prevent saving / processing of duplicate timekpr configuration which can happen rarely
   * trying to cover as much DE as we can for idle time accounting (still have to be compatible with freedesktop / gnome standard)
       add more delay to connect to screensaver (hopefully that helps computers with slower DE start)
       rewrote screensaver dbus name detection based on DE name - this should help with some DEs which are
@@ -23,7 +24,7 @@ timekpr-next (0.5.6-2ubuntu1~ppa1) UNRELEASED; urgency=medium
       fall back to gnome and then to freedesktop interfaces (gnome is more popular, freedesktop - very few actually implement it)
         if nothing else works
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 09 Feb 2024 13:11:18 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 10 Feb 2024 10:01:24 +0200
 
 timekpr-next (0.5.5-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
