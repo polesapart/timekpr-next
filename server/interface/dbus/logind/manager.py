@@ -140,7 +140,7 @@ class timekprUserLoginManager(object):
         # get dbus object
         login1UserObject = self._timekprBus.get_object(cons.TK_DBUS_L1_OBJECT, pUserPath)
         # measurement logging
-        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.pUserPath)
+        misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=pUserPath)
 
         # dbus performance measurement
         misc.measureDBUSTimeElapsed(pStart=True)
@@ -185,9 +185,15 @@ class timekprUserLoginManager(object):
                 misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_SESSION_OBJECT)
 
                 # add user session to return list
-                userSessions.append({"session": rUserSession, "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
+                userSessions.append({"sessionId": str(rUserSession[0]), "sessionPath": str(rUserSession[1]), "type": sessionType, "vtnr": sessionVTNr, "seat": sessionSeat, "state": sessionState})
             except Exception as exc:
                 log.log(cons.TK_LOG_LEVEL_INFO, "ERROR: error getting session properties for session \"%s\" DBUS: %s" % (str(rUserSession[1]), exc))
+            
+            # free
+            del login1SessionInterface, login1SessionObject
+
+        # free
+        del login1UserSessions, login1UserInterface, login1UserObject
 
         # return sessions
         return userSessions
@@ -280,6 +286,8 @@ class timekprUserLoginManager(object):
                 else:
                     # finally switching the TTY
                     login1SeatInterface.SwitchTo(self._loginManagerVTNr)
+                # free
+                del login1SeatInterface, login1SeatObject, seat
         else:
             log.log(cons.TK_LOG_LEVEL_INFO, "INFO: switching TTY is not needed")
             # will not switch
@@ -309,12 +317,12 @@ class timekprUserLoginManager(object):
         for rUserSession in userSessionList:
             # if we support this session type and it is not specifically excluded, only then we kill it
             if rUserSession["type"] in pTimekprConfig.getTimekprSessionsCtrl() and rUserSession["type"] not in pTimekprConfig.getTimekprSessionsExcl():
-                log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 0.1 sec) killing \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
+                log.log(cons.TK_LOG_LEVEL_INFO, "(delayed 0.1 sec) killing \"%s\" session \"%s\" (%s, %s)" % (pUserName, rUserSession["sessionPath"], rUserSession["sessionId"], rUserSession["type"]))
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
                 else:
-                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["session"][0])
+                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["sessionId"])
                 # get last seat
                 lastSeat = rUserSession["seat"] if rUserSession["seat"] is not None and rUserSession["seat"] != "" and rUserSession["vtnr"] is not None and rUserSession["vtnr"] != "" and self._loginManagerVTNr != rUserSession["vtnr"] else lastSeat
                 # determine whether user is active
@@ -322,7 +330,7 @@ class timekprUserLoginManager(object):
                 # count sessions to kill
                 sessionsToKill += 1
             else:
-                log.log(cons.TK_LOG_LEVEL_INFO, "saving \"%s\" session %s (%s)" % (pUserName, str(rUserSession["session"][1]), str(rUserSession["type"])))
+                log.log(cons.TK_LOG_LEVEL_INFO, "saving \"%s\" session %s (%s)" % (pUserName, rUserSession["sessionPath"], rUserSession["type"]))
 
         # kill leftover processes (if we are killing smth)
         if sessionsToKill > 0 and userActive and lastSeat is not None:
