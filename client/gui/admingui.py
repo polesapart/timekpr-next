@@ -1170,6 +1170,7 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprConfigurationFinalNotificationSB").set_sensitive(True)
 
         # ## tracking session types ###
+        self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsLS").clear()
         for rSessionType in self._tkSavedCfg["timekprTrackingSessions"]:
             # add config
             self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsLS").append([str(rSessionType)])
@@ -1182,6 +1183,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsTreeView").scroll_to_cell(0)
 
         # ## exclusion session types ##
+        self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsLS").clear()
         for rSessionType in self._tkSavedCfg["timekprExcludedSessions"]:
             # add config
             self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsLS").append([str(rSessionType)])
@@ -1194,6 +1196,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsTreeView").scroll_to_cell(0)
 
         # ## excluded users ##
+        self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersLS").clear()
         for rUser in self._tkSavedCfg["timekprExcludedUsers"]:
             # add config
             self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersLS").append([str(rUser)])
@@ -1407,19 +1410,19 @@ class timekprAdminGUI(object):
         changeControl[control] = {"st": value != self._tkSavedCfg["timekprNotificationTime"], "val": value}
 
         # ## tracking session types ###
-        tmpArray = [str(rIt[0]) for rIt in self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsLS") if rIt[0]]
+        tmpArray = [str(rIt[0]) for rIt in self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsLS") if rIt[0] != ""]
         control = "TimekprTrackingSessionsLS"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timekprTrackingSessions"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timekprTrackingSessions"], "val": tmpArray.copy()}
 
         # ## exclusion session types ##
-        tmpArray = [str(rIt[0]) for rIt in self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsLS") if rIt[0]]
+        tmpArray = [str(rIt[0]) for rIt in self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsLS") if rIt[0] != ""]
         control = "TimekprExcludedSessionsLS"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timekprExcludedSessions"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timekprExcludedSessions"], "val": tmpArray.copy()}
 
         # ## excluded users ##
-        tmpArray = [str(rIt[0]) for rIt in self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersLS") if rIt[0]]
+        tmpArray = [str(rIt[0]) for rIt in self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersLS") if rIt[0] != ""]
         control = "TimekprExcludedUsersLS"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timekprExcludedUsers"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timekprExcludedUsers"], "val": tmpArray.copy()}
 
         # ## global PlayTime switch ##
         control = "TimekprPlayTimeEnableGlobalCB"
@@ -1481,12 +1484,12 @@ class timekprAdminGUI(object):
         # ## time day config ##
         tmpArray = [str(rIt[0]) for rIt in limitSt if rIt[2]]
         control = "TimekprUserWeekDaysLSD"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timeLimitDays"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timeLimitDays"], "val": tmpArray.copy()}
 
         # ## time limits per allowed days ###
         tmpArray = [rIt[3] for rIt in limitSt if rIt[2]]
         control = "TimekprUserWeekDaysLSL"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timeLimitDaysLimits"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["timeLimitDaysLimits"], "val": tmpArray.copy()}
 
         # ## intervals ###
         areIntervalsVerified = self.areHoursVerified()
@@ -1560,12 +1563,12 @@ class timekprAdminGUI(object):
         # ## PlayTime day config ##
         tmpArray = [str(rIt[0]) for rIt in limitSt if rIt[2]]
         control = "TimekprUserPlayTimeLimitsLSD"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["playTimeLimitDays"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["playTimeLimitDays"], "val": tmpArray.copy()}
 
         # ## PlayTime limits per allowed days ###
         tmpArray = [rIt[3] for rIt in limitSt if rIt[2]]
         control = "TimekprUserPlayTimeLimitsLSL"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["playTimeLimitDaysLimits"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["playTimeLimitDaysLimits"], "val": tmpArray.copy()}
 
         # ## PlayTime activities ###
         tmpArray = []
@@ -1578,7 +1581,7 @@ class timekprAdminGUI(object):
                 # add mask and description
                 tmpArray.append([rIt[1], rIt[2]])
         control = "TimekprUserPlayTimeProcessesLS"
-        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["playTimeActivities"], "val": tmpArray}
+        changeControl[control] = {"st": tmpArray != self._tkSavedCfg["playTimeActivities"], "val": tmpArray.copy()}
 
         # if at least one is changed
         enable = False
