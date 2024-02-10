@@ -487,6 +487,68 @@ class timekprAdminGUI(object):
         for rCtrl in ("TimekprUserPlayTimeEnableCB", "TimekprUserPlayTimeOverrideEnableCB", "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB"):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
 
+        # color
+        for rCtrl in ("TimekprConfigurationApplyBT",
+            "TimekprConfigurationTabLabel",
+            "TimekprUserConfTodaySettingsSetAddBT",
+            "TimekprUserConfTodaySettingsSetSubractBT",
+            "TimekprUserConfTodaySettingsSetSetBT",
+            "TimekprUserConfTodayLabel",
+            "TimekprUserConfDaySettingsApplyBT",
+            "TimekprUserConfDaySettingsSetDaysIntervalsVerifyBT",
+            "TimekprUserConfDailyLabel",
+            "TimekprUserPlayTimeProcessesApplyBT",
+            "TimekprUserPlayTimeLabel",
+            "TimekprUserConfAddOptsApplyBT",
+           "TimekprUserConfAddOptsLabel"
+        ):
+            # reset
+            self._timekprAdminFormBuilder.get_object(rCtrl).modify_fg(Gtk.StateFlags.NORMAL, None)
+
+        # failure
+        if self._timekprAdminConnector is not None:
+            # disable all
+            if not self._timekprAdminConnector.isConnected()[0]:
+                # reset
+                for rCtrl in ("TimekprTrackingSessionsTreeView",
+                    "TimekprTrackingSessionsButtonControlBX",
+                    "TimekprExcludedSessionsTreeView",
+                    "TimekprExcludedSessionsButtonControlBX",
+                    "TimekprExcludedUsersTreeView",
+                    "TimekprExcludedUsersButtonControlBX",
+                    "TimekprPlayTimeEnableGlobalCB",
+                    "TimekprPlayTimeEnhancedActivityMonitorCB"
+                ):
+                    # reset
+                    self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(False)
+
+                # reset
+                for rCtrl in ("TimekprPlayTimeEnableGlobalCB",
+                    "TimekprPlayTimeEnhancedActivityMonitorCB"
+                ):
+                    # reset
+                    self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
+
+                # reset
+                for rCtrl in ("TimekprConfigurationLoglevelSB",
+                    "TimekprConfigurationPollIntervalSB",
+                    "TimekprConfigurationSaveTimeSB",
+                    "TimekprConfigurationTerminationTimeSB",
+                    "TimekprConfigurationWarningTimeSB",
+                    "TimekprConfigurationFinalNotificationSB"
+                ):
+                    # reset
+                    self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(False)
+                    self._timekprAdminFormBuilder.get_object(rCtrl).set_value(0)
+
+                # reset
+                for rCtrl in ("TimekprTrackingSessionsLS",
+                    "TimekprExcludedSessionsLS",
+                    "TimekprExcludedUsersLS"
+                ):
+                    # reset
+                    self._timekprAdminFormBuilder.get_object(rCtrl).clear()
+
     # --------------- DEV test methods --------------- #
 
     def initDEVDefaultConfig(self):
@@ -551,7 +613,7 @@ class timekprAdminGUI(object):
         # if disable
         if not pEnable:
             self.clearAdminForm()
-        # apply settings to all buttons`in user configuration
+        # apply settings to all buttons in user configuration
         for rObj in self._timekprUserConfigControlElements:
             # if we need to leave user selection intact
             if not (pLeaveUserList and rObj == "TimekprUserSelectionCB"):
@@ -1379,6 +1441,11 @@ class timekprAdminGUI(object):
         """Calculate main control availability"""
         # this duplicates diff control as well
         changeControl = {}
+
+        # perform?
+        if not self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsTreeView").get_sensitive():
+            return changeControl
+
         # ## log level ##
         control = "TimekprConfigurationLoglevelSB"
         value = self._timekprAdminFormBuilder.get_object(control).get_value_as_int()
@@ -1477,6 +1544,10 @@ class timekprAdminGUI(object):
         # this duplicates diff control as well
         changeControl = {}
 
+        # perform?
+        if not self._timekprAdminFormBuilder.get_object("TimekprWeekDaysTreeView").get_sensitive():
+            return changeControl
+
         # get stores (for use later)
         limitSt = self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")
         wkMonSt = self._timekprAdminFormBuilder.get_object("TimekprUserConfWkMonLimitsLS")
@@ -1539,6 +1610,11 @@ class timekprAdminGUI(object):
         """Calculate user PlayTime config control availability"""
         # this duplicates diff control as well
         changeControl = {}
+
+        # perform?
+        if not self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsTreeView").get_sensitive():
+            return changeControl
+
         # ## PlayTime enabled ##
         control = "TimekprUserPlayTimeEnableCB"
         value = self._timekprAdminFormBuilder.get_object(control).get_active()
@@ -2743,15 +2819,6 @@ class timekprAdminGUI(object):
 
     def applyUserAdditionalConfigurationChangesClicked(self, evt):
         """Apply additional configuration changes"""
-        # disable button so it cannot be triggered again
-        self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").set_sensitive(False)
-
-        # color the buttons for ppl to see them better
-        self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesApplyBT").modify_fg(Gtk.StateFlags.NORMAL, None)
-
-        # tab color
-        self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLabel").modify_fg(Gtk.StateFlags.NORMAL, None)
-
         # process setting
         self.applyUserAdditionalConfigurationChanges()
 
