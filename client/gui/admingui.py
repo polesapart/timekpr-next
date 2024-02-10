@@ -1507,22 +1507,21 @@ class timekprAdminGUI(object):
                 changeControl[control] = {"st": rIt[2] != self._tkSavedCfg["timeLimitMonth"], "val": rIt[2]}
 
         # if at least one is changed
-        enable = False
+        configChanged = False
         if pApplyControls:
-            if areIntervalsVerified:
-                for rKey, rVal in changeControl.items():
-                    # one thing changed
-                    if rVal["st"]:
-                        # enable
-                        enable = rVal["st"]
-                        # no need to search further
-                        break
+            for rKey, rVal in changeControl.items():
+                # one thing changed
+                if rVal["st"]:
+                    # enable
+                    configChanged = rVal["st"]
+                    # no need to search further
+                    break
 
             # enabled or not
-            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").set_sensitive(enable)
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").set_sensitive(configChanged and areIntervalsVerified)
 
             # color the buttons for ppl to see them better
-            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse("red") if enable else None)
+            self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsApplyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse("red") if configChanged else None)
 
         # enable / disable verify
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsSetDaysIntervalsVerifyBT").set_sensitive(not areIntervalsVerified)
@@ -1531,7 +1530,7 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprUserConfDaySettingsSetDaysIntervalsVerifyBT").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse("red") if not areIntervalsVerified else None)
 
         # tab color
-        self._timekprAdminFormBuilder.get_object("TimekprUserConfDailyLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse("red") if not areIntervalsVerified else None)
+        self._timekprAdminFormBuilder.get_object("TimekprUserConfDailyLabel").modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse("red") if (configChanged or not areIntervalsVerified) else None)
 
         # return
         return changeControl
