@@ -1465,7 +1465,7 @@ Please note, that you may select more than one day for the adjustment!</property
                                         <property name="hexpand">True</property>
                                         <property name="vexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">275</property>
+                                        <property name="min-content-width">280</property>
                                         <property name="min-content-height">105</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprWeekDaysTreeView">
@@ -2371,7 +2371,7 @@ Please note, that you may select more than one day for the adjustment!</property
                                         <property name="hexpand">True</property>
                                         <property name="vexpand">True</property>
                                         <property name="shadow-type">in</property>
-                                        <property name="min-content-width">275</property>
+                                        <property name="min-content-width">280</property>
                                         <property name="min-content-height">115</property>
                                         <child>
                                           <object class="GtkTreeView" id="TimekprUserPlayTimeLimitsTreeView">
