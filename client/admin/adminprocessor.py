@@ -152,6 +152,23 @@ class timekprAdminClient(object):
                 else:
                     # log error
                     log.consoleOut(message)
+        # this gets user configuration from the server
+        elif adminCmd == "--userinfort":
+            # check param len
+            if paramLen != paramIdx + 2:
+                # fail
+                adminCmdIncorrect = True
+            else:
+                # get user config
+                result, message, userConfig = self._timekprAdminConnector.getUserConfigurationAndInformation(args[paramIdx+1], cons.TK_CL_INF_RT)
+
+                # process
+                if result == 0:
+                    # process
+                    self.printUserConfig(args[paramIdx+1], userConfig)
+                else:
+                    # log error
+                    log.consoleOut(message)
         # this sets allowed days for the user
         elif adminCmd == "--setalloweddays":
             # check param len

@@ -38,7 +38,7 @@ class timekprUserConfigurationProcessor(object):
         self._timekprUserConfig = timekprUserConfig(self._configDir, self._userName)
 
         # result
-        if not self._timekprUserConfig.loadConfiguration(True):
+        if not self._timekprUserConfig.loadUserConfiguration(True):
             # result
             result = -1
             message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USERCONFIG_NOTFOUND") % (self._userName)
@@ -56,7 +56,7 @@ class timekprUserConfigurationProcessor(object):
         self._timekprUserControl = timekprUserControl(self._workDir, self._userName)
 
         # result
-        if not self._timekprUserControl.loadControl(True):
+        if not self._timekprUserControl.loadUserControl(True):
             # result
             result = -1
             message = msg.getTranslation("TK_MSG_CONFIG_LOADER_USERCONTROL_NOTFOUND") % (self._userName)

@@ -77,6 +77,8 @@ class timekprDaemon(dbus.service.Object):
         # configuration init
         self._timekprConfig = timekprConfig()
         self._timekprConfig.loadMainConfiguration()
+        # log
+        self._timekprConfig.logMainConfiguration()
 
         # init logging
         log.setLogging(self._timekprConfig.getTimekprLogLevel(), self._timekprConfig.getTimekprLogfileDir(), cons.TK_LOG_OWNER_SRV, "")
