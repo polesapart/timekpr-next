@@ -235,7 +235,9 @@ class timekprUser(object):
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start adjustLimitsFromConfig")
 
         # load config
-        self._timekprUserConfig.loadConfiguration()
+        self._timekprUserConfig.loadUserConfiguration()
+        # log config
+        self._timekprUserConfig.logUserConfiguration()
 
         # load the configuration into working structures
         allowedDays = self._timekprUserConfig.getUserAllowedWeekdays()
@@ -367,7 +369,10 @@ class timekprUser(object):
             timeSpentBeforeReload = timeSpentBeforeReloadPT = 0
 
         # read from config
-        self._timekprUserControl.loadControl()
+        self._timekprUserControl.loadUserControl()
+        # log
+        self._timekprUserControl.logUserControl()
+
         # spent this hour
         spentHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
         # control date components changed

@@ -31,6 +31,7 @@ def initMessages():
     _messages["TK_MSG_USER_ADMIN_CMD_HELP"] = {"s": _("==> print help, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_USERLIST"] = {"s": _("==> get saved user list from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIG"] = {"s": _("==> get user configuration and time information from the server, example")}
+    _messages["TK_MSG_USER_ADMIN_CMD_USERCONFIGRT"] = {"s": _("==> get realtime user time information from the server, example")}
     _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"] = {"s": _("==> set allowed days for the user, example")}
     # TRANSLATORS: please DO NOT translate the keyword "ALL"
     _messages["TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"] = {"s": _("==> set allowed hours for the specified day, or \"ALL\" for every day, optionally specify start and end minutes in brackets like this [x-y], additionally specify ! in front of hour if it doesn't have to be accounted (free time for user), example")}
