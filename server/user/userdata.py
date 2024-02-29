@@ -554,17 +554,17 @@ class timekprUser(object):
         timeSpentThisSession = timeInactiveThisSession = timeAvailableIntervals = 0
 
         # go through days
-        for i in (self._timekprUserData[self._currentDOW][cons.TK_CTRL_PDAY], self._currentDOW, self._timekprUserData[self._currentDOW][cons.TK_CTRL_NDAY]):
+        for i in range(1, 7+1):
             # sleep is counted for hours, spent is day and hours
             # go through hours for this day
             for j in range(0, 23+1):
                 # time spent this session (but not more then prev, current, past days)
-                timeSpentThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SPENTH]
+                timeSpentThisSession += self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_SPENTH]
                 # time inactive this session (but not more then prev, current, past days)
-                timeInactiveThisSession += self._timekprUserData[i][str(j)][cons.TK_CTRL_SLEEP]
+                timeInactiveThisSession += self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_SLEEP]
                 # for current day (and enabled hours)
-                if i == self._currentDOW and self._timekprUserData[i][str(j)][cons.TK_CTRL_ACT]:
-                    timeAvailableIntervals += ((self._timekprUserData[i][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[i][str(j)][cons.TK_CTRL_SMIN]) * 60)
+                if i == self._currentDOW and self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_ACT]:
+                    timeAvailableIntervals += ((self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_SMIN]) * 60)
 
         # time spent balance for the day
         timeSpentBalance = self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD]

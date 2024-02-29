@@ -1,10 +1,12 @@
-timekpr-next (0.5.6-4ubuntu4~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.6-5ubuntu4~ppa1) UNRELEASED; urgency=medium
 
   * remove UUID upper boundary check (fixes #2046222)
       any user whose ID is greater than UUID_MIN is considered controllable by timekpr
       this helps with systemd-homed, remote LDAP logins etc, where UID is arbitrary high
   * fix a long standding bug when weekly limits are reset together with monthly limits
       this occurs only when new month starts in the middle of the week
+  * improve session time accounting for display purposes
+    account all time for every day in case session last more than 2 days
   * color "apply" buttons and tab pages in red
       to warn users that there are pending changes to apply
   * added keyboard navigation focus order to list type of elements (where there are ediable columns)
@@ -26,7 +28,7 @@ timekpr-next (0.5.6-4ubuntu4~ppa1) UNRELEASED; urgency=medium
       fall back to gnome and then to freedesktop interfaces (gnome is more popular, freedesktop - very few actually implement it)
         if nothing else works
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 22 Feb 2024 11:54:13 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 29 Feb 2024 15:30:52 +0200
 
 timekpr-next (0.5.5-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
