@@ -92,6 +92,9 @@ class timekprUser(object):
             cons.TK_CTRL_SPENTD : 0,  # this is spent per day
             cons.TK_CTRL_SPENTW : 0,  # this is spent per week
             cons.TK_CTRL_SPENTM : 0,  # this is spent per month
+            # total spent and sleep values for session (currently for reporting only)
+            cons.TK_CTRL_SPENT  : 0,  # time spent while user was logged in and active
+            cons.TK_CTRL_SLEEP  : 0,  # time spent while user was logged in and sleeping
             # checking values
             cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0),  # this is last checked time
             cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0),  # this is last save time (physical save will be less often as check)
@@ -425,6 +428,9 @@ class timekprUser(object):
             if not pActive or self._timekprUserData[pDay][pHOD][cons.TK_CTRL_UACC]:
                 # track sleep time
                 self._timekprUserData[pDay][pHOD][cons.TK_CTRL_SLEEP] += pSecs
+
+                # adjust totals for reporting
+                self._timekprUserData[cons.TK_CTRL_SLEEP] += pSecs
             else:
                 # adjust time spent hour
                 self._timekprUserData[pDay][pHOD][cons.TK_CTRL_SPENTH] += pSecs
@@ -436,6 +442,9 @@ class timekprUser(object):
                 self._timekprUserData[cons.TK_CTRL_SPENTW] += pSecs
                 # adjust time spent month
                 self._timekprUserData[cons.TK_CTRL_SPENTM] += pSecs
+
+                # adjust totals for reporting
+                self._timekprUserData[cons.TK_CTRL_SPENT] += pSecs
 
         # check if dates have changed
         dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime, self._timekprUserData[cons.TK_CTRL_LCHECK])
@@ -553,18 +562,15 @@ class timekprUser(object):
         # time spent this session / time inactive this session / time available from intervals
         timeSpentThisSession = timeInactiveThisSession = timeAvailableIntervals = 0
 
-        # go through days
-        for i in range(1, 7+1):
-            # sleep is counted for hours, spent is day and hours
-            # go through hours for this day
-            for j in range(0, 23+1):
-                # time spent this session (but not more then prev, current, past days)
-                timeSpentThisSession += self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_SPENTH]
-                # time inactive this session (but not more then prev, current, past days)
-                timeInactiveThisSession += self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_SLEEP]
-                # for current day (and enabled hours)
-                if i == self._currentDOW and self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_ACT]:
-                    timeAvailableIntervals += ((self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[str(i)][str(j)][cons.TK_CTRL_SMIN]) * 60)
+        # go through hours for this day
+        for j in range(0, 23+1):
+            # for current day (and enabled hours)
+            if self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_ACT]:
+                timeAvailableIntervals += ((self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_EMIN] - self._timekprUserData[self._currentDOW][str(j)][cons.TK_CTRL_SMIN]) * 60)
+
+        # totals
+        timeSpentThisSession = self._timekprUserData[cons.TK_CTRL_SPENT]
+        timeInactiveThisSession = self._timekprUserData[cons.TK_CTRL_SLEEP]
 
         # time spent balance for the day
         timeSpentBalance = self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD]

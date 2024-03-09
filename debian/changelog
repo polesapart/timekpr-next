@@ -1,12 +1,12 @@
-timekpr-next-beta (0.5.6-5ubuntu4~ppa1) UNRELEASED; urgency=medium
+timekpr-next-beta (0.5.6-5ubuntu5~ppa1) UNRELEASED; urgency=medium
 
   * remove UUID upper boundary check (fixes #2046222)
       any user whose ID is greater than UUID_MIN is considered controllable by timekpr
       this helps with systemd-homed, remote LDAP logins etc, where UID is arbitrary high
   * fix a long standding bug when weekly limits are reset together with monthly limits
       this occurs only when new month starts in the middle of the week
-  * improve session time accounting for display purposes
-    account all time for every day in case session last more than 2 days
+  * improve session time accounting for display / reporting purposes
+    actually account and display all active and sleep time in case user is logged in for more than 2 days or even more than a week
   * color "apply" buttons and tab pages in red
       to warn users that there are pending changes to apply
   * added keyboard navigation focus order to list type of elements (where there are ediable columns)
@@ -18,17 +18,18 @@ timekpr-next-beta (0.5.6-5ubuntu4~ppa1) UNRELEASED; urgency=medium
   * made lists a little wider for adwaita theme not to show horizontal scrollbar
   * fix row positioning "Gtk-CRITICAL" when there is no rows in the list
   * minor dbus performance measurement optimization
-  * prevent saving / processing of duplicate timekpr configuration which can happen rarely
-  * add direct configuration logging to log file
+  * prevent saving / processing of duplicate timekpr configuration which can happen very rarely
+  * when user sets / saves configuration or timekpr loads it from file, log it to the log file
+      this way the log file will contain configuration too and that will be enough to ask for debugging if smth goes south
   * added new "realtime" information get method to CLI + translations
   * trying to cover as much DE as we can for idle time accounting (still have to be compatible with freedesktop / gnome standard)
       add more delay to connect to screensaver (hopefully that helps computers with slower DE start)
       rewrote screensaver dbus name detection based on DE name - this should help with some DEs which are
-        less known but still have screensaver interface
+        less known but still have a compatible screensaver interface
       fall back to gnome and then to freedesktop interfaces (gnome is more popular, freedesktop - very few actually implement it)
-        if nothing else works
+        if nothing else is detected and works
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Thu, 29 Feb 2024 15:30:52 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Mar 2024 09:26:13 +0200
 
 timekpr-next-beta (0.5.5-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
