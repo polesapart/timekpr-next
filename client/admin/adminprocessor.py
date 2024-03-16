@@ -536,12 +536,12 @@ class timekprAdminClient(object):
         result = 0
 
         # check
-        if pTrackInactive not in ("true", "True", "TRUE", "false", "False", "FALSE"):
+        if str(pTrackInactive).lower() not in ("true", "false"):
             # fail
             result = -1
             message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
-            trackInactive = True if pTrackInactive in ("true", "True", "TRUE") else False
+            trackInactive = True if str(pTrackInactive).lower() == "true" else False
 
         # preprocess successful
         if result == 0:
@@ -560,12 +560,12 @@ class timekprAdminClient(object):
         result = 0
 
         # check
-        if pHideTrayIcon not in ("true", "True", "TRUE", "false", "False", "FALSE"):
+        if str(pHideTrayIcon).lower() not in ("true", "false"):
             # fail
             result = -1
             message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
-            hideTrayIcon = True if pHideTrayIcon in ("true", "True", "TRUE") else False
+            hideTrayIcon = True if str(pHideTrayIcon).lower() == "true" else False
 
         # preprocess successful
         if result == 0:
@@ -637,12 +637,12 @@ class timekprAdminClient(object):
         result = 0
 
         # check
-        if pPlayTimeEnabled not in ("true", "True", "TRUE", "false", "False", "FALSE"):
+        if str(pPlayTimeEnabled).lower() not in ("true", "false"):
             # fail
             result = -1
             message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
-            isPlayTimeEnabled = True if pPlayTimeEnabled in ("true", "True", "TRUE") else False
+            isPlayTimeEnabled = True if str(pPlayTimeEnabled).lower() == "true" else False
 
         # preprocess successful
         if result == 0:
@@ -661,12 +661,12 @@ class timekprAdminClient(object):
         result = 0
 
         # check
-        if pPlayTimeLimitOverride not in ("true", "True", "TRUE", "false", "False", "FALSE"):
+        if str(pPlayTimeLimitOverride).lower() not in ("true", "false"):
             # fail
             result = -1
             message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
-            isPlayTimeLimitOverride = True if pPlayTimeLimitOverride in ("true", "True", "TRUE") else False
+            isPlayTimeLimitOverride = True if str(pPlayTimeLimitOverride).lower() == "true" else False
 
         # preprocess successful
         if result == 0:
@@ -685,12 +685,12 @@ class timekprAdminClient(object):
         result = 0
 
         # check
-        if pPlayTimeUnaccountedIntervalsEnabled not in ("true", "True", "TRUE", "false", "False", "FALSE"):
+        if str(pPlayTimeUnaccountedIntervalsEnabled).lower() not in ("true", "false"):
             # fail
             result = -1
             message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify true or false")
         else:
-            isPlayTimeUnaccountedIntervalsEnabled = True if pPlayTimeUnaccountedIntervalsEnabled in ("true", "True", "TRUE") else False
+            isPlayTimeUnaccountedIntervalsEnabled = True if str(pPlayTimeUnaccountedIntervalsEnabled).lower() == "true" else False
 
         # preprocess successful
         if result == 0:
