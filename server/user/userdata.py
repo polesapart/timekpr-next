@@ -807,7 +807,7 @@ class timekprUser(object):
                 # if verification is successful
                 if pKey == self._timekprUserData[cons.TK_CTRL_SCR_K]:
                     # set up valid property
-                    self._timekprUserData[cons.TK_CTRL_SCR_N] = True if pValue in ("True", "true", "1") else False
+                    self._timekprUserData[cons.TK_CTRL_SCR_N] = True if str(pValue).lower() in ("true", "1") else False
                 # reset key anyway
                 self._timekprUserData[cons.TK_CTRL_SCR_K] = None
             else:

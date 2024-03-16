@@ -430,7 +430,8 @@ class timekprAdminGUI(object):
         """Clear and default everything to default values"""
         # ## clear form ##
         # time limits
-        for rCtrl in ("TimekprUserConfTodayInfoSpentTodayLB",
+        for rCtrl in (
+            "TimekprUserConfTodayInfoSpentTodayLB",
             "TimekprUserConfTodayInfoSpentWeekLB",
             "TimekprUserConfTodayInfoSpentMonthLB",
             "TimekprUserConfTodayInfoLeftTodayLB",
@@ -439,7 +440,10 @@ class timekprAdminGUI(object):
         ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
         # check / radio boxes
-        for rCtrl in ("TimekprUserConfTodaySettingsTrackInactiveCB", "TimekprUserConfTodaySettingsHideTrayIconCB"):
+        for rCtrl in (
+            "TimekprUserConfTodaySettingsTrackInactiveCB",
+            "TimekprUserConfTodaySettingsHideTrayIconCB"
+        ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
         # days / labels
         for rDay in self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS"):
@@ -471,7 +475,11 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprUserConfAddOptsLockoutTypeTerminate").set_active(True)
         # ## PlayTIme reset ##
         # reset times left
-        for rCtrl in ("TimekprUserPlayTimeLeftActualLB", "TimekprUserPlayTimeLeftSavedLB", "TimekprUserPlayTimeSpentLB"):
+        for rCtrl in (
+            "TimekprUserPlayTimeLeftActualLB",
+            "TimekprUserPlayTimeLeftSavedLB",
+            "TimekprUserPlayTimeSpentLB"
+        ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LABEL)
         # reset activity count
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeTodaySettingsActivityCntLB").set_text("---")
@@ -484,7 +492,11 @@ class timekprAdminGUI(object):
         # clear activities and add one placeholder
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesLS").clear()
         # CB not checked
-        for rCtrl in ("TimekprUserPlayTimeEnableCB", "TimekprUserPlayTimeOverrideEnableCB", "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB"):
+        for rCtrl in (
+            "TimekprUserPlayTimeEnableCB",
+            "TimekprUserPlayTimeOverrideEnableCB",
+            "TimekprUserPlayTimeUnaccountedIntervalsEnabledCB"
+        ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
 
         # color
@@ -509,7 +521,8 @@ class timekprAdminGUI(object):
             # disable all
             if not self._timekprAdminConnector.isConnected()[0]:
                 # reset
-                for rCtrl in ("TimekprTrackingSessionsTreeView",
+                for rCtrl in (
+                    "TimekprTrackingSessionsTreeView",
                     "TimekprTrackingSessionsButtonControlBX",
                     "TimekprExcludedSessionsTreeView",
                     "TimekprExcludedSessionsButtonControlBX",
@@ -522,14 +535,16 @@ class timekprAdminGUI(object):
                     self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(False)
 
                 # reset
-                for rCtrl in ("TimekprPlayTimeEnableGlobalCB",
+                for rCtrl in (
+                    "TimekprPlayTimeEnableGlobalCB",
                     "TimekprPlayTimeEnhancedActivityMonitorCB"
                 ):
                     # reset
                     self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
 
                 # reset
-                for rCtrl in ("TimekprConfigurationLoglevelSB",
+                for rCtrl in (
+                    "TimekprConfigurationLoglevelSB",
                     "TimekprConfigurationPollIntervalSB",
                     "TimekprConfigurationSaveTimeSB",
                     "TimekprConfigurationTerminationTimeSB",
@@ -541,7 +556,8 @@ class timekprAdminGUI(object):
                     self._timekprAdminFormBuilder.get_object(rCtrl).set_value(0)
 
                 # reset
-                for rCtrl in ("TimekprTrackingSessionsLS",
+                for rCtrl in (
+                    "TimekprTrackingSessionsLS",
                     "TimekprExcludedSessionsLS",
                     "TimekprExcludedUsersLS"
                 ):
@@ -574,7 +590,8 @@ class timekprAdminGUI(object):
             # enable certain functionality
             if 1 == 1:
                 # enable certain objects (fot testing)
-                for rO in ("TimekprUserPlayTimeProcessesAdjustmentAddBT",
+                for rO in (
+                    "TimekprUserPlayTimeProcessesAdjustmentAddBT",
                     "TimekprUserPlayTimeProcessesAdjustmentRemoveBT",
                     "TimekprUserPlayTimeLimitsTreeView",
                     "TimekprUserPlayTimeProcessesTreeView"
@@ -652,14 +669,20 @@ class timekprAdminGUI(object):
         # get the least of size
         limitLen = min(len(self._tkSavedCfg["timeLimitDays"]), len(self._tkSavedCfg["timeLimitDaysLimits"]))
         # remove excess elements
-        for rElem in ("timeLimitDays", "timeLimitDaysLimits"):
+        for rElem in (
+            "timeLimitDays",
+            "timeLimitDaysLimits"
+        ):
             for i in range(limitLen, len(self._tkSavedCfg[rElem])):
                 self._tkSavedCfg[rElem].pop()
 
         # get the least of size
         limitLen = min(len(self._tkSavedCfg["playTimeLimitDays"]), len(self._tkSavedCfg["playTimeLimitDaysLimits"]))
         # remove excess elements
-        for rElem in ("playTimeLimitDays", "playTimeLimitDaysLimits"):
+        for rElem in (
+            "playTimeLimitDays",
+            "playTimeLimitDaysLimits"
+        ):
             for i in range(limitLen, len(self._tkSavedCfg[rElem])):
                 self._tkSavedCfg[rElem].pop()
 
@@ -878,7 +901,8 @@ class timekprAdminGUI(object):
 
     def enableTimeControlToday(self, pEnable=True):
         """Enable buttons to add time and PlayTime today"""
-        for rCtrl in ("TimekprUserConfTodaySettingsSetHrSB",
+        for rCtrl in (
+            "TimekprUserConfTodaySettingsSetHrSB",
             "TimekprUserConfTodaySettingsSetMinSB",
             "TimekprUserConfTodaySettingsChoiceBX"
         ):
@@ -1022,7 +1046,10 @@ class timekprAdminGUI(object):
                 # reset if full info or realtime requested
                 if pInfoLvl in (cons.TK_CL_INF_FULL, cons.TK_CL_INF_RT):
                     # reset optional information labels
-                    for rCtrl in ("TimekprUserConfTodayInfoLeftContLB", "TimekprUserConfTodayInfoInactiveLB"):
+                    for rCtrl in (
+                        "TimekprUserConfTodayInfoLeftContLB",
+                        "TimekprUserConfTodayInfoInactiveLB"
+                    ):
                         self._timekprAdminFormBuilder.get_object(rCtrl).set_text(_NO_TIME_LIMIT_LABEL)
                     # reset optional information labels for PlayTime
                     self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLeftActualLB").set_text(_NO_TIME_LABEL)
@@ -1236,7 +1263,10 @@ class timekprAdminGUI(object):
             # add config
             self._timekprAdminFormBuilder.get_object("TimekprTrackingSessionsLS").append([str(rSessionType)])
         # enable editing
-        for rObj in ("TimekprTrackingSessionsTreeView", "TimekprTrackingSessionsButtonControlBX"):
+        for rObj in (
+            "TimekprTrackingSessionsTreeView",
+            "TimekprTrackingSessionsButtonControlBX"
+        ):
             self._timekprAdminFormBuilder.get_object(rObj).set_sensitive(True)
         # select first row
         if len(self._tkSavedCfg["timekprTrackingSessions"]) > 0:
@@ -1249,7 +1279,10 @@ class timekprAdminGUI(object):
             # add config
             self._timekprAdminFormBuilder.get_object("TimekprExcludedSessionsLS").append([str(rSessionType)])
         # enable editing
-        for rObj in ("TimekprExcludedSessionsTreeView", "TimekprExcludedSessionsButtonControlBX"):
+        for rObj in (
+            "TimekprExcludedSessionsTreeView",
+            "TimekprExcludedSessionsButtonControlBX"
+        ):
             self._timekprAdminFormBuilder.get_object(rObj).set_sensitive(True)
         # select first row
         if len(self._tkSavedCfg["timekprExcludedSessions"]) > 0:
@@ -1262,7 +1295,10 @@ class timekprAdminGUI(object):
             # add config
             self._timekprAdminFormBuilder.get_object("TimekprExcludedUsersLS").append([str(rUser)])
         # enable editing
-        for rObj in ("TimekprExcludedUsersTreeView", "TimekprExcludedUsersButtonControlBX"):
+        for rObj in (
+            "TimekprExcludedUsersTreeView",
+            "TimekprExcludedUsersButtonControlBX"
+        ):
             self._timekprAdminFormBuilder.get_object(rObj).set_sensitive(True)
         # select first row
         if len(self._tkSavedCfg["timekprExcludedUsers"]) > 0:
@@ -1291,7 +1327,8 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprWeekDaysLS")[rDay-1][2] = (str(rDay) in self._tkSavedCfg["timeLimitDays"])
 
         # enable editing
-        for rCtrl in ("TimekprWeekDaysTreeView",
+        for rCtrl in (
+            "TimekprWeekDaysTreeView",
             "TimekprHourIntervalsTreeView",
             "TimekprUserConfDaySettingsSetDaysHeaderControlBX"
         ):
@@ -1318,7 +1355,8 @@ class timekprAdminGUI(object):
 
         # ## hour intervals ##
         # intervals themselves will be adjusted depending on selected day, we just enable them here
-        for rCtrl in ("TimekprHourIntervalsTreeView",
+        for rCtrl in (
+            "TimekprHourIntervalsTreeView",
             "TimekprUserConfDaySettingsSetDaysIntervalsControlBX"
         ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
@@ -1337,7 +1375,8 @@ class timekprAdminGUI(object):
             rWkDay[2] = limit
             rWkDay[3] = self.formatTimeStr(limit, True, True)
         # enable editing
-        for rCtrl in ("TimekprUserConfWkMonLimitsTreeView",
+        for rCtrl in (
+            "TimekprUserConfWkMonLimitsTreeView",
             "TimekprUserConfWkMonLimitsAdjustmentsBX",
             "TimekprUserConfWkMonLimitsAdjustmentControlButtonsBX"
         ):
@@ -1352,7 +1391,8 @@ class timekprAdminGUI(object):
 
         # ## PlayTime config ##
         # PlayTime and PlayTime options enablement
-        for rCtrl in (("TimekprUserPlayTimeEnableCB", "playTimeEnabled"),
+        for rCtrl in (
+            ("TimekprUserPlayTimeEnableCB", "playTimeEnabled"),
             ("TimekprUserPlayTimeOverrideEnableCB", "playTimeOverrideEnabled"),
             ("TimekprUserPlayTimeUnaccountedIntervalsEnabledCB", "playTimeUnaccountedIntervalsEnabled")
         ):
@@ -1388,7 +1428,8 @@ class timekprAdminGUI(object):
         self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeLimitsTreeView").scroll_to_cell(currDay)
 
         # enable PlayTime editing
-        for rCtrl in ("TimekprUserPlayTimeLimitsTreeView",
+        for rCtrl in (
+            "TimekprUserPlayTimeLimitsTreeView",
             "TimekprUserPlayTimeLimitsHeaderControlBX"
         ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(True)
@@ -1411,7 +1452,8 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object("TimekprUserPlayTimeProcessesTreeView").scroll_to_cell(0)
 
         # set enablement for PlayTime controls
-        for rCtrl in ("TimekprUserPlayTimeProcessesAdjustmentAddBT",
+        for rCtrl in (
+            "TimekprUserPlayTimeProcessesAdjustmentAddBT",
             "TimekprUserPlayTimeProcessesAdjustmentRemoveBT",
             "TimekprUserPlayTimeLimitsHeaderControlBX"
         ):
@@ -1420,7 +1462,10 @@ class timekprAdminGUI(object):
 
         # ## additional config ##
         # set values for track inactive and disable notifications
-        for rCtrl in ("TimekprUserConfTodaySettingsTrackInactiveCB", "TimekprUserConfTodaySettingsHideTrayIconCB"):
+        for rCtrl in (
+            "TimekprUserConfTodaySettingsTrackInactiveCB",
+            "TimekprUserConfTodaySettingsHideTrayIconCB"
+        ):
             # set value
             self._timekprAdminFormBuilder.get_object(rCtrl).set_active(self._tkSavedCfg["timeTrackInactive"] if rCtrl == "TimekprUserConfTodaySettingsTrackInactiveCB" else self._tkSavedCfg["timeHideTrayIcon"])
             # enable field & set button
@@ -1527,7 +1572,11 @@ class timekprAdminGUI(object):
         """Calculate user today config control availability"""
         # ## add time today ##
         enabled = (self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetHrSB").get_value_as_int() != 0 or self._timekprAdminFormBuilder.get_object("TimekprUserConfTodaySettingsSetMinSB").get_value_as_int() != 0)
-        for rCtrl in ("TimekprUserConfTodaySettingsSetAddBT", "TimekprUserConfTodaySettingsSetSubractBT", "TimekprUserConfTodaySettingsSetSetBT"):
+        for rCtrl in (
+            "TimekprUserConfTodaySettingsSetAddBT",
+            "TimekprUserConfTodaySettingsSetSubractBT",
+            "TimekprUserConfTodaySettingsSetSetBT"
+        ):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_sensitive(enabled)
 
         # color the buttons for ppl to see them better
