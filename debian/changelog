@@ -1,4 +1,4 @@
-timekpr-next (0.5.6-5ubuntu5~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.6-5ubuntu6~ppa1) UNRELEASED; urgency=medium
 
   * remove UUID upper boundary check (fixes #2046222)
       any user whose ID is greater than UUID_MIN is considered controllable by timekpr
