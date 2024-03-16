@@ -488,8 +488,7 @@ class timekprAdminGUI(object):
             self._timekprAdminFormBuilder.get_object(rCtrl).set_active(False)
 
         # color
-        for rCtrl in ("TimekprConfigurationApplyBT",
-            "TimekprConfigurationTabLabel",
+        for rCtrl in (
             "TimekprUserConfTodaySettingsSetAddBT",
             "TimekprUserConfTodaySettingsSetSubractBT",
             "TimekprUserConfTodaySettingsSetSetBT",
@@ -500,7 +499,7 @@ class timekprAdminGUI(object):
             "TimekprUserPlayTimeProcessesApplyBT",
             "TimekprUserPlayTimeLabel",
             "TimekprUserConfAddOptsApplyBT",
-           "TimekprUserConfAddOptsLabel"
+            "TimekprUserConfAddOptsLabel"
         ):
             # reset
             self._timekprAdminFormBuilder.get_object(rCtrl).modify_fg(Gtk.StateFlags.NORMAL, None)
