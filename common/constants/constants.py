@@ -15,7 +15,7 @@ from datetime import datetime
 
 # ## constants ##
 # version (in case config is corrupt or smth like that)
-TK_VERSION = "0.5.5"
+TK_VERSION = "0.5.6"
 TK_DEV_ACTIVE = False  # change this accordingly when running in DEV or PROD
 TK_DEV_BUS = "ses"  # this sets up which bus to use for development (sys or ses)
 TK_DEV_SUPPORT_PAGE = "https://tinyurl.com/yc9x85v2"
@@ -108,12 +108,6 @@ TK_DBUS_L1_OBJECT = "org.freedesktop.login1"
 TK_DBUS_L1_PATH = "/org/freedesktop/login1"
 TK_DBUS_L1_MANAGER_INTERFACE = "org.freedesktop.login1.Manager"
 
-# systemd-homed
-TK_SYSTEMD_HOMED_UID_MIN = 60001  # UIDs for home directories managed by systemd-homed (min)
-TK_SYSTEMD_HOMED_UID_MAX = 60513  # UIDs for home directories managed by systemd-homed (max)
-TK_SYSTEMD_HOMED_DYN_UID_MIN = 61184  # UIDs for dynamic users (min)
-TK_SYSTEMD_HOMED_DYN_UID_MAX = 65519  # UIDs for dynamic users (max)
-
 # ck
 TK_DBUS_CK_OBJECT = "org.freedesktop.ConsoleKit"
 TK_DBUS_CK_PATH = "/org/freedesktop/ConsoleKit"
@@ -141,11 +135,8 @@ TK_CTRL_SCR_R = "scrs:retr"
 
 # WORKAROUNDS section for use in Gnome and similar (almost everyone makes their own screensaver dbus interface these days, KDE (of the biggest players) is not)
 TK_SCR_XDGCD_OVERRIDE = [
-    ["GNOME", "gnome"],
-    ["UNITY", "gnome"],
-    ["MATE", "mate"],
-    ["XFCE", "xfce"],
-    ["CINNAMON", "cinnamon"]]
+    ["unity", "gnome"],
+    ["kde", "freedesktop"]]
 
 # DBUS performance measurement
 TK_DBUS_ANSWER_TIME = 3
@@ -340,6 +331,7 @@ TK_USER_ADMIN_COMMANDS = {
     "--help"                                : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_HELP"), "timekpra --help"),
     "--userlist"                            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERLIST"), "timekpra --userlist"),
     "--userinfo"                            : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIG"), "timekpra --userinfo 'testuser'"),
+    "--userinfort"                          : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_USERCONFIGRT"), "timekpra --userinfort 'testuser'"),
     "--setalloweddays"                      : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDDAYS"), "timekpra --setalloweddays 'testuser' '1;2;3;4;5'"),
     "--setallowedhours"                     : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETALLOWEDHOURS"), "timekpra --setallowedhours 'testuser' 'ALL' '7;8;9;10;11[00-30];!14;!15;17;18;19;20[00-45]'"),
     "--settimelimits"                       : "%s:\n    %s" % (msg.getTranslation("TK_MSG_USER_ADMIN_CMD_SETTIMELIMITS"), "timekpra --settimelimits 'testuser' '7200;7200;7200;7200;10800'"),

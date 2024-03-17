@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.5.5
+Version:          0.5.6
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -121,8 +121,20 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
-* Fri Sep 1 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-1.0
-- Updated spec file for version 0.5.5, release 1.0 (STABLE)
+* Sun Mar 17 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-1.0
+- Updated spec file for version 0.5.6, release 1.0 (STABLE)
+* Fri Mar 8 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.6
+- Updated spec file for version 0.5.6, release 0.6 (BETA)
+* Thu Feb 29 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.5
+- Updated spec file for version 0.5.6, release 0.5 (BETA)
+* Tue Feb 20 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.4
+- Updated spec file for version 0.5.6, release 0.4 (BETA)
+* Sat Feb 10 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.3
+- Updated spec file for version 0.5.6, release 0.3 (BETA)
+* Thu Feb 8 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.2
+- Updated spec file for version 0.5.6, release 0.2 (BETA)
+* Wed Aug 30 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.1
+- Updated spec file for version 0.5.6, release 0.1 (BETA)
 * Wed Aug 30 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.4
 - Updated spec file for version 0.5.5, release 0.4 (BETA)
 * Sun Aug 27 2023 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.3
@@ -131,8 +143,6 @@ update-desktop-database &> /dev/null || :
 - Updated spec file for version 0.5.5, release 0.2 (BETA)
 * Sat Dec 31 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.5-0.1
 - Updated spec file for version 0.5.5, release 0.1 (BETA)
-* Wed Oct 7 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-1.0
-- Updated spec file for version 0.5.4, release 1.0 (STABLE)
 * Wed Sep 14 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.4
 - Updated spec file for version 0.5.4, release 0.4 (BETA)
 * Thu Sep 8 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.4-0.3
@@ -145,8 +155,6 @@ update-desktop-database &> /dev/null || :
 - Updated spec file for version 0.5.3, release 0.2 (BETA)
 * Tue Feb 15 2022 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.3-0.1
 - Updated spec file for version 0.5.3, release 0.1 (BETA)
-* Wed Jun 23 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-1.0
-- Updated spec file for version 0.5.2, release 1.0 (STABLE)
 * Tue Jun 22 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.5
 - Updated spec file for version 0.5.2, release 0.5 (BETA)
 * Wed Jun 16 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.4
@@ -157,12 +165,8 @@ update-desktop-database &> /dev/null || :
 - Updated spec file for version 0.5.2, release 0.2 (BETA)
 * Fri May 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.2-0.1
 - Updated spec file for version 0.5.2, release 0.1 (BETA)
-* Fri Mar 5 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-2.0
-- Updated spec file for version 0.5.1, release 2.0 (STABLE)
 * Fri Mar 5 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.10
 - Updated spec file for version 0.5.1, release 0.10 (BETA)
-* Wed Feb 17 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.1-0.8
-- Updated spec file for version 0.5.1, release 0.8 (BETA)
 * Thu Jan 7 2021 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-8.0
 - Updated spec file for version 0.5.0, release 8 (STABLE)
 * Tue Dec 29 2020 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.0-7.0

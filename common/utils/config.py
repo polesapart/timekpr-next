@@ -441,6 +441,56 @@ class timekprConfig(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving timekpr configuration")
 
+    def logMainConfiguration(self):
+        """Log main timekpr config file"""
+        # log
+        log.log(cons.TK_LOG_LEVEL_INFO, "main configuration:")
+
+        try:
+            # log
+            param = "TIMEKPR_LOGLEVEL"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_POLLTIME"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_SAVE_TIME"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_TRACK_INACTIVE"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_TERMINATION_TIME"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_FINAL_WARNING_TIME"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_FINAL_NOTIFICATION_TIME"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+
+            # log
+            param = "TIMEKPR_SESSION_TYPES_CTRL"
+            self._timekprConfig[param] = _cleanupValue(self._timekprConfig[param])
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_SESSION_TYPES_EXCL"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_USERS_EXCL"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+
+            # log
+            param = "TIMEKPR_PLAYTIME_ENABLED"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+            # log
+            param = "TIMEKPR_PLAYTIME_ENHANCED_ACTIVITY_MONITOR_ENABLED"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprConfig[param])))
+        # fail
+        except Exception:
+            # log
+            log.log(cons.TK_LOG_LEVEL_INFO, "  configuration log failed")
+
     def getTimekprVersion(self):
         """Get version"""
         # param
@@ -644,7 +694,7 @@ class timekprUserConfig(object):
         """De-initialize config"""
         log.log(cons.TK_LOG_LEVEL_INFO, "de-init user configuration manager")
 
-    def loadConfiguration(self, pValidateOnly=False):
+    def loadUserConfiguration(self, pValidateOnly=False):
         """Read user timekpr config file"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start load user configuration")
 
@@ -926,6 +976,66 @@ class timekprUserConfig(object):
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "finish saving new user configuration")
 
+    def logUserConfiguration(self):
+        """Log user timekpr config file"""
+        # log
+        log.log(cons.TK_LOG_LEVEL_INFO, "user \"%s\" configuration:" % (self._userName))
+
+        try:
+            # log
+            param = "ALLOWED_HOURS"
+            for i in range(1, 7+1):
+                paramN = "%s_%i" % (param, i)
+                log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (paramN, str(self._timekprUserConfig[paramN])))
+            # log
+            param = "ALLOWED_WEEKDAYS"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "LIMITS_PER_WEEKDAYS"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "LIMIT_PER_WEEK"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "LIMIT_PER_MONTH"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "TRACK_INACTIVE"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "HIDE_TRAY_ICON"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "LOCKOUT_TYPE"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "WAKEUP_HOUR_INTERVAL"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+
+            # log
+            param = "PLAYTIME_ENABLED"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "PLAYTIME_LIMIT_OVERRIDE_ENABLED"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "PLAYTIME_UNACCOUNTED_INTERVALS_ENABLED"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "PLAYTIME_ALLOWED_WEEKDAYS"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log
+            param = "PLAYTIME_LIMITS_PER_WEEKDAYS"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserConfig[param])))
+            # log activities
+            log.log(cons.TK_LOG_LEVEL_INFO, "  PT activities:")
+            for rV in self._timekprUserConfig["PLAYTIME_ACTIVITIES"]:
+                log.log(cons.TK_LOG_LEVEL_INFO, "    %s=%s" % (rV[0], rV[1]))
+        # fail
+        except Exception:
+            # log
+            log.log(cons.TK_LOG_LEVEL_INFO, "  configuration log failed")
+
     def getUserAllowedHours(self, pDay):
         """Get allowed hours"""
         # this is the dict for hour config
@@ -1162,8 +1272,8 @@ class timekprUserControl(object):
         """De-initialize config"""
         log.log(cons.TK_LOG_LEVEL_INFO, "de-init user control")
 
-    def loadControl(self, pValidateOnly=False):
-        """Read main timekpr config file"""
+    def loadUserControl(self, pValidateOnly=False):
+        """Read user control config file"""
         log.log(cons.TK_LOG_LEVEL_DEBUG, "start loading user control (%s)" % (self._userName))
 
         # directory section
@@ -1309,6 +1419,39 @@ class timekprUserControl(object):
 
         log.log(cons.TK_LOG_LEVEL_INFO, "finish save user control")
 
+    def logUserControl(self):
+        """Log user control config file"""
+        # log
+        log.log(cons.TK_LOG_LEVEL_INFO, "user \"%s\" control:" % (self._userName))
+
+        try:
+            # log
+            param = "TIME_SPENT_BALANCE"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+            # log
+            param = "TIME_SPENT_DAY"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+            # log
+            param = "TIME_SPENT_WEEK"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+            # log
+            param = "TIME_SPENT_MONTH"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+            # log
+            param = "LAST_CHECKED"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+
+            # log
+            param = "PLAYTIME_SPENT_BALANCE"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+            # log
+            param = "PLAYTIME_SPENT_DAY"
+            log.log(cons.TK_LOG_LEVEL_INFO, "  %s=%s" % (param, str(self._timekprUserControl[param])))
+        # fail
+        except Exception:
+            # log
+            log.log(cons.TK_LOG_LEVEL_INFO, "  configuration log failed")
+
     def getUserDateComponentChanges(self, pCheckDate, pValidationDate=None):
         """Determine whether days / weeks / months changed since last change date in file or other date"""
         # date to validate against
@@ -1318,9 +1461,9 @@ class timekprUserControl(object):
         # month changed
         monthChanged = (checkDate.year != validationDate.year or checkDate.month != validationDate.month)
         # week changed
-        weekChanged = (monthChanged or checkDate.isocalendar()[1] != validationDate.isocalendar()[1])
+        weekChanged = (checkDate.isocalendar()[1] != validationDate.isocalendar()[1] or (checkDate.isocalendar()[1] == validationDate.isocalendar()[1] and abs((checkDate - validationDate).days) > 7))
         # day changed
-        dayChanged = (weekChanged or checkDate != validationDate)
+        dayChanged = (checkDate != validationDate)
 
         # result (day / week / month)
         return dayChanged, weekChanged, monthChanged
