@@ -1,4 +1,4 @@
-timekpr-next (0.5.6-5ubuntu6~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.6-5ubuntu7~ppa1) UNRELEASED; urgency=medium
 
   * remove UUID upper boundary check (fixes #2046222)
       any user whose ID is greater than UUID_MIN is considered controllable by timekpr
@@ -29,7 +29,7 @@ timekpr-next (0.5.6-5ubuntu6~ppa1) UNRELEASED; urgency=medium
       fall back to gnome and then to freedesktop interfaces (gnome is more popular, freedesktop - very few actually implement it)
         if nothing else is detected and works
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Fri, 8 Mar 2024 09:26:13 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sun, 17 Mar 2024 18:02:25 +0200
 
 timekpr-next (0.5.5-4ubuntu1~ppa1) UNRELEASED; urgency=medium
 
