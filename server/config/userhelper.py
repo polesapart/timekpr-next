@@ -27,6 +27,11 @@ _loginManagers = [result.strip(None) for result in cons.TK_USERS_LOGIN_MANAGERS.
 # defaults
 _limitsConfig["UID_MIN"] = 1000
 _limitsConfig["UID_MAX"] = 60000
+# username pattern:
+#   all users, max 101 chars
+#   linux users, extended with uppercase characters and first numeric or "." character
+#   domain users, extended with uppercase characters and first numeric or ".", and "@" symbol
+_userNameRegexp = re.compile("^[a-zA-Z0-9_\.]([a-zA-Z0-9_\.@-]{0,101}|[a-zA-Z0-9_\.@-]{0,100}\$)$")
 
 
 # some distros are "different", login.defs may be in different dir, config reflects multiple dirs to check for the file
@@ -47,17 +52,29 @@ for rFile in cons.TK_USER_LIMITS_FILE:
             break
 
 
-def verifyNormalUserID(pUserId):
-    """Return min user id"""
+def isUserValid(pUserId, pUserName=None, pUserShell=None):
+    """Validate user ID, name and shell"""
     # vars
     global _limitsConfig
+    global _userNameRegexp
     isUIDOK = False
-    # to test in VMs default user (it may have UID of 999, -1 from limit)
-    if not isUIDOK:
-        isUIDOK = (int(pUserId) == _limitsConfig["UID_MIN"]-1)
-    # check normal users
-    if not isUIDOK:
-        isUIDOK = (_limitsConfig["UID_MIN"] <= int(pUserId))
+
+    # check user id
+    if pUserId is not None and pUserId != "":
+        # check normal users and to test in VMs default user (it may have UID of 999, -1 from limit)
+        isUIDOK = (int(pUserId) >= _limitsConfig["UID_MIN"] - 1)
+        # check shell (if provided)
+        if isUIDOK and pUserShell is not None:
+            # uid is ok and shell is passed
+            if "/nologin" in pUserShell or "/false" in pUserShell or "" == pUserShell:
+                # user is not ours
+                isUIDOK = False
+        # check if username is ok
+        if isUIDOK and pUserName is not None:
+            # uid is ok and name is passed
+            if not _userNameRegexp.match(pUserName):
+                # user is not ours
+                isUIDOK = False
     # fin
     return(isUIDOK)
 
@@ -105,14 +122,12 @@ class timekprUserStore(object):
 
         # iterate through all usernames
         for rUser in pwd.getpwall():
-            # check userid
-            if rUser.pw_uid is not None and rUser.pw_uid != "" and not ("/nologin" in rUser.pw_shell or "/false" in rUser.pw_shell):
-                # save our user, if it mactches
-                if verifyNormalUserID(rUser.pw_uid):
-                    # get processed usernames
-                    userFName = getNormalizedUserNames(pUser=rUser)[1]
-                    # save ()
-                    users[rUser.pw_name] = [rUser.pw_uid, userFName]
+            # save our user, if it mactches
+            if isUserValid(rUser.pw_uid, rUser.pw_name, rUser.pw_shell):
+                # get processed usernames
+                userFName = getNormalizedUserNames(pUser=rUser)[1]
+                # save ()
+                users[rUser.pw_name] = [rUser.pw_uid, userFName]
 
         # get user config
         timekprConfigManager = timekprConfig()
