@@ -1,4 +1,4 @@
-timekpr-next (0.5.7-1ubuntu1~ppa1) UNRELEASED; urgency=medium
+timekpr-next (0.5.7-1ubuntu2~ppa1) UNRELEASED; urgency=medium
 
   * improve username and user shell filter (fixes #2061003)
       usernames which do not conform to standard username patterns are filtered out
