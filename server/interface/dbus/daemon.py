@@ -200,17 +200,17 @@ class timekprDaemon(dbus.service.Object):
         # add new users to track
         for rUserName, userDict in userList.items():
             # login manager is system user, we do these checks only for system users
-            if not userhelper.verifyNormalUserID(userDict[cons.TK_CTRL_UID]):
+            if not userhelper.isUserValid(userDict[cons.TK_CTRL_UID], userDict[cons.TK_CTRL_UNAME]):
                 # sys user
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: system user \"%s\" explicitly excluded" % (rUserName))
+                log.log(cons.TK_LOG_LEVEL_INFO, "NOTE: system or mismatched user \"%s\" explicitly excluded" % (rUserName))
                 # try to get login manager VT (if not already found)
                 self._timekprLoginManager.determineLoginManagerVT(rUserName, userDict[cons.TK_CTRL_UPATH])
             # if username is in exclusion list, additionally verify that username is not a sysuser / login manager (this is somewhat obsolete now)
             elif rUserName in self._timekprConfig.getTimekprUsersExcl() and rUserName not in userhelper.getTimekprLoginManagers():
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: user \"%s\" explicitly excluded" % (rUserName))
+                log.log(cons.TK_LOG_LEVEL_INFO, "NOTE: user \"%s\" explicitly excluded" % (rUserName))
             # if not in, we add it
             elif rUserName not in self._timekprUserList:
-                log.log(cons.TK_LOG_LEVEL_DEBUG, "NOTE: we have a new user \"%s\"" % (rUserName))
+                log.log(cons.TK_LOG_LEVEL_INFO, "NOTE: we have a new user \"%s\"" % (rUserName))
                 # add user
                 self._timekprUserList[rUserName] = timekprUser(
                     self._timekprBusName,
