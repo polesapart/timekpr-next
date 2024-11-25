@@ -102,3 +102,6 @@ resource/locale/fr/LC_MESSAGES/timekpr.mo usr/share/locale/fr/LC_MESSAGES/
 #resource/locale/hu/LC_MESSAGES/timekpr.mo usr/share/locale/hu/LC_MESSAGES/
 resource/locale/it/LC_MESSAGES/timekpr.mo usr/share/locale/it/LC_MESSAGES/
 resource/locale/lv/LC_MESSAGES/timekpr.mo usr/share/locale/lv/LC_MESSAGES/
+resource/locale/nl/LC_MESSAGES/timekpr.mo usr/share/locale/nl/LC_MESSAGES/
+resource/locale/pt/LC_MESSAGES/timekpr.mo usr/share/locale/pt/LC_MESSAGES/
+resource/locale/ru/LC_MESSAGES/timekpr.mo usr/share/locale/ru/LC_MESSAGES/
