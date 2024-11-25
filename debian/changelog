@@ -1,4 +1,4 @@
-timekpr-next-beta (0.5.8-1ubuntu1~ppa1) unstable; urgency=medium
+timekpr-next-beta (0.5.8-1ubuntu2~ppa1) unstable; urgency=medium
 
   * added translations for Russian, Dutch, Portugese languages
   * packaging warning fixes

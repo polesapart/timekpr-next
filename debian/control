@@ -4,8 +4,7 @@ Uploaders: Eduards Bezverhijs <edzis@inbox.lv>
 Section: admin
 Priority: optional
 Build-Depends: debhelper (>= 7) | debhelper-compat (= 12),
-               dh-sequence-movetousr,
-               dh-sequence-python3 | dh-python | python-support,
+               dh-python | python-support,
                gir1.2-gtk-3.0,
                po-debconf,
                python3 (>= 3.2),
