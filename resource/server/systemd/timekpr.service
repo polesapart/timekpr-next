@@ -8,8 +8,8 @@ Type=simple
 User=root
 WorkingDirectory=/usr/lib/python3/dist-packages/timekpr/
 ExecStart=/usr/bin/timekprd
-StandardOutput=syslog
-StandardError=syslog
+StandardOutput=journal
+StandardError=journal
 Restart=on-failure
 RestartSec=30
 

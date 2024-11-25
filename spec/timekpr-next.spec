@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:             timekpr-next
-Version:          0.5.7
+Version:          0.5.8
 Release:          0.1%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -20,7 +20,7 @@ BuildRequires:    ( sed )
 BuildRequires:    ( grep )
 
 Requires:         ( gtk3 >= 3.4 )
-Requires:         ( polkit or pkexec)
+Requires:         ( polkit or pkexec )
 Requires:         ( python3 )
 Requires:         ( python3-dbus or python3-dbus-python )
 Requires:         ( python3-gobject )
@@ -109,6 +109,9 @@ update-desktop-database &> /dev/null || :
 #%%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
+%{_datadir}/locale/nl/LC_MESSAGES/*
+%{_datadir}/locale/pt/LC_MESSAGES/*
+%{_datadir}/locale/ru/LC_MESSAGES/*
 %{_datadir}/metainfo/*
 %{_datadir}/polkit-1/actions/*
 %{_datadir}/timekpr
@@ -121,6 +124,8 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Mon Nov 25 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.8-0.1
+- Updated spec file for version 0.5.8, release 0.1 (BETA)
 * Thu Apr 25 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.7-0.1
 - Updated spec file for version 0.5.7, release 0.1 (BETA)
 * Fri Mar 8 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.6-0.6
