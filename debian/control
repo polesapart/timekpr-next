@@ -4,9 +4,9 @@ Uploaders: Eduards Bezverhijs <edzis@inbox.lv>
 Section: admin
 Priority: optional
 Build-Depends: debhelper (>= 7) | debhelper-compat (= 12),
-               dh-python | python-support,
+               dh-sequence-movetousr,
+               dh-sequence-python3 | dh-python | python-support,
                gir1.2-gtk-3.0,
-               libgtk-3-0 (>= 3.4),
                po-debconf,
                python3 (>= 3.2),
                python3-dbus,
@@ -19,7 +19,6 @@ Package: timekpr-next
 Architecture: any
 Depends: gir1.2-ayatanaappindicator3-0.1 | gir1.2-appindicator3-0.1,
          gir1.2-gtk-3.0,
-         libgtk-3-0 (>= 3.4),
          lxpolkit | lxqt-policykit | mate-polkit | policykit-1-gnome | polkit-kde-agent-1 | polkit-1-auth-agent,
          pkexec | policykit-1,
          python3 (>= 3.2),
