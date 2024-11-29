@@ -345,13 +345,9 @@ class timekprGUI(object):
     def renewUserConfiguration(self):
         """Update configuration options"""
         # if speech is not supported, we disable and uncheck the box
-        if self._timekprClientConfig.getIsNotificationSpeechSupported():
-            # disable speech
-            self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_sensitive(False)
+        self._timekprConfigDialogBuilder.get_object("timekprUseSpeechNotifCB").set_sensitive(self._timekprClientConfig.getIsNotificationSpeechSupported())
         # if sound is not supported by libnotify implementation, we disable and uncheck the box
-        if self._timekprClientConfig.getIsNotificationSoundSupported():
-            # disable speech
-            self._timekprConfigDialogBuilder.get_object("timekprUseNotificationSoundCB").set_sensitive(False)
+        self._timekprConfigDialogBuilder.get_object("timekprUseNotificationSoundCB").set_sensitive(self._timekprClientConfig.getIsNotificationSoundSupported())
 
         # user config
         self._timekprConfigDialogBuilder.get_object("timekprLimitChangeNotifCB").set_active(self._timekprClientConfig.getClientShowLimitNotifications())

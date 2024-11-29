@@ -13,8 +13,20 @@ try:
     _USE_SPEECH = True
 except (ImportError, ValueError):
     _USE_SPEECH = False
+    # init speech-ng
+    if not _USE_SPEECH:
+        try:
+            from espeakng import ESpeakNG as espeakng
+            _USE_SPEECH_NG = True
+        except (ImportError, ValueError):
+            _USE_SPEECH_NG = False
+            pass
     pass
 
+def isSupported():
+    """Return whether speech can be used"""
+    # result
+    return (_USE_SPEECH or _USE_SPEECH_NG)
 
 class timekprSpeech(object):
     """Class will provide speech synth functionality"""
@@ -25,44 +37,46 @@ class timekprSpeech(object):
     def initSpeech(self):
         """Initialize speech"""
         # set up speech synth
-        espeak.set_voice(self.getDefaultLanguage())
-        espeak.set_parameter(espeak.Parameter.Pitch, 1)
-        espeak.set_parameter(espeak.Parameter.Rate, 145)
-        espeak.set_parameter(espeak.Parameter.Range, 600)
+        if _USE_SPEECH:
+            # espeak
+            espeak.set_voice(self.getDefaultSpeechLanguage())
+            espeak.set_parameter(espeak.Parameter.Pitch, 1)
+            espeak.set_parameter(espeak.Parameter.Rate, 135)
+            espeak.set_parameter(espeak.Parameter.Range, 600)
+        elif _USE_SPEECH_NG:
+            # ng espeak
+            self.espeak = espeakng()
+            self.espeak.voice = self.getDefaultSpeechLanguage();
+            self.espeak.pitch = 1
+            self.espeak.speed = 135
+            self.espeak.range = 600
 
-    def getDefaultLanguage(self):
+    def getDefaultSpeechLanguage(self):
         """Get default language"""
         # no lang
-        lang = ""
+        lang = "en"
         try:
-            lang = locale.getlocale()[0].split("_")[0]
+            if _USE_SPEECH:
+                lang = locale.getlocale()[0].split("_")[0]
+            elif _USE_SPEECH_NG:
+                lang = locale.getlocale()[0].replace("_", "-").lower()
         except Exception:
             pass
-
         # result
         return lang
 
     def saySmth(self, pMsg):
         """Say something"""
         # if supported
-        if self.isSupported():
-            # synth the speech
-            espeak.synth(pMsg)
+        if self.isSpeechSupported():
+            if _USE_SPEECH:
+                # synth the speech
+                espeak.synth(pMsg)
+            elif _USE_SPEECH_NG:
+                # say
+                self.espeak.say(pMsg)
 
-    def isSupported(self):
+    def isSpeechSupported(self):
         """Return whether speech can be used"""
-        global _USE_SPEECH
         # result
-        return _USE_SPEECH
-
-
-# main start
-if __name__ == "__main__":
-    # if supported
-    if _USE_SPEECH:
-        sp = timekprSpeech()
-        sp.initSpeech()
-        sp.saySmth("You have no time left")
-        time.sleep(10)
-    else:
-        print("Nospeech")
+        return isSupported()
