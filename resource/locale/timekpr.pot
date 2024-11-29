@@ -2216,7 +2216,7 @@ msgid ""
 "Select whether to use speech notifications, if available.\n"
 "\n"
 "You may be able to make speech notifications available by installing package "
-"\"python3-espeak\"."
+"\"python3-espeak\" or \"python3-espeak-ng\"."
 msgstr ""
 
 #: resource/client/forms/client.glade:1574
