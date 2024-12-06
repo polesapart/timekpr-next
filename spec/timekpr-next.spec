@@ -46,6 +46,7 @@ https://bugs.launchpad.net/timekpr-next
 
 %prep
 %setup -q -n %{name}
+sed -i 's|python3/dist-packages|%{_sitelib}|g' bin/* client/*.py debian/install resource/server/systemd/timekpr.service server/timekprd.py
 
 %build
 
