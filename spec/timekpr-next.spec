@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+%define _sitelib %( echo %{python3_sitelib} | cut -c 10- )
 
 Name:             timekpr-next
 Version:          0.5.8
