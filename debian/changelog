@@ -1,10 +1,12 @@
-timekpr-next-beta (0.5.8-2ubuntu2~ppa1) unstable; urgency=medium
+timekpr-next-beta (0.5.8-3ubuntu2~ppa1) unstable; urgency=medium
 
   * added translations for Russian, Dutch, Portugese languages
   * improved sound notificatons:
       added support for espeak-ng
       system "bell" notifications are no longer relient on freedesktop sound files
-  * packaging warning fixes
+  * packaging warning fixes (#2089143)
+  * enable standard window close button (workaround for #2091011)
+  * fixes for .rpm packaging from Alexey (#2091080)
 
  -- Eduards Bezverhijs <edzis@inbox.lv>  Mon, 25 Nov 2024 11:06:11 +0200
 
