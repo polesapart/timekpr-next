@@ -14,6 +14,7 @@ from datetime import datetime
 import os
 import pwd
 import inspect
+import stat
 try:
     import psutil
     _PSUTIL = True
@@ -105,29 +106,37 @@ def checkAndSetRunning(pAppName, pUserName=""):
     processPid = "0"
     processCmd = ""
     isAlreadyRunning = False
+    isWritable = True
 
     # check if we have pid file for the app
     if os.path.isfile(pidFile):
-        # if we have a file, we read the pid from there
-        with open(pidFile, "r") as pidfile:
-            # determine pid
-            processPid = pidfile.readline(10).rstrip("\n").rstrip("\r")
-            # check if pid is numeric
-            processPid = "0" if not processPid.isnumeric() else processPid
+        # check stats
+        fileStat = os.stat(pidFile)
+        # check permissions
+        isWritable = (stat.S_IWUSR & fileStat.st_mode and fileStat.st_uid == os.getuid())
 
-    # so we have a running app, now we check whether its our app
-    if processPid != "0":
-        # get process commandline
-        procPidFile = os.path.join("/proc", processPid, "cmdline")
+        # if file is not ours, we don't even try to read from it
+        if isWritable:
+            # if we have a file, we read the pid from there
+            with open(pidFile, "r") as pidfiler:
+                # determine pid
+                processPid = pidfiler.readline(10).rstrip("\n").rstrip("\r")
+                # check if pid is numeric
+                processPid = "0" if not processPid.isnumeric() else processPid
 
-        # check whether we have a process running with this pid
-        if os.path.isfile(procPidFile):
-            # we wrap this with try in case pid is very short-lived
-            try:
-                with open(procPidFile, "r") as pidfile:
-                    processCmd = pidfile.readline()
-            except Exception:
-                processCmd = ""
+            # so we have a running app, now we check whether its our app
+            if processPid != "0":
+                # get process commandline
+                procPidFile = os.path.join("/proc", processPid, "cmdline")
+
+                # check whether we have a process running with this pid
+                if os.path.isfile(procPidFile):
+                    # we wrap this with try in case pid is very short-lived
+                    try:
+                        with open(procPidFile, "r") as pidfile:
+                            processCmd = pidfile.readline()
+                    except Exception:
+                        processCmd = ""
 
     # check if this is our process
     if pAppName in processCmd:
@@ -137,7 +146,7 @@ def checkAndSetRunning(pAppName, pUserName=""):
         print("Timekpr-nExT \"%s\" is already running for user \"%s\"" % (pAppName, pUserName if pUserName != "" else "root"))
     else:
         # check if we have pid file and it is a link for some reason
-        if os.path.islink(pidFile):
+        if os.path.islink(pidFile) or not isWritable:
             # remove the "old" pid file
             os.remove(pidFile)
         # set our pid
