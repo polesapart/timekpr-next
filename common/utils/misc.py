@@ -110,7 +110,10 @@ def checkAndSetRunning(pAppName, pUserName=""):
     if os.path.isfile(pidFile):
         # if we have a file, we read the pid from there
         with open(pidFile, "r") as pidfile:
-            processPid = pidfile.readline().rstrip("\n").rstrip("\r")
+            # determine pid
+            processPid = pidfile.readline(10).rstrip("\n").rstrip("\r")
+            # check if pid is numeric
+            processPid = "0" if not processPid.isnumeric() else processPid
 
     # so we have a running app, now we check whether its our app
     if processPid != "0":
@@ -131,11 +134,16 @@ def checkAndSetRunning(pAppName, pUserName=""):
         # we are running
         isAlreadyRunning = True
         # print this to console as well
-        print("Timekpr-nExT \"%s\" is already running for user \"%s\"" % (pAppName, pUserName if pUserName != "" else "ŗoot"))
+        print("Timekpr-nExT \"%s\" is already running for user \"%s\"" % (pAppName, pUserName if pUserName != "" else "root"))
     else:
+        # check if we have pid file and it is a link for some reason
+        if os.path.islink(pidFile):
+            # remove the "old" pid file
+            os.remove(pidFile)
         # set our pid
-        with open(pidFile, "w") as pidfile:
-            processCmd = pidfile.write(str(os.getpid()))
+        with open(pidFile, "w") as pidfilew:
+            # write our pid to pid file
+            processCmd = pidfilew.write(str(os.getpid()))
 
     # return whether we are running
     return isAlreadyRunning
