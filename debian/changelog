@@ -1,4 +1,4 @@
-timekpr-next (0.5.8-5ubuntu2~ppa1) unstable; urgency=medium
+timekpr-next (0.5.8-6ubuntu2~ppa1) unstable; urgency=medium
 
   * added translations for Russian, Dutch, Portugese languages
   * improved sound notificatons:
@@ -8,8 +8,10 @@ timekpr-next (0.5.8-5ubuntu2~ppa1) unstable; urgency=medium
   * enable standard window close button (workaround for #2091011)
   * fixes for .rpm packaging from Alexey (#2091080)
   * improve pidfile handling (#2097253)
+  * session termination is changed from TerminateSession to KillSession
+      at least Kubuntu 24.04 will not terminate sessions with TerminateSession, it works fine with KillSession + SIGTERM
 
- -- Eduards Bezverhijs <edzis@inbox.lv>  Tue, 4 Feb 2025  20:24:13 +0200
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Wed, 19 Mar 2025  08:27:13 +0200
 
 timekpr-next (0.5.7-1ubuntu2~ppa1) UNRELEASED; urgency=medium
 
