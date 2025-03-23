@@ -7,6 +7,7 @@ Created on Aug 28, 2018
 # import section
 import dbus
 import time
+import signal
 from gi.repository import GLib
 
 # timekpr imports
@@ -322,7 +323,7 @@ class timekprUserLoginManager(object):
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
                 else:
-                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["sessionId"])
+                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.KillSession, rUserSession["sessionId"], "all", signal.SIGTERM)
                 # get last seat
                 lastSeat = rUserSession["seat"] if rUserSession["seat"] is not None and rUserSession["seat"] != "" and rUserSession["vtnr"] is not None and rUserSession["vtnr"] != "" and self._loginManagerVTNr != rUserSession["vtnr"] else lastSeat
                 # determine whether user is active
