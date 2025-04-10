@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: timekpr-next\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2024-02-20 11:07+0200\n"
-"PO-Revision-Date: 2024-11-29 19:10+0200\n"
+"POT-Creation-Date: 2025-04-10 12:20+0300\n"
+"PO-Revision-Date: 2025-04-10 12:27+0300\n"
 "Last-Translator: Alexey Svistunov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2024-11-25 11:52+0000\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: common/constants/messages.py:31
 msgid "==> print help, example"
@@ -84,17 +84,18 @@ msgstr ""
 msgid "==> set whether to hide tray icon and prevent notifications, example"
 msgstr "==> cпрятать иконку в трее и отключить уведомления, например"
 
-#. TRANSLATORS: please DO NOT translate the keywords: "lock", "suspend", "suspendwake", "terminate", "shutdown"
+#. TRANSLATORS: please DO NOT translate the keywords: "lock", "suspend", "suspendwake", "terminate", "kill", "shutdown"
 #: common/constants/messages.py:44
 msgid ""
 "==> set restriction / lockout type (\"lock\" - lock session, \"suspend\" - "
 "suspend the computer, \"suspendwake\" - suspend and wake up, \"terminate\" - "
-"terminate sessions, \"shutdown\" - shutdown the computer), examples"
+"terminate sessions, \"kill\" - kill sessions, \"shutdown\" - shutdown the "
+"computer), examples"
 msgstr ""
 "==> установить ограничение / вид блокировки (\"lock\" - заблокировать "
 "сессию, \"suspend\" - перевести компьютер в сон, \"suspendwake\" - перевести "
-"компьютер в сон и вывести из сна, \"terminate\" - прервать сессию, "
-"\"shutdown\" - выключить компьютер), примеры"
+"компьютер в сон и вывести из сна, \"terminate\" - прервать сессию, \"kill\" "
+"- прекратить сессию, \"shutdown\" - выключить компьютер), примеры"
 
 #: common/constants/messages.py:45
 msgid ""
@@ -873,7 +874,7 @@ msgstr "Ограничения и Конфигурация"
 msgid "About"
 msgstr "О программе"
 
-#: common/constants/messages.py:216 resource/client/forms/about.glade:17
+#: common/constants/messages.py:216 resource/client/forms/about.glade:16
 msgid "Keep control of computer usage"
 msgstr "Контроль времени пользования компьютером"
 
@@ -1110,12 +1111,12 @@ msgstr "н/д"
 msgid "About Timekpr-nExT"
 msgstr "О программе Timekpr-nExT"
 
-#: resource/client/forms/about.glade:19
+#: resource/client/forms/about.glade:18
 msgid "Timekpr-nExT"
 msgstr "Timekpr-nExT"
 
 #. Please enter GPL3 licence text in your language
-#: resource/client/forms/about.glade:20
+#: resource/client/forms/about.glade:19
 msgctxt "timekpr-next"
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
@@ -1143,7 +1144,7 @@ msgstr ""
 "licenses/GPL-3."
 
 #. Please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-#: resource/client/forms/about.glade:26
+#: resource/client/forms/about.glade:25
 msgid ""
 "Eduards Bezverhijs <edzis@inbox.lv>\n"
 "(Translations fine-tuning by JP Lord <jplord@gmail.com>)\n"
@@ -1191,7 +1192,7 @@ msgstr ""
 "\n"
 "Пожалуйста, выполняйте настройку внимательно: не заблокируйте себя!"
 
-#: resource/client/forms/admin.glade:465 resource/client/forms/admin.glade:3026
+#: resource/client/forms/admin.glade:465 resource/client/forms/admin.glade:3047
 msgid "Users related configuration"
 msgstr "Настойки пользователей"
 
@@ -1880,10 +1881,28 @@ msgstr ""
 "Это опция по умолчанию, и, скорее всего, именно она вам нужна!"
 
 #: resource/client/forms/admin.glade:2802
+msgid "kill sessions"
+msgstr "прекратить сеансы"
+
+#: resource/client/forms/admin.glade:2806
+msgid ""
+"When time ends, user sessions will be killed.\n"
+"\n"
+"This option is a restriction!\n"
+"\n"
+"Please evaluate whether you need this type of restriction!"
+msgstr ""
+"По истечении времени сеансы пользователя будут завершены.\n"
+"\n"
+"Эта опция является ограничением!\n"
+"\n"
+"Пожалуйста, оцените, нужен ли вам этот тип ограничения!"
+
+#: resource/client/forms/admin.glade:2823
 msgid "shutdown computer"
 msgstr "выключить компьютер"
 
-#: resource/client/forms/admin.glade:2806
+#: resource/client/forms/admin.glade:2827
 msgid ""
 "When time ends, computer will be shut down.\n"
 "\n"
@@ -1897,11 +1916,11 @@ msgstr ""
 "\n"
 "Пожалуйста, оцените, нужен ли вам этот тип ограничения!"
 
-#: resource/client/forms/admin.glade:2824
+#: resource/client/forms/admin.glade:2845
 msgid "suspend computer"
 msgstr "приостановить работу компьютера"
 
-#: resource/client/forms/admin.glade:2828
+#: resource/client/forms/admin.glade:2849
 msgid ""
 "When time ends, computer will be suspended (put to sleep).\n"
 "\n"
@@ -1920,11 +1939,11 @@ msgstr ""
 "При пробуждении, когда времени все еще не осталось, экран компьютера будет "
 "заблокирован и через некоторое время снова переведен в спящий режим."
 
-#: resource/client/forms/admin.glade:2846
+#: resource/client/forms/admin.glade:2867
 msgid "suspend / wakeup computer"
 msgstr "приостановка/пробуждение компьютера"
 
-#: resource/client/forms/admin.glade:2850
+#: resource/client/forms/admin.glade:2871
 msgid ""
 "When time ends, computer will be suspended (put to sleep) and will be woken "
 "up at start of next available time interval for the user.\n"
@@ -1945,11 +1964,11 @@ msgstr ""
 "При пробуждении, когда времени все еще не осталось, экран компьютера будет "
 "заблокирован и через некоторое время снова переведен в спящий режим."
 
-#: resource/client/forms/admin.glade:2868
+#: resource/client/forms/admin.glade:2889
 msgid "lock screen"
 msgstr "заблокировать экран"
 
-#: resource/client/forms/admin.glade:2872
+#: resource/client/forms/admin.glade:2893
 msgid ""
 "When time ends, computer screen will be locked.\n"
 "\n"
@@ -1961,7 +1980,7 @@ msgstr ""
 "Этот параметр не является ограничением и больше подходит для целей "
 "самоконтроля."
 
-#: resource/client/forms/admin.glade:2903
+#: resource/client/forms/admin.glade:2924
 msgid ""
 "Select a time interval when computer can be woken up automatically.\n"
 "\n"
@@ -1975,11 +1994,11 @@ msgstr ""
 "если функция \"Пробуждение по часам реального времени\" поддерживается и "
 "включена в BIOS/UEFI!"
 
-#: resource/client/forms/admin.glade:2907
+#: resource/client/forms/admin.glade:2928
 msgid "Wakeup hour interval:"
 msgstr "Часовой интервал пробуждения:"
 
-#: resource/client/forms/admin.glade:2919
+#: resource/client/forms/admin.glade:2940
 msgid ""
 "Enter start hour for the automatic wakeup function.\n"
 "\n"
@@ -1992,7 +2011,7 @@ msgstr ""
 "если функция пробуждения по часам реального времени поддерживается и "
 "включена в BIOS/UEFI!"
 
-#: resource/client/forms/admin.glade:2938
+#: resource/client/forms/admin.glade:2959
 msgid ""
 "Enter end hour for the automatic wakeup function.\n"
 "\n"
@@ -2005,37 +2024,37 @@ msgstr ""
 "если функция пробуждения по часам реального времени поддерживается и "
 "включена в BIOS/UEFI!"
 
-#: resource/client/forms/admin.glade:2976
+#: resource/client/forms/admin.glade:2997
 msgid "Apply configuration"
 msgstr "Применить конфигурацию"
 
-#: resource/client/forms/admin.glade:2980
+#: resource/client/forms/admin.glade:3001
 msgid "Apply additional configuration changes on this page"
 msgstr "Примените дополнительные изменения конфигурации на этой странице"
 
-#: resource/client/forms/admin.glade:2999
+#: resource/client/forms/admin.glade:3020
 msgid "Additional configuration"
 msgstr "Дополнительная конфигурация"
 
-#: resource/client/forms/admin.glade:3000
-#: resource/client/forms/admin.glade:3674
+#: resource/client/forms/admin.glade:3021
+#: resource/client/forms/admin.glade:3695
 msgid "Additional options"
 msgstr "Дополнительные опции"
 
-#: resource/client/forms/admin.glade:3027
+#: resource/client/forms/admin.glade:3048
 msgid "User Configuration"
 msgstr "Конфигурация пользователя"
 
-#: resource/client/forms/admin.glade:3037
+#: resource/client/forms/admin.glade:3058
 msgid "Timekpr-nExT related configuration"
 msgstr "Настройки Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:3064
+#: resource/client/forms/admin.glade:3085
 msgid "Control Timekpr-nExT Settings"
 msgstr "Управление настройками Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:3091
-#: resource/client/forms/admin.glade:3243
+#: resource/client/forms/admin.glade:3112
+#: resource/client/forms/admin.glade:3264
 msgid ""
 "Timekpr-nExT log level.\n"
 "\n"
@@ -2051,8 +2070,8 @@ msgstr ""
 "\n"
 "Значения: 1 - стандартный, 2 - отладочный, 3 - дополнительный отладочный"
 
-#: resource/client/forms/admin.glade:3111
-#: resource/client/forms/admin.glade:3159
+#: resource/client/forms/admin.glade:3132
+#: resource/client/forms/admin.glade:3180
 msgid ""
 "Session polling time granularity which specifies how often user sessions and "
 "activity are checked and accounted.\n"
@@ -2064,12 +2083,12 @@ msgstr ""
 "\n"
 "Оптимально 3-5 секунд, не меняйте это значение, если не уверены."
 
-#: resource/client/forms/admin.glade:3115
+#: resource/client/forms/admin.glade:3136
 msgid "Poll interval"
 msgstr "Интервал опроса"
 
-#: resource/client/forms/admin.glade:3127
-#: resource/client/forms/admin.glade:3230
+#: resource/client/forms/admin.glade:3148
+#: resource/client/forms/admin.glade:3251
 msgid ""
 "Specify the time in seconds when Timekpr-nExT starts continuous real-time "
 "countdown before enforcing a restriction / lockout to user's sessions."
@@ -2078,8 +2097,8 @@ msgstr ""
 "отсчет в реальном времени, прежде чем вводить ограничение/блокировку сеансов "
 "пользователя."
 
-#: resource/client/forms/admin.glade:3143
-#: resource/client/forms/admin.glade:3193
+#: resource/client/forms/admin.glade:3164
+#: resource/client/forms/admin.glade:3214
 msgid ""
 "This specifies the rate in seconds at which actual user state is saved to "
 "disk.\n"
@@ -2096,12 +2115,12 @@ msgstr ""
 "определяет частоту, с которой состояние пользователя сохраняется на диске "
 "для постоянного хранения."
 
-#: resource/client/forms/admin.glade:3147
+#: resource/client/forms/admin.glade:3168
 msgid "Save time"
 msgstr "Интревал сохранения"
 
-#: resource/client/forms/admin.glade:3177
-#: resource/client/forms/admin.glade:3212
+#: resource/client/forms/admin.glade:3198
+#: resource/client/forms/admin.glade:3233
 msgid ""
 "Number of seconds left for user before enforcing a configured restriction / "
 "lockout to his sessions.\n"
@@ -2118,20 +2137,20 @@ msgstr ""
 "ограничением/блокировкой, и почти ничего нельзя будет сделать, чтобы "
 "предотвратить это."
 
-#: resource/client/forms/admin.glade:3181
+#: resource/client/forms/admin.glade:3202
 msgid "Termination time"
 msgstr "Время завершения"
 
-#: resource/client/forms/admin.glade:3232
+#: resource/client/forms/admin.glade:3253
 msgid "Countdown time"
 msgstr "Время обратного отсчета"
 
-#: resource/client/forms/admin.glade:3249
+#: resource/client/forms/admin.glade:3270
 msgid "Log level"
 msgstr "Уровень журналирования"
 
-#: resource/client/forms/admin.glade:3260
-#: resource/client/forms/admin.glade:3276
+#: resource/client/forms/admin.glade:3281
+#: resource/client/forms/admin.glade:3297
 msgid ""
 "Number of seconds left for user's available time before sending a final "
 "critical notification that time is about to run out.\n"
@@ -2145,27 +2164,27 @@ msgstr ""
 "ПРИМЕЧАНИЕ: остальное время уведомления настраивается для каждого "
 "пользователя индивидуально в клиентском приложении!"
 
-#: resource/client/forms/admin.glade:3264
+#: resource/client/forms/admin.glade:3285
 msgid "Final notification"
 msgstr "Окончательное уведомление"
 
-#: resource/client/forms/admin.glade:3318
+#: resource/client/forms/admin.glade:3339
 msgid "Control Timekpr-nExT tracking items"
 msgstr "Управление элементами отслеживания Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:3351
+#: resource/client/forms/admin.glade:3372
 msgid "Tracked Sessions"
 msgstr "Отслеживаемые Сеансы"
 
-#: resource/client/forms/admin.glade:3374
+#: resource/client/forms/admin.glade:3395
 msgid "Add tracked session type to the list"
 msgstr "Добавить отслеживаемый тип сеанса в список"
 
-#: resource/client/forms/admin.glade:3389
+#: resource/client/forms/admin.glade:3410
 msgid "Remove tracked session type from the list"
 msgstr "Удалить отслеживаемый тип сеанса из списка"
 
-#: resource/client/forms/admin.glade:3418
+#: resource/client/forms/admin.glade:3439
 msgid ""
 "List of session types to be tracked.\n"
 "\n"
@@ -2177,19 +2196,19 @@ msgstr ""
 "Пожалуйста, не меняйте и не экспериментируйте с этим, если вы на самом деле "
 "(а не выдаете желаемое за действительное) не знаете, что делаете."
 
-#: resource/client/forms/admin.glade:3453
+#: resource/client/forms/admin.glade:3474
 msgid "Excluded Sessions"
 msgstr "Исключенные Сеансы"
 
-#: resource/client/forms/admin.glade:3476
+#: resource/client/forms/admin.glade:3497
 msgid "Add an excluded session type to the list"
 msgstr "Добавьте в список исключаемый тип сеансов"
 
-#: resource/client/forms/admin.glade:3491
+#: resource/client/forms/admin.glade:3512
 msgid "Remove an excluded session type from the list"
 msgstr "Удалить исключаемый тип сеанса из списка"
 
-#: resource/client/forms/admin.glade:3520
+#: resource/client/forms/admin.glade:3541
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "\n"
@@ -2201,19 +2220,19 @@ msgstr ""
 "Пожалуйста, не меняйте и не экспериментируйте с этим, если вы на самом деле "
 "(а не выдаете желаемое за действительное) не знаете, что делаете."
 
-#: resource/client/forms/admin.glade:3555
+#: resource/client/forms/admin.glade:3576
 msgid "Excluded Users"
 msgstr "Исключённые пользователи"
 
-#: resource/client/forms/admin.glade:3578
+#: resource/client/forms/admin.glade:3599
 msgid "Add a user to the exclusion list"
 msgstr "Добавить пользователя в список исключений"
 
-#: resource/client/forms/admin.glade:3593
+#: resource/client/forms/admin.glade:3614
 msgid "Remove a user from the exclusion list"
 msgstr "Удалить пользователя из списка исключений"
 
-#: resource/client/forms/admin.glade:3622
+#: resource/client/forms/admin.glade:3643
 msgid ""
 "List of users excluded from tracking.\n"
 "\n"
@@ -2225,9 +2244,9 @@ msgstr ""
 "Пожалуйста, укажите здесь реальные имена пользователей, а не настоящие "
 "имена. Например, \"ipetrov\", а не \"Иван Петров\"."
 
-#: resource/client/forms/admin.glade:3701
-#: resource/client/forms/admin.glade:3720
-#: resource/client/forms/admin.glade:3756
+#: resource/client/forms/admin.glade:3722
+#: resource/client/forms/admin.glade:3741
+#: resource/client/forms/admin.glade:3777
 msgid ""
 "This setting controls whether PlayTime functionality is enabled.\n"
 "\n"
@@ -2239,11 +2258,11 @@ msgstr ""
 "Это главный переключатель контроля игрового времени, если он выключен, он "
 "отключается для всех, независимо от индивидуальных настроек!"
 
-#: resource/client/forms/admin.glade:3705
+#: resource/client/forms/admin.glade:3726
 msgid "PlayTime enabled:"
 msgstr "Контроля игрового времени включён"
 
-#: resource/client/forms/admin.glade:3735
+#: resource/client/forms/admin.glade:3756
 msgid ""
 "This setting controls whether PlayTime activity monitor will use process "
 "command line, including arguments, for monitoring processes (by default only "
@@ -2267,28 +2286,28 @@ msgstr ""
 "Пожалуйста, будьте осторожны и дважды проверьте свои шаблоны регулярных "
 "выражений в масках игровых действий каждого отдельного пользователя!"
 
-#: resource/client/forms/admin.glade:3741
+#: resource/client/forms/admin.glade:3762
 msgid "Enhanced activity monitor:"
 msgstr "Улучшенный мониторинг активности:"
 
-#: resource/client/forms/admin.glade:3790
+#: resource/client/forms/admin.glade:3811
 msgid "Apply Timekpr-nExT settings"
 msgstr "Применить настройки Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:3795
+#: resource/client/forms/admin.glade:3816
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Применить все настройки Timekpr-nExT сразу"
 
-#: resource/client/forms/admin.glade:3815
+#: resource/client/forms/admin.glade:3836
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Настройки администрирования Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:3816
+#: resource/client/forms/admin.glade:3837
 msgid "Timekpr-nExT Configuration"
 msgstr "Конфигурация Timekpr-nExT"
 
-#: resource/client/forms/admin.glade:3845
-#: resource/client/forms/admin.glade:3862
+#: resource/client/forms/admin.glade:3866
+#: resource/client/forms/admin.glade:3883
 msgid "Status of Timekpr-nExT admin client"
 msgstr "Статус клиента администрирования Timekpr-nExT"
 
