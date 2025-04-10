@@ -286,13 +286,13 @@ class timekprDaemon(dbus.service.Object):
             # process actions if user is in the restrictions list
             if rUserName in self._timekprUserRestrictionList:
                 # (internal idle killing switch) + user is not active + there is a time available today (opposing to in a row)
-                if ((not userActiveActual and timeLeftToday > self._timekprConfig.getTimekprTerminationTime()) or timeHourUnaccounted) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
+                if ((not userActiveActual and timeLeftToday > self._timekprConfig.getTimekprTerminationTime()) or timeHourUnaccounted) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D):
                     log.log(cons.TK_LOG_LEVEL_INFO, "SAVING user \"%s\" from ending his sessions / shutdown" % (rUserName))
                     # remove from death list
                     self._timekprUserRestrictionList.pop(rUserName)
                 # if restricted time has passed for hard restrictions, we need to lift the restriction
-                elif (timeLeftInARow > self._timekprConfig.getTimekprTerminationTime() or timeHourUnaccounted) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
-                    log.log(cons.TK_LOG_LEVEL_INFO, "RELEASING terminate / shutdown from user \"%s\"" % (rUserName))
+                elif (timeLeftInARow > self._timekprConfig.getTimekprTerminationTime() or timeHourUnaccounted) and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D):
+                    log.log(cons.TK_LOG_LEVEL_INFO, "RELEASING terminate / kill / shutdown from user \"%s\"" % (rUserName))
                     # remove from restriction list
                     self._timekprUserRestrictionList.pop(rUserName)
                 # if restricted time has passed for soft restrictions, we need to lift the restriction
@@ -307,7 +307,7 @@ class timekprDaemon(dbus.service.Object):
                     self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_USLCK] = userScreenLocked
                     self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] = max(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA] - 1, 0)
                     # only if user is active / screen is not locked
-                    if ((userActiveActual and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D))
+                    if ((userActiveActual and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D))
                     or (not userScreenLocked and self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_W))):
                         # update active states for restriction routines
                         self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] = max(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] - 1, 0)
@@ -352,10 +352,10 @@ class timekprDaemon(dbus.service.Object):
             log.log(cons.TK_LOG_LEVEL_INFO, "RESTRICTIONS, usr: \"%s\", cntd: %i, del: %i, dea: %i" % (rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL], self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEA]))
             # ## check which restriction is needed ##
             # we are going to TERMINATE user sessions
-            if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
+            if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D):
                 # log that we are going to terminate user sessions
                 if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RTDEL] <= 0:
-                    log.log(cons.TK_LOG_LEVEL_INFO, "%s approaching in %s secs" % ("TERMINATE" if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_T else "SHUTDOWN", str(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])))
+                    log.log(cons.TK_LOG_LEVEL_INFO, "%s approaching in %s secs" % ("TERMINATE" if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_T else ("KILL" if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_K else "SHUTDOWN"), str(self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD])))
                     # send messages only when certain time is left
                     if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_FCNTD] <= self._timekprConfig.getTimekprFinalWarningTime():
                         # final warning
@@ -369,9 +369,9 @@ class timekprDaemon(dbus.service.Object):
                         # terminate user sessions
                         try:
                             # term
-                            if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_T:
+                            if self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] in (cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K):
                                 # terminate
-                                self._timekprLoginManager.terminateUserSessions(rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_UPATH], self._timekprConfig)
+                                self._timekprLoginManager.terminateUserSessions(rUserName, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_UPATH], self._timekprConfig, self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY])
                             # shut
                             elif self._timekprUserRestrictionList[rUserName][cons.TK_CTRL_RESTY] == cons.TK_CTRL_RES_D:
                                 # shutdown

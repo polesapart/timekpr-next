@@ -302,7 +302,7 @@ class timekprUserLoginManager(object):
         # return false for repeat schedule to be discarded
         return False
 
-    def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
+    def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig, pRestrictionType):
         """Terminate user sessions"""
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start terminateUserSessions")
         log.log(cons.TK_LOG_LEVEL_DEBUG, "inspecting \"%s\" userpath \"%s\" sessions" % (pUserName, pUserPath))
@@ -322,8 +322,10 @@ class timekprUserLoginManager(object):
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
-                else:
+                elif pRestrictionType == cons.TK_CTRL_RES_K:
                     GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.KillSession, rUserSession["sessionId"], "all", signal.SIGTERM)
+                else:
+                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["sessionId"])
                 # get last seat
                 lastSeat = rUserSession["seat"] if rUserSession["seat"] is not None and rUserSession["seat"] != "" and rUserSession["vtnr"] is not None and rUserSession["vtnr"] != "" and self._loginManagerVTNr != rUserSession["vtnr"] else lastSeat
                 # determine whether user is active

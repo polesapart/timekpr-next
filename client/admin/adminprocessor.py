@@ -588,10 +588,10 @@ class timekprAdminClient(object):
         lockoutWakeTo = lockout[2] if len(lockout) == 3 else '23'
 
         # check
-        if lockoutType not in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D):
+        if lockoutType not in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D):
             # fail
             result = -1
-            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify one of these: %s, %s, %s, %s, %s" % (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D))
+            message = msg.getTranslation("TK_MSG_PARSE_ERROR") % ("please specify one of these: %s, %s, %s, %s, %s, %s" % (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D))
 
         # preprocess successful
         if result == 0:
