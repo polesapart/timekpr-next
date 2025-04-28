@@ -319,7 +319,7 @@ class timekprDaemon(dbus.service.Object):
                 self._timekprUserRestrictionList[rUserName] = {
                     cons.TK_CTRL_UPATH: self._timekprUserList[rUserName].getUserPathOnBus(),  # user path on dbus
                     cons.TK_CTRL_FCNTD: max(timeLeftInARow, self._timekprConfig.getTimekprTerminationTime()),  # final countdown
-                    cons.TK_CTRL_RESTY: self._timekprUserList[rUserName].getUserLockoutType(),  # restricton type: lock, suspend, suspendwake, terminate, shutdown
+                    cons.TK_CTRL_RESTY: self._timekprUserList[rUserName].getUserLockoutType(),  # restricton type: lock, suspend, suspendwake, terminate, kill, shutdown
                     cons.TK_CTRL_RTDEL: 0,  # retry delay before next attempt to enforce restrictions
                     cons.TK_CTRL_RTDEA: 0,  # retry delay (additional delay for lock in case of suspend)
                     cons.TK_CTRL_USACT: userActiveActual,  # whether user is actually active
