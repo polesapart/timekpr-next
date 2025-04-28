@@ -565,7 +565,7 @@ class timekprUserConfigurationProcessor(object):
             result = -1
             message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_NONE") % (self._userName)
         # parse config
-        elif pLockoutType not in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_D) or not (pWakeFrom.isnumeric() if pWakeFrom is not None else True) or not (pWakeTo.isnumeric() if pWakeTo is not None else True):
+        elif pLockoutType not in (cons.TK_CTRL_RES_L, cons.TK_CTRL_RES_S, cons.TK_CTRL_RES_W, cons.TK_CTRL_RES_T, cons.TK_CTRL_RES_K, cons.TK_CTRL_RES_D) or not (pWakeFrom.isnumeric() if pWakeFrom is not None else True) or not (pWakeTo.isnumeric() if pWakeTo is not None else True):
             # result
             result = -1
             message = msg.getTranslation("TK_MSG_USER_ADMIN_CHK_LOCKOUTTYPE_INVALID") % (self._userName)

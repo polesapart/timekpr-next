@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timekpr nExT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-20 11:07+0200\n"
-"PO-Revision-Date: 2024-11-29 19:08+0200\n"
+"POT-Creation-Date: 2025-04-10 12:20+0300\n"
+"PO-Revision-Date: 2025-04-10 12:21+0300\n"
 "Last-Translator: Eduards Bezverhijs <edzis@inbox.lv>\n"
 "Language-Team: Eduards Bezverhijs\n"
 "Language: lv_LV\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2024-02-20 09:12+0000\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __:1,2\n"
 
@@ -75,17 +75,18 @@ msgstr "==> uzstāda neaktīvo sesiju uzskaites pazīmi, piemērs"
 msgid "==> set whether to hide tray icon and prevent notifications, example"
 msgstr "==> uzstāda slēdzenes un paziņojumu slēpšanas pazīmi, piemērs"
 
-#. TRANSLATORS: please DO NOT translate the keywords: "lock", "suspend", "suspendwake", "terminate", "shutdown"
+#. TRANSLATORS: please DO NOT translate the keywords: "lock", "suspend", "suspendwake", "terminate", "kill", "shutdown"
 #: common/constants/messages.py:44
 msgid ""
 "==> set restriction / lockout type (\"lock\" - lock session, \"suspend\" - "
 "suspend the computer, \"suspendwake\" - suspend and wake up, \"terminate\" - "
-"terminate sessions, \"shutdown\" - shutdown the computer), examples"
+"terminate sessions, \"kill\" - kill sessions, \"shutdown\" - shutdown the "
+"computer), examples"
 msgstr ""
 "==> uzstādīt ierobežojumu veidu (\"lock\" - aizslēgt darbvirsmu, \"suspend\" "
 "- ievietot guļošā režīmā, \"suspendwake\" - ievietot guļošā režīmā un "
-"pamodināt, \"terminate\" - izbeigt sesijas, \"shutdown\" - izslēgt datoru), "
-"piemēri"
+"pamodināt, \"terminate\" - pārtraukt sesijas, \"kill\" - izbeigt sesijas, "
+"\"shutdown\" - izslēgt datoru), piemēri"
 
 #: common/constants/messages.py:45
 msgid ""
@@ -841,7 +842,7 @@ msgstr "Ierobežojumi un pārvaldība"
 msgid "About"
 msgstr "Par"
 
-#: common/constants/messages.py:216 resource/client/forms/about.glade:17
+#: common/constants/messages.py:216 resource/client/forms/about.glade:16
 msgid "Keep control of computer usage"
 msgstr "Kontrolēt datora lietojamību"
 
@@ -1080,12 +1081,12 @@ msgstr "n/a"
 msgid "About Timekpr-nExT"
 msgstr "Par Timekpr-nExT"
 
-#: resource/client/forms/about.glade:19
+#: resource/client/forms/about.glade:18
 msgid "Timekpr-nExT"
 msgstr "Timekpr-nExT"
 
 #. Please enter GPL3 licence text in your language
-#: resource/client/forms/about.glade:20
+#: resource/client/forms/about.glade:19
 msgctxt "timekpr-next"
 msgid ""
 "This program is free software: you can redistribute it and/or modify it "
@@ -1117,7 +1118,7 @@ msgstr ""
 "file /usr/share/common-licenses/GPL-3"
 
 #. Please fill in translator credits, each person in new line in format: name.surname@mail.xy, name@mail.xy, nick@mail.xy or so...
-#: resource/client/forms/about.glade:26
+#: resource/client/forms/about.glade:25
 msgid ""
 "Eduards Bezverhijs <edzis@inbox.lv>\n"
 "(Translations fine-tuning by JP Lord <jplord@gmail.com>)\n"
@@ -1162,7 +1163,7 @@ msgstr ""
 "\n"
 "Lūdzu pārvaldi lietotājus atbildīgi un neatspējo tiesības sev!"
 
-#: resource/client/forms/admin.glade:465 resource/client/forms/admin.glade:3026
+#: resource/client/forms/admin.glade:465 resource/client/forms/admin.glade:3047
 msgid "Users related configuration"
 msgstr "Pārvaldības iespējas, kas saistītas ar lietotājiem"
 
@@ -1814,7 +1815,7 @@ msgstr "Ierobežojuma veids:"
 
 #: resource/client/forms/admin.glade:2780
 msgid "terminate sessions"
-msgstr "izbeigt lietotāja sesijas"
+msgstr "pārtraukt lietotāja sesijas"
 
 #: resource/client/forms/admin.glade:2784
 msgid ""
@@ -1824,17 +1825,35 @@ msgid ""
 "\n"
 "This is the default option and most likely is the one you need!"
 msgstr ""
-"Kad lietotājam beidzies atvēlētais laiks, tā sesijas tiks izbeigtas.\n"
+"Kad lietotājam beidzies atvēlētais laiks, tā sesijas tiks pārtrauktas.\n"
 "\n"
 "Šis ir faktiskais ierobežojums!\n"
 "\n"
 "Šī ir noklusētā vērtība un potenciāli vispiemērotākā!"
 
 #: resource/client/forms/admin.glade:2802
+msgid "kill sessions"
+msgstr "izbeigt lietotāja sesijas"
+
+#: resource/client/forms/admin.glade:2806
+msgid ""
+"When time ends, user sessions will be killed.\n"
+"\n"
+"This option is a restriction!\n"
+"\n"
+"Please evaluate whether you need this type of restriction!"
+msgstr ""
+"Kad lietotājam beidzies atvēlētais laiks, tā sesijas tiks izbeigtas.\n"
+"\n"
+"Šis ir faktiskais ierobežojums!\n"
+"\n"
+"Šī ir noklusētā vērtība un potenciāli vispiemērotākā!"
+
+#: resource/client/forms/admin.glade:2823
 msgid "shutdown computer"
 msgstr "izslēgt datoru"
 
-#: resource/client/forms/admin.glade:2806
+#: resource/client/forms/admin.glade:2827
 msgid ""
 "When time ends, computer will be shut down.\n"
 "\n"
@@ -1848,11 +1867,11 @@ msgstr ""
 "\n"
 "Pirms lietot šo opciju, lūdzu izsvērt vai tā būs atbilstoša Jūsu situācijai!"
 
-#: resource/client/forms/admin.glade:2824
+#: resource/client/forms/admin.glade:2845
 msgid "suspend computer"
 msgstr "gulēšanas režīms"
 
-#: resource/client/forms/admin.glade:2828
+#: resource/client/forms/admin.glade:2849
 msgid ""
 "When time ends, computer will be suspended (put to sleep).\n"
 "\n"
@@ -1872,11 +1891,11 @@ msgstr ""
 "beidzies, datora ekrāns tiks bloķēts un pēc kāda laika dators tiks novietots "
 "gulēšanas režīmā."
 
-#: resource/client/forms/admin.glade:2846
+#: resource/client/forms/admin.glade:2867
 msgid "suspend / wakeup computer"
 msgstr "gulēšanas un pamošanās režīms"
 
-#: resource/client/forms/admin.glade:2850
+#: resource/client/forms/admin.glade:2871
 msgid ""
 "When time ends, computer will be suspended (put to sleep) and will be woken "
 "up at start of next available time interval for the user.\n"
@@ -1898,11 +1917,11 @@ msgstr ""
 "beidzies, datora ekrāns tiks bloķēts un pēc kāda laika dators tiks novietots "
 "gulēšanas režīmā."
 
-#: resource/client/forms/admin.glade:2868
+#: resource/client/forms/admin.glade:2889
 msgid "lock screen"
 msgstr "bloķēt ekrānu"
 
-#: resource/client/forms/admin.glade:2872
+#: resource/client/forms/admin.glade:2893
 msgid ""
 "When time ends, computer screen will be locked.\n"
 "\n"
@@ -1914,7 +1933,7 @@ msgstr ""
 "Šis ierobežojumu veids faktiski nav ierobežojums, tas vairāk domāts "
 "paškontroles nodrošināšanai."
 
-#: resource/client/forms/admin.glade:2903
+#: resource/client/forms/admin.glade:2924
 msgid ""
 "Select a time interval when computer can be woken up automatically.\n"
 "\n"
@@ -1926,11 +1945,11 @@ msgstr ""
 "Šī opcija darbosies tikai tad, ja sistēmas BIOS / UEFI atbalsta pamošanos "
 "pēc RTC (reālā laika pulkstenis) un šī opcija ir iespējota!"
 
-#: resource/client/forms/admin.glade:2907
+#: resource/client/forms/admin.glade:2928
 msgid "Wakeup hour interval:"
 msgstr "Pamošanās stundas:"
 
-#: resource/client/forms/admin.glade:2919
+#: resource/client/forms/admin.glade:2940
 msgid ""
 "Enter start hour for the automatic wakeup function.\n"
 "\n"
@@ -1942,7 +1961,7 @@ msgstr ""
 "Šī opcija darbosies tikai tad, ja sistēmas BIOS / UEFI atbalsta pamošanos "
 "pēc RTC (reālā laika pulkstenis) un šī opcija ir iespējota!"
 
-#: resource/client/forms/admin.glade:2938
+#: resource/client/forms/admin.glade:2959
 msgid ""
 "Enter end hour for the automatic wakeup function.\n"
 "\n"
@@ -1954,37 +1973,37 @@ msgstr ""
 "Šī opcija darbosies tikai tad, ja sistēmas BIOS / UEFI atbalsta pamošanos "
 "pēc RTC (reālā laika pulkstenis) un šī opcija ir iespējota!"
 
-#: resource/client/forms/admin.glade:2976
+#: resource/client/forms/admin.glade:2997
 msgid "Apply configuration"
 msgstr "Iespējot konfigurāciju"
 
-#: resource/client/forms/admin.glade:2980
+#: resource/client/forms/admin.glade:3001
 msgid "Apply additional configuration changes on this page"
 msgstr "Iespējot papildus konfigurācijas iespēju maiņu šajā lapā"
 
-#: resource/client/forms/admin.glade:2999
+#: resource/client/forms/admin.glade:3020
 msgid "Additional configuration"
 msgstr "Papildus konfigurācija"
 
-#: resource/client/forms/admin.glade:3000
-#: resource/client/forms/admin.glade:3674
+#: resource/client/forms/admin.glade:3021
+#: resource/client/forms/admin.glade:3695
 msgid "Additional options"
 msgstr "Papildus limiti"
 
-#: resource/client/forms/admin.glade:3027
+#: resource/client/forms/admin.glade:3048
 msgid "User Configuration"
 msgstr "Lietotāju pārvaldība"
 
-#: resource/client/forms/admin.glade:3037
+#: resource/client/forms/admin.glade:3058
 msgid "Timekpr-nExT related configuration"
 msgstr "Ar Timekpr-nExT saistītā konfigurācija"
 
-#: resource/client/forms/admin.glade:3064
+#: resource/client/forms/admin.glade:3085
 msgid "Control Timekpr-nExT Settings"
 msgstr "Pārvaldīt Timekpr-nExT konfigurāciju"
 
-#: resource/client/forms/admin.glade:3091
-#: resource/client/forms/admin.glade:3243
+#: resource/client/forms/admin.glade:3112
+#: resource/client/forms/admin.glade:3264
 msgid ""
 "Timekpr-nExT log level.\n"
 "\n"
@@ -2001,8 +2020,8 @@ msgstr ""
 "Vērtību nozīme: 1 - standarta līmenis, 2 - atkļūdošanas līmenis, 3 - "
 "padziļināts atkļūdošanas līmenis"
 
-#: resource/client/forms/admin.glade:3111
-#: resource/client/forms/admin.glade:3159
+#: resource/client/forms/admin.glade:3132
+#: resource/client/forms/admin.glade:3180
 msgid ""
 "Session polling time granularity which specifies how often user sessions and "
 "activity are checked and accounted.\n"
@@ -2014,12 +2033,12 @@ msgstr ""
 "\n"
 "3 - 5 sekundes ir optimāli, lūdzu nemainīt bez vajadzības."
 
-#: resource/client/forms/admin.glade:3115
+#: resource/client/forms/admin.glade:3136
 msgid "Poll interval"
 msgstr "Atjaunošanas intervāls"
 
-#: resource/client/forms/admin.glade:3127
-#: resource/client/forms/admin.glade:3230
+#: resource/client/forms/admin.glade:3148
+#: resource/client/forms/admin.glade:3251
 msgid ""
 "Specify the time in seconds when Timekpr-nExT starts continuous real-time "
 "countdown before enforcing a restriction / lockout to user's sessions."
@@ -2027,8 +2046,8 @@ msgstr ""
 "Norādiet atlikušo laiku sekundēs, pirms kura Timekpr-nExT sāks laika ik "
 "sekunžu atskaiti pirms piemērot izvēlēto ierobežojumu lietotāja sesijām."
 
-#: resource/client/forms/admin.glade:3143
-#: resource/client/forms/admin.glade:3193
+#: resource/client/forms/admin.glade:3164
+#: resource/client/forms/admin.glade:3214
 msgid ""
 "This specifies the rate in seconds at which actual user state is saved to "
 "disk.\n"
@@ -2044,12 +2063,12 @@ msgstr ""
 "uzskaita laiku atmiņā ar biežumu \"Atjaunošanas intervāls\", savukārt šī "
 "opcija nodrošina uzskaitītā laika saglabāšanu uz diska ilgtermiņa glabāšanai."
 
-#: resource/client/forms/admin.glade:3147
+#: resource/client/forms/admin.glade:3168
 msgid "Save time"
 msgstr "Saglabāšanas laiks"
 
-#: resource/client/forms/admin.glade:3177
-#: resource/client/forms/admin.glade:3212
+#: resource/client/forms/admin.glade:3198
+#: resource/client/forms/admin.glade:3233
 msgid ""
 "Number of seconds left for user before enforcing a configured restriction / "
 "lockout to his sessions.\n"
@@ -2065,20 +2084,20 @@ msgstr ""
 "sesijām tiks piemērots tam izvēlētais ierobežojums. Sasniedzot šo punktu, "
 "nav iespējams izdarīt gandrīz neko, lai to novērstu."
 
-#: resource/client/forms/admin.glade:3181
+#: resource/client/forms/admin.glade:3202
 msgid "Termination time"
 msgstr "Izbeigšanas laiks"
 
-#: resource/client/forms/admin.glade:3232
+#: resource/client/forms/admin.glade:3253
 msgid "Countdown time"
 msgstr "Atskaites laiks"
 
-#: resource/client/forms/admin.glade:3249
+#: resource/client/forms/admin.glade:3270
 msgid "Log level"
 msgstr "Žurnāla līmenis"
 
-#: resource/client/forms/admin.glade:3260
-#: resource/client/forms/admin.glade:3276
+#: resource/client/forms/admin.glade:3281
+#: resource/client/forms/admin.glade:3297
 msgid ""
 "Number of seconds left for user's available time before sending a final "
 "critical notification that time is about to run out.\n"
@@ -2092,27 +2111,27 @@ msgstr ""
 "PIEZĪME: detalizēta paziņojumu konfigurācija pieejama lietotājam klienta "
 "aplikācijā!"
 
-#: resource/client/forms/admin.glade:3264
+#: resource/client/forms/admin.glade:3285
 msgid "Final notification"
 msgstr "Pēdējais brīdinājums"
 
-#: resource/client/forms/admin.glade:3318
+#: resource/client/forms/admin.glade:3339
 msgid "Control Timekpr-nExT tracking items"
 msgstr "Pārvaldīt Timekpr-nExT uzskaitāmos lielumus"
 
-#: resource/client/forms/admin.glade:3351
+#: resource/client/forms/admin.glade:3372
 msgid "Tracked Sessions"
 msgstr "Uzskaitāmās sesijas"
 
-#: resource/client/forms/admin.glade:3374
+#: resource/client/forms/admin.glade:3395
 msgid "Add tracked session type to the list"
 msgstr "Pievienot uzskaitīto sesiju tipu sarakstam"
 
-#: resource/client/forms/admin.glade:3389
+#: resource/client/forms/admin.glade:3410
 msgid "Remove tracked session type from the list"
 msgstr "Dzēst uzskaitīto sesiju tipu no saraksta"
 
-#: resource/client/forms/admin.glade:3418
+#: resource/client/forms/admin.glade:3439
 msgid ""
 "List of session types to be tracked.\n"
 "\n"
@@ -2124,19 +2143,19 @@ msgstr ""
 "Lūdzu nemainīt vai neeksperimentēt ar šo sarakstu, ja Jums nav pietiekoši "
 "zināšanu, lai saprastu ko tas nozīmē."
 
-#: resource/client/forms/admin.glade:3453
+#: resource/client/forms/admin.glade:3474
 msgid "Excluded Sessions"
 msgstr "Neuzskaitāmās sesijas"
 
-#: resource/client/forms/admin.glade:3476
+#: resource/client/forms/admin.glade:3497
 msgid "Add an excluded session type to the list"
 msgstr "Pievienot neuzskaitāmo sesiju veidu sarakstam"
 
-#: resource/client/forms/admin.glade:3491
+#: resource/client/forms/admin.glade:3512
 msgid "Remove an excluded session type from the list"
 msgstr "Dzēst neuzskaitāmo sesiju tipu no saraksta"
 
-#: resource/client/forms/admin.glade:3520
+#: resource/client/forms/admin.glade:3541
 msgid ""
 "List of sessions to be excluded from tracking.\n"
 "\n"
@@ -2149,19 +2168,19 @@ msgstr ""
 "Lūdzu nemainīt vai neeksperimentēt ar šo sarakstu, ja Jums nav pietiekoši "
 "zināšanu, lai saprastu ko tas nozīmē."
 
-#: resource/client/forms/admin.glade:3555
+#: resource/client/forms/admin.glade:3576
 msgid "Excluded Users"
 msgstr "Neuzskaitāmie lietotāji"
 
-#: resource/client/forms/admin.glade:3578
+#: resource/client/forms/admin.glade:3599
 msgid "Add a user to the exclusion list"
 msgstr "Pievienot lietotāju neuzskaitāmo lietotāju sarakstam"
 
-#: resource/client/forms/admin.glade:3593
+#: resource/client/forms/admin.glade:3614
 msgid "Remove a user from the exclusion list"
 msgstr "Dzēst lietotāju no neuzskaitāmo lietotāju saraksta"
 
-#: resource/client/forms/admin.glade:3622
+#: resource/client/forms/admin.glade:3643
 msgid ""
 "List of users excluded from tracking.\n"
 "\n"
@@ -2174,9 +2193,9 @@ msgstr ""
 "Lūdzu norādīt faktiskos lietotājvārdus nevis vārdus (piem.: lūdzu norādīt "
 "gmerkelis, nevis \"Garlībs Merķelis\")"
 
-#: resource/client/forms/admin.glade:3701
-#: resource/client/forms/admin.glade:3720
-#: resource/client/forms/admin.glade:3756
+#: resource/client/forms/admin.glade:3722
+#: resource/client/forms/admin.glade:3741
+#: resource/client/forms/admin.glade:3777
 msgid ""
 "This setting controls whether PlayTime functionality is enabled.\n"
 "\n"
@@ -2188,11 +2207,11 @@ msgstr ""
 "Šis ir globālas slēdzis, ja opcija tiek atspējota, tā tiek atspējota visiem "
 "lietotājiem neskatoties uz katra individuālo iestatījumu!"
 
-#: resource/client/forms/admin.glade:3705
+#: resource/client/forms/admin.glade:3726
 msgid "PlayTime enabled:"
 msgstr "PlayTime iespējots:"
 
-#: resource/client/forms/admin.glade:3735
+#: resource/client/forms/admin.glade:3756
 msgid ""
 "This setting controls whether PlayTime activity monitor will use process "
 "command line, including arguments, for monitoring processes (by default only "
@@ -2216,28 +2235,28 @@ msgstr ""
 "Lūdzu būt uzmanīgiem un rūpīgi pārbaudīt RegExp šablonus katram lietotāja "
 "aktivitāšu sarakstā esošajam procesam!"
 
-#: resource/client/forms/admin.glade:3741
+#: resource/client/forms/admin.glade:3762
 msgid "Enhanced activity monitor:"
 msgstr "Uzlabotais aktivitāšu meklētājs:"
 
-#: resource/client/forms/admin.glade:3790
+#: resource/client/forms/admin.glade:3811
 msgid "Apply Timekpr-nExT settings"
 msgstr "Iespējot Timekpr-nExT uzstādījumus"
 
-#: resource/client/forms/admin.glade:3795
+#: resource/client/forms/admin.glade:3816
 msgid "Apply all Timekpr-nExT settings at once"
 msgstr "Iespējot visus Timekpr-nExT uzstādījumus vienlaicīgi"
 
-#: resource/client/forms/admin.glade:3815
+#: resource/client/forms/admin.glade:3836
 msgid "Timekpr-nExT Administration Configuration"
 msgstr "Timekpr-nExT pārvaldības iestatījumi"
 
-#: resource/client/forms/admin.glade:3816
+#: resource/client/forms/admin.glade:3837
 msgid "Timekpr-nExT Configuration"
 msgstr "Timekpr-nExT pārvaldība"
 
-#: resource/client/forms/admin.glade:3845
-#: resource/client/forms/admin.glade:3862
+#: resource/client/forms/admin.glade:3866
+#: resource/client/forms/admin.glade:3883
 msgid "Status of Timekpr-nExT admin client"
 msgstr "Timekpr-nExT pārvaldības aplikācijas statuss"
 

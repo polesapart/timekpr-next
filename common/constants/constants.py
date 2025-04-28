@@ -162,6 +162,7 @@ TK_CTRL_RES_L = "lock"
 TK_CTRL_RES_S = "suspend"
 TK_CTRL_RES_W = "suspendwake"
 TK_CTRL_RES_T = "terminate"
+TK_CTRL_RES_K = "kill"
 TK_CTRL_RES_D = "shutdown"
 # wake up RTC file
 TK_CTRL_WKUPF = "/sys/class/rtc/rtc0/wakealarm"

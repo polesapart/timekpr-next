@@ -73,6 +73,9 @@ class timekprUser(object):
 
     def _initUserLimits(self):
         """Initialize default limits for the user"""
+        # init time variables
+        self.refreshTimekprRuntimeVariables();
+
         # the config works as follows:
         #    we have cons.LIMIT, this limit is either time allowed per day or if that is not used, all seconds in allowed hours
         #    in hour section (0 is the sample in config), we have whether one is allowed to work in particular hour and then we have time spent (which can be paused as well)
@@ -96,10 +99,10 @@ class timekprUser(object):
             cons.TK_CTRL_SPENT  : 0,  # time spent while user was logged in and active
             cons.TK_CTRL_SLEEP  : 0,  # time spent while user was logged in and sleeping
             # checking values
-            cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0),  # this is last checked time
-            cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0),  # this is last save time (physical save will be less often as check)
-            cons.TK_CTRL_LMOD   : datetime.now().replace(microsecond=0),  # this is last control save time
-            cons.TK_CTRL_LCMOD  : datetime.now().replace(microsecond=0),  # this is last config save time
+            cons.TK_CTRL_LCHECK : self._effectiveDatetime,  # this is last checked time
+            cons.TK_CTRL_LSAVE  : self._effectiveDatetime,  # this is last save time (physical save will be less often as check)
+            cons.TK_CTRL_LMOD   : self._effectiveDatetime,  # this is last control save time
+            cons.TK_CTRL_LCMOD  : self._effectiveDatetime,  # this is last config save time
             # user values
             cons.TK_CTRL_UID    : None,  # user id (not used, but still saved)
             cons.TK_CTRL_UNAME  : "",  # user name, this is the one we need
@@ -451,7 +454,7 @@ class timekprUser(object):
         # currentHOD in str
         currentHODStr = str(self._currentHOD)
         # get time spent
-        timeSpent = int((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds())
+        timeSpent = max(int((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()), 0)
         # adjust last time checked
         self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
 
