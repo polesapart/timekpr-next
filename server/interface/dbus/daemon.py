@@ -221,8 +221,6 @@ class timekprDaemon(dbus.service.Object):
                     self._timekprPlayTimeConfig
                 )
 
-                # init variables for user
-                self._timekprUserList[rUserName].refreshTimekprRuntimeVariables()
                 # adjust config
                 self._timekprUserList[rUserName].adjustLimitsFromConfig()
                 # adjust time spent
