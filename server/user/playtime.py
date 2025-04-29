@@ -102,7 +102,7 @@ class timekprPlayTimeConfig(object):
         # def
         dt = datetime.now()
         # regular refreshes need to happen even noone is logged in (process pid reuse)
-        if not (((dt - self._cachedPids[self._TIM]).total_seconds() if self._cachedPids[self._TIM] is not None else cons.TK_SAVE_INTERVAL) >= cons.TK_SAVE_INTERVAL):
+        if not ((abs((dt - self._cachedPids[self._TIM]).total_seconds()) if self._cachedPids[self._TIM] is not None else cons.TK_SAVE_INTERVAL) >= cons.TK_SAVE_INTERVAL):
             # def
             areFltsEnabled = False
             # if no users have set up their filters, we do NOT execute process list

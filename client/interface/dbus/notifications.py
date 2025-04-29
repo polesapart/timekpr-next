@@ -402,9 +402,9 @@ class timekprNotifications(object):
                         hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_WARN
 
             # calculate last time notification is shown (if this is too recent - replace, otherwise add new notification)
-            if pMsgType == "PlayTime" and self._lastPTNotifId != 0 and (datetime.now() - self._lastPTNotifDT).total_seconds() >= (notificationTimeout if notificationTimeout > 0 else (datetime.now() - self._lastPTNotifDT).total_seconds() + 1):
+            if pMsgType == "PlayTime" and self._lastPTNotifId != 0 and abs((datetime.now() - self._lastPTNotifDT).total_seconds()) >= (notificationTimeout if notificationTimeout > 0 else abs((datetime.now() - self._lastPTNotifDT).total_seconds()) + 1):
                 self._lastPTNotifId = 0
-            elif pMsgType != "PlayTime" and self._lastNotifId != 0 and (datetime.now() - self._lastNotifDT).total_seconds() >= (notificationTimeout if notificationTimeout > 0 else (datetime.now() - self._lastNotifDT).total_seconds() + 1):
+            elif pMsgType != "PlayTime" and self._lastNotifId != 0 and abs((datetime.now() - self._lastNotifDT).total_seconds()) >= (notificationTimeout if notificationTimeout > 0 else abs((datetime.now() - self._lastNotifDT).total_seconds()) + 1):
                 self._lastNotifId = 0
 
             # calculate notification values
