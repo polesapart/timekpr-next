@@ -546,7 +546,7 @@ class timekprUser(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "month change, user: %s, tmon: %i" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_SPENTM]))
 
         # check if we need to save progress
-        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprConfig.getTimekprSaveTime() or dayChanged:
+        if abs((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds()) >= pTimekprConfig.getTimekprSaveTime() or dayChanged:
             # save
             self.saveSpent()
 
