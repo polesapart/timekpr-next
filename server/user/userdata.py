@@ -379,10 +379,22 @@ class timekprUser(object):
         # log
         self._timekprUserControl.logUserControl()
 
+        # tmp use
+        spentHour = int((self._effectiveDatetime - self._timekprUserControl.getUserLastChecked()).total_seconds())
+        # if time has changed ahead for more than for 3 years this might be a result in CMOS time reset (a user reported this - after CMOS reset it was year 2080)
+        # in this case we do not reset the values, just soak them up and use them
+        if spentHour > 86400 * 365 * 3:
+            # way too ahead of last check time, possible CMOS reset time bug
+            log.log(cons.TK_LOG_LEVEL_INFO, "INFO: user was last checked a very long time ago (%i seconds ago), spent values are not reset to avoid inconsistencies from time resets" % (spentHour))
+
+            # nothing has changed
+            dayChanged = weekChanged = monthChanged = False
+        else:
+            # control date components changed
+            dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime)
+
         # spent this hour
         spentHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
-        # control date components changed
-        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime)
 
         # if day has changed adjust balance
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance() + timeSpentBeforeReload
