@@ -7,6 +7,7 @@ Created on Aug 28, 2018
 # import section
 import dbus
 import time
+import signal
 from gi.repository import GLib
 
 # timekpr imports
@@ -301,7 +302,7 @@ class timekprUserLoginManager(object):
         # return false for repeat schedule to be discarded
         return False
 
-    def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig):
+    def terminateUserSessions(self, pUserName, pUserPath, pTimekprConfig, pRestrictionType):
         """Terminate user sessions"""
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "start terminateUserSessions")
         log.log(cons.TK_LOG_LEVEL_DEBUG, "inspecting \"%s\" userpath \"%s\" sessions" % (pUserName, pUserPath))
@@ -321,6 +322,8 @@ class timekprUserLoginManager(object):
                 # killing time
                 if cons.TK_DEV_ACTIVE:
                     log.log(cons.TK_LOG_LEVEL_INFO, "DEVELOPMENT ACTIVE, not killing myself, sorry...")
+                elif pRestrictionType == cons.TK_CTRL_RES_K:
+                    GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.KillSession, rUserSession["sessionId"], "all", signal.SIGTERM)
                 else:
                     GLib.timeout_add_seconds(0.1, self._login1ManagerInterface.TerminateSession, rUserSession["sessionId"])
                 # get last seat

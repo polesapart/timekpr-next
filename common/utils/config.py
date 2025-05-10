@@ -854,7 +854,7 @@ class timekprUserConfig(object):
         # set up param
         param = "LOCKOUT_TYPE"
         self._timekprUserConfigParser.set(section, "# this defines user restriction / lockout mode: lock - lock screen, suspend - put computer to sleep, suspendwake - put computer to sleep and wake it up,")
-        self._timekprUserConfigParser.set(section, "#   terminate - terminate sessions, shutdown - shutdown the computer")
+        self._timekprUserConfigParser.set(section, "#   terminate - terminate sessions, kill - kill sessions, shutdown - shutdown the computer")
         self._timekprUserConfigParser.set(section, "%s" % (param), self._timekprUserConfig[param] if pReuseValues else cons.TK_CTRL_RES_T)
         # set up param
         param = "WAKEUP_HOUR_INTERVAL"
@@ -1649,14 +1649,17 @@ class timekprClientConfig(object):
             self.initClientConfig(True)
 
         # check whether sound is supported
-        self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = (os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_WARN) and os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_CRITICAL))
+        if cons.TK_CL_NOTIF_SND_TYPE == "sound-name":
+            self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = True
+        else:
+            self._timekprClientConfig["USE_NOTIFICATION_SOUNDS_SUPPORTED"] = (os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_WARN) and os.path.isfile(cons.TK_CL_NOTIF_SND_FILE_CRITICAL))
 
         # check whether speech is supported
         try:
             # try importing speech
-            from espeak import espeak
+            import timekpr.client.interface.speech.espeak as espeak
             # supported
-            self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = True
+            self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] =  espeak.isSupported()
         except:
             # NOT supported
             self._timekprClientConfig["USE_SPEECH_NOTIFICATIONS_SUPPORTED"] = False

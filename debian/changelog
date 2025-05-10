@@ -1,3 +1,20 @@
+timekpr-next (0.5.8-1ubuntu1~ppa1) unstable; urgency=medium
+
+  * added translations for Russian, Dutch, Portugese languages
+  * improved sound notificatons:
+      added support for espeak-ng
+      system "bell" notifications are no longer relient on freedesktop sound files
+  * packaging warning fixes (#2089143)
+  * enable standard window close button (workaround for #2091011)
+  * fixes for .rpm packaging from Alexey (#2091080)
+  * improve pidfile handling (#2097253)
+  * added an option to kill sessions instead of terminate
+      at least Kubuntu 24.04 will not terminate sessions with TerminateSession, it works fine with KillSession + SIGTERM
+  * implement a workaround for weird CMOS date reset bug which results time being reported 55 years in the future
+      which results in a lot of free time for the subordinate (this is exceptionally rare condition)
+
+ -- Eduards Bezverhijs <edzis@inbox.lv>  Sat, 10 May 2025 17:29:42 +0300
+
 timekpr-next (0.5.7-1ubuntu1~ppa1) UNRELEASED; urgency=medium
 
   * improve username and user shell filter (fixes #2061003)

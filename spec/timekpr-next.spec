@@ -1,7 +1,8 @@
 %global debug_package %{nil}
+%define _sitelib %( echo %{python3_sitelib} | cut -c 10- )
 
 Name:             timekpr-next
-Version:          0.5.7
+Version:          0.5.8
 Release:          1.0%{?dist}
 Summary:          Keep control of computer usage
 Group:            System Environment/Daemons
@@ -20,7 +21,7 @@ BuildRequires:    ( sed )
 BuildRequires:    ( grep )
 
 Requires:         ( gtk3 >= 3.4 )
-Requires:         ( polkit or pkexec)
+Requires:         ( polkit or pkexec )
 Requires:         ( python3 )
 Requires:         ( python3-dbus or python3-dbus-python )
 Requires:         ( python3-gobject )
@@ -46,6 +47,7 @@ https://bugs.launchpad.net/timekpr-next
 
 %prep
 %setup -q -n %{name}
+sed -i 's|python3/dist-packages|%{_sitelib}|g' bin/* client/*.py debian/install resource/server/systemd/timekpr.service server/timekprd.py
 
 %build
 
@@ -109,6 +111,9 @@ update-desktop-database &> /dev/null || :
 #%%{_datadir}/locale/hu/LC_MESSAGES/*
 %{_datadir}/locale/it/LC_MESSAGES/*
 %{_datadir}/locale/lv/LC_MESSAGES/*
+%{_datadir}/locale/nl/LC_MESSAGES/*
+%{_datadir}/locale/pt/LC_MESSAGES/*
+%{_datadir}/locale/ru/LC_MESSAGES/*
 %{_datadir}/metainfo/*
 %{_datadir}/polkit-1/actions/*
 %{_datadir}/timekpr
@@ -121,6 +126,14 @@ update-desktop-database &> /dev/null || :
 %{_sysconfdir}/xdg/autostart/*
 
 %changelog
+* Sat May 10 2025 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.8-1.0
+- Updated spec file for version 0.5.8, release 1.0 (STABLE)
+* Tue Apr 29 2025 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.8-0.3
+- Updated spec file for version 0.5.8, release 0.3 (BETA)
+* Mon Apr 28 2025 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.8-0.2
+- Updated spec file for version 0.5.8, release 0.2 (BETA)
+* Mon Nov 25 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.8-0.1
+- Updated spec file for version 0.5.8, release 0.1 (BETA)
 * Thu May 30 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.7-1.0
 - Updated spec file for version 0.5.7, release 1.0 (STABLE)
 * Thu Apr 25 2024 Eduards Bezverhijs <edzis@inbox.lv> - 0.5.7-0.1

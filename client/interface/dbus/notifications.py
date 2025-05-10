@@ -84,7 +84,7 @@ class timekprNotifications(object):
             # initialize
             self._timekprSpeechManager = timekprSpeech()
             # check if supported, if it is, initialize
-            if self._timekprSpeechManager.isSupported():
+            if self._timekprSpeechManager.isSpeechSupported():
                 # initialize if supported
                 self._timekprSpeechManager.initSpeech()
 
@@ -386,19 +386,25 @@ class timekprNotifications(object):
                 # sound
                 if self._timekprClientConfig.getIsNotificationSoundSupported() and self._timekprClientConfig.getClientUseNotificationSound():
                     # add sound hint
-                    hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_CRITICAL
+                    if cons.TK_CL_NOTIF_SND_TYPE == "sound-name":
+                        hints["sound-name"] = cons.TK_CL_NOTIF_SND_NAME_IMPORTANT
+                    else:
+                        hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_CRITICAL
             else:
                 # timeout
                 notificationTimeout = self._timekprClientConfig.getClientNotificationTimeout()
                 # sound
                 if self._timekprClientConfig.getIsNotificationSoundSupported() and self._timekprClientConfig.getClientUseNotificationSound():
                     # add sound hint
-                    hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_WARN
+                    if cons.TK_CL_NOTIF_SND_TYPE == "sound-name":
+                        hints["sound-name"] = cons.TK_CL_NOTIF_SND_NAME_WARNING
+                    else:
+                        hints["sound-file"] = cons.TK_CL_NOTIF_SND_FILE_WARN
 
             # calculate last time notification is shown (if this is too recent - replace, otherwise add new notification)
-            if pMsgType == "PlayTime" and self._lastPTNotifId != 0 and (datetime.now() - self._lastPTNotifDT).total_seconds() >= (notificationTimeout if notificationTimeout > 0 else (datetime.now() - self._lastPTNotifDT).total_seconds() + 1):
+            if pMsgType == "PlayTime" and self._lastPTNotifId != 0 and abs((datetime.now() - self._lastPTNotifDT).total_seconds()) >= (notificationTimeout if notificationTimeout > 0 else abs((datetime.now() - self._lastPTNotifDT).total_seconds()) + 1):
                 self._lastPTNotifId = 0
-            elif pMsgType != "PlayTime" and self._lastNotifId != 0 and (datetime.now() - self._lastNotifDT).total_seconds() >= (notificationTimeout if notificationTimeout > 0 else (datetime.now() - self._lastNotifDT).total_seconds() + 1):
+            elif pMsgType != "PlayTime" and self._lastNotifId != 0 and abs((datetime.now() - self._lastNotifDT).total_seconds()) >= (notificationTimeout if notificationTimeout > 0 else abs((datetime.now() - self._lastNotifDT).total_seconds()) + 1):
                 self._lastNotifId = 0
 
             # calculate notification values

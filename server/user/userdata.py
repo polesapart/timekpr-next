@@ -73,6 +73,9 @@ class timekprUser(object):
 
     def _initUserLimits(self):
         """Initialize default limits for the user"""
+        # init time variables
+        self.refreshTimekprRuntimeVariables();
+
         # the config works as follows:
         #    we have cons.LIMIT, this limit is either time allowed per day or if that is not used, all seconds in allowed hours
         #    in hour section (0 is the sample in config), we have whether one is allowed to work in particular hour and then we have time spent (which can be paused as well)
@@ -96,10 +99,10 @@ class timekprUser(object):
             cons.TK_CTRL_SPENT  : 0,  # time spent while user was logged in and active
             cons.TK_CTRL_SLEEP  : 0,  # time spent while user was logged in and sleeping
             # checking values
-            cons.TK_CTRL_LCHECK : datetime.now().replace(microsecond=0),  # this is last checked time
-            cons.TK_CTRL_LSAVE  : datetime.now().replace(microsecond=0),  # this is last save time (physical save will be less often as check)
-            cons.TK_CTRL_LMOD   : datetime.now().replace(microsecond=0),  # this is last control save time
-            cons.TK_CTRL_LCMOD  : datetime.now().replace(microsecond=0),  # this is last config save time
+            cons.TK_CTRL_LCHECK : self._effectiveDatetime,  # this is last checked time
+            cons.TK_CTRL_LSAVE  : self._effectiveDatetime,  # this is last save time (physical save will be less often as check)
+            cons.TK_CTRL_LMOD   : self._effectiveDatetime,  # this is last control save time
+            cons.TK_CTRL_LCMOD  : self._effectiveDatetime,  # this is last config save time
             # user values
             cons.TK_CTRL_UID    : None,  # user id (not used, but still saved)
             cons.TK_CTRL_UNAME  : "",  # user name, this is the one we need
@@ -376,10 +379,22 @@ class timekprUser(object):
         # log
         self._timekprUserControl.logUserControl()
 
+        # tmp use
+        spentHour = int((self._effectiveDatetime - self._timekprUserControl.getUserLastChecked()).total_seconds())
+        # if time has changed ahead for more than for 3 years this might be a result in CMOS time reset (a user reported this - after CMOS reset it was year 2080)
+        # in this case we do not reset the values, just soak them up and use them
+        if spentHour > 86400 * 365 * 3:
+            # way too ahead of last check time, possible CMOS reset time bug
+            log.log(cons.TK_LOG_LEVEL_INFO, "INFO: user was last checked a very long time ago (%i seconds ago), spent values are not reset to avoid inconsistencies from time resets" % (spentHour))
+
+            # nothing has changed
+            dayChanged = weekChanged = monthChanged = False
+        else:
+            # control date components changed
+            dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime)
+
         # spent this hour
         spentHour = self._timekprUserData[self._currentDOW][str(self._currentHOD)][cons.TK_CTRL_SPENTH]
-        # control date components changed
-        dayChanged, weekChanged, monthChanged = self._timekprUserControl.getUserDateComponentChanges(self._effectiveDatetime)
 
         # if day has changed adjust balance
         self._timekprUserData[self._currentDOW][cons.TK_CTRL_SPENTBD] = spentHour if dayChanged else self._timekprUserControl.getUserTimeSpentBalance() + timeSpentBeforeReload
@@ -451,7 +466,7 @@ class timekprUser(object):
         # currentHOD in str
         currentHODStr = str(self._currentHOD)
         # get time spent
-        timeSpent = int((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds())
+        timeSpent = max(int((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LCHECK]).total_seconds()), 0)
         # adjust last time checked
         self._timekprUserData[cons.TK_CTRL_LCHECK] = self._effectiveDatetime
 
@@ -543,7 +558,7 @@ class timekprUser(object):
                 log.log(cons.TK_LOG_LEVEL_INFO, "month change, user: %s, tmon: %i" % (self.getUserName(), self._timekprUserData[cons.TK_CTRL_SPENTM]))
 
         # check if we need to save progress
-        if (self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds() >= pTimekprConfig.getTimekprSaveTime() or dayChanged:
+        if abs((self._effectiveDatetime - self._timekprUserData[cons.TK_CTRL_LSAVE]).total_seconds()) >= pTimekprConfig.getTimekprSaveTime() or dayChanged:
             # save
             self.saveSpent()
 

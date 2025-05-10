@@ -124,7 +124,7 @@ class timekprNotificationManager(dbus.service.Object):
         self.timeLeft(notifUrgency, timeLeft)
 
         # if notification levels changed (and it was not the first iteration)
-        if (pForce) or (self._notificationLvl != self._prevNotificationLvl) or ((effectiveDatetime - self._lastNotified).total_seconds() >= self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_INTERVAL]() and not pTimeValues[cons.TK_CTRL_UACC]):
+        if (pForce) or (self._notificationLvl != self._prevNotificationLvl) or (abs((effectiveDatetime - self._lastNotified).total_seconds()) >= self._notificationLimits[self._notificationLvl][cons.TK_NOTIF_INTERVAL]() and not pTimeValues[cons.TK_CTRL_UACC]):
             # set up last notified
             self._lastNotified = effectiveDatetime
 

@@ -56,7 +56,10 @@ class timekprUserManager(object):
         # measurement logging
         misc.measureDBUSTimeElapsed(pStop=True, pDbusIFName=cons.TK_DBUS_USER_OBJECT)
 
-        log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "got %i sessions: %s, start loop" % (len(userSessions), str(userSessions)))
+        # extra only
+        if log.isDebugEnabled(cons.TK_LOG_LEVEL_EXTRA_DEBUG):
+            # print all sessions
+            log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "got %i sessions:%s, start loop" % (len(userSessions), "".join([(" (%s, %s)" % (str(rS[0]), str(rS[1]))) for rS in userSessions])))
 
         # init active sessions
         activeSessions = []
@@ -132,7 +135,14 @@ class timekprUserManager(object):
         #    special care must be taken for tty sessions
         #    screenlocker status from user DBUS session
 
-        # init active sessions
+        # official statuses
+        #   "offline" (user not logged in at all)
+        #   "lingering" (user not logged in, but some user services running)
+        #   "online" (user logged in, but not active, i.e. has no session in the foreground)
+        #   "active" (user logged in, and has at least one active session, i.e. one session in the foreground)
+        #   "closing" (user not logged in, and not lingering, but some processes are still around)
+
+        # init active accounting (the status is determined by sessions, not by user state)
         userActive = userScreenLocked = False
         sessionLockedState = "False"
 
@@ -189,10 +199,9 @@ class timekprUserManager(object):
                         userActive = True
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s active" % (rSessionId))
                 elif sessionType in pTimekprConfig.getTimekprSessionsCtrl():
-                    # do not count lingering and closing sessions as active either way
-                    # lingering  - user processes are around, but user not logged in
-                    # closing - user logged out, but some processes are still left
-                    if sessionState in ("lingering", "closing"):
+                    # session can be: offline, closing, online, lingering, active
+                    # do not count lingering, offline and closing sessions as active either way
+                    if sessionState in ("offline", "closing", "lingering"):
                         # user is not active
                         log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is inactive (not exactly logged in too)" % (rSessionId))
                     # if we track inactive
@@ -200,10 +209,10 @@ class timekprUserManager(object):
                         # we track inactive sessions
                         userActive = True
                         # session is not on the list of session types we track
-                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s included as active (track inactive sessions enabled)" % (rSessionId))
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is considered active (track inactive sessions enabled)" % (rSessionId))
                     else:
                         # session is not active
-                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s inactive" % (rSessionId))
+                        log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is considered inactive" % (rSessionId))
                 else:
                     # session is not on the list of session types we track
                     log.log(cons.TK_LOG_LEVEL_DEBUG, "session %s is inactive and not tracked" % (rSessionId))

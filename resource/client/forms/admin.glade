@@ -2798,6 +2798,27 @@ This is the default option and most likely is the one you need!</property>
                                       </packing>
                                     </child>
                                     <child>
+                                      <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeKill">
+                                        <property name="label" translatable="yes">kill sessions</property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="tooltip-text" translatable="yes">When time ends, user sessions will be killed.
+
+This option is a restriction!
+
+Please evaluate whether you need this type of restriction!</property>
+                                        <property name="halign">start</property>
+                                        <property name="draw-indicator">True</property>
+                                        <property name="group">TimekprUserConfAddOptsLockoutTypeTerminate</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
                                       <object class="GtkRadioButton" id="TimekprUserConfAddOptsLockoutTypeShutdown">
                                         <property name="label" translatable="yes">shutdown computer</property>
                                         <property name="visible">True</property>
@@ -2816,7 +2837,7 @@ Please evaluate whether you need this type of restriction!</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -2838,7 +2859,7 @@ When woken up when there is still no time left, computer screen will be locked a
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -2860,7 +2881,7 @@ When woken up when there is still no time left, computer screen will be locked a
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">3</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -2880,7 +2901,7 @@ This option is not a restriction and is more suited for self control purposes.</
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">4</property>
+                                        <property name="position">5</property>
                                       </packing>
                                     </child>
                                   </object>
