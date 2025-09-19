@@ -136,7 +136,7 @@ class timekprNotificationManager(dbus.service.Object):
                     self.timeNoLimitNotification(cons.TK_PRIO_LOW)
             else:
                 # limit
-                self.timeLeftNotification(notifUrgency, max(pTimeValues[cons.TK_CTRL_LEFT], 0), max(pTimeValues[cons.TK_CTRL_LEFTD], 0), pTimeValues[cons.TK_CTRL_LIMITD])
+                self.timeLeftNotification(notifUrgency, max(int(pTimeValues[cons.TK_CTRL_LEFT]), 0), max(int(pTimeValues[cons.TK_CTRL_LEFTD]), 0), pTimeValues[cons.TK_CTRL_LIMITD])
 
         log.log(cons.TK_LOG_LEVEL_DEBUG, "time left, tlrow: %i, tleftd: %i, tlimd: %i, notification lvl: %s, priority: %s, force: %s" % (pTimeValues[cons.TK_CTRL_LEFT], pTimeValues[cons.TK_CTRL_LEFTD], pTimeValues[cons.TK_CTRL_LIMITD], self._notificationLvl, notifUrgency, str(pForce)))
         log.log(cons.TK_LOG_LEVEL_EXTRA_DEBUG, "finish processTimeLeft")
